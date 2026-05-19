@@ -1,4 +1,4 @@
-const CACHE = 'hso-portal-v2';
+const CACHE = 'hso-portal-v3';
 const ASSETS = [
   '/',
   '/index.html',

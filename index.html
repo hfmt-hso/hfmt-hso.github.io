@@ -476,12 +476,14 @@ async function ladeProjekte() {
             <button class="proj-tab active" onclick="showProjTab(event, '${cardId}', 'programm')">Programm</button>
             <button class="proj-tab" onclick="showProjTab(event, '${cardId}', 'probenplan')">Probenplan</button>
             <button class="proj-tab" onclick="showProjTab(event, '${cardId}', 'spielende')">Spielende</button>
+            <button class="proj-tab" onclick="showProjTab(event, '${cardId}', 'biographien')">Biografien</button>
           </div>
           <div class="proj-section active" id="${cardId}-programm">
             <div class="proj-loading">Wird geladen…</div>
           </div>
           <div class="proj-section" id="${cardId}-probenplan"></div>
           <div class="proj-section" id="${cardId}-spielende"></div>
+          <div class="proj-section" id="${cardId}-biographien"></div>
         </div>
       </div>`;
     }).join('');
@@ -579,6 +581,11 @@ function fuelleAbschnitt(cardId, data) {
   spielDiv.innerHTML = data.spielende.length
     ? `<div class="proj-text">${data.spielende.join('\n')}</div>`
     : '<p class="proj-text-muted">(Noch keine Einteilung)</p>';
+
+  const bioDiv = document.getElementById(cardId + '-biographien');
+  bioDiv.innerHTML = data.biographien.length
+    ? `<div class="proj-text">${data.biographien.join('\n')}</div>`
+    : '<p class="proj-text-muted">(Keine Biografien eingetragen)</p>';
 }
 
 function showProjTab(e, cardId, tab) {
