@@ -102,122 +102,95 @@
     .nav-btn.active { color: var(--blue); }
     .nav-btn.active svg { stroke: var(--blue); }
 
-    .content { padding: 14px; display: none; flex-direction: column; gap: 12px; padding-bottom: 40px; }
+    .content { padding: 14px; display: none; flex-direction: column; gap: 10px; padding-bottom: 40px; }
     .content.active { display: flex; }
 
     .section-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-top: 4px;
+      font-size: 11px; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px;
     }
 
-    .card {
+    .loading { text-align: center; padding: 24px; color: var(--text-muted); font-size: 13px; }
+
+    /* PROJEKT KARTEN */
+    .proj-card {
       background: var(--card-bg);
       border-radius: 14px;
       border: 0.5px solid var(--border);
       overflow: hidden;
     }
 
-    .proj-item {
+    .proj-header {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px 14px;
-      border-bottom: 0.5px solid var(--border);
-      text-decoration: none;
-      color: inherit;
+      padding: 13px 14px;
+      cursor: pointer;
     }
-    .proj-item:last-child { border-bottom: none; }
 
     .proj-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 700;
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
       flex-shrink: 0;
     }
 
-    .proj-info { flex: 1; min-width: 0; }
-    .proj-name { font-size: 14px; font-weight: 600; color: var(--text); }
-    .proj-sub { font-size: 12px; color: var(--text-muted); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .proj-meta { flex: 1; min-width: 0; }
+    .proj-name { font-size: 15px; font-weight: 600; color: var(--text); }
+    .proj-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
-    .chevron { color: var(--text-muted); flex-shrink: 0; }
-    .chevron svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .proj-chevron { color: var(--text-muted); flex-shrink: 0; transition: transform 0.2s; }
+    .proj-chevron svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .proj-chevron.open { transform: rotate(180deg); }
 
-    .link-item {
+    .proj-body {
+      display: none;
+      border-top: 0.5px solid var(--border);
+    }
+    .proj-body.open { display: block; }
+
+    /* TABS INNERHALB PROJEKTKARTE */
+    .proj-tabs {
       display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
       border-bottom: 0.5px solid var(--border);
-      text-decoration: none;
-      color: inherit;
+      background: var(--bg);
     }
-    .link-item:last-child { border-bottom: none; }
-    .link-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .link-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-    .link-text { flex: 1; }
-    .link-text span { font-size: 14px; font-weight: 500; color: var(--text); display: block; }
-    .link-text small { font-size: 12px; color: var(--text-muted); }
-
-    .ical-box {
-      background: var(--card-bg);
-      border-radius: 14px;
-      border: 0.5px solid var(--border);
-      padding: 14px;
-    }
-    .ical-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-    .ical-url {
+    .proj-tab {
+      flex: 1;
+      padding: 9px 4px;
       font-size: 11px;
       color: var(--text-muted);
-      word-break: break-all;
-      background: var(--bg);
-      padding: 8px 10px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      font-family: monospace;
-    }
-    .ical-btn {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      background: var(--blue);
-      color: white;
+      background: none;
       border: none;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 600;
       cursor: pointer;
-      text-align: center;
-      text-decoration: none;
       font-family: inherit;
+      font-weight: 500;
+    }
+    .proj-tab.active { color: var(--blue); border-bottom: 2px solid var(--blue); }
+
+    .proj-section { display: none; padding: 14px; }
+    .proj-section.active { display: block; }
+
+    .proj-text {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .proj-text-muted {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      white-space: pre-wrap;
     }
 
-    .loading { text-align: center; padding: 24px; color: var(--text-muted); font-size: 13px; }
-
-    .info-card {
-      background: var(--card-bg);
-      border-radius: 14px;
-      border: 0.5px solid var(--border);
-      padding: 14px;
+    .proj-loading {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 16px;
     }
-    .info-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-    .info-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 
     /* BEDARF */
     .bedarf-card {
@@ -225,28 +198,18 @@
       border-radius: 14px;
       border: 0.5px solid var(--border);
       overflow: hidden;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
     .bedarf-header {
       padding: 12px 14px;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
+      display: flex; align-items: flex-start; gap: 10px;
       cursor: pointer;
     }
     .bedarf-nummer {
-      width: 28px;
-      height: 28px;
-      border-radius: 7px;
-      background: var(--blue-light);
-      color: var(--blue);
-      font-size: 12px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 1px;
+      width: 28px; height: 28px; border-radius: 7px;
+      font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
     }
     .bedarf-titel { flex: 1; }
     .bedarf-projekt { font-size: 14px; font-weight: 600; color: var(--text); }
@@ -255,73 +218,39 @@
     .bedarf-toggle { color: var(--text-muted); transition: transform 0.2s; }
     .bedarf-toggle svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     .bedarf-toggle.open { transform: rotate(180deg); }
-
-    .bedarf-details {
-      display: none;
-      border-top: 0.5px solid var(--border);
-      padding: 12px 14px;
-    }
+    .bedarf-details { display: none; border-top: 0.5px solid var(--border); padding: 12px 14px; }
     .bedarf-details.open { display: block; }
-
-    .bedarf-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 8px;
-      font-size: 13px;
-    }
-    .bedarf-label {
-      color: var(--text-muted);
-      min-width: 100px;
-      flex-shrink: 0;
-    }
+    .bedarf-row { display: flex; gap: 8px; margin-bottom: 8px; font-size: 13px; }
+    .bedarf-label { color: var(--text-muted); min-width: 100px; flex-shrink: 0; }
     .bedarf-value { color: var(--text); font-weight: 500; flex: 1; }
-
-    .bedarf-gesamt {
-      margin-top: 10px;
-      padding: 10px;
-      background: var(--bg);
-      border-radius: 8px;
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .bedarf-aufbau {
-      margin-top: 8px;
-    }
-    .bedarf-aufbau a {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      color: var(--blue);
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .bedarf-aufbau svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
-    .werk-text {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-style: italic;
-      margin-bottom: 8px;
-      line-height: 1.4;
-    }
-
-    .stat-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .stat-box {
-      background: var(--bg);
-      border-radius: 8px;
-      padding: 8px 10px;
-      text-align: center;
-    }
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .stat-box { background: var(--bg); border-radius: 8px; padding: 8px 10px; text-align: center; }
     .stat-num { font-size: 20px; font-weight: 700; color: var(--text); }
     .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .werk-text { font-size: 12px; color: var(--text-muted); font-style: italic; margin-bottom: 8px; line-height: 1.4; }
+    .bedarf-aufbau a { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--blue); text-decoration: none; font-weight: 500; margin-top: 8px; }
+    .bedarf-aufbau svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* LINKS */
+    .card { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); overflow: hidden; }
+    .link-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 0.5px solid var(--border); text-decoration: none; color: inherit; }
+    .link-item:last-child { border-bottom: none; }
+    .link-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .link-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .link-text { flex: 1; }
+    .link-text span { font-size: 14px; font-weight: 500; color: var(--text); display: block; }
+    .link-text small { font-size: 12px; color: var(--text-muted); }
+    .chevron { color: var(--text-muted); flex-shrink: 0; }
+    .chevron svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .ical-box { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); padding: 14px; }
+    .ical-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .ical-url { font-size: 11px; color: var(--text-muted); word-break: break-all; background: var(--bg); padding: 8px 10px; border-radius: 8px; margin-bottom: 10px; font-family: monospace; }
+    .ical-btn { display: block; width: 100%; padding: 10px; background: var(--blue); color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; text-align: center; font-family: inherit; }
+
+    .info-card { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); padding: 14px; }
+    .info-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .info-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
   </style>
 </head>
 <body>
@@ -362,7 +291,7 @@
 <!-- TAB: PROJEKTE -->
 <div class="content active" id="tab-projekte">
   <div class="section-label">Aktuelle Projekte</div>
-  <div class="card" id="projekte-liste">
+  <div id="projekte-liste">
     <div class="loading">Projekte werden geladen…</div>
   </div>
 </div>
@@ -379,14 +308,12 @@
       <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </a>
   </div>
-
   <div class="section-label">Kalender abonnieren</div>
   <div class="ical-box">
     <div class="ical-title">iCal-Link</div>
     <div class="ical-url">https://calendar.google.com/calendar/ical/b11b52fea156e762892f701f4ecc35cc1ccbbb80f21b5e7ca3e924d251bb6d1b%40group.calendar.google.com/public/basic.ics</div>
     <button class="ical-btn" onclick="copyICal()">Link kopieren</button>
   </div>
-
   <div class="info-card">
     <h3>Kalender hinzufügen</h3>
     <p>Kopiere den iCal-Link und füge ihn in deiner Kalender-App ein: iPhone → Einstellungen → Kalender → Accounts → Account hinzufügen → Andere → Kalender abonnieren.</p>
@@ -413,7 +340,6 @@
       <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </a>
   </div>
-
   <div class="section-label">Mediathek</div>
   <div class="card">
     <a class="link-item" href="https://www.youtube.com/@HfMT-Hamburg/streams" target="_blank">
@@ -432,29 +358,29 @@
   <div class="card">
     <a class="link-item" href="https://docs.google.com/document/d/1L2kSqMZz9K1T3c7Hyku2OlznebWqU3XQyRoFdlurVb4/pub" target="_blank">
       <div class="link-icon" style="background:var(--teal-light);color:var(--teal)">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       </div>
       <div class="link-text"><span>Orchesterordnung</span><small>Regelwerk · HfMT Hamburg</small></div>
       <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </a>
     <a class="link-item" href="https://forms.gle/jMKuPx2Mov9s8fcn8" target="_blank">
       <div class="link-icon" style="background:var(--amber-light);color:var(--amber)">
-        <svg viewBox="0 0 24 24"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/></svg>
       </div>
       <div class="link-text"><span>Freikarten bestellen</span><small>Formular · Google Forms</small></div>
       <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </a>
   </div>
-
   <div class="section-label">Über das Portal</div>
   <div class="info-card">
     <h3>HSO Portal</h3>
-    <p>Dieses Portal wird täglich automatisch aktualisiert. Projektdaten kommen direkt aus dem Orchesterbüro-System. Bei Fragen wende dich an das Orchesterbüro.</p>
+    <p>Dieses Portal wird täglich automatisch aktualisiert. Bei Fragen wende dich an das Orchesterbüro.</p>
   </div>
 </div>
 
 <script>
 const SYSTEM_MGMT_ID  = '1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU';
+const SYSTEM_MGMT_GID = '459228372';
 const BEDARF_SHEET_ID = '1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ';
 const BEDARF_GID      = '1642432141';
 
@@ -469,20 +395,35 @@ const FARBEN = {
 };
 
 function getFarbe(name) {
-  for (const key in FARBEN) {
-    if (name.indexOf(key) !== -1) return FARBEN[key];
-  }
+  for (const k in FARBEN) { if (name.indexOf(k) !== -1) return FARBEN[k]; }
   return FARBEN['default'];
 }
 
 function getKuerzel(name) {
   if (name.startsWith('HSO Blattspiel')) return 'BS';
   if (name.startsWith('HSO Repertoire')) return 'Rep';
-  if (name.startsWith('HSO ')) return 'H' + name.replace('HSO ', '').replace(/[^0-9]/g, '');
+  if (name.startsWith('HSO ')) return 'H' + name.replace('HSO ', '').replace(/\D/g, '');
   if (name.startsWith('WK Lü ')) return 'WL' + name.replace('WK Lü ', '').trim();
   if (name.startsWith('WK ')) return 'W' + name.replace('WK ', '').trim();
   if (name === '13/14') return '13';
   return name.substring(0, 2).toUpperCase();
+}
+
+function aktuellesSj() {
+  const d = new Date(), m = d.getMonth(), y = d.getFullYear() % 100;
+  return m >= 8 ? y + '_' + (y + 1) : (y - 1) + '_' + y;
+}
+
+function parseCsvZeile(z) {
+  const res = []; let cur = '', inQ = false;
+  for (let i = 0; i < z.length; i++) {
+    const c = z[i];
+    if (c === '"') { inQ = !inQ; continue; }
+    if (c === ',' && !inQ) { res.push(cur.trim()); cur = ''; continue; }
+    cur += c;
+  }
+  res.push(cur.trim());
+  return res;
 }
 
 function showTab(name, btn) {
@@ -492,38 +433,17 @@ function showTab(name, btn) {
   btn.classList.add('active');
 }
 
-function aktuellesSj() {
-  const d = new Date();
-  const m = d.getMonth();
-  const y = d.getFullYear() % 100;
-  if (m >= 8) return y + '_' + (y + 1);
-  return (y - 1) + '_' + y;
-}
-
-function parseCSV(csv) {
-  const lines = [];
-  let cur = '', inQ = false;
-  for (let i = 0; i < csv.length; i++) {
-    const c = csv[i];
-    if (c === '"') { inQ = !inQ; continue; }
-    if (c === ',' && !inQ) { lines[lines.length - 1].push(cur); cur = ''; continue; }
-    if (c === '\n' && !inQ) { lines[lines.length - 1].push(cur); cur = ''; lines.push([]); continue; }
-    cur += c;
-  }
-  if (cur) lines[lines.length - 1] && lines[lines.length - 1].push(cur);
-  return lines.filter(l => l.length > 1);
-}
-
+// ── PROJEKTE LADEN ────────────────────────────────────────────
 async function ladeProjekte() {
-  const url = `https://docs.google.com/spreadsheets/d/${SYSTEM_MGMT_ID}/gviz/tq?tqx=out:csv&gid=459228372`;
+  const url = `https://docs.google.com/spreadsheets/d/${SYSTEM_MGMT_ID}/gviz/tq?tqx=out:csv&gid=${SYSTEM_MGMT_GID}`;
   try {
     const res = await fetch(url);
     const csv = await res.text();
-    const zeilen = csv.trim().split('\n').slice(1);
     const sjAktuell = aktuellesSj();
+    const zeilen = csv.trim().split('\n').slice(1);
 
     const projekte = zeilen.map(z => {
-      const t = z.split('","').map(s => s.replace(/^"|"$/g, '').trim());
+      const t = parseCsvZeile(z);
       return { name: t[0], docId: t[1], sj: t[2] };
     }).filter(p => p.name && p.docId && p.sj === sjAktuell);
 
@@ -533,134 +453,211 @@ async function ladeProjekte() {
       return;
     }
 
-    liste.innerHTML = projekte.map(p => {
+    document.getElementById('sj-badge').textContent = sjAktuell.replace('_', '/');
+
+    liste.innerHTML = projekte.map((p, i) => {
       const f = getFarbe(p.name);
       const k = getKuerzel(p.name);
-      const url = `https://docs.google.com/document/d/${p.docId}/pub`;
-      return `<a class="proj-item" href="${url}" target="_blank">
-        <div class="proj-icon" style="background:${f.bg};color:${f.color}">${k}</div>
-        <div class="proj-info">
-          <div class="proj-name">${p.name}</div>
-          <div class="proj-sub">${p.sj.replace('_', '/')}</div>
+      const cardId = 'proj-' + i;
+      return `
+      <div class="proj-card">
+        <div class="proj-header" onclick="toggleProjekt('${cardId}', '${p.docId}')">
+          <div class="proj-icon" style="background:${f.bg};color:${f.color}">${k}</div>
+          <div class="proj-meta">
+            <div class="proj-name">${p.name}</div>
+            <div class="proj-sub">${p.sj.replace('_', '/')}</div>
+          </div>
+          <div class="proj-chevron" id="chev-${cardId}">
+            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
         </div>
-        <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
-      </a>`;
+        <div class="proj-body" id="${cardId}">
+          <div class="proj-tabs">
+            <button class="proj-tab active" onclick="showProjTab(event, '${cardId}', 'programm')">Programm</button>
+            <button class="proj-tab" onclick="showProjTab(event, '${cardId}', 'probenplan')">Probenplan</button>
+            <button class="proj-tab" onclick="showProjTab(event, '${cardId}', 'spielende')">Spielende</button>
+          </div>
+          <div class="proj-section active" id="${cardId}-programm">
+            <div class="proj-loading">Wird geladen…</div>
+          </div>
+          <div class="proj-section" id="${cardId}-probenplan"></div>
+          <div class="proj-section" id="${cardId}-spielende"></div>
+        </div>
+      </div>`;
     }).join('');
 
-    document.getElementById('sj-badge').textContent = sjAktuell.replace('_', '/');
-  } catch (e) {
+  } catch(e) {
     document.getElementById('projekte-liste').innerHTML =
       '<div class="loading">Konnte nicht laden. Bitte neu versuchen.</div>';
   }
 }
 
+// ── PROJEKT-DOC INHALTE LADEN ─────────────────────────────────
+const docCache = {};
+
+async function ladeProjektDoc(docId) {
+  if (docCache[docId]) return docCache[docId];
+  const url = `https://docs.google.com/document/d/${docId}/export?format=txt`;
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
+    const parsed = parseDocText(text);
+    docCache[docId] = parsed;
+    return parsed;
+  } catch(e) {
+    return null;
+  }
+}
+
+function parseDocText(text) {
+  const abschnitte = { programm: [], probenplan: [], spielende: [], webeintrag: [], biographien: [] };
+  const MARKER = {
+    '--- PROGRAMM ---':     'programm',
+    '--- PROBENPLAN ---':   'probenplan',
+    '--- SPIELENDE ---':    'spielende',
+    '--- WEBEINTRAG ---':   'webeintrag',
+    '--- BIOGRAPHIEN ---':  'biographien'
+  };
+
+  const lines = text.split('\n');
+  let aktiv = null, nachSep = false;
+
+  for (const line of lines) {
+    const z = line.trim();
+    if (z === '--- AB HIER AUTOMATISCHER INHALT ---') { nachSep = true; aktiv = null; continue; }
+    if (!nachSep) continue;
+    if (MARKER[z] !== undefined) { aktiv = MARKER[z]; continue; }
+    if (/^Aktualisiert:/.test(z)) continue;
+    if (aktiv) abschnitte[aktiv].push(z);
+  }
+
+  for (const key in abschnitte) {
+    const arr = abschnitte[key];
+    while (arr.length && !arr[0]) arr.shift();
+    while (arr.length && !arr[arr.length - 1]) arr.pop();
+  }
+  return abschnitte;
+}
+
+async function toggleProjekt(cardId, docId) {
+  const body = document.getElementById(cardId);
+  const chev = document.getElementById('chev-' + cardId);
+  const isOpen = body.classList.contains('open');
+
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+
+  if (!isOpen) {
+    const programDiv = document.getElementById(cardId + '-programm');
+    if (programDiv.querySelector('.proj-loading')) {
+      const data = await ladeProjektDoc(docId);
+      fuelleAbschnitt(cardId, data);
+    }
+  }
+}
+
+function fuelleAbschnitt(cardId, data) {
+  if (!data) {
+    ['programm', 'probenplan', 'spielende'].forEach(s => {
+      document.getElementById(cardId + '-' + s).innerHTML =
+        '<p class="proj-text-muted">Konnte nicht geladen werden.</p>';
+    });
+    return;
+  }
+
+  const programDiv = document.getElementById(cardId + '-programm');
+  programDiv.innerHTML = data.programm.length
+    ? `<div class="proj-text">${data.programm.join('\n')}</div>`
+    : '<p class="proj-text-muted">(Noch kein Programm eingetragen)</p>';
+
+  const probenDiv = document.getElementById(cardId + '-probenplan');
+  probenDiv.innerHTML = data.probenplan.length
+    ? `<div class="proj-text">${data.probenplan.join('\n')}</div>`
+    : '<p class="proj-text-muted">(Noch keine Termine)</p>';
+
+  const spielDiv = document.getElementById(cardId + '-spielende');
+  spielDiv.innerHTML = data.spielende.length
+    ? `<div class="proj-text">${data.spielende.join('\n')}</div>`
+    : '<p class="proj-text-muted">(Noch keine Einteilung)</p>';
+}
+
+function showProjTab(e, cardId, tab) {
+  e.stopPropagation();
+  const body = document.getElementById(cardId);
+  body.querySelectorAll('.proj-tab').forEach(t => t.classList.remove('active'));
+  body.querySelectorAll('.proj-section').forEach(s => s.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(cardId + '-' + tab).classList.add('active');
+}
+
+// ── BEDARF LADEN ──────────────────────────────────────────────
 async function ladeBedarf() {
   const url = `https://docs.google.com/spreadsheets/d/${BEDARF_SHEET_ID}/gviz/tq?tqx=out:csv&gid=${BEDARF_GID}`;
   try {
     const res = await fetch(url);
     const text = await res.text();
-
-    const heute = new Date();
-    heute.setHours(0, 0, 0, 0);
-
-    // Zeilenweise parsen - Vorschau_Technik Format
-    // Spalten: Kalendereintrag, Ort, Werk, Semester, 1.Probe, Datum, Typ, Aufbauplan,
-    //          Besetzung, Tasten, Stühle, Basshocker, Klavierhocker, Pulte, Bedarf gesamt
+    const heute = new Date(); heute.setHours(0, 0, 0, 0);
     const zeilen = text.trim().split('\n').slice(1);
     const termine = [];
 
     zeilen.forEach(z => {
-      const t = z.split('","').map(s => s.replace(/^"|"$/g, '').trim());
+      const t = parseCsvZeile(z);
       if (t.length < 10) return;
-
       const datumRaw = t[5] || t[4];
       if (!datumRaw) return;
-
-      // Datum parsen (Format: dd.MM.yyyy HH:mm)
       const parts = datumRaw.split(' ')[0].split('.');
       if (parts.length < 3) return;
       const datum = new Date(parts[2], parts[1] - 1, parts[0]);
-      if (datum < heute) return; // vergangene überspringen
-
-      termine.push({
-        projekt:    t[0],
-        ort:        t[1],
-        werke:      t[2],
-        datum:      datumRaw,
-        datumObj:   datum,
-        aufbauplan: t[7],
-        besetzung:  t[8],
-        tasten:     t[9],
-        stuehle:    t[10],
-        basshocker: t[11],
-        klHocker:   t[12],
-        pulte:      t[13],
-        gesamt:     t[14]
-      });
+      if (datum < heute) return;
+      termine.push({ projekt: t[0], ort: t[1], werke: t[2], datum: datumRaw,
+        datumObj: datum, aufbauplan: t[7], besetzung: t[8], tasten: t[9],
+        stuehle: t[10], basshocker: t[11], klHocker: t[12], pulte: t[13], gesamt: t[14] });
     });
 
     const liste = document.getElementById('bedarf-liste');
     if (!termine.length) {
-      liste.innerHTML = '<div class="loading">Keine kommenden Termine gefunden.</div>';
+      liste.innerHTML = '<div class="loading">Keine kommenden Termine.</div>';
       return;
     }
 
     liste.innerHTML = termine.map((t, i) => {
       const f = getFarbe(t.projekt);
-      const detailId = 'detail-' + i;
+      const did = 'bedarf-' + i;
       return `
       <div class="bedarf-card">
-        <div class="bedarf-header" onclick="toggleBedarf('${detailId}', this)">
-          <div class="bedarf-nummer" style="background:${f.bg};color:${f.color}">${i + 1}</div>
+        <div class="bedarf-header" onclick="toggleBedarf('${did}')">
+          <div class="bedarf-nummer" style="background:${f.bg};color:${f.color}">${i+1}</div>
           <div class="bedarf-titel">
             <div class="bedarf-projekt">${t.projekt}</div>
             <div class="bedarf-datum">${t.datum}</div>
             ${t.ort ? `<div class="bedarf-ort">${t.ort}</div>` : ''}
           </div>
-          <div class="bedarf-toggle" id="toggle-${detailId}">
+          <div class="bedarf-toggle" id="btog-${did}">
             <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
         </div>
-        <div class="bedarf-details" id="${detailId}">
+        <div class="bedarf-details" id="${did}">
           ${t.werke ? `<div class="werk-text">${t.werke}</div>` : ''}
           <div class="stat-row">
-            <div class="stat-box"><div class="stat-num">${t.stuehle || 0}</div><div class="stat-label">Stühle</div></div>
-            <div class="stat-box"><div class="stat-num">${t.pulte || 0}</div><div class="stat-label">Pulte</div></div>
-            <div class="stat-box"><div class="stat-num">${t.basshocker || 0}</div><div class="stat-label">Basshocker</div></div>
-            <div class="stat-box"><div class="stat-num">${t.klHocker || 0}</div><div class="stat-label">Klavierhocker</div></div>
+            <div class="stat-box"><div class="stat-num">${t.stuehle||0}</div><div class="stat-label">Stühle</div></div>
+            <div class="stat-box"><div class="stat-num">${t.pulte||0}</div><div class="stat-label">Pulte</div></div>
+            <div class="stat-box"><div class="stat-num">${t.basshocker||0}</div><div class="stat-label">Basshocker</div></div>
+            <div class="stat-box"><div class="stat-num">${t.klHocker||0}</div><div class="stat-label">Klavierhocker</div></div>
           </div>
-          ${t.tasten ? `
-          <div class="bedarf-row" style="margin-top:10px">
-            <span class="bedarf-label">Tasten & Harfe</span>
-            <span class="bedarf-value">${t.tasten}</span>
-          </div>` : ''}
-          <div class="bedarf-row">
-            <span class="bedarf-label">Besetzung</span>
-            <span class="bedarf-value" style="font-size:12px">${t.besetzung}</span>
-          </div>
-          ${t.aufbauplan ? `
-          <div class="bedarf-aufbau">
-            <a href="${t.aufbauplan}" target="_blank">
-              <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              Aufbauplan öffnen
-            </a>
-          </div>` : ''}
+          ${t.tasten ? `<div class="bedarf-row" style="margin-top:10px"><span class="bedarf-label">Tasten & Harfe</span><span class="bedarf-value">${t.tasten}</span></div>` : ''}
+          <div class="bedarf-row"><span class="bedarf-label">Besetzung</span><span class="bedarf-value" style="font-size:12px">${t.besetzung}</span></div>
+          ${t.aufbauplan ? `<div class="bedarf-aufbau"><a href="${t.aufbauplan}" target="_blank"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Aufbauplan öffnen</a></div>` : ''}
         </div>
       </div>`;
     }).join('');
-
-  } catch (e) {
-    document.getElementById('bedarf-liste').innerHTML =
-      '<div class="loading">Konnte Bedarfsdaten nicht laden.</div>';
+  } catch(e) {
+    document.getElementById('bedarf-liste').innerHTML = '<div class="loading">Konnte nicht laden.</div>';
   }
 }
 
-function toggleBedarf(id, header) {
-  const detail = document.getElementById(id);
-  const toggle = document.getElementById('toggle-' + id);
-  const isOpen = detail.classList.contains('open');
-  detail.classList.toggle('open', !isOpen);
-  toggle.classList.toggle('open', !isOpen);
+function toggleBedarf(id) {
+  document.getElementById(id).classList.toggle('open');
+  document.getElementById('btog-' + id).classList.toggle('open');
 }
 
 function copyICal() {
@@ -669,7 +666,7 @@ function copyICal() {
     const btn = document.querySelector('.ical-btn');
     btn.textContent = 'Kopiert ✓';
     setTimeout(() => btn.textContent = 'Link kopieren', 2000);
-  }).catch(() => { prompt('Link zum Kopieren:', url); });
+  }).catch(() => { prompt('Link:', url); });
 }
 
 if ('serviceWorker' in navigator) {
