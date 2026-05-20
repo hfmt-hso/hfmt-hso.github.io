@@ -375,7 +375,7 @@ async function ladeUeEvents(projektName, sjTarget){
     }
     const tp=datAnzeige.split('.');
     const tabLabel=wt+' '+(tp[0]||'?')+'.'+(tp[1]||'?')+'.';
-    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[]};
+    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null};
   }).filter(Boolean).sort((a,b)=>a.datObj-b.datObj);
 }
 
@@ -405,6 +405,8 @@ function renderEventProgramm(ev){
     });
     h+='</div>';
   }
+  // Ensemble
+  if(ev.ensemble)h+='<div class="werk-leitung">'+esc(ev.ensemble)+'</div>';
   if(ev.leitung)h+='<div class="werk-leitung">'+esc(ev.leitung)+'</div>';
   return h;
 }
