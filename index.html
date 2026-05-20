@@ -429,7 +429,7 @@ async function ladeProjekte(){
 </div>`;
       }else{
         return `<div class="proj-card">
-  <div class="proj-header" onclick="toggleStd('${cId}','${p.docId}')">
+  <div class="proj-header" onclick="toggleStd('${cId}','${p.docId}','${pAttr}','${sjAttr}')">
     <div class="proj-icon" style="background:${f.bg};color:${f.color}">${k}</div>
     <div class="proj-meta"><div class="proj-name">${esc(p.name)}</div><div class="proj-sub">${p.sj.replace('_','/')}</div></div>
     <div class="proj-chevron" id="chev-${cId}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
@@ -477,20 +477,33 @@ async function ladeProjektDoc(docId){
     return ab;
   }catch(e){return null;}
 }
-async function toggleStd(cId,docId){
+async function toggleStd(cId,docId,projektName,sjTarget){
   const body=document.getElementById(cId),chev=document.getElementById('chev-'+cId);
   const open=body.classList.contains('open');
   body.classList.toggle('open',!open);chev.classList.toggle('open',!open);
   if(!open){
     const prog=document.getElementById(cId+'-programm');
     if(prog&&prog.querySelector('.proj-loading')){
+      // Programm: aus Web-App (Übersetzer)
+      const events=await ladeUeEvents(projektName,sjTarget);
+      const elProg=document.getElementById(cId+'-programm');
+      if(elProg){
+        if(!events||events.length===0){
+          elProg.innerHTML='<p class="proj-text-muted">(Noch kein Programm)</p>';
+        }else{
+          // Vorstellungs-Events als Tabs
+          const tabs=events.map((ev,i)=>'<button class="event-tab '+(i===0?'active':'')+'" onclick="showEvTab(event,\''+cId+'-prog\','+i+')">'+esc(ev.tabLabel)+'</button>').join('');
+          const secs=events.map((ev,i)=>'<div class="event-section '+(i===0?'active':'')+'" id="'+cId+'-prog-ev-'+i+'">'+renderEventProgramm(ev)+'</div>').join('');
+          elProg.innerHTML='<div class="event-tabs-wrap"><div class="event-tabs">'+tabs+'</div></div><div class="event-sections">'+secs+'</div>';
+        }
+      }
+      // Probenplan, Spielende, Biografien: weiterhin aus Doc
       const data=await ladeProjektDoc(docId);
       const set=(s,arr,txt)=>{
         const el=document.getElementById(cId+'-'+s);if(!el)return;
         el.innerHTML=arr&&arr.length?'<div class="proj-text">'+arr.join('\n')+'</div>':'<p class="proj-text-muted">'+txt+'</p>';
       };
-      if(!data){['programm','probenplan','spielende','biographien'].forEach(s=>set(s,null,'Laden fehlgeschlagen.'));return;}
-      set('programm',data.programm,'(Noch kein Programm)');
+      if(!data){['probenplan','spielende','biographien'].forEach(s=>set(s,null,'Laden fehlgeschlagen.'));return;}
       set('probenplan',data.probenplan,'(Noch keine Termine)');
       set('spielende',data.spielende,'(Noch keine Einteilung)');
       set('biographien',data.biographien,'(Keine Biografien)');
