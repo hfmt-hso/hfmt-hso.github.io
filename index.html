@@ -397,6 +397,14 @@ function renderEventProgramm(ev){
       h+='</div>';
     }
   }
+  // Solisten
+  if(ev.solisten&&ev.solisten.length){
+    h+='<div class="werk-leitung">';
+    ev.solisten.forEach(s=>{
+      h+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'<br>';
+    });
+    h+='</div>';
+  }
   if(ev.leitung)h+='<div class="werk-leitung">'+esc(ev.leitung)+'</div>';
   return h;
 }
@@ -493,7 +501,7 @@ async function toggleStd(cId,docId,projektName,sjTarget){
         }else{
           // Vorstellungs-Events als Tabs
           const tabs=events.map((ev,i)=>'<button class="event-tab '+(i===0?'active':'')+'" onclick="showEvTabIn(event,\''+cId+'-programm\','+i+')">'+esc(ev.tabLabel)+'</button>').join('');
-          const secs=events.map((ev,i)=>'<div class="event-section '+(i===0?'active':'')+'" id="'+cId+'-prog-ev-'+i+'">'+renderEventProgramm(ev)+'</div>').join('');
+          const secs=events.map((ev,i)=>'<div class="event-section '+(i===0?'active':'')+'" id="'+cId+'-programm-prog-ev-'+i+'">'+renderEventProgramm(ev)+'</div>').join('');
           elProg.innerHTML='<div class="event-tabs-wrap"><div class="event-tabs">'+tabs+'</div></div><div class="event-sections">'+secs+'</div>';
         }
       }
