@@ -261,9 +261,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <script>
 // ── KONFIGURATION ─────────────────────────────────────────────
-const SYSTEM_MGMT_ID  = '1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU';
-const SYSTEM_MGMT_GID = '459228372';
-const UEBERSETZER_GID = '1658744252';
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 const BEDARF_SHEET_ID = '1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ';
 const BEDARF_GID      = '1642432141';
 const WT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
@@ -347,50 +345,38 @@ function showTab(name,btn){
   btn.classList.add('active');
 }
 
-// ── ÜBERSETZER-EVENTS LADEN ───────────────────────────────────
+// ── ÜBERSETZER-EVENTS LADEN (via Web-App) ────────────────────
+// Cache pro SJ: ?action=programm wird einmal geladen, dann per Projektname gefiltert
 const ueCache={};
-async function ladeUeEvents(projektName){
-  if(ueCache[projektName])return ueCache[projektName];
-  const url=`https://docs.google.com/spreadsheets/d/${SYSTEM_MGMT_ID}/gviz/tq?tqx=out:csv&gid=${UEBERSETZER_GID}`;
-  try{
-    const res=await fetch(url);
-    const csv=await res.text();
-    const zeilen=csv.trim().split('\n').slice(1);
-    const events=[];
-    for(const z of zeilen){
-      const t=parseCsvZeile(z);
-      const titel=(t[1]||'').trim();
-      if(!titel.toLowerCase().includes(projektName.toLowerCase()))continue;
-      const jsonStr=(t[4]||'').trim();
-      if(!jsonStr)continue;
-      let pd;
-      try{pd=JSON.parse(jsonStr);}catch(e){continue;}
-      let datObj=parseDatum(pd.datum);
-      if(!datObj)datObj=parseDatum(t[2]);
-      if(!datObj)continue;
-      const datAnzeige=pd.datum&&pd.datum.match(/^\d{1,2}\.\d{1,2}\.\d{4}$/)?pd.datum:ddmmyyyy(datObj);
-      const wt=WT[datObj.getDay()];
-      const uhr=pd.uhrzeit||'';
-      const ort=pd.ort||'';
-      let kopf=wt+', '+datAnzeige+(uhr?' '+uhr:'')+'    '+titel;
-      if(ort)kopf+='    |    '+ort;
-      const werke=(pd.werke||[]).filter(w=>!w.pause);
-      let leitung='';
-      if(pd.leitung&&pd.leitung.length){
-        const namen=pd.leitung.map(l=>typeof l==='object'?l.name:String(l)).filter(Boolean);
-        leitung='Leitung: '+(namen.length===1?namen[0]:namen.map((n,i)=>(i+1)+'. '+n).join(' / '));
-      }
-      const tp=datAnzeige.split('.');
-      const tabLabel=wt+' '+(tp[0]||'?')+'.'+(tp[1]||'?')+'.';
-      events.push({datObj,datAnzeige,kopf,tabLabel,werke,leitung});
-    }
-    events.sort((a,b)=>a.datObj-b.datObj);
-    ueCache[projektName]=events;
-    return events;
-  }catch(e){
-    console.error('Übersetzer-Fehler:',e);
-    return[];
+async function ladeUeEvents(projektName, sjTarget){
+  const sj=sjTarget||aktuellesSj();
+  if(!ueCache[sj]){
+    try{
+      const res=await fetch(`${WEBAPP_URL}?action=programm&sj=${sj}`);
+      const json=await res.json();
+      ueCache[sj]=json.ok?json.data:{};
+    }catch(e){console.error('Web-App Programm-Fehler:',e);ueCache[sj]={};}
   }
+  const rohdaten=ueCache[sj][projektName]||[];
+  return rohdaten.map(ev=>{
+    const datObj=parseDatum(ev.datum);
+    if(!datObj)return null;
+    const datAnzeige=ev.datum||ddmmyyyy(datObj);
+    const wt=WT[datObj.getDay()];
+    const uhr=ev.uhrzeit||'';
+    const ort=ev.ort||'';
+    let kopf=wt+', '+datAnzeige+(uhr?' '+uhr:'')+'    '+(ev._titel||projektName);
+    if(ort)kopf+='    |    '+ort;
+    const werke=(ev.werke||[]).filter(w=>!w.pause);
+    let leitung='';
+    if(ev.leitung&&ev.leitung.length){
+      const namen=ev.leitung.map(l=>typeof l==='object'?l.name:String(l)).filter(Boolean);
+      leitung='Leitung: '+(namen.length===1?namen[0]:namen.map((n,i)=>(i+1)+'. '+n).join(' / '));
+    }
+    const tp=datAnzeige.split('.');
+    const tabLabel=wt+' '+(tp[0]||'?')+'.'+(tp[1]||'?')+'.';
+    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung};
+  }).filter(Boolean).sort((a,b)=>a.datObj-b.datObj);
 }
 
 // ── EVENT-PROGRAMM HTML ───────────────────────────────────────
@@ -417,16 +403,14 @@ function renderEventProgramm(ev){
 
 // ── PROJEKTE LADEN ────────────────────────────────────────────
 async function ladeProjekte(){
-  const url=`https://docs.google.com/spreadsheets/d/${SYSTEM_MGMT_ID}/gviz/tq?tqx=out:csv&gid=${SYSTEM_MGMT_GID}`;
+  const params=new URLSearchParams(window.location.search);
+  const sjNow=aktuellesSj();
+  const sjTarget=params.get('sj')||sjNow;
   try{
-    const res=await fetch(url);
-    const csv=await res.text();
-    const params=new URLSearchParams(window.location.search);
-    const sjNow=aktuellesSj();
-    const sjTarget=params.get('sj')||sjNow;
-    const projekte=csv.trim().split('\n').slice(1)
-      .map(z=>{const t=parseCsvZeile(z);return{name:t[0],docId:t[1],sj:t[2]};})
-      .filter(p=>p.name&&p.docId&&p.sj===sjTarget);
+    const res=await fetch(`${WEBAPP_URL}?action=projekte&sj=${sjTarget}`);
+    const json=await res.json();
+    if(!json.ok)throw new Error(json.error||'Web-App Fehler');
+    const projekte=json.data;
     const liste=document.getElementById('projekte-liste');
     if(!projekte.length){liste.innerHTML='<div class="loading">Keine Projekte gefunden.</div>';return;}
     document.getElementById('sj-badge').textContent=sjTarget.replace('_','/');
