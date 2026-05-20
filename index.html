@@ -293,14 +293,23 @@ function aktuellesSj(){
   return m>=8?y+'_'+(y+1):(y-1)+'_'+y;
 }
 function parseCsvZeile(z){
-  const res=[];let cur='',inQ=false;
-  for(let i=0;i<z.length;i++){
+  // Korrekte CSV-Verarbeitung: "" innerhalb von Quoted-Fields = ein "
+  const res=[];let cur='',inQ=false,i=0;
+  while(i<z.length){
     const c=z[i];
-    if(c==='"'){inQ=!inQ;continue;}
-    if(c===','&&!inQ){res.push(cur.trim());cur='';continue;}
-    cur+=c;
+    if(inQ){
+      if(c==='"'){
+        if(i+1<z.length&&z[i+1]==='"'){cur+='"';i+=2;continue;} // "" → "
+        else{inQ=false;}
+      }else{cur+=c;}
+    }else{
+      if(c==='"'){inQ=true;}
+      else if(c===','){res.push(cur);cur='';}
+      else{cur+=c;}
+    }
+    i++;
   }
-  res.push(cur.trim());
+  res.push(cur);
   return res;
 }
 function parseDatum(s){
@@ -366,7 +375,9 @@ async function ladeUeEvents(projektName){
       const werke=(pd.werke||[]).filter(w=>!w.pause);
       let leitung='';
       if(pd.leitung&&pd.leitung.length){
-        leitung='Leitung: '+pd.leitung.map((l,i)=>(i+1)+'. '+(typeof l==='object'?l.name:String(l))).join(' / ');
+        const namen=pd.leitung.map(l=>typeof l==='object'?l.name:String(l)).filter(Boolean);
+        // Wenn nur ein Eintrag: enthält oft schon "1. X | 2. Y | ..."
+        leitung='Leitung: '+(namen.length===1?namen[0]:namen.map((n,i)=>(i+1)+'. '+n).join(' / '));
       }
       const tp=datAnzeige.split('.');
       const tabLabel=wt+' '+(tp[0]||'?')+'.'+(tp[1]||'?')+'.';
@@ -519,25 +530,7 @@ async function toggleBR(cId,docId,projektName){
     if(loading){
       const events=await ladeUeEvents(projektName);
       if(!events||events.length===0){
-        // Zeige Diagnose: rohe CSV-Zeilen für dieses Projekt
-        let diag='Keine Termine gefunden.';
-        try{
-          const dbUrl=`https://docs.google.com/spreadsheets/d/${SYSTEM_MGMT_ID}/gviz/tq?tqx=out:csv&gid=${UEBERSETZER_GID}`;
-          const dbRes=await fetch(dbUrl);
-          const dbCsv=await dbRes.text();
-          const dbZeilen=dbCsv.trim().split('\n').slice(1);
-          const treffer=dbZeilen.filter(z=>{const t=parseCsvZeile(z);return(t[1]||'').toLowerCase().includes(projektName.toLowerCase());});
-          if(treffer.length===0){
-            diag='Keine Zeilen im Übersetzer mit "'+projektName+'" gefunden ('+dbZeilen.length+' Zeilen gesamt).';
-          }else{
-            const ersteTreffer=treffer.slice(0,3).map(z=>{
-              const t=parseCsvZeile(z);
-              return 'Titel: '+t[1]+' | Datum-Spalte: '+t[2]+' | JSON: '+(t[4]?t[4].substring(0,60)+'…':'leer');
-            }).join('<br>');
-            diag=treffer.length+' Treffer, aber kein Datum parsierbar:<br>'+ersteTreffer;
-          }
-        }catch(e){diag='Fetch-Fehler: '+e.message;}
-        body.innerHTML='<div style="padding:14px;font-size:12px;color:var(--text-muted)">'+diag+'</div>';
+        body.innerHTML='<div style="padding:14px"><p class="proj-text-muted">Keine aktuellen Termine gefunden.</p></div>';
         return;
       }
       const tabs=events.map((ev,i)=>'<button class="event-tab '+(i===0?'active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(ev.tabLabel)+'</button>').join('');
