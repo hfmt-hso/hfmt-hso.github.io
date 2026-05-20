@@ -9,238 +9,146 @@
 <meta name="apple-mobile-web-app-title" content="HSO Portal">
 <title>HSO Portal – HfMT Hamburg</title>
 <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --blue: #185FA5;
-  --blue-light: #E6F1FB;
-  --green: #3B6D11;
-  --green-light: #EAF3DE;
-  --amber: #854F0B;
-  --amber-light: #FAEEDA;
-  --teal: #0F6E56;
-  --teal-light: #E1F5EE;
-  --purple: #534AB7;
-  --purple-light: #EEEDFE;
-  --gray: #5F5E5A;
-  --gray-light: #F1EFE8;
-  --text: #1a1a1a;
-  --text-muted: #6b6b6b;
-  --border: rgba(0,0,0,0.1);
-  --bg: #f5f5f3;
-  --card-bg: #ffffff;
-  --header-bg: #ffffff;
-  --nav-bg: #ffffff;
+  --blue:#185FA5; --blue-light:#E6F1FB;
+  --green:#3B6D11; --green-light:#EAF3DE;
+  --amber:#854F0B; --amber-light:#FAEEDA;
+  --teal:#0F6E56; --teal-light:#E1F5EE;
+  --purple:#534AB7; --purple-light:#EEEDFE;
+  --gray:#5F5E5A; --gray-light:#F1EFE8;
+  --text:#1a1a1a; --text-muted:#6b6b6b;
+  --border:rgba(0,0,0,0.1);
+  --bg:#f5f5f3; --card-bg:#fff;
+  --header-bg:#fff; --nav-bg:#fff;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #f0f0ee;
-    --text-muted: #999997;
-    --border: rgba(255,255,255,0.1);
-    --bg: #1a1a18;
-    --card-bg: #2a2a28;
-    --header-bg: #222220;
-    --nav-bg: #222220;
-    --blue-light: #0c447c;
-    --green-light: #27500a;
-    --amber-light: #633806;
-    --teal-light: #085041;
-    --purple-light: #3c3489;
-    --gray-light: #444441;
+    --text:#f0f0ee; --text-muted:#999997;
+    --border:rgba(255,255,255,0.1);
+    --bg:#1a1a18; --card-bg:#2a2a28;
+    --header-bg:#222220; --nav-bg:#222220;
+    --blue-light:#0c447c; --green-light:#27500a;
+    --amber-light:#633806; --teal-light:#085041;
+    --purple-light:#3c3489; --gray-light:#444441;
   }
 }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  max-width: 480px;
-  margin: 0 auto;
-}
-.header {
-  background: var(--header-bg);
-  padding: 12px 16px;
-  border-bottom: 0.5px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-.header-row { display: flex; align-items: center; justify-content: space-between; }
-.header-left { display: flex; align-items: center; gap: 10px; }
-.header-logo { height: 48px; width: auto; flex-shrink: 0; }
-.header-text h1 { font-size: 15px; font-weight: 600; color: var(--text); }
-.header-text p  { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-.badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
-.badge-green { background: var(--green-light); color: var(--green); }
-
-.nav {
-  display: flex;
-  background: var(--nav-bg);
-  border-bottom: 0.5px solid var(--border);
-  position: sticky;
-  top: 73px;
-  z-index: 9;
-}
-.nav-btn {
-  flex: 1; padding: 10px 4px 8px;
-  font-size: 10px; color: var(--text-muted);
-  background: none; border: none; cursor: pointer;
-  display: flex; flex-direction: column; align-items: center; gap: 3px;
-  font-family: inherit;
-}
-.nav-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.nav-btn.active { color: var(--blue); }
-.nav-btn.active svg { stroke: var(--blue); }
-
-.content { padding: 14px; display: none; flex-direction: column; gap: 10px; padding-bottom: 40px; }
-.content.active { display: flex; }
-
-.section-label {
-  font-size: 11px; font-weight: 600; color: var(--text-muted);
-  text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px;
-}
-.loading { text-align: center; padding: 24px; color: var(--text-muted); font-size: 13px; }
-
-/* ── Projekt-Karten ── */
-.proj-card { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); overflow: hidden; }
-.proj-header { display: flex; align-items: center; gap: 12px; padding: 13px 14px; cursor: pointer; }
-.proj-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
-.proj-meta { flex: 1; min-width: 0; }
-.proj-name { font-size: 15px; font-weight: 600; color: var(--text); }
-.proj-sub  { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-.proj-chevron { color: var(--text-muted); flex-shrink: 0; transition: transform 0.2s; }
-.proj-chevron svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.proj-chevron.open { transform: rotate(180deg); }
-.proj-body { display: none; border-top: 0.5px solid var(--border); }
-.proj-body.open { display: block; }
-
-/* ── Standard-Tabs (Programm / Probenplan / Spielende / Bio) ── */
-.proj-tabs { display: flex; border-bottom: 0.5px solid var(--border); background: var(--bg); overflow-x: auto; }
-.proj-tab {
-  flex-shrink: 0;
-  padding: 9px 10px;
-  font-size: 11px; color: var(--text-muted);
-  background: none; border: none; cursor: pointer;
-  font-family: inherit; font-weight: 500; white-space: nowrap;
-}
-.proj-tab.active { color: var(--blue); border-bottom: 2px solid var(--blue); }
-.proj-section { display: none; padding: 14px; }
-.proj-section.active { display: block; }
-.proj-text { font-size: 13px; color: var(--text); line-height: 1.6; white-space: pre-wrap; }
-.proj-text-muted { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
-.proj-loading { font-size: 12px; color: var(--text-muted); text-align: center; padding: 16px; }
-
-/* ── Event-Tabs (Blattspiel / Repertoire) ── */
-/* Scrollbare Tab-Leiste für viele Datumstabs */
-.event-tabs-wrap {
-  border-bottom: 0.5px solid var(--border);
-  background: var(--bg);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.event-tabs-wrap::-webkit-scrollbar { display: none; }
-.event-tabs { display: flex; min-width: max-content; }
-.event-tab {
-  flex-shrink: 0;
-  padding: 8px 12px;
-  font-size: 11px; color: var(--text-muted);
-  background: none; border: none; cursor: pointer;
-  font-family: inherit; font-weight: 500;
-  border-bottom: 2px solid transparent;
-  white-space: nowrap;
-}
-.event-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
-
-.event-sections { padding: 14px; }
-.event-section { display: none; }
-.event-section.active { display: block; }
-
-/* Inhalt eines Event-Tabs */
-.event-kopf {
-  font-size: 12px; font-weight: 600; color: var(--blue);
-  line-height: 1.5; margin-bottom: 10px;
-  padding-bottom: 8px; border-bottom: 0.5px solid var(--border);
-}
-.werk-block { margin-bottom: 10px; }
-.werk-komponist { font-size: 13px; font-weight: 600; color: var(--text); }
-.werk-titel    { font-size: 13px; color: var(--text); margin-top: 1px; }
-.werk-details  { font-size: 11px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
-.werk-leitung  {
-  font-size: 11px; color: var(--text-muted);
-  margin-top: 8px; padding-top: 8px;
-  border-top: 0.5px solid var(--border);
-}
-.event-kein { font-size: 13px; color: var(--text-muted); }
-
-/* Probenplan-Anzeige unter dem Programm-Tab */
-.proben-header {
-  font-size: 11px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.06em; color: var(--text-muted);
-  margin: 14px 0 6px; padding-top: 10px;
-  border-top: 0.5px solid var(--border);
-}
-
-/* ── Bedarf-Karten (unverändert) ── */
-.bedarf-card { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); overflow: hidden; margin-bottom: 2px; }
-.bedarf-header { padding: 12px 14px; display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
-.bedarf-nummer { width: 28px; height: 28px; border-radius: 7px; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-.bedarf-titel { flex: 1; }
-.bedarf-projekt { font-size: 14px; font-weight: 600; color: var(--text); }
-.bedarf-datum   { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-.bedarf-ort     { font-size: 12px; color: var(--text-muted); }
-.bedarf-toggle  { color: var(--text-muted); transition: transform 0.2s; }
-.bedarf-toggle svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.bedarf-toggle.open { transform: rotate(180deg); }
-.bedarf-details { display: none; border-top: 0.5px solid var(--border); padding: 12px 14px; }
-.bedarf-details.open { display: block; }
-.bedarf-row { display: flex; gap: 8px; margin-bottom: 8px; font-size: 13px; }
-.bedarf-label { color: var(--text-muted); min-width: 100px; flex-shrink: 0; }
-.bedarf-value { color: var(--text); font-weight: 500; flex: 1; }
-.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-.stat-box { background: var(--bg); border-radius: 8px; padding: 8px 10px; text-align: center; }
-.stat-num   { font-size: 20px; font-weight: 700; color: var(--text); }
-.stat-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-.werk-text  { font-size: 12px; color: var(--text-muted); font-style: italic; margin-bottom: 8px; line-height: 1.4; }
-.bedarf-aufbau a { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--blue); text-decoration: none; font-weight: 500; margin-top: 8px; }
-.bedarf-aufbau svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
-/* ── Info-Bereich ── */
-.card { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); overflow: hidden; }
-.link-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 0.5px solid var(--border); text-decoration: none; color: inherit; }
-.link-item:last-child { border-bottom: none; }
-.link-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.link-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.link-text { flex: 1; }
-.link-text span { font-size: 14px; font-weight: 500; color: var(--text); display: block; }
-.link-text small { font-size: 12px; color: var(--text-muted); }
-.chevron { color: var(--text-muted); flex-shrink: 0; }
-.chevron svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.ical-box { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); padding: 14px; }
-.ical-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-.ical-url { font-size: 11px; color: var(--text-muted); word-break: break-all; background: var(--bg); padding: 8px 10px; border-radius: 8px; margin-bottom: 10px; font-family: monospace; }
-.ical-btn { display: block; width: 100%; padding: 10px; background: var(--blue); color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; text-align: center; font-family: inherit; }
-.info-card { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); padding: 14px; }
-.info-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-.info-card p  { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
-.install-card { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); overflow: hidden; }
-.install-card-header { padding: 12px 14px; font-size: 14px; font-weight: 600; color: var(--text); border-bottom: 0.5px solid var(--border); }
-.install-os { padding: 10px 14px; border-bottom: 0.5px solid var(--border); }
-.install-os:last-child { border-bottom: none; }
-.install-os-label { font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
-.install-steps { list-style: none; counter-reset: steps; }
-.install-steps li { counter-increment: steps; display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--text); padding: 3px 0; line-height: 1.5; }
-.install-steps li::before { content: counter(steps); display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; background: var(--blue-light); color: var(--blue); border-radius: 50%; font-size: 10px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; max-width:480px; margin:0 auto; }
+.header { background:var(--header-bg); padding:12px 16px; border-bottom:0.5px solid var(--border); position:sticky; top:0; z-index:10; }
+.header-row { display:flex; align-items:center; justify-content:space-between; }
+.header-left { display:flex; align-items:center; gap:10px; }
+.header-logo { height:48px; width:auto; flex-shrink:0; }
+.header-text h1 { font-size:15px; font-weight:600; color:var(--text); }
+.header-text p  { font-size:11px; color:var(--text-muted); margin-top:1px; }
+.badge { font-size:11px; padding:3px 10px; border-radius:20px; font-weight:600; }
+.badge-green { background:var(--green-light); color:var(--green); }
+.nav { display:flex; background:var(--nav-bg); border-bottom:0.5px solid var(--border); position:sticky; top:73px; z-index:9; }
+.nav-btn { flex:1; padding:10px 4px 8px; font-size:10px; color:var(--text-muted); background:none; border:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px; font-family:inherit; }
+.nav-btn svg { width:22px; height:22px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+.nav-btn.active { color:var(--blue); }
+.nav-btn.active svg { stroke:var(--blue); }
+.content { padding:14px; display:none; flex-direction:column; gap:10px; padding-bottom:40px; }
+.content.active { display:flex; }
+.section-label { font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-top:4px; }
+.loading { text-align:center; padding:24px; color:var(--text-muted); font-size:13px; }
+/* Projekt-Karten */
+.proj-card { background:var(--card-bg); border-radius:14px; border:0.5px solid var(--border); overflow:hidden; }
+.proj-header { display:flex; align-items:center; gap:12px; padding:13px 14px; cursor:pointer; }
+.proj-icon { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; }
+.proj-meta { flex:1; min-width:0; }
+.proj-name { font-size:15px; font-weight:600; color:var(--text); }
+.proj-sub  { font-size:12px; color:var(--text-muted); margin-top:2px; }
+.proj-chevron { color:var(--text-muted); flex-shrink:0; transition:transform 0.2s; }
+.proj-chevron svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.proj-chevron.open { transform:rotate(180deg); }
+.proj-body { display:none; border-top:0.5px solid var(--border); }
+.proj-body.open { display:block; }
+/* Standard-Tabs */
+.proj-tabs { display:flex; border-bottom:0.5px solid var(--border); background:var(--bg); overflow-x:auto; scrollbar-width:none; }
+.proj-tabs::-webkit-scrollbar { display:none; }
+.proj-tab { flex-shrink:0; padding:9px 12px; font-size:11px; color:var(--text-muted); background:none; border:none; border-bottom:2px solid transparent; cursor:pointer; font-family:inherit; font-weight:500; white-space:nowrap; }
+.proj-tab.active { color:var(--blue); border-bottom-color:var(--blue); }
+.proj-section { display:none; padding:14px; }
+.proj-section.active { display:block; }
+.proj-text { font-size:13px; color:var(--text); line-height:1.6; white-space:pre-wrap; }
+.proj-text-muted { font-size:13px; color:var(--text-muted); }
+.proj-loading { font-size:12px; color:var(--text-muted); text-align:center; padding:16px; }
+/* Event-Tabs (BS/Rep) */
+.event-tabs-wrap { border-bottom:0.5px solid var(--border); background:var(--bg); overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+.event-tabs-wrap::-webkit-scrollbar { display:none; }
+.event-tabs { display:flex; min-width:max-content; }
+.event-tab { flex-shrink:0; padding:8px 12px; font-size:11px; color:var(--text-muted); background:none; border:none; border-bottom:2px solid transparent; cursor:pointer; font-family:inherit; font-weight:500; white-space:nowrap; }
+.event-tab.active { color:var(--blue); border-bottom-color:var(--blue); }
+.event-sections { padding:14px; }
+.event-section { display:none; }
+.event-section.active { display:block; }
+.event-kopf { font-size:12px; font-weight:600; color:var(--blue); line-height:1.5; margin-bottom:10px; padding-bottom:8px; border-bottom:0.5px solid var(--border); }
+.werk-block { margin-bottom:10px; }
+.werk-komponist { font-size:13px; font-weight:600; color:var(--text); }
+.werk-titel     { font-size:13px; color:var(--text); margin-top:1px; }
+.werk-details   { font-size:11px; color:var(--text-muted); margin-top:3px; line-height:1.5; }
+.werk-leitung   { font-size:11px; color:var(--text-muted); margin-top:8px; padding-top:8px; border-top:0.5px solid var(--border); }
+.event-kein { font-size:13px; color:var(--text-muted); }
+.proben-header { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); margin:16px 0 6px; padding-top:12px; border-top:0.5px solid var(--border); }
+/* Bedarf */
+.bedarf-card { background:var(--card-bg); border-radius:14px; border:0.5px solid var(--border); overflow:hidden; margin-bottom:2px; }
+.bedarf-header { padding:12px 14px; display:flex; align-items:flex-start; gap:10px; cursor:pointer; }
+.bedarf-nummer { width:28px; height:28px; border-radius:7px; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+.bedarf-titel { flex:1; }
+.bedarf-projekt { font-size:14px; font-weight:600; color:var(--text); }
+.bedarf-datum   { font-size:12px; color:var(--text-muted); margin-top:2px; }
+.bedarf-ort     { font-size:12px; color:var(--text-muted); }
+.bedarf-toggle  { color:var(--text-muted); transition:transform 0.2s; }
+.bedarf-toggle svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.bedarf-toggle.open { transform:rotate(180deg); }
+.bedarf-details { display:none; border-top:0.5px solid var(--border); padding:12px 14px; }
+.bedarf-details.open { display:block; }
+.bedarf-row { display:flex; gap:8px; margin-bottom:8px; font-size:13px; }
+.bedarf-label { color:var(--text-muted); min-width:100px; flex-shrink:0; }
+.bedarf-value { color:var(--text); font-weight:500; flex:1; }
+.stat-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+.stat-box { background:var(--bg); border-radius:8px; padding:8px 10px; text-align:center; }
+.stat-num   { font-size:20px; font-weight:700; color:var(--text); }
+.stat-label { font-size:11px; color:var(--text-muted); margin-top:2px; }
+.werk-text  { font-size:12px; color:var(--text-muted); font-style:italic; margin-bottom:8px; line-height:1.4; }
+.bedarf-aufbau a { display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--blue); text-decoration:none; font-weight:500; margin-top:8px; }
+.bedarf-aufbau svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+/* Info/Links */
+.card { background:var(--card-bg); border-radius:14px; border:0.5px solid var(--border); overflow:hidden; }
+.link-item { display:flex; align-items:center; gap:12px; padding:12px 14px; border-bottom:0.5px solid var(--border); text-decoration:none; color:inherit; }
+.link-item:last-child { border-bottom:none; }
+.link-icon { width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.link-icon svg { width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+.link-text { flex:1; }
+.link-text span { font-size:14px; font-weight:500; color:var(--text); display:block; }
+.link-text small { font-size:12px; color:var(--text-muted); }
+.chevron { color:var(--text-muted); flex-shrink:0; }
+.chevron svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.ical-box { background:var(--card-bg); border-radius:14px; border:0.5px solid var(--border); padding:14px; }
+.ical-title { font-size:13px; font-weight:600; margin-bottom:6px; }
+.ical-url { font-size:11px; color:var(--text-muted); word-break:break-all; background:var(--bg); padding:8px 10px; border-radius:8px; margin-bottom:10px; font-family:monospace; }
+.ical-btn { display:block; width:100%; padding:10px; background:var(--blue); color:#fff; border:none; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; text-align:center; font-family:inherit; }
+.info-card { background:var(--card-bg); border-radius:14px; border:0.5px solid var(--border); padding:14px; }
+.info-card h3 { font-size:14px; font-weight:600; margin-bottom:6px; }
+.info-card p  { font-size:13px; color:var(--text-muted); line-height:1.5; }
+.install-card { background:var(--card-bg); border-radius:14px; border:0.5px solid var(--border); overflow:hidden; }
+.install-card-header { padding:12px 14px; font-size:14px; font-weight:600; border-bottom:0.5px solid var(--border); }
+.install-os { padding:10px 14px; border-bottom:0.5px solid var(--border); }
+.install-os:last-child { border-bottom:none; }
+.install-os-label { font-size:11px; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; }
+.install-steps { list-style:none; counter-reset:steps; }
+.install-steps li { counter-increment:steps; display:flex; align-items:flex-start; gap:8px; font-size:13px; padding:3px 0; line-height:1.5; }
+.install-steps li::before { content:counter(steps); display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; background:var(--blue-light); color:var(--blue); border-radius:50%; font-size:10px; font-weight:700; flex-shrink:0; margin-top:2px; }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-row">
     <div class="header-left">
-      <!-- Logo inline (original beibehalten) -->
-      <img class="header-logo" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAB4AUADASIAAhEBAxEB/8QAHAABAAIDAQEBAAAAAAAAAAAAAAYHAwQFAgEI/8QAPxAAAgEEAAMDBwoIBwAAAAAAAAECAwQFEQYSIQcTMSJBUXGRsRQWIzI1YXOBssEVNDZSVWSh0TNCYpKTs+H/xAAaAQEAAgMBAAAAAAAAAAAAAAAAAwQCBQYB/8QALxEBAAIBAwEFBwMFAAAAAAAAAAECAwQRITEFEkFR0SJxkaGxwfATQpIUMmGB4f/aAAwDAQACEQMRAD8A/ZYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHxyimk5JN+Cb8QPoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABCMtK5y/F+Qt1mr/G2GNtqUakrWpy7qzbfXo/M0QZ8/wCjEcbzM7ff6Qkx4+/M89HY4h4jljclQxllja+TvatOVV0aMlFwiunM2/SyOrha54jjmctmrKpaX1fyLClKrt0FGGk+j11Z1+HLbEYi4ub15G8vrm4jFzubrypKmukeuvm7/r6js/prHcjqOu1CL05cj0n10vDxaWylOOuo51FuOdq8bR4fH88E/enFxjjnz5Ry04qyeMsbOOd4dvrWlFU6Ve8lUjKEW9R5npt62TRNNJp7T8Gcu9vcTeW1e0uWq1GVOaqwcG04rW/eji4vEWEZToWGazLq0KSlThVu5OEF/levBrp4Mlx2yYp7sW78e+In5RyxtFbxvttKXArLtYzN9StsJc4+9ubSNzRnUkqVVw3tQa3r0bJV2a3Nxd8GWNe6r1K9aXec06knKT1OS6tnuLX1yam2niOkb7/D1eX081xRkmeqRgprtQzOXs+MLyhaZS9t6UadNqFOtKMVuC30TOm7y/uePLm0qXuflRhO35IWU9whuMNuafhF/wBytPa9f1LY4rO8Tt9fRL/RT3Ytv1jf6eq0gAbdSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+BCeH7q2ocTcW0693b2053NPu3VnFde78dPx09E2ONfcK8PX13Uu7vEWtavUe5znHbbKupxZLzS2PbeJ8fdMfdNivWsTFvH1aMasZOEY53EOpz7ThyJtvp4f++42YUZpreUsV8hyOUYwjLn5tuX1Jrpox1OB+FKiSkw7Va/d3H3M8fELhH+C0f98/7leMOpj9sfyt6JO/i85+Eeo9UKup5zGU3LonqEJOOtaXo69fP4IzWF5aWkK/wrNY6rKUfJ5akItdHv0b2+pjhwNwlCSksJbtr95ykvY2Zfibwt/ArD/iR7XFqYnfaP5T6E3xT4z8I9Ve9qX0Hwu/5J/hpmjw7leOrbEUaOGt7qdjHm7pws1NPynvytdeuztdt9OlbrC0aUY06dOnVhCK6JJciSRK+ypp8CY9ppr5T/skaaumtl7Rvji81mIjmPdVenLFNLW01358f9qc4muMrdZWtWzUKkL6UEpqdLu3pLp09ReWBwtpaXtfMUp1ncX1GkqsZSXKuWKS0tFS9rkovji+3Jf4VLz/AOhF2479Qt/so+5EvY+GI1OaLczWes9fGN2GtvM4qTHG8ejOADpWqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABXvbBnL/GPHW+Ova1rUqd5Oo6b02lpJe1s9dkXEV3lKd7YZK6qXFxSaq051HuTg+jX3PXtIv2z3XfcWxorr8HtYR19bbl+aNDE1q/BnG0HdczjRfLV5V8+nOKfRfen60clk118faM5Jme5ExE+XTb7TLc109baaK7e1Mbu52tcQXK4ihj7OtyQtKWqmoxe5y6+dPwWvabGLv8/f8AZnTeIqXM7+jfunJ26SnydZebprykQruLzOVsvlpvrRhK6rPXncklH+r+6JO+wy5Xd5Syb8JU6sV604v3Ii0ue+p1k96ZiMkTt7vyGebHXFgjaIma7fnzQnK5PiO2vZ0spcXELlJOarwg56103tegnXZ3LjGWfg8y8k7F0Jtd9rk308+nJWRgC6N1IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABCRRRR" alt="HfMT Logo">
+      <img class="header-logo" src="icon-192.png" alt="HfMT Logo">
       <div class="header-text">
         <h1>HSO Portal</h1>
         <p>Hochschulorchester · HfMT Hamburg</p>
@@ -250,46 +158,41 @@ body {
   </div>
 </div>
 
-<!-- NAVIGATION -->
 <nav class="nav">
-  <button class="nav-btn active" onclick="showTab('projekte', this)">
+  <button class="nav-btn active" onclick="showTab('projekte',this)">
     <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     Projekte
   </button>
-  <button class="nav-btn" onclick="showTab('kalender', this)">
+  <button class="nav-btn" onclick="showTab('kalender',this)">
     <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
     Kalender
   </button>
-  <button class="nav-btn" onclick="showTab('bedarf', this)">
+  <button class="nav-btn" onclick="showTab('bedarf',this)">
     <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
     Bedarf
   </button>
-  <button class="nav-btn" onclick="showTab('noten', this)">
+  <button class="nav-btn" onclick="showTab('noten',this)">
     <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
     Noten
   </button>
-  <button class="nav-btn" onclick="showTab('info', this)">
+  <button class="nav-btn" onclick="showTab('info',this)">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
     Info
   </button>
 </nav>
 
-<!-- TAB: PROJEKTE -->
+<!-- PROJEKTE -->
 <div class="content active" id="tab-projekte">
   <div class="section-label">Aktuelle Projekte</div>
-  <div id="projekte-liste">
-    <div class="loading">Projekte werden geladen…</div>
-  </div>
+  <div id="projekte-liste"><div class="loading">Projekte werden geladen…</div></div>
 </div>
 
-<!-- TAB: KALENDER -->
+<!-- KALENDER -->
 <div class="content" id="tab-kalender">
   <div class="section-label">Kalender anzeigen</div>
   <div class="card">
     <a class="link-item" href="https://calendar.google.com/calendar/embed?src=b11b52fea156e762892f701f4ecc35cc1ccbbb80f21b5e7ca3e924d251bb6d1b%40group.calendar.google.com&ctz=Europe%2FBerlin" target="_blank">
-      <div class="link-icon" style="background:var(--blue-light);color:var(--blue)">
-        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      </div>
+      <div class="link-icon" style="background:var(--blue-light);color:var(--blue)"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
       <div class="link-text"><span>Probenkalender öffnen</span><small>Google Kalender</small></div>
       <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </a>
@@ -306,22 +209,18 @@ body {
   </div>
 </div>
 
-<!-- TAB: BEDARF -->
+<!-- BEDARF -->
 <div class="content" id="tab-bedarf">
   <div class="section-label">Technikbedarf</div>
-  <div id="bedarf-liste">
-    <div class="loading">Termine werden geladen…</div>
-  </div>
+  <div id="bedarf-liste"><div class="loading">Termine werden geladen…</div></div>
 </div>
 
-<!-- TAB: NOTEN -->
+<!-- NOTEN -->
 <div class="content" id="tab-noten">
   <div class="section-label">Notenmaterial</div>
   <div class="card">
     <a class="link-item" href="https://e.pcloud.link/publink/show?code=kZ7CYaZAflKztKjOLjS8CTLtljFNYQokuXk" target="_blank">
-      <div class="link-icon" style="background:var(--green-light);color:var(--green)">
-        <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-      </div>
+      <div class="link-icon" style="background:var(--green-light);color:var(--green)"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
       <div class="link-text"><span>Alle Noten</span><small>pCloud · Bibliothek</small></div>
       <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </a>
@@ -329,300 +228,254 @@ body {
   <div class="section-label">Mediathek</div>
   <div class="card">
     <a class="link-item" href="https://www.youtube.com/@HfMT-Hamburg/streams" target="_blank">
-      <div class="link-icon" style="background:var(--purple-light);color:var(--purple)">
-        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      </div>
+      <div class="link-icon" style="background:var(--purple-light);color:var(--purple)"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
       <div class="link-text"><span>Mediathek HfMT</span><small>YouTube · Konzertaufnahmen</small></div>
       <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </a>
   </div>
 </div>
 
-<!-- TAB: INFO -->
+<!-- INFO -->
 <div class="content" id="tab-info">
   <div class="section-label">Wichtige Dokumente</div>
   <div class="card">
     <a class="link-item" href="https://docs.google.com/document/d/1L2kSqMZz9K1T3c7Hyku2OlznebWqU3XQyRoFdlurVb4/pub" target="_blank">
-      <div class="link-icon" style="background:var(--teal-light);color:var(--teal)">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-      </div>
+      <div class="link-icon" style="background:var(--teal-light);color:var(--teal)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
       <div class="link-text"><span>Orchesterordnung</span><small>Regelwerk · HfMT Hamburg</small></div>
       <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </a>
     <a class="link-item" href="https://forms.gle/jMKuPx2Mov9s8fcn8" target="_blank">
-      <div class="link-icon" style="background:var(--amber-light);color:var(--amber)">
-        <svg viewBox="0 0 24 24"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/></svg>
-      </div>
+      <div class="link-icon" style="background:var(--amber-light);color:var(--amber)"><svg viewBox="0 0 24 24"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/></svg></div>
       <div class="link-text"><span>Freikarten bestellen</span><small>Formular · Google Forms</small></div>
       <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </a>
-    <a class="link-item" href="intern.html" target="_blank" rel="noopener">
-      <div class="link-icon" style="background:var(--gray-light);color:var(--gray)">
-        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      </div>
+    <a class="link-item" href="intern.html">
+      <div class="link-icon" style="background:var(--gray-light);color:var(--gray)"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
       <div class="link-text"><span>Interner Bereich</span><small>Passwortgeschützt</small></div>
       <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </a>
   </div>
-
-  <div class="section-label">App auf dem Telefon installieren</div>
+  <div class="section-label">App installieren</div>
   <div class="install-card">
-    <div class="install-card-header">📱 Als App speichern – ohne Browser</div>
+    <div class="install-card-header">📱 Als App speichern</div>
     <div class="install-os">
       <div class="install-os-label">iPhone · Safari</div>
       <ol class="install-steps">
-        <li>Öffne diese Seite in <strong>Safari</strong> (nicht Chrome)</li>
-        <li>Tippe auf das <strong>Teilen-Symbol ⬆</strong> unten in der Mitte</li>
-        <li>Scrolle und wähle <strong>„Zum Home-Bildschirm"</strong></li>
-        <li>Name bestätigen → <strong>Hinzufügen</strong> tippen</li>
+        <li>Öffne diese Seite in <strong>Safari</strong></li>
+        <li>Tippe auf <strong>Teilen ⬆</strong> unten in der Mitte</li>
+        <li>Wähle <strong>„Zum Home-Bildschirm"</strong></li>
+        <li>Name bestätigen → <strong>Hinzufügen</strong></li>
       </ol>
     </div>
     <div class="install-os">
       <div class="install-os-label">Android · Chrome</div>
       <ol class="install-steps">
         <li>Öffne diese Seite in <strong>Chrome</strong></li>
-        <li>Tippe oben rechts auf die <strong>drei Punkte ⋮</strong></li>
-        <li>Wähle <strong>„Zum Startbildschirm hinzufügen"</strong></li>
+        <li>Tippe auf die <strong>drei Punkte ⋮</strong></li>
+        <li>Wähle <strong>„Zum Startbildschirm"</strong></li>
         <li>Name bestätigen → <strong>Hinzufügen</strong></li>
       </ol>
     </div>
   </div>
-
-  <div class="section-label">Über das Portal</div>
   <div class="info-card">
     <h3>HSO Portal</h3>
-    <p>Dieses Portal wird täglich automatisch aktualisiert. Bei Fragen wende dich an das Orchesterbüro.</p>
+    <p>Wird täglich automatisch aktualisiert. Bei Fragen: Orchesterbüro.</p>
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════
-//  KONFIGURATION
-// ═══════════════════════════════════════════════════════
-
+// ── KONFIGURATION ─────────────────────────────────────────────
 const SYSTEM_MGMT_ID  = '1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU';
-const SYSTEM_MGMT_GID = '459228372';  // Tab "System_Management"
-
-// ⚠️  GID des "Übersetzer"-Tabs: im Sheet den Tab anklicken
-//     → URL zeigt ?gid=XXXXXXX → hier eintragen
-const UEBERSETZER_GID = '1658744252';
-
+const SYSTEM_MGMT_GID = '459228372';   // Tab: System_Management
+const UEBERSETZER_GID = '1658744252';  // Tab: Übersetzer
 const BEDARF_SHEET_ID = '1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ';
 const BEDARF_GID      = '1642432141';
-
-const WOCHENTAGE = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+const WOCHENTAGE      = ['So','Mo','Di','Mi','Do','Fr','Sa'];
 
 const FARBEN = {
-  'HSO':        { bg: '#E6F1FB', color: '#185FA5' },
-  'WK Lü':      { bg: '#E1F5EE', color: '#0F6E56' },
-  'WK':         { bg: '#E1F5EE', color: '#0F6E56' },
-  '13/14':      { bg: '#FAEEDA', color: '#854F0B' },
-  'Blattspiel': { bg: '#EEEDFE', color: '#534AB7' },
-  'Repertoire': { bg: '#EEEDFE', color: '#534AB7' },
-  'default':    { bg: '#F1EFE8', color: '#5F5E5A' }
+  'HSO':        {bg:'#E6F1FB',color:'#185FA5'},
+  'WK Lü':      {bg:'#E1F5EE',color:'#0F6E56'},
+  'WK':         {bg:'#E1F5EE',color:'#0F6E56'},
+  '13/14':      {bg:'#FAEEDA',color:'#854F0B'},
+  'Blattspiel': {bg:'#EEEDFE',color:'#534AB7'},
+  'Repertoire': {bg:'#EEEDFE',color:'#534AB7'},
+  'default':    {bg:'#F1EFE8',color:'#5F5E5A'}
 };
 
-function getFarbe(name) {
-  for (const k in FARBEN) { if (name.indexOf(k) !== -1) return FARBEN[k]; }
-  return FARBEN['default'];
-}
-function getKuerzel(name) {
-  if (name.startsWith('HSO Blattspiel')) return 'BS';
-  if (name.startsWith('HSO Repertoire')) return 'Rep';
-  if (name.startsWith('HSO ')) return 'H' + name.replace('HSO ','').replace(/\D/g,'');
-  if (name.startsWith('WK Lü ')) return 'WL' + name.replace('WK Lü ','').trim();
-  if (name.startsWith('WK ')) return 'W' + name.replace('WK ','').trim();
-  if (name === '13/14') return '13';
-  return name.substring(0,2).toUpperCase();
+function getFarbe(n) { for(const k in FARBEN){if(n.indexOf(k)!==-1)return FARBEN[k];} return FARBEN['default']; }
+function getKuerzel(n) {
+  if(n.startsWith('HSO Blattspiel'))return'BS';
+  if(n.startsWith('HSO Repertoire'))return'Rep';
+  if(n.startsWith('HSO '))return'H'+n.replace('HSO ','').replace(/\D/g,'');
+  if(n.startsWith('WK Lü '))return'WL'+n.replace('WK Lü ','').trim();
+  if(n.startsWith('WK '))return'W'+n.replace('WK ','').trim();
+  if(n==='13/14')return'13';
+  return n.substring(0,2).toUpperCase();
 }
 function aktuellesSj() {
-  const d = new Date(), m = d.getMonth(), y = d.getFullYear() % 100;
-  return m >= 8 ? y + '_' + (y+1) : (y-1) + '_' + y;
+  const d=new Date(),m=d.getMonth(),y=d.getFullYear()%100;
+  return m>=8?y+'_'+(y+1):(y-1)+'_'+y;
 }
 function parseCsvZeile(z) {
-  const res = []; let cur = '', inQ = false;
-  for (let i = 0; i < z.length; i++) {
-    const c = z[i];
-    if (c === '"') { inQ = !inQ; continue; }
-    if (c === ',' && !inQ) { res.push(cur.trim()); cur = ''; continue; }
-    cur += c;
+  const res=[];let cur='',inQ=false;
+  for(let i=0;i<z.length;i++){
+    const c=z[i];
+    if(c==='"'){inQ=!inQ;continue;}
+    if(c===','&&!inQ){res.push(cur.trim());cur='';continue;}
+    cur+=c;
   }
-  res.push(cur.trim());
-  return res;
+  res.push(cur.trim());return res;
 }
-function istBlattspielRep(name) {
-  return /Blattspiel|Repertoire/i.test(name);
+function parseDatum(s) {
+  if(!s)return null;
+  // "28.10.2025"
+  const m1=String(s).match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+  if(m1)return new Date(parseInt(m1[3]),parseInt(m1[2])-1,parseInt(m1[1]));
+  // "2025-10-28"
+  const m2=String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(m2)return new Date(parseInt(m2[1]),parseInt(m2[2])-1,parseInt(m2[3]));
+  const d=new Date(s);return isNaN(d)?null:d;
 }
+function datumZuDDMMYYYY(d) {
+  return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();
+}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function istBR(n){return /Blattspiel|Repertoire/i.test(n);}
 
-// ═══════════════════════════════════════════════════════
-//  NAVIGATION
-// ═══════════════════════════════════════════════════════
-
-function showTab(name, btn) {
-  document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
+// ── NAVIGATION ────────────────────────────────────────────────
+function showTab(name,btn) {
+  document.querySelectorAll('.content').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el=>el.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
   btn.classList.add('active');
 }
 
-// ═══════════════════════════════════════════════════════
-//  ÜBERSETZER-SHEET LADEN
-//  Gibt Array von Event-Objekten zurück, gefiltert auf
-//  einen Projektnamen und nur aktuelle/zukünftige Termine
-// ═══════════════════════════════════════════════════════
-
+// ── ÜBERSETZER LADEN ──────────────────────────────────────────
+// Liest Übersetzer-Sheet, filtert auf projektName, gibt alle
+// Events zurück (kein Datumsfilter — Übersetzer hält selbst nur
+// aktuelle Events vor, max. 12 Monate voraus).
 const uebersetzerCache = {};
 
 async function ladeUebersetzerEvents(projektName) {
-  if (uebersetzerCache[projektName]) return uebersetzerCache[projektName];
-
-  const url = `https://docs.google.com/spreadsheets/d/${SYSTEM_MGMT_ID}/gviz/tq?tqx=out:csv&gid=${UEBERSETZER_GID}`;
+  if(uebersetzerCache[projektName]) return uebersetzerCache[projektName];
+  const url=`https://docs.google.com/spreadsheets/d/${SYSTEM_MGMT_ID}/gviz/tq?tqx=out:csv&gid=${UEBERSETZER_GID}`;
   try {
-    const res = await fetch(url);
-    const csv = await res.text();
-    const zeilen = csv.trim().split('\n').slice(1);
-    const heute = new Date(); heute.setHours(0,0,0,0);
-    const events = [];
+    const res=await fetch(url);
+    const csv=await res.text();
+    const zeilen=csv.trim().split('\n').slice(1);
+    const events=[];
 
-    for (const z of zeilen) {
-      const t = parseCsvZeile(z);
+    for(const z of zeilen){
+      const t=parseCsvZeile(z);
       // [0]=EventId [1]=Titel [2]=Datum [3]=Aktualisiert [4]=JSON
-      const titel = (t[1] || '').trim();
-      if (!titel.toLowerCase().includes(projektName.toLowerCase())) continue;
-
-      const jsonStr = (t[4] || '').trim();
-      if (!jsonStr) continue;
+      const titel=(t[1]||'').trim();
+      if(!titel.toLowerCase().includes(projektName.toLowerCase())) continue;
+      const jsonStr=(t[4]||'').trim();
+      if(!jsonStr) continue;
       let pd;
-      try { pd = JSON.parse(jsonStr); } catch(e) { continue; }
+      try{pd=JSON.parse(jsonStr);}catch(e){continue;}
 
-      // Datum parsen: bevorzuge pd.datum (dd.MM.yyyy), fallback Sheet-Spalte
-      const datRoh = pd.datum || t[2] || '';
-      const teile  = datRoh.split('.');
-      let datObj;
-      if (teile.length === 3) {
-        datObj = new Date(parseInt(teile[2]), parseInt(teile[1])-1, parseInt(teile[0]));
-      } else {
-        datObj = new Date(datRoh);
-      }
-      if (isNaN(datObj.getTime())) continue;
-      if (datObj < heute) continue;  // vergangene Events ausblenden
+      // Datum: bevorzuge pd.datum, fallback Sheet-Spalte [2]
+      const datRoh = pd.datum || '';
+      let datObj   = parseDatum(datRoh);
+      // Fallback: Spalte [2] (kann "dd.MM.yyyy" oder ISO-String sein)
+      if(!datObj){ datObj = parseDatum(t[2]); }
+      if(!datObj || isNaN(datObj.getTime())) continue;
 
-      const wt    = WOCHENTAGE[datObj.getDay()];
-      const uhr   = pd.uhrzeit || '';
-      const ort   = pd.ort     || '';
+      // Anzeigeformat sicherstellen: immer dd.MM.yyyy
+      const datAnzeige = datRoh.match(/^\d{1,2}\.\d{1,2}\.\d{4}$/)
+        ? datRoh : datumZuDDMMYYYY(datObj);
 
-      // Kopfzeile: "Di, 28.10.2025 14:00 Uhr    HSO Blattspiel    |    Forum"
-      let kopf = `${wt}, ${datRoh}${uhr ? ' ' + uhr : ''}    ${titel}`;
-      if (ort) kopf += `    |    ${ort}`;
+      const wt   = WOCHENTAGE[datObj.getDay()];
+      const uhr  = pd.uhrzeit || '';
+      const ort  = pd.ort     || '';
 
-      // Werke (ohne Pausen)
-      const werke = (pd.werke || []).filter(w => !w.pause);
+      let kopf = `${wt}, ${datAnzeige}${uhr?' '+uhr:''}    ${titel}`;
+      if(ort) kopf += `    |    ${ort}`;
 
-      // Leitung
-      let leitungText = '';
-      if (pd.leitung && pd.leitung.length > 0) {
-        leitungText = 'Leitung: ' + pd.leitung.map((l, i) => {
-          const name = typeof l === 'object' ? l.name : String(l);
+      const werke = (pd.werke||[]).filter(w=>!w.pause);
+
+      let leitungText='';
+      if(pd.leitung&&pd.leitung.length>0){
+        leitungText='Leitung: '+pd.leitung.map((l,i)=>{
+          const name=typeof l==='object'?l.name:String(l);
           return `${i+1}. ${name}`;
         }).join(' / ');
       }
 
-      // Kurzes Tab-Label: "Di 28.10."
-      const tabLabel = wt + ' ' + (datRoh.split('.').slice(0,2).join('.') + '.');
+      // Tab-Label: "Di 28.10."
+      const teile=datAnzeige.split('.');
+      const tabLabel=wt+' '+(teile[0]||'?')+'.'+(teile[1]||'?')+'.';
 
-      events.push({ datObj, datRoh, kopf, tabLabel, werke, leitungText });
+      events.push({datObj,datAnzeige,kopf,tabLabel,werke,leitungText});
     }
 
-    // Chronologisch sortieren
-    events.sort((a, b) => a.datObj - b.datObj);
-    uebersetzerCache[projektName] = events;
+    events.sort((a,b)=>a.datObj-b.datObj);
+    uebersetzerCache[projektName]=events;
     return events;
-  } catch(e) {
-    console.error('Übersetzer-Fehler:', e);
+  } catch(e){
+    console.error('Übersetzer-Fehler:',e);
     return [];
   }
 }
 
-// ═══════════════════════════════════════════════════════
-//  PROGRAMM-HTML für ein einzelnes Event
-// ═══════════════════════════════════════════════════════
-
+// ── EVENT-PROGRAMM HTML ───────────────────────────────────────
 function renderEventProgramm(ev) {
-  let html = `<div class="event-kopf">${esc(ev.kopf)}</div>`;
-
-  if (ev.werke.length === 0) {
-    html += `<div class="event-kein">Noch kein Programm für diesen Termin eingetragen.</div>`;
+  let html=`<div class="event-kopf">${esc(ev.kopf)}</div>`;
+  if(ev.werke.length===0){
+    html+=`<div class="event-kein">Noch kein Programm für diesen Termin eingetragen.</div>`;
   } else {
-    for (const w of ev.werke) {
-      const ld = w.lebensdaten ? ` (${w.lebensdaten})` : '';
-      html += `<div class="werk-block">`;
-      html += `<div class="werk-komponist">${esc((w.komponist||'') + ld)}</div>`;
-      if (w.titel) html += `<div class="werk-titel">${esc(w.titel)}</div>`;
-      const details = [];
-      if (w.dauer)     details.push('Dauer: ' + w.dauer);
-      if (w.besetzung) details.push('Besetzung: ' + w.besetzung);
-      if (details.length) html += `<div class="werk-details">${esc(details.join('  '))}</div>`;
-      html += `</div>`;
+    for(const w of ev.werke){
+      const ld=w.lebensdaten?` (${w.lebensdaten})`:'';
+      html+=`<div class="werk-block">`;
+      html+=`<div class="werk-komponist">${esc((w.komponist||'')+ld)}</div>`;
+      if(w.titel) html+=`<div class="werk-titel">${esc(w.titel)}</div>`;
+      const det=[];
+      if(w.dauer)    det.push('Dauer: '+w.dauer);
+      if(w.besetzung)det.push('Besetzung: '+w.besetzung);
+      if(det.length) html+=`<div class="werk-details">${esc(det.join('  '))}</div>`;
+      html+=`</div>`;
     }
   }
-
-  if (ev.leitungText) {
-    html += `<div class="werk-leitung">${esc(ev.leitungText)}</div>`;
-  }
-
+  if(ev.leitungText) html+=`<div class="werk-leitung">${esc(ev.leitungText)}</div>`;
   return html;
 }
 
-function esc(s) {
-  return String(s||'')
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ═══════════════════════════════════════════════════════
-//  PROJEKTE LADEN + RENDERN
-// ═══════════════════════════════════════════════════════
-
+// ── PROJEKTE LADEN ────────────────────────────────────────────
 async function ladeProjekte() {
-  const url = `https://docs.google.com/spreadsheets/d/${SYSTEM_MGMT_ID}/gviz/tq?tqx=out:csv&gid=${SYSTEM_MGMT_GID}`;
+  const url=`https://docs.google.com/spreadsheets/d/${SYSTEM_MGMT_ID}/gviz/tq?tqx=out:csv&gid=${SYSTEM_MGMT_GID}`;
   try {
-    const res    = await fetch(url);
-    const csv    = await res.text();
-    const sjNow  = aktuellesSj();
+    const res=await fetch(url);
+    const csv=await res.text();
 
-    // URL-Parameter ?sj= berücksichtigen (für Vorschau)
-    const params = new URLSearchParams(window.location.search);
-    const sjParam = params.get('sj');
-    const sjTarget = sjParam || sjNow;
+    const params=new URLSearchParams(window.location.search);
+    const sjParam=params.get('sj');
+    const sjNow=aktuellesSj();
+    const sjTarget=sjParam||sjNow;
 
-    const zeilen = csv.trim().split('\n').slice(1);
-    const projekte = zeilen.map(z => {
-      const t = parseCsvZeile(z);
-      return { name: t[0], docId: t[1], sj: t[2] };
-    }).filter(p => p.name && p.docId && p.sj === sjTarget);
+    const zeilen=csv.trim().split('\n').slice(1);
+    const projekte=zeilen.map(z=>{const t=parseCsvZeile(z);return{name:t[0],docId:t[1],sj:t[2]};})
+      .filter(p=>p.name&&p.docId&&p.sj===sjTarget);
 
-    const liste = document.getElementById('projekte-liste');
-    if (!projekte.length) {
-      liste.innerHTML = '<div class="loading">Keine aktuellen Projekte gefunden.</div>';
-      return;
-    }
+    const liste=document.getElementById('projekte-liste');
+    if(!projekte.length){liste.innerHTML='<div class="loading">Keine Projekte gefunden.</div>';return;}
 
-    document.getElementById('sj-badge').textContent = sjTarget.replace('_','/');
+    document.getElementById('sj-badge').textContent=sjTarget.replace('_','/');
 
-    liste.innerHTML = projekte.map((p, i) => {
-      const f = getFarbe(p.name);
-      const k = getKuerzel(p.name);
-      const cId = 'proj-' + i;
-      const isBR = istBlattspielRep(p.name);
+    liste.innerHTML=projekte.map((p,i)=>{
+      const f=getFarbe(p.name);
+      const k=getKuerzel(p.name);
+      const cId='proj-'+i;
+      // Projektname sicher für HTML-Attribut
+      const pNameAttr=p.name.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 
-      if (isBR) {
-        // Blattspiel / Repertoire: Event-Tabs (werden beim Öffnen geladen)
+      if(istBR(p.name)){
         return `
 <div class="proj-card">
-  <div class="proj-header" onclick="toggleProjektBR('${cId}','${p.docId}','${p.name.replace(/'/g,'\\\'').replace(/"/g,'&quot;')}')">
+  <div class="proj-header" onclick="toggleBR('${cId}','${p.docId}','${pNameAttr}')">
     <div class="proj-icon" style="background:${f.bg};color:${f.color}">${k}</div>
     <div class="proj-meta">
-      <div class="proj-name">${p.name}</div>
+      <div class="proj-name">${esc(p.name)}</div>
       <div class="proj-sub">${p.sj.replace('_','/')}</div>
     </div>
     <div class="proj-chevron" id="chev-${cId}">
@@ -634,13 +487,12 @@ async function ladeProjekte() {
   </div>
 </div>`;
       } else {
-        // Normale Projekte: Standard-Tabs
         return `
 <div class="proj-card">
-  <div class="proj-header" onclick="toggleProjektStd('${cId}','${p.docId}')">
+  <div class="proj-header" onclick="toggleStd('${cId}','${p.docId}')">
     <div class="proj-icon" style="background:${f.bg};color:${f.color}">${k}</div>
     <div class="proj-meta">
-      <div class="proj-name">${p.name}</div>
+      <div class="proj-name">${esc(p.name)}</div>
       <div class="proj-sub">${p.sj.replace('_','/')}</div>
     </div>
     <div class="proj-chevron" id="chev-${cId}">
@@ -662,267 +514,171 @@ async function ladeProjekte() {
 </div>`;
       }
     }).join('');
-
-  } catch(e) {
-    document.getElementById('projekte-liste').innerHTML =
-      '<div class="loading">Konnte nicht laden. Bitte neu versuchen.</div>';
+  } catch(e){
+    document.getElementById('projekte-liste').innerHTML='<div class="loading">Laden fehlgeschlagen.</div>';
   }
 }
 
-// ── Standard-Projekt aufklappen ───────────────────────────────
-
-const docCache = {};
-
-async function ladeProjektDoc(docId) {
-  if (docCache[docId]) return docCache[docId];
-  const url = `https://docs.google.com/document/d/${docId}/export?format=txt`;
-  try {
-    const res  = await fetch(url);
-    const text = await res.text();
-    const parsed = parseDocText(text);
-    docCache[docId] = parsed;
-    return parsed;
-  } catch(e) { return null; }
+// ── STANDARD-PROJEKT (HSO, WK …) ─────────────────────────────
+const docCache={};
+async function ladeProjektDoc(docId){
+  if(docCache[docId])return docCache[docId];
+  try{
+    const res=await fetch(`https://docs.google.com/document/d/${docId}/export?format=txt`);
+    const text=await res.text();
+    const parsed=parseDocText(text);
+    docCache[docId]=parsed;return parsed;
+  }catch(e){return null;}
 }
-
-function parseDocText(text) {
-  const abschnitte = { programm:[], probenplan:[], spielende:[], webeintrag:[], biographien:[] };
-  const MARKER = {
-    '--- PROGRAMM ---':   'programm',
-    '--- PROBENPLAN ---': 'probenplan',
-    '--- SPIELENDE ---':  'spielende',
-    '--- WEBEINTRAG ---': 'webeintrag',
-    '--- BIOGRAPHIEN ---':'biographien'
-  };
-  const lines = text.split('\n');
-  let aktiv = null, nachSep = false;
-  for (const line of lines) {
-    const z = line.trim();
-    if (z === '--- AB HIER AUTOMATISCHER INHALT ---') { nachSep = true; aktiv = null; continue; }
-    if (!nachSep) continue;
-    if (MARKER[z] !== undefined) { aktiv = MARKER[z]; continue; }
-    if (/^Aktualisiert:/.test(z)) continue;
-    if (aktiv) abschnitte[aktiv].push(z);
+function parseDocText(text){
+  const ab={programm:[],probenplan:[],spielende:[],webeintrag:[],biographien:[]};
+  const MK={'--- PROGRAMM ---':'programm','--- PROBENPLAN ---':'probenplan','--- SPIELENDE ---':'spielende','--- WEBEINTRAG ---':'webeintrag','--- BIOGRAPHIEN ---':'biographien'};
+  let aktiv=null,nach=false;
+  for(const line of text.split('\n')){
+    const z=line.trim();
+    if(z==='--- AB HIER AUTOMATISCHER INHALT ---'){nach=true;aktiv=null;continue;}
+    if(!nach)continue;
+    if(MK[z]!==undefined){aktiv=MK[z];continue;}
+    if(/^Aktualisiert:/.test(z))continue;
+    if(aktiv)ab[aktiv].push(z);
   }
-  for (const key in abschnitte) {
-    const arr = abschnitte[key];
-    while (arr.length && !arr[0])           arr.shift();
-    while (arr.length && !arr[arr.length-1]) arr.pop();
-  }
-  return abschnitte;
+  for(const k in ab){const a=ab[k];while(a.length&&!a[0])a.shift();while(a.length&&!a[a.length-1])a.pop();}
+  return ab;
 }
-
-async function toggleProjektStd(cId, docId) {
-  const body = document.getElementById(cId);
-  const chev = document.getElementById('chev-' + cId);
-  const isOpen = body.classList.contains('open');
-  body.classList.toggle('open', !isOpen);
-  chev.classList.toggle('open', !isOpen);
-  if (!isOpen) {
-    const progDiv = document.getElementById(cId + '-programm');
-    if (progDiv && progDiv.querySelector('.proj-loading')) {
-      const data = await ladeProjektDoc(docId);
-      fuelleStdAbschnitte(cId, data);
+async function toggleStd(cId,docId){
+  const body=document.getElementById(cId);
+  const chev=document.getElementById('chev-'+cId);
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open);chev.classList.toggle('open',!open);
+  if(!open){
+    const prog=document.getElementById(cId+'-programm');
+    if(prog&&prog.querySelector('.proj-loading')){
+      const data=await ladeProjektDoc(docId);
+      fuelleStd(cId,data);
     }
   }
 }
-
-function fuelleStdAbschnitte(cId, data) {
-  if (!data) {
-    ['programm','probenplan','spielende','biographien'].forEach(s => {
-      const el = document.getElementById(cId+'-'+s);
-      if (el) el.innerHTML = '<p class="proj-text-muted">Konnte nicht geladen werden.</p>';
-    });
-    return;
-  }
-  const set = (s, arr, leer) => {
-    const el = document.getElementById(cId+'-'+s);
-    if (!el) return;
-    el.innerHTML = arr.length
-      ? `<div class="proj-text">${arr.join('\n')}</div>`
-      : `<p class="proj-text-muted">${leer}</p>`;
+function fuelleStd(cId,data){
+  const set=(s,arr,leer)=>{
+    const el=document.getElementById(cId+'-'+s);if(!el)return;
+    el.innerHTML=arr&&arr.length?`<div class="proj-text">${arr.join('\n')}</div>`:`<p class="proj-text-muted">${leer}</p>`;
   };
-  set('programm',    data.programm,    '(Noch kein Programm eingetragen)');
-  set('probenplan',  data.probenplan,  '(Noch keine Termine)');
-  set('spielende',   data.spielende,   '(Noch keine Einteilung)');
-  set('biographien', data.biographien, '(Keine Biografien eingetragen)');
+  if(!data){['programm','probenplan','spielende','biographien'].forEach(s=>set(s,null,'Laden fehlgeschlagen.'));return;}
+  set('programm',   data.programm,   '(Noch kein Programm)');
+  set('probenplan', data.probenplan, '(Noch keine Termine)');
+  set('spielende',  data.spielende,  '(Noch keine Einteilung)');
+  set('biographien',data.biographien,'(Keine Biografien)');
 }
-
-function showProjTab(e, cId, tab) {
+function showProjTab(e,cId,tab){
   e.stopPropagation();
-  const body = document.getElementById(cId);
-  body.querySelectorAll('.proj-tab').forEach(t => t.classList.remove('active'));
-  body.querySelectorAll('.proj-section').forEach(s => s.classList.remove('active'));
+  const body=document.getElementById(cId);
+  body.querySelectorAll('.proj-tab').forEach(t=>t.classList.remove('active'));
+  body.querySelectorAll('.proj-section').forEach(s=>s.classList.remove('active'));
   e.target.classList.add('active');
   document.getElementById(cId+'-'+tab).classList.add('active');
 }
 
-// ── Blattspiel / Repertoire aufklappen ────────────────────────
-
-async function toggleProjektBR(cId, docId, projektName) {
-  const body = document.getElementById(cId);
-  const chev = document.getElementById('chev-' + cId);
-  const isOpen = body.classList.contains('open');
-  body.classList.toggle('open', !isOpen);
-  chev.classList.toggle('open', !isOpen);
-
-  if (!isOpen) {
-    const loading = document.getElementById(cId + '-loading');
-    if (loading) {
-      // Übersetzer-Events laden
-      const events = await ladeUebersetzerEvents(projektName);
-      // Probenplan aus Doc laden (parallel)
-      const docData = await ladeProjektDoc(docId);
-      renderBRBody(cId, events, docData);
+// ── BLATTSPIEL / REPERTOIRE ───────────────────────────────────
+async function toggleBR(cId,docId,projektName){
+  const body=document.getElementById(cId);
+  const chev=document.getElementById('chev-'+cId);
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open);chev.classList.toggle('open',!open);
+  if(!open){
+    const loading=document.getElementById(cId+'-loading');
+    if(loading){
+      const [events,docData]=await Promise.all([
+        ladeUebersetzerEvents(projektName),
+        ladeProjektDoc(docId)
+      ]);
+      renderBRBody(cId,events,docData);
     }
   }
 }
-
-function renderBRBody(cId, events, docData) {
-  const body = document.getElementById(cId);
-
-  if (!events || events.length === 0) {
-    body.innerHTML = `
-      <div style="padding:14px">
-        <p class="proj-text-muted">Keine aktuellen oder zukünftigen Termine gefunden.</p>
-        ${renderProbenplanBlock(docData)}
-      </div>`;
+function renderBRBody(cId,events,docData){
+  const body=document.getElementById(cId);
+  if(!events||events.length===0){
+    body.innerHTML=`<div style="padding:14px"><p class="proj-text-muted">Keine Termine im Übersetzer gefunden.</p>${renderProbenBlock(docData)}</div>`;
     return;
   }
-
-  // Tab-Leiste bauen
-  const tabsHtml = events.map((ev, i) => `
-    <button class="event-tab ${i===0?'active':''}"
-            onclick="showEventTab(event,'${cId}',${i})">
-      ${esc(ev.tabLabel)}
-    </button>`).join('');
-
-  // Sections bauen
-  const sectionsHtml = events.map((ev, i) => `
-    <div class="event-section ${i===0?'active':''}" id="${cId}-ev-${i}">
-      ${renderEventProgramm(ev)}
-    </div>`).join('');
-
-  // Probenplan-Block (aus Doc)
-  const probenHtml = renderProbenplanBlock(docData);
-
-  body.innerHTML = `
-    <div class="event-tabs-wrap">
-      <div class="event-tabs">${tabsHtml}</div>
-    </div>
-    <div class="event-sections">
-      ${sectionsHtml}
-      ${probenHtml}
-    </div>`;
+  const tabs=events.map((ev,i)=>`<button class="event-tab ${i===0?'active':''}" onclick="showEvTab(event,'${cId}',${i})">${esc(ev.tabLabel)}</button>`).join('');
+  const secs=events.map((ev,i)=>`<div class="event-section ${i===0?'active':''}" id="${cId}-ev-${i}">${renderEventProgramm(ev)}</div>`).join('');
+  body.innerHTML=`
+    <div class="event-tabs-wrap"><div class="event-tabs">${tabs}</div></div>
+    <div class="event-sections">${secs}${renderProbenBlock(docData)}</div>`;
 }
-
-function renderProbenplanBlock(docData) {
-  if (!docData || !docData.probenplan || docData.probenplan.length === 0) return '';
-  return `
-    <div class="proben-header">Probenplan</div>
-    <div class="proj-text">${docData.probenplan.join('\n')}</div>`;
+function renderProbenBlock(docData){
+  if(!docData||!docData.probenplan||!docData.probenplan.length)return'';
+  return`<div class="proben-header">Probenplan</div><div class="proj-text">${docData.probenplan.join('\n')}</div>`;
 }
-
-function showEventTab(e, cId, idx) {
+function showEvTab(e,cId,idx){
   e.stopPropagation();
-  const body = document.getElementById(cId);
-  body.querySelectorAll('.event-tab').forEach(t => t.classList.remove('active'));
-  body.querySelectorAll('.event-section').forEach(s => s.classList.remove('active'));
+  const body=document.getElementById(cId);
+  body.querySelectorAll('.event-tab').forEach(t=>t.classList.remove('active'));
+  body.querySelectorAll('.event-section').forEach(s=>s.classList.remove('active'));
   e.target.classList.add('active');
-  const sec = document.getElementById(`${cId}-ev-${idx}`);
-  if (sec) sec.classList.add('active');
+  const sec=document.getElementById(`${cId}-ev-${idx}`);
+  if(sec)sec.classList.add('active');
 }
 
-// ═══════════════════════════════════════════════════════
-//  BEDARF LADEN
-// ═══════════════════════════════════════════════════════
-
-async function ladeBedarf() {
-  const url = `https://docs.google.com/spreadsheets/d/${BEDARF_SHEET_ID}/gviz/tq?tqx=out:csv&gid=${BEDARF_GID}`;
-  try {
-    const res  = await fetch(url);
-    const text = await res.text();
-    const heute = new Date(); heute.setHours(0,0,0,0);
-    const zeilen = text.trim().split('\n').slice(1);
-    const termine = [];
-
-    zeilen.forEach(z => {
-      const t = parseCsvZeile(z);
-      if (t.length < 10) return;
-      const datumRaw = t[5] || t[4];
-      if (!datumRaw) return;
-      const parts = datumRaw.split(' ')[0].split('.');
-      if (parts.length < 3) return;
-      const datum = new Date(parts[2], parts[1]-1, parts[0]);
-      if (datum < heute) return;
-      termine.push({
-        projekt: t[0], ort: t[1], werke: t[2], datum: datumRaw,
-        datumObj: datum, aufbauplan: t[7], besetzung: t[8], tasten: t[9],
-        stuehle: t[10], basshocker: t[11], klHocker: t[12], pulte: t[13], gesamt: t[14]
-      });
+// ── BEDARF ────────────────────────────────────────────────────
+async function ladeBedarf(){
+  const url=`https://docs.google.com/spreadsheets/d/${BEDARF_SHEET_ID}/gviz/tq?tqx=out:csv&gid=${BEDARF_GID}`;
+  try{
+    const res=await fetch(url);const text=await res.text();
+    const heute=new Date();heute.setHours(0,0,0,0);
+    const zeilen=text.trim().split('\n').slice(1);
+    const termine=[];
+    zeilen.forEach(z=>{
+      const t=parseCsvZeile(z);if(t.length<10)return;
+      const datumRaw=t[5]||t[4];if(!datumRaw)return;
+      const parts=datumRaw.split(' ')[0].split('.');if(parts.length<3)return;
+      const datum=new Date(parts[2],parts[1]-1,parts[0]);
+      if(datum<heute)return;
+      termine.push({projekt:t[0],ort:t[1],werke:t[2],datum:datumRaw,datumObj:datum,
+        aufbauplan:t[7],besetzung:t[8],tasten:t[9],stuehle:t[10],basshocker:t[11],klHocker:t[12],pulte:t[13],gesamt:t[14]});
     });
-
-    const liste = document.getElementById('bedarf-liste');
-    if (!termine.length) {
-      liste.innerHTML = '<div class="loading">Keine kommenden Termine.</div>';
-      return;
-    }
-
-    liste.innerHTML = termine.map((t, i) => {
-      const f   = getFarbe(t.projekt);
-      const did = 'bedarf-' + i;
-      return `
-<div class="bedarf-card">
+    const liste=document.getElementById('bedarf-liste');
+    if(!termine.length){liste.innerHTML='<div class="loading">Keine kommenden Termine.</div>';return;}
+    liste.innerHTML=termine.map((t,i)=>{
+      const f=getFarbe(t.projekt);const did='bedarf-'+i;
+      return`<div class="bedarf-card">
   <div class="bedarf-header" onclick="toggleBedarf('${did}')">
     <div class="bedarf-nummer" style="background:${f.bg};color:${f.color}">${i+1}</div>
     <div class="bedarf-titel">
-      <div class="bedarf-projekt">${t.projekt}</div>
-      <div class="bedarf-datum">${t.datum}</div>
-      ${t.ort ? `<div class="bedarf-ort">${t.ort}</div>` : ''}
+      <div class="bedarf-projekt">${esc(t.projekt)}</div>
+      <div class="bedarf-datum">${esc(t.datum)}</div>
+      ${t.ort?`<div class="bedarf-ort">${esc(t.ort)}</div>`:''}
     </div>
-    <div class="bedarf-toggle" id="btog-${did}">
-      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-    </div>
+    <div class="bedarf-toggle" id="btog-${did}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
   </div>
   <div class="bedarf-details" id="${did}">
-    ${t.werke ? `<div class="werk-text">${t.werke}</div>` : ''}
+    ${t.werke?`<div class="werk-text">${esc(t.werke)}</div>`:''}
     <div class="stat-row">
       <div class="stat-box"><div class="stat-num">${t.stuehle||'–'}</div><div class="stat-label">Stühle</div></div>
       <div class="stat-box"><div class="stat-num">${t.pulte||'–'}</div><div class="stat-label">Pulte</div></div>
       <div class="stat-box"><div class="stat-num">${t.basshocker||'–'}</div><div class="stat-label">Basshocker</div></div>
       <div class="stat-box"><div class="stat-num">${t.klHocker||'–'}</div><div class="stat-label">Klavierhocker</div></div>
     </div>
-    ${t.tasten ? `<div class="bedarf-row"><div class="bedarf-label">Tasten/Harfe</div><div class="bedarf-value">${t.tasten}</div></div>` : ''}
-    ${t.gesamt ? `<div class="bedarf-row"><div class="bedarf-label">Gesamt</div><div class="bedarf-value">${t.gesamt}</div></div>` : ''}
-    ${t.aufbauplan ? `<div class="bedarf-aufbau"><a href="${t.aufbauplan}" target="_blank"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Aufbauplan öffnen</a></div>` : ''}
+    ${t.tasten?`<div class="bedarf-row"><div class="bedarf-label">Tasten/Harfe</div><div class="bedarf-value">${esc(t.tasten)}</div></div>`:''}
+    ${t.gesamt?`<div class="bedarf-row"><div class="bedarf-label">Gesamt</div><div class="bedarf-value">${esc(t.gesamt)}</div></div>`:''}
+    ${t.aufbauplan?`<div class="bedarf-aufbau"><a href="${t.aufbauplan}" target="_blank"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Aufbauplan öffnen</a></div>`:''}
   </div>
 </div>`;
     }).join('');
-
-  } catch(e) {
-    document.getElementById('bedarf-liste').innerHTML =
-      '<div class="loading">Fehler beim Laden.</div>';
-  }
+  }catch(e){document.getElementById('bedarf-liste').innerHTML='<div class="loading">Laden fehlgeschlagen.</div>';}
 }
-
-function toggleBedarf(did) {
+function toggleBedarf(did){
   document.getElementById(did).classList.toggle('open');
-  document.getElementById('btog-' + did).classList.toggle('open');
+  document.getElementById('btog-'+did).classList.toggle('open');
 }
 
-// ═══════════════════════════════════════════════════════
-//  HILFSFUNKTIONEN
-// ═══════════════════════════════════════════════════════
-
-function copyICal() {
-  const url = 'https://calendar.google.com/calendar/ical/b11b52fea156e762892f701f4ecc35cc1ccbbb80f21b5e7ca3e924d251bb6d1b%40group.calendar.google.com/public/basic.ics';
-  navigator.clipboard.writeText(url).catch(() => {});
+// ── HILFSFUNKTIONEN ───────────────────────────────────────────
+function copyICal(){
+  navigator.clipboard.writeText('https://calendar.google.com/calendar/ical/b11b52fea156e762892f701f4ecc35cc1ccbbb80f21b5e7ca3e924d251bb6d1b%40group.calendar.google.com/public/basic.ics').catch(()=>{});
 }
 
-// ═══════════════════════════════════════════════════════
-//  START
-// ═══════════════════════════════════════════════════════
-
+// ── START ─────────────────────────────────────────────────────
 ladeProjekte();
 ladeBedarf();
 </script>
