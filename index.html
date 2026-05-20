@@ -577,14 +577,18 @@ async function ladeBedarf(){
   const url=`https://docs.google.com/spreadsheets/d/${BEDARF_SHEET_ID}/gviz/tq?tqx=out:csv&gid=${BEDARF_GID}`;
   try{
     const res=await fetch(url);const text=await res.text();
-    const heute=new Date();heute.setHours(0,0,0,0);
+    const params=new URLSearchParams(window.location.search);
+    const sjTarget=params.get('sj')||aktuellesSj();
+    const sjParts=sjTarget.split('_');
+    const sjVon=new Date(2000+parseInt(sjParts[0],10),8,1);
+    const sjBis=new Date(2000+parseInt(sjParts[1],10),7,31,23,59,59);
     const termine=[];
     text.trim().split('\n').slice(1).forEach(z=>{
       const t=parseCsvZeile(z);if(t.length<10)return;
       const datumRaw=t[5]||t[4];if(!datumRaw)return;
       const parts=datumRaw.split(' ')[0].split('.');if(parts.length<3)return;
       const datum=new Date(+parts[2],+parts[1]-1,+parts[0]);
-      if(datum<heute)return;
+      if(datum<sjVon||datum>sjBis)return;
       termine.push({projekt:t[0],ort:t[1],werke:t[2],datum:datumRaw,aufbauplan:t[7],tasten:t[9],stuehle:t[10],basshocker:t[11],klHocker:t[12],pulte:t[13],gesamt:t[14]});
     });
     const liste=document.getElementById('bedarf-liste');
