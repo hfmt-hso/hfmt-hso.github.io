@@ -375,7 +375,7 @@ async function ladeUeEvents(projektName, sjTarget){
     }
     const tp=datAnzeige.split('.');
     const tabLabel=wt+' '+(tp[0]||'?')+'.'+(tp[1]||'?')+'.';
-    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung};
+    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[]};
   }).filter(Boolean).sort((a,b)=>a.datObj-b.datObj);
 }
 
