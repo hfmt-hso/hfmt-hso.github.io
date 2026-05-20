@@ -292,14 +292,23 @@ function aktuellesSj(){
   const d=new Date(),m=d.getMonth(),y=d.getFullYear()%100;
   return m>=8?y+'_'+(y+1):(y-1)+'_'+y;
 }
+// Prüft ob ein Datum im Studienjahr "xx_yy" liegt (Sept xx bis Aug yy)
+function istInSpieljahr(datum, sj){
+  if(!datum||!sj)return false;
+  const parts=sj.split('_');
+  if(parts.length!==2)return false;
+  const von=new Date(2000+parseInt(parts[0],10), 8, 1);  // 1. Sept Jahr 1
+  const bis=new Date(2000+parseInt(parts[1],10), 7, 31); // 31. Aug Jahr 2
+  bis.setHours(23,59,59,999);
+  return datum>=von && datum<=bis;
+}
 function parseCsvZeile(z){
-  // Korrekte CSV-Verarbeitung: "" innerhalb von Quoted-Fields = ein "
   const res=[];let cur='',inQ=false,i=0;
   while(i<z.length){
     const c=z[i];
     if(inQ){
       if(c==='"'){
-        if(i+1<z.length&&z[i+1]==='"'){cur+='"';i+=2;continue;} // "" → "
+        if(i+1<z.length&&z[i+1]==='"'){cur+='"';i+=2;continue;}
         else{inQ=false;}
       }else{cur+=c;}
     }else{
@@ -313,16 +322,12 @@ function parseCsvZeile(z){
   return res;
 }
 function parseDatum(s){
-  // Alle Formate die Google CSV liefern kann
   if(!s)return null;
   const str=String(s).trim();
-  // "28.10.2025"
   let m=str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
   if(m)return new Date(+m[3],+m[2]-1,+m[1]);
-  // "2025-10-28"
   m=str.match(/^(\d{4})-(\d{2})-(\d{2})/);
   if(m)return new Date(+m[1],+m[2]-1,+m[3]);
-  // Google Sheets CSV Datumsformat: "Date(2025,9,28)" — Monat 0-basiert!
   m=str.match(/^Date\((\d{4}),(\d{1,2}),(\d{1,2})\)$/);
   if(m)return new Date(+m[1],+m[2],+m[3]);
   const d=new Date(str);
@@ -354,18 +359,15 @@ async function ladeUeEvents(projektName){
     const events=[];
     for(const z of zeilen){
       const t=parseCsvZeile(z);
-      // [0]=EventId [1]=Titel [2]=Datum [3]=Aktualisiert [4]=JSON
       const titel=(t[1]||'').trim();
       if(!titel.toLowerCase().includes(projektName.toLowerCase()))continue;
       const jsonStr=(t[4]||'').trim();
       if(!jsonStr)continue;
       let pd;
       try{pd=JSON.parse(jsonStr);}catch(e){continue;}
-      // Datum: erst aus JSON (dd.MM.yyyy), dann aus Sheet-Spalte [2]
       let datObj=parseDatum(pd.datum);
       if(!datObj)datObj=parseDatum(t[2]);
       if(!datObj)continue;
-      // Anzeigedatum
       const datAnzeige=pd.datum&&pd.datum.match(/^\d{1,2}\.\d{1,2}\.\d{4}$/)?pd.datum:ddmmyyyy(datObj);
       const wt=WT[datObj.getDay()];
       const uhr=pd.uhrzeit||'';
@@ -376,7 +378,6 @@ async function ladeUeEvents(projektName){
       let leitung='';
       if(pd.leitung&&pd.leitung.length){
         const namen=pd.leitung.map(l=>typeof l==='object'?l.name:String(l)).filter(Boolean);
-        // Wenn nur ein Eintrag: enthält oft schon "1. X | 2. Y | ..."
         leitung='Leitung: '+(namen.length===1?namen[0]:namen.map((n,i)=>(i+1)+'. '+n).join(' / '));
       }
       const tp=datAnzeige.split('.');
@@ -432,9 +433,10 @@ async function ladeProjekte(){
     liste.innerHTML=projekte.map((p,i)=>{
       const f=getFarbe(p.name),k=getKuerzel(p.name),cId='proj-'+i;
       const pAttr=p.name.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+      const sjAttr=sjTarget.replace(/"/g,'&quot;');
       if(istBR(p.name)){
         return `<div class="proj-card">
-  <div class="proj-header" onclick="toggleBR('${cId}','${p.docId}','${pAttr}')">
+  <div class="proj-header" onclick="toggleBR('${cId}','${p.docId}','${pAttr}','${sjAttr}')">
     <div class="proj-icon" style="background:${f.bg};color:${f.color}">${k}</div>
     <div class="proj-meta"><div class="proj-name">${esc(p.name)}</div><div class="proj-sub">${p.sj.replace('_','/')}</div></div>
     <div class="proj-chevron" id="chev-${cId}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
@@ -521,16 +523,19 @@ function showProjTab(e,cId,tab){
 }
 
 // ── BLATTSPIEL / REPERTOIRE ───────────────────────────────────
-async function toggleBR(cId,docId,projektName){
+// sjTarget wird übergeben damit nur Termine des aktiven Studienjahrs (Sept–Aug) gezeigt werden
+async function toggleBR(cId,docId,projektName,sjTarget){
   const body=document.getElementById(cId),chev=document.getElementById('chev-'+cId);
   const open=body.classList.contains('open');
   body.classList.toggle('open',!open);chev.classList.toggle('open',!open);
   if(!open){
     const loading=document.getElementById(cId+'-loading');
     if(loading){
-      const events=await ladeUeEvents(projektName);
+      const alleEvents=await ladeUeEvents(projektName);
+      // Nur Termine im Studienjahr sjTarget behalten
+      const events=alleEvents.filter(ev=>istInSpieljahr(ev.datObj,sjTarget));
       if(!events||events.length===0){
-        body.innerHTML='<div style="padding:14px"><p class="proj-text-muted">Keine aktuellen Termine gefunden.</p></div>';
+        body.innerHTML='<div style="padding:14px"><p class="proj-text-muted">Keine Termine für '+esc(sjTarget.replace('_','/'))+' gefunden.</p></div>';
         return;
       }
       const tabs=events.map((ev,i)=>'<button class="event-tab '+(i===0?'active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(ev.tabLabel)+'</button>').join('');
