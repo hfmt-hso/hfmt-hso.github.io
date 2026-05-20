@@ -519,7 +519,25 @@ async function toggleBR(cId,docId,projektName){
     if(loading){
       const events=await ladeUeEvents(projektName);
       if(!events||events.length===0){
-        body.innerHTML='<div style="padding:14px"><p class="proj-text-muted">Keine Termine im Übersetzer gefunden.</p></div>';
+        // Zeige Diagnose: rohe CSV-Zeilen für dieses Projekt
+        let diag='Keine Termine gefunden.';
+        try{
+          const dbUrl=`https://docs.google.com/spreadsheets/d/${SYSTEM_MGMT_ID}/gviz/tq?tqx=out:csv&gid=${UEBERSETZER_GID}`;
+          const dbRes=await fetch(dbUrl);
+          const dbCsv=await dbRes.text();
+          const dbZeilen=dbCsv.trim().split('\n').slice(1);
+          const treffer=dbZeilen.filter(z=>{const t=parseCsvZeile(z);return(t[1]||'').toLowerCase().includes(projektName.toLowerCase());});
+          if(treffer.length===0){
+            diag='Keine Zeilen im Übersetzer mit "'+projektName+'" gefunden ('+dbZeilen.length+' Zeilen gesamt).';
+          }else{
+            const ersteTreffer=treffer.slice(0,3).map(z=>{
+              const t=parseCsvZeile(z);
+              return 'Titel: '+t[1]+' | Datum-Spalte: '+t[2]+' | JSON: '+(t[4]?t[4].substring(0,60)+'…':'leer');
+            }).join('<br>');
+            diag=treffer.length+' Treffer, aber kein Datum parsierbar:<br>'+ersteTreffer;
+          }
+        }catch(e){diag='Fetch-Fehler: '+e.message;}
+        body.innerHTML='<div style="padding:14px;font-size:12px;color:var(--text-muted)">'+diag+'</div>';
         return;
       }
       const tabs=events.map((ev,i)=>'<button class="event-tab '+(i===0?'active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(ev.tabLabel)+'</button>').join('');
