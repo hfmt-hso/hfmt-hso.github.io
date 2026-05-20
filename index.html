@@ -3,401 +3,347 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#b8962e">
+  <meta name="theme-color" content="#185FA5">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="HSO Portal">
   <title>HSO Portal – HfMT Hamburg</title>
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="data:image/png;base64,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">
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --gold: #b8962e;
-      --gold-light: #d4af5a;
-      --gold-dark: #8a6e1f;
-      --gold-bg: #fdf8ee;
-      --text: #222;
-      --muted: #666;
-      --border: #e8e0cc;
-      --card: #fff;
-      --radius: 12px;
+      --blue: #185FA5;
+      --blue-light: #E6F1FB;
+      --green: #3B6D11;
+      --green-light: #EAF3DE;
+      --amber: #854F0B;
+      --amber-light: #FAEEDA;
+      --teal: #0F6E56;
+      --teal-light: #E1F5EE;
+      --purple: #534AB7;
+      --purple-light: #EEEDFE;
+      --gray: #5F5E5A;
+      --gray-light: #F1EFE8;
+      --text: #1a1a1a;
+      --text-muted: #6b6b6b;
+      --border: rgba(0,0,0,0.1);
+      --bg: #f5f5f3;
+      --card-bg: #ffffff;
+      --header-bg: #ffffff;
+      --nav-bg: #ffffff;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #f0f0ee;
+        --text-muted: #999997;
+        --border: rgba(255,255,255,0.1);
+        --bg: #1a1a18;
+        --card-bg: #2a2a28;
+        --header-bg: #222220;
+        --nav-bg: #222220;
+        --blue-light: #0c447c;
+        --green-light: #27500a;
+        --amber-light: #633806;
+        --teal-light: #085041;
+        --purple-light: #3c3489;
+        --gray-light: #444441;
+      }
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f5f0e8;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
       color: var(--text);
       min-height: 100vh;
+      max-width: 480px;
+      margin: 0 auto;
     }
 
-    /* ── PWA Install Banner ── */
-    #install-banner {
-      display: none;
-      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
-      background: var(--gold);
-      color: #fff;
-      padding: 10px 16px;
+    .header {
+      background: var(--header-bg);
+      padding: 12px 16px;
+      border-bottom: 0.5px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-left {
+      display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 0.85rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
-    #install-banner.show { display: flex; }
-    #install-banner span { flex: 1; }
-    #install-btn {
-      background: #fff;
-      color: var(--gold-dark);
-      border: none;
-      border-radius: 8px;
-      padding: 6px 14px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 0.85rem;
-    }
-    #install-close {
-      background: none; border: none; color: #fff;
-      font-size: 1.2rem; cursor: pointer; padding: 0 4px;
-    }
-
-    /* ── Header ── */
-    .header {
-      background: linear-gradient(135deg, #fff 0%, var(--gold-bg) 100%);
-      border-bottom: 2px solid var(--gold);
-      padding: 16px 20px 12px;
-      text-align: center;
     }
     .header-logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      margin-bottom: 4px;
-    }
-    .header-logo img {
-      height: 56px;
+      height: 48px;
       width: auto;
-    }
-    .header-title {
-      text-align: left;
-    }
-    .header-title h1 {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--gold-dark);
-      letter-spacing: 0.01em;
-      line-height: 1.2;
-    }
-    .header-title .subtitle {
-      font-size: 0.78rem;
-      color: var(--gold);
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    /* ── Vorschau-Banner ── */
-    #preview-banner {
-      display: none;
-      background: #ff8c00;
-      color: #fff;
-      text-align: center;
-      padding: 8px 16px;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-    #preview-banner a {
-      color: #fff;
-      text-decoration: underline;
-      margin-left: 8px;
-    }
-
-    /* ── Tabs ── */
-    .tabs {
-      display: flex;
-      background: #fff;
-      border-bottom: 2px solid var(--border);
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-    .tab-btn {
-      flex: 1;
-      min-width: 60px;
-      padding: 12px 8px;
-      border: none;
-      background: none;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--muted);
-      cursor: pointer;
-      border-bottom: 3px solid transparent;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .tab-btn.active {
-      color: var(--gold-dark);
-      border-bottom-color: var(--gold);
-    }
-
-    /* ── Content ── */
-    .tab-content { display: none; padding: 16px; }
-    .tab-content.active { display: block; }
-
-    /* ── Cards ── */
-    .card {
-      background: var(--card);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      padding: 16px;
-      margin-bottom: 12px;
-    }
-    .card-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--gold-dark);
-      margin-bottom: 8px;
-    }
-
-    /* ── Projekt-Liste ── */
-    .projekt-item {
-      padding: 12px 14px;
-      border-radius: 10px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .projekt-item.grau { background: #f8f8f8; opacity: 0.65; }
-    .projekt-badge {
-      width: 10px; height: 10px; border-radius: 50%;
-      background: var(--gold); flex-shrink: 0;
-    }
-    .projekt-item.grau .projekt-badge { background: #bbb; }
-    .projekt-name { font-weight: 600; font-size: 0.9rem; }
-    .projekt-doc { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
-    .projekt-doc a { color: var(--gold-dark); text-decoration: none; }
-
-    /* ── Probenplan ── */
-    .probe-item {
-      padding: 10px 14px;
-      border-left: 3px solid var(--gold);
-      background: var(--gold-bg);
-      border-radius: 0 8px 8px 0;
-      margin-bottom: 8px;
-    }
-    .probe-item.heute { border-left-color: #e74c3c; background: #fff5f5; }
-    .probe-datum { font-size: 0.75rem; color: var(--muted); margin-bottom: 2px; }
-    .probe-titel { font-weight: 600; font-size: 0.9rem; }
-    .probe-ort { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
-
-    /* ── Info-Tab ── */
-    .info-section { margin-bottom: 20px; }
-    .info-section h3 {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--gold);
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
-    .info-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 11px 14px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      margin-bottom: 6px;
-      text-decoration: none;
-      color: var(--text);
-      font-size: 0.88rem;
-      font-weight: 500;
-    }
-    .info-link:hover { background: var(--gold-bg); }
-    .info-link .icon { font-size: 1.1rem; width: 28px; text-align: center; }
-    .info-link .arrow { margin-left: auto; color: var(--muted); font-size: 0.8rem; }
-
-    /* ── App installieren ── */
-    .install-card {
-      background: linear-gradient(135deg, var(--gold-bg), #fff);
-      border: 2px solid var(--gold);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    .install-card h3 {
-      color: var(--gold-dark);
-      font-size: 0.95rem;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .install-steps {
-      counter-reset: steps;
-      list-style: none;
-      padding: 0;
-    }
-    .install-steps li {
-      counter-increment: steps;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 7px 0;
-      font-size: 0.85rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .install-steps li:last-child { border-bottom: none; }
-    .install-steps li::before {
-      content: counter(steps);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 22px;
-      height: 22px;
-      background: var(--gold);
-      color: #fff;
-      border-radius: 50%;
-      font-size: 0.75rem;
-      font-weight: 700;
       flex-shrink: 0;
-      margin-top: 1px;
     }
-    .os-badge {
-      display: inline-block;
-      background: var(--gold-dark);
-      color: #fff;
-      font-size: 0.7rem;
-      padding: 1px 6px;
-      border-radius: 4px;
-      font-weight: 700;
-      margin-right: 4px;
+    .header-text h1 { font-size: 15px; font-weight: 600; color: var(--text); }
+    .header-text p  { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+
+    .badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+    .badge-green { background: var(--green-light); color: var(--green); }
+
+    .nav {
+      display: flex;
+      background: var(--nav-bg);
+      border-bottom: 0.5px solid var(--border);
+      position: sticky;
+      top: 73px;
+      z-index: 9;
     }
-    .install-note {
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-top: 10px;
-      padding: 8px 10px;
-      background: #f9f9f9;
-      border-radius: 8px;
+    .nav-btn {
+      flex: 1;
+      padding: 10px 4px 8px;
+      font-size: 10px;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-family: inherit;
+    }
+    .nav-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .nav-btn.active { color: var(--blue); }
+    .nav-btn.active svg { stroke: var(--blue); }
+
+    .content { padding: 14px; display: none; flex-direction: column; gap: 10px; padding-bottom: 40px; }
+    .content.active { display: flex; }
+
+    .section-label {
+      font-size: 11px; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px;
     }
 
-    /* ── Loading ── */
-    .loading {
-      text-align: center;
-      padding: 30px;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-    .spinner {
-      width: 30px; height: 30px;
-      border: 3px solid var(--border);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 10px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading { text-align: center; padding: 24px; color: var(--text-muted); font-size: 13px; }
 
-    /* ── SJ-Badge ── */
-    .sj-badge {
-      display: inline-block;
-      background: var(--gold);
-      color: #fff;
-      font-size: 0.7rem;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-weight: 700;
-      margin-left: 8px;
-    }
+    .proj-card { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); overflow: hidden; }
+    .proj-header { display: flex; align-items: center; gap: 12px; padding: 13px 14px; cursor: pointer; }
+    .proj-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+    .proj-meta { flex: 1; min-width: 0; }
+    .proj-name { font-size: 15px; font-weight: 600; color: var(--text); }
+    .proj-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .proj-chevron { color: var(--text-muted); flex-shrink: 0; transition: transform 0.2s; }
+    .proj-chevron svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .proj-chevron.open { transform: rotate(180deg); }
+    .proj-body { display: none; border-top: 0.5px solid var(--border); }
+    .proj-body.open { display: block; }
+    .proj-tabs { display: flex; border-bottom: 0.5px solid var(--border); background: var(--bg); }
+    .proj-tab { flex: 1; padding: 9px 4px; font-size: 11px; color: var(--text-muted); background: none; border: none; cursor: pointer; font-family: inherit; font-weight: 500; }
+    .proj-tab.active { color: var(--blue); border-bottom: 2px solid var(--blue); }
+    .proj-section { display: none; padding: 14px; }
+    .proj-section.active { display: block; }
+    .proj-text { font-size: 13px; color: var(--text); line-height: 1.6; white-space: pre-wrap; }
+    .proj-text-muted { font-size: 13px; color: var(--text-muted); line-height: 1.6; white-space: pre-wrap; }
+    .proj-loading { font-size: 12px; color: var(--text-muted); text-align: center; padding: 16px; }
+
+    .bedarf-card { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); overflow: hidden; margin-bottom: 2px; }
+    .bedarf-header { padding: 12px 14px; display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
+    .bedarf-nummer { width: 28px; height: 28px; border-radius: 7px; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .bedarf-titel { flex: 1; }
+    .bedarf-projekt { font-size: 14px; font-weight: 600; color: var(--text); }
+    .bedarf-datum { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .bedarf-ort { font-size: 12px; color: var(--text-muted); }
+    .bedarf-toggle { color: var(--text-muted); transition: transform 0.2s; }
+    .bedarf-toggle svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .bedarf-toggle.open { transform: rotate(180deg); }
+    .bedarf-details { display: none; border-top: 0.5px solid var(--border); padding: 12px 14px; }
+    .bedarf-details.open { display: block; }
+    .bedarf-row { display: flex; gap: 8px; margin-bottom: 8px; font-size: 13px; }
+    .bedarf-label { color: var(--text-muted); min-width: 100px; flex-shrink: 0; }
+    .bedarf-value { color: var(--text); font-weight: 500; flex: 1; }
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .stat-box { background: var(--bg); border-radius: 8px; padding: 8px 10px; text-align: center; }
+    .stat-num { font-size: 20px; font-weight: 700; color: var(--text); }
+    .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .werk-text { font-size: 12px; color: var(--text-muted); font-style: italic; margin-bottom: 8px; line-height: 1.4; }
+    .bedarf-aufbau a { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--blue); text-decoration: none; font-weight: 500; margin-top: 8px; }
+    .bedarf-aufbau svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .card { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); overflow: hidden; }
+    .link-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 0.5px solid var(--border); text-decoration: none; color: inherit; }
+    .link-item:last-child { border-bottom: none; }
+    .link-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .link-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .link-text { flex: 1; }
+    .link-text span { font-size: 14px; font-weight: 500; color: var(--text); display: block; }
+    .link-text small { font-size: 12px; color: var(--text-muted); }
+    .chevron { color: var(--text-muted); flex-shrink: 0; }
+    .chevron svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .ical-box { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); padding: 14px; }
+    .ical-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .ical-url { font-size: 11px; color: var(--text-muted); word-break: break-all; background: var(--bg); padding: 8px 10px; border-radius: 8px; margin-bottom: 10px; font-family: monospace; }
+    .ical-btn { display: block; width: 100%; padding: 10px; background: var(--blue); color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; text-align: center; font-family: inherit; }
+
+    .info-card { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); padding: 14px; }
+    .info-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .info-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+    /* App-Installations-Karte */
+    .install-card { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); overflow: hidden; }
+    .install-card-header { padding: 12px 14px; font-size: 14px; font-weight: 600; color: var(--text); border-bottom: 0.5px solid var(--border); }
+    .install-os { padding: 10px 14px; border-bottom: 0.5px solid var(--border); }
+    .install-os:last-child { border-bottom: none; }
+    .install-os-label { font-size: 11px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .install-steps { list-style: none; counter-reset: steps; }
+    .install-steps li { counter-increment: steps; display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--text); padding: 3px 0; line-height: 1.5; }
+    .install-steps li::before { content: counter(steps); display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; background: var(--blue-light); color: var(--blue); border-radius: 50%; font-size: 10px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
   </style>
 </head>
 <body>
 
-<!-- PWA Install-Banner (wird automatisch gezeigt wenn installierbar) -->
-<div id="install-banner">
-  <span>📱 Als App installieren — kein Browser nötig</span>
-  <button id="install-btn">Installieren</button>
-  <button id="install-close">✕</button>
-</div>
-
-<!-- Vorschau-Banner -->
-<div id="preview-banner">
-  Vorschau-Modus: <strong id="preview-sj"></strong>
-  <a href="/">← Zurück zur aktuellen Ansicht</a>
-</div>
-
-<!-- Header mit Logo -->
 <div class="header">
-  <div class="header-logo">
-    <img src="data:image/jpeg;base64,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" alt="HfMT Hamburg Logo">
-    <div class="header-title">
-      <h1>Hochschulorchester</h1>
-      <div class="subtitle">HfMT Hamburg</div>
-    </div>
-  </div>
-</div>
-
-<!-- Tabs -->
-<div class="tabs">
-  <button class="tab-btn active" onclick="showTab('projekte')">🎼 Projekte</button>
-  <button class="tab-btn" onclick="showTab('probenplan')">📅 Proben</button>
-  <button class="tab-btn" onclick="showTab('repertoire')">🎵 Repertoire</button>
-  <button class="tab-btn" onclick="showTab('info')">ℹ️ Info</button>
-</div>
-
-<!-- Tab: Projekte -->
-<div id="tab-projekte" class="tab-content active">
-  <div id="projekte-loading" class="loading">
-    <div class="spinner"></div>
-    Projekte werden geladen…
-  </div>
-  <div id="projekte-list"></div>
-</div>
-
-<!-- Tab: Probenplan -->
-<div id="tab-probenplan" class="tab-content">
-  <div id="proben-loading" class="loading">
-    <div class="spinner"></div>
-    Probenplan wird geladen…
-  </div>
-  <div id="proben-list"></div>
-</div>
-
-<!-- Tab: Repertoire -->
-<div id="tab-repertoire" class="tab-content">
-  <div id="repertoire-loading" class="loading">
-    <div class="spinner"></div>
-    Repertoire wird geladen…
-  </div>
-  <div id="repertoire-list"></div>
-</div>
-
-<!-- Tab: Info -->
-<div id="tab-info" class="tab-content">
-
-  <!-- App installieren -->
-  <div class="install-card">
-    <h3>📱 Als App auf dem Telefon speichern</h3>
-
-    <div style="margin-bottom:12px;">
-      <div style="font-size:0.8rem;font-weight:700;color:var(--gold-dark);margin-bottom:6px;">
-        <span class="os-badge">iPhone</span> Safari
+  <div class="header-row">
+    <div class="header-left">
+      <img class="header-logo" src="data:image/jpeg;base64,/9j/7gAOQWRvYmUAZAAAAAAA/9sAQwAFAwQEBAMFBAQEBQUFBgcMCAcHBwcPCwsJDBEPEhIRDxERExYcFxMUGhURERghGBodHR8fHxMXIiQiHiQcHh8e/8AAFAgAMABDBEMRAE0RAFkRAEsRAP/EABwAAQAABwEAAAAAAAAAAAAAAAABAgMEBQYHCP/EADIQAAEEAgAEBQIEBgMAAAAAAAEAAgMEBREGEiExBxMUQVEiYQgVMqEjcYGRsfAWUsL/2gAOBEMATQBZAEsAAD8A9lr2WvZa9loiIiIiIiIiIiIiIiIiIiIiIiIiIra1digIY0OmlJIEcei7p/hY/JZetTcImNfatOJDa8GnPJA2djfQfc/IWA4h4rx2Je2rCyXJ5KRzmxUKXLJM4tbskjY5WjptztAbHyEJVKG7JG4R34hC4nQeOsZ6b1v2Pcf0VtUy9iCRtfN1hUke7TJmncDtt3rmPY9x17kdO4WPxPFd+nPHR4yxrcVYleGxW4iXUnksDwzzHfpfvmbo6BLencBQ38q8EkZc1oe0lw2BvuFlRYgL2ME0Zc8czAHDbh8j5WzsvUnyxRNt13STM54miVpL2/IG+o+4UVAzRBxaZWAg6ILh3UrrdVryx1iFrg4NILxsE9h/NSSZTGxyuikyFRkjXhjmumaCHHsCN9z8Ip1WV2iIiIiIiIiIUKLB1ZDCzZinilLneY4VnEklxO9hp2tNx0xqRbdWuV7Lnv8APkFCQlzjI4k8zWHY7e+lyLh+4/FVeeTHZehkJZZvWTtwVhznvfPI4u8xkLuYEFpHUjsof72VZ1lzwW7sPB9vTPP/AJV3JkHytMfNdla4dQcfMdf3jWTsZ+a0x1cyZmzG9oJacFbcBojfeDR+203/ALpYrISWBxLQlqVg+XyZOSOT+H02757dFrWdnvN8QcLYxlATWfSzeVBPuH6eaTvsbb06rnXG93NR+PXB2Q4bwTbeR/LLhq0r26e4zJOPq5gCzTdkAjr0+VA/qGlLhar7ufvSW2CGSKVkj2NOxvRGt/1VPhDHS5fjfMTZOJtWxXsxWJYY3cw5uV4A5vjqD+yoeE/D9rivxo4tucSVo8bex+Sq3rNSvJ5jfMEcrAwSe4HMHb9+oQDbjtbauoL0spkRERERERERERERYHivLWcbJVbW5SXFzpAW720a/t7rSfE3ii/w/NjWY8sJkL5JmuZzbY3l6fbueq41+JDxKznAVzh6HAuhc6w6We5G+HzC+GPk2B/13t3X7KDiRrSsLeSbY4trOrBhAZ5TJCN/U5pI/wAj91hcnn47/idjn0BCWth9NFO4E6fJG4j310Lm9P5rTeI+OoM5+JTATYJtR0cdQY+tee0uAmnge9vY60HSMBGt9HKBO3BTYBuR/wCQ3A6atzMe31JDD/E6HWvhVeCI88eOssyS1Q54pY/zBzYSPOGjrl+Fc+DFfjk+NvFMU2SwYmq2YPz+SOq4G4OV3L5W/wBGj9gg3zFbWulr0cpkRERERERERERERYTI0hZz0c8zm+nZAYi3R2S7Y+Ne61DPYht/jaC7ckZ6KKm6sY+RxcXSBwJ7a1o/PRcm434UZnPGWjmMtPCcNVxMmOdX8qQvfJYD2kg8vLrTup300NqBG3LGwYjyqNSOCZvnxWRO57mOAI2QB279AtfpcLenw2MgpWozdrZBtx8r4ntD27LQ0dN700futDxHhl6DhDhqjh8lAcxj88zLzWZq0sbJWFzo2sH083NyxN6EdyT7qGugWVw1VzMvftl7SyxyOaNEED7rZOEsdJDxRm8oZGOiv+XJGzlIc0aP6thdE8K8BYp+JnGfEzrET6uc9NYrxcj2yRt0T9YcBo9fZRHclZhbWuoqKIiIiIiIiIiIiIiIiIiIiIiIiIiIiIv/2Q==" alt="HfMT Logo">
+      <div class="header-text">
+        <h1>HSO Portal</h1>
+        <p>Hochschulorchester · HfMT Hamburg</p>
       </div>
+    </div>
+    <span class="badge badge-green" id="sj-badge">25/26</span>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showTab('projekte', this)">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Projekte
+  </button>
+  <button class="nav-btn" onclick="showTab('kalender', this)">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Kalender
+  </button>
+  <button class="nav-btn" onclick="showTab('bedarf', this)">
+    <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+    Bedarf
+  </button>
+  <button class="nav-btn" onclick="showTab('noten', this)">
+    <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    Noten
+  </button>
+  <button class="nav-btn" onclick="showTab('info', this)">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    Info
+  </button>
+</nav>
+
+<!-- TAB: PROJEKTE -->
+<div class="content active" id="tab-projekte">
+  <div class="section-label">Aktuelle Projekte</div>
+  <div id="projekte-liste">
+    <div class="loading">Projekte werden geladen…</div>
+  </div>
+</div>
+
+<!-- TAB: KALENDER -->
+<div class="content" id="tab-kalender">
+  <div class="section-label">Kalender anzeigen</div>
+  <div class="card">
+    <a class="link-item" href="https://calendar.google.com/calendar/embed?src=b11b52fea156e762892f701f4ecc35cc1ccbbb80f21b5e7ca3e924d251bb6d1b%40group.calendar.google.com&ctz=Europe%2FBerlin" target="_blank">
+      <div class="link-icon" style="background:var(--blue-light);color:var(--blue)">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div class="link-text"><span>Probenkalender öffnen</span><small>Google Kalender</small></div>
+      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+  </div>
+  <div class="section-label">Kalender abonnieren</div>
+  <div class="ical-box">
+    <div class="ical-title">iCal-Link</div>
+    <div class="ical-url">https://calendar.google.com/calendar/ical/b11b52fea156e762892f701f4ecc35cc1ccbbb80f21b5e7ca3e924d251bb6d1b%40group.calendar.google.com/public/basic.ics</div>
+    <button class="ical-btn" onclick="copyICal()">Link kopieren</button>
+  </div>
+  <div class="info-card">
+    <h3>Kalender hinzufügen</h3>
+    <p>Kopiere den iCal-Link und füge ihn in deiner Kalender-App ein: iPhone → Einstellungen → Kalender → Accounts → Account hinzufügen → Andere → Kalender abonnieren.</p>
+  </div>
+</div>
+
+<!-- TAB: BEDARF -->
+<div class="content" id="tab-bedarf">
+  <div class="section-label">Technikbedarf</div>
+  <div id="bedarf-liste">
+    <div class="loading">Termine werden geladen…</div>
+  </div>
+</div>
+
+<!-- TAB: NOTEN -->
+<div class="content" id="tab-noten">
+  <div class="section-label">Notenmaterial</div>
+  <div class="card">
+    <a class="link-item" href="https://e.pcloud.link/publink/show?code=kZ7CYaZAflKztKjOLjS8CTLtljFNYQokuXk" target="_blank">
+      <div class="link-icon" style="background:var(--green-light);color:var(--green)">
+        <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      </div>
+      <div class="link-text"><span>Alle Noten</span><small>pCloud · Bibliothek</small></div>
+      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+  </div>
+  <div class="section-label">Mediathek</div>
+  <div class="card">
+    <a class="link-item" href="https://www.youtube.com/@HfMT-Hamburg/streams" target="_blank">
+      <div class="link-icon" style="background:var(--purple-light);color:var(--purple)">
+        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </div>
+      <div class="link-text"><span>Mediathek HfMT</span><small>YouTube · Konzertaufnahmen</small></div>
+      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+  </div>
+</div>
+
+<!-- TAB: INFO -->
+<div class="content" id="tab-info">
+  <div class="section-label">Wichtige Dokumente</div>
+  <div class="card">
+    <a class="link-item" href="https://docs.google.com/document/d/1L2kSqMZz9K1T3c7Hyku2OlznebWqU3XQyRoFdlurVb4/pub" target="_blank">
+      <div class="link-icon" style="background:var(--teal-light);color:var(--teal)">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <div class="link-text"><span>Orchesterordnung</span><small>Regelwerk · HfMT Hamburg</small></div>
+      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+    <a class="link-item" href="https://forms.gle/jMKuPx2Mov9s8fcn8" target="_blank">
+      <div class="link-icon" style="background:var(--amber-light);color:var(--amber)">
+        <svg viewBox="0 0 24 24"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/></svg>
+      </div>
+      <div class="link-text"><span>Freikarten bestellen</span><small>Formular · Google Forms</small></div>
+      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+    <a class="link-item" href="intern.html">
+      <div class="link-icon" style="background:var(--gray-light);color:var(--gray)">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div class="link-text"><span>Interner Bereich</span><small>Passwortgeschützt</small></div>
+      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+  </div>
+
+  <div class="section-label">App auf dem Telefon installieren</div>
+  <div class="install-card">
+    <div class="install-card-header">📱 Als App speichern – ohne Browser</div>
+    <div class="install-os">
+      <div class="install-os-label">iPhone · Safari</div>
       <ol class="install-steps">
         <li>Öffne diese Seite in <strong>Safari</strong> (nicht Chrome)</li>
-        <li>Tippe unten auf das <strong>Teilen-Symbol</strong> <span style="background:#eee;padding:1px 5px;border-radius:4px;font-size:0.8rem;">⬆</span></li>
+        <li>Tippe auf das <strong>Teilen-Symbol ⬆</strong> unten in der Mitte</li>
         <li>Scrolle und wähle <strong>„Zum Home-Bildschirm"</strong></li>
-        <li>Name bestätigen → <strong>Hinzufügen</strong></li>
+        <li>Name bestätigen → <strong>Hinzufügen</strong> tippen</li>
       </ol>
     </div>
-
-    <div>
-      <div style="font-size:0.8rem;font-weight:700;color:var(--gold-dark);margin-bottom:6px;">
-        <span class="os-badge">Android</span> Chrome
-      </div>
+    <div class="install-os">
+      <div class="install-os-label">Android · Chrome</div>
       <ol class="install-steps">
         <li>Öffne diese Seite in <strong>Chrome</strong></li>
         <li>Tippe oben rechts auf die <strong>drei Punkte ⋮</strong></li>
@@ -405,207 +351,298 @@
         <li>Name bestätigen → <strong>Hinzufügen</strong></li>
       </ol>
     </div>
-
-    <div class="install-note">
-      Das HfMT-Logo erscheint als App-Icon. Die App öffnet sich ohne Browser-Leiste — wie eine echte App.
-    </div>
   </div>
 
-  <!-- Wichtige Links -->
-  <div class="info-section">
-    <h3>Wichtige Dokumente</h3>
-    <a class="info-link" href="https://docs.google.com/spreadsheets/d/1QrFLarPKpu-SqWEtKiDFGvS_lW_BC79jXf91-6GTaVg" target="_blank" rel="noopener">
-      <span class="icon">📊</span> HfMT HSO Sheet
-      <span class="arrow">↗</span>
-    </a>
-    <a class="info-link" href="https://docs.google.com/spreadsheets/d/1EzFVAmvVtp0Slh04tx6ioYGk6U58fs6E2L1_qrZPsn4" target="_blank" rel="noopener">
-      <span class="icon">✅</span> Anwesenheitsliste
-      <span class="arrow">↗</span>
-    </a>
-    <a class="info-link" href="intern.html">
-      <span class="icon">🔒</span> Interner Bereich
-      <span class="arrow">→</span>
-    </a>
+  <div class="section-label">Über das Portal</div>
+  <div class="info-card">
+    <h3>HSO Portal</h3>
+    <p>Dieses Portal wird täglich automatisch aktualisiert. Bei Fragen wende dich an das Orchesterbüro.</p>
   </div>
-
-  <!-- Über -->
-  <div class="info-section">
-    <h3>Über</h3>
-    <div class="card">
-      <div style="font-size:0.85rem;color:var(--muted);line-height:1.6;">
-        Portal des Hochschulorchesters der<br>
-        <strong style="color:var(--gold-dark);">Hochschule für Musik und Theater Hamburg</strong>
-      </div>
-    </div>
-  </div>
-
 </div>
 
 <script>
-// ── Konfiguration ──────────────────────────────────────────
-const SHEET_ID = '1QrFLarPKpu-SqWEtKiDFGvS_lW_BC79jXf91-6GTaVg';
-const API_BASE = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json&sheet=';
+const SYSTEM_MGMT_ID  = '1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU';
+const SYSTEM_MGMT_GID = '459228372';
+const BEDARF_SHEET_ID = '1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ';
+const BEDARF_GID      = '1642432141';
 
-// ── Studienjahr ────────────────────────────────────────────
+const FARBEN = {
+  'HSO':        { bg: '#E6F1FB', color: '#185FA5' },
+  'WK Lü':      { bg: '#E1F5EE', color: '#0F6E56' },
+  'WK':         { bg: '#E1F5EE', color: '#0F6E56' },
+  '13/14':      { bg: '#FAEEDA', color: '#854F0B' },
+  'Blattspiel': { bg: '#EEEDFE', color: '#534AB7' },
+  'Repertoire': { bg: '#EEEDFE', color: '#534AB7' },
+  'default':    { bg: '#F1EFE8', color: '#5F5E5A' }
+};
+
+function getFarbe(name) {
+  for (const k in FARBEN) { if (name.indexOf(k) !== -1) return FARBEN[k]; }
+  return FARBEN['default'];
+}
+
+function getKuerzel(name) {
+  if (name.startsWith('HSO Blattspiel')) return 'BS';
+  if (name.startsWith('HSO Repertoire')) return 'Rep';
+  if (name.startsWith('HSO ')) return 'H' + name.replace('HSO ', '').replace(/\D/g, '');
+  if (name.startsWith('WK Lü ')) return 'WL' + name.replace('WK Lü ', '').trim();
+  if (name.startsWith('WK ')) return 'W' + name.replace('WK ', '').trim();
+  if (name === '13/14') return '13';
+  return name.substring(0, 2).toUpperCase();
+}
+
 function aktuellesSj() {
-  const params = new URLSearchParams(window.location.search);
-  const sjParam = params.get('sj');
-  if (sjParam && /^\d{2}_\d{2}$/.test(sjParam)) return sjParam;
   const d = new Date(), m = d.getMonth(), y = d.getFullYear() % 100;
-  return m >= 8 ? y + '_' + (y+1) : (y-1) + '_' + y;
-}
-function sjLabel(sj) {
-  const [a,b] = sj.split('_');
-  return '20'+a+'/'+b;
+  return m >= 8 ? y + '_' + (y + 1) : (y - 1) + '_' + y;
 }
 
-// ── Vorschau-Banner ────────────────────────────────────────
-(function() {
-  const p = new URLSearchParams(window.location.search);
-  if (p.get('sj')) {
-    const b = document.getElementById('preview-banner');
-    b.style.display = 'block';
-    document.getElementById('preview-sj').textContent = sjLabel(p.get('sj'));
+function parseCsvZeile(z) {
+  const res = []; let cur = '', inQ = false;
+  for (let i = 0; i < z.length; i++) {
+    const c = z[i];
+    if (c === '"') { inQ = !inQ; continue; }
+    if (c === ',' && !inQ) { res.push(cur.trim()); cur = ''; continue; }
+    cur += c;
   }
-})();
+  res.push(cur.trim());
+  return res;
+}
 
-// ── Tabs ───────────────────────────────────────────────────
-let loadedTabs = {};
-function showTab(name) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  event.target.classList.add('active');
+function showTab(name, btn) {
+  document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
-  if (!loadedTabs[name]) { loadTab(name); loadedTabs[name] = true; }
+  btn.classList.add('active');
 }
 
-function loadTab(name) {
-  if (name === 'projekte') loadProjekte();
-  if (name === 'probenplan') loadProbenplan();
-  if (name === 'repertoire') loadRepertoire();
-}
-
-// ── Google Sheets Fetch ────────────────────────────────────
-async function fetchSheet(sheetName) {
-  const url = API_BASE + encodeURIComponent(sheetName);
-  const res = await fetch(url);
-  const text = await res.text();
-  const json = JSON.parse(text.replace(/^.*?\(/, '').replace(/\);?$/, ''));
-  return json.table;
-}
-
-// ── Projekte ───────────────────────────────────────────────
-async function loadProjekte() {
-  const sj = aktuellesSj();
-  const el = document.getElementById('projekte-list');
-  const loading = document.getElementById('projekte-loading');
+async function ladeProjekte() {
+  const url = `https://docs.google.com/spreadsheets/d/${SYSTEM_MGMT_ID}/gviz/tq?tqx=out:csv&gid=${SYSTEM_MGMT_GID}`;
   try {
-    const table = await fetchSheet('System_Management');
-    loading.style.display = 'none';
-    const rows = table.rows || [];
-    let html = '<div class="card" style="margin-bottom:12px;">';
-    html += '<div style="font-size:0.8rem;color:var(--muted);">Studienjahr <span class="sj-badge">' + sjLabel(sj) + '</span></div>';
-    html += '</div>';
-    rows.forEach(row => {
-      const cells = row.c || [];
-      const name = cells[0]?.v || '';
-      const status = cells[1]?.v || '';
-      const doc = cells[2]?.v || '';
-      if (!name || !name.includes(sj.replace('_','_'))) return;
-      const grau = status === 'inaktiv' || status === '*';
-      html += '<div class="projekt-item' + (grau ? ' grau' : '') + '">';
-      html += '<div class="projekt-badge"></div>';
-      html += '<div><div class="projekt-name">' + name + '</div>';
-      if (doc) html += '<div class="projekt-doc"><a href="' + doc + '" target="_blank">Projektdokument ↗</a></div>';
-      html += '</div></div>';
-    });
-    el.innerHTML = html || '<div class="loading">Keine Projekte für dieses Studienjahr.</div>';
+    const res = await fetch(url);
+    const csv = await res.text();
+    const sjAktuell = aktuellesSj();
+    const zeilen = csv.trim().split('\n').slice(1);
+
+    const projekte = zeilen.map(z => {
+      const t = parseCsvZeile(z);
+      return { name: t[0], docId: t[1], sj: t[2] };
+    }).filter(p => p.name && p.docId && p.sj === sjAktuell);
+
+    const liste = document.getElementById('projekte-liste');
+    if (!projekte.length) {
+      liste.innerHTML = '<div class="loading">Keine aktuellen Projekte gefunden.</div>';
+      return;
+    }
+
+    document.getElementById('sj-badge').textContent = sjAktuell.replace('_', '/');
+
+    liste.innerHTML = projekte.map((p, i) => {
+      const f = getFarbe(p.name);
+      const k = getKuerzel(p.name);
+      const cardId = 'proj-' + i;
+      return `
+      <div class="proj-card">
+        <div class="proj-header" onclick="toggleProjekt('${cardId}', '${p.docId}')">
+          <div class="proj-icon" style="background:${f.bg};color:${f.color}">${k}</div>
+          <div class="proj-meta">
+            <div class="proj-name">${p.name}</div>
+            <div class="proj-sub">${p.sj.replace('_', '/')}</div>
+          </div>
+          <div class="proj-chevron" id="chev-${cardId}">
+            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="proj-body" id="${cardId}">
+          <div class="proj-tabs">
+            <button class="proj-tab active" onclick="showProjTab(event, '${cardId}', 'programm')">Programm</button>
+            <button class="proj-tab" onclick="showProjTab(event, '${cardId}', 'probenplan')">Probenplan</button>
+            <button class="proj-tab" onclick="showProjTab(event, '${cardId}', 'spielende')">Spielende</button>
+            <button class="proj-tab" onclick="showProjTab(event, '${cardId}', 'biographien')">Biografien</button>
+          </div>
+          <div class="proj-section active" id="${cardId}-programm">
+            <div class="proj-loading">Wird geladen…</div>
+          </div>
+          <div class="proj-section" id="${cardId}-probenplan"></div>
+          <div class="proj-section" id="${cardId}-spielende"></div>
+          <div class="proj-section" id="${cardId}-biographien"></div>
+        </div>
+      </div>`;
+    }).join('');
+
   } catch(e) {
-    loading.innerHTML = '<div style="color:#c0392b;">Fehler beim Laden der Projekte.</div>';
+    document.getElementById('projekte-liste').innerHTML =
+      '<div class="loading">Konnte nicht laden. Bitte neu versuchen.</div>';
   }
 }
 
-// ── Probenplan ─────────────────────────────────────────────
-async function loadProbenplan() {
-  const el = document.getElementById('proben-list');
-  const loading = document.getElementById('proben-loading');
+const docCache = {};
+
+async function ladeProjektDoc(docId) {
+  if (docCache[docId]) return docCache[docId];
+  const url = `https://docs.google.com/document/d/${docId}/export?format=txt`;
   try {
-    const table = await fetchSheet('Probenplan');
-    loading.style.display = 'none';
-    const rows = (table.rows || []).slice(0, 30);
-    const today = new Date(); today.setHours(0,0,0,0);
-    let html = '';
-    rows.forEach(row => {
-      const cells = row.c || [];
-      const datum = cells[0]?.v;
-      const titel = cells[1]?.v || '';
-      const ort   = cells[2]?.v || '';
-      if (!datum || !titel) return;
-      const d = new Date(datum);
-      const isHeute = d.toDateString() === today.toDateString();
-      const isFuture = d >= today;
-      if (!isFuture && !isHeute) return;
-      const ds = d.toLocaleDateString('de-DE', {weekday:'short', day:'2-digit', month:'2-digit'});
-      html += '<div class="probe-item' + (isHeute ? ' heute' : '') + '">';
-      html += '<div class="probe-datum">' + ds + (isHeute ? ' · <strong>Heute</strong>' : '') + '</div>';
-      html += '<div class="probe-titel">' + titel + '</div>';
-      if (ort) html += '<div class="probe-ort">📍 ' + ort + '</div>';
-      html += '</div>';
-    });
-    el.innerHTML = html || '<div class="loading">Keine bevorstehenden Proben.</div>';
-  } catch(e) {
-    loading.innerHTML = '<div style="color:#c0392b;">Fehler beim Laden des Probenplans.</div>';
+    const res = await fetch(url);
+    const text = await res.text();
+    const parsed = parseDocText(text);
+    docCache[docId] = parsed;
+    return parsed;
+  } catch(e) { return null; }
+}
+
+function parseDocText(text) {
+  const abschnitte = { programm: [], probenplan: [], spielende: [], webeintrag: [], biographien: [] };
+  const MARKER = {
+    '--- PROGRAMM ---':     'programm',
+    '--- PROBENPLAN ---':   'probenplan',
+    '--- SPIELENDE ---':    'spielende',
+    '--- WEBEINTRAG ---':   'webeintrag',
+    '--- BIOGRAPHIEN ---':  'biographien'
+  };
+  const lines = text.split('\n');
+  let aktiv = null, nachSep = false;
+  for (const line of lines) {
+    const z = line.trim();
+    if (z === '--- AB HIER AUTOMATISCHER INHALT ---') { nachSep = true; aktiv = null; continue; }
+    if (!nachSep) continue;
+    if (MARKER[z] !== undefined) { aktiv = MARKER[z]; continue; }
+    if (/^Aktualisiert:/.test(z)) continue;
+    if (aktiv) abschnitte[aktiv].push(z);
+  }
+  for (const key in abschnitte) {
+    const arr = abschnitte[key];
+    while (arr.length && !arr[0]) arr.shift();
+    while (arr.length && !arr[arr.length - 1]) arr.pop();
+  }
+  return abschnitte;
+}
+
+async function toggleProjekt(cardId, docId) {
+  const body = document.getElementById(cardId);
+  const chev = document.getElementById('chev-' + cardId);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+  if (!isOpen) {
+    const programDiv = document.getElementById(cardId + '-programm');
+    if (programDiv.querySelector('.proj-loading')) {
+      const data = await ladeProjektDoc(docId);
+      fuelleAbschnitt(cardId, data);
+    }
   }
 }
 
-// ── Repertoire ─────────────────────────────────────────────
-async function loadRepertoire() {
-  const el = document.getElementById('repertoire-list');
-  const loading = document.getElementById('repertoire-loading');
-  try {
-    const table = await fetchSheet('Konzerttext');
-    loading.style.display = 'none';
-    const rows = table.rows || [];
-    let html = '';
-    rows.slice(0,20).forEach(row => {
-      const cells = row.c || [];
-      const name = cells[0]?.v || '';
-      if (!name) return;
-      html += '<div class="card" style="margin-bottom:8px;"><div class="card-title">' + name + '</div></div>';
+function fuelleAbschnitt(cardId, data) {
+  if (!data) {
+    ['programm', 'probenplan', 'spielende', 'biographien'].forEach(s => {
+      document.getElementById(cardId + '-' + s).innerHTML =
+        '<p class="proj-text-muted">Konnte nicht geladen werden.</p>';
     });
-    el.innerHTML = html || '<div class="loading">Keine Repertoire-Einträge vorhanden.</div>';
+    return;
+  }
+  document.getElementById(cardId + '-programm').innerHTML = data.programm.length
+    ? `<div class="proj-text">${data.programm.join('\n')}</div>`
+    : '<p class="proj-text-muted">(Noch kein Programm eingetragen)</p>';
+  document.getElementById(cardId + '-probenplan').innerHTML = data.probenplan.length
+    ? `<div class="proj-text">${data.probenplan.join('\n')}</div>`
+    : '<p class="proj-text-muted">(Noch keine Termine)</p>';
+  document.getElementById(cardId + '-spielende').innerHTML = data.spielende.length
+    ? `<div class="proj-text">${data.spielende.join('\n')}</div>`
+    : '<p class="proj-text-muted">(Noch keine Einteilung)</p>';
+  document.getElementById(cardId + '-biographien').innerHTML = data.biographien.length
+    ? `<div class="proj-text">${data.biographien.join('\n')}</div>`
+    : '<p class="proj-text-muted">(Keine Biografien eingetragen)</p>';
+}
+
+function showProjTab(e, cardId, tab) {
+  e.stopPropagation();
+  const body = document.getElementById(cardId);
+  body.querySelectorAll('.proj-tab').forEach(t => t.classList.remove('active'));
+  body.querySelectorAll('.proj-section').forEach(s => s.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(cardId + '-' + tab).classList.add('active');
+}
+
+async function ladeBedarf() {
+  const url = `https://docs.google.com/spreadsheets/d/${BEDARF_SHEET_ID}/gviz/tq?tqx=out:csv&gid=${BEDARF_GID}`;
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
+    const heute = new Date(); heute.setHours(0, 0, 0, 0);
+    const zeilen = text.trim().split('\n').slice(1);
+    const termine = [];
+    zeilen.forEach(z => {
+      const t = parseCsvZeile(z);
+      if (t.length < 10) return;
+      const datumRaw = t[5] || t[4];
+      if (!datumRaw) return;
+      const parts = datumRaw.split(' ')[0].split('.');
+      if (parts.length < 3) return;
+      const datum = new Date(parts[2], parts[1] - 1, parts[0]);
+      if (datum < heute) return;
+      termine.push({ projekt: t[0], ort: t[1], werke: t[2], datum: datumRaw,
+        datumObj: datum, aufbauplan: t[7], besetzung: t[8], tasten: t[9],
+        stuehle: t[10], basshocker: t[11], klHocker: t[12], pulte: t[13], gesamt: t[14] });
+    });
+    const liste = document.getElementById('bedarf-liste');
+    if (!termine.length) {
+      liste.innerHTML = '<div class="loading">Keine kommenden Termine.</div>';
+      return;
+    }
+    liste.innerHTML = termine.map((t, i) => {
+      const f = getFarbe(t.projekt);
+      const did = 'bedarf-' + i;
+      return `
+      <div class="bedarf-card">
+        <div class="bedarf-header" onclick="toggleBedarf('${did}')">
+          <div class="bedarf-nummer" style="background:${f.bg};color:${f.color}">${i+1}</div>
+          <div class="bedarf-titel">
+            <div class="bedarf-projekt">${t.projekt}</div>
+            <div class="bedarf-datum">${t.datum}</div>
+            ${t.ort ? `<div class="bedarf-ort">${t.ort}</div>` : ''}
+          </div>
+          <div class="bedarf-toggle" id="btog-${did}">
+            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="bedarf-details" id="${did}">
+          ${t.werke ? `<div class="werk-text">${t.werke}</div>` : ''}
+          <div class="stat-row">
+            <div class="stat-box"><div class="stat-num">${t.stuehle||0}</div><div class="stat-label">Stühle</div></div>
+            <div class="stat-box"><div class="stat-num">${t.pulte||0}</div><div class="stat-label">Pulte</div></div>
+            <div class="stat-box"><div class="stat-num">${t.basshocker||0}</div><div class="stat-label">Basshocker</div></div>
+            <div class="stat-box"><div class="stat-num">${t.klHocker||0}</div><div class="stat-label">Klavierhocker</div></div>
+          </div>
+          ${t.tasten ? `<div class="bedarf-row" style="margin-top:10px"><span class="bedarf-label">Tasten & Harfe</span><span class="bedarf-value">${t.tasten}</span></div>` : ''}
+          <div class="bedarf-row"><span class="bedarf-label">Besetzung</span><span class="bedarf-value" style="font-size:12px">${t.besetzung}</span></div>
+          ${t.aufbauplan ? `<div class="bedarf-aufbau"><a href="${t.aufbauplan}" target="_blank"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Aufbauplan öffnen</a></div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
   } catch(e) {
-    loading.innerHTML = '<div style="color:#c0392b;">Fehler beim Laden.</div>';
+    document.getElementById('bedarf-liste').innerHTML = '<div class="loading">Konnte nicht laden.</div>';
   }
 }
 
-// ── PWA Service Worker ─────────────────────────────────────
+function toggleBedarf(id) {
+  document.getElementById(id).classList.toggle('open');
+  document.getElementById('btog-' + id).classList.toggle('open');
+}
+
+function copyICal() {
+  const url = 'https://calendar.google.com/calendar/ical/b11b52fea156e762892f701f4ecc35cc1ccbbb80f21b5e7ca3e924d251bb6d1b%40group.calendar.google.com/public/basic.ics';
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.querySelector('.ical-btn');
+    btn.textContent = 'Kopiert ✓';
+    setTimeout(() => btn.textContent = 'Link kopieren', 2000);
+  }).catch(() => { prompt('Link:', url); });
+}
+
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 
-// ── PWA Install-Prompt ─────────────────────────────────────
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('install-banner').classList.add('show');
-});
-document.getElementById('install-btn').addEventListener('click', () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => {
-      document.getElementById('install-banner').classList.remove('show');
-    });
-  }
-});
-document.getElementById('install-close').addEventListener('click', () => {
-  document.getElementById('install-banner').classList.remove('show');
-});
-
-// ── Initial laden ──────────────────────────────────────────
-loadedTabs['projekte'] = true;
-loadProjekte();
+ladeProjekte();
+ladeBedarf();
 </script>
 </body>
 </html>
