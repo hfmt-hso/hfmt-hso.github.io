@@ -1,450 +1,357 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex, nofollow" />
-  <title>Intern – HSO Portal</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#b8962e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="HSO Intern">
+  <title>HSO Intern – HfMT Hamburg</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="data:image/png;base64,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">
   <style>
     :root {
-      --blue: #185FA5;
-      --blue-dark: #0f3f72;
-      --blue-light: #e8f0fa;
-      --text: #1a1a2e;
-      --muted: #6b7280;
-      --border: #dde3ec;
-      --bg: #f5f7fb;
-      --white: #ffffff;
-      --green: #166534;
-      --green-bg: #dcfce7;
+      --gold: #b8962e;
+      --gold-light: #d4af5a;
+      --gold-dark: #8a6e1f;
+      --gold-bg: #fdf8ee;
+      --text: #222;
+      --muted: #666;
+      --border: #e8e0cc;
+      --card: #fff;
       --radius: 12px;
-      --shadow: 0 2px 12px rgba(24,95,165,0.10);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f0e8;
       color: var(--text);
       min-height: 100vh;
     }
-
-    /* ── Header ── */
-    header {
-      background: var(--blue);
-      color: white;
-      padding: 0 1.5rem;
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #fff 0%, var(--gold-bg) 100%);
+      border-bottom: 2px solid var(--gold);
+      padding: 14px 20px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      height: 56px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      gap: 12px;
     }
-    .header-left { display: flex; align-items: center; gap: 0.75rem; }
-    .header-logo {
-      width: 32px; height: 32px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-    }
-    .header-title { font-weight: 700; font-size: 1rem; }
-    .header-sub { font-size: 0.75rem; opacity: 0.75; }
-    .back-link {
-      color: rgba(255,255,255,0.85);
-      text-decoration: none;
-      font-size: 0.85rem;
-      display: flex; align-items: center; gap: 0.3rem;
-      transition: color 0.2s;
-    }
-    .back-link:hover { color: white; }
+    .header img { height: 44px; width: auto; }
+    .header-title h1 { font-size: 1rem; font-weight: 800; color: var(--gold-dark); }
+    .header-title .sub { font-size: 0.72rem; color: var(--gold); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
 
-    /* ── Lock screen ── */
+    /* Lock Screen */
     #lock-screen {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: calc(100vh - 56px);
-      padding: 2rem;
-    }
-    .lock-card {
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 2.5rem 2rem;
-      max-width: 360px;
-      width: 100%;
+      min-height: 60vh;
+      padding: 30px 24px;
       text-align: center;
     }
-    .lock-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    .lock-card h2 {
-      font-size: 1.3rem;
-      color: var(--blue-dark);
-      margin-bottom: 0.4rem;
-    }
-    .lock-card p {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 1.5rem;
-    }
-    .pw-input {
+    .lock-icon { font-size: 3rem; margin-bottom: 16px; }
+    .lock-title { font-size: 1.2rem; font-weight: 700; color: var(--gold-dark); margin-bottom: 6px; }
+    .lock-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; }
+    #pw-input {
       width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
+      max-width: 280px;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
       font-size: 1rem;
+      text-align: center;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
       outline: none;
       transition: border-color 0.2s;
-      margin-bottom: 0.75rem;
     }
-    .pw-input:focus { border-color: var(--blue); }
-    .pw-input.error { border-color: #dc2626; }
+    #pw-input:focus { border-color: var(--gold); }
+    #pw-input.error { border-color: #e74c3c; animation: shake 0.3s; }
+    @keyframes shake {
+      0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)}
+    }
+    #error-msg { color: #e74c3c; font-size: 0.82rem; margin-bottom: 8px; display: none; }
     .pw-btn {
+      display: block;
       width: 100%;
-      background: var(--blue);
-      color: white;
+      max-width: 280px;
+      padding: 12px;
+      background: var(--gold);
+      color: #fff;
       border: none;
-      border-radius: 8px;
-      padding: 0.75rem;
+      border-radius: 10px;
       font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .pw-btn:hover { background: var(--blue-dark); }
-    .error-msg {
-      color: #dc2626;
-      font-size: 0.85rem;
-      margin-top: 0.5rem;
-      display: none;
-    }
-
-    /* ── Internal area ── */
-    #internal-area {
-      display: none;
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem 4rem;
-    }
-
-    .page-header {
-      margin-bottom: 2rem;
-    }
-    .page-header h1 {
-      font-size: 1.6rem;
-      color: var(--blue-dark);
       font-weight: 700;
+      cursor: pointer;
     }
-    .page-header p {
+    .back-link {
+      display: inline-block;
+      margin-top: 16px;
       color: var(--muted);
-      font-size: 0.9rem;
-      margin-top: 0.25rem;
-    }
-    .session-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: var(--green-bg);
-      color: var(--green);
-      font-size: 0.78rem;
-      font-weight: 600;
-      padding: 0.25rem 0.75rem;
-      border-radius: 99px;
-      margin-top: 0.6rem;
+      font-size: 0.82rem;
+      text-decoration: none;
     }
 
+    /* Internal Area */
+    #internal-area { display: none; padding: 16px; }
+
+    /* Section Labels */
     .section-label {
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      margin: 1.75rem 0 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin: 16px 0 8px;
     }
+    .section-label:first-child { margin-top: 0; }
 
-    .doc-grid {
-      display: grid;
-      gap: 0.6rem;
-    }
-
+    /* Doc Links */
     .doc-link {
       display: flex;
       align-items: center;
-      gap: 0.9rem;
-      background: var(--white);
-      border: 1.5px solid var(--border);
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 0.85rem 1.1rem;
+      margin-bottom: 7px;
       text-decoration: none;
       color: var(--text);
-      transition: border-color 0.2s, box-shadow 0.2s, transform 0.1s;
     }
-    .doc-link:hover {
-      border-color: var(--blue);
-      box-shadow: 0 2px 10px rgba(24,95,165,0.12);
-      transform: translateY(-1px);
-    }
+    .doc-link:hover { background: var(--gold-bg); }
     .doc-icon {
       width: 36px; height: 36px;
       border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
+      font-size: 1.1rem; flex-shrink: 0;
     }
-    .icon-sheets { background: #e8f5e9; }
-    .icon-calendar { background: #e3f2fd; }
-    .icon-form { background: #fce4ec; }
-    .doc-info { flex: 1; min-width: 0; }
-    .doc-name {
-      font-weight: 600;
+    .doc-name { font-weight: 600; font-size: 0.88rem; }
+    .doc-type { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+    .doc-arrow { margin-left: auto; color: var(--muted); font-size: 0.85rem; flex-shrink: 0; }
+
+    /* App-Anleitung Karte */
+    .install-card {
+      background: linear-gradient(135deg, var(--gold-bg), #fff);
+      border: 2px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 8px;
+    }
+    .install-card h3 {
+      color: var(--gold-dark);
       font-size: 0.92rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 6px;
     }
-    .doc-type {
-      font-size: 0.76rem;
-      color: var(--muted);
-      margin-top: 0.1rem;
+    .install-steps {
+      counter-reset: steps;
+      list-style: none;
     }
-    .doc-arrow {
-      color: var(--blue);
-      opacity: 0.5;
-      font-size: 0.9rem;
+    .install-steps li {
+      counter-increment: steps;
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 7px 0;
+      font-size: 0.83rem;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.45;
+    }
+    .install-steps li:last-child { border-bottom: none; }
+    .install-steps li::before {
+      content: counter(steps);
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 21px; height: 21px;
+      background: var(--gold); color: #fff;
+      border-radius: 50%; font-size: 0.72rem; font-weight: 700;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .os-label {
+      display: inline-block;
+      background: var(--gold-dark); color: #fff;
+      font-size: 0.68rem; padding: 1px 5px;
+      border-radius: 4px; font-weight: 700; margin-right: 3px;
+    }
+    .install-note {
+      font-size: 0.76rem; color: var(--muted);
+      margin-top: 10px; padding: 8px 10px;
+      background: #f9f9f9; border-radius: 8px;
     }
 
+    /* Logout */
     .logout-btn {
-      margin-top: 2.5rem;
+      display: block;
+      width: 100%;
+      margin-top: 24px;
+      padding: 12px;
       background: none;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      padding: 0.6rem 1.2rem;
+      border: 2px solid var(--border);
+      border-radius: 10px;
       color: var(--muted);
       font-size: 0.85rem;
       cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
     }
-    .logout-btn:hover { border-color: #dc2626; color: #dc2626; }
+    .logout-btn:hover { border-color: var(--gold); color: var(--gold-dark); }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="header-left">
-    <div class="header-logo">🎻</div>
-    <div>
-      <div class="header-title">HSO Portal</div>
-      <div class="header-sub">Hochschulorchester · HfMT Hamburg</div>
-    </div>
-  </div>
-  <a href="https://hfmt-hso.github.io/" class="back-link">← Portal</a>
-</header>
-
-<!-- Lock Screen -->
-<div id="lock-screen">
-  <div class="lock-card">
-    <div class="lock-icon">🔒</div>
-    <h2>Interner Bereich</h2>
-    <p>Dieser Bereich ist nur für autorisierte Personen zugänglich.</p>
-    <input
-      type="password"
-      id="pw-input"
-      class="pw-input"
-      placeholder="Passwort eingeben"
-      autocomplete="current-password"
-    />
-    <button class="pw-btn" onclick="checkPassword()">Einloggen</button>
-    <div class="error-msg" id="error-msg">Falsches Passwort. Bitte erneut versuchen.</div>
+<div class="header">
+  <img src="data:image/jpeg;base64,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" alt="HfMT Logo">
+  <div class="header-title">
+    <h1>Hochschulorchester</h1>
+    <div class="sub">Interner Bereich · HfMT Hamburg</div>
   </div>
 </div>
 
-<!-- Internal Area (hidden until login) -->
+<!-- Lock Screen -->
+<div id="lock-screen">
+  <div class="lock-icon">🔒</div>
+  <div class="lock-title">Interner Bereich</div>
+  <div class="lock-sub">Nur für autorisierte Personen</div>
+  <input type="password" id="pw-input" placeholder="Passwort" onkeydown="if(event.key==='Enter')checkPw()">
+  <div id="error-msg">Falsches Passwort</div>
+  <button class="pw-btn" onclick="checkPw()">Einloggen</button>
+  <a class="back-link" href="/">← Zurück zum Portal</a>
+</div>
+
+<!-- Internal Area -->
 <div id="internal-area">
-  <div class="page-header">
-    <h1>🗂 Interne Dokumente</h1>
-    <p>Alle relevanten Arbeitsdokumente auf einen Blick.</p>
-    <span class="session-badge">✓ Eingeloggt</span>
-  </div>
 
-  <!-- Sheets -->
-  <div class="section-label">Tabellen & Datenbanken</div>
-  <div class="doc-grid">
+  <div class="section-label">Sheets &amp; Dokumente</div>
 
-    <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU/edit?usp=drive_link" target="_blank" rel="noopener">
-      <div class="doc-icon icon-sheets">📊</div>
-      <div class="doc-info">
-        <div class="doc-name">HfMT Lehre</div>
-        <div class="doc-type">Google Sheets · Lehrveranstaltungen</div>
-      </div>
-      <span class="doc-arrow">↗</span>
-    </a>
+  <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1QrFLarPKpu-SqWEtKiDFGvS_lW_BC79jXf91-6GTaVg" target="_blank" rel="noopener">
+    <div class="doc-icon" style="background:#e3f2fd;">📊</div>
+    <div class="doc-info">
+      <div class="doc-name">HfMT HSO Sheet</div>
+      <div class="doc-type">Google Sheets · Einteilung, Projekte</div>
+    </div>
+    <span class="doc-arrow">↗</span>
+  </a>
 
-    <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1v3D2o7G9AwFz6jO4Lz-jrft6PcjQWNk9YopqQ5ikPpI/edit?usp=sharing" target="_blank" rel="noopener">
-      <div class="doc-icon icon-sheets">🎼</div>
-      <div class="doc-info">
-        <div class="doc-name">Programmgestaltung</div>
-        <div class="doc-type">Google Sheets · Programmplanung</div>
-      </div>
-      <span class="doc-arrow">↗</span>
-    </a>
+  <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1EzFVAmvVtp0Slh04tx6ioYGk6U58fs6E2L1_qrZPsn4" target="_blank" rel="noopener">
+    <div class="doc-icon" style="background:#e8f5e9;">✅</div>
+    <div class="doc-info">
+      <div class="doc-name">Anwesenheitsliste</div>
+      <div class="doc-type">Google Sheets</div>
+    </div>
+    <span class="doc-arrow">↗</span>
+  </a>
 
-    <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1QrFLarPKpu-SqWEtKiDFGvS_lW_BC79jXf91-6GTaVg/edit?pli=1&gid=547979216#gid=547979216" target="_blank" rel="noopener">
-      <div class="doc-icon icon-sheets">🎻</div>
-      <div class="doc-info">
-        <div class="doc-name">Studierende / HfMT HSO</div>
-        <div class="doc-type">Google Sheets · Teilnehmerliste & Einteilung</div>
-      </div>
-      <span class="doc-arrow">↗</span>
-    </a>
+  <a class="doc-link" href="https://docs.google.com/document/d/163kmVbqRkw4m9dMjS8_BoBLW3se8h-d84yiw_AUPJKA" target="_blank" rel="noopener">
+    <div class="doc-icon" style="background:#fce4ec;">📋</div>
+    <div class="doc-info">
+      <div class="doc-name">Schwarzes Brett</div>
+      <div class="doc-type">Google Docs</div>
+    </div>
+    <span class="doc-arrow">↗</span>
+  </a>
 
-    <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ/edit?gid=1642432141#gid=1642432141" target="_blank" rel="noopener">
-      <div class="doc-icon icon-sheets">🛠</div>
-      <div class="doc-info">
-        <div class="doc-name">Forumsbedarf</div>
-        <div class="doc-type">Google Sheets · Technik & Bedarf</div>
-      </div>
-      <span class="doc-arrow">↗</span>
-    </a>
-
-  </div>
-
-  <!-- Kalender -->
-  <div class="section-label">Kalender</div>
-  <div class="doc-grid">
-
-    <a class="doc-link" href="https://calendar.google.com/calendar/u/0/r?tab=mc#main_7" target="_blank" rel="noopener">
-      <div class="doc-icon icon-calendar">📅</div>
-      <div class="doc-info">
-        <div class="doc-name">Google Kalender</div>
-        <div class="doc-type">Google Calendar · Alle Kalender</div>
-      </div>
-      <span class="doc-arrow">↗</span>
-    </a>
-
-  </div>
-
-  <!-- Formulare -->
-  <div class="section-label">Formulare</div>
-  <div class="doc-grid">
-
-    <a class="doc-link" href="https://docs.google.com/forms/d/1nfg7homotPfKaw7Awk3oRQ4keIH55ZnJsny1703lO-g/edit" target="_blank" rel="noopener">
-      <div class="doc-icon icon-form">📋</div>
-      <div class="doc-info">
-        <div class="doc-name">Anwesenheitsliste</div>
-        <div class="doc-type">Google Forms · Anwesenheitserfassung</div>
-      </div>
-      <span class="doc-arrow">↗</span>
-    </a>
-
-    <a class="doc-link" href="https://docs.google.com/forms/d/1ZLUgXjbxNqSYZp9LUv2FgHsXpYqBih6nBJZ4D7t-1f0/edit" target="_blank" rel="noopener">
-      <div class="doc-icon icon-form">🏛</div>
-      <div class="doc-info">
-        <div class="doc-name">Formular interne Veranstaltungen</div>
-        <div class="doc-type">Google Forms</div>
-      </div>
-      <span class="doc-arrow">↗</span>
-    </a>
-
-    <a class="doc-link" href="https://docs.google.com/forms/d/1UHLh3cmVIF4HIR2QeEWEFrIHGNWkxbuw1Fj-26inl08/edit" target="_blank" rel="noopener">
-      <div class="doc-icon icon-form">🌐</div>
-      <div class="doc-info">
-        <div class="doc-name">Formular externe Veranstaltungen</div>
-        <div class="doc-type">Google Forms</div>
-      </div>
-      <span class="doc-arrow">↗</span>
-    </a>
-
-  </div>
-
-  <!-- NEU: Studienjahr-Vorschau -->
   <div class="section-label">Studienjahr-Vorschau</div>
-  <div class="doc-grid">
 
-    <a class="doc-link" href="https://hfmt-hso.github.io/?sj=26_27" target="_blank" rel="noopener">
-      <div class="doc-icon" style="background:#fce4ec;font-size:1rem;">👁</div>
-      <div class="doc-info">
-        <div class="doc-name">Vorschau 26/27</div>
-        <div class="doc-type">Portal · Nächstes Studienjahr</div>
+  <a class="doc-link" href="/?sj=26_27" target="_blank" rel="noopener">
+    <div class="doc-icon" style="background:#fce4ec;font-size:1rem;">👁</div>
+    <div class="doc-info">
+      <div class="doc-name">Vorschau 26/27</div>
+      <div class="doc-type">Portal · Nächstes Studienjahr</div>
+    </div>
+    <span class="doc-arrow">↗</span>
+  </a>
+
+  <a class="doc-link" href="/?sj=27_28" target="_blank" rel="noopener">
+    <div class="doc-icon" style="background:#f3e5f5;font-size:1rem;">👁</div>
+    <div class="doc-info">
+      <div class="doc-name">Vorschau 27/28</div>
+      <div class="doc-type">Portal · Übernächstes Studienjahr</div>
+    </div>
+    <span class="doc-arrow">↗</span>
+  </a>
+
+  <a class="doc-link" href="/?sj=28_29" target="_blank" rel="noopener">
+    <div class="doc-icon" style="background:#e8f5e9;font-size:1rem;">👁</div>
+    <div class="doc-info">
+      <div class="doc-name">Vorschau 28/29</div>
+      <div class="doc-type">Portal · Weiteres Studienjahr</div>
+    </div>
+    <span class="doc-arrow">↗</span>
+  </a>
+
+  <!-- App installieren -->
+  <div class="section-label">App auf dem Telefon</div>
+
+  <div class="install-card">
+    <h3>📱 Als App speichern – kein Browser nötig</h3>
+
+    <div style="margin-bottom:14px;">
+      <div style="font-size:0.78rem;font-weight:700;color:var(--gold-dark);margin-bottom:6px;">
+        <span class="os-label">iPhone</span> Safari
       </div>
-      <span class="doc-arrow">↗</span>
-    </a>
+      <ol class="install-steps">
+        <li>Öffne <strong>safari.app</strong> und gehe zu <strong>hfmt-hso.github.io</strong></li>
+        <li>Tippe unten auf das <strong>Teilen-Symbol ⬆</strong></li>
+        <li>Scrolle und wähle <strong>„Zum Home-Bildschirm"</strong></li>
+        <li>Name lassen oder ändern → <strong>Hinzufügen</strong> tippen</li>
+      </ol>
+    </div>
 
-    <a class="doc-link" href="https://hfmt-hso.github.io/?sj=27_28" target="_blank" rel="noopener">
-      <div class="doc-icon" style="background:#f3e5f5;font-size:1rem;">👁</div>
-      <div class="doc-info">
-        <div class="doc-name">Vorschau 27/28</div>
-        <div class="doc-type">Portal · Übernächstes Studienjahr</div>
+    <div>
+      <div style="font-size:0.78rem;font-weight:700;color:var(--gold-dark);margin-bottom:6px;">
+        <span class="os-label">Android</span> Chrome
       </div>
-      <span class="doc-arrow">↗</span>
-    </a>
+      <ol class="install-steps">
+        <li>Öffne <strong>Chrome</strong> und gehe zu <strong>hfmt-hso.github.io</strong></li>
+        <li>Tippe oben rechts auf die <strong>drei Punkte ⋮</strong></li>
+        <li>Tippe <strong>„Zum Startbildschirm hinzufügen"</strong></li>
+        <li>Name bestätigen → <strong>Hinzufügen</strong></li>
+      </ol>
+    </div>
 
-    <a class="doc-link" href="https://hfmt-hso.github.io/?sj=28_29" target="_blank" rel="noopener">
-      <div class="doc-icon" style="background:#e8f5e9;font-size:1rem;">👁</div>
-      <div class="doc-info">
-        <div class="doc-name">Vorschau 28/29</div>
-        <div class="doc-type">Portal · Weiteres Studienjahr</div>
-      </div>
-      <span class="doc-arrow">↗</span>
-    </a>
-
+    <div class="install-note">
+      Das HfMT-Logo erscheint als App-Icon auf dem Startbildschirm. Die App öffnet sich ohne Browser-Leiste — wie eine echte App. Bei Android erscheint oben automatisch ein „Installieren"-Banner.
+    </div>
   </div>
 
   <button class="logout-btn" onclick="logout()">🔒 Abmelden</button>
 </div>
 
 <script>
-  // ── Passwort (einfacher Hash zur Verschleierung) ──
-  // SHA-256 von "fRrzx/yrpfkjzj7nbsxe"
-  const CORRECT_HASH = "c09f968d8072567698e09ab003e7f187ba96ce6bedc3deb02c65f257db0fe4da";
+async function hashPw(pw) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
 
-  async function sha256(str) {
-    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+const CORRECT_HASH = "c09f968d8072567698e09ab003e7f187ba96ce6bedc3deb02c65f257db0fe4da";
+
+async function checkPw() {
+  const pw = document.getElementById('pw-input').value;
+  const hash = await hashPw(pw);
+  if (hash === CORRECT_HASH) {
+    sessionStorage.setItem('hso_auth', '1');
+    showInternal();
+  } else {
+    const input = document.getElementById('pw-input');
+    input.classList.add('error');
+    document.getElementById('error-msg').style.display = 'block';
+    input.value = '';
+    setTimeout(() => input.classList.remove('error'), 1500);
   }
+}
 
-  // Check session on load
-  window.addEventListener("DOMContentLoaded", () => {
-    if (sessionStorage.getItem("hso_auth") === "1") showInternal();
-    document.getElementById("pw-input").addEventListener("keydown", e => {
-      if (e.key === "Enter") checkPassword();
-    });
-  });
+function showInternal() {
+  document.getElementById('lock-screen').style.display = 'none';
+  document.getElementById('internal-area').style.display = 'block';
+}
 
-  async function checkPassword() {
-    const val = document.getElementById("pw-input").value;
-    const hash = await sha256(val);
-    if (hash === CORRECT_HASH) {
-      sessionStorage.setItem("hso_auth", "1");
-      showInternal();
-    } else {
-      const input = document.getElementById("pw-input");
-      input.classList.add("error");
-      document.getElementById("error-msg").style.display = "block";
-      input.value = "";
-      setTimeout(() => input.classList.remove("error"), 1500);
-    }
-  }
+function logout() {
+  sessionStorage.removeItem('hso_auth');
+  document.getElementById('lock-screen').style.display = 'flex';
+  document.getElementById('internal-area').style.display = 'none';
+  document.getElementById('pw-input').value = '';
+}
 
-  function showInternal() {
-    document.getElementById("lock-screen").style.display = "none";
-    document.getElementById("internal-area").style.display = "block";
-  }
-
-  function logout() {
-    sessionStorage.removeItem("hso_auth");
-    document.getElementById("lock-screen").style.display = "flex";
-    document.getElementById("internal-area").style.display = "none";
-    document.getElementById("pw-input").value = "";
-  }
+if (sessionStorage.getItem('hso_auth') === '1') showInternal();
 </script>
-
 </body>
 </html>
