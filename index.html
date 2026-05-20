@@ -492,7 +492,7 @@ async function toggleStd(cId,docId,projektName,sjTarget){
           elProg.innerHTML='<p class="proj-text-muted">(Noch kein Programm)</p>';
         }else{
           // Vorstellungs-Events als Tabs
-          const tabs=events.map((ev,i)=>'<button class="event-tab '+(i===0?'active':'')+'" onclick="showEvTab(event,\''+cId+'-prog\','+i+')">'+esc(ev.tabLabel)+'</button>').join('');
+          const tabs=events.map((ev,i)=>'<button class="event-tab '+(i===0?'active':'')+'" onclick="showEvTabIn(event,\''+cId+'-programm\','+i+')">'+esc(ev.tabLabel)+'</button>').join('');
           const secs=events.map((ev,i)=>'<div class="event-section '+(i===0?'active':'')+'" id="'+cId+'-prog-ev-'+i+'">'+renderEventProgramm(ev)+'</div>').join('');
           elProg.innerHTML='<div class="event-tabs-wrap"><div class="event-tabs">'+tabs+'</div></div><div class="event-sections">'+secs+'</div>';
         }
@@ -548,6 +548,17 @@ function showEvTab(e,cId,idx){
   body.querySelectorAll('.event-section').forEach(s=>s.classList.remove('active'));
   e.target.classList.add('active');
   const sec=document.getElementById(cId+'-ev-'+idx);
+  if(sec)sec.classList.add('active');
+}
+// Variante für Programm-Tab: sucht im elProg-Container statt proj-body
+function showEvTabIn(e,containerId,idx){
+  e.stopPropagation();
+  const container=document.getElementById(containerId);
+  if(!container)return;
+  container.querySelectorAll('.event-tab').forEach(t=>t.classList.remove('active'));
+  container.querySelectorAll('.event-section').forEach(s=>s.classList.remove('active'));
+  e.target.classList.add('active');
+  const sec=document.getElementById(containerId+'-prog-ev-'+idx);
   if(sec)sec.classList.add('active');
 }
 
