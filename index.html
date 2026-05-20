@@ -251,6 +251,17 @@
     .info-card { background: var(--card-bg); border-radius: 14px; border: 0.5px solid var(--border); padding: 14px; }
     .info-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
     .info-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+    .vorschau-banner {
+      display: none;
+      background: #FAEEDA;
+      color: #854F0B;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 16px;
+      text-align: center;
+      border-bottom: 0.5px solid rgba(133,79,11,0.2);
+    }
   </style>
 </head>
 <body>
@@ -263,6 +274,10 @@
     </div>
     <span class="badge badge-green" id="sj-badge">25/26</span>
   </div>
+</div>
+
+<div class="vorschau-banner" id="vorschau-banner">
+  👁 Vorschau-Modus · Studienjahr <span id="vorschau-sj"></span> · <a href="/" style="color:inherit">← Zurück zur aktuellen Ansicht</a>
 </div>
 
 <nav class="nav">
@@ -423,6 +438,10 @@ function getKuerzel(name) {
 }
 
 function aktuellesSj() {
+  // URL-Parameter ?sj=26_27 erlaubt Vorschau eines anderen Studienjahrs
+  const params = new URLSearchParams(window.location.search);
+  const sjParam = params.get('sj');
+  if (sjParam && /^\d{2}_\d{2}$/.test(sjParam)) return sjParam;
   const d = new Date(), m = d.getMonth(), y = d.getFullYear() % 100;
   return m >= 8 ? y + '_' + (y + 1) : (y - 1) + '_' + y;
 }
@@ -692,6 +711,17 @@ function copyICal() {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
+
+// Vorschau-Banner anzeigen wenn ?sj= Parameter gesetzt
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const sjParam = params.get('sj');
+  if (sjParam && /^\d{2}_\d{2}$/.test(sjParam)) {
+    const banner = document.getElementById('vorschau-banner');
+    document.getElementById('vorschau-sj').textContent = sjParam.replace('_', '/');
+    banner.style.display = 'block';
+  }
+})();
 
 ladeProjekte();
 ladeBedarf();
