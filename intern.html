@@ -26,20 +26,14 @@
   --green-light:#1b4d1e;--red-light:#4d1a17;--gold-bg:#2a2410;--gold-border:#4a3e1e;
 }}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto}
-
-/* HEADER */
 .header{background:linear-gradient(135deg,var(--card) 0%,var(--gold-bg) 100%);border-bottom:2px solid var(--gold);padding:12px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:20}
 .header img{height:44px;width:auto;flex-shrink:0}
 .header-title h1{font-size:15px;font-weight:800;color:var(--gold-dark)}
 .header-title .sub{font-size:11px;color:var(--gold);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-top:1px}
 .back-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:var(--card);border:1.5px solid var(--border);border-radius:20px;font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;text-decoration:none;font-family:inherit;margin-left:auto;flex-shrink:0}
 .back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-
-/* SCREENS */
 .screen{display:none;padding:18px 16px;flex-direction:column;gap:13px;padding-bottom:48px}
 .screen.active{display:flex}
-
-/* LOGIN */
 .login-hero{text-align:center;padding:6px 0 2px}
 .login-icon{font-size:2.4rem;margin-bottom:8px}
 .login-title{font-size:19px;font-weight:700;margin-bottom:4px}
@@ -60,8 +54,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .admin-link-wrap{text-align:center}
 .admin-link{font-size:11px;color:var(--text-muted);background:none;border:none;cursor:pointer;font-family:inherit;text-decoration:underline;opacity:0.55}
 .admin-link:hover{opacity:1}
-
-/* WELCOME */
 .welcome-bar{background:var(--blue-light);border-radius:10px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between}
 .welcome-name{font-size:14px;font-weight:600;color:var(--blue-dark)}
 @media(prefers-color-scheme:dark){.welcome-name{color:#a8cfff}}
@@ -69,11 +61,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .top-actions{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
 .btn-tiny{font-size:11px;color:var(--text-muted);background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:6px;font-family:inherit}
 .pw-link{font-size:11px;color:var(--blue);background:none;border:none;cursor:pointer;font-family:inherit;text-decoration:underline}
-
-/* SECTION LABEL */
 .slabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-top:2px}
-
-/* TERMIN-KARTEN */
 .termin-card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden}
 .termin-head{padding:12px 14px;cursor:pointer;display:flex;align-items:flex-start;gap:10px}
 .datum-box{background:var(--blue-light);border-radius:8px;padding:6px 10px;text-align:center;flex-shrink:0;min-width:44px}
@@ -87,35 +75,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .chev svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .chev.open{transform:rotate(180deg)}
 .badge-ok{font-size:10px;font-weight:700;padding:3px 8px;border-radius:12px;background:var(--green-light);color:var(--green)}
-/* Teilnehmer-Chips */
 .teiln-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
 .chip{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--blue-light);color:var(--blue-dark)}
 @media(prefers-color-scheme:dark){.chip{color:#a8cfff}}
-
 .termin-body{display:none;border-top:1px solid var(--border);padding:14px}
 .termin-body.open{display:block}
-
-/* EINTRAG-FORMULAR */
 .form-section{margin-bottom:14px}
 .form-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:7px}
 .field-select{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg);font-family:inherit;outline:none;transition:border-color 0.2s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
 .field-select:focus{border-color:var(--blue)}
-.werk-row{display:flex;gap:8px;align-items:flex-start}
-.werk-row .field-select{flex:1}
 .freitext-wrap{margin-top:8px;display:none}
 .freitext-wrap.show{display:block}
-
-/* MINUTEN-BUTTONS */
 .min-grid{display:flex;gap:8px;flex-wrap:wrap}
 .min-btn{flex:1;min-width:60px;padding:10px 6px;border-radius:10px;border:1.5px solid var(--border);background:var(--card);font-size:13px;font-weight:700;color:var(--text);cursor:pointer;font-family:inherit;text-align:center;transition:all 0.12s}
 .min-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
 .min-btn span{display:block;font-size:10px;font-weight:500;margin-top:2px;opacity:0.75}
-
 .save-btn{width:100%;margin-top:14px;padding:13px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
 .save-btn:disabled{opacity:0.4;cursor:not-allowed}
 .save-hint{font-size:12px;color:var(--text-muted);text-align:center;margin-top:6px;min-height:16px}
-
-/* STATS */
 .stats-card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:16px}
 .stats-total{display:flex;align-items:baseline;gap:6px;margin-bottom:12px}
 .stats-num{font-size:34px;font-weight:800;color:var(--blue);line-height:1}
@@ -127,8 +104,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .td-right{text-align:right;font-weight:700;color:var(--blue);white-space:nowrap}
 .bar-wrap{height:4px;background:var(--border);border-radius:2px;margin-top:3px;overflow:hidden}
 .bar-fill{height:100%;background:var(--blue);border-radius:2px}
-
-/* ADMIN */
 .admin-bar{background:linear-gradient(135deg,var(--card) 0%,var(--gold-bg) 100%);border-radius:10px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--gold-border)}
 .admin-label{font-size:13px;font-weight:700;color:var(--gold-dark)}
 .doc-link{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:7px;text-decoration:none;color:var(--text)}
@@ -157,18 +132,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .diff{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;display:inline-block;margin-top:2px}
 .diff-p{background:var(--green-light);color:var(--green)}
 .diff-m{background:var(--red-light);color:var(--red)}
-
 .logout-btn{width:100%;padding:12px;background:none;border:1.5px solid var(--border);border-radius:10px;color:var(--text-muted);font-size:13px;cursor:pointer;font-family:inherit;margin-top:4px}
 .logout-btn:hover{border-color:var(--gold);color:var(--gold-dark)}
-
-/* PW-SETZEN */
 .pw-info{background:var(--blue-light);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--blue-dark);line-height:1.5}
 @media(prefers-color-scheme:dark){.pw-info{color:#a8cfff}}
-
 .spinner{text-align:center;padding:24px;color:var(--text-muted);font-size:13px}
 .empty{text-align:center;padding:24px;color:var(--text-muted);font-size:13px}
-
-/* TOAST */
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1a1a;color:#fff;padding:11px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:100;transition:transform 0.3s;white-space:nowrap;pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0)}
 @media(prefers-color-scheme:dark){.toast{background:#fff;color:#1a1a1a}}
@@ -196,13 +165,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
   <div class="card">
     <div class="field-label">Matrikelnummer</div>
-    <input class="field-input" type="text" id="s-mtknr" inputmode="numeric"
-      placeholder="z. B. 12345678" autocomplete="username">
+    <input class="field-input" type="text" id="s-mtknr" inputmode="numeric" placeholder="z. B. 12345678" autocomplete="username">
     <div class="gap"></div>
     <div class="field-label">Passwort</div>
-    <input class="field-input" type="password" id="s-pw"
-      placeholder="Passwort" autocomplete="current-password"
-      onkeydown="if(event.key==='Enter')studentLogin()">
+    <input class="field-input" type="password" id="s-pw" placeholder="Passwort" autocomplete="current-password" onkeydown="if(event.key==='Enter')studentLogin()">
     <div class="gap"></div>
     <div class="err" id="s-err"></div>
     <button class="btn btn-blue" onclick="studentLogin()">Anmelden</button>
@@ -225,8 +191,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <input class="field-input" type="password" id="pw1" placeholder="Mindestens 6 Zeichen">
     <div class="gap"></div>
     <div class="field-label">Passwort wiederholen</div>
-    <input class="field-input" type="password" id="pw2" placeholder="Bestätigung"
-      onkeydown="if(event.key==='Enter')pwSetzen()">
+    <input class="field-input" type="password" id="pw2" placeholder="Bestätigung" onkeydown="if(event.key==='Enter')pwSetzen()">
     <div class="gap"></div>
     <div class="err" id="pw-err"></div>
     <button class="btn btn-blue" onclick="pwSetzen()">Passwort speichern</button>
@@ -244,10 +209,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <button class="pw-link" onclick="zeige('sc-pw-aendern')">Passwort ändern</button>
     </div>
   </div>
-
   <div class="slabel">Kommende Unterrichtstermine</div>
   <div id="termine-liste"><div class="spinner">Lade Termine…</div></div>
-
   <div class="slabel">Meine Probezeiten</div>
   <div id="meine-stats"><div class="spinner">Lade…</div></div>
 </div>
@@ -265,8 +228,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <input class="field-input" type="password" id="pw-n1" placeholder="Mindestens 6 Zeichen">
     <div class="gap"></div>
     <div class="field-label">Bestätigung</div>
-    <input class="field-input" type="password" id="pw-n2"
-      onkeydown="if(event.key==='Enter')pwAendern()">
+    <input class="field-input" type="password" id="pw-n2" onkeydown="if(event.key==='Enter')pwAendern()">
     <div class="gap"></div>
     <div class="err" id="pw-ae-err"></div>
     <button class="btn btn-blue" onclick="pwAendern()">Speichern</button>
@@ -281,8 +243,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
   <div class="card">
     <div class="field-label">Passwort</div>
-    <input class="field-input" type="password" id="a-pw"
-      onkeydown="if(event.key==='Enter')adminLogin()">
+    <input class="field-input" type="password" id="a-pw" onkeydown="if(event.key==='Enter')adminLogin()">
     <div class="gap"></div>
     <div class="err" id="a-err"></div>
     <button class="btn btn-gold" onclick="adminLogin()">Einloggen</button>
@@ -298,7 +259,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
     <button class="btn-tiny" onclick="adminLogout()">Abmelden</button>
   </div>
-
   <div class="slabel">Sheets &amp; Dokumente</div>
   <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1EzFVAmvVtp0Slh04tx6ioYGk6U58fs6E2L1_qrZPsn4" target="_blank" rel="noopener">
     <div class="doc-icon" style="background:#e8f5e9">✅</div>
@@ -345,7 +305,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div><div class="doc-name">Schwarzes Brett</div><div class="doc-type">Google Docs</div></div>
     <span class="doc-arrow">↗</span>
   </a>
-
   <div class="slabel">Probezeiten-Auswertung</div>
   <div class="filter-tabs">
     <button class="ftab active" id="ft-personen" onclick="adminTab('personen')">Personen</button>
@@ -355,7 +314,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div id="adm-personen"><div class="rangliste"><div class="rang-head">Probezeiten je Person<span class="rang-hint" id="adm-avg"></span></div><div id="adm-p-body"><div class="spinner">Lade…</div></div></div></div>
   <div id="adm-werke" style="display:none"><div class="rangliste" id="adm-w-body"><div class="spinner">Lade…</div></div></div>
   <div id="adm-termine" style="display:none"><div class="rangliste"><div class="rang-head">Eintragungen je Termin</div><div id="adm-t-body"><div class="spinner">Lade…</div></div></div></div>
-
   <div class="slabel">Studienjahr-Vorschau</div>
   <a class="doc-link" href="index.html?sj=26_27" target="_blank" rel="noopener">
     <div class="doc-icon" style="background:#fce4ec;font-size:1rem">👁</div>
@@ -384,19 +342,16 @@ const MINUTEN = [
   { val:120, label:'120',unit:'Min' }
 ];
 
-let ich          = null;   // { mtknr, name, instrument }
+let ich          = null;
 let alleTermine  = [];
 let alleEintr    = [];
 let adminDaten   = null;
 
-// ── NAVIGATION ────────────────────────────────────────────────
 function zeige(id) {
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
 }
-
-// ── CRYPTO / API / TOAST ──────────────────────────────────────
 async function hash(s) {
   const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
   return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');
@@ -408,13 +363,10 @@ function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')
 function parseDate(s){
   if(!s) return null;
   const str = String(s).trim();
-  
   let m=str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
   if(m) return new Date(parseInt(m[3],10), parseInt(m[2],10)-1, parseInt(m[1],10));
-  
   m=str.match(/^(\d{4})-(\d{2})-(\d{2})/);
   if(m) return new Date(parseInt(m[1],10), parseInt(m[2],10)-1, parseInt(m[3],10));
-  
   const d=new Date(str); return isNaN(d.getTime())?null:d;
 }
 
@@ -425,7 +377,6 @@ function toast(msg){
   clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),2800);
 }
 
-// ── LOGIN ─────────────────────────────────────────────────────
 async function studentLogin() {
   const mtknr = document.getElementById('s-mtknr').value.trim();
   const pw    = document.getElementById('s-pw').value;
@@ -451,7 +402,6 @@ async function studentLogin() {
   } catch(e) { err.textContent='Verbindungsfehler.'; }
 }
 
-// ── PASSWORT SETZEN ───────────────────────────────────────────
 async function pwSetzen() {
   const p1=document.getElementById('pw1').value;
   const p2=document.getElementById('pw2').value;
@@ -469,7 +419,6 @@ async function pwSetzen() {
   } catch(e) { err.textContent='Verbindungsfehler.'; }
 }
 
-// ── PASSWORT ÄNDERN ───────────────────────────────────────────
 async function pwAendern() {
   const alt=document.getElementById('pw-alt').value;
   const n1 =document.getElementById('pw-n1').value;
@@ -487,7 +436,6 @@ async function pwAendern() {
   } catch(e) { err.textContent='Verbindungsfehler.'; }
 }
 
-// ── STUDENT BEREICH ───────────────────────────────────────────
 async function oeffneStudentBereich() {
   document.getElementById('w-name').textContent = 'Hallo, '+(ich.name||ich.mtknr)+'!';
   document.getElementById('w-sub').textContent  = 'Mtknr: '+ich.mtknr+(ich.instrument?' · '+ich.instrument:'');
@@ -517,20 +465,13 @@ async function ladeTermine() {
 function renderTermin(t, idx) {
   const temporaeresDatum = parseDate(t.datum);
   const d = temporaeresDatum ? new Date(temporaeresDatum.getTime()) : null;
-  
   const tag = d ? d.getDate() : '?';
   const mon = d ? MONATE[d.getMonth()] : '';
   const wt  = d ? WT[d.getDay()] : '';
-
   const mein = alleEintr.find(e=>e.terminId===t.id);
   const chips = (t.teilnehmer||[]).map(n=>`<div class="chip">${esc(n)}</div>`).join('');
-
-  const werkOptionen = (t.werke||[])
-    .filter(w=>w.titel&&w.titel!=='Unterricht')
-    .map(w=>`<option value="${esc(w.id)}">${esc(w.komponist?w.komponist+' – '+w.titel:w.titel)}</option>`)
-    .join('');
+  const werkOptionen = (t.werke||[]).filter(w=>w.titel&&w.titel!=='Unterricht').map(w=>`<option value="${esc(w.id)}">${esc(w.komponist?w.komponist+' – '+w.titel:w.titel)}</option>`).join('');
   const hatWerke = werkOptionen.length > 0;
-
   const meinMinVal = mein ? mein.minuten : 0;
   const meinWerkFrei = mein ? (mein.werkFreitext||'') : '';
 
@@ -547,13 +488,10 @@ function renderTermin(t, idx) {
       </div>
       <div class="termin-right">
         ${mein?'<div class="badge-ok">✓ Eingetragen</div>':''}
-        <div class="chev" id="chev-${idx}">
-          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
+        <div class="chev" id="chev-${idx}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
       </div>
     </div>
     <div class="termin-body" id="tb-${idx}">
-
       ${hatWerke?`
       <div class="form-section">
         <div class="form-label">Werk</div>
@@ -563,27 +501,19 @@ function renderTermin(t, idx) {
           <option value="__frei__">Anderes Werk…</option>
         </select>
         <div class="freitext-wrap ${meinWerkFrei?'show':''}" id="freitext-wrap-${idx}">
-          <input class="field-input" type="text" id="freitext-${idx}"
-            placeholder="Werk eingeben…" value="${esc(meinWerkFrei)}" style="margin-top:8px">
+          <input class="field-input" type="text" id="freitext-${idx}" placeholder="Werk eingeben…" value="${esc(meinWerkFrei)}" style="margin-top:8px">
         </div>
       </div>`:`
       <div class="form-section">
         <div class="form-label">Werk</div>
-        <input class="field-input" type="text" id="freitext-${idx}"
-          placeholder="Werk eingeben (optional)…" value="${esc(meinWerkFrei)}">
+        <input class="field-input" type="text" id="freitext-${idx}" placeholder="Werk eingeben (optional)…" value="${esc(meinWerkFrei)}">
       </div>`}
-
       <div class="form-section">
         <div class="form-label">Probezeit</div>
         <div class="min-grid" id="mg-${idx}">
-          ${MINUTEN.map(m=>`
-          <button class="min-btn ${meinMinVal===m.val?'active':''}"
-            onclick="waehleMin(${idx},${m.val})">
-            ${m.label}<span>${m.unit}</span>
-          </button>`).join('')}
+          ${MINUTEN.map(m=>`<button class="min-btn ${meinMinVal===m.val?'active':''}" onclick="waehleMin(${idx},${m.val})">${m.label}<span>${m.unit}</span></button>`).join('')}
         </div>
       </div>
-
       <button class="save-btn" id="sbtn-${idx}" onclick="speichern(${idx})">Eintragung speichern</button>
       <div class="save-hint" id="shint-${idx}"></div>
     </div>
@@ -604,17 +534,14 @@ function waehleMin(idx, val) {
     b.classList.toggle('active', parseInt(b.textContent, 10)===val);
   });
 }
-
 async function speichern(idx) {
   const t    = alleTermine[idx];
   const btn  = document.getElementById('sbtn-'+idx);
   const hint = document.getElementById('shint-'+idx);
   btn.disabled=true; hint.textContent='Wird gespeichert…';
-
   const aktMin = document.querySelector(`#mg-${idx} .min-btn.active`);
   const minuten = aktMin ? parseInt(aktMin.textContent, 10) : 0;
   if (!minuten) { hint.textContent='Bitte Probezeit auswählen.'; btn.disabled=false; return; }
-
   let werkId='', werkFreitext='';
   const werkSel = document.getElementById('werk-'+idx);
   if (werkSel) {
@@ -623,15 +550,8 @@ async function speichern(idx) {
   } else {
     werkFreitext = (document.getElementById('freitext-'+idx)||{value:''}).value.trim();
   }
-
   try {
-    const j = await apiPost({
-      action:'speichernEintrag',
-      mtknr: ich.mtknr,
-      name:  ich.name,
-      terminId: t.id,
-      werkId, werkFreitext, minuten
-    });
+    const j = await apiPost({action:'speichernEintrag', mtknr: ich.mtknr, name: ich.name, terminId: t.id, werkId, werkFreitext, minuten});
     if (j.ok) {
       hint.textContent='✅ Gespeichert!';
       toast('✅ Eintragung gespeichert!');
@@ -670,7 +590,6 @@ async function ladeMeineStats() {
     </div>`;
   } catch(e) { el.innerHTML='<div class="empty">Laden fehlgeschlagen.</div>'; }
 }
-
 function logout() {
   ich=null; sessionStorage.removeItem('hso_ich');
   document.getElementById('s-mtknr').value='';
@@ -713,7 +632,6 @@ async function ladeAdminDaten() {
 }
 function renderAdmin() {
   function fmt(min){ return Math.floor(min/60)+'h '+String(min%60).padStart(2,'0')+'m'; }
-
   const pers=(adminDaten.personen||[]).sort((a,b)=>b.minuten-a.minuten);
   if (!pers.length) {
     document.getElementById('adm-p-body').innerHTML='<div class="empty">Noch keine Einträge.</div>';
@@ -739,7 +657,6 @@ function renderAdmin() {
       </div>`;
     }).join('');
   }
-
   const werke=(adminDaten.werke||[]).sort((a,b)=>b.minuten-a.minuten);
   document.getElementById('adm-w-body').innerHTML=werke.length
     ? werke.map(w=>`<div class="rang-row">
@@ -769,21 +686,6 @@ function renderAdmin() {
     : '<div class="empty">Noch keine Einträge.</div>';
 }
 
-// ── BEDARF (ERWEITERT FÜR STANDALONE INITIALISIERUNG) ─────────
-async function ladeBedarf(){
-  const url=`https://docs.google.com/spreadsheets/d/1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ/gviz/tq?tqx=out:csv&gid=1642432141`;
-  try{
-    const res=await fetch(url);const text=await res.text();
-    const termine=[];
-    text.trim().split('\n').slice(1).forEach(z=>{
-      // Einfaches CSV-Parsing für administrative Zwecke
-      const t=z.split(','); if(t.length<5)return;
-      termine.push({projekt:t[0], datum:t[4]||t[5]});
-    });
-  }catch(e){console.error(e);}
-}
-
-// ── AUTO-LOGIN ────────────────────────────────────────────────
 (function(){
   const s=sessionStorage.getItem('hso_ich');
   if (s) { try { ich=JSON.parse(s); oeffneStudentBereich(); return; } catch(e){} }
