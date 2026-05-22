@@ -275,10 +275,9 @@ const FARBEN = {
   'default':{bg:'#F1EFE8',color:'#5F5E5A'}
 };
 
-// Cache pro SJ: ?action=programm wird einmal geladen, dann per Projektname gefiltert
 const ueCache={};
 
-// ── HILFSFUNKTIONEN (KORRIGIERT & STABILISIERT) ────────────────
+// ── HILFSFUNKTIONEN ───────────────────────────────────────────
 function getFarbe(n){for(const k in FARBEN){if(n.indexOf(k)!==-1)return FARBEN[k];}return FARBEN['default'];}
 function getKuerzel(n){
   if(n.startsWith('HSO Blattspiel'))return'BS';
@@ -293,18 +292,15 @@ function aktuellesSj(){
   const d=new Date(),m=d.getMonth(),y=d.getFullYear()%100;
   return m>=8?y+'_'+(y+1):(y-1)+'_'+y;
 }
-
-// Prüft ob ein Datum im Studienjahr "xx_yy" liegt (Sept xx bis Aug yy)
 function istInSpieljahr(datum, sj){
   if(!datum||!sj)return false;
   const parts=sj.split('_');
   if(parts.length!==2)return false;
-  const von=new Date(2000+parseInt(parts[0],10), 8, 1);  // 1. Sept Jahr 1
-  const bis=new Date(2000+parseInt(parts[1],10), 7, 31); // 31. Aug Jahr 2
+  const von=new Date(2000+parseInt(parts[0],10), 8, 1);
+  const bis=new Date(2000+parseInt(parts[1],10), 7, 31);
   bis.setHours(23,59,59,999);
   return datum>=von && datum<=bis;
 }
-
 function parseCsvZeile(z){
   const res=[];let cur='',inQ=false,i=0;
   while(i<z.length){
@@ -324,27 +320,18 @@ function parseCsvZeile(z){
   res.push(cur);
   return res;
 }
-
 function parseDatum(s){
   if(!s)return null;
   const str=String(s).trim();
-  
-  // Format: DD.MM.YYYY
   let m=str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
-  if(m)return new Date(parseInt(m[3],10), parseInt(m[2],10)-1, parseInt(m[1],10));
-  
-  // Format: YYYY-MM-DD
+  if(m)return new Date(parseInt(m[3],10),parseInt(m[2],10)-1,parseInt(m[1],10));
   m=str.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if(m)return new Date(parseInt(m[1],10), parseInt(m[2],10)-1, parseInt(m[3],10));
-  
-  // Format: Date(YYYY,MM,DD) von Google JSONs
+  if(m)return new Date(parseInt(m[1],10),parseInt(m[2],10)-1,parseInt(m[3],10));
   m=str.match(/^Date\((\d{4}),(\d{1,2}),(\d{1,2})\)/);
-  if(m)return new Date(parseInt(m[1],10), parseInt(m[2],10), parseInt(m[3],10));
-  
+  if(m)return new Date(parseInt(m[1],10),parseInt(m[2],10),parseInt(m[3],10));
   const d=new Date(str);
   return isNaN(d.getTime())?null:d;
 }
-
 function ddmmyyyy(d){
   return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();
 }
@@ -359,7 +346,7 @@ function showTab(name,btn){
   btn.classList.add('active');
 }
 
-// ── ÜBERSETZER-EVENTS LADEN (REPARIERT) ───────────────────────
+// ── EVENTS LADEN ─────────────────────────────────────────────
 async function ladeUeEvents(projektName, sjTarget){
   const sj=sjTarget||aktuellesSj();
   if(!ueCache[sj]){
@@ -370,37 +357,28 @@ async function ladeUeEvents(projektName, sjTarget){
     }catch(e){console.error('Web-App Programm-Fehler:',e);ueCache[sj]={};}
   }
   const rohdaten=ueCache[sj][projektName]||[];
-  
   return rohdaten.map(ev=>{
     const temporaeresDatum=parseDatum(ev.datum);
     if(!temporaeresDatum)return null;
-    
-    // WICHTIG: Klone das Objekt explizit, um Speicherreferenz-Fehler zu vermeiden
     const datObj=new Date(temporaeresDatum.getTime());
-    
     const datAnzeige=ev.datum||ddmmyyyy(datObj);
     const wt=WT[datObj.getDay()];
-    const uhr=ev.uhrzeit||'';
+    const uhr=ev.uhrzeit|| '';
     const ort=ev.ort||'';
-    
     let kopf=wt+', '+datAnzeige+(uhr?' '+uhr:'')+'    '+(ev._titel||projektName);
     if(ort)kopf+='    |    '+ort;
-    
     const werke=(ev.werke||[]).filter(w=>!w.pause);
     let leitung='';
     if(ev.leitung&&ev.leitung.length){
       const namen=ev.leitung.map(l=>typeof l==='object'?l.name:String(l)).filter(Boolean);
       leitung='Leitung: '+(namen.length===1?namen[0]:namen.map((n,i)=>(i+1)+'. '+n).join(' / '));
     }
-    
     const tp=datAnzeige.split('.');
-    const tabLabel=wt+' '+String(tp[0]||'?').padStart(2,'0')+'.'+String(tp[1]||'?').padStart(2,'0')+'.';
-    
+    const tabLabel=wt+' '+String(tp[0]||'?').padStart(2,'0')+'.' +String(tp[1]||'?').padStart(2,'0')+'.';
     return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null};
   }).filter(Boolean).sort((a,b)=>a.datObj.getTime()-b.datObj.getTime());
 }
 
-// ── EVENT-PROGRAMM HTML ───────────────────────────────────────
 function renderEventProgramm(ev){
   let h='<div class="event-kopf">'+esc(ev.kopf)+'</div>';
   if(!ev.werke.length){
@@ -418,21 +396,16 @@ function renderEventProgramm(ev){
       h+='</div>';
     }
   }
-  // Solisten
   if(ev.solisten&&ev.solisten.length){
     h+='<div class="werk-leitung">';
-    ev.solisten.forEach(s=>{
-      h+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'<br>';
-    });
+    ev.solisten.forEach(s=>{h+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'<br>';});
     h+='</div>';
   }
-  // Ensemble
   if(ev.ensemble)h+='<div class="werk-leitung">'+esc(ev.ensemble)+'</div>';
   if(ev.leitung)h+='<div class="werk-leitung">'+esc(ev.leitung)+'</div>';
   return h;
 }
 
-// ── PROJEKTE LADEN ────────────────────────────────────────────
 async function ladeProjekte(){
   const params=new URLSearchParams(window.location.search);
   const sjNow=aktuellesSj();
@@ -485,7 +458,6 @@ async function ladeProjekte(){
   }
 }
 
-// ── STANDARD-PROJEKT ──────────────────────────────────────────
 const docCache={};
 async function ladeProjektDoc(docId){
   if(docCache[docId])return docCache[docId];
@@ -549,7 +521,6 @@ function showProjTab(e,cId,tab){
   document.getElementById(cId+'-'+tab).classList.add('active');
 }
 
-// ── BLATTSPIEL / REPERTOIRE (SAUBERE FILTERUNG) ────────────────
 async function toggleBR(cId,docId,projektName,sjTarget){
   const body=document.getElementById(cId),chev=document.getElementById('chev-'+cId);
   const open=body.classList.contains('open');
@@ -591,7 +562,6 @@ function showEvTabIn(e,containerId,idx){
   if(sec)sec.classList.add('active');
 }
 
-// ── BEDARF ────────────────────────────────────────────────────
 async function ladeBedarf(){
   const url=`https://docs.google.com/spreadsheets/d/${BEDARF_SHEET_ID}/gviz/tq?tqx=out:csv&gid=${BEDARF_GID}`;
   try{
@@ -614,26 +584,28 @@ async function ladeBedarf(){
     if(!termine.length){liste.innerHTML='<div class="loading">Keine kommenden Termine.</div>';return;}
     liste.innerHTML=termine.map((t,i)=>{
       const f=getFarbe(t.projekt),did='bedarf-'+i;
-      return '<div class="bedarf-card">'
+      let h = '<div class="bedarf-card">'
         +'<div class="bedarf-header" onclick="toggleBedarf(\''+did+'\')">'
-        +'<div class="bedarf-nummer" style="background:'+f.bg+';color:'+f.color+'">'+( i+1)+'</div>'
+        +'<div class="bedarf-nummer" style="background:'+f.bg+';color:'+f.color+'">'+(i+1)+'</div>'
         +'<div class="bedarf-titel"><div class="bedarf-projekt">'+esc(t.projekt)+'</div>'
-        +'<div class="bedarf-datum">'+esc(t.datum)+'</div>'
-        +'+(t.ort?'<div class="bedarf-ort">'+esc(t.ort)+'</div>':'')+'</div>'
+        +'<div class="bedarf-datum">'+esc(t.datum)+'</div>';
+      if(t.ort){ h += '<div class="bedarf-ort">'+esc(t.ort)+'</div>'; }
+      h += '</div>'
         +'<div class="bedarf-toggle" id="btog-'+did+'"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>'
         +'</div>'
-        +'<div class="bedarf-details" id="'+did+'">'
-        +(t.werke?'<div class="werk-text">'+esc(t.werke)+'</div>':'')
-        +'<div class="stat-row">'
+        +'<div class="bedarf-details" id="'+did+'">';
+      if(t.werke){ h += '<div class="werk-text">'+esc(t.werke)+'</div>'; }
+      h += '<div class="stat-row">'
         +'<div class="stat-box"><div class="stat-num">'+(t.stuehle||'–')+'</div><div class="stat-label">Stühle</div></div>'
         +'<div class="stat-box"><div class="stat-num">'+(t.pulte||'–')+'</div><div class="stat-label">Pulte</div></div>'
         +'<div class="stat-box"><div class="stat-num">'+(t.basshocker||'–')+'</div><div class="stat-label">Basshocker</div></div>'
         +'<div class="stat-box"><div class="stat-num">'+(t.klHocker||'–')+'</div><div class="stat-label">Klavierhocker</div></div>'
-        +'</div>'
-        +(t.tasten?'<div class="bedarf-row"><div class="bedarf-label">Tasten/Harfe</div><div class="bedarf-value">'+esc(t.tasten)+'</div></div>':'')
-        +(t.gesamt?'<div class="bedarf-row"><div class="bedarf-label">Gesamt</div><div class="bedarf-value">'+esc(t.gesamt)+'</div></div>':'')
-        +(t.aufbauplan?'<div class="bedarf-aufbau"><a href="'+t.aufbauplan+'" target="_blank"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Aufbauplan</a></div>':'')
-        +'</div></div>';
+        +'</div>';
+      if(t.tasten){ h += '<div class="bedarf-row"><div class="bedarf-label">Tasten/Harfe</div><div class="bedarf-value">'+esc(t.tasten)+'</div></div>'; }
+      if(t.gesamt){ h += '<div class="bedarf-row"><div class="bedarf-label">Gesamt</div><div class="bedarf-value">'+esc(t.gesamt)+'</div></div>'; }
+      if(t.aufbauplan){ h += '<div class="bedarf-aufbau"><a href="'+t.aufbauplan+'" target="_blank"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Aufbauplan</a></div>'; }
+      h += '</div></div>';
+      return h;
     }).join('');
   }catch(e){document.getElementById('bedarf-liste').innerHTML='<div class="loading">Laden fehlgeschlagen.</div>';}
 }
@@ -642,12 +614,10 @@ function toggleBedarf(did){
   document.getElementById(did).classList.toggle('open');
   document.getElementById('btog-'+did).classList.toggle('open');
 }
-
 function copyICal(){
   navigator.clipboard.writeText('https://calendar.google.com/calendar/ical/b11b52fea156e762892f701f4ecc35cc1ccbbb80f21b5e7ca3e924d251bb6d1b%40group.calendar.google.com/public/basic.ics').catch(()=>{});
 }
 
-// Initialer Start
 ladeProjekte();
 ladeBedarf();
 </script>
