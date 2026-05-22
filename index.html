@@ -275,7 +275,10 @@ const FARBEN = {
   'default':{bg:'#F1EFE8',color:'#5F5E5A'}
 };
 
-// ── HILFSFUNKTIONEN ───────────────────────────────────────────
+// Cache pro SJ: ?action=programm wird einmal geladen, dann per Projektname gefiltert
+const ueCache={};
+
+// ── HILFSFUNKTIONEN (KORRIGIERT & STABILISIERT) ────────────────
 function getFarbe(n){for(const k in FARBEN){if(n.indexOf(k)!==-1)return FARBEN[k];}return FARBEN['default'];}
 function getKuerzel(n){
   if(n.startsWith('HSO Blattspiel'))return'BS';
@@ -290,6 +293,7 @@ function aktuellesSj(){
   const d=new Date(),m=d.getMonth(),y=d.getFullYear()%100;
   return m>=8?y+'_'+(y+1):(y-1)+'_'+y;
 }
+
 // Prüft ob ein Datum im Studienjahr "xx_yy" liegt (Sept xx bis Aug yy)
 function istInSpieljahr(datum, sj){
   if(!datum||!sj)return false;
@@ -300,6 +304,7 @@ function istInSpieljahr(datum, sj){
   bis.setHours(23,59,59,999);
   return datum>=von && datum<=bis;
 }
+
 function parseCsvZeile(z){
   const res=[];let cur='',inQ=false,i=0;
   while(i<z.length){
@@ -319,18 +324,27 @@ function parseCsvZeile(z){
   res.push(cur);
   return res;
 }
+
 function parseDatum(s){
   if(!s)return null;
   const str=String(s).trim();
-  let m=str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
-  if(m)return new Date(+m[3],+m[2]-1,+m[1]);
+  
+  // Format: DD.MM.YYYY
+  let m=str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if(m)return new Date(parseInt(m[3],10), parseInt(m[2],10)-1, parseInt(m[1],10));
+  
+  // Format: YYYY-MM-DD
   m=str.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if(m)return new Date(+m[1],+m[2]-1,+m[3]);
-  m=str.match(/^Date\((\d{4}),(\d{1,2}),(\d{1,2})\)$/);
-  if(m)return new Date(+m[1],+m[2],+m[3]);
+  if(m)return new Date(parseInt(m[1],10), parseInt(m[2],10)-1, parseInt(m[3],10));
+  
+  // Format: Date(YYYY,MM,DD) von Google JSONs
+  m=str.match(/^Date\((\d{4}),(\d{1,2}),(\d{1,2})\)/);
+  if(m)return new Date(parseInt(m[1],10), parseInt(m[2],10), parseInt(m[3],10));
+  
   const d=new Date(str);
   return isNaN(d.getTime())?null:d;
 }
+
 function ddmmyyyy(d){
   return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();
 }
@@ -345,9 +359,7 @@ function showTab(name,btn){
   btn.classList.add('active');
 }
 
-// ── ÜBERSETZER-EVENTS LADEN (via Web-App) ────────────────────
-// Cache pro SJ: ?action=programm wird einmal geladen, dann per Projektname gefiltert
-const ueCache={};
+// ── ÜBERSETZER-EVENTS LADEN (REPARIERT) ───────────────────────
 async function ladeUeEvents(projektName, sjTarget){
   const sj=sjTarget||aktuellesSj();
   if(!ueCache[sj]){
@@ -358,25 +370,34 @@ async function ladeUeEvents(projektName, sjTarget){
     }catch(e){console.error('Web-App Programm-Fehler:',e);ueCache[sj]={};}
   }
   const rohdaten=ueCache[sj][projektName]||[];
+  
   return rohdaten.map(ev=>{
-    const datObj=parseDatum(ev.datum);
-    if(!datObj)return null;
+    const temporaeresDatum=parseDatum(ev.datum);
+    if(!temporaeresDatum)return null;
+    
+    // WICHTIG: Klone das Objekt explizit, um Speicherreferenz-Fehler zu vermeiden
+    const datObj=new Date(temporaeresDatum.getTime());
+    
     const datAnzeige=ev.datum||ddmmyyyy(datObj);
     const wt=WT[datObj.getDay()];
     const uhr=ev.uhrzeit||'';
     const ort=ev.ort||'';
+    
     let kopf=wt+', '+datAnzeige+(uhr?' '+uhr:'')+'    '+(ev._titel||projektName);
     if(ort)kopf+='    |    '+ort;
+    
     const werke=(ev.werke||[]).filter(w=>!w.pause);
     let leitung='';
     if(ev.leitung&&ev.leitung.length){
       const namen=ev.leitung.map(l=>typeof l==='object'?l.name:String(l)).filter(Boolean);
       leitung='Leitung: '+(namen.length===1?namen[0]:namen.map((n,i)=>(i+1)+'. '+n).join(' / '));
     }
+    
     const tp=datAnzeige.split('.');
-    const tabLabel=wt+' '+(tp[0]||'?')+'.'+(tp[1]||'?')+'.';
+    const tabLabel=wt+' '+String(tp[0]||'?').padStart(2,'0')+'.'+String(tp[1]||'?').padStart(2,'0')+'.';
+    
     return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null};
-  }).filter(Boolean).sort((a,b)=>a.datObj-b.datObj);
+  }).filter(Boolean).sort((a,b)=>a.datObj.getTime()-b.datObj.getTime());
 }
 
 // ── EVENT-PROGRAMM HTML ───────────────────────────────────────
@@ -487,6 +508,7 @@ async function ladeProjektDoc(docId){
     return ab;
   }catch(e){return null;}
 }
+
 async function toggleStd(cId,docId,projektName,sjTarget){
   const body=document.getElementById(cId),chev=document.getElementById('chev-'+cId);
   const open=body.classList.contains('open');
@@ -494,20 +516,17 @@ async function toggleStd(cId,docId,projektName,sjTarget){
   if(!open){
     const prog=document.getElementById(cId+'-programm');
     if(prog&&prog.querySelector('.proj-loading')){
-      // Programm: aus Web-App (Übersetzer)
       const events=await ladeUeEvents(projektName,sjTarget);
       const elProg=document.getElementById(cId+'-programm');
       if(elProg){
         if(!events||events.length===0){
           elProg.innerHTML='<p class="proj-text-muted">(Noch kein Programm)</p>';
         }else{
-          // Vorstellungs-Events als Tabs
           const tabs=events.map((ev,i)=>'<button class="event-tab '+(i===0?'active':'')+'" onclick="showEvTabIn(event,\''+cId+'-programm\','+i+')">'+esc(ev.tabLabel)+'</button>').join('');
           const secs=events.map((ev,i)=>'<div class="event-section '+(i===0?'active':'')+'" id="'+cId+'-programm-prog-ev-'+i+'">'+renderEventProgramm(ev)+'</div>').join('');
           elProg.innerHTML='<div class="event-tabs-wrap"><div class="event-tabs">'+tabs+'</div></div><div class="event-sections">'+secs+'</div>';
         }
       }
-      // Probenplan, Spielende, Biografien: weiterhin aus Doc
       const data=await ladeProjektDoc(docId);
       const set=(s,arr,txt)=>{
         const el=document.getElementById(cId+'-'+s);if(!el)return;
@@ -520,6 +539,7 @@ async function toggleStd(cId,docId,projektName,sjTarget){
     }
   }
 }
+
 function showProjTab(e,cId,tab){
   e.stopPropagation();
   const body=document.getElementById(cId);
@@ -529,8 +549,7 @@ function showProjTab(e,cId,tab){
   document.getElementById(cId+'-'+tab).classList.add('active');
 }
 
-// ── BLATTSPIEL / REPERTOIRE ───────────────────────────────────
-// sjTarget wird übergeben damit nur Termine des aktiven Studienjahrs (Sept–Aug) gezeigt werden
+// ── BLATTSPIEL / REPERTOIRE (SAUBERE FILTERUNG) ────────────────
 async function toggleBR(cId,docId,projektName,sjTarget){
   const body=document.getElementById(cId),chev=document.getElementById('chev-'+cId);
   const open=body.classList.contains('open');
@@ -538,8 +557,7 @@ async function toggleBR(cId,docId,projektName,sjTarget){
   if(!open){
     const loading=document.getElementById(cId+'-loading');
     if(loading){
-      const alleEvents=await ladeUeEvents(projektName);
-      // Nur Termine im Studienjahr sjTarget behalten
+      const alleEvents=await ladeUeEvents(projektName, sjTarget);
       const events=alleEvents.filter(ev=>istInSpieljahr(ev.datObj,sjTarget));
       if(!events||events.length===0){
         body.innerHTML='<div style="padding:14px"><p class="proj-text-muted">Keine Termine für '+esc(sjTarget.replace('_','/'))+' gefunden.</p></div>';
@@ -551,6 +569,7 @@ async function toggleBR(cId,docId,projektName,sjTarget){
     }
   }
 }
+
 function showEvTab(e,cId,idx){
   e.stopPropagation();
   const body=document.getElementById(cId);
@@ -560,7 +579,7 @@ function showEvTab(e,cId,idx){
   const sec=document.getElementById(cId+'-ev-'+idx);
   if(sec)sec.classList.add('active');
 }
-// Variante für Programm-Tab: sucht im elProg-Container statt proj-body
+
 function showEvTabIn(e,containerId,idx){
   e.stopPropagation();
   const container=document.getElementById(containerId);
@@ -587,7 +606,7 @@ async function ladeBedarf(){
       const t=parseCsvZeile(z);if(t.length<10)return;
       const datumRaw=t[5]||t[4];if(!datumRaw)return;
       const parts=datumRaw.split(' ')[0].split('.');if(parts.length<3)return;
-      const datum=new Date(+parts[2],+parts[1]-1,+parts[0]);
+      const datum=new Date(parseInt(parts[2],10),parseInt(parts[1],10)-1,parseInt(parts[0],10));
       if(datum<sjVon||datum>sjBis)return;
       termine.push({projekt:t[0],ort:t[1],werke:t[2],datum:datumRaw,aufbauplan:t[7],tasten:t[9],stuehle:t[10],basshocker:t[11],klHocker:t[12],pulte:t[13],gesamt:t[14]});
     });
@@ -600,7 +619,7 @@ async function ladeBedarf(){
         +'<div class="bedarf-nummer" style="background:'+f.bg+';color:'+f.color+'">'+( i+1)+'</div>'
         +'<div class="bedarf-titel"><div class="bedarf-projekt">'+esc(t.projekt)+'</div>'
         +'<div class="bedarf-datum">'+esc(t.datum)+'</div>'
-        +(t.ort?'<div class="bedarf-ort">'+esc(t.ort)+'</div>':'')+'</div>'
+        +'+(t.ort?'<div class="bedarf-ort">'+esc(t.ort)+'</div>':'')+'</div>'
         +'<div class="bedarf-toggle" id="btog-'+did+'"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>'
         +'</div>'
         +'<div class="bedarf-details" id="'+did+'">'
@@ -618,6 +637,7 @@ async function ladeBedarf(){
     }).join('');
   }catch(e){document.getElementById('bedarf-liste').innerHTML='<div class="loading">Laden fehlgeschlagen.</div>';}
 }
+
 function toggleBedarf(did){
   document.getElementById(did).classList.toggle('open');
   document.getElementById('btog-'+did).classList.toggle('open');
@@ -627,6 +647,7 @@ function copyICal(){
   navigator.clipboard.writeText('https://calendar.google.com/calendar/ical/b11b52fea156e762892f701f4ecc35cc1ccbbb80f21b5e7ca3e924d251bb6d1b%40group.calendar.google.com/public/basic.ics').catch(()=>{});
 }
 
+// Initialer Start
 ladeProjekte();
 ladeBedarf();
 </script>
