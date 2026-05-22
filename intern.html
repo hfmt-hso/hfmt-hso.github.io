@@ -188,7 +188,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </a>
 </div>
 
-<!-- ══ SCREEN: LOGIN ══ -->
 <div class="screen active" id="sc-login">
   <div class="login-hero">
     <div class="login-icon">🎼</div>
@@ -214,7 +213,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- ══ SCREEN: PW SETZEN ══ -->
 <div class="screen" id="sc-pw-setzen">
   <div class="login-hero">
     <div class="login-icon">🔐</div>
@@ -235,7 +233,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- ══ SCREEN: STUDENT ══ -->
 <div class="screen" id="sc-student">
   <div class="welcome-bar">
     <div>
@@ -255,7 +252,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div id="meine-stats"><div class="spinner">Lade…</div></div>
 </div>
 
-<!-- ══ SCREEN: PW ÄNDERN ══ -->
 <div class="screen" id="sc-pw-aendern">
   <div class="login-hero">
     <div class="login-icon">🔐</div>
@@ -278,7 +274,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- ══ SCREEN: ADMIN LOGIN ══ -->
 <div class="screen" id="sc-admin-login">
   <div class="login-hero">
     <div class="login-icon">🔑</div>
@@ -295,7 +290,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- ══ SCREEN: ADMIN ══ -->
 <div class="screen" id="sc-admin">
   <div class="admin-bar">
     <div>
@@ -410,12 +404,21 @@ async function hash(s) {
 async function apiGet(p)  { return (await fetch(WEBAPP_URL+'?'+new URLSearchParams(p))).json(); }
 async function apiPost(d) { return (await fetch(WEBAPP_URL,{method:'POST',body:JSON.stringify(d)})).json(); }
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// KORRIGIERTE PARSE-FUNKTION MIT BASISSCHUTZ (parseInt(..., 10))
 function parseDate(s){
   if(!s) return null;
-  const m=String(s).match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
-  if(m) return new Date(+m[3],+m[2]-1,+m[1]);
-  const d=new Date(s); return isNaN(d.getTime())?null:d;
+  const str = String(s).trim();
+  
+  let m=str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if(m) return new Date(parseInt(m[3],10), parseInt(m[2],10)-1, parseInt(m[1],10));
+  
+  m=str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(m) return new Date(parseInt(m[1],10), parseInt(m[2],10)-1, parseInt(m[3],10));
+  
+  const d=new Date(str); return isNaN(d.getTime())?null:d;
 }
+
 let _tt=null;
 function toast(msg){
   const el=document.getElementById('toast');
@@ -512,20 +515,20 @@ async function ladeTermine() {
   } catch(e) { el.innerHTML='<div class="empty">⚠️ Laden fehlgeschlagen.</div>'; }
 }
 
-// ── TERMIN RENDERN ────────────────────────────────────────────
+// ── TERMIN RENDERN (SICHER GEKLONT) ───────────────────────────
 function renderTermin(t, idx) {
-  const d   = parseDate(t.datum);
+  const temporaeresDatum = parseDate(t.datum);
+  
+  // Sicheren Klon des Objekts anlegen
+  const d = temporaeresDatum ? new Date(temporaeresDatum.getTime()) : null;
+  
   const tag = d ? d.getDate() : '?';
   const mon = d ? MONATE[d.getMonth()] : '';
   const wt  = d ? WT[d.getDay()] : '';
 
-  // Mein eigener Eintrag für diesen Termin
   const mein = alleEintr.find(e=>e.terminId===t.id);
-
-  // Alle Teilnehmer-Chips (aus t.teilnehmer falls vorhanden)
   const chips = (t.teilnehmer||[]).map(n=>`<div class="chip">${esc(n)}</div>`).join('');
 
-  // Werk-Dropdown aufbauen
   const werkOptionen = (t.werke||[])
     .filter(w=>w.titel&&w.titel!=='Unterricht')
     .map(w=>`<option value="${esc(w.id)}">${esc(w.komponist?w.komponist+' – '+w.titel:w.titel)}</option>`)
@@ -533,7 +536,6 @@ function renderTermin(t, idx) {
   const hatWerke = werkOptionen.length > 0;
 
   const meinMinVal = mein ? mein.minuten : 0;
-  const meinWerkId = mein ? mein.werkId  : '';
   const meinWerkFrei = mein ? (mein.werkFreitext||'') : '';
 
   return `<div class="termin-card">
@@ -603,7 +605,7 @@ function werkGeaendert(idx) {
 }
 function waehleMin(idx, val) {
   document.getElementById('mg-'+idx).querySelectorAll('.min-btn').forEach(b=>{
-    b.classList.toggle('active', parseInt(b.textContent)===val);
+    b.classList.toggle('active', parseInt(b.textContent, 10)===val);
   });
 }
 
@@ -614,12 +616,10 @@ async function speichern(idx) {
   const hint = document.getElementById('shint-'+idx);
   btn.disabled=true; hint.textContent='Wird gespeichert…';
 
-  // Minuten
   const aktMin = document.querySelector(`#mg-${idx} .min-btn.active`);
-  const minuten = aktMin ? parseInt(aktMin.textContent) : 0;
+  const minuten = aktMin ? parseInt(aktMin.textContent, 10) : 0;
   if (!minuten) { hint.textContent='Bitte Probezeit auswählen.'; btn.disabled=false; return; }
 
-  // Werk
   let werkId='', werkFreitext='';
   const werkSel = document.getElementById('werk-'+idx);
   if (werkSel) {
@@ -640,15 +640,12 @@ async function speichern(idx) {
     if (j.ok) {
       hint.textContent='✅ Gespeichert!';
       toast('✅ Eintragung gespeichert!');
-      // Cache aktualisieren
       alleEintr = alleEintr.filter(e=>e.terminId!==t.id);
       alleEintr.push({terminId:t.id, werkId, werkFreitext, minuten});
-      // Badge setzen
       const head = document.getElementById('tb-'+idx).previousElementSibling;
       if (!head.querySelector('.badge-ok')) {
         head.querySelector('.termin-right').insertAdjacentHTML('afterbegin','<div class="badge-ok">✓ Eingetragen</div>');
       }
-      // Chips aktualisieren
       const chipsEl = head.querySelector('.teiln-chips');
       const neuChip = `<div class="chip">${esc(ich.name)}</div>`;
       if (chipsEl) { if(!chipsEl.innerHTML.includes(esc(ich.name))) chipsEl.insertAdjacentHTML('beforeend',neuChip); }
@@ -666,7 +663,6 @@ async function ladeMeineStats() {
     const j=await apiGet({action:'meineStats', mtknr:ich.mtknr});
     if (!j.ok||!j.data) { el.innerHTML='<div class="empty">Noch keine Einträge.</div>'; return; }
     const d=j.data;
-    // Minuten → h:mm
     function fmt(min){ return Math.floor(min/60)+'h '+String(min%60).padStart(2,'0')+'min'; }
     const maxMin = d.werke.length ? Math.max(...d.werke.map(w=>w.minuten)) : 1;
     el.innerHTML=`<div class="stats-card">
