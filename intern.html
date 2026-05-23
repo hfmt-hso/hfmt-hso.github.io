@@ -315,16 +315,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div id="adm-werke" style="display:none"><div class="rangliste" id="adm-w-body"><div class="spinner">Lade…</div></div></div>
   <div id="adm-termine" style="display:none"><div class="rangliste"><div class="rang-head">Eintragungen je Termin</div><div id="adm-t-body"><div class="spinner">Lade…</div></div></div></div>
   <div class="slabel">Studienjahr-Vorschau</div>
-  <a class="doc-link" href="index.html?sj=26_27" target="_blank" rel="noopener">
-    <div class="doc-icon" style="background:#fce4ec;font-size:1rem">👁</div>
-    <div><div class="doc-name">Vorschau 26/27</div><div class="doc-type">Portal · Nächstes Studienjahr</div></div>
-    <span class="doc-arrow">↗</span>
-  </a>
-  <a class="doc-link" href="index.html?sj=27_28" target="_blank" rel="noopener">
-    <div class="doc-icon" style="background:#f3e5f5;font-size:1rem">👁</div>
-    <div><div class="doc-name">Vorschau 27/28</div><div class="doc-type">Portal · Übernächstes Studienjahr</div></div>
-    <span class="doc-arrow">↗</span>
-  </a>
+  <div id="vorschau-links"></div>
   <button class="logout-btn" onclick="adminLogout()">🔒 Abmelden</button>
 </div>
 
@@ -346,6 +337,30 @@ let ich          = null;
 let alleTermine  = [];
 let alleEintr    = [];
 let adminDaten   = null;
+
+function aktuellesSj() {
+  const d=new Date(), m=d.getMonth(), y=d.getFullYear()%100;
+  return m>=8 ? y+'_'+(y+1) : (y-1)+'_'+y;
+}
+
+function renderVorschauLinks() {
+  const sj = aktuellesSj();
+  const parts = sj.split('_');
+  const a = parseInt(parts[0]), b = parseInt(parts[1]);
+  // Drei Links: aktuelles SJ, nächstes, übernächstes
+  const jahre = [
+    { sj: sj,                       label: sj.replace('_','/'),             sub: 'Portal · Aktuelles Studienjahr',   bg: '#e8f5e9', icon: '👁' },
+    { sj: (a+1)+'_'+(b+1),         label: (a+1)+'/'+(b+1),                 sub: 'Portal · Nächstes Studienjahr',    bg: '#fce4ec', icon: '👁' },
+    { sj: (a+2)+'_'+(b+2),         label: (a+2)+'/'+(b+2),                 sub: 'Portal · Übernächstes Studienjahr',bg: '#f3e5f5', icon: '👁' }
+  ];
+  document.getElementById('vorschau-links').innerHTML = jahre.map(j =>
+    `<a class="doc-link" href="index.html?sj=${j.sj}" target="_blank" rel="noopener">
+      <div class="doc-icon" style="background:${j.bg};font-size:1rem">${j.icon}</div>
+      <div><div class="doc-name">Vorschau ${j.label}</div><div class="doc-type">${j.sub}</div></div>
+      <span class="doc-arrow">↗</span>
+    </a>`
+  ).join('');
+}
 
 function zeige(id) {
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -607,6 +622,7 @@ async function adminLogin() {
     sessionStorage.setItem('hso_auth','1');
     document.getElementById('a-pw').value='';
     zeige('sc-admin');
+    renderVorschauLinks();
     ladeAdminDaten();
   } else {
     err.textContent='Falsches Passwort.';
@@ -689,7 +705,7 @@ function renderAdmin() {
 (function(){
   const s=sessionStorage.getItem('hso_ich');
   if (s) { try { ich=JSON.parse(s); oeffneStudentBereich(); return; } catch(e){} }
-  if (sessionStorage.getItem('hso_auth')==='1') { zeige('sc-admin'); ladeAdminDaten(); }
+  if (sessionStorage.getItem('hso_auth')==='1') { zeige('sc-admin'); renderVorschauLinks(); ladeAdminDaten(); }
 })();
 </script>
 </body>
