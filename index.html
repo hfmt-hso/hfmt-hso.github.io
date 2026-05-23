@@ -337,6 +337,7 @@ function ddmmyyyy(d){
 }
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function istBR(n){return /Blattspiel|Repertoire/i.test(n);}
+function ohnestern(s){return String(s||'').replace(/^\*/,'');}
 
 // ── NAVIGATION ────────────────────────────────────────────────
 function showTab(name,btn){
@@ -365,7 +366,7 @@ async function ladeUeEvents(projektName, sjTarget){
     const wt=WT[datObj.getDay()];
     const uhr=ev.uhrzeit|| '';
     const ort=ev.ort||'';
-    let kopf=wt+', '+datAnzeige+(uhr?' '+uhr:'')+'    '+(ev._titel||projektName);
+    let kopf=wt+', '+datAnzeige+(uhr?' '+uhr:'')+'    '+ohnestern(ev._titel||projektName);
     if(ort)kopf+='    |    '+ort;
     const werke=(ev.werke||[]).filter(w=>!w.pause);
     let leitung='';
