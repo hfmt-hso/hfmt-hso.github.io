@@ -146,7 +146,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <p>Hochschulorchester · HfMT Hamburg</p>
       </div>
     </div>
-    <span class="badge badge-green" id="sj-badge">25/26</span>
+    <span class="badge badge-green" id="sj-badge"></span>
   </div>
 </div>
 
@@ -410,6 +410,8 @@ async function ladeProjekte(){
   const params=new URLSearchParams(window.location.search);
   const sjNow=aktuellesSj();
   const sjTarget=params.get('sj')||sjNow;
+  // Badge sofort setzen — unabhängig ob Projekte gefunden werden
+  document.getElementById('sj-badge').textContent=sjTarget.replace('_','/');
   try{
     const res=await fetch(`${WEBAPP_URL}?action=projekte&sj=${sjTarget}`);
     const json=await res.json();
