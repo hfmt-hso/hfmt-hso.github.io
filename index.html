@@ -422,7 +422,7 @@ async function ladeProjekte(){
     if(!projekte.length){liste.innerHTML='<div class="loading">Keine Projekte gefunden.</div>';return;}
     document.getElementById('sj-badge').textContent=sjTarget.replace('_','/');
     liste.innerHTML=projekte.map((p,i)=>{
-      const f=getFarbe(p.name),k=getKuerzel(p.name),cId='proj-'+i;
+      const f=getFarbe(p.name),k=p.zusatz?'*':getKuerzel(p.name),cId='proj-'+i;
       const pAttr=p.name.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
       const sjAttr=sjTarget.replace(/"/g,'&quot;');
       if(istBR(p.name)){
