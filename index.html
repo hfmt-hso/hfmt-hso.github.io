@@ -396,7 +396,8 @@ function renderEventProgramm(ev){
       const det=[];
       if(w.dauer)det.push('Dauer: '+w.dauer);
       if(w.besetzung)det.push('Besetzung: '+w.besetzung);
-      if(det.length)h+='<div class="werk-details">'+esc(det.join('  '))+'</div>';
+      if(w.dauer)h+='<div class="werk-details">'+esc('Dauer: '+w.dauer)+'</div>';
+      if(w.besetzung)h+='<div class="werk-details">'+esc('Besetzung: '+w.besetzung)+'</div>';
       h+='</div>';
     }
   }
