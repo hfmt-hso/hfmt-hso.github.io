@@ -620,7 +620,22 @@ function toggleBedarf(did){
 function copyICal(){
   navigator.clipboard.writeText('https://calendar.google.com/calendar/ical/b11b52fea156e762892f701f4ecc35cc1ccbbb80f21b5e7ca3e924d251bb6d1b%40group.calendar.google.com/public/basic.ics').catch(()=>{});
 }
+// ── PULL TO REFRESH ───────────────────────────────────────────
+let touchStartY = 0;
 
+document.addEventListener('touchstart', e => {
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+  const diff = e.changedTouches[0].clientY - touchStartY;
+  if (diff > 80 && window.scrollY === 0) {
+    location.reload();
+  }
+}, { passive: true });
+
+ladeProjekte();
+ladeBedarf();
 ladeProjekte();
 ladeBedarf();
 </script>
