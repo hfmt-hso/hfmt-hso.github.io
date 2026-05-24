@@ -429,7 +429,7 @@ async function ladeProjekte(){
         return `<div class="proj-card">
   <div class="proj-header" onclick="toggleBR('${cId}','${p.docId}','${pAttr}','${sjAttr}')">
     <div class="proj-icon" style="background:${f.bg};color:${f.color}">${k}</div>
-    <div class="proj-meta"><div class="proj-name">${esc(p.name)}</div><div class="proj-sub">${p.sj.replace('_','/')}</div></div>
+    <div class="proj-meta"><div class="proj-name">${esc(p.name.replace(/^\*/,''))}</div><div class="proj-sub">${p.sj.replace('_','/')}</div></div>
     <div class="proj-chevron" id="chev-${cId}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
   </div>
   <div class="proj-body" id="${cId}"><div class="proj-loading" id="${cId}-loading">Wird geladen…</div></div>
@@ -438,7 +438,7 @@ async function ladeProjekte(){
         return `<div class="proj-card">
   <div class="proj-header" onclick="toggleStd('${cId}','${p.docId}','${pAttr}','${sjAttr}')">
     <div class="proj-icon" style="background:${f.bg};color:${f.color}">${k}</div>
-    <div class="proj-meta"><div class="proj-name">${esc(p.name)}</div><div class="proj-sub">${p.sj.replace('_','/')}</div></div>
+    <div class="proj-meta"><div class="proj-name">${esc(p.name.replace(/^\*/,''))}</div><div class="proj-sub">${p.sj.replace('_','/')}</div></div>
     <div class="proj-chevron" id="chev-${cId}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
   </div>
   <div class="proj-body" id="${cId}">
