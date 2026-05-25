@@ -141,6 +141,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1a1a;color:#fff;padding:11px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:100;transition:transform 0.3s;white-space:nowrap;pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0)}
 @media(prefers-color-scheme:dark){.toast{background:#fff;color:#1a1a1a}}
+.fk-row{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:3px}
+.fk-row:last-child{border-bottom:none}
+.fk-titel{font-size:12px;font-weight:700;color:var(--blue)}
+.fk-name{font-size:13px;font-weight:600}
+.fk-meta{font-size:11px;color:var(--text-muted);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.fk-anzahl{display:inline-block;background:var(--gold);color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:10px}
+.fk-typ{display:inline-block;background:var(--blue-light);color:var(--blue-dark);font-size:10px;font-weight:600;padding:2px 7px;border-radius:8px}
+@media(prefers-color-scheme:dark){.fk-typ{color:#a8cfff}}
 </style>
 </head>
 <body>
@@ -310,12 +318,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="ftab active" id="ft-personen" onclick="adminTab('personen')">Personen</button>
     <button class="ftab" id="ft-werke" onclick="adminTab('werke')">Werke</button>
     <button class="ftab" id="ft-termine" onclick="adminTab('termine')">Termine</button>
+    <button class="ftab" id="ft-freikarten" onclick="adminTab('freikarten')">Freikarten</button>
   </div>
   <div id="adm-personen"><div class="rangliste"><div class="rang-head">Probezeiten je Person<span class="rang-hint" id="adm-avg"></span></div><div id="adm-p-body"><div class="spinner">Lade…</div></div></div></div>
   <div id="adm-werke" style="display:none"><div class="rangliste" id="adm-w-body"><div class="spinner">Lade…</div></div></div>
   <div id="adm-termine" style="display:none"><div class="rangliste"><div class="rang-head">Eintragungen je Termin</div><div id="adm-t-body"><div class="spinner">Lade…</div></div></div></div>
+  <div id="adm-freikarten" style="display:none">
+    <div class="rangliste">
+      <div class="rang-head">Freikarten-Bestellungen<span class="rang-hint" id="fk-count"></span></div>
+      <div id="fk-filter" style="padding:8px 14px;border-bottom:1px solid var(--border)">
+        <input id="fk-search" type="text" placeholder="Suchen…" oninput="renderFreikarten()" style="width:100%;padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);background:var(--bg);font-family:inherit;outline:none">
+      </div>
+      <div id="fk-body"><div class="spinner">Lade…</div></div>
+    </div>
+  </div>
   <div class="slabel">Studienjahr-Vorschau</div>
-  <div id="vorschau-links"></div>
+  <a class="doc-link" href="index.html?sj=26_27" target="_blank" rel="noopener">
+    <div class="doc-icon" style="background:#fce4ec;font-size:1rem">👁</div>
+    <div><div class="doc-name">Vorschau 26/27</div><div class="doc-type">Portal · Nächstes Studienjahr</div></div>
+    <span class="doc-arrow">↗</span>
+  </a>
+  <a class="doc-link" href="index.html?sj=27_28" target="_blank" rel="noopener">
+    <div class="doc-icon" style="background:#f3e5f5;font-size:1rem">👁</div>
+    <div><div class="doc-name">Vorschau 27/28</div><div class="doc-type">Portal · Übernächstes Studienjahr</div></div>
+    <span class="doc-arrow">↗</span>
+  </a>
   <button class="logout-btn" onclick="adminLogout()">🔒 Abmelden</button>
 </div>
 
@@ -337,29 +364,83 @@ let ich          = null;
 let alleTermine  = [];
 let alleEintr    = [];
 let adminDaten   = null;
+let freikartenDaten = null;
 
-function aktuellesSj() {
-  const d=new Date(), m=d.getMonth(), y=d.getFullYear()%100;
-  return m>=8 ? y+'_'+(y+1) : (y-1)+'_'+y;
+const FK_SHEET_ID  = '1WwuIPvNJN2CVwcH7GDH69f3ixS6ahFgF8o28lB0agKk';
+const FK_SHEET_GID = '443859367';
+
+async function ladeFreikarten() {
+  const el = document.getElementById('fk-body');
+  el.innerHTML = '<div class="spinner">Lade…</div>';
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${FK_SHEET_ID}/export?format=csv&gid=${FK_SHEET_GID}`;
+    const resp = await fetch(url);
+    const text = await resp.text();
+    const rows = text.trim().split('\n').map(r => {
+      // CSV parse: handle quoted fields
+      const cols = [];
+      let cur = '', inQ = false;
+      for (let i = 0; i < r.length; i++) {
+        const c = r[i];
+        if (c === '"') { inQ = !inQ; }
+        else if (c === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
+        else cur += c;
+      }
+      cols.push(cur.trim());
+      return cols;
+    });
+    // rows[0] = header, rows[1..] = data, sort descending by timestamp (col 0)
+    const header = rows[0];
+    const data = rows.slice(1).filter(r => r.length > 1 && r[0]);
+    data.sort((a, b) => {
+      // parse DD.MM.YYYY HH:MM:SS
+      const toMs = s => {
+        const m = s.match(/(\d{2})\.(\d{2})\.(\d{4})\s+(\d{2}):(\d{2}):(\d{2})/);
+        if (!m) return 0;
+        return new Date(m[3], m[2]-1, m[1], m[4], m[5], m[6]).getTime();
+      };
+      return toMs(b[0]) - toMs(a[0]);
+    });
+    freikartenDaten = data;
+    renderFreikarten();
+  } catch(e) {
+    el.innerHTML = '<div class="empty">Laden fehlgeschlagen: ' + esc(e.message) + '</div>';
+  }
 }
 
-function renderVorschauLinks() {
-  const sj = aktuellesSj();
-  const parts = sj.split('_');
-  const a = parseInt(parts[0]), b = parseInt(parts[1]);
-  // Drei Links: aktuelles SJ, nächstes, übernächstes
-  const jahre = [
-    { sj: sj,                       label: sj.replace('_','/'),             sub: 'Portal · Aktuelles Studienjahr',   bg: '#e8f5e9', icon: '👁' },
-    { sj: (a+1)+'_'+(b+1),         label: (a+1)+'/'+(b+1),                 sub: 'Portal · Nächstes Studienjahr',    bg: '#fce4ec', icon: '👁' },
-    { sj: (a+2)+'_'+(b+2),         label: (a+2)+'/'+(b+2),                 sub: 'Portal · Übernächstes Studienjahr',bg: '#f3e5f5', icon: '👁' }
-  ];
-  document.getElementById('vorschau-links').innerHTML = jahre.map(j =>
-    `<a class="doc-link" href="index.html?sj=${j.sj}" target="_blank" rel="noopener">
-      <div class="doc-icon" style="background:${j.bg};font-size:1rem">${j.icon}</div>
-      <div><div class="doc-name">Vorschau ${j.label}</div><div class="doc-type">${j.sub}</div></div>
-      <span class="doc-arrow">↗</span>
-    </a>`
-  ).join('');
+function renderFreikarten() {
+  if (!freikartenDaten) return;
+  const q = (document.getElementById('fk-search').value || '').toLowerCase();
+  const filtered = q
+    ? freikartenDaten.filter(r => r.join(' ').toLowerCase().includes(q))
+    : freikartenDaten;
+  document.getElementById('fk-count').textContent = ' · ' + filtered.length + ' Einträge';
+  if (!filtered.length) {
+    document.getElementById('fk-body').innerHTML = '<div class="empty">Keine Einträge.</div>';
+    return;
+  }
+  document.getElementById('fk-body').innerHTML = filtered.map(r => {
+    const zeitstempel = r[0] || '';
+    const titel       = r[1] || '';
+    const anzahl      = r[3] || '';
+    const name        = r[4] || '';
+    const email       = r[5] || '';
+    const typ         = r[6] || '';
+    const kommentar   = r[8] || '';
+    return `<div class="fk-row">
+      <div class="fk-titel">${esc(titel)}</div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="fk-anzahl">${esc(anzahl)} Karte${anzahl=='1'?'':'n'}</span>
+        <span class="fk-name">${esc(name)}</span>
+      </div>
+      <div class="fk-meta">
+        <span class="fk-typ">${esc(typ)}</span>
+        ${email ? `<span>${esc(email)}</span>` : ''}
+        ${kommentar && kommentar !== 'ok' ? `<span style="color:var(--gold-dark);font-style:italic">${esc(kommentar)}</span>` : ''}
+        <span style="margin-left:auto;opacity:0.5">${esc(zeitstempel)}</span>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function zeige(id) {
@@ -622,7 +703,6 @@ async function adminLogin() {
     sessionStorage.setItem('hso_auth','1');
     document.getElementById('a-pw').value='';
     zeige('sc-admin');
-    renderVorschauLinks();
     ladeAdminDaten();
   } else {
     err.textContent='Falsches Passwort.';
@@ -633,10 +713,11 @@ async function adminLogin() {
 }
 function adminLogout() { sessionStorage.removeItem('hso_auth'); zeige('sc-login'); }
 function adminTab(tab) {
-  ['personen','werke','termine'].forEach(t=>{
+  ['personen','werke','termine','freikarten'].forEach(t=>{
     document.getElementById('adm-'+t).style.display=t===tab?'block':'none';
     document.getElementById('ft-'+t).classList.toggle('active',t===tab);
   });
+  if (tab==='freikarten' && !freikartenDaten) ladeFreikarten();
 }
 async function ladeAdminDaten() {
   if (adminDaten) { renderAdmin(); return; }
@@ -705,7 +786,7 @@ function renderAdmin() {
 (function(){
   const s=sessionStorage.getItem('hso_ich');
   if (s) { try { ich=JSON.parse(s); oeffneStudentBereich(); return; } catch(e){} }
-  if (sessionStorage.getItem('hso_auth')==='1') { zeige('sc-admin'); renderVorschauLinks(); ladeAdminDaten(); }
+  if (sessionStorage.getItem('hso_auth')==='1') { zeige('sc-admin'); ladeAdminDaten(); }
 })();
 </script>
 </body>
