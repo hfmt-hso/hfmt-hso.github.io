@@ -1,676 +1,642 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#1a1a2e">
-<title>HSO Intern – Arbeitsportal</title>
+<meta name="theme-color" content="#185FA5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="HSO Portal">
+<title>HSO Portal – HfMT Hamburg</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ink:#0f0f14;--ink2:#2a2a38;--ink3:#4a4a5e;
-  --paper:#f7f6f2;--paper2:#eeece6;--paper3:#e4e1d8;
-  --gold:#b8962e;--gold2:#8a6e1f;--gold-bg:#fdf8ee;
-  --blue:#1a4b8c;--blue2:#0d2f5c;--blue-bg:#eef3fb;
-  --green:#1e6b3a;--green-bg:#e8f4ed;
-  --red:#9b2335;--red-bg:#fbeaed;
-  --accent:#c4622d;
-  --border:#dddad0;--border2:#ccc9be;
-  --radius:10px;--mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
-  --shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.06);
-  --shadow-lg:0 4px 16px rgba(0,0,0,0.12),0 16px 40px rgba(0,0,0,0.1);
+  --blue:#185FA5;--blue-light:#E6F1FB;
+  --green:#3B6D11;--green-light:#EAF3DE;
+  --amber:#854F0B;--amber-light:#FAEEDA;
+  --teal:#0F6E56;--teal-light:#E1F5EE;
+  --purple:#534AB7;--purple-light:#EEEDFE;
+  --gray:#5F5E5A;--gray-light:#F1EFE8;
+  --text:#1a1a1a;--text-muted:#6b6b6b;
+  --border:rgba(0,0,0,0.1);
+  --bg:#f5f5f3;--card-bg:#fff;
+  --header-bg:#fff;--nav-bg:#fff;
 }
-html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5}
-
-
-
-/* ── APP SHELL ── */
-#app{display:none;min-height:100vh;flex-direction:column}
-#app.visible{display:flex}
-.topbar{height:52px;background:var(--ink);display:flex;align-items:center;gap:0;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,0.06)}
-.topbar-logo{padding:0 16px;display:flex;align-items:center;gap:10px;border-right:1px solid rgba(255,255,255,0.06)}
-.topbar-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.topbar-name{font-size:12px;font-weight:700;color:rgba(255,255,255,0.85);font-family:var(--mono);white-space:nowrap}
-.topbar-nav{display:flex;flex:1;overflow-x:auto;scrollbar-width:none}
-.topbar-nav::-webkit-scrollbar{display:none}
-.tnav{padding:0 14px;height:52px;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:rgba(255,255,255,0.4);cursor:pointer;border:none;background:none;font-family:var(--sans);white-space:nowrap;border-bottom:2px solid transparent;transition:all 0.15s}
-.tnav:hover{color:rgba(255,255,255,0.7)}
-.tnav.active{color:#fff;border-bottom-color:var(--gold)}
-.tnav-icon{font-size:14px}
-.topbar-end{padding:0 14px;display:flex;align-items:center;gap:8px;border-left:1px solid rgba(255,255,255,0.06);margin-left:auto;flex-shrink:0}
-.sj-badge{font-size:10px;font-weight:700;font-family:var(--mono);padding:3px 8px;border-radius:6px;background:rgba(184,150,46,0.2);color:var(--gold);border:1px solid rgba(184,150,46,0.3);cursor:pointer;white-space:nowrap}
-.sj-badge:hover{background:rgba(184,150,46,0.3)}
-
-/* ── TABS ── */
-.tab{display:none;flex:1;overflow-y:auto;padding:20px 16px 40px}
-.tab.active{display:block}
-
-/* ── KARTEN ── */
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
-.section-h{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink3);margin:20px 0 10px;display:flex;align-items:center;gap:8px}
-.section-h::after{content:'';flex:1;height:1px;background:var(--border)}
-.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
-.card-pad{padding:14px 16px}
-
-/* ── QUICK LINKS ── */
-.qlink{display:flex;align-items:center;gap:10px;padding:11px 13px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;color:var(--ink);transition:all 0.15s;box-shadow:var(--shadow)}
-.qlink:hover{border-color:var(--border2);box-shadow:var(--shadow-lg);transform:translateY(-1px)}
-.qlink-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.qlink-text{flex:1;min-width:0}
-.qlink-name{font-size:13px;font-weight:600;line-height:1.2}
-.qlink-type{font-size:11px;color:var(--ink3);margin-top:1px}
-.qlink-arr{color:var(--ink3);flex-shrink:0;font-size:12px}
-
-/* ── PROJEKTE ── */
-.proj-list{display:flex;flex-direction:column;gap:8px}
-.proj-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
-.proj-head{padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px}
-.proj-head:hover{background:var(--paper2)}
-.proj-badge{font-size:10px;font-weight:700;font-family:var(--mono);padding:3px 8px;border-radius:5px;flex-shrink:0}
-.proj-badge.hso{background:#e8f0fb;color:var(--blue2)}
-.proj-badge.wk{background:#eef6f0;color:#1a5c30}
-.proj-badge.extra{background:#fdf3e8;color:#7a4010}
-.proj-name{font-size:13px;font-weight:600;flex:1}
-.proj-date{font-size:11px;color:var(--ink3);font-family:var(--mono)}
-.proj-chev{color:var(--ink3);transition:transform 0.2s;flex-shrink:0}
-.proj-chev.open{transform:rotate(90deg)}
-.proj-body{display:none;border-top:1px solid var(--border);padding:12px 14px;background:var(--paper);gap:8px;flex-direction:column}
-.proj-body.open{display:flex}
-.proj-actions{display:flex;gap:6px;flex-wrap:wrap}
-.plink{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none;border:1px solid var(--border);background:#fff;color:var(--ink2);transition:all 0.12s}
-.plink:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
-.plink.gold:hover{background:var(--gold);border-color:var(--gold)}
-.plink svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
-
-/* ── PROGRAMM ── */
-.prog-event{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:8px;box-shadow:var(--shadow)}
-.prog-titel{font-size:13px;font-weight:700;margin-bottom:6px}
-.prog-datum{font-size:11px;font-family:var(--mono);color:var(--ink3);margin-bottom:8px}
-.werk-row{padding:5px 0;border-bottom:1px solid var(--paper3);display:flex;flex-direction:column;gap:1px}
-.werk-row:last-child{border-bottom:none}
-.werk-komp{font-size:12px;font-weight:600;color:var(--ink)}
-.werk-titel{font-size:12px;color:var(--ink3)}
-.werk-meta{font-size:10px;font-family:var(--mono);color:var(--blue);margin-top:2px}
-
-/* ── KALENDER ── */
-.kal-day{margin-bottom:16px}
-.kal-day-h{font-size:11px;font-weight:700;font-family:var(--mono);color:var(--ink3);text-transform:uppercase;letter-spacing:0.08em;padding:4px 0;border-bottom:1px solid var(--border);margin-bottom:8px}
-.kal-event{display:flex;gap:10px;padding:9px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;margin-bottom:5px;box-shadow:var(--shadow)}
-.kal-time{font-size:11px;font-family:var(--mono);color:var(--ink3);width:36px;flex-shrink:0;padding-top:1px}
-.kal-info{flex:1;min-width:0}
-.kal-titel{font-size:13px;font-weight:600;line-height:1.2}
-.kal-ort{font-size:11px;color:var(--ink3);margin-top:2px}
-.kal-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:4px}
-.kal-dot.gold{background:var(--gold)}
-.kal-dot.green{background:var(--green)}
-
-/* ── LINKS ── */
-.link-section{margin-bottom:24px}
-.link-section-h{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold2);background:var(--gold-bg);border:1px solid var(--border);border-radius:8px;padding:7px 12px;margin-bottom:8px}
-
-/* ── SPINNER / EMPTY ── */
-.spinner{text-align:center;padding:40px 20px;color:var(--ink3);font-size:13px;display:flex;flex-direction:column;align-items:center;gap:10px}
-.spin{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 0.7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.empty{text-align:center;padding:32px;color:var(--ink3);font-size:13px}
-
-/* ── SJ SWITCHER ── */
-.sj-modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:flex-end;justify-content:center;padding:0}
-.sj-modal.open{display:flex}
-.sj-sheet{background:#fff;border-radius:16px 16px 0 0;padding:20px 16px 32px;width:100%;max-width:480px}
-.sj-sheet-h{font-size:15px;font-weight:700;margin-bottom:16px}
-.sj-opt{padding:12px 14px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
-.sj-opt:hover{background:var(--paper2)}
-.sj-opt.active{background:var(--blue-bg);font-weight:700;color:var(--blue2)}
-
-/* ── TOAST ── */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:300;transition:transform 0.25s;pointer-events:none;white-space:nowrap}
-.toast.show{transform:translateX(-50%) translateY(0)}
-
-/* Scrollbar */
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+@media(prefers-color-scheme:dark){:root{
+  --text:#f0f0ee;--text-muted:#999997;
+  --border:rgba(255,255,255,0.1);
+  --bg:#1a1a18;--card-bg:#2a2a28;
+  --header-bg:#222220;--nav-bg:#222220;
+  --blue-light:#0c447c;--green-light:#27500a;
+  --amber-light:#633806;--teal-light:#085041;
+  --purple-light:#3c3489;--gray-light:#444441;
+}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto}
+.header{background:var(--header-bg);padding:12px 16px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:10}
+.header-row{display:flex;align-items:center;justify-content:space-between}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-logo{height:48px;width:auto;flex-shrink:0}
+.header-text h1{font-size:15px;font-weight:600;color:var(--text)}
+.header-text p{font-size:11px;color:var(--text-muted);margin-top:1px}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600}
+.badge-green{background:var(--green-light);color:var(--green)}
+.nav{display:flex;background:var(--nav-bg);border-bottom:0.5px solid var(--border);position:sticky;top:73px;z-index:9}
+.nav-btn{flex:1;padding:10px 4px 8px;font-size:10px;color:var(--text-muted);background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:inherit}
+.nav-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.nav-btn.active{color:var(--blue)}
+.nav-btn.active svg{stroke:var(--blue)}
+.content{padding:14px;display:none;flex-direction:column;gap:10px;padding-bottom:40px}
+.content.active{display:flex}
+.section-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:4px}
+.loading{text-align:center;padding:24px;color:var(--text-muted);font-size:13px}
+.proj-card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);overflow:hidden}
+.proj-header{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer}
+.proj-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.proj-meta{flex:1;min-width:0}
+.proj-name{font-size:15px;font-weight:600;color:var(--text)}
+.proj-sub{font-size:12px;color:var(--text-muted);margin-top:2px}
+.proj-chevron{color:var(--text-muted);flex-shrink:0;transition:transform 0.2s}
+.proj-chevron svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.proj-chevron.open{transform:rotate(180deg)}
+.proj-body{display:none;border-top:0.5px solid var(--border)}
+.proj-body.open{display:block}
+.proj-tabs{display:flex;border-bottom:0.5px solid var(--border);background:var(--bg);overflow-x:auto;scrollbar-width:none}
+.proj-tabs::-webkit-scrollbar{display:none}
+.proj-tab{flex-shrink:0;padding:9px 12px;font-size:11px;color:var(--text-muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap}
+.proj-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.proj-section{display:none;padding:14px}
+.proj-section.active{display:block}
+.proj-text{font-size:13px;color:var(--text);line-height:1.6;white-space:pre-wrap}
+.proj-text-muted{font-size:13px;color:var(--text-muted)}
+.proj-loading{font-size:12px;color:var(--text-muted);text-align:center;padding:16px}
+.event-tabs-wrap{border-bottom:0.5px solid var(--border);background:var(--bg);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.event-tabs-wrap::-webkit-scrollbar{display:none}
+.event-tabs{display:flex;min-width:max-content}
+.event-tab{flex-shrink:0;padding:8px 12px;font-size:11px;color:var(--text-muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap}
+.event-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.event-sections{padding:14px}
+.event-section{display:none}
+.event-section.active{display:block}
+.event-kopf{font-size:12px;font-weight:600;color:var(--blue);line-height:1.5;margin-bottom:10px;padding-bottom:8px;border-bottom:0.5px solid var(--border)}
+.werk-block{margin-bottom:10px}
+.werk-komponist{font-size:13px;font-weight:600;color:var(--text)}
+.werk-titel{font-size:13px;color:var(--text);margin-top:1px}
+.werk-details{font-size:11px;color:var(--text-muted);margin-top:3px;line-height:1.5}
+.werk-leitung{font-size:11px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
+.event-kein{font-size:13px;color:var(--text-muted)}
+.bedarf-card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);overflow:hidden;margin-bottom:2px}
+.bedarf-header{padding:12px 14px;display:flex;align-items:flex-start;gap:10px;cursor:pointer}
+.bedarf-nummer{width:28px;height:28px;border-radius:7px;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.bedarf-titel{flex:1}
+.bedarf-projekt{font-size:14px;font-weight:600;color:var(--text)}
+.bedarf-datum{font-size:12px;color:var(--text-muted);margin-top:2px}
+.bedarf-ort{font-size:12px;color:var(--text-muted)}
+.bedarf-toggle{color:var(--text-muted);transition:transform 0.2s}
+.bedarf-toggle svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bedarf-toggle.open{transform:rotate(180deg)}
+.bedarf-details{display:none;border-top:0.5px solid var(--border);padding:12px 14px}
+.bedarf-details.open{display:block}
+.bedarf-row{display:flex;gap:8px;margin-bottom:8px;font-size:13px}
+.bedarf-label{color:var(--text-muted);min-width:100px;flex-shrink:0}
+.bedarf-value{color:var(--text);font-weight:500;flex:1}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.stat-box{background:var(--bg);border-radius:8px;padding:8px 10px;text-align:center}
+.stat-num{font-size:20px;font-weight:700;color:var(--text)}
+.stat-label{font-size:11px;color:var(--text-muted);margin-top:2px}
+.werk-text{font-size:12px;color:var(--text-muted);font-style:italic;margin-bottom:8px;line-height:1.4}
+.bedarf-aufbau a{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--blue);text-decoration:none;font-weight:500;margin-top:8px}
+.bedarf-aufbau svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);overflow:hidden}
+.link-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:0.5px solid var(--border);text-decoration:none;color:inherit}
+.link-item:last-child{border-bottom:none}
+.link-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.link-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.link-text{flex:1}
+.link-text span{font-size:14px;font-weight:500;color:var(--text);display:block}
+.link-text small{font-size:12px;color:var(--text-muted)}
+.chevron{color:var(--text-muted);flex-shrink:0}
+.chevron svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ical-box{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);padding:14px}
+.ical-title{font-size:13px;font-weight:600;margin-bottom:6px}
+.ical-url{font-size:11px;color:var(--text-muted);word-break:break-all;background:var(--bg);padding:8px 10px;border-radius:8px;margin-bottom:10px;font-family:monospace}
+.ical-btn{display:block;width:100%;padding:10px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;text-align:center;font-family:inherit}
+.info-card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);padding:14px}
+.info-card h3{font-size:14px;font-weight:600;margin-bottom:6px}
+.info-card p{font-size:13px;color:var(--text-muted);line-height:1.5}
+.install-card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);overflow:hidden}
+.install-card-header{padding:12px 14px;font-size:14px;font-weight:600;border-bottom:0.5px solid var(--border)}
+.install-os{padding:10px 14px;border-bottom:0.5px solid var(--border)}
+.install-os:last-child{border-bottom:none}
+.install-os-label{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px}
+.install-steps{list-style:none;counter-reset:steps}
+.install-steps li{counter-increment:steps;display:flex;align-items:flex-start;gap:8px;font-size:13px;padding:3px 0;line-height:1.5}
+.install-steps li::before{content:counter(steps);display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:var(--blue-light);color:var(--blue);border-radius:50%;font-size:10px;font-weight:700;flex-shrink:0;margin-top:2px}
 </style>
 </head>
 <body>
 
-
-<div id="login-wrap" class="login-wrap">
-  <div class="login-bg"></div>
-  <div class="login-noise"></div>
-  <div class="login-card">
-    <div class="login-logo">
-      <div class="login-logo-mark">🎼</div>
-      <div>
-        <div class="login-logo-text">Hochschulorchester</div>
-        <div class="login-logo-sub">HfMT Hamburg · Intern</div>
+<div class="header">
+  <div class="header-row">
+    <div class="header-left">
+      <img class="header-logo" src="icon-192.png" alt="HfMT">
+      <div class="header-text">
+        <h1>HSO Portal</h1>
+        <p>Hochschulorchester · HfMT Hamburg</p>
       </div>
     </div>
-    <div class="login-h">Arbeitsportal</div>
-    <div class="login-sub">Nur für interne Nutzung</div>
-    <div class="l-label">Passwort</div>
-    <input class="l-input" type="password" id="l-pw" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
-    <div class="l-err" id="l-err"></div>
-    <button class="l-btn" onclick="login()">Anmelden</button>
+    <span class="badge badge-green" id="sj-badge"></span>
+<button onclick="window.location.href=window.location.href" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--text-muted)">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+</button>
   </div>
 </div>
 
-<!-- ── APP ── -->
-<div id="app" class="visible" style="display:flex">
-  <div class="topbar">
-    <div class="topbar-logo">
-      <div class="topbar-mark">🎼</div>
-      <div class="topbar-name">HSO·INTERN</div>
-    </div>
-    <nav class="topbar-nav">
-      <button class="tnav active" data-tab="t-start" onclick="wechselTab(this)"><span class="tnav-icon">⌂</span> Start</button>
-      <button class="tnav" data-tab="t-projekte" onclick="wechselTab(this)"><span class="tnav-icon">◫</span> Projekte</button>
-      <button class="tnav" data-tab="t-programm" onclick="wechselTab(this)"><span class="tnav-icon">♩</span> Programm</button>
-      <button class="tnav" data-tab="t-kalender" onclick="wechselTab(this)"><span class="tnav-icon">◷</span> Kalender</button>
-      <button class="tnav" data-tab="t-unterricht" onclick="wechselTab(this)"><span class="tnav-icon">✎</span> Unterricht</button>
-      <button class="tnav" data-tab="t-links" onclick="wechselTab(this)"><span class="tnav-icon">⎋</span> Links</button>
-    </nav>
-    <div class="topbar-end">
-      <div class="sj-badge" onclick="oeffneSjModal()" id="sj-badge">25/26</div>
-    </div>
+<nav class="nav">
+  <button class="nav-btn active" onclick="showTab('projekte',this)">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Projekte
+  </button>
+  <button class="nav-btn" onclick="showTab('kalender',this)">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Kalender
+  </button>
+  <button class="nav-btn" onclick="showTab('bedarf',this)">
+    <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Bedarf
+  </button>
+  <button class="nav-btn" onclick="showTab('noten',this)">
+    <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Noten
+  </button>
+  <button class="nav-btn" onclick="showTab('info',this)">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Info
+  </button>
+</nav>
+
+<div class="content active" id="tab-projekte">
+  <div class="section-label">Aktuelle Projekte</div>
+  <div id="projekte-liste"><div class="loading">Projekte werden geladen…</div></div>
+</div>
+
+<div class="content" id="tab-kalender">
+  <div class="section-label">Kalender anzeigen</div>
+  <div class="card">
+    <a class="link-item" href="https://calendar.google.com/calendar/embed?src=b11b52fea156e762892f701f4ecc35cc1ccbbb80f21b5e7ca3e924d251bb6d1b%40group.calendar.google.com&ctz=Europe%2FBerlin" target="_blank">
+      <div class="link-icon" style="background:var(--blue-light);color:var(--blue)"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <div class="link-text"><span>Probenkalender öffnen</span><small>Google Kalender</small></div>
+      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
   </div>
-
-  <!-- START -->
-  <div class="tab active" id="t-start">
-    <div class="section-h">Schnellzugriff</div>
-    <div class="grid2">
-      <a class="qlink" href="https://docs.google.com/spreadsheets/d/1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU/edit" target="_blank">
-        <div class="qlink-icon" style="background:#e8f3ff">📊</div>
-        <div class="qlink-text"><div class="qlink-name">HfMT Lehre</div><div class="qlink-type">Google Sheet</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" href="https://docs.google.com/spreadsheets/d/1v3D2o7G9AwFz6jO4Lz-jrft6PcjQWNk9YopqQ5ikPpI/edit" target="_blank">
-        <div class="qlink-icon" style="background:#fff3e8">🎵</div>
-        <div class="qlink-text"><div class="qlink-name">Programmgestaltung</div><div class="qlink-type">Google Sheet</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" href="https://docs.google.com/spreadsheets/d/1QrFLarPKpu-SqWEtKiDFGvS_lW_BC79jXf91-6GTaVg/edit" target="_blank">
-        <div class="qlink-icon" style="background:#eef6f0">👥</div>
-        <div class="qlink-text"><div class="qlink-name">HfMT HSO</div><div class="qlink-type">Studierende</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" href="https://docs.google.com/document/d/163kmVbqRkw4m9dMjS8_BoBLW3se8h-d84yiw_AUPJKA/edit" target="_blank">
-        <div class="qlink-icon" style="background:#f5eeff">📋</div>
-        <div class="qlink-text"><div class="qlink-name">Schwarzes Brett</div><div class="qlink-type">Google Doc</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" href="https://docs.google.com/spreadsheets/d/1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ/edit" target="_blank">
-        <div class="qlink-icon" style="background:#fff8e8">🛠</div>
-        <div class="qlink-text"><div class="qlink-name">Bedarf / Forum</div><div class="qlink-type">Google Sheet</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" href="https://calendar.google.com" target="_blank">
-        <div class="qlink-icon" style="background:#fff0f0">📅</div>
-        <div class="qlink-text"><div class="qlink-name">Kalender</div><div class="qlink-type">Google Calendar</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-    </div>
-
-    <div class="section-h">Studienjahr-Vorschau</div>
-    <div class="grid3">
-      <a class="qlink" href="https://hfmt-hso.github.io/index.html?sj=25_26" target="_blank">
-        <div class="qlink-text"><div class="qlink-name" style="font-size:11px">Portal 25/26</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" href="https://hfmt-hso.github.io/index.html?sj=26_27" target="_blank">
-        <div class="qlink-text"><div class="qlink-name" style="font-size:11px">Portal 26/27</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" href="https://hfmt-hso.github.io/index.html?sj=27_28" target="_blank">
-        <div class="qlink-text"><div class="qlink-name" style="font-size:11px">Portal 27/28</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-    </div>
-
-    <div class="section-h">Nächste Termine</div>
-    <div id="start-termine"><div class="spinner"><div class="spin"></div>Lade...</div></div>
+  <div class="section-label">Kalender abonnieren</div>
+  <div class="ical-box">
+    <div class="ical-title">iCal-Link</div>
+    <div class="ical-url">https://calendar.google.com/calendar/ical/b11b52fea156e762892f701f4ecc35cc1ccbbb80f21b5e7ca3e924d251bb6d1b%40group.calendar.google.com/public/basic.ics</div>
+    <button class="ical-btn" onclick="copyICal()">Link kopieren</button>
   </div>
+  <div class="info-card"><h3>Kalender hinzufügen</h3><p>Kopiere den iCal-Link und füge ihn in deiner Kalender-App ein: iPhone → Einstellungen → Kalender → Accounts → Account hinzufügen → Andere → Kalender abonnieren.</p></div>
+</div>
 
-  <!-- PROJEKTE -->
-  <div class="tab" id="t-projekte">
-    <div id="proj-filter" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px"></div>
-    <div id="proj-liste"><div class="spinner"><div class="spin"></div>Lade Projekte...</div></div>
+<div class="content" id="tab-bedarf">
+  <div class="section-label">Technikbedarf</div>
+  <div id="bedarf-liste"><div class="loading">Termine werden geladen…</div></div>
+</div>
+
+<div class="content" id="tab-noten">
+  <div class="section-label">Notenmaterial</div>
+  <div class="card">
+    <a class="link-item" href="https://e.pcloud.link/publink/show?code=kZ7CYaZAflKztKjOLjS8CTLtljFNYQokuXk" target="_blank">
+      <div class="link-icon" style="background:var(--green-light);color:var(--green)"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+      <div class="link-text"><span>Alle Noten</span><small>Aktuelle Produktionen</small></div>
+      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
   </div>
-
-  <!-- PROGRAMM -->
-  <div class="tab" id="t-programm">
-    <div id="prog-inhalt"><div class="spinner"><div class="spin"></div>Lade Programm...</div></div>
-  </div>
-
-  <!-- KALENDER -->
-  <div class="tab" id="t-kalender">
-    <div id="kal-inhalt"><div class="spinner"><div class="spin"></div>Lade Kalender...</div></div>
-  </div>
-
-  <!-- UNTERRICHT -->
-  <div class="tab" id="t-unterricht">
-    <div id="unt-inhalt"><div class="spinner"><div class="spin"></div>Lade Unterrichtsdaten...</div></div>
-  </div>
-
-  <!-- LINKS -->
-  <div class="tab" id="t-links">
-    <div class="link-section">
-      <div class="link-section-h">📊 Sheets</div>
-      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/spreadsheets/d/1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU/edit" target="_blank">
-        <div class="qlink-icon" style="background:#e8f3ff">📊</div>
-        <div class="qlink-text"><div class="qlink-name">HfMT Lehre (Übersetzer)</div><div class="qlink-type">1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/spreadsheets/d/1QrFLarPKpu-SqWEtKiDFGvS_lW_BC79jXf91-6GTaVg/edit" target="_blank">
-        <div class="qlink-icon" style="background:#eef6f0">👥</div>
-        <div class="qlink-text"><div class="qlink-name">HfMT HSO (Einteilungen)</div><div class="qlink-type">1QrFLarPKpu-SqWEtKiDFGvS_lW_BC79jXf91-6GTaVg</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/spreadsheets/d/1v3D2o7G9AwFz6jO4Lz-jrft6PcjQWNk9YopqQ5ikPpI/edit" target="_blank">
-        <div class="qlink-icon" style="background:#fff3e8">🎵</div>
-        <div class="qlink-text"><div class="qlink-name">Programmgestaltung Konzerttext</div><div class="qlink-type">1v3D2o7G9AwFz6jO4Lz-jrft6PcjQWNk9YopqQ5ikPpI</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/spreadsheets/d/1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ/edit" target="_blank">
-        <div class="qlink-icon" style="background:#fff8e8">🛠</div>
-        <div class="qlink-text"><div class="qlink-name">Bedarf / Forum</div><div class="qlink-type">1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-    </div>
-    <div class="link-section">
-      <div class="link-section-h">📋 Dokumente</div>
-      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/document/d/163kmVbqRkw4m9dMjS8_BoBLW3se8h-d84yiw_AUPJKA/edit" target="_blank">
-        <div class="qlink-icon" style="background:#f5eeff">📋</div>
-        <div class="qlink-text"><div class="qlink-name">Schwarzes Brett</div><div class="qlink-type">163kmVbqRkw4m9dMjS8_BoBLW3se8h-d84yiw_AUPJKA</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-    </div>
-    <div class="link-section">
-      <div class="link-section-h">🌐 Portale</div>
-      <a class="qlink" style="margin-bottom:7px" href="https://hfmt-hso.github.io/" target="_blank">
-        <div class="qlink-icon" style="background:#e8f3ff">🎼</div>
-        <div class="qlink-text"><div class="qlink-name">HSO Studierendenportal</div><div class="qlink-type">hfmt-hso.github.io</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" style="margin-bottom:7px" href="https://hfmt-hso.github.io/intern.html" target="_blank">
-        <div class="qlink-icon" style="background:#fdf8ee">🔑</div>
-        <div class="qlink-text"><div class="qlink-name">Unterrichtsportal (Studierende)</div><div class="qlink-type">hfmt-hso.github.io/intern.html</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-    </div>
-    <div class="link-section">
-      <div class="link-section-h">📝 Formulare</div>
-      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/forms/d/e/1FAIpQLSc0mLQDCWHwVRlFkwnm0oPPUvJrPnNi0eeKu5EtQVMR6PTSPA/viewform" target="_blank">
-        <div class="qlink-icon" style="background:#eef6f0">📝</div>
-        <div class="qlink-text"><div class="qlink-name">Anwesenheitsliste</div><div class="qlink-type">Google Form</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-    </div>
+  <div class="section-label">Mediathek</div>
+  <div class="card">
+    <a class="link-item" href="https://www.youtube.com/@HfMT-Hamburg/streams" target="_blank">
+      <div class="link-icon" style="background:var(--purple-light);color:var(--purple)"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+      <div class="link-text"><span>Mediathek HfMT</span><small>YouTube · Konzertaufnahmen</small></div>
+      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
   </div>
 </div>
 
-<!-- SJ Modal -->
-<div class="sj-modal" id="sj-modal" onclick="if(event.target===this)schliesseSjModal()">
-  <div class="sj-sheet">
-    <div class="sj-sheet-h">Studienjahr wechseln</div>
-    <div id="sj-optionen"></div>
-    <button style="width:100%;padding:11px;border:1px solid var(--border);border-radius:8px;background:none;cursor:pointer;font-family:var(--sans);font-size:13px;color:var(--ink3);margin-top:8px" onclick="schliesseSjModal()">Abbrechen</button>
+<div class="content" id="tab-info">
+  <div class="section-label">Wichtige Dokumente</div>
+  <div class="card">
+    <a class="link-item" href="https://docs.google.com/document/d/1L2kSqMZz9K1T3c7Hyku2OlznebWqU3XQyRoFdlurVb4/pub" target="_blank">
+      <div class="link-icon" style="background:var(--teal-light);color:var(--teal)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div class="link-text"><span>Orchesterordnung</span><small>Regelwerk · HfMT Hamburg</small></div>
+      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+    <a class="link-item" href="https://forms.gle/jMKuPx2Mov9s8fcn8" target="_blank">
+      <div class="link-icon" style="background:var(--amber-light);color:var(--amber)"><svg viewBox="0 0 24 24"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/></svg></div>
+      <div class="link-text"><span>Freikarten bestellen</span><small>Formular · Google Forms</small></div>
+      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+    <a class="link-item" href="intern.html">
+      <div class="link-icon" style="background:var(--gray-light);color:var(--gray)"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      <div class="link-text"><span>Interner Bereich</span><small>Passwortgeschützt</small></div>
+      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
   </div>
+  <div class="section-label">App installieren</div>
+  <div class="install-card">
+    <div class="install-card-header">📱 Als App speichern</div>
+    <div class="install-os">
+      <div class="install-os-label">iPhone · Safari</div>
+      <ol class="install-steps">
+        <li>Öffne in <strong>Safari</strong></li>
+        <li>Tippe auf <strong>Teilen ⬆</strong></li>
+        <li>Wähle <strong>„Zum Home-Bildschirm"</strong></li>
+        <li><strong>Hinzufügen</strong> tippen</li>
+      </ol>
+    </div>
+    <div class="install-os">
+      <div class="install-os-label">Android · Chrome</div>
+      <ol class="install-steps">
+        <li>Öffne in <strong>Chrome</strong></li>
+        <li>Tippe auf <strong>drei Punkte ⋮</strong></li>
+        <li>Wähle <strong>„Zum Startbildschirm"</strong></li>
+        <li><strong>Hinzufügen</strong> tippen</li>
+      </ol>
+    </div>
+  </div>
+  <div class="info-card"><h3>HSO Portal</h3><p>Wird täglich automatisch aktualisiert. Bei Fragen: Orchesterbüro.</p></div>
 </div>
-
-<div class="toast" id="toast"></div>
 
 <script>
-// ── KONFIGURATION ──────────────────────────────────────────
-var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
-var PW_HASH     = 'fcde2b2edba56bf408601fb721fe9b5c338d10ee429ea04fae5511b68fbf8fb9'; // admin
-var MONATE_VORAUS = 6;
+// ── KONFIGURATION ─────────────────────────────────────────────
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
+const BEDARF_SHEET_ID = '1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ';
+const BEDARF_GID      = '1642432141';
+const WT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+const FARBEN = {
+  'HSO':{bg:'#E6F1FB',color:'#185FA5'},
+  'WK Lü':{bg:'#E1F5EE',color:'#0F6E56'},
+  'WK':{bg:'#E1F5EE',color:'#0F6E56'},
+  '13/14':{bg:'#FAEEDA',color:'#854F0B'},
+  'Blattspiel':{bg:'#EEEDFE',color:'#534AB7'},
+  'Repertoire':{bg:'#EEEDFE',color:'#534AB7'},
+  'default':{bg:'#F1EFE8',color:'#5F5E5A'}
+};
 
+const ueCache={};
 
-// ── DATEN ─────────────────────────────────────────────────
-var _cache = {};
-var _aktSj = sjAusHeute();
-
-function sjAusHeute() {
-  var d = new Date();
-  var y = d.getFullYear(), m = d.getMonth();
-  if (m >= 8) return String(y).slice(2) + '_' + String(y+1).slice(2);
-  return String(y-1).slice(2) + '_' + String(y).slice(2);
+// ── HILFSFUNKTIONEN ───────────────────────────────────────────
+function getFarbe(n){for(const k in FARBEN){if(n.indexOf(k)!==-1)return FARBEN[k];}return FARBEN['default'];}
+function getKuerzel(n){
+  if(n.startsWith('HSO Blattspiel'))return'BS';
+  if(n.startsWith('HSO Repertoire'))return'Rep';
+  if(n.startsWith('HSO '))return'H'+n.replace('HSO ','').replace(/\D/g,'');
+  if(n.startsWith('WK Lü '))return'WL'+n.replace('WK Lü ','').trim();
+  if(n.startsWith('WK '))return'W'+n.replace('WK ','').trim();
+  if(n==='13/14')return'13';
+  return n.substring(0,2).toUpperCase();
 }
-
-function sjAnzeige(sj) { return sj.replace('_','/'); }
-
-async function apiFetch(action, params) {
-  var key = action + JSON.stringify(params || {}) + _aktSj;
-  if (_cache[key]) return _cache[key];
-  var url = WEB_APP_URL + '?action=' + action;
-  if (params) Object.keys(params).forEach(k => url += '&' + k + '=' + encodeURIComponent(params[k]));
-  try {
-    var r = await fetch(url);
-    var d = await r.json();
-    if (d.ok !== false) _cache[key] = d;
-    return d;
-  } catch(e) {
-    return { ok: false, error: e.message };
+function aktuellesSj(){
+  const d=new Date(),m=d.getMonth(),y=d.getFullYear()%100;
+  return m>=8?y+'_'+(y+1):(y-1)+'_'+y;
+}
+function istInSpieljahr(datum, sj){
+  if(!datum||!sj)return false;
+  const parts=sj.split('_');
+  if(parts.length!==2)return false;
+  const von=new Date(2000+parseInt(parts[0],10), 8, 1);
+  const bis=new Date(2000+parseInt(parts[1],10), 7, 31);
+  bis.setHours(23,59,59,999);
+  return datum>=von && datum<=bis;
+}
+function parseCsvZeile(z){
+  const res=[];let cur='',inQ=false,i=0;
+  while(i<z.length){
+    const c=z[i];
+    if(inQ){
+      if(c==='"'){
+        if(i+1<z.length&&z[i+1]==='"'){cur+='"';i+=2;continue;}
+        else{inQ=false;}
+      }else{cur+=c;}
+    }else{
+      if(c==='"'){inQ=true;}
+      else if(c===','){res.push(cur);cur='';}
+      else{cur+=c;}
+    }
+    i++;
   }
+  res.push(cur);
+  return res;
 }
+function parseDatum(s){
+  if(!s)return null;
+  const str=String(s).trim();
+  let m=str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if(m)return new Date(parseInt(m[3],10),parseInt(m[2],10)-1,parseInt(m[1],10));
+  m=str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(m)return new Date(parseInt(m[1],10),parseInt(m[2],10)-1,parseInt(m[3],10));
+  m=str.match(/^Date\((\d{4}),(\d{1,2}),(\d{1,2})\)/);
+  if(m)return new Date(parseInt(m[1],10),parseInt(m[2],10),parseInt(m[3],10));
+  const d=new Date(str);
+  return isNaN(d.getTime())?null:d;
+}
+function ddmmyyyy(d){
+  return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();
+}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function istBR(n){return /Blattspiel|Repertoire/i.test(n);}
+function ohnestern(s){return String(s||'').replace(/^\*/,'');}
 
-// ── TABS ──────────────────────────────────────────────────
-function wechselTab(btn) {
-  document.querySelectorAll('.tnav').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+// ── NAVIGATION ────────────────────────────────────────────────
+function showTab(name,btn){
+  document.querySelectorAll('.content').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el=>el.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
   btn.classList.add('active');
-  var tab = document.getElementById(btn.dataset.tab);
-  tab.classList.add('active');
-  ladenWennNoetig(btn.dataset.tab);
 }
 
-var _geladen = {};
-function ladenWennNoetig(tabId) {
-  var key = tabId + _aktSj;
-  if (_geladen[key]) return;
-  _geladen[key] = true;
-  if (tabId === 't-projekte')  ladenProjekte();
-  if (tabId === 't-programm')  ladenProgramm();
-  if (tabId === 't-kalender')  ladenKalender();
-  if (tabId === 't-unterricht') ladenUnterricht();
-}
-
-function initialLaden() {
-  updateSjBadge();
-  ladenStartTermine();
-}
-
-// ── START: NÄCHSTE TERMINE ────────────────────────────────
-async function ladenStartTermine() {
-  var d = await apiFetch('programm', { sj: _aktSj });
-  var el = document.getElementById('start-termine');
-  if (!d || !d.data) { el.innerHTML = '<div class="empty">Keine Daten</div>'; return; }
-
-  // Alle Events aus allen Projekten sammeln und nach Datum sortieren
-  var alle = [];
-  var heute = new Date(); heute.setHours(0,0,0,0);
-  Object.keys(d.data).forEach(function(p) {
-    (d.data[p] || []).forEach(function(ev) {
-      var dat = parseDatum(ev.datum);
-      if (dat && dat >= heute) alle.push({ projekt: p, ev: ev, dat: dat });
-    });
-  });
-  alle.sort((a,b) => a.dat - b.dat);
-  var naechste = alle.slice(0, 6);
-
-  if (naechste.length === 0) { el.innerHTML = '<div class="empty">Keine bevorstehenden Termine</div>'; return; }
-
-  el.innerHTML = naechste.map(function(item) {
-    var ev = item.ev;
-    var d2 = item.dat;
-    var tag = String(d2.getDate()).padStart(2,'0');
-    var mon = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'][d2.getMonth()];
-    var werke = (ev.werke || []).slice(0,2).map(w => '<div style="font-size:11px;color:var(--ink3)">' + esc(w.komponist || '') + (w.titel ? ' – ' + esc(w.titel) : '') + '</div>').join('');
-    return '<div class="kal-event">' +
-      '<div class="kal-dot' + (item.projekt.startsWith('HSO') ? '' : item.projekt.startsWith('WK') ? ' green' : ' gold') + '"></div>' +
-      '<div style="background:var(--blue-bg);border-radius:7px;padding:4px 8px;text-align:center;flex-shrink:0;min-width:36px"><div style="font-size:16px;font-weight:800;color:var(--blue);line-height:1">' + tag + '</div><div style="font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase">' + mon + '</div></div>' +
-      '<div class="kal-info"><div class="kal-titel">' + esc(ev._titel || item.projekt) + '</div>' +
-      '<div class="kal-ort">' + esc(ev.uhrzeit || '') + (ev.ort ? ' · ' + esc(ev.ort) : '') + '</div>' +
-      werke + '</div></div>';
-  }).join('');
-}
-
-// ── PROJEKTE ──────────────────────────────────────────────
-async function ladenProjekte() {
-  var d = await apiFetch('projekte', { sj: _aktSj });
-  var el = document.getElementById('proj-liste');
-  var fe = document.getElementById('proj-filter');
-
-  if (!d || !d.data || !d.data.length) {
-    el.innerHTML = '<div class="empty">Keine Projekte gefunden</div>';
-    return;
+// ── EVENTS LADEN ─────────────────────────────────────────────
+async function ladeUeEvents(projektName, sjTarget){
+  const sj=sjTarget||aktuellesSj();
+  if(!ueCache[sj]){
+    try{
+      const res=await fetch(`${WEBAPP_URL}?action=programm&sj=${sj}`);
+      const json=await res.json();
+      ueCache[sj]=json.ok?json.data:{};
+    }catch(e){console.error('Web-App Programm-Fehler:',e);ueCache[sj]={};}
   }
-
-  var projekte = d.data;
-
-  // Filter-Buttons
-  var typen = ['Alle'];
-  projekte.forEach(function(p) {
-    var t = p.name.startsWith('HSO') || p.name === '13/14' ? 'HSO' :
-            p.name.startsWith('WK') ? 'WK' : 'Weitere';
-    if (typen.indexOf(t) === -1) typen.push(t);
-  });
-
-  fe.innerHTML = typen.map((t,i) =>
-    '<button onclick="filterProjekte(this,\'' + t + '\')" style="padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:' + (i===0?'var(--ink)':'#fff') + ';color:' + (i===0?'#fff':'var(--ink3)') + ';font-size:12px;font-weight:600;cursor:pointer;font-family:var(--sans)" data-filter="' + t + '">' + t + '</button>'
-  ).join('');
-
-  el.innerHTML = '<div class="proj-list">' + projekte.map(function(p) {
-    var typ = p.name.startsWith('HSO') || p.name === '13/14' ? 'hso' : p.name.startsWith('WK') ? 'wk' : 'extra';
-    var typFilter = typ === 'hso' ? 'HSO' : typ === 'wk' ? 'WK' : 'Weitere';
-    var docUrl = 'https://docs.google.com/document/d/' + p.docId + '/edit';
-    return '<div class="proj-card" data-filter="' + typFilter + '">' +
-      '<div class="proj-head" onclick="toggleProjekt(this)">' +
-      '<span class="proj-badge ' + typ + '">' + esc(p.sj.replace('_','/')) + '</span>' +
-      '<span class="proj-name">' + esc(p.name) + '</span>' +
-      '<span class="proj-chev">▶</span></div>' +
-      '<div class="proj-body">' +
-      '<div class="proj-actions">' +
-      '<a class="plink gold" href="' + docUrl + '" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Doc öffnen</a>' +
-      '<button class="plink" onclick="kopiereDocId(\'' + esc(p.docId) + '\')"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Doc-ID</button>' +
-      '</div></div></div>';
-  }).join('') + '</div>';
+  const rohdaten=ueCache[sj][projektName]||[];
+  return rohdaten.map(ev=>{
+    const temporaeresDatum=parseDatum(ev.datum);
+    if(!temporaeresDatum)return null;
+    const datObj=new Date(temporaeresDatum.getTime());
+    const datAnzeige=ev.datum||ddmmyyyy(datObj);
+    const wt=WT[datObj.getDay()];
+    const uhr=ev.uhrzeit|| '';
+    const ort=ev.ort||'';
+    let kopf=wt+', '+datAnzeige+(uhr?' '+uhr:'')+'    '+ohnestern(ev._titel||projektName);
+    if(ort)kopf+='    |    '+ort;
+    const werke=(ev.werke||[]).filter(w=>!w.pause);
+    let leitung='';
+    if(ev.leitung&&ev.leitung.length){
+      const namen=ev.leitung.map(l=>typeof l==='object'?l.name:String(l)).filter(Boolean);
+      leitung='Leitung: '+namen.join(' / ');
+    }
+    const tp=datAnzeige.split('.');
+    const tabLabel=wt+' '+String(tp[0]||'?').padStart(2,'0')+'.' +String(tp[1]||'?').padStart(2,'0')+'.';
+    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null};
+  }).filter(Boolean).sort((a,b)=>a.datObj.getTime()-b.datObj.getTime());
 }
 
-function toggleProjekt(head) {
-  var body = head.nextElementSibling;
-  var chev = head.querySelector('.proj-chev');
-  body.classList.toggle('open');
-  chev.classList.toggle('open');
+function renderEventProgramm(ev){
+  let h='<div class="event-kopf">'+esc(ev.kopf)+'</div>';
+  if(!ev.werke.length){
+    h+='<div class="event-kein">Noch kein Programm eingetragen.</div>';
+  }else{
+    for(const w of ev.werke){
+      const ld=w.lebensdaten?' ('+w.lebensdaten+')':'';
+      h+='<div class="werk-block">';
+      h+='<div class="werk-komponist">'+esc((w.komponist||'')+ld)+'</div>';
+      if(w.titel)h+='<div class="werk-titel">'+esc(w.titel)+'</div>';
+      if(w.dauer)h+='<div class="werk-details">'+esc('Dauer: '+w.dauer)+'</div>';
+      if(w.besetzung)h+='<div class="werk-details">'+esc('Besetzung: '+w.besetzung)+'</div>';
+      h+='</div>';
+    }
+  }
+  if(ev.solisten&&ev.solisten.length){
+    h+='<div class="werk-leitung">';
+    ev.solisten.forEach(s=>{h+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'<br>';});
+    h+='</div>';
+  }
+  if(ev.ensemble)h+='<div class="werk-leitung">'+esc(ev.ensemble)+'</div>';
+  if(ev.leitung)h+='<div class="werk-leitung">'+esc(ev.leitung)+'</div>';
+  return h;
 }
 
-function filterProjekte(btn, filter) {
-  document.querySelectorAll('#proj-filter button').forEach(b => {
-    b.style.background = '#fff'; b.style.color = 'var(--ink3)';
-  });
-  btn.style.background = 'var(--ink)'; btn.style.color = '#fff';
-  document.querySelectorAll('.proj-card').forEach(function(c) {
-    c.style.display = (filter === 'Alle' || c.dataset.filter === filter) ? '' : 'none';
-  });
-}
-
-function kopiereDocId(id) {
-  navigator.clipboard.writeText(id).then(() => zeigToast('Doc-ID kopiert'));
-}
-
-// ── PROGRAMM ──────────────────────────────────────────────
-async function ladenProgramm() {
-  var d = await apiFetch('programm', { sj: _aktSj });
-  var el = document.getElementById('prog-inhalt');
-  if (!d || !d.data) { el.innerHTML = '<div class="empty">Keine Programmdaten</div>'; return; }
-
-  var html = '';
-  var projekte = Object.keys(d.data);
-  if (projekte.length === 0) { el.innerHTML = '<div class="empty">Kein Programm für ' + sjAnzeige(_aktSj) + '</div>'; return; }
-
-  projekte.forEach(function(p) {
-    var events = d.data[p] || [];
-    html += '<div class="section-h">' + esc(p) + '</div>';
-    events.forEach(function(ev) {
-      var werke = (ev.werke || []).filter(w => !w.pause);
-      html += '<div class="prog-event">';
-      html += '<div class="prog-titel">' + esc(ev._titel || p) + '</div>';
-      html += '<div class="prog-datum">' + esc(ev.datum || '') + (ev.uhrzeit ? ' · ' + esc(ev.uhrzeit) : '') + (ev.ort ? ' · ' + esc(ev.ort) : '') + '</div>';
-      if (werke.length) {
-        html += '<div style="margin-top:8px">';
-        werke.forEach(function(w) {
-          var ld = w.lebensdaten ? ' (' + esc(w.lebensdaten) + ')' : '';
-          html += '<div class="werk-row"><div class="werk-komp">' + esc(w.komponist || '') + ld + '</div>';
-          if (w.titel) html += '<div class="werk-titel">' + esc(w.titel) + '</div>';
-          if (w.dauer) html += '<div class="werk-meta">⏱ ' + esc(w.dauer) + '</div>';
-          html += '</div>';
-        });
-        html += '</div>';
+async function ladeProjekte(){
+  const params=new URLSearchParams(window.location.search);
+  const sjNow=aktuellesSj();
+  const sjTarget=params.get('sj')||sjNow;
+  // Badge sofort setzen — unabhängig ob Projekte gefunden werden
+  document.getElementById('sj-badge').textContent=sjTarget.replace('_','/');
+  try{
+    const res=await fetch(`${WEBAPP_URL}?action=projekte&sj=${sjTarget}`);
+    const json=await res.json();
+    if(!json.ok)throw new Error(json.error||'Web-App Fehler');
+    const projekte=json.data;
+    const liste=document.getElementById('projekte-liste');
+    if(!projekte.length){liste.innerHTML='<div class="loading">Keine Projekte gefunden.</div>';return;}
+    document.getElementById('sj-badge').textContent=sjTarget.replace('_','/');
+    liste.innerHTML=projekte.map((p,i)=>{
+      const f=getFarbe(p.name),k=p.zusatz?'*':getKuerzel(p.name),cId='proj-'+i;
+      const pAttr=p.name.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+      const sjAttr=sjTarget.replace(/"/g,'&quot;');
+      if(istBR(p.name)){
+        return `<div class="proj-card">
+  <div class="proj-header" onclick="toggleBR('${cId}','${p.docId}','${pAttr}','${sjAttr}')">
+    <div class="proj-icon" style="background:${f.bg};color:${f.color}">${k}</div>
+    <div class="proj-meta"><div class="proj-name">${esc(p.name.replace(/^\*/,''))}</div><div class="proj-sub">${p.sj.replace('_','/')}</div></div>
+    <div class="proj-chevron" id="chev-${cId}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+  </div>
+  <div class="proj-body" id="${cId}"><div class="proj-loading" id="${cId}-loading">Wird geladen…</div></div>
+</div>`;
+      }else{
+        return `<div class="proj-card">
+  <div class="proj-header" onclick="toggleStd('${cId}','${p.docId}','${pAttr}','${sjAttr}')">
+    <div class="proj-icon" style="background:${f.bg};color:${f.color}">${k}</div>
+    <div class="proj-meta"><div class="proj-name">${esc(p.name.replace(/^\*/,''))}</div><div class="proj-sub">${p.sj.replace('_','/')}</div></div>
+    <div class="proj-chevron" id="chev-${cId}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+  </div>
+  <div class="proj-body" id="${cId}">
+    <div class="proj-tabs">
+      <button class="proj-tab active" onclick="showProjTab(event,'${cId}','programm')">Programm</button>
+      <button class="proj-tab" onclick="showProjTab(event,'${cId}','probenplan')">Probenplan</button>
+      <button class="proj-tab" onclick="showProjTab(event,'${cId}','spielende')">Spielende</button>
+      <button class="proj-tab" onclick="showProjTab(event,'${cId}','biographien')">Biografien</button>
+    </div>
+    <div class="proj-section active" id="${cId}-programm"><div class="proj-loading">Wird geladen…</div></div>
+    <div class="proj-section" id="${cId}-probenplan"></div>
+    <div class="proj-section" id="${cId}-spielende"></div>
+    <div class="proj-section" id="${cId}-biographien"></div>
+  </div>
+</div>`;
       }
-      if (ev.leitung && ev.leitung.length) {
-        html += '<div style="margin-top:8px;font-size:11px;color:var(--ink3)">Leitung: ' + ev.leitung.map(l => esc(l.name)).join(', ') + '</div>';
+    }).join('');
+  }catch(e){
+    document.getElementById('projekte-liste').innerHTML='<div class="loading">Laden fehlgeschlagen.</div>';
+  }
+}
+
+const docCache={};
+async function ladeProjektDoc(docId){
+  if(docCache[docId])return docCache[docId];
+  try{
+    const res=await fetch(`https://docs.google.com/document/d/${docId}/export?format=txt`);
+    const text=await res.text();
+    const ab={programm:[],probenplan:[],spielende:[],biographien:[]};
+    const MK={'--- PROGRAMM ---':'programm','--- PROBENPLAN ---':'probenplan','--- SPIELENDE ---':'spielende','--- BIOGRAPHIEN ---':'biographien'};
+    let aktiv=null,nach=false;
+    for(const line of text.split('\n')){
+      const z=line.trim();
+      if(z==='--- AB HIER AUTOMATISCHER INHALT ---'){nach=true;aktiv=null;continue;}
+      if(!nach)continue;
+      if(MK[z]!==undefined){aktiv=MK[z];continue;}
+      if(/^Aktualisiert:/.test(z))continue;
+      if(aktiv)ab[aktiv].push(z);
+    }
+    for(const k in ab){const a=ab[k];while(a.length&&!a[0])a.shift();while(a.length&&!a[a.length-1])a.pop();}
+    docCache[docId]=ab;
+    return ab;
+  }catch(e){return null;}
+}
+
+async function toggleStd(cId,docId,projektName,sjTarget){
+  const body=document.getElementById(cId),chev=document.getElementById('chev-'+cId);
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open);chev.classList.toggle('open',!open);
+  if(!open){
+    const prog=document.getElementById(cId+'-programm');
+    if(prog&&prog.querySelector('.proj-loading')){
+      const events=await ladeUeEvents(projektName,sjTarget);
+      const elProg=document.getElementById(cId+'-programm');
+      if(elProg){
+        if(!events||events.length===0){
+          elProg.innerHTML='<p class="proj-text-muted">(Noch kein Programm)</p>';
+        }else{
+          const tabs=events.map((ev,i)=>'<button class="event-tab '+(i===0?'active':'')+'" onclick="showEvTabIn(event,\''+cId+'-programm\','+i+')">'+esc(ev.tabLabel)+'</button>').join('');
+          const secs=events.map((ev,i)=>'<div class="event-section '+(i===0?'active':'')+'" id="'+cId+'-programm-prog-ev-'+i+'">'+renderEventProgramm(ev)+'</div>').join('');
+          elProg.innerHTML='<div class="event-tabs-wrap"><div class="event-tabs">'+tabs+'</div></div><div class="event-sections">'+secs+'</div>';
+        }
       }
-      html += '</div>';
-    });
-  });
-  el.innerHTML = html;
-}
-
-// ── KALENDER ──────────────────────────────────────────────
-async function ladenKalender() {
-  var d = await apiFetch('programm', { sj: _aktSj });
-  var el = document.getElementById('kal-inhalt');
-  if (!d || !d.data) { el.innerHTML = '<div class="empty">Keine Daten</div>'; return; }
-
-  var alle = [];
-  var heute = new Date(); heute.setHours(0,0,0,0);
-  Object.keys(d.data).forEach(function(p) {
-    (d.data[p] || []).forEach(function(ev) {
-      var dat = parseDatum(ev.datum);
-      if (dat) alle.push({ projekt: p, ev: ev, dat: dat });
-    });
-  });
-  alle.sort((a,b) => a.dat - b.dat);
-
-  if (!alle.length) { el.innerHTML = '<div class="empty">Keine Termine</div>'; return; }
-
-  // Nach Datum gruppieren
-  var tage = {};
-  alle.forEach(function(item) {
-    var key = item.ev.datum || '';
-    if (!tage[key]) tage[key] = [];
-    tage[key].push(item);
-  });
-
-  var wt = ['So','Mo','Di','Mi','Do','Fr','Sa'];
-  var html = '';
-  Object.keys(tage).sort().forEach(function(datum) {
-    var dat = parseDatum(datum);
-    var vergangen = dat && dat < heute;
-    var kopf = dat ? wt[dat.getDay()] + ', ' + datum : datum;
-    html += '<div class="kal-day" style="' + (vergangen ? 'opacity:0.45' : '') + '">';
-    html += '<div class="kal-day-h">' + kopf + '</div>';
-    tage[datum].forEach(function(item) {
-      var ev = item.ev;
-      var dot = item.projekt.startsWith('HSO') ? '' : item.projekt.startsWith('WK') ? ' green' : ' gold';
-      html += '<div class="kal-event"><div class="kal-dot' + dot + '"></div>' +
-        '<div class="kal-time">' + esc((ev.uhrzeit||'').replace(' Uhr','')) + '</div>' +
-        '<div class="kal-info"><div class="kal-titel">' + esc(ev._titel || item.projekt) + '</div>' +
-        '<div class="kal-ort">' + esc(item.projekt) + (ev.ort ? ' · ' + esc(ev.ort) : '') + '</div></div></div>';
-    });
-    html += '</div>';
-  });
-  el.innerHTML = html;
-}
-
-// ── UNTERRICHT ────────────────────────────────────────────
-async function ladenUnterricht() {
-  var d = await apiFetch('adminStats');
-  var el = document.getElementById('unt-inhalt');
-  if (!d || !d.data) { el.innerHTML = '<div class="empty">Keine Unterrichtsdaten</div>'; return; }
-
-  var personen = (d.data.personen || []).sort((a,b) => b.minuten - a.minuten);
-  var werke = (d.data.werke || []).sort((a,b) => b.minuten - a.minuten);
-  var maxMin = personen.length ? personen[0].minuten : 1;
-
-  var html = '<div class="section-h">Übersicht Unterrichtsminuten</div>';
-  html += '<div class="card card-pad" style="margin-bottom:16px">';
-  html += '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink3);margin-bottom:12px">Studierende</div>';
-  if (!personen.length) {
-    html += '<div class="empty" style="padding:12px">Noch keine Einträge</div>';
-  } else {
-    personen.forEach(function(p) {
-      var pct = Math.round(p.minuten / maxMin * 100);
-      var std = Math.floor(p.minuten / 60);
-      var min = p.minuten % 60;
-      html += '<div style="margin-bottom:12px">' +
-        '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">' +
-        '<div style="font-size:13px;font-weight:600">' + esc(p.name) + '<span style="font-size:11px;color:var(--ink3);margin-left:6px">' + esc(p.instrument||'') + '</span></div>' +
-        '<div style="font-size:13px;font-weight:700;font-family:var(--mono);color:var(--blue)">' + std + 'h ' + String(min).padStart(2,'0') + 'm</div></div>' +
-        '<div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:var(--blue);border-radius:2px"></div></div></div>';
-    });
-  }
-  html += '</div>';
-
-  if (werke.length) {
-    html += '<div class="section-h">Werke</div><div class="card card-pad">';
-    werke.slice(0, 10).forEach(function(w) {
-      var std = Math.floor(w.minuten / 60);
-      var min = w.minuten % 60;
-      html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--paper3)">' +
-        '<div style="font-size:12px;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(w.titel) + '</div>' +
-        '<div style="font-size:12px;font-weight:700;font-family:var(--mono);color:var(--gold2);flex-shrink:0;margin-left:8px">' + std + 'h' + (min ? ' ' + min + 'm' : '') + '</div></div>';
-    });
-    html += '</div>';
-  }
-  el.innerHTML = html;
-}
-
-// ── SJ WECHSELN ───────────────────────────────────────────
-function oeffneSjModal() {
-  var d = new Date();
-  var y = d.getFullYear();
-  var sjs = [];
-  for (var i = -1; i <= 2; i++) {
-    var y1 = y + i, y2 = y + i + 1;
-    sjs.push(String(y1).slice(2) + '_' + String(y2).slice(2));
-  }
-  document.getElementById('sj-optionen').innerHTML = sjs.map(sj =>
-    '<div class="sj-opt' + (sj === _aktSj ? ' active' : '') + '" onclick="setSj(\'' + sj + '\')">' +
-    sjAnzeige(sj) + (sj === sjAusHeute() ? '<span style="font-size:11px;color:var(--ink3)">aktuell</span>' : '') + '</div>'
-  ).join('');
-  document.getElementById('sj-modal').classList.add('open');
-}
-
-function schliesseSjModal() { document.getElementById('sj-modal').classList.remove('open'); }
-
-function setSj(sj) {
-  _aktSj = sj;
-  _cache = {};
-  _geladen = {};
-  updateSjBadge();
-  schliesseSjModal();
-  // Aktiven Tab neu laden
-  var aktTab = document.querySelector('.tnav.active');
-  if (aktTab) ladenWennNoetig(aktTab.dataset.tab);
-  if (document.getElementById('t-start').classList.contains('active')) {
-    document.getElementById('start-termine').innerHTML = '<div class="spinner"><div class="spin"></div>Lade...</div>';
-    ladenStartTermine();
+      const data=await ladeProjektDoc(docId);
+      const set=(s,arr,txt)=>{
+        const el=document.getElementById(cId+'-'+s);if(!el)return;
+        el.innerHTML=arr&&arr.length?'<div class="proj-text">'+arr.join('\n')+'</div>':'<p class="proj-text-muted">'+txt+'</p>';
+      };
+      if(!data){['probenplan','spielende','biographien'].forEach(s=>set(s,null,'Laden fehlgeschlagen.'));return;}
+      set('probenplan',data.probenplan,'(Noch keine Termine)');
+      set('spielende',data.spielende,'(Noch keine Einteilung)');
+      set('biographien',data.biographien,'(Keine Biografien)');
+    }
   }
 }
 
-function updateSjBadge() {
-  document.getElementById('sj-badge').textContent = sjAnzeige(_aktSj);
+function showProjTab(e,cId,tab){
+  e.stopPropagation();
+  const body=document.getElementById(cId);
+  body.querySelectorAll('.proj-tab').forEach(t=>t.classList.remove('active'));
+  body.querySelectorAll('.proj-section').forEach(s=>s.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(cId+'-'+tab).classList.add('active');
 }
 
-// ── HILFSFUNKTIONEN ───────────────────────────────────────
-function esc(str) {
-  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+async function toggleBR(cId,docId,projektName,sjTarget){
+  const body=document.getElementById(cId),chev=document.getElementById('chev-'+cId);
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open);chev.classList.toggle('open',!open);
+  if(!open){
+    const loading=document.getElementById(cId+'-loading');
+    if(loading){
+      const alleEvents=await ladeUeEvents(projektName, sjTarget);
+      const events=alleEvents.filter(ev=>istInSpieljahr(ev.datObj,sjTarget));
+      if(!events||events.length===0){
+        body.innerHTML='<div style="padding:14px"><p class="proj-text-muted">Keine Termine für '+esc(sjTarget.replace('_','/'))+' gefunden.</p></div>';
+        return;
+      }
+      const tabs=events.map((ev,i)=>'<button class="event-tab '+(i===0?'active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(ev.tabLabel)+'</button>').join('');
+      const secs=events.map((ev,i)=>'<div class="event-section '+(i===0?'active':'')+'" id="'+cId+'-ev-'+i+'">'+renderEventProgramm(ev)+'</div>').join('');
+      body.innerHTML='<div class="event-tabs-wrap"><div class="event-tabs">'+tabs+'</div></div><div class="event-sections">'+secs+'</div>';
+    }
+  }
 }
 
-function parseDatum(s) {
-  if (!s) return null;
-  var m = String(s).match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
-  if (m) return new Date(+m[3], +m[2]-1, +m[1]);
-  var d = new Date(s);
-  return isNaN(d.getTime()) ? null : d;
+function showEvTab(e,cId,idx){
+  e.stopPropagation();
+  const body=document.getElementById(cId);
+  body.querySelectorAll('.event-tab').forEach(t=>t.classList.remove('active'));
+  body.querySelectorAll('.event-section').forEach(s=>s.classList.remove('active'));
+  e.target.classList.add('active');
+  const sec=document.getElementById(cId+'-ev-'+idx);
+  if(sec)sec.classList.add('active');
 }
 
-function zeigToast(msg) {
-  var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
+function showEvTabIn(e,containerId,idx){
+  e.stopPropagation();
+  const container=document.getElementById(containerId);
+  if(!container)return;
+  container.querySelectorAll('.event-tab').forEach(t=>t.classList.remove('active'));
+  container.querySelectorAll('.event-section').forEach(s=>s.classList.remove('active'));
+  e.target.classList.add('active');
+  const sec=document.getElementById(containerId+'-prog-ev-'+idx);
+  if(sec)sec.classList.add('active');
 }
 
+async function ladeBedarf(){
+  const url=`https://docs.google.com/spreadsheets/d/${BEDARF_SHEET_ID}/gviz/tq?tqx=out:csv&gid=${BEDARF_GID}`;
+  try{
+    const res=await fetch(url);const text=await res.text();
+    const params=new URLSearchParams(window.location.search);
+    const sjTarget=params.get('sj')||aktuellesSj();
+    const sjParts=sjTarget.split('_');
+    const sjVon=new Date(2000+parseInt(sjParts[0],10),8,1);
+    const sjBis=new Date(2000+parseInt(sjParts[1],10),7,31,23,59,59);
+    const termine=[];
+    text.trim().split('\n').slice(1).forEach(z=>{
+      const t=parseCsvZeile(z);if(t.length<10)return;
+      const datumRaw=t[5]||t[4];if(!datumRaw)return;
+      const parts=datumRaw.split(' ')[0].split('.');if(parts.length<3)return;
+      const datum=new Date(parseInt(parts[2],10),parseInt(parts[1],10)-1,parseInt(parts[0],10));
+      if(datum<sjVon||datum>sjBis)return;
+      termine.push({projekt:t[0],ort:t[1],werke:t[2],datum:datumRaw,aufbauplan:t[7],tasten:t[9],stuehle:t[10],basshocker:t[11],klHocker:t[12],pulte:t[13],gesamt:t[14]});
+    });
+    const liste=document.getElementById('bedarf-liste');
+    if(!termine.length){liste.innerHTML='<div class="loading">Keine kommenden Termine.</div>';return;}
+    liste.innerHTML=termine.map((t,i)=>{
+      const f=getFarbe(t.projekt),did='bedarf-'+i;
+      let h = '<div class="bedarf-card">'
+        +'<div class="bedarf-header" onclick="toggleBedarf(\''+did+'\')">'
+        +'<div class="bedarf-nummer" style="background:'+f.bg+';color:'+f.color+'">'+(i+1)+'</div>'
+        +'<div class="bedarf-titel"><div class="bedarf-projekt">'+esc(t.projekt)+'</div>'
+        +'<div class="bedarf-datum">'+esc(t.datum)+'</div>';
+      if(t.ort){ h += '<div class="bedarf-ort">'+esc(t.ort)+'</div>'; }
+      h += '</div>'
+        +'<div class="bedarf-toggle" id="btog-'+did+'"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>'
+        +'</div>'
+        +'<div class="bedarf-details" id="'+did+'">';
+      if(t.werke){ h += '<div class="werk-text">'+esc(t.werke)+'</div>'; }
+      h += '<div class="stat-row">'
+        +'<div class="stat-box"><div class="stat-num">'+(t.stuehle||'–')+'</div><div class="stat-label">Stühle</div></div>'
+        +'<div class="stat-box"><div class="stat-num">'+(t.pulte||'–')+'</div><div class="stat-label">Pulte</div></div>'
+        +'<div class="stat-box"><div class="stat-num">'+(t.basshocker||'–')+'</div><div class="stat-label">Basshocker</div></div>'
+        +'<div class="stat-box"><div class="stat-num">'+(t.klHocker||'–')+'</div><div class="stat-label">Klavierhocker</div></div>'
+        +'</div>';
+      if(t.tasten){ h += '<div class="bedarf-row"><div class="bedarf-label">Tasten/Harfe</div><div class="bedarf-value">'+esc(t.tasten)+'</div></div>'; }
+      if(t.gesamt){ h += '<div class="bedarf-row"><div class="bedarf-label">Gesamt</div><div class="bedarf-value">'+esc(t.gesamt)+'</div></div>'; }
+      if(t.aufbauplan){ h += '<div class="bedarf-aufbau"><a href="'+t.aufbauplan+'" target="_blank"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Aufbauplan</a></div>'; }
+      h += '</div></div>';
+      return h;
+    }).join('');
+  }catch(e){document.getElementById('bedarf-liste').innerHTML='<div class="loading">Laden fehlgeschlagen.</div>';}
+}
 
-initialLaden();
+function toggleBedarf(did){
+  document.getElementById(did).classList.toggle('open');
+  document.getElementById('btog-'+did).classList.toggle('open');
+}
+function copyICal(){
+  navigator.clipboard.writeText('https://calendar.google.com/calendar/ical/b11b52fea156e762892f701f4ecc35cc1ccbbb80f21b5e7ca3e924d251bb6d1b%40group.calendar.google.com/public/basic.ics').catch(()=>{});
+}
+// ── PULL TO REFRESH ───────────────────────────────────────────
+let touchStartY = 0;
+
+document.addEventListener('touchstart', e => {
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+  const diff = e.changedTouches[0].clientY - touchStartY;
+  if (diff > 80 && window.scrollY === 0) {
+    location.reload();
+  }
+}, { passive: true });
+
+ladeProjekte();
+ladeBedarf();
 </script>
 </body>
 </html>
