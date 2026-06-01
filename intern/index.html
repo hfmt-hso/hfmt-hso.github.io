@@ -258,6 +258,14 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       <button class="proj-sj-btn" data-sj="26_27" onclick="filterProjSj(this)">26/27</button>
       <button class="proj-sj-btn" data-sj="27_28" onclick="filterProjSj(this)">27/28</button>
     </div>
+    <div class="proj-sj-filter" id="proj-typ-filter">
+      <button class="proj-sj-btn active" data-typ="alle" onclick="filterProjTyp(this)">Alle</button>
+      <button class="proj-sj-btn" data-typ="HSO" onclick="filterProjTyp(this)">HSO</button>
+      <button class="proj-sj-btn" data-typ="WK" onclick="filterProjTyp(this)">WK</button>
+      <button class="proj-sj-btn" data-typ="13/14" onclick="filterProjTyp(this)">13/14</button>
+      <button class="proj-sj-btn" data-typ="Blattspiel" onclick="filterProjTyp(this)">Blattspiel</button>
+      <button class="proj-sj-btn" data-typ="Repertoire" onclick="filterProjTyp(this)">Repertoire</button>
+    </div>
     <!-- Aktionsleiste -->
     <div class="copy-bar" id="copy-bar">
       <div class="copy-bar-label" id="copy-bar-label">0 Projekte ausgewählt</div>
@@ -265,7 +273,7 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       <button class="cbtn" onclick="kopiereEinzel('probenplan')">Probenplan</button>
       <button class="cbtn" onclick="kopiereEinzel('spielende')">Spielende</button>
       <button class="cbtn" onclick="kopiereEinzel('biographien')">Biografien</button>
-      <button class="cbtn gold" onclick="oeffneKombModal()">Kombinieren…</button>
+      <button class="cbtn gold" onclick="kopiereKombination(['programm','probenplan'])">Prog + Probenplan</button>
       <button class="copy-bar-desel" onclick="alleDeselektieren()">Alle abwählen</button>
     </div>
     <div id="proj-liste"><div class="spinner"><div class="spin"></div>Lade Projekte...</div></div>
@@ -401,6 +409,7 @@ var _aktSj = sjAusHeute();
 var _ueCache = {};
 var _docCache = {};
 var _projSjFilter = 'alle';
+var _projTypFilter = 'alle';
 var _alleProj = [];
 var _selektiert = new Set(); // Set von cIds
 
@@ -529,13 +538,29 @@ async function ladenAlleProj(){
 
 function filterProjSj(btn){
   _projSjFilter=btn.dataset.sj;
-  document.querySelectorAll('.proj-sj-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#proj-sj-filter .proj-sj-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderProjListe();
 }
+function filterProjTyp(btn){
+  _projTypFilter=btn.dataset.typ;
+  document.querySelectorAll('#proj-typ-filter .proj-sj-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProjListe();
+}
+function getTyp(name){
+  if(name==='13/14')return'13/14';
+  if(/Blattspiel/i.test(name))return'Blattspiel';
+  if(/Repertoire/i.test(name))return'Repertoire';
+  if(name.startsWith('HSO'))return'HSO';
+  if(name.startsWith('WK'))return'WK';
+  return'andere';
+}
 
 function renderProjListe(){
-  var filtered=_projSjFilter==='alle'?_alleProj:_alleProj.filter(p=>p.sj===_projSjFilter);
+  var filtered=_alleProj;
+  if(_projSjFilter!=='alle')filtered=filtered.filter(p=>p.sj===_projSjFilter);
+  if(_projTypFilter!=='alle')filtered=filtered.filter(p=>getTyp(p.name)===_projTypFilter);
   var el=document.getElementById('proj-liste');
   if(!filtered.length){el.innerHTML='<div class="empty">Keine Projekte gefunden</div>';return;}
   el.innerHTML=filtered.map(function(p,i){
@@ -701,6 +726,14 @@ function abschnittLabel(k){
   return{programm:'Programm',probenplan:'Probenplan',spielende:'Spielende',biographien:'Biografien'}[k]||k;
 }
 
+async function kopiereKombination(abschnitte){
+  if(_selektiert.size===0){zeigToast('Kein Projekt ausgewählt');return;}
+  zeigToast('Lade…');
+  var teile=[];
+  for(var ab of abschnitte){var t=await sammleDaten(ab);if(t)teile.push(t);}
+  if(!teile.length){zeigToast('Keine Daten');return;}
+  navigator.clipboard.writeText(teile.join('\n\n')).then(()=>zeigToast('Kopiert: '+abschnitte.map(abschnittLabel).join(' + '))).catch(()=>zeigToast('Fehler'));
+}
 async function kopiereEinzel(abschnitt){
   if(_selektiert.size===0){zeigToast('Kein Projekt ausgewählt');return;}
   zeigToast('Lade…');
