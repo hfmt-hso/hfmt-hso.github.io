@@ -24,11 +24,8 @@
 }
 html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5}
 
-
-
 /* ── APP SHELL ── */
-#app{display:none;min-height:100vh;flex-direction:column}
-#app.visible{display:flex}
+#app{display:flex;min-height:100vh;flex-direction:column}
 .topbar{height:52px;background:var(--ink);display:flex;align-items:center;gap:0;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,0.06)}
 .topbar-logo{padding:0 16px;display:flex;align-items:center;gap:10px;border-right:1px solid rgba(255,255,255,0.06)}
 .topbar-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
@@ -138,29 +135,8 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 </head>
 <body>
 
-
-<div id="login-wrap" class="login-wrap">
-  <div class="login-bg"></div>
-  <div class="login-noise"></div>
-  <div class="login-card">
-    <div class="login-logo">
-      <div class="login-logo-mark">🎼</div>
-      <div>
-        <div class="login-logo-text">Hochschulorchester</div>
-        <div class="login-logo-sub">HfMT Hamburg · Intern</div>
-      </div>
-    </div>
-    <div class="login-h">Arbeitsportal</div>
-    <div class="login-sub">Nur für interne Nutzung</div>
-    <div class="l-label">Passwort</div>
-    <input class="l-input" type="password" id="l-pw" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
-    <div class="l-err" id="l-err"></div>
-    <button class="l-btn" onclick="login()">Anmelden</button>
-  </div>
-</div>
-
 <!-- ── APP ── -->
-<div id="app" class="visible" style="display:flex">
+<div id="app">
   <div class="topbar">
     <div class="topbar-logo">
       <div class="topbar-mark">🎼</div>
@@ -327,9 +303,7 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 <script>
 // ── KONFIGURATION ──────────────────────────────────────────
 var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
-var PW_HASH     = 'fcde2b2edba56bf408601fb721fe9b5c338d10ee429ea04fae5511b68fbf8fb9'; // admin
 var MONATE_VORAUS = 6;
-
 
 // ── DATEN ─────────────────────────────────────────────────
 var _cache = {};
@@ -391,7 +365,6 @@ async function ladenStartTermine() {
   var el = document.getElementById('start-termine');
   if (!d || !d.data) { el.innerHTML = '<div class="empty">Keine Daten</div>'; return; }
 
-  // Alle Events aus allen Projekten sammeln und nach Datum sortieren
   var alle = [];
   var heute = new Date(); heute.setHours(0,0,0,0);
   Object.keys(d.data).forEach(function(p) {
@@ -433,7 +406,6 @@ async function ladenProjekte() {
 
   var projekte = d.data;
 
-  // Filter-Buttons
   var typen = ['Alle'];
   projekte.forEach(function(p) {
     var t = p.name.startsWith('HSO') || p.name === '13/14' ? 'HSO' :
@@ -539,7 +511,6 @@ async function ladenKalender() {
 
   if (!alle.length) { el.innerHTML = '<div class="empty">Keine Termine</div>'; return; }
 
-  // Nach Datum gruppieren
   var tage = {};
   alle.forEach(function(item) {
     var key = item.ev.datum || '';
@@ -635,7 +606,6 @@ function setSj(sj) {
   _geladen = {};
   updateSjBadge();
   schliesseSjModal();
-  // Aktiven Tab neu laden
   var aktTab = document.querySelector('.tnav.active');
   if (aktTab) ladenWennNoetig(aktTab.dataset.tab);
   if (document.getElementById('t-start').classList.contains('active')) {
@@ -667,7 +637,6 @@ function zeigToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2000);
 }
-
 
 initialLaden();
 </script>
