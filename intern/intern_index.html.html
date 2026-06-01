@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1a2e">
+<title>HSO Intern – Arbeitsportal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0f0f14;--ink2:#2a2a38;--ink3:#4a4a5e;
+  --paper:#f7f6f2;--paper2:#eeece6;--paper3:#e4e1d8;
+  --gold:#b8962e;--gold2:#8a6e1f;--gold-bg:#fdf8ee;
+  --blue:#1a4b8c;--blue2:#0d2f5c;--blue-bg:#eef3fb;
+  --green:#1e6b3a;--green-bg:#e8f4ed;
+  --red:#9b2335;--red-bg:#fbeaed;
+  --accent:#c4622d;
+  --border:#dddad0;--border2:#ccc9be;
+  --radius:10px;--mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
+  --shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.06);
+  --shadow-lg:0 4px 16px rgba(0,0,0,0.12),0 16px 40px rgba(0,0,0,0.1);
+}
+html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5}
+
+/* ── APP SHELL ── */
+#app{display:flex;min-height:100vh;flex-direction:column}
+.topbar{height:52px;background:var(--ink);display:flex;align-items:center;gap:0;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,0.06)}
+.topbar-logo{padding:0 16px;display:flex;align-items:center;gap:10px;border-right:1px solid rgba(255,255,255,0.06)}
+.topbar-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.topbar-name{font-size:12px;font-weight:700;color:rgba(255,255,255,0.85);font-family:var(--mono);white-space:nowrap}
+.topbar-nav{display:flex;flex:1;overflow-x:auto;scrollbar-width:none}
+.topbar-nav::-webkit-scrollbar{display:none}
+.tnav{padding:0 14px;height:52px;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:rgba(255,255,255,0.4);cursor:pointer;border:none;background:none;font-family:var(--sans);white-space:nowrap;border-bottom:2px solid transparent;transition:all 0.15s}
+.tnav:hover{color:rgba(255,255,255,0.7)}
+.tnav.active{color:#fff;border-bottom-color:var(--gold)}
+.tnav-icon{font-size:14px}
+.topbar-end{padding:0 14px;display:flex;align-items:center;gap:8px;border-left:1px solid rgba(255,255,255,0.06);margin-left:auto;flex-shrink:0}
+.sj-badge{font-size:10px;font-weight:700;font-family:var(--mono);padding:3px 8px;border-radius:6px;background:rgba(184,150,46,0.2);color:var(--gold);border:1px solid rgba(184,150,46,0.3);cursor:pointer;white-space:nowrap}
+.sj-badge:hover{background:rgba(184,150,46,0.3)}
+
+/* ── TABS ── */
+.tab{display:none;flex:1;overflow-y:auto;padding:20px 16px 40px}
+.tab.active{display:block}
+
+/* ── KARTEN ── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
+.section-h{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink3);margin:20px 0 10px;display:flex;align-items:center;gap:8px}
+.section-h::after{content:'';flex:1;height:1px;background:var(--border)}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+.card-pad{padding:14px 16px}
+
+/* ── QUICK LINKS ── */
+.qlink{display:flex;align-items:center;gap:10px;padding:11px 13px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;color:var(--ink);transition:all 0.15s;box-shadow:var(--shadow)}
+.qlink:hover{border-color:var(--border2);box-shadow:var(--shadow-lg);transform:translateY(-1px)}
+.qlink-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.qlink-text{flex:1;min-width:0}
+.qlink-name{font-size:13px;font-weight:600;line-height:1.2}
+.qlink-type{font-size:11px;color:var(--ink3);margin-top:1px}
+.qlink-arr{color:var(--ink3);flex-shrink:0;font-size:12px}
+
+/* ── PROJEKTE (Portal-Style) ── */
+.proj-sj-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.proj-sj-btn{padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:#fff;color:var(--ink3);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all 0.15s}
+.proj-sj-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.pcard{background:#fff;border-radius:14px;border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow);margin-bottom:8px}
+.pcard-header{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer}
+.pcard-header:hover{background:var(--paper2)}
+.pcard-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.pcard-meta{flex:1;min-width:0}
+.pcard-name{font-size:15px;font-weight:600;color:var(--ink)}
+.pcard-sub{font-size:12px;color:var(--ink3);margin-top:2px}
+.pcard-chev{color:var(--ink3);flex-shrink:0;transition:transform 0.2s}
+.pcard-chev svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pcard-chev.open{transform:rotate(180deg)}
+.pcard-body{display:none;border-top:1px solid var(--border)}
+.pcard-body.open{display:block}
+
+.ptabs{display:flex;border-bottom:1px solid var(--border);background:var(--paper);overflow-x:auto;scrollbar-width:none}
+.ptabs::-webkit-scrollbar{display:none}
+.ptab{flex-shrink:0;padding:9px 12px;font-size:11px;color:var(--ink3);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap}
+.ptab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.psec{display:none;padding:14px}
+.psec.active{display:block}
+.proj-text{font-size:13px;color:var(--ink);line-height:1.6;white-space:pre-wrap}
+.proj-text-muted{font-size:13px;color:var(--ink3)}
+.proj-loading{font-size:12px;color:var(--ink3);text-align:center;padding:16px}
+
+.evtabs-wrap{border-bottom:1px solid var(--border);background:var(--paper);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.evtabs-wrap::-webkit-scrollbar{display:none}
+.evtabs{display:flex;min-width:max-content}
+.evtab{flex-shrink:0;padding:8px 12px;font-size:11px;color:var(--ink3);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap}
+.evtab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.evsections{padding:14px}
+.evsec{display:none}
+.evsec.active{display:block}
+.ev-kopf{font-size:12px;font-weight:600;color:var(--blue);line-height:1.5;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.werk-block{margin-bottom:10px}
+.werk-komp{font-size:13px;font-weight:600;color:var(--ink)}
+.werk-titel{font-size:13px;color:var(--ink);margin-top:1px}
+.werk-details{font-size:11px;color:var(--ink3);margin-top:3px;line-height:1.5}
+.werk-leitung{font-size:11px;color:var(--ink3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.ev-kein{font-size:13px;color:var(--ink3)}
+
+/* ── PROGRAMM ── */
+.prog-event{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:8px;box-shadow:var(--shadow)}
+.prog-titel{font-size:13px;font-weight:700;margin-bottom:6px}
+.prog-datum{font-size:11px;font-family:var(--mono);color:var(--ink3);margin-bottom:8px}
+.werk-row{padding:5px 0;border-bottom:1px solid var(--paper3);display:flex;flex-direction:column;gap:1px}
+.werk-row:last-child{border-bottom:none}
+.werk-komp2{font-size:12px;font-weight:600;color:var(--ink)}
+.werk-titel2{font-size:12px;color:var(--ink3)}
+.werk-meta{font-size:10px;font-family:var(--mono);color:var(--blue);margin-top:2px}
+
+/* ── KALENDER ── */
+.kal-day{margin-bottom:16px}
+.kal-day-h{font-size:11px;font-weight:700;font-family:var(--mono);color:var(--ink3);text-transform:uppercase;letter-spacing:0.08em;padding:4px 0;border-bottom:1px solid var(--border);margin-bottom:8px}
+.kal-event{display:flex;gap:10px;padding:9px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;margin-bottom:5px;box-shadow:var(--shadow)}
+.kal-time{font-size:11px;font-family:var(--mono);color:var(--ink3);width:36px;flex-shrink:0;padding-top:1px}
+.kal-info{flex:1;min-width:0}
+.kal-titel{font-size:13px;font-weight:600;line-height:1.2}
+.kal-ort{font-size:11px;color:var(--ink3);margin-top:2px}
+.kal-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:4px}
+.kal-dot.gold{background:var(--gold)}
+.kal-dot.green{background:var(--green)}
+
+/* ── LINKS ── */
+.link-section{margin-bottom:24px}
+.link-section-h{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold2);background:var(--gold-bg);border:1px solid var(--border);border-radius:8px;padding:7px 12px;margin-bottom:8px}
+
+/* ── SPINNER / EMPTY ── */
+.spinner{text-align:center;padding:40px 20px;color:var(--ink3);font-size:13px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.spin{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 0.7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:32px;color:var(--ink3);font-size:13px}
+
+/* ── SJ SWITCHER ── */
+.sj-modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:flex-end;justify-content:center;padding:0}
+.sj-modal.open{display:flex}
+.sj-sheet{background:#fff;border-radius:16px 16px 0 0;padding:20px 16px 32px;width:100%;max-width:480px}
+.sj-sheet-h{font-size:15px;font-weight:700;margin-bottom:16px}
+.sj-opt{padding:12px 14px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.sj-opt:hover{background:var(--paper2)}
+.sj-opt.active{background:var(--blue-bg);font-weight:700;color:var(--blue2)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:300;transition:transform 0.25s;pointer-events:none;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-logo">
+      <div class="topbar-mark">🎼</div>
+      <div class="topbar-name">HSO·INTERN</div>
+    </div>
+    <nav class="topbar-nav">
+      <button class="tnav active" data-tab="t-start" onclick="wechselTab(this)"><span class="tnav-icon">⌂</span> Start</button>
+      <button class="tnav" data-tab="t-projekte" onclick="wechselTab(this)"><span class="tnav-icon">◫</span> Projekte</button>
+      <button class="tnav" data-tab="t-programm" onclick="wechselTab(this)"><span class="tnav-icon">♩</span> Programm</button>
+      <button class="tnav" data-tab="t-kalender" onclick="wechselTab(this)"><span class="tnav-icon">◷</span> Kalender</button>
+      <button class="tnav" data-tab="t-unterricht" onclick="wechselTab(this)"><span class="tnav-icon">✎</span> Unterricht</button>
+      <button class="tnav" data-tab="t-links" onclick="wechselTab(this)"><span class="tnav-icon">⎋</span> Links</button>
+    </nav>
+    <div class="topbar-end">
+      <div class="sj-badge" onclick="oeffneSjModal()" id="sj-badge">25/26</div>
+    </div>
+  </div>
+
+  <!-- START -->
+  <div class="tab active" id="t-start">
+    <div class="section-h">Schnellzugriff</div>
+    <div class="grid2">
+      <a class="qlink" href="https://docs.google.com/spreadsheets/d/1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU/edit" target="_blank">
+        <div class="qlink-icon" style="background:#e8f3ff">📊</div>
+        <div class="qlink-text"><div class="qlink-name">HfMT Lehre</div><div class="qlink-type">Google Sheet</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+      <a class="qlink" href="https://docs.google.com/spreadsheets/d/1v3D2o7G9AwFz6jO4Lz-jrft6PcjQWNk9YopqQ5ikPpI/edit" target="_blank">
+        <div class="qlink-icon" style="background:#fff3e8">🎵</div>
+        <div class="qlink-text"><div class="qlink-name">Programmgestaltung</div><div class="qlink-type">Google Sheet</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+      <a class="qlink" href="https://docs.google.com/spreadsheets/d/1QrFLarPKpu-SqWEtKiDFGvS_lW_BC79jXf91-6GTaVg/edit" target="_blank">
+        <div class="qlink-icon" style="background:#eef6f0">👥</div>
+        <div class="qlink-text"><div class="qlink-name">HfMT HSO</div><div class="qlink-type">Studierende</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+      <a class="qlink" href="https://docs.google.com/document/d/163kmVbqRkw4m9dMjS8_BoBLW3se8h-d84yiw_AUPJKA/edit" target="_blank">
+        <div class="qlink-icon" style="background:#f5eeff">📋</div>
+        <div class="qlink-text"><div class="qlink-name">Schwarzes Brett</div><div class="qlink-type">Google Doc</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+      <a class="qlink" href="https://docs.google.com/spreadsheets/d/1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ/edit" target="_blank">
+        <div class="qlink-icon" style="background:#fff8e8">🛠</div>
+        <div class="qlink-text"><div class="qlink-name">Bedarf / Forum</div><div class="qlink-type">Google Sheet</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+      <a class="qlink" href="https://calendar.google.com" target="_blank">
+        <div class="qlink-icon" style="background:#fff0f0">📅</div>
+        <div class="qlink-text"><div class="qlink-name">Kalender</div><div class="qlink-type">Google Calendar</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+    </div>
+
+    <div class="section-h">Studienjahr-Vorschau</div>
+    <div class="grid3">
+      <a class="qlink" href="https://hfmt-hso.github.io/index.html?sj=25_26" target="_blank">
+        <div class="qlink-text"><div class="qlink-name" style="font-size:11px">Portal 25/26</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+      <a class="qlink" href="https://hfmt-hso.github.io/index.html?sj=26_27" target="_blank">
+        <div class="qlink-text"><div class="qlink-name" style="font-size:11px">Portal 26/27</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+      <a class="qlink" href="https://hfmt-hso.github.io/index.html?sj=27_28" target="_blank">
+        <div class="qlink-text"><div class="qlink-name" style="font-size:11px">Portal 27/28</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+    </div>
+
+    <div class="section-h">Nächste Termine</div>
+    <div id="start-termine"><div class="spinner"><div class="spin"></div>Lade...</div></div>
+  </div>
+
+  <!-- PROJEKTE -->
+  <div class="tab" id="t-projekte">
+    <div class="proj-sj-filter" id="proj-sj-filter">
+      <button class="proj-sj-btn active" data-sj="alle" onclick="filterProjSj(this)">Alle</button>
+      <button class="proj-sj-btn" data-sj="25_26" onclick="filterProjSj(this)">25/26</button>
+      <button class="proj-sj-btn" data-sj="26_27" onclick="filterProjSj(this)">26/27</button>
+      <button class="proj-sj-btn" data-sj="27_28" onclick="filterProjSj(this)">27/28</button>
+    </div>
+    <div id="proj-liste"><div class="spinner"><div class="spin"></div>Lade Projekte...</div></div>
+  </div>
+
+  <!-- PROGRAMM -->
+  <div class="tab" id="t-programm">
+    <div id="prog-inhalt"><div class="spinner"><div class="spin"></div>Lade Programm...</div></div>
+  </div>
+
+  <!-- KALENDER -->
+  <div class="tab" id="t-kalender">
+    <div id="kal-inhalt"><div class="spinner"><div class="spin"></div>Lade Kalender...</div></div>
+  </div>
+
+  <!-- UNTERRICHT -->
+  <div class="tab" id="t-unterricht">
+    <div id="unt-inhalt"><div class="spinner"><div class="spin"></div>Lade Unterrichtsdaten...</div></div>
+  </div>
+
+  <!-- LINKS -->
+  <div class="tab" id="t-links">
+    <div class="link-section">
+      <div class="link-section-h">📊 Sheets</div>
+      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/spreadsheets/d/1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU/edit" target="_blank">
+        <div class="qlink-icon" style="background:#e8f3ff">📊</div>
+        <div class="qlink-text"><div class="qlink-name">HfMT Lehre (Übersetzer)</div><div class="qlink-type">1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/spreadsheets/d/1QrFLarPKpu-SqWEtKiDFGvS_lW_BC79jXf91-6GTaVg/edit" target="_blank">
+        <div class="qlink-icon" style="background:#eef6f0">👥</div>
+        <div class="qlink-text"><div class="qlink-name">HfMT HSO (Einteilungen)</div><div class="qlink-type">1QrFLarPKpu-SqWEtKiDFGvS_lW_BC79jXf91-6GTaVg</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/spreadsheets/d/1v3D2o7G9AwFz6jO4Lz-jrft6PcjQWNk9YopqQ5ikPpI/edit" target="_blank">
+        <div class="qlink-icon" style="background:#fff3e8">🎵</div>
+        <div class="qlink-text"><div class="qlink-name">Programmgestaltung Konzerttext</div><div class="qlink-type">1v3D2o7G9AwFz6jO4Lz-jrft6PcjQWNk9YopqQ5ikPpI</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/spreadsheets/d/1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ/edit" target="_blank">
+        <div class="qlink-icon" style="background:#fff8e8">🛠</div>
+        <div class="qlink-text"><div class="qlink-name">Bedarf / Forum</div><div class="qlink-type">1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+    </div>
+    <div class="link-section">
+      <div class="link-section-h">📋 Dokumente</div>
+      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/document/d/163kmVbqRkw4m9dMjS8_BoBLW3se8h-d84yiw_AUPJKA/edit" target="_blank">
+        <div class="qlink-icon" style="background:#f5eeff">📋</div>
+        <div class="qlink-text"><div class="qlink-name">Schwarzes Brett</div><div class="qlink-type">163kmVbqRkw4m9dMjS8_BoBLW3se8h-d84yiw_AUPJKA</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+    </div>
+    <div class="link-section">
+      <div class="link-section-h">🌐 Portale</div>
+      <a class="qlink" style="margin-bottom:7px" href="https://hfmt-hso.github.io/" target="_blank">
+        <div class="qlink-icon" style="background:#e8f3ff">🎼</div>
+        <div class="qlink-text"><div class="qlink-name">HSO Studierendenportal</div><div class="qlink-type">hfmt-hso.github.io</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+      <a class="qlink" style="margin-bottom:7px" href="https://hfmt-hso.github.io/intern.html" target="_blank">
+        <div class="qlink-icon" style="background:#fdf8ee">🔑</div>
+        <div class="qlink-text"><div class="qlink-name">Unterrichtsportal (Studierende)</div><div class="qlink-type">hfmt-hso.github.io/intern.html</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+    </div>
+    <div class="link-section">
+      <div class="link-section-h">📝 Formulare</div>
+      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/forms/d/e/1FAIpQLSc0mLQDCWHwVRlFkwnm0oPPUvJrPnNi0eeKu5EtQVMR6PTSPA/viewform" target="_blank">
+        <div class="qlink-icon" style="background:#eef6f0">📝</div>
+        <div class="qlink-text"><div class="qlink-name">Anwesenheitsliste</div><div class="qlink-type">Google Form</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- SJ Modal -->
+<div class="sj-modal" id="sj-modal" onclick="if(event.target===this)schliesseSjModal()">
+  <div class="sj-sheet">
+    <div class="sj-sheet-h">Studienjahr wechseln</div>
+    <div id="sj-optionen"></div>
+    <button style="width:100%;padding:11px;border:1px solid var(--border);border-radius:8px;background:none;cursor:pointer;font-family:var(--sans);font-size:13px;color:var(--ink3);margin-top:8px" onclick="schliesseSjModal()">Abbrechen</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── KONFIGURATION ──────────────────────────────────────────
+var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
+var MONATE_VORAUS = 6;
+var ALLE_SJ = ['25_26','26_27','27_28'];
+
+var WT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+var FARBEN = {
+  'HSO':{bg:'#E6F1FB',color:'#185FA5'},
+  'WK Lü':{bg:'#E1F5EE',color:'#0F6E56'},
+  'WK':{bg:'#E1F5EE',color:'#0F6E56'},
+  '13/14':{bg:'#FAEEDA',color:'#854F0B'},
+  'Blattspiel':{bg:'#EEEDFE',color:'#534AB7'},
+  'Repertoire':{bg:'#EEEDFE',color:'#534AB7'},
+  'default':{bg:'#F1EFE8',color:'#5F5E5A'}
+};
+
+// ── STATE ─────────────────────────────────────────────────
+var _cache = {};
+var _aktSj = sjAusHeute();
+var _projCache = {};   // sj -> [{name,docId,sj,...}]
+var _ueCache = {};     // sj -> {projektName: [events]}
+var _docCache = {};    // docId -> {programm,probenplan,...}
+var _projSjFilter = 'alle';
+var _alleProj = [];    // kombinierte Liste aller SJ
+
+// ── HILFSFUNKTIONEN ───────────────────────────────────────
+function sjAusHeute() {
+  var d = new Date(), y = d.getFullYear(), m = d.getMonth();
+  if (m >= 8) return String(y).slice(2)+'_'+String(y+1).slice(2);
+  return String(y-1).slice(2)+'_'+String(y).slice(2);
+}
+function sjAnzeige(sj){ return sj.replace('_','/'); }
+
+function getFarbe(n){
+  var keys = Object.keys(FARBEN);
+  for(var i=0;i<keys.length;i++){ if(n.indexOf(keys[i])!==-1) return FARBEN[keys[i]]; }
+  return FARBEN['default'];
+}
+function getKuerzel(n){
+  if(n.startsWith('HSO Blattspiel'))return'BS';
+  if(n.startsWith('HSO Repertoire'))return'Rep';
+  if(n.startsWith('HSO '))return'H'+n.replace('HSO ','').replace(/\D/g,'');
+  if(n.startsWith('WK Lü '))return'WL'+n.replace('WK Lü ','').trim();
+  if(n.startsWith('WK '))return'W'+n.replace('WK ','').trim();
+  if(n==='13/14')return'13';
+  return n.substring(0,2).toUpperCase();
+}
+function istBR(n){ return /Blattspiel|Repertoire/i.test(n); }
+function ohnestern(s){ return String(s||'').replace(/^\*/,''); }
+
+function parseDatum(s){
+  if(!s) return null;
+  var str = String(s).trim();
+  var m = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if(m) return new Date(parseInt(m[3]),parseInt(m[2])-1,parseInt(m[1]));
+  m = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(m) return new Date(parseInt(m[1]),parseInt(m[2])-1,parseInt(m[3]));
+  var d = new Date(str);
+  return isNaN(d.getTime())?null:d;
+}
+function ddmmyyyy(d){
+  return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();
+}
+function istInSpieljahr(datum, sj){
+  if(!datum||!sj) return false;
+  var parts=sj.split('_');
+  var von=new Date(2000+parseInt(parts[0],10),8,1);
+  var bis=new Date(2000+parseInt(parts[1],10),7,31,23,59,59,999);
+  return datum>=von && datum<=bis;
+}
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+async function apiFetch(action, params) {
+  var key = action + JSON.stringify(params || {});
+  if (_cache[key]) return _cache[key];
+  var url = WEB_APP_URL + '?action=' + action;
+  if (params) Object.keys(params).forEach(k => url += '&' + k + '=' + encodeURIComponent(params[k]));
+  try {
+    var r = await fetch(url);
+    var d = await r.json();
+    if (d.ok !== false) _cache[key] = d;
+    return d;
+  } catch(e) { return { ok: false, error: e.message }; }
+}
+
+// ── TABS ──────────────────────────────────────────────────
+function wechselTab(btn) {
+  document.querySelectorAll('.tnav').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(btn.dataset.tab).classList.add('active');
+  ladenWennNoetig(btn.dataset.tab);
+}
+
+var _geladen = {};
+function ladenWennNoetig(tabId) {
+  if (_geladen[tabId]) return;
+  _geladen[tabId] = true;
+  if (tabId === 't-projekte')   ladenAlleProj();
+  if (tabId === 't-programm')   ladenProgramm();
+  if (tabId === 't-kalender')   ladenKalender();
+  if (tabId === 't-unterricht') ladenUnterricht();
+}
+
+function initialLaden() {
+  updateSjBadge();
+  ladenStartTermine();
+}
+
+// ── START: NÄCHSTE TERMINE ────────────────────────────────
+async function ladenStartTermine() {
+  var d = await apiFetch('programm', { sj: _aktSj });
+  var el = document.getElementById('start-termine');
+  if (!d || !d.data) { el.innerHTML = '<div class="empty">Keine Daten</div>'; return; }
+  var alle = [], heute = new Date(); heute.setHours(0,0,0,0);
+  Object.keys(d.data).forEach(function(p) {
+    (d.data[p]||[]).forEach(function(ev) {
+      var dat = parseDatum(ev.datum);
+      if (dat && dat >= heute) alle.push({projekt:p,ev:ev,dat:dat});
+    });
+  });
+  alle.sort((a,b) => a.dat - b.dat);
+  var naechste = alle.slice(0,6);
+  if (!naechste.length) { el.innerHTML = '<div class="empty">Keine bevorstehenden Termine</div>'; return; }
+  el.innerHTML = naechste.map(function(item) {
+    var ev=item.ev, d2=item.dat;
+    var tag=String(d2.getDate()).padStart(2,'0');
+    var mon=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'][d2.getMonth()];
+    var werke=(ev.werke||[]).slice(0,2).map(w=>'<div style="font-size:11px;color:var(--ink3)">'+esc(w.komponist||'')+(w.titel?' – '+esc(w.titel):'')+'</div>').join('');
+    return '<div class="kal-event">'+
+      '<div class="kal-dot'+(item.projekt.startsWith('HSO')?'':item.projekt.startsWith('WK')?' green':' gold')+'"></div>'+
+      '<div style="background:var(--blue-bg);border-radius:7px;padding:4px 8px;text-align:center;flex-shrink:0;min-width:36px"><div style="font-size:16px;font-weight:800;color:var(--blue);line-height:1">'+tag+'</div><div style="font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase">'+mon+'</div></div>'+
+      '<div class="kal-info"><div class="kal-titel">'+esc(ev._titel||item.projekt)+'</div>'+
+      '<div class="kal-ort">'+esc(ev.uhrzeit||'')+(ev.ort?' · '+esc(ev.ort):'')+'</div>'+
+      werke+'</div></div>';
+  }).join('');
+}
+
+// ── PROJEKTE: ALLE SJ LADEN ───────────────────────────────
+async function ladenAlleProj() {
+  document.getElementById('proj-liste').innerHTML = '<div class="spinner"><div class="spin"></div>Lade Projekte...</div>';
+
+  // Alle drei SJ parallel laden
+  var results = await Promise.all(ALLE_SJ.map(sj => apiFetch('projekte', {sj:sj})));
+  // Auch Programmdaten parallel laden (für Sortierdatum)
+  var progResults = await Promise.all(ALLE_SJ.map(sj => apiFetch('programm', {sj:sj})));
+
+  _alleProj = [];
+  ALLE_SJ.forEach(function(sj, idx) {
+    var projData = results[idx];
+    var progData = progResults[idx];
+    if (!projData || !projData.data) return;
+    projData.data.forEach(function(p) {
+      // Frühestes Vorstellungsdatum ermitteln
+      var fruehestes = null;
+      if (progData && progData.data && progData.data[p.name]) {
+        progData.data[p.name].forEach(function(ev) {
+          var d = parseDatum(ev.datum);
+          if (d && (!fruehestes || d < fruehestes)) fruehestes = d;
+        });
+      }
+      _alleProj.push({ name: p.name, docId: p.docId, sj: sj, datum: fruehestes });
+    });
+  });
+
+  // Chronologisch sortieren: Projekte ohne Datum ans Ende
+  _alleProj.sort(function(a,b) {
+    if (!a.datum && !b.datum) return 0;
+    if (!a.datum) return 1;
+    if (!b.datum) return -1;
+    return a.datum - b.datum;
+  });
+
+  renderProjListe();
+}
+
+function filterProjSj(btn) {
+  _projSjFilter = btn.dataset.sj;
+  document.querySelectorAll('.proj-sj-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProjListe();
+}
+
+function renderProjListe() {
+  var filtered = _projSjFilter === 'alle'
+    ? _alleProj
+    : _alleProj.filter(p => p.sj === _projSjFilter);
+
+  var el = document.getElementById('proj-liste');
+  if (!filtered.length) { el.innerHTML = '<div class="empty">Keine Projekte gefunden</div>'; return; }
+
+  el.innerHTML = filtered.map(function(p, i) {
+    var cId = 'pc-' + p.sj + '-' + i;
+    var f = getFarbe(p.name);
+    var k = getKuerzel(p.name);
+    var sjLabel = sjAnzeige(p.sj);
+    var datLabel = p.datum ? ddmmyyyy(p.datum) : '';
+    var sub = sjLabel + (datLabel ? ' · ' + datLabel : '');
+    var pA = p.name.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    var sjA = p.sj.replace(/"/g,'&quot;');
+
+    if (istBR(p.name)) {
+      return '<div class="pcard" data-sj="'+p.sj+'">'+
+        '<div class="pcard-header" onclick="toggleBR(\''+cId+'\',\''+p.docId+'\',\''+pA+'\',\''+sjA+'\')">'+
+        '<div class="pcard-icon" style="background:'+f.bg+';color:'+f.color+'">'+k+'</div>'+
+        '<div class="pcard-meta"><div class="pcard-name">'+esc(ohnestern(p.name))+'</div><div class="pcard-sub">'+esc(sub)+'</div></div>'+
+        '<div class="pcard-chev" id="chev-'+cId+'"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>'+
+        '</div>'+
+        '<div class="pcard-body" id="'+cId+'"><div class="proj-loading" id="'+cId+'-loading">Wird geladen…</div></div>'+
+        '</div>';
+    } else {
+      return '<div class="pcard" data-sj="'+p.sj+'">'+
+        '<div class="pcard-header" onclick="toggleStd(\''+cId+'\',\''+p.docId+'\',\''+pA+'\',\''+sjA+'\')">'+
+        '<div class="pcard-icon" style="background:'+f.bg+';color:'+f.color+'">'+k+'</div>'+
+        '<div class="pcard-meta"><div class="pcard-name">'+esc(ohnestern(p.name))+'</div><div class="pcard-sub">'+esc(sub)+'</div></div>'+
+        '<div class="pcard-chev" id="chev-'+cId+'"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>'+
+        '</div>'+
+        '<div class="pcard-body" id="'+cId+'">'+
+        '<div class="ptabs">'+
+        '<button class="ptab active" onclick="showPtab(event,\''+cId+'\',\'programm\')">Programm</button>'+
+        '<button class="ptab" onclick="showPtab(event,\''+cId+'\',\'probenplan\')">Probenplan</button>'+
+        '<button class="ptab" onclick="showPtab(event,\''+cId+'\',\'spielende\')">Spielende</button>'+
+        '<button class="ptab" onclick="showPtab(event,\''+cId+'\',\'biographien\')">Biografien</button>'+
+        '</div>'+
+        '<div class="psec active" id="'+cId+'-programm"><div class="proj-loading">Wird geladen…</div></div>'+
+        '<div class="psec" id="'+cId+'-probenplan"></div>'+
+        '<div class="psec" id="'+cId+'-spielende"></div>'+
+        '<div class="psec" id="'+cId+'-biographien"></div>'+
+        '</div>'+
+        '</div>';
+    }
+  }).join('');
+}
+
+// ── PROJEKT DOC LADEN ─────────────────────────────────────
+async function ladeProjektDoc(docId) {
+  if (_docCache[docId]) return _docCache[docId];
+  try {
+    var res = await fetch('https://docs.google.com/document/d/'+docId+'/export?format=txt');
+    var text = await res.text();
+    var ab = {programm:[],probenplan:[],spielende:[],biographien:[]};
+    var MK = {'--- PROGRAMM ---':'programm','--- PROBENPLAN ---':'probenplan','--- SPIELENDE ---':'spielende','--- BIOGRAPHIEN ---':'biographien'};
+    var aktiv = null, nach = false;
+    text.split('\n').forEach(function(line) {
+      var z = line.trim();
+      if (z === '--- AB HIER AUTOMATISCHER INHALT ---') { nach=true; aktiv=null; return; }
+      if (!nach) return;
+      if (MK[z] !== undefined) { aktiv=MK[z]; return; }
+      if (/^Aktualisiert:/.test(z)) return;
+      if (aktiv) ab[aktiv].push(z);
+    });
+    for (var k in ab) { var a=ab[k]; while(a.length&&!a[0])a.shift(); while(a.length&&!a[a.length-1])a.pop(); }
+    _docCache[docId] = ab;
+    return ab;
+  } catch(e) { return null; }
+}
+
+// ── UE-EVENTS (Programm aus Web App) ─────────────────────
+async function ladeUeEvents(projektName, sj) {
+  var key = sj + '::' + projektName;
+  if (_ueCache[key]) return _ueCache[key];
+  var d = await apiFetch('programm', {sj:sj});
+  var rohdaten = (d && d.data && d.data[projektName]) ? d.data[projektName] : [];
+  var events = rohdaten.map(function(ev) {
+    var datObj = parseDatum(ev.datum);
+    if (!datObj) return null;
+    var datAnzeige = ev.datum || ddmmyyyy(datObj);
+    var wt = WT[datObj.getDay()];
+    var uhr = ev.uhrzeit || '';
+    var ort = ev.ort || '';
+    var kopf = wt+', '+datAnzeige+(uhr?' '+uhr:'')+'    '+ohnestern(ev._titel||projektName);
+    if (ort) kopf += '    |    '+ort;
+    var werke = (ev.werke||[]).filter(w => !w.pause);
+    var leitung = '';
+    if (ev.leitung && ev.leitung.length) {
+      leitung = 'Leitung: '+ev.leitung.map(l => typeof l==='object'?l.name:String(l)).filter(Boolean).join(' / ');
+    }
+    var tp = datAnzeige.split('.');
+    var tabLabel = wt+' '+String(tp[0]||'?').padStart(2,'0')+'.'+String(tp[1]||'?').padStart(2,'0')+'.';
+    return {datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null};
+  }).filter(Boolean).sort((a,b) => a.datObj - b.datObj);
+  _ueCache[key] = events;
+  return events;
+}
+
+function renderEvProgramm(ev) {
+  var h = '<div class="ev-kopf">'+esc(ev.kopf)+'</div>';
+  if (!ev.werke.length) {
+    h += '<div class="ev-kein">Noch kein Programm eingetragen.</div>';
+  } else {
+    ev.werke.forEach(function(w) {
+      var ld = w.lebensdaten?' ('+w.lebensdaten+')':'';
+      h += '<div class="werk-block">'+
+        '<div class="werk-komp">'+esc((w.komponist||'')+ld)+'</div>';
+      if (w.titel) h += '<div class="werk-titel">'+esc(w.titel)+'</div>';
+      if (w.dauer) h += '<div class="werk-details">'+esc('Dauer: '+w.dauer)+'</div>';
+      if (w.besetzung) h += '<div class="werk-details">'+esc('Besetzung: '+w.besetzung)+'</div>';
+      h += '</div>';
+    });
+  }
+  if (ev.solisten && ev.solisten.length) {
+    h += '<div class="werk-leitung">';
+    ev.solisten.forEach(s => { h += esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')'':''))+'<br>'; });
+    h += '</div>';
+  }
+  if (ev.ensemble) h += '<div class="werk-leitung">'+esc(ev.ensemble)+'</div>';
+  if (ev.leitung) h += '<div class="werk-leitung">'+esc(ev.leitung)+'</div>';
+  return h;
+}
+
+// ── TOGGLE STD-PROJEKT ────────────────────────────────────
+async function toggleStd(cId, docId, projektName, sj) {
+  var body = document.getElementById(cId);
+  var chev = document.getElementById('chev-'+cId);
+  var open = body.classList.contains('open');
+  body.classList.toggle('open', !open);
+  chev.classList.toggle('open', !open);
+  if (!open) {
+    var prog = document.getElementById(cId+'-programm');
+    if (prog && prog.querySelector('.proj-loading')) {
+      var events = await ladeUeEvents(projektName, sj);
+      var elProg = document.getElementById(cId+'-programm');
+      if (elProg) {
+        if (!events || !events.length) {
+          elProg.innerHTML = '<p class="proj-text-muted">(Noch kein Programm)</p>';
+        } else {
+          var tabs = events.map((ev,i) => '<button class="evtab'+(i===0?' active':'')+'" onclick="showEvTabIn(event,\''+cId+'-programm\','+i+')">'+esc(ev.tabLabel)+'</button>').join('');
+          var secs = events.map((ev,i) => '<div class="evsec'+(i===0?' active':'')+'" id="'+cId+'-programm-ev-'+i+'">'+renderEvProgramm(ev)+'</div>').join('');
+          elProg.innerHTML = '<div class="evtabs-wrap"><div class="evtabs">'+tabs+'</div></div><div class="evsections">'+secs+'</div>';
+        }
+      }
+      var data = await ladeProjektDoc(docId);
+      function set(s, arr, txt) {
+        var el = document.getElementById(cId+'-'+s); if (!el) return;
+        el.innerHTML = (arr && arr.length) ? '<div class="proj-text">'+arr.join('\n')+'</div>' : '<p class="proj-text-muted">'+txt+'</p>';
+      }
+      if (!data) { ['probenplan','spielende','biographien'].forEach(s => set(s,null,'Laden fehlgeschlagen.')); return; }
+      set('probenplan', data.probenplan, '(Noch keine Termine)');
+      set('spielende', data.spielende, '(Noch keine Einteilung)');
+      set('biographien', data.biographien, '(Keine Biografien)');
+    }
+  }
+}
+
+// ── TOGGLE BR-PROJEKT ─────────────────────────────────────
+async function toggleBR(cId, docId, projektName, sj) {
+  var body = document.getElementById(cId);
+  var chev = document.getElementById('chev-'+cId);
+  var open = body.classList.contains('open');
+  body.classList.toggle('open', !open);
+  chev.classList.toggle('open', !open);
+  if (!open) {
+    var loading = document.getElementById(cId+'-loading');
+    if (loading) {
+      var alleEvents = await ladeUeEvents(projektName, sj);
+      var events = alleEvents.filter(ev => istInSpieljahr(ev.datObj, sj));
+      if (!events || !events.length) {
+        body.innerHTML = '<div style="padding:14px"><p class="proj-text-muted">Keine Termine für '+esc(sjAnzeige(sj))+' gefunden.</p></div>';
+        return;
+      }
+      var tabs = events.map((ev,i) => '<button class="evtab'+(i===0?' active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(ev.tabLabel)+'</button>').join('');
+      var secs = events.map((ev,i) => '<div class="evsec'+(i===0?' active':'')+'" id="'+cId+'-ev-'+i+'">'+renderEvProgramm(ev)+'</div>').join('');
+      body.innerHTML = '<div class="evtabs-wrap"><div class="evtabs">'+tabs+'</div></div><div class="evsections">'+secs+'</div>';
+    }
+  }
+}
+
+function showPtab(e, cId, tab) {
+  e.stopPropagation();
+  var body = document.getElementById(cId);
+  body.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  body.querySelectorAll('.psec').forEach(s => s.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(cId+'-'+tab).classList.add('active');
+}
+
+function showEvTab(e, cId, idx) {
+  e.stopPropagation();
+  var body = document.getElementById(cId);
+  body.querySelectorAll('.evtab').forEach(t => t.classList.remove('active'));
+  body.querySelectorAll('.evsec').forEach(s => s.classList.remove('active'));
+  e.target.classList.add('active');
+  var sec = document.getElementById(cId+'-ev-'+idx);
+  if (sec) sec.classList.add('active');
+}
+
+function showEvTabIn(e, containerId, idx) {
+  e.stopPropagation();
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  container.querySelectorAll('.evtab').forEach(t => t.classList.remove('active'));
+  container.querySelectorAll('.evsec').forEach(s => s.classList.remove('active'));
+  e.target.classList.add('active');
+  var sec = document.getElementById(containerId+'-ev-'+idx);
+  if (sec) sec.classList.add('active');
+}
+
+// ── PROGRAMM ──────────────────────────────────────────────
+async function ladenProgramm() {
+  var d = await apiFetch('programm', { sj: _aktSj });
+  var el = document.getElementById('prog-inhalt');
+  if (!d || !d.data) { el.innerHTML = '<div class="empty">Keine Programmdaten</div>'; return; }
+  var html = '', projekte = Object.keys(d.data);
+  if (!projekte.length) { el.innerHTML = '<div class="empty">Kein Programm für '+sjAnzeige(_aktSj)+'</div>'; return; }
+  projekte.forEach(function(p) {
+    var events = d.data[p] || [];
+    html += '<div class="section-h">'+esc(p)+'</div>';
+    events.forEach(function(ev) {
+      var werke = (ev.werke||[]).filter(w => !w.pause);
+      html += '<div class="prog-event">';
+      html += '<div class="prog-titel">'+esc(ev._titel||p)+'</div>';
+      html += '<div class="prog-datum">'+esc(ev.datum||'')+(ev.uhrzeit?' · '+esc(ev.uhrzeit):'')+(ev.ort?' · '+esc(ev.ort):'')+'</div>';
+      if (werke.length) {
+        html += '<div style="margin-top:8px">';
+        werke.forEach(function(w) {
+          var ld = w.lebensdaten?' ('+esc(w.lebensdaten)+')':'';
+          html += '<div class="werk-row"><div class="werk-komp2">'+esc(w.komponist||'')+ld+'</div>';
+          if (w.titel) html += '<div class="werk-titel2">'+esc(w.titel)+'</div>';
+          if (w.dauer) html += '<div class="werk-meta">⏱ '+esc(w.dauer)+'</div>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+      if (ev.leitung && ev.leitung.length) {
+        html += '<div style="margin-top:8px;font-size:11px;color:var(--ink3)">Leitung: '+ev.leitung.map(l=>esc(l.name)).join(', ')+'</div>';
+      }
+      html += '</div>';
+    });
+  });
+  el.innerHTML = html;
+}
+
+// ── KALENDER ──────────────────────────────────────────────
+async function ladenKalender() {
+  var d = await apiFetch('programm', { sj: _aktSj });
+  var el = document.getElementById('kal-inhalt');
+  if (!d || !d.data) { el.innerHTML = '<div class="empty">Keine Daten</div>'; return; }
+  var alle = [], heute = new Date(); heute.setHours(0,0,0,0);
+  Object.keys(d.data).forEach(function(p) {
+    (d.data[p]||[]).forEach(function(ev) {
+      var dat = parseDatum(ev.datum);
+      if (dat) alle.push({projekt:p,ev:ev,dat:dat});
+    });
+  });
+  alle.sort((a,b) => a.dat - b.dat);
+  if (!alle.length) { el.innerHTML = '<div class="empty">Keine Termine</div>'; return; }
+  var tage = {};
+  alle.forEach(function(item) {
+    var key = item.ev.datum||'';
+    if (!tage[key]) tage[key] = [];
+    tage[key].push(item);
+  });
+  var html = '';
+  Object.keys(tage).sort().forEach(function(datum) {
+    var dat = parseDatum(datum);
+    var vergangen = dat && dat < heute;
+    var kopf = dat ? WT[dat.getDay()]+', '+datum : datum;
+    html += '<div class="kal-day" style="'+(vergangen?'opacity:0.45':'')+'">';
+    html += '<div class="kal-day-h">'+kopf+'</div>';
+    tage[datum].forEach(function(item) {
+      var ev = item.ev;
+      var dot = item.projekt.startsWith('HSO')?'':item.projekt.startsWith('WK')?' green':' gold';
+      html += '<div class="kal-event"><div class="kal-dot'+dot+'"></div>'+
+        '<div class="kal-time">'+esc((ev.uhrzeit||'').replace(' Uhr',''))+'</div>'+
+        '<div class="kal-info"><div class="kal-titel">'+esc(ev._titel||item.projekt)+'</div>'+
+        '<div class="kal-ort">'+esc(item.projekt)+(ev.ort?' · '+esc(ev.ort):'')+'</div></div></div>';
+    });
+    html += '</div>';
+  });
+  el.innerHTML = html;
+}
+
+// ── UNTERRICHT ────────────────────────────────────────────
+async function ladenUnterricht() {
+  var d = await apiFetch('adminStats');
+  var el = document.getElementById('unt-inhalt');
+  if (!d || !d.data) { el.innerHTML = '<div class="empty">Keine Unterrichtsdaten</div>'; return; }
+  var personen = (d.data.personen||[]).sort((a,b) => b.minuten-a.minuten);
+  var werke = (d.data.werke||[]).sort((a,b) => b.minuten-a.minuten);
+  var maxMin = personen.length ? personen[0].minuten : 1;
+  var html = '<div class="section-h">Übersicht Unterrichtsminuten</div>';
+  html += '<div class="card card-pad" style="margin-bottom:16px">';
+  html += '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink3);margin-bottom:12px">Studierende</div>';
+  if (!personen.length) {
+    html += '<div class="empty" style="padding:12px">Noch keine Einträge</div>';
+  } else {
+    personen.forEach(function(p) {
+      var pct = Math.round(p.minuten/maxMin*100);
+      var std = Math.floor(p.minuten/60), min = p.minuten%60;
+      html += '<div style="margin-bottom:12px">'+
+        '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">'+
+        '<div style="font-size:13px;font-weight:600">'+esc(p.name)+'<span style="font-size:11px;color:var(--ink3);margin-left:6px">'+esc(p.instrument||'')+'</span></div>'+
+        '<div style="font-size:13px;font-weight:700;font-family:var(--mono);color:var(--blue)">'+std+'h '+String(min).padStart(2,'0')+'m</div></div>'+
+        '<div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:var(--blue);border-radius:2px"></div></div></div>';
+    });
+  }
+  html += '</div>';
+  if (werke.length) {
+    html += '<div class="section-h">Werke</div><div class="card card-pad">';
+    werke.slice(0,10).forEach(function(w) {
+      var std=Math.floor(w.minuten/60), min=w.minuten%60;
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--paper3)">'+
+        '<div style="font-size:12px;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(w.titel)+'</div>'+
+        '<div style="font-size:12px;font-weight:700;font-family:var(--mono);color:var(--gold2);flex-shrink:0;margin-left:8px">'+std+'h'+(min?' '+min+'m':'')+'</div></div>';
+    });
+    html += '</div>';
+  }
+  el.innerHTML = html;
+}
+
+// ── SJ WECHSELN ───────────────────────────────────────────
+function oeffneSjModal() {
+  var d=new Date(), y=d.getFullYear(), sjs=[];
+  for(var i=-1;i<=2;i++){ var y1=y+i,y2=y+i+1; sjs.push(String(y1).slice(2)+'_'+String(y2).slice(2)); }
+  document.getElementById('sj-optionen').innerHTML = sjs.map(sj =>
+    '<div class="sj-opt'+(sj===_aktSj?' active':'')+'" onclick="setSj(\''+sj+'\')">'+
+    sjAnzeige(sj)+(sj===sjAusHeute()?'<span style="font-size:11px;color:var(--ink3)">aktuell</span>':'')+'</div>'
+  ).join('');
+  document.getElementById('sj-modal').classList.add('open');
+}
+function schliesseSjModal(){ document.getElementById('sj-modal').classList.remove('open'); }
+function setSj(sj) {
+  _aktSj = sj;
+  _cache = {};
+  _geladen = {};
+  updateSjBadge();
+  schliesseSjModal();
+  var aktTab = document.querySelector('.tnav.active');
+  if (aktTab) ladenWennNoetig(aktTab.dataset.tab);
+  if (document.getElementById('t-start').classList.contains('active')) {
+    document.getElementById('start-termine').innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
+    ladenStartTermine();
+  }
+}
+function updateSjBadge(){ document.getElementById('sj-badge').textContent = sjAnzeige(_aktSj); }
+
+// ── HILFSFUNKTIONEN ───────────────────────────────────────
+function zeigToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+initialLaden();
+</script>
+</body>
+</html>
