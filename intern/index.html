@@ -61,26 +61,49 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .qlink-type{font-size:11px;color:var(--ink3);margin-top:1px}
 .qlink-arr{color:var(--ink3);flex-shrink:0;font-size:12px}
 
-/* ── PROJEKTE ── */
-.proj-list{display:flex;flex-direction:column;gap:8px}
-.proj-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
-.proj-head{padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px}
-.proj-head:hover{background:var(--paper2)}
-.proj-badge{font-size:10px;font-weight:700;font-family:var(--mono);padding:3px 8px;border-radius:5px;flex-shrink:0}
-.proj-badge.hso{background:#e8f0fb;color:var(--blue2)}
-.proj-badge.wk{background:#eef6f0;color:#1a5c30}
-.proj-badge.extra{background:#fdf3e8;color:#7a4010}
-.proj-name{font-size:13px;font-weight:600;flex:1}
-.proj-date{font-size:11px;color:var(--ink3);font-family:var(--mono)}
-.proj-chev{color:var(--ink3);transition:transform 0.2s;flex-shrink:0}
-.proj-chev.open{transform:rotate(90deg)}
-.proj-body{display:none;border-top:1px solid var(--border);padding:12px 14px;background:var(--paper);gap:8px;flex-direction:column}
-.proj-body.open{display:flex}
-.proj-actions{display:flex;gap:6px;flex-wrap:wrap}
-.plink{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none;border:1px solid var(--border);background:#fff;color:var(--ink2);transition:all 0.12s}
-.plink:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
-.plink.gold:hover{background:var(--gold);border-color:var(--gold)}
-.plink svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+/* ── PROJEKTE (Portal-Style) ── */
+.proj-sj-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.proj-sj-btn{padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:#fff;color:var(--ink3);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all 0.15s}
+.proj-sj-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.pcard{background:#fff;border-radius:14px;border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow);margin-bottom:8px}
+.pcard-header{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer}
+.pcard-header:hover{background:var(--paper2)}
+.pcard-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.pcard-meta{flex:1;min-width:0}
+.pcard-name{font-size:15px;font-weight:600;color:var(--ink)}
+.pcard-sub{font-size:12px;color:var(--ink3);margin-top:2px}
+.pcard-chev{color:var(--ink3);flex-shrink:0;transition:transform 0.2s}
+.pcard-chev svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pcard-chev.open{transform:rotate(180deg)}
+.pcard-body{display:none;border-top:1px solid var(--border)}
+.pcard-body.open{display:block}
+
+.ptabs{display:flex;border-bottom:1px solid var(--border);background:var(--paper);overflow-x:auto;scrollbar-width:none}
+.ptabs::-webkit-scrollbar{display:none}
+.ptab{flex-shrink:0;padding:9px 12px;font-size:11px;color:var(--ink3);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap}
+.ptab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.psec{display:none;padding:14px}
+.psec.active{display:block}
+.proj-text{font-size:13px;color:var(--ink);line-height:1.6;white-space:pre-wrap}
+.proj-text-muted{font-size:13px;color:var(--ink3)}
+.proj-loading{font-size:12px;color:var(--ink3);text-align:center;padding:16px}
+
+.evtabs-wrap{border-bottom:1px solid var(--border);background:var(--paper);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.evtabs-wrap::-webkit-scrollbar{display:none}
+.evtabs{display:flex;min-width:max-content}
+.evtab{flex-shrink:0;padding:8px 12px;font-size:11px;color:var(--ink3);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap}
+.evtab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.evsections{padding:14px}
+.evsec{display:none}
+.evsec.active{display:block}
+.ev-kopf{font-size:12px;font-weight:600;color:var(--blue);line-height:1.5;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.werk-block{margin-bottom:10px}
+.werk-komp{font-size:13px;font-weight:600;color:var(--ink)}
+.werk-titel{font-size:13px;color:var(--ink);margin-top:1px}
+.werk-details{font-size:11px;color:var(--ink3);margin-top:3px;line-height:1.5}
+.werk-leitung{font-size:11px;color:var(--ink3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.ev-kein{font-size:13px;color:var(--ink3)}
 
 /* ── PROGRAMM ── */
 .prog-event{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:8px;box-shadow:var(--shadow)}
@@ -88,8 +111,8 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .prog-datum{font-size:11px;font-family:var(--mono);color:var(--ink3);margin-bottom:8px}
 .werk-row{padding:5px 0;border-bottom:1px solid var(--paper3);display:flex;flex-direction:column;gap:1px}
 .werk-row:last-child{border-bottom:none}
-.werk-komp{font-size:12px;font-weight:600;color:var(--ink)}
-.werk-titel{font-size:12px;color:var(--ink3)}
+.werk-komp2{font-size:12px;font-weight:600;color:var(--ink)}
+.werk-titel2{font-size:12px;color:var(--ink3)}
 .werk-meta{font-size:10px;font-family:var(--mono);color:var(--blue);margin-top:2px}
 
 /* ── KALENDER ── */
@@ -127,7 +150,6 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:300;transition:transform 0.25s;pointer-events:none;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
-/* Scrollbar */
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
@@ -135,7 +157,6 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 </head>
 <body>
 
-<!-- ── APP ── -->
 <div id="app">
   <div class="topbar">
     <div class="topbar-logo">
@@ -213,7 +234,12 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 
   <!-- PROJEKTE -->
   <div class="tab" id="t-projekte">
-    <div id="proj-filter" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px"></div>
+    <div class="proj-sj-filter" id="proj-sj-filter">
+      <button class="proj-sj-btn active" data-sj="alle" onclick="filterProjSj(this)">Alle</button>
+      <button class="proj-sj-btn" data-sj="25_26" onclick="filterProjSj(this)">25/26</button>
+      <button class="proj-sj-btn" data-sj="26_27" onclick="filterProjSj(this)">26/27</button>
+      <button class="proj-sj-btn" data-sj="27_28" onclick="filterProjSj(this)">27/28</button>
+    </div>
     <div id="proj-liste"><div class="spinner"><div class="spin"></div>Lade Projekte...</div></div>
   </div>
 
@@ -304,22 +330,77 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 // ── KONFIGURATION ──────────────────────────────────────────
 var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 var MONATE_VORAUS = 6;
+var ALLE_SJ = ['25_26','26_27','27_28'];
 
-// ── DATEN ─────────────────────────────────────────────────
+var WT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+var FARBEN = {
+  'HSO':{bg:'#E6F1FB',color:'#185FA5'},
+  'WK Lü':{bg:'#E1F5EE',color:'#0F6E56'},
+  'WK':{bg:'#E1F5EE',color:'#0F6E56'},
+  '13/14':{bg:'#FAEEDA',color:'#854F0B'},
+  'Blattspiel':{bg:'#EEEDFE',color:'#534AB7'},
+  'Repertoire':{bg:'#EEEDFE',color:'#534AB7'},
+  'default':{bg:'#F1EFE8',color:'#5F5E5A'}
+};
+
+// ── STATE ─────────────────────────────────────────────────
 var _cache = {};
 var _aktSj = sjAusHeute();
+var _projCache = {};   // sj -> [{name,docId,sj,...}]
+var _ueCache = {};     // sj -> {projektName: [events]}
+var _docCache = {};    // docId -> {programm,probenplan,...}
+var _projSjFilter = 'alle';
+var _alleProj = [];    // kombinierte Liste aller SJ
 
+// ── HILFSFUNKTIONEN ───────────────────────────────────────
 function sjAusHeute() {
-  var d = new Date();
-  var y = d.getFullYear(), m = d.getMonth();
-  if (m >= 8) return String(y).slice(2) + '_' + String(y+1).slice(2);
-  return String(y-1).slice(2) + '_' + String(y).slice(2);
+  var d = new Date(), y = d.getFullYear(), m = d.getMonth();
+  if (m >= 8) return String(y).slice(2)+'_'+String(y+1).slice(2);
+  return String(y-1).slice(2)+'_'+String(y).slice(2);
 }
+function sjAnzeige(sj){ return sj.replace('_','/'); }
 
-function sjAnzeige(sj) { return sj.replace('_','/'); }
+function getFarbe(n){
+  var keys = Object.keys(FARBEN);
+  for(var i=0;i<keys.length;i++){ if(n.indexOf(keys[i])!==-1) return FARBEN[keys[i]]; }
+  return FARBEN['default'];
+}
+function getKuerzel(n){
+  if(n.startsWith('HSO Blattspiel'))return'BS';
+  if(n.startsWith('HSO Repertoire'))return'Rep';
+  if(n.startsWith('HSO '))return'H'+n.replace('HSO ','').replace(/\D/g,'');
+  if(n.startsWith('WK Lü '))return'WL'+n.replace('WK Lü ','').trim();
+  if(n.startsWith('WK '))return'W'+n.replace('WK ','').trim();
+  if(n==='13/14')return'13';
+  return n.substring(0,2).toUpperCase();
+}
+function istBR(n){ return /Blattspiel|Repertoire/i.test(n); }
+function ohnestern(s){ return String(s||'').replace(/^\*/,''); }
+
+function parseDatum(s){
+  if(!s) return null;
+  var str = String(s).trim();
+  var m = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if(m) return new Date(parseInt(m[3]),parseInt(m[2])-1,parseInt(m[1]));
+  m = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(m) return new Date(parseInt(m[1]),parseInt(m[2])-1,parseInt(m[3]));
+  var d = new Date(str);
+  return isNaN(d.getTime())?null:d;
+}
+function ddmmyyyy(d){
+  return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();
+}
+function istInSpieljahr(datum, sj){
+  if(!datum||!sj) return false;
+  var parts=sj.split('_');
+  var von=new Date(2000+parseInt(parts[0],10),8,1);
+  var bis=new Date(2000+parseInt(parts[1],10),7,31,23,59,59,999);
+  return datum>=von && datum<=bis;
+}
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 async function apiFetch(action, params) {
-  var key = action + JSON.stringify(params || {}) + _aktSj;
+  var key = action + JSON.stringify(params || {});
   if (_cache[key]) return _cache[key];
   var url = WEB_APP_URL + '?action=' + action;
   if (params) Object.keys(params).forEach(k => url += '&' + k + '=' + encodeURIComponent(params[k]));
@@ -328,9 +409,7 @@ async function apiFetch(action, params) {
     var d = await r.json();
     if (d.ok !== false) _cache[key] = d;
     return d;
-  } catch(e) {
-    return { ok: false, error: e.message };
-  }
+  } catch(e) { return { ok: false, error: e.message }; }
 }
 
 // ── TABS ──────────────────────────────────────────────────
@@ -338,19 +417,17 @@ function wechselTab(btn) {
   document.querySelectorAll('.tnav').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
-  var tab = document.getElementById(btn.dataset.tab);
-  tab.classList.add('active');
+  document.getElementById(btn.dataset.tab).classList.add('active');
   ladenWennNoetig(btn.dataset.tab);
 }
 
 var _geladen = {};
 function ladenWennNoetig(tabId) {
-  var key = tabId + _aktSj;
-  if (_geladen[key]) return;
-  _geladen[key] = true;
-  if (tabId === 't-projekte')  ladenProjekte();
-  if (tabId === 't-programm')  ladenProgramm();
-  if (tabId === 't-kalender')  ladenKalender();
+  if (_geladen[tabId]) return;
+  _geladen[tabId] = true;
+  if (tabId === 't-projekte')   ladenAlleProj();
+  if (tabId === 't-programm')   ladenProgramm();
+  if (tabId === 't-kalender')   ladenKalender();
   if (tabId === 't-unterricht') ladenUnterricht();
 }
 
@@ -364,95 +441,287 @@ async function ladenStartTermine() {
   var d = await apiFetch('programm', { sj: _aktSj });
   var el = document.getElementById('start-termine');
   if (!d || !d.data) { el.innerHTML = '<div class="empty">Keine Daten</div>'; return; }
-
-  var alle = [];
-  var heute = new Date(); heute.setHours(0,0,0,0);
+  var alle = [], heute = new Date(); heute.setHours(0,0,0,0);
   Object.keys(d.data).forEach(function(p) {
-    (d.data[p] || []).forEach(function(ev) {
+    (d.data[p]||[]).forEach(function(ev) {
       var dat = parseDatum(ev.datum);
-      if (dat && dat >= heute) alle.push({ projekt: p, ev: ev, dat: dat });
+      if (dat && dat >= heute) alle.push({projekt:p,ev:ev,dat:dat});
     });
   });
   alle.sort((a,b) => a.dat - b.dat);
-  var naechste = alle.slice(0, 6);
-
-  if (naechste.length === 0) { el.innerHTML = '<div class="empty">Keine bevorstehenden Termine</div>'; return; }
-
+  var naechste = alle.slice(0,6);
+  if (!naechste.length) { el.innerHTML = '<div class="empty">Keine bevorstehenden Termine</div>'; return; }
   el.innerHTML = naechste.map(function(item) {
-    var ev = item.ev;
-    var d2 = item.dat;
-    var tag = String(d2.getDate()).padStart(2,'0');
-    var mon = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'][d2.getMonth()];
-    var werke = (ev.werke || []).slice(0,2).map(w => '<div style="font-size:11px;color:var(--ink3)">' + esc(w.komponist || '') + (w.titel ? ' – ' + esc(w.titel) : '') + '</div>').join('');
-    return '<div class="kal-event">' +
-      '<div class="kal-dot' + (item.projekt.startsWith('HSO') ? '' : item.projekt.startsWith('WK') ? ' green' : ' gold') + '"></div>' +
-      '<div style="background:var(--blue-bg);border-radius:7px;padding:4px 8px;text-align:center;flex-shrink:0;min-width:36px"><div style="font-size:16px;font-weight:800;color:var(--blue);line-height:1">' + tag + '</div><div style="font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase">' + mon + '</div></div>' +
-      '<div class="kal-info"><div class="kal-titel">' + esc(ev._titel || item.projekt) + '</div>' +
-      '<div class="kal-ort">' + esc(ev.uhrzeit || '') + (ev.ort ? ' · ' + esc(ev.ort) : '') + '</div>' +
-      werke + '</div></div>';
+    var ev=item.ev, d2=item.dat;
+    var tag=String(d2.getDate()).padStart(2,'0');
+    var mon=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'][d2.getMonth()];
+    var werke=(ev.werke||[]).slice(0,2).map(w=>'<div style="font-size:11px;color:var(--ink3)">'+esc(w.komponist||'')+(w.titel?' – '+esc(w.titel):'')+'</div>').join('');
+    return '<div class="kal-event">'+
+      '<div class="kal-dot'+(item.projekt.startsWith('HSO')?'':item.projekt.startsWith('WK')?' green':' gold')+'"></div>'+
+      '<div style="background:var(--blue-bg);border-radius:7px;padding:4px 8px;text-align:center;flex-shrink:0;min-width:36px"><div style="font-size:16px;font-weight:800;color:var(--blue);line-height:1">'+tag+'</div><div style="font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase">'+mon+'</div></div>'+
+      '<div class="kal-info"><div class="kal-titel">'+esc(ev._titel||item.projekt)+'</div>'+
+      '<div class="kal-ort">'+esc(ev.uhrzeit||'')+(ev.ort?' · '+esc(ev.ort):'')+'</div>'+
+      werke+'</div></div>';
   }).join('');
 }
 
-// ── PROJEKTE ──────────────────────────────────────────────
-async function ladenProjekte() {
-  var d = await apiFetch('projekte', { sj: _aktSj });
+// ── PROJEKTE: ALLE SJ LADEN ───────────────────────────────
+async function ladenAlleProj() {
+  document.getElementById('proj-liste').innerHTML = '<div class="spinner"><div class="spin"></div>Lade Projekte...</div>';
+
+  // Alle drei SJ parallel laden
+  var results = await Promise.all(ALLE_SJ.map(sj => apiFetch('projekte', {sj:sj})));
+  // Auch Programmdaten parallel laden (für Sortierdatum)
+  var progResults = await Promise.all(ALLE_SJ.map(sj => apiFetch('programm', {sj:sj})));
+
+  _alleProj = [];
+  ALLE_SJ.forEach(function(sj, idx) {
+    var projData = results[idx];
+    var progData = progResults[idx];
+    if (!projData || !projData.data) return;
+    projData.data.forEach(function(p) {
+      // Frühestes Vorstellungsdatum ermitteln
+      var fruehestes = null;
+      if (progData && progData.data && progData.data[p.name]) {
+        progData.data[p.name].forEach(function(ev) {
+          var d = parseDatum(ev.datum);
+          if (d && (!fruehestes || d < fruehestes)) fruehestes = d;
+        });
+      }
+      _alleProj.push({ name: p.name, docId: p.docId, sj: sj, datum: fruehestes });
+    });
+  });
+
+  // Chronologisch sortieren: Projekte ohne Datum ans Ende
+  _alleProj.sort(function(a,b) {
+    if (!a.datum && !b.datum) return 0;
+    if (!a.datum) return 1;
+    if (!b.datum) return -1;
+    return a.datum - b.datum;
+  });
+
+  renderProjListe();
+}
+
+function filterProjSj(btn) {
+  _projSjFilter = btn.dataset.sj;
+  document.querySelectorAll('.proj-sj-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProjListe();
+}
+
+function renderProjListe() {
+  var filtered = _projSjFilter === 'alle'
+    ? _alleProj
+    : _alleProj.filter(p => p.sj === _projSjFilter);
+
   var el = document.getElementById('proj-liste');
-  var fe = document.getElementById('proj-filter');
+  if (!filtered.length) { el.innerHTML = '<div class="empty">Keine Projekte gefunden</div>'; return; }
 
-  if (!d || !d.data || !d.data.length) {
-    el.innerHTML = '<div class="empty">Keine Projekte gefunden</div>';
-    return;
+  el.innerHTML = filtered.map(function(p, i) {
+    var cId = 'pc-' + p.sj + '-' + i;
+    var f = getFarbe(p.name);
+    var k = getKuerzel(p.name);
+    var sjLabel = sjAnzeige(p.sj);
+    var datLabel = p.datum ? ddmmyyyy(p.datum) : '';
+    var sub = sjLabel + (datLabel ? ' · ' + datLabel : '');
+    var pA = p.name.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    var sjA = p.sj.replace(/"/g,'&quot;');
+
+    if (istBR(p.name)) {
+      return '<div class="pcard" data-sj="'+p.sj+'">'+
+        '<div class="pcard-header" onclick="toggleBR(\''+cId+'\',\''+p.docId+'\',\''+pA+'\',\''+sjA+'\')">'+
+        '<div class="pcard-icon" style="background:'+f.bg+';color:'+f.color+'">'+k+'</div>'+
+        '<div class="pcard-meta"><div class="pcard-name">'+esc(ohnestern(p.name))+'</div><div class="pcard-sub">'+esc(sub)+'</div></div>'+
+        '<div class="pcard-chev" id="chev-'+cId+'"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>'+
+        '</div>'+
+        '<div class="pcard-body" id="'+cId+'"><div class="proj-loading" id="'+cId+'-loading">Wird geladen…</div></div>'+
+        '</div>';
+    } else {
+      return '<div class="pcard" data-sj="'+p.sj+'">'+
+        '<div class="pcard-header" onclick="toggleStd(\''+cId+'\',\''+p.docId+'\',\''+pA+'\',\''+sjA+'\')">'+
+        '<div class="pcard-icon" style="background:'+f.bg+';color:'+f.color+'">'+k+'</div>'+
+        '<div class="pcard-meta"><div class="pcard-name">'+esc(ohnestern(p.name))+'</div><div class="pcard-sub">'+esc(sub)+'</div></div>'+
+        '<div class="pcard-chev" id="chev-'+cId+'"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>'+
+        '</div>'+
+        '<div class="pcard-body" id="'+cId+'">'+
+        '<div class="ptabs">'+
+        '<button class="ptab active" onclick="showPtab(event,\''+cId+'\',\'programm\')">Programm</button>'+
+        '<button class="ptab" onclick="showPtab(event,\''+cId+'\',\'probenplan\')">Probenplan</button>'+
+        '<button class="ptab" onclick="showPtab(event,\''+cId+'\',\'spielende\')">Spielende</button>'+
+        '<button class="ptab" onclick="showPtab(event,\''+cId+'\',\'biographien\')">Biografien</button>'+
+        '</div>'+
+        '<div class="psec active" id="'+cId+'-programm"><div class="proj-loading">Wird geladen…</div></div>'+
+        '<div class="psec" id="'+cId+'-probenplan"></div>'+
+        '<div class="psec" id="'+cId+'-spielende"></div>'+
+        '<div class="psec" id="'+cId+'-biographien"></div>'+
+        '</div>'+
+        '</div>';
+    }
+  }).join('');
+}
+
+// ── PROJEKT DOC LADEN ─────────────────────────────────────
+async function ladeProjektDoc(docId) {
+  if (_docCache[docId]) return _docCache[docId];
+  try {
+    var res = await fetch('https://docs.google.com/document/d/'+docId+'/export?format=txt');
+    var text = await res.text();
+    var ab = {programm:[],probenplan:[],spielende:[],biographien:[]};
+    var MK = {'--- PROGRAMM ---':'programm','--- PROBENPLAN ---':'probenplan','--- SPIELENDE ---':'spielende','--- BIOGRAPHIEN ---':'biographien'};
+    var aktiv = null, nach = false;
+    text.split('\n').forEach(function(line) {
+      var z = line.trim();
+      if (z === '--- AB HIER AUTOMATISCHER INHALT ---') { nach=true; aktiv=null; return; }
+      if (!nach) return;
+      if (MK[z] !== undefined) { aktiv=MK[z]; return; }
+      if (/^Aktualisiert:/.test(z)) return;
+      if (aktiv) ab[aktiv].push(z);
+    });
+    for (var k in ab) { var a=ab[k]; while(a.length&&!a[0])a.shift(); while(a.length&&!a[a.length-1])a.pop(); }
+    _docCache[docId] = ab;
+    return ab;
+  } catch(e) { return null; }
+}
+
+// ── UE-EVENTS (Programm aus Web App) ─────────────────────
+async function ladeUeEvents(projektName, sj) {
+  var key = sj + '::' + projektName;
+  if (_ueCache[key]) return _ueCache[key];
+  var d = await apiFetch('programm', {sj:sj});
+  var rohdaten = (d && d.data && d.data[projektName]) ? d.data[projektName] : [];
+  var events = rohdaten.map(function(ev) {
+    var datObj = parseDatum(ev.datum);
+    if (!datObj) return null;
+    var datAnzeige = ev.datum || ddmmyyyy(datObj);
+    var wt = WT[datObj.getDay()];
+    var uhr = ev.uhrzeit || '';
+    var ort = ev.ort || '';
+    var kopf = wt+', '+datAnzeige+(uhr?' '+uhr:'')+'    '+ohnestern(ev._titel||projektName);
+    if (ort) kopf += '    |    '+ort;
+    var werke = (ev.werke||[]).filter(w => !w.pause);
+    var leitung = '';
+    if (ev.leitung && ev.leitung.length) {
+      leitung = 'Leitung: '+ev.leitung.map(l => typeof l==='object'?l.name:String(l)).filter(Boolean).join(' / ');
+    }
+    var tp = datAnzeige.split('.');
+    var tabLabel = wt+' '+String(tp[0]||'?').padStart(2,'0')+'.'+String(tp[1]||'?').padStart(2,'0')+'.';
+    return {datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null};
+  }).filter(Boolean).sort((a,b) => a.datObj - b.datObj);
+  _ueCache[key] = events;
+  return events;
+}
+
+function renderEvProgramm(ev) {
+  var h = '<div class="ev-kopf">'+esc(ev.kopf)+'</div>';
+  if (!ev.werke.length) {
+    h += '<div class="ev-kein">Noch kein Programm eingetragen.</div>';
+  } else {
+    ev.werke.forEach(function(w) {
+      var ld = w.lebensdaten?' ('+w.lebensdaten+')':'';
+      h += '<div class="werk-block">'+
+        '<div class="werk-komp">'+esc((w.komponist||'')+ld)+'</div>';
+      if (w.titel) h += '<div class="werk-titel">'+esc(w.titel)+'</div>';
+      if (w.dauer) h += '<div class="werk-details">'+esc('Dauer: '+w.dauer)+'</div>';
+      if (w.besetzung) h += '<div class="werk-details">'+esc('Besetzung: '+w.besetzung)+'</div>';
+      h += '</div>';
+    });
   }
-
-  var projekte = d.data;
-
-  var typen = ['Alle'];
-  projekte.forEach(function(p) {
-    var t = p.name.startsWith('HSO') || p.name === '13/14' ? 'HSO' :
-            p.name.startsWith('WK') ? 'WK' : 'Weitere';
-    if (typen.indexOf(t) === -1) typen.push(t);
-  });
-
-  fe.innerHTML = typen.map((t,i) =>
-    '<button onclick="filterProjekte(this,\'' + t + '\')" style="padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:' + (i===0?'var(--ink)':'#fff') + ';color:' + (i===0?'#fff':'var(--ink3)') + ';font-size:12px;font-weight:600;cursor:pointer;font-family:var(--sans)" data-filter="' + t + '">' + t + '</button>'
-  ).join('');
-
-  el.innerHTML = '<div class="proj-list">' + projekte.map(function(p) {
-    var typ = p.name.startsWith('HSO') || p.name === '13/14' ? 'hso' : p.name.startsWith('WK') ? 'wk' : 'extra';
-    var typFilter = typ === 'hso' ? 'HSO' : typ === 'wk' ? 'WK' : 'Weitere';
-    var docUrl = 'https://docs.google.com/document/d/' + p.docId + '/edit';
-    return '<div class="proj-card" data-filter="' + typFilter + '">' +
-      '<div class="proj-head" onclick="toggleProjekt(this)">' +
-      '<span class="proj-badge ' + typ + '">' + esc(p.sj.replace('_','/')) + '</span>' +
-      '<span class="proj-name">' + esc(p.name) + '</span>' +
-      '<span class="proj-chev">▶</span></div>' +
-      '<div class="proj-body">' +
-      '<div class="proj-actions">' +
-      '<a class="plink gold" href="' + docUrl + '" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Doc öffnen</a>' +
-      '<button class="plink" onclick="kopiereDocId(\'' + esc(p.docId) + '\')"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Doc-ID</button>' +
-      '</div></div></div>';
-  }).join('') + '</div>';
+  if (ev.solisten && ev.solisten.length) {
+    h += '<div class="werk-leitung">';
+    ev.solisten.forEach(s => { h += esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')'':''))+'<br>'; });
+    h += '</div>';
+  }
+  if (ev.ensemble) h += '<div class="werk-leitung">'+esc(ev.ensemble)+'</div>';
+  if (ev.leitung) h += '<div class="werk-leitung">'+esc(ev.leitung)+'</div>';
+  return h;
 }
 
-function toggleProjekt(head) {
-  var body = head.nextElementSibling;
-  var chev = head.querySelector('.proj-chev');
-  body.classList.toggle('open');
-  chev.classList.toggle('open');
+// ── TOGGLE STD-PROJEKT ────────────────────────────────────
+async function toggleStd(cId, docId, projektName, sj) {
+  var body = document.getElementById(cId);
+  var chev = document.getElementById('chev-'+cId);
+  var open = body.classList.contains('open');
+  body.classList.toggle('open', !open);
+  chev.classList.toggle('open', !open);
+  if (!open) {
+    var prog = document.getElementById(cId+'-programm');
+    if (prog && prog.querySelector('.proj-loading')) {
+      var events = await ladeUeEvents(projektName, sj);
+      var elProg = document.getElementById(cId+'-programm');
+      if (elProg) {
+        if (!events || !events.length) {
+          elProg.innerHTML = '<p class="proj-text-muted">(Noch kein Programm)</p>';
+        } else {
+          var tabs = events.map((ev,i) => '<button class="evtab'+(i===0?' active':'')+'" onclick="showEvTabIn(event,\''+cId+'-programm\','+i+')">'+esc(ev.tabLabel)+'</button>').join('');
+          var secs = events.map((ev,i) => '<div class="evsec'+(i===0?' active':'')+'" id="'+cId+'-programm-ev-'+i+'">'+renderEvProgramm(ev)+'</div>').join('');
+          elProg.innerHTML = '<div class="evtabs-wrap"><div class="evtabs">'+tabs+'</div></div><div class="evsections">'+secs+'</div>';
+        }
+      }
+      var data = await ladeProjektDoc(docId);
+      function set(s, arr, txt) {
+        var el = document.getElementById(cId+'-'+s); if (!el) return;
+        el.innerHTML = (arr && arr.length) ? '<div class="proj-text">'+arr.join('\n')+'</div>' : '<p class="proj-text-muted">'+txt+'</p>';
+      }
+      if (!data) { ['probenplan','spielende','biographien'].forEach(s => set(s,null,'Laden fehlgeschlagen.')); return; }
+      set('probenplan', data.probenplan, '(Noch keine Termine)');
+      set('spielende', data.spielende, '(Noch keine Einteilung)');
+      set('biographien', data.biographien, '(Keine Biografien)');
+    }
+  }
 }
 
-function filterProjekte(btn, filter) {
-  document.querySelectorAll('#proj-filter button').forEach(b => {
-    b.style.background = '#fff'; b.style.color = 'var(--ink3)';
-  });
-  btn.style.background = 'var(--ink)'; btn.style.color = '#fff';
-  document.querySelectorAll('.proj-card').forEach(function(c) {
-    c.style.display = (filter === 'Alle' || c.dataset.filter === filter) ? '' : 'none';
-  });
+// ── TOGGLE BR-PROJEKT ─────────────────────────────────────
+async function toggleBR(cId, docId, projektName, sj) {
+  var body = document.getElementById(cId);
+  var chev = document.getElementById('chev-'+cId);
+  var open = body.classList.contains('open');
+  body.classList.toggle('open', !open);
+  chev.classList.toggle('open', !open);
+  if (!open) {
+    var loading = document.getElementById(cId+'-loading');
+    if (loading) {
+      var alleEvents = await ladeUeEvents(projektName, sj);
+      var events = alleEvents.filter(ev => istInSpieljahr(ev.datObj, sj));
+      if (!events || !events.length) {
+        body.innerHTML = '<div style="padding:14px"><p class="proj-text-muted">Keine Termine für '+esc(sjAnzeige(sj))+' gefunden.</p></div>';
+        return;
+      }
+      var tabs = events.map((ev,i) => '<button class="evtab'+(i===0?' active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(ev.tabLabel)+'</button>').join('');
+      var secs = events.map((ev,i) => '<div class="evsec'+(i===0?' active':'')+'" id="'+cId+'-ev-'+i+'">'+renderEvProgramm(ev)+'</div>').join('');
+      body.innerHTML = '<div class="evtabs-wrap"><div class="evtabs">'+tabs+'</div></div><div class="evsections">'+secs+'</div>';
+    }
+  }
 }
 
-function kopiereDocId(id) {
-  navigator.clipboard.writeText(id).then(() => zeigToast('Doc-ID kopiert'));
+function showPtab(e, cId, tab) {
+  e.stopPropagation();
+  var body = document.getElementById(cId);
+  body.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  body.querySelectorAll('.psec').forEach(s => s.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(cId+'-'+tab).classList.add('active');
+}
+
+function showEvTab(e, cId, idx) {
+  e.stopPropagation();
+  var body = document.getElementById(cId);
+  body.querySelectorAll('.evtab').forEach(t => t.classList.remove('active'));
+  body.querySelectorAll('.evsec').forEach(s => s.classList.remove('active'));
+  e.target.classList.add('active');
+  var sec = document.getElementById(cId+'-ev-'+idx);
+  if (sec) sec.classList.add('active');
+}
+
+function showEvTabIn(e, containerId, idx) {
+  e.stopPropagation();
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  container.querySelectorAll('.evtab').forEach(t => t.classList.remove('active'));
+  container.querySelectorAll('.evsec').forEach(s => s.classList.remove('active'));
+  e.target.classList.add('active');
+  var sec = document.getElementById(containerId+'-ev-'+idx);
+  if (sec) sec.classList.add('active');
 }
 
 // ── PROGRAMM ──────────────────────────────────────────────
@@ -460,32 +729,29 @@ async function ladenProgramm() {
   var d = await apiFetch('programm', { sj: _aktSj });
   var el = document.getElementById('prog-inhalt');
   if (!d || !d.data) { el.innerHTML = '<div class="empty">Keine Programmdaten</div>'; return; }
-
-  var html = '';
-  var projekte = Object.keys(d.data);
-  if (projekte.length === 0) { el.innerHTML = '<div class="empty">Kein Programm für ' + sjAnzeige(_aktSj) + '</div>'; return; }
-
+  var html = '', projekte = Object.keys(d.data);
+  if (!projekte.length) { el.innerHTML = '<div class="empty">Kein Programm für '+sjAnzeige(_aktSj)+'</div>'; return; }
   projekte.forEach(function(p) {
     var events = d.data[p] || [];
-    html += '<div class="section-h">' + esc(p) + '</div>';
+    html += '<div class="section-h">'+esc(p)+'</div>';
     events.forEach(function(ev) {
-      var werke = (ev.werke || []).filter(w => !w.pause);
+      var werke = (ev.werke||[]).filter(w => !w.pause);
       html += '<div class="prog-event">';
-      html += '<div class="prog-titel">' + esc(ev._titel || p) + '</div>';
-      html += '<div class="prog-datum">' + esc(ev.datum || '') + (ev.uhrzeit ? ' · ' + esc(ev.uhrzeit) : '') + (ev.ort ? ' · ' + esc(ev.ort) : '') + '</div>';
+      html += '<div class="prog-titel">'+esc(ev._titel||p)+'</div>';
+      html += '<div class="prog-datum">'+esc(ev.datum||'')+(ev.uhrzeit?' · '+esc(ev.uhrzeit):'')+(ev.ort?' · '+esc(ev.ort):'')+'</div>';
       if (werke.length) {
         html += '<div style="margin-top:8px">';
         werke.forEach(function(w) {
-          var ld = w.lebensdaten ? ' (' + esc(w.lebensdaten) + ')' : '';
-          html += '<div class="werk-row"><div class="werk-komp">' + esc(w.komponist || '') + ld + '</div>';
-          if (w.titel) html += '<div class="werk-titel">' + esc(w.titel) + '</div>';
-          if (w.dauer) html += '<div class="werk-meta">⏱ ' + esc(w.dauer) + '</div>';
+          var ld = w.lebensdaten?' ('+esc(w.lebensdaten)+')':'';
+          html += '<div class="werk-row"><div class="werk-komp2">'+esc(w.komponist||'')+ld+'</div>';
+          if (w.titel) html += '<div class="werk-titel2">'+esc(w.titel)+'</div>';
+          if (w.dauer) html += '<div class="werk-meta">⏱ '+esc(w.dauer)+'</div>';
           html += '</div>';
         });
         html += '</div>';
       }
       if (ev.leitung && ev.leitung.length) {
-        html += '<div style="margin-top:8px;font-size:11px;color:var(--ink3)">Leitung: ' + ev.leitung.map(l => esc(l.name)).join(', ') + '</div>';
+        html += '<div style="margin-top:8px;font-size:11px;color:var(--ink3)">Leitung: '+ev.leitung.map(l=>esc(l.name)).join(', ')+'</div>';
       }
       html += '</div>';
     });
@@ -498,41 +764,35 @@ async function ladenKalender() {
   var d = await apiFetch('programm', { sj: _aktSj });
   var el = document.getElementById('kal-inhalt');
   if (!d || !d.data) { el.innerHTML = '<div class="empty">Keine Daten</div>'; return; }
-
-  var alle = [];
-  var heute = new Date(); heute.setHours(0,0,0,0);
+  var alle = [], heute = new Date(); heute.setHours(0,0,0,0);
   Object.keys(d.data).forEach(function(p) {
-    (d.data[p] || []).forEach(function(ev) {
+    (d.data[p]||[]).forEach(function(ev) {
       var dat = parseDatum(ev.datum);
-      if (dat) alle.push({ projekt: p, ev: ev, dat: dat });
+      if (dat) alle.push({projekt:p,ev:ev,dat:dat});
     });
   });
   alle.sort((a,b) => a.dat - b.dat);
-
   if (!alle.length) { el.innerHTML = '<div class="empty">Keine Termine</div>'; return; }
-
   var tage = {};
   alle.forEach(function(item) {
-    var key = item.ev.datum || '';
+    var key = item.ev.datum||'';
     if (!tage[key]) tage[key] = [];
     tage[key].push(item);
   });
-
-  var wt = ['So','Mo','Di','Mi','Do','Fr','Sa'];
   var html = '';
   Object.keys(tage).sort().forEach(function(datum) {
     var dat = parseDatum(datum);
     var vergangen = dat && dat < heute;
-    var kopf = dat ? wt[dat.getDay()] + ', ' + datum : datum;
-    html += '<div class="kal-day" style="' + (vergangen ? 'opacity:0.45' : '') + '">';
-    html += '<div class="kal-day-h">' + kopf + '</div>';
+    var kopf = dat ? WT[dat.getDay()]+', '+datum : datum;
+    html += '<div class="kal-day" style="'+(vergangen?'opacity:0.45':'')+'">';
+    html += '<div class="kal-day-h">'+kopf+'</div>';
     tage[datum].forEach(function(item) {
       var ev = item.ev;
-      var dot = item.projekt.startsWith('HSO') ? '' : item.projekt.startsWith('WK') ? ' green' : ' gold';
-      html += '<div class="kal-event"><div class="kal-dot' + dot + '"></div>' +
-        '<div class="kal-time">' + esc((ev.uhrzeit||'').replace(' Uhr','')) + '</div>' +
-        '<div class="kal-info"><div class="kal-titel">' + esc(ev._titel || item.projekt) + '</div>' +
-        '<div class="kal-ort">' + esc(item.projekt) + (ev.ort ? ' · ' + esc(ev.ort) : '') + '</div></div></div>';
+      var dot = item.projekt.startsWith('HSO')?'':item.projekt.startsWith('WK')?' green':' gold';
+      html += '<div class="kal-event"><div class="kal-dot'+dot+'"></div>'+
+        '<div class="kal-time">'+esc((ev.uhrzeit||'').replace(' Uhr',''))+'</div>'+
+        '<div class="kal-info"><div class="kal-titel">'+esc(ev._titel||item.projekt)+'</div>'+
+        '<div class="kal-ort">'+esc(item.projekt)+(ev.ort?' · '+esc(ev.ort):'')+'</div></div></div>';
     });
     html += '</div>';
   });
@@ -544,11 +804,9 @@ async function ladenUnterricht() {
   var d = await apiFetch('adminStats');
   var el = document.getElementById('unt-inhalt');
   if (!d || !d.data) { el.innerHTML = '<div class="empty">Keine Unterrichtsdaten</div>'; return; }
-
-  var personen = (d.data.personen || []).sort((a,b) => b.minuten - a.minuten);
-  var werke = (d.data.werke || []).sort((a,b) => b.minuten - a.minuten);
+  var personen = (d.data.personen||[]).sort((a,b) => b.minuten-a.minuten);
+  var werke = (d.data.werke||[]).sort((a,b) => b.minuten-a.minuten);
   var maxMin = personen.length ? personen[0].minuten : 1;
-
   var html = '<div class="section-h">Übersicht Unterrichtsminuten</div>';
   html += '<div class="card card-pad" style="margin-bottom:16px">';
   html += '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink3);margin-bottom:12px">Studierende</div>';
@@ -556,26 +814,23 @@ async function ladenUnterricht() {
     html += '<div class="empty" style="padding:12px">Noch keine Einträge</div>';
   } else {
     personen.forEach(function(p) {
-      var pct = Math.round(p.minuten / maxMin * 100);
-      var std = Math.floor(p.minuten / 60);
-      var min = p.minuten % 60;
-      html += '<div style="margin-bottom:12px">' +
-        '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">' +
-        '<div style="font-size:13px;font-weight:600">' + esc(p.name) + '<span style="font-size:11px;color:var(--ink3);margin-left:6px">' + esc(p.instrument||'') + '</span></div>' +
-        '<div style="font-size:13px;font-weight:700;font-family:var(--mono);color:var(--blue)">' + std + 'h ' + String(min).padStart(2,'0') + 'm</div></div>' +
-        '<div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:var(--blue);border-radius:2px"></div></div></div>';
+      var pct = Math.round(p.minuten/maxMin*100);
+      var std = Math.floor(p.minuten/60), min = p.minuten%60;
+      html += '<div style="margin-bottom:12px">'+
+        '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">'+
+        '<div style="font-size:13px;font-weight:600">'+esc(p.name)+'<span style="font-size:11px;color:var(--ink3);margin-left:6px">'+esc(p.instrument||'')+'</span></div>'+
+        '<div style="font-size:13px;font-weight:700;font-family:var(--mono);color:var(--blue)">'+std+'h '+String(min).padStart(2,'0')+'m</div></div>'+
+        '<div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:var(--blue);border-radius:2px"></div></div></div>';
     });
   }
   html += '</div>';
-
   if (werke.length) {
     html += '<div class="section-h">Werke</div><div class="card card-pad">';
-    werke.slice(0, 10).forEach(function(w) {
-      var std = Math.floor(w.minuten / 60);
-      var min = w.minuten % 60;
-      html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--paper3)">' +
-        '<div style="font-size:12px;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(w.titel) + '</div>' +
-        '<div style="font-size:12px;font-weight:700;font-family:var(--mono);color:var(--gold2);flex-shrink:0;margin-left:8px">' + std + 'h' + (min ? ' ' + min + 'm' : '') + '</div></div>';
+    werke.slice(0,10).forEach(function(w) {
+      var std=Math.floor(w.minuten/60), min=w.minuten%60;
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--paper3)">'+
+        '<div style="font-size:12px;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(w.titel)+'</div>'+
+        '<div style="font-size:12px;font-weight:700;font-family:var(--mono);color:var(--gold2);flex-shrink:0;margin-left:8px">'+std+'h'+(min?' '+min+'m':'')+'</div></div>';
     });
     html += '</div>';
   }
@@ -584,22 +839,15 @@ async function ladenUnterricht() {
 
 // ── SJ WECHSELN ───────────────────────────────────────────
 function oeffneSjModal() {
-  var d = new Date();
-  var y = d.getFullYear();
-  var sjs = [];
-  for (var i = -1; i <= 2; i++) {
-    var y1 = y + i, y2 = y + i + 1;
-    sjs.push(String(y1).slice(2) + '_' + String(y2).slice(2));
-  }
+  var d=new Date(), y=d.getFullYear(), sjs=[];
+  for(var i=-1;i<=2;i++){ var y1=y+i,y2=y+i+1; sjs.push(String(y1).slice(2)+'_'+String(y2).slice(2)); }
   document.getElementById('sj-optionen').innerHTML = sjs.map(sj =>
-    '<div class="sj-opt' + (sj === _aktSj ? ' active' : '') + '" onclick="setSj(\'' + sj + '\')">' +
-    sjAnzeige(sj) + (sj === sjAusHeute() ? '<span style="font-size:11px;color:var(--ink3)">aktuell</span>' : '') + '</div>'
+    '<div class="sj-opt'+(sj===_aktSj?' active':'')+'" onclick="setSj(\''+sj+'\')">'+
+    sjAnzeige(sj)+(sj===sjAusHeute()?'<span style="font-size:11px;color:var(--ink3)">aktuell</span>':'')+'</div>'
   ).join('');
   document.getElementById('sj-modal').classList.add('open');
 }
-
-function schliesseSjModal() { document.getElementById('sj-modal').classList.remove('open'); }
-
+function schliesseSjModal(){ document.getElementById('sj-modal').classList.remove('open'); }
 function setSj(sj) {
   _aktSj = sj;
   _cache = {};
@@ -609,33 +857,17 @@ function setSj(sj) {
   var aktTab = document.querySelector('.tnav.active');
   if (aktTab) ladenWennNoetig(aktTab.dataset.tab);
   if (document.getElementById('t-start').classList.contains('active')) {
-    document.getElementById('start-termine').innerHTML = '<div class="spinner"><div class="spin"></div>Lade...</div>';
+    document.getElementById('start-termine').innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
     ladenStartTermine();
   }
 }
-
-function updateSjBadge() {
-  document.getElementById('sj-badge').textContent = sjAnzeige(_aktSj);
-}
+function updateSjBadge(){ document.getElementById('sj-badge').textContent = sjAnzeige(_aktSj); }
 
 // ── HILFSFUNKTIONEN ───────────────────────────────────────
-function esc(str) {
-  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function parseDatum(s) {
-  if (!s) return null;
-  var m = String(s).match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
-  if (m) return new Date(+m[3], +m[2]-1, +m[1]);
-  var d = new Date(s);
-  return isNaN(d.getTime()) ? null : d;
-}
-
-function zeigToast(msg) {
-  var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
+function zeigToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
 }
 
 initialLaden();
