@@ -102,6 +102,10 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
 .werk-leit{font-size:11px;color:var(--ink3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
 .ev-leer{font-size:13px;color:var(--ink3);font-style:italic}
 
+.typ-filter{display:flex;gap:5px;flex-wrap:wrap;padding:12px 14px 0;background:var(--paper)}
+.typ-btn{padding:5px 11px;border-radius:16px;border:1px solid var(--border);background:#fff;color:var(--ink3);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all .15s}
+.typ-btn.active{background:var(--ink);border-color:var(--ink);color:#fff}
+
 .spinner{text-align:center;padding:40px 20px;color:var(--ink3);font-size:13px;display:flex;flex-direction:column;align-items:center;gap:10px}
 .spin{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -169,6 +173,15 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
       <button class="btn-logout" onclick="logout()">Abmelden</button>
     </div>
   </div>
+  <div class="typ-filter">
+    <button class="typ-btn active" data-typ="alle" onclick="setTyp(this)">Alle</button>
+    <button class="typ-btn" data-typ="HSO" onclick="setTyp(this)">HSO</button>
+    <button class="typ-btn" data-typ="1314" onclick="setTyp(this)">13/14</button>
+    <button class="typ-btn" data-typ="WK" onclick="setTyp(this)">WK</button>
+    <button class="typ-btn" data-typ="Blattspiel" onclick="setTyp(this)">Blattspiel</button>
+    <button class="typ-btn" data-typ="Repertoire" onclick="setTyp(this)">Repertoire</button>
+    <button class="typ-btn" data-typ="Sonder" onclick="setTyp(this)">Sonder</button>
+  </div>
   <div class="inhalt">
     <div id="termine-liste"><div class="spinner"><div class="spin"></div>Lade...</div></div>
   </div>
@@ -183,9 +196,27 @@ var WT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
 var MON = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
 var ALLE_SJ = ['25_26','26_27','27_28'];
 
-var _ich = null;       // { mtknr, name }
+var _ich = null;
 var _aktSj = null;
-var _ueData = null;    // gecachte uebersetzer.json
+var _aktTyp = 'alle';
+var _ueData = null;
+
+function setTyp(btn){
+  document.querySelectorAll('.typ-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  _aktTyp = btn.dataset.typ;
+  renderTermine();
+}
+
+function getProjTyp(projektKey){
+  var k = String(projektKey||'').replace(/^\d{2}_\d{2}_/,'').toUpperCase();
+  if(k.startsWith('HSO_BLATTSPIEL')||k==='BLATTSPIEL') return 'Blattspiel';
+  if(k.startsWith('HSO_REPERTOIRE')||k==='REPERTOIRE') return 'Repertoire';
+  if(/^13.?14/.test(k)) return '1314';
+  if(k.startsWith('HSO')) return 'HSO';
+  if(k.startsWith('WK')) return 'WK';
+  return 'Sonder';
+}
 
 // ── UTILS ────────────────────────────────────────────────
 async function sha256(msg){
@@ -382,6 +413,13 @@ function renderTermine(){
       solisten:ev.solisten||[]
     });
   });
+
+  // Typ-Filter
+  if(_aktTyp!=='alle'){
+    events=events.filter(function(ev){
+      return getProjTyp(ev.projekt)===_aktTyp;
+    });
+  }
 
   // Chronologisch sortieren
   events.sort(function(a,b){return a.dat-b.dat;});
