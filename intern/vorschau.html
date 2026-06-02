@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1a2e">
+<title>HSO Vorschau – HfMT Hamburg</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0f0f14;--ink2:#2a2a38;--ink3:#4a4a5e;
+  --paper:#f7f6f2;--paper2:#eeece6;--paper3:#e4e1d8;
+  --gold:#b8962e;--gold2:#8a6e1f;--gold-bg:#fdf8ee;--gold-border:#e8e0cc;
+  --blue:#1a4b8c;--blue2:#0d2f5c;--blue-bg:#eef3fb;
+  --green:#1e6b3a;--green-bg:#e8f4ed;
+  --red:#9b2335;--red-bg:#fbeaed;
+  --border:#dddad0;--border2:#ccc9be;
+  --radius:10px;--mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
+  --shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.06);
+}
+html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5}
+body{min-height:100vh;max-width:520px;margin:0 auto}
+
+/* ── LOGIN ── */
+.login-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;gap:16px}
+.login-wrap.hidden{display:none}
+.login-mark{width:52px;height:52px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:4px}
+.login-title{font-size:20px;font-weight:700;color:var(--ink);text-align:center}
+.login-sub{font-size:12px;color:var(--ink3);text-align:center}
+.login-card{width:100%;max-width:340px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px}
+.field-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:5px}
+.field-input{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;color:var(--ink);background:var(--paper);font-family:var(--sans);outline:none;transition:border-color .2s}
+.field-input:focus{border-color:var(--blue)}
+.btn-login{width:100%;padding:12px;background:var(--gold);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--sans)}
+.btn-login:active{opacity:.88}
+.err{font-size:12px;color:var(--red);text-align:center;min-height:14px}
+
+/* ── PW ÄNDERN ── */
+.pw-wrap{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;gap:16px}
+.pw-wrap.visible{display:flex}
+.pw-card{width:100%;max-width:340px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px}
+.pw-title{font-size:16px;font-weight:700}
+.pw-sub{font-size:12px;color:var(--ink3);line-height:1.5}
+.btn-blue{width:100%;padding:12px;background:var(--blue);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--sans)}
+.btn-out{width:100%;padding:10px;border:1.5px solid var(--border);border-radius:9px;background:none;font-size:13px;color:var(--ink3);cursor:pointer;font-family:var(--sans)}
+
+/* ── APP ── */
+.app{display:none}
+.app.visible{display:block}
+.topbar{height:52px;background:var(--ink);display:flex;align-items:center;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,0.06);gap:0}
+.topbar-logo{padding:0 14px;display:flex;align-items:center;gap:9px;border-right:1px solid rgba(255,255,255,0.06);flex-shrink:0}
+.topbar-mark{width:26px;height:26px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px}
+.topbar-name{font-size:11px;font-weight:700;color:rgba(255,255,255,0.8);font-family:var(--mono);white-space:nowrap}
+.topbar-sj{display:flex;align-items:center;gap:4px;padding:0 12px;flex:1;overflow-x:auto;scrollbar-width:none}
+.topbar-sj::-webkit-scrollbar{display:none}
+.sj-btn{padding:5px 12px;border-radius:16px;border:1px solid rgba(255,255,255,0.15);background:none;color:rgba(255,255,255,0.45);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans);white-space:nowrap;transition:all .15s;flex-shrink:0}
+.sj-btn:hover{color:rgba(255,255,255,0.75);border-color:rgba(255,255,255,0.3)}
+.sj-btn.active{background:rgba(184,150,46,0.25);border-color:rgba(184,150,46,0.5);color:var(--gold)}
+.topbar-end{padding:0 12px;border-left:1px solid rgba(255,255,255,0.06);flex-shrink:0;display:flex;align-items:center;gap:8px}
+.user-name{font-size:10px;color:rgba(255,255,255,0.4);font-family:var(--mono);white-space:nowrap}
+.btn-logout{font-size:10px;color:rgba(255,255,255,0.3);background:none;border:none;cursor:pointer;font-family:var(--sans);padding:3px 6px}
+.btn-logout:hover{color:rgba(255,255,255,0.6)}
+.btn-pw{font-size:10px;color:rgba(255,255,255,0.3);background:none;border:none;cursor:pointer;font-family:var(--sans);padding:3px 6px}
+.btn-pw:hover{color:var(--gold)}
+
+/* ── INHALT ── */
+.inhalt{padding:16px 14px 48px}
+.section-h{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin:20px 0 10px;display:flex;align-items:center;gap:8px}
+.section-h::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* Termin-Karte */
+.t-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:8px;overflow:hidden}
+.t-head{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;cursor:pointer}
+.t-head:hover{background:var(--paper2)}
+.datum-box{background:var(--blue-bg);border-radius:8px;padding:5px 9px;text-align:center;flex-shrink:0;min-width:40px}
+.datum-tag{font-size:17px;font-weight:800;color:var(--blue);line-height:1}
+.datum-mon{font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-top:2px}
+.datum-wt{font-size:9px;color:var(--ink3);margin-top:1px}
+.t-info{flex:1;min-width:0}
+.t-titel{font-size:13px;font-weight:600;line-height:1.3}
+.t-meta{font-size:11px;color:var(--ink3);margin-top:2px;line-height:1.4}
+.t-chev{color:var(--ink3);font-size:12px;flex-shrink:0;margin-top:3px;transition:transform .2s}
+.t-chev.open{transform:rotate(180deg)}
+.t-body{display:none;border-top:1px solid var(--border);padding:12px 14px;background:var(--paper)}
+.t-body.open{display:block}
+
+/* Event-Tabs */
+.evtabs-wrap{border-bottom:1px solid var(--border);background:var(--paper);overflow-x:auto;scrollbar-width:none;margin:-12px -14px 10px}
+.evtabs-wrap::-webkit-scrollbar{display:none}
+.evtabs{display:flex;min-width:max-content}
+.evtab{flex-shrink:0;padding:8px 12px;font-size:11px;color:var(--ink3);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:var(--sans);font-weight:500;white-space:nowrap}
+.evtab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.evsecs{padding-top:8px}
+.evsec{display:none}
+.evsec.active{display:block}
+.ev-kopf{font-size:11px;font-weight:600;color:var(--blue);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);line-height:1.4}
+.werk-block{margin-bottom:8px}
+.werk-komp{font-size:13px;font-weight:600}
+.werk-titel{font-size:13px;color:var(--ink3)}
+.werk-details{font-size:11px;color:var(--ink3);margin-top:2px;line-height:1.4}
+.werk-leit{font-size:11px;color:var(--ink3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.ev-leer{font-size:13px;color:var(--ink3);font-style:italic}
+
+.spinner{text-align:center;padding:40px 20px;color:var(--ink3);font-size:13px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.spin{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:32px;color:var(--ink3);font-size:13px}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:300;transition:transform .25s;pointer-events:none;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div class="login-wrap" id="sc-login">
+  <div class="login-mark">🎼</div>
+  <div class="login-title">HSO Vorschau</div>
+  <div class="login-sub">HfMT Hamburg · Programmübersicht</div>
+  <div class="login-card">
+    <div>
+      <div class="field-label">Benutzername</div>
+      <input class="field-input" type="text" id="l-user" autocomplete="username" autocapitalize="none" onkeydown="if(event.key==='Enter')document.getElementById('l-pw').focus()">
+    </div>
+    <div>
+      <div class="field-label">Passwort</div>
+      <input class="field-input" type="password" id="l-pw" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
+    </div>
+    <div class="err" id="l-err"></div>
+    <button class="btn-login" onclick="login()">Anmelden</button>
+  </div>
+</div>
+
+<!-- ── PASSWORT ÄNDERN ── -->
+<div class="pw-wrap" id="sc-pw">
+  <div class="pw-card">
+    <div class="pw-title">Passwort setzen</div>
+    <div class="pw-sub" id="pw-sub">Erstanmeldung — bitte wähle ein eigenes Passwort (mind. 6 Zeichen).</div>
+    <div>
+      <div class="field-label">Neues Passwort</div>
+      <input class="field-input" type="password" id="pw-n1" placeholder="Mindestens 6 Zeichen">
+    </div>
+    <div>
+      <div class="field-label">Bestätigung</div>
+      <input class="field-input" type="password" id="pw-n2" onkeydown="if(event.key==='Enter')pwSpeichern()">
+    </div>
+    <div class="err" id="pw-err"></div>
+    <button class="btn-blue" onclick="pwSpeichern()">Speichern</button>
+    <button class="btn-out" id="pw-abbrechen" onclick="zeige('app')" style="display:none">Abbrechen</button>
+  </div>
+</div>
+
+<!-- ── APP ── -->
+<div class="app" id="app">
+  <div class="topbar">
+    <div class="topbar-logo">
+      <div class="topbar-mark">🎼</div>
+      <div class="topbar-name">HSO</div>
+    </div>
+    <div class="topbar-sj" id="sj-filter">
+      <button class="sj-btn" data-sj="25_26" onclick="setSj(this)">25/26</button>
+      <button class="sj-btn" data-sj="26_27" onclick="setSj(this)">26/27</button>
+      <button class="sj-btn" data-sj="27_28" onclick="setSj(this)">27/28</button>
+    </div>
+    <div class="topbar-end">
+      <span class="user-name" id="user-label"></span>
+      <button class="btn-pw" onclick="zeigeErstPw(false)" title="Passwort ändern">🔒</button>
+      <button class="btn-logout" onclick="logout()">Abmelden</button>
+    </div>
+  </div>
+  <div class="inhalt">
+    <div id="termine-liste"><div class="spinner"><div class="spin"></div>Lade...</div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
+var UE_JSON_URL = 'https://hfmt-hso.github.io/uebersetzer.json';
+var WT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+var MON = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+var ALLE_SJ = ['25_26','26_27','27_28'];
+
+var _ich = null;       // { mtknr, name }
+var _aktSj = null;
+var _ueData = null;    // gecachte uebersetzer.json
+
+// ── UTILS ────────────────────────────────────────────────
+async function sha256(msg){
+  var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function parseDatum(s){
+  if(!s)return null;
+  var m=String(s).match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if(m)return new Date(parseInt(m[3]),parseInt(m[2])-1,parseInt(m[1]));
+  m=String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(m)return new Date(parseInt(m[1]),parseInt(m[2])-1,parseInt(m[3]));
+  return null;
+}
+function istInSpieljahr(dat,sj){
+  if(!dat||!sj)return false;
+  var p=sj.split('_');
+  var von=new Date(2000+parseInt(p[0],10),8,1);
+  var bis=new Date(2000+parseInt(p[1],10),7,31,23,59,59,999);
+  return dat>=von&&dat<=bis;
+}
+function aktuellesSj(){
+  var d=new Date(),y=d.getFullYear(),m=d.getMonth();
+  return m>=8?String(y).slice(2)+'_'+String(y+1).slice(2):String(y-1).slice(2)+'_'+String(y).slice(2);
+}
+function zeige(sc){
+  document.getElementById('sc-login').classList.add('hidden');
+  document.getElementById('sc-pw').classList.remove('visible');
+  document.getElementById('app').classList.remove('visible');
+  if(sc==='login')document.getElementById('sc-login').classList.remove('hidden');
+  if(sc==='pw')document.getElementById('sc-pw').classList.add('visible');
+  if(sc==='app')document.getElementById('app').classList.add('visible');
+}
+function toast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2400);
+}
+async function apiGet(params){
+  var url=WEBAPP_URL+'?'+Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&');
+  var r=await fetch(url);return r.json();
+}
+async function apiPost(data){
+  var r=await fetch(WEBAPP_URL,{method:'POST',body:JSON.stringify(data)});return r.json();
+}
+
+// ── LOGIN ─────────────────────────────────────────────────
+async function login(){
+  var user=document.getElementById('l-user').value.trim();
+  var pw=document.getElementById('l-pw').value;
+  var err=document.getElementById('l-err');
+  err.textContent='';
+  if(!user||!pw){err.textContent='Bitte alle Felder ausfüllen.';return;}
+  var h=await sha256(pw);
+  try{
+    var j=await apiGet({action:'vorschauLogin',nutzer:user,pwHash:h});
+    if(!j.ok){
+      err.textContent=j.error||'Falsches Passwort.';
+      var el=document.getElementById('l-pw');
+      el.style.borderColor='var(--red)';
+      setTimeout(()=>el.style.borderColor='',600);
+      return;
+    }
+    _ich={mtknr:user,name:j.name||user};
+    sessionStorage.setItem('hso_vorschau',JSON.stringify(_ich));
+    document.getElementById('l-pw').value='';
+    if(j.erstanmeldung){
+      zeigeErstPw(true);
+    }else{
+      oeffneApp();
+    }
+  }catch(e){err.textContent='Verbindungsfehler.';}
+}
+
+// ── PASSWORT ─────────────────────────────────────────────
+function zeigeErstPw(erstmalig){
+  document.getElementById('pw-sub').textContent = erstmalig
+    ? 'Erstanmeldung — bitte wähle ein eigenes Passwort (mind. 6 Zeichen).'
+    : 'Neues Passwort wählen (mind. 6 Zeichen).';
+  document.getElementById('pw-abbrechen').style.display = erstmalig ? 'none' : 'block';
+  document.getElementById('pw-n1').value='';
+  document.getElementById('pw-n2').value='';
+  document.getElementById('pw-err').textContent='';
+  zeige('pw');
+}
+async function pwSpeichern(){
+  var n1=document.getElementById('pw-n1').value;
+  var n2=document.getElementById('pw-n2').value;
+  var err=document.getElementById('pw-err');
+  err.textContent='';
+  if(!n1||!n2){err.textContent='Bitte beide Felder ausfüllen.';return;}
+  if(n1.length<6){err.textContent='Mindestens 6 Zeichen.';return;}
+  if(n1!==n2){err.textContent='Passwörter stimmen nicht überein.';return;}
+  try{
+    var h=await sha256(n1);
+    var j=await apiPost({action:'vorschauChangePw',nutzer:_ich.mtknr,neuHash:h});
+    if(!j.ok){err.textContent=j.error||'Fehler.';return;}
+    toast('Passwort gesetzt');
+    oeffneApp();
+  }catch(e){err.textContent='Verbindungsfehler.';}
+}
+
+// ── APP ───────────────────────────────────────────────────
+function oeffneApp(){
+  document.getElementById('user-label').textContent=_ich.name||_ich.mtknr;
+  zeige('app');
+  // Standard-SJ: nächstes wenn aktuell August oder später, sonst aktuell
+  var std = aktuellesSj();
+  // Aktiven Button setzen
+  var btns = document.querySelectorAll('.sj-btn');
+  var gefunden = false;
+  btns.forEach(function(b){
+    if(b.dataset.sj===std){b.classList.add('active');gefunden=true;}
+    else b.classList.remove('active');
+  });
+  if(!gefunden) btns[0].classList.add('active');
+  _aktSj = std;
+  ladeTermine();
+}
+
+function setSj(btn){
+  document.querySelectorAll('.sj-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  _aktSj = btn.dataset.sj;
+  ladeTermine();
+}
+
+function logout(){
+  _ich=null;
+  sessionStorage.removeItem('hso_vorschau');
+  document.getElementById('l-user').value='';
+  document.getElementById('l-pw').value='';
+  document.getElementById('l-err').textContent='';
+  zeige('login');
+}
+
+// ── TERMINE LADEN ─────────────────────────────────────────
+async function ladeTermine(){
+  var el=document.getElementById('termine-liste');
+  el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
+  try{
+    if(!_ueData){
+      var r=await fetch(UE_JSON_URL);
+      _ueData=await r.json();
+    }
+    renderTermine();
+  }catch(e){
+    el.innerHTML='<div class="empty">Laden fehlgeschlagen.</div>';
+  }
+}
+
+function renderTermine(){
+  var el=document.getElementById('termine-liste');
+  if(!_ueData){el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';return;}
+
+  // uebersetzer.json kann verschiedene Strukturen haben — normalisieren
+  var rohdaten=[];
+  if(Array.isArray(_ueData)){
+    rohdaten=_ueData;
+  }else if(_ueData.projekte){
+    // { projekte: { "25_26_HSO_1": [...events] } }
+    Object.keys(_ueData.projekte||{}).forEach(function(k){
+      (_ueData.projekte[k]||[]).forEach(function(ev){
+        rohdaten.push(Object.assign({},ev,{_projektKey:k}));
+      });
+    });
+  }else{
+    // { "25_26_HSO_1": [...events], ... }
+    Object.keys(_ueData).forEach(function(k){
+      if(!Array.isArray(_ueData[k]))return;
+      _ueData[k].forEach(function(ev){
+        rohdaten.push(Object.assign({},ev,{_projektKey:k}));
+      });
+    });
+  }
+
+  // Filtern nach aktuellem SJ
+  var events=[];
+  rohdaten.forEach(function(ev){
+    var dat=parseDatum(ev.datum||ev.Datum||ev.date);
+    if(!dat)return;
+    if(!istInSpieljahr(dat,_aktSj))return;
+    events.push({
+      dat:dat,
+      datumStr:ev.datum||ev.Datum||ev.date||'',
+      projekt:ev.projekt||ev.name||ev._projektKey||'',
+      titel:ev._titel||ev.titel||ev.projekt||ev.name||ev._projektKey||'',
+      ort:ev.ort||ev.Ort||'',
+      uhrzeit:ev.uhrzeit||ev.Uhrzeit||'',
+      typ:ev.typ||ev.Typ||ev.markerTyp||'',
+      werke:ev.werke||[],
+      leitung:ev.leitung||null,
+      solisten:ev.solisten||[]
+    });
+  });
+
+  // Chronologisch sortieren
+  events.sort(function(a,b){return a.dat-b.dat;});
+
+  if(!events.length){
+    el.innerHTML='<div class="empty">Keine Termine für '+esc(_aktSj.replace('_','/'))+' gefunden.</div>';
+    return;
+  }
+
+  // Nach Projekt gruppieren für aufklappbare Karten mit Event-Tabs
+  var projMap={};
+  var projOrder=[];
+  events.forEach(function(ev){
+    var key=ev.projekt;
+    if(!projMap[key]){projMap[key]=[];projOrder.push(key);}
+    projMap[key].push(ev);
+  });
+
+  var html='';
+  projOrder.forEach(function(proj,pi){
+    var evs=projMap[proj];
+    var erster=evs[0];
+    var tag=erster.dat.getDate();
+    var mon=MON[erster.dat.getMonth()];
+    var wt=WT[erster.dat.getDay()];
+    var cId='vp-'+pi;
+    var mehrereEvents=evs.length>1;
+    var metaTeile=[erster.ort,erster.uhrzeit,erster.typ].filter(Boolean);
+
+    html+='<div class="t-card">'+
+      '<div class="t-head" onclick="toggleProj(\''+cId+'\')">'+
+        '<div class="datum-box">'+
+          '<div class="datum-tag">'+tag+'</div>'+
+          '<div class="datum-mon">'+esc(mon)+'</div>'+
+          '<div class="datum-wt">'+esc(wt)+'</div>'+
+        '</div>'+
+        '<div class="t-info">'+
+          '<div class="t-titel">'+esc(erster.titel||proj)+'</div>'+
+          '<div class="t-meta">'+esc(metaTeile.join(' · '))+(mehrereEvents?' · '+evs.length+' Termine':'')+'</div>'+
+        '</div>'+
+        '<div class="t-chev" id="chev-'+cId+'">▾</div>'+
+      '</div>'+
+      '<div class="t-body" id="'+cId+'">';
+
+    if(mehrereEvents){
+      // Event-Tabs
+      html+='<div class="evtabs-wrap"><div class="evtabs">'+
+        evs.map(function(ev,i){
+          var tp=ev.datumStr.split('.');
+          var tabLabel=WT[ev.dat.getDay()]+' '+String(tp[0]||ev.dat.getDate()).padStart(2,'0')+'.'+String(tp[1]||(ev.dat.getMonth()+1)).padStart(2,'0')+'.';
+          return '<button class="evtab'+(i===0?' active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(tabLabel)+'</button>';
+        }).join('')+'</div></div>'+
+        '<div class="evsecs">'+
+        evs.map(function(ev,i){
+          return '<div class="evsec'+(i===0?' active':'')+'" id="'+cId+'-ev-'+i+'">'+renderEvBody(ev)+'</div>';
+        }).join('')+'</div>';
+    }else{
+      html+=renderEvBody(erster);
+    }
+
+    html+='</div></div>';
+  });
+
+  el.innerHTML=html;
+}
+
+function renderEvBody(ev){
+  var h='';
+  var kopfTeile=[ev.datumStr,ev.uhrzeit,ev.ort].filter(Boolean);
+  if(kopfTeile.length)h+='<div class="ev-kopf">'+esc(kopfTeile.join(' · '))+'</div>';
+
+  var werke=(ev.werke||[]).filter(function(w){return !w.pause;});
+  if(!werke.length){
+    h+='<div class="ev-leer">Noch kein Programm eingetragen.</div>';
+  }else{
+    werke.forEach(function(w){
+      var ld=w.lebensdaten?' ('+w.lebensdaten+')':'';
+      h+='<div class="werk-block">'+
+        '<div class="werk-komp">'+esc((w.komponist||'')+ld)+'</div>';
+      if(w.titel)h+='<div class="werk-titel">'+esc(w.titel)+'</div>';
+      var details=[w.dauer?'Dauer: '+w.dauer:'',w.besetzung?'Besetzung: '+w.besetzung:''].filter(Boolean);
+      if(details.length)h+='<div class="werk-details">'+esc(details.join(' · '))+'</div>';
+      h+='</div>';
+    });
+  }
+
+  if(ev.solisten&&ev.solisten.length){
+    h+='<div class="werk-leit">';
+    ev.solisten.forEach(function(s){
+      h+=esc((s.instrument||'')+': '+(s.name||'')+(s.zusatz?' ('+s.zusatz+')':''))+'<br>';
+    });
+    h+='</div>';
+  }
+  if(ev.leitung){
+    var leit=Array.isArray(ev.leitung)
+      ?ev.leitung.map(function(l){return typeof l==='object'?l.name:String(l);}).filter(Boolean).join(' / ')
+      :String(ev.leitung);
+    if(leit)h+='<div class="werk-leit">Leitung: '+esc(leit)+'</div>';
+  }
+  return h;
+}
+
+function toggleProj(cId){
+  var body=document.getElementById(cId);
+  var chev=document.getElementById('chev-'+cId);
+  var open=body.classList.contains('open');
+  body.classList.toggle('open',!open);
+  if(chev)chev.classList.toggle('open',!open);
+}
+
+function showEvTab(e,cId,idx){
+  e.stopPropagation();
+  var body=document.getElementById(cId);
+  body.querySelectorAll('.evtab').forEach(t=>t.classList.remove('active'));
+  body.querySelectorAll('.evsec').forEach(s=>s.classList.remove('active'));
+  e.target.classList.add('active');
+  var sec=document.getElementById(cId+'-ev-'+idx);
+  if(sec)sec.classList.add('active');
+}
+
+// ── AUTO-LOGIN ────────────────────────────────────────────
+(function(){
+  var s=sessionStorage.getItem('hso_vorschau');
+  if(s){
+    try{
+      _ich=JSON.parse(s);
+      oeffneApp();
+      return;
+    }catch(e){}
+  }
+  zeige('login');
+})();
+</script>
+</body>
+</html>
