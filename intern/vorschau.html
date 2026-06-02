@@ -11,7 +11,7 @@
 :root{
   --ink:#0f0f14;--ink2:#2a2a38;--ink3:#4a4a5e;
   --paper:#f7f6f2;--paper2:#eeece6;--paper3:#e4e1d8;
-  --gold:#b8962e;--gold2:#8a6e1f;--gold-bg:#fdf8ee;--gold-border:#e8e0cc;
+  --gold:#b8962e;--gold2:#8a6e1f;--gold-bg:#fdf8ee;
   --blue:#1a4b8c;--blue2:#0d2f5c;--blue-bg:#eef3fb;
   --green:#1e6b3a;--green-bg:#e8f4ed;
   --red:#9b2335;--red-bg:#fbeaed;
@@ -32,7 +32,6 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
 .field-input{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;color:var(--ink);background:var(--paper);font-family:var(--sans);outline:none;transition:border-color .2s}
 .field-input:focus{border-color:var(--blue)}
 .btn-login{width:100%;padding:12px;background:var(--gold);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--sans)}
-.btn-login:active{opacity:.88}
 .err{font-size:12px;color:var(--red);text-align:center;min-height:14px}
 
 .pw-wrap{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;gap:16px}
@@ -67,42 +66,39 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
 
 .inhalt{padding:12px 14px 48px}
 
-.t-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:8px;overflow:hidden}
-.t-head{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;cursor:pointer}
-.t-head:hover{background:var(--paper2)}
-.datum-box{background:var(--blue-bg);border-radius:8px;padding:5px 9px;text-align:center;flex-shrink:0;min-width:40px}
-.datum-tag{font-size:17px;font-weight:800;color:var(--blue);line-height:1}
-.datum-mon{font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-top:2px}
-.datum-wt{font-size:9px;color:var(--ink3);margin-top:1px}
-.t-info{flex:1;min-width:0}
-.t-titel{font-size:13px;font-weight:600;line-height:1.3}
-.t-meta{font-size:11px;color:var(--ink3);margin-top:2px;line-height:1.4}
-.t-chev{color:var(--ink3);font-size:12px;flex-shrink:0;margin-top:3px;transition:transform .2s}
-.t-chev.open{transform:rotate(180deg)}
-.t-body{display:none;border-top:1px solid var(--border);padding:12px 14px;background:var(--paper)}
-.t-body.open{display:block}
+.pcard{background:#fff;border-radius:14px;border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow);margin-bottom:8px}
+.pcard-header{display:flex;align-items:center;gap:10px;padding:13px 14px;cursor:pointer}
+.pcard-header:hover{background:var(--paper2)}
+.pcard-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.pcard-meta{flex:1;min-width:0}
+.pcard-name{font-size:15px;font-weight:600;color:var(--ink)}
+.pcard-sub{font-size:12px;color:var(--ink3);margin-top:2px}
+.pcard-chev{color:var(--ink3);flex-shrink:0;transition:transform 0.2s}
+.pcard-chev svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pcard-chev.open{transform:rotate(180deg)}
+.pcard-body{display:none;border-top:1px solid var(--border)}
+.pcard-body.open{display:block}
 
-.evtabs-wrap{border-bottom:1px solid var(--border);background:var(--paper);overflow-x:auto;scrollbar-width:none;margin:-12px -14px 10px}
+.evtabs-wrap{border-bottom:1px solid var(--border);background:var(--paper);overflow-x:auto;scrollbar-width:none}
 .evtabs-wrap::-webkit-scrollbar{display:none}
 .evtabs{display:flex;min-width:max-content}
 .evtab{flex-shrink:0;padding:8px 12px;font-size:11px;color:var(--ink3);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:var(--sans);font-weight:500;white-space:nowrap}
 .evtab.active{color:var(--blue);border-bottom-color:var(--blue)}
-.evsecs{padding-top:8px}
+.evsections{padding:14px}
 .evsec{display:none}
 .evsec.active{display:block}
-.ev-kopf{font-size:11px;font-weight:600;color:var(--blue);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);line-height:1.4}
-.werk-block{margin-bottom:8px}
-.werk-komp{font-size:13px;font-weight:600}
-.werk-titel{font-size:13px;color:var(--ink3)}
-.werk-details{font-size:11px;color:var(--ink3);margin-top:2px;line-height:1.4}
-.werk-leit{font-size:11px;color:var(--ink3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
-.ev-leer{font-size:13px;color:var(--ink3);font-style:italic}
+.ev-kopf{font-size:12px;font-weight:600;color:var(--blue);line-height:1.5;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.werk-block{margin-bottom:10px}
+.werk-komp{font-size:13px;font-weight:600;color:var(--ink)}
+.werk-titel{font-size:13px;color:var(--ink);margin-top:1px}
+.werk-details{font-size:11px;color:var(--ink3);margin-top:3px;line-height:1.5}
+.werk-leitung{font-size:11px;color:var(--ink3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.ev-kein{font-size:13px;color:var(--ink3)}
 
 .spinner{text-align:center;padding:40px 20px;color:var(--ink3);font-size:13px;display:flex;flex-direction:column;align-items:center;gap:10px}
 .spin{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .empty{text-align:center;padding:32px;color:var(--ink3);font-size:13px}
-
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:300;transition:transform .25s;pointer-events:none;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
 </style>
@@ -165,29 +161,37 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
   <div class="typ-filter">
     <button class="typ-btn active" data-typ="alle" onclick="setTyp(this)">Alle</button>
     <button class="typ-btn" data-typ="HSO" onclick="setTyp(this)">HSO</button>
-    <button class="typ-btn" data-typ="1314" onclick="setTyp(this)">13/14</button>
+    <button class="typ-btn" data-typ="13/14" onclick="setTyp(this)">13/14</button>
     <button class="typ-btn" data-typ="WK" onclick="setTyp(this)">WK</button>
     <button class="typ-btn" data-typ="Blattspiel" onclick="setTyp(this)">Blattspiel</button>
     <button class="typ-btn" data-typ="Repertoire" onclick="setTyp(this)">Repertoire</button>
-    <button class="typ-btn" data-typ="Sonder" onclick="setTyp(this)">Sonder</button>
+    <button class="typ-btn" data-typ="Sonderprojekt" onclick="setTyp(this)">Sonderprojekt</button>
   </div>
   <div class="inhalt">
-    <div id="termine-liste"><div class="spinner"><div class="spin"></div>Lade...</div></div>
+    <div id="prog-liste"><div class="spinner"><div class="spin"></div>Lade...</div></div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-var WEBAPP_URL  = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
-var UE_JSON_URL = 'https://hfmt-hso.github.io/uebersetzer.json';
+var WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 var WT  = ['So','Mo','Di','Mi','Do','Fr','Sa'];
-var MON = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+var ALLE_SJ = ['25_26','26_27','27_28'];
+var FARBEN = {
+  'HSO':{bg:'#E6F1FB',color:'#185FA5'},
+  'WK Lü':{bg:'#E1F5EE',color:'#0F6E56'},
+  'WK':{bg:'#E1F5EE',color:'#0F6E56'},
+  '13/14':{bg:'#FAEEDA',color:'#854F0B'},
+  'Blattspiel':{bg:'#EEEDFE',color:'#534AB7'},
+  'Repertoire':{bg:'#EEEDFE',color:'#534AB7'},
+  'default':{bg:'#F1EFE8',color:'#5F5E5A'}
+};
 
 var _ich    = null;
 var _aktSj  = null;
 var _aktTyp = 'alle';
-var _ueData = null;
+var _cache  = {};
 
 // ── UTILS ─────────────────────────────────────────────────
 async function sha256(msg){
@@ -203,13 +207,7 @@ function parseDatum(s){
   if(m)return new Date(parseInt(m[1]),parseInt(m[2])-1,parseInt(m[3]));
   return null;
 }
-function istInSpieljahr(dat,sj){
-  if(!dat||!sj)return false;
-  var p=sj.split('_');
-  var von=new Date(2000+parseInt(p[0],10),8,1);
-  var bis=new Date(2000+parseInt(p[1],10),7,31,23,59,59,999);
-  return dat>=von&&dat<=bis;
-}
+function ddmmyyyy(d){return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();}
 function aktuellesSj(){
   var d=new Date(),y=d.getFullYear(),m=d.getMonth();
   return m>=8?String(y).slice(2)+'_'+String(y+1).slice(2):String(y-1).slice(2)+'_'+String(y).slice(2);
@@ -227,45 +225,41 @@ function toast(msg){
   t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2400);
 }
-async function apiGet(params){
-  var url=WEBAPP_URL+'?'+Object.keys(params).map(k=>k+'='+encodeURIComponent(params[k])).join('&');
-  var r=await fetch(url);return r.json();
+async function apiFetch(action,params){
+  var key=action+JSON.stringify(params||{});
+  if(_cache[key])return _cache[key];
+  var url=WEBAPP_URL+'?action='+action;
+  if(params)Object.keys(params).forEach(function(k){url+='&'+k+'='+encodeURIComponent(params[k]);});
+  try{var r=await fetch(url);var d=await r.json();if(d.ok!==false)_cache[key]=d;return d;}
+  catch(e){return{ok:false,error:e.message};}
 }
 async function apiPost(data){
   var r=await fetch(WEBAPP_URL,{method:'POST',body:JSON.stringify(data)});return r.json();
 }
 
-// ── PROJEKTNAMEN ──────────────────────────────────────────
-function extrahiereProjekt(titel){
-  var raw=String(titel||'').trim();
-  var istSonder=raw.startsWith('*');
-  var t=raw.replace(/^\*\s*/,'');
-  var mLue=t.match(/^(WK\s+L[üu]\s+\d+)/i); if(mLue)return mLue[1];
-  var mNum=t.match(/^((?:HSO|WK)\s+\d+)/i);  if(mNum)return mNum[1];
-  var m1314=t.match(/^(13\/14)/);             if(m1314)return m1314[1];
-  var mBs=t.match(/^(HSO\s+Blattspiel)/i);   if(mBs)return mBs[1];
-  var mRep=t.match(/^(HSO\s+Repertoire)/i);  if(mRep)return mRep[1];
-  var mHso=t.match(/^(HSO\s+\S+)/i);         if(mHso)return mHso[1];
-  if(istSonder)return '*'+t.split(/[\s(]/)[0];
-  return t.split(/[\s(]/)[0]||raw;
+function getFarbe(name){
+  var ks=Object.keys(FARBEN);
+  for(var i=0;i<ks.length;i++)if(name.indexOf(ks[i])!==-1)return FARBEN[ks[i]];
+  return FARBEN['default'];
 }
-
-function getProjTyp(proj){
-  var k=String(proj||'').trim();
-  if(/^HSO\s+Blattspiel/i.test(k))return 'Blattspiel';
-  if(/^HSO\s+Repertoire/i.test(k))return 'Repertoire';
-  if(/^13\/14/.test(k))           return '1314';
-  if(/^HSO/i.test(k))             return 'HSO';
-  if(/^WK/i.test(k))              return 'WK';
-  return 'Sonder';
+function getKuerzel(n){
+  if(n.startsWith('HSO Blattspiel'))return'BS';
+  if(n.startsWith('HSO Repertoire'))return'Rep';
+  if(n.startsWith('HSO '))return'H'+n.replace('HSO ','').replace(/\D/g,'');
+  if(n.startsWith('WK Lü '))return'WL'+n.replace('WK Lü ','').trim();
+  if(n.startsWith('WK '))return'W'+n.replace('WK ','').trim();
+  if(n==='13/14')return'13';
+  return n.substring(0,2).toUpperCase();
 }
-
-function setTyp(btn){
-  document.querySelectorAll('.typ-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  _aktTyp=btn.dataset.typ;
-  renderTermine();
+function getTyp(name){
+  if(name==='13/14')return'13/14';
+  if(/Blattspiel/i.test(name))return'Blattspiel';
+  if(/Repertoire/i.test(name))return'Repertoire';
+  if(name.startsWith('HSO'))return'HSO';
+  if(name.startsWith('WK'))return'WK';
+  return'Sonderprojekt';
 }
+function ohnestern(s){return String(s||'').replace(/^\*/,'');}
 
 // ── LOGIN ─────────────────────────────────────────────────
 async function login(){
@@ -276,7 +270,11 @@ async function login(){
   if(!user||!pw){err.textContent='Bitte alle Felder ausfüllen.';return;}
   var h=await sha256(pw);
   try{
-    var j=await apiGet({action:'vorschauLogin',nutzer:user,pwHash:h});
+    var j=await apiFetch('vorschauLogin&nutzer='+encodeURIComponent(user)+'&pwHash='+encodeURIComponent(h)+'&_t='+Date.now());
+    // apiFetch baut URL falsch für diesen Fall — direkt fetchen
+    var url=WEBAPP_URL+'?action=vorschauLogin&nutzer='+encodeURIComponent(user)+'&pwHash='+encodeURIComponent(h);
+    var r=await fetch(url);
+    j=await r.json();
     if(!j.ok){
       err.textContent=j.error||'Falsches Passwort.';
       var el=document.getElementById('l-pw');
@@ -284,7 +282,7 @@ async function login(){
       setTimeout(()=>el.style.borderColor='',600);
       return;
     }
-    _ich={mtknr:user,name:j.name||user};
+    _ich={nutzer:user,name:j.name||user};
     sessionStorage.setItem('hso_vorschau',JSON.stringify(_ich));
     document.getElementById('l-pw').value='';
     if(j.erstanmeldung){zeigeErstPw(true);}else{oeffneApp();}
@@ -312,7 +310,7 @@ async function pwSpeichern(){
   if(n1!==n2){err.textContent='Passwörter stimmen nicht überein.';return;}
   try{
     var h=await sha256(n1);
-    var j=await apiPost({action:'vorschauChangePw',nutzer:_ich.mtknr,neuHash:h});
+    var j=await apiPost({action:'vorschauChangePw',nutzer:_ich.nutzer,neuHash:h});
     if(!j.ok){err.textContent=j.error||'Fehler.';return;}
     toast('Passwort gesetzt');
     oeffneApp();
@@ -321,25 +319,28 @@ async function pwSpeichern(){
 
 // ── APP ───────────────────────────────────────────────────
 function oeffneApp(){
-  document.getElementById('user-label').textContent=_ich.name||_ich.mtknr;
+  document.getElementById('user-label').textContent=_ich.name||_ich.nutzer;
   zeige('app');
   var std=aktuellesSj();
-  var btns=document.querySelectorAll('.sj-btn');
-  var gefunden=false;
-  btns.forEach(function(b){
-    if(b.dataset.sj===std){b.classList.add('active');gefunden=true;}
-    else b.classList.remove('active');
+  document.querySelectorAll('.sj-btn').forEach(function(b){
+    b.classList.toggle('active',b.dataset.sj===std);
   });
-  if(!gefunden)btns[0].classList.add('active');
   _aktSj=std;
-  ladeTermine();
+  ladenProgramm();
 }
 
 function setSj(btn){
   document.querySelectorAll('.sj-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   _aktSj=btn.dataset.sj;
-  ladeTermine();
+  ladenProgramm();
+}
+
+function setTyp(btn){
+  document.querySelectorAll('.typ-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  _aktTyp=btn.dataset.typ;
+  renderProgramm();
 }
 
 function logout(){
@@ -351,151 +352,123 @@ function logout(){
   zeige('login');
 }
 
-// ── TERMINE ───────────────────────────────────────────────
-async function ladeTermine(){
-  var el=document.getElementById('termine-liste');
+// ── PROGRAMM LADEN ────────────────────────────────────────
+var _progDaten = null;
+
+async function ladenProgramm(){
+  var el=document.getElementById('prog-liste');
   el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
-  try{
-    if(!_ueData){
-      var r=await fetch(UE_JSON_URL);
-      _ueData=await r.json();
-    }
-    renderTermine();
-  }catch(e){
-    el.innerHTML='<div class="empty">Laden fehlgeschlagen.</div>';
+  var d=await apiFetch('programm',{sj:_aktSj});
+  if(!d||!d.data){
+    el.innerHTML='<div class="empty">Keine Daten für '+(_aktSj||'').replace('_','/')+'</div>';
+    return;
   }
+  _progDaten=d.data;
+  renderProgramm();
 }
 
-function renderTermine(){
-  var el=document.getElementById('termine-liste');
-  if(!_ueData){el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';return;}
+function renderProgramm(){
+  var el=document.getElementById('prog-liste');
+  if(!_progDaten){el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';return;}
 
-  // Rohdaten aus uebersetzer.json — Format: { events: [...] }
-  var rohdaten=Array.isArray(_ueData)?_ueData:(_ueData.events||[]);
+  var projekte=Object.keys(_progDaten);
 
-  // Schritt 1: SJ filtern + normalisieren
-  var events=[];
-  rohdaten.forEach(function(ev){
-    var dat=parseDatum(ev.datum);
-    if(!dat)return;
-    if(!istInSpieljahr(dat,_aktSj))return;
-    var proj=extrahiereProjekt(ev._titel||'');
-    var marker=String(ev.marker||'').toLowerCase();
-    var hatWerke=(ev.werke||[]).filter(function(w){return !w.pause;}).length>0;
-    // Nur Vorstellungen, Konzerte, Blattspiel, Repertoire (die haben Werke)
-    var zeigen=marker==='vorstellung'||marker==='konzert'||marker==='blattspiel'||marker==='repertoire'||hatWerke;
-    if(!zeigen)return;
-    events.push({
-      dat:     dat,
-      datStr:  ev.datum||'',
-      proj:    proj,
-      titel:   ev._titel||proj,
-      ort:     ev.ort||'',
-      uhrzeit: ev.uhrzeit||'',
-      marker:  ev.marker||'',
-      werke:   ev.werke||[],
-      leitung: ev.leitung||null,
-      solisten:ev.solisten||[]
-    });
-  });
-
-  // Schritt 2: Typ-Filter
+  // Typ-Filter
   if(_aktTyp!=='alle'){
-    events=events.filter(function(ev){return getProjTyp(ev.proj)===_aktTyp;});
+    projekte=projekte.filter(function(p){return getTyp(p)===_aktTyp;});
   }
 
-  // Schritt 3: Chronologisch sortieren
-  events.sort(function(a,b){return a.dat-b.dat;});
-
-  if(!events.length){
-    el.innerHTML='<div class="empty">Keine Termine für '+esc(_aktSj.replace('_','/'))+' gefunden.</div>';
+  if(!projekte.length){
+    el.innerHTML='<div class="empty">Keine Projekte gefunden.</div>';
     return;
   }
 
-  // Schritt 4: Nach Projekt gruppieren
-  var projMap={};
-  var projOrder=[];
-  events.forEach(function(ev){
-    if(!projMap[ev.proj]){projMap[ev.proj]=[];projOrder.push(ev.proj);}
-    projMap[ev.proj].push(ev);
+  // Sortieren nach erstem Datum
+  projekte.sort(function(a,b){
+    var evA=(_progDaten[a]||[])[0],evB=(_progDaten[b]||[])[0];
+    var dA=evA?parseDatum(evA.datum):null;
+    var dB=evB?parseDatum(evB.datum):null;
+    if(!dA&&!dB)return 0;if(!dA)return 1;if(!dB)return -1;
+    return dA-dB;
   });
 
-  // Schritt 5: HTML bauen
   var html='';
-  projOrder.forEach(function(proj,pi){
-    var evs=projMap[proj];
-    var erst=evs[0];
+  projekte.forEach(function(projektName,pi){
+    var events=_progDaten[projektName]||[];
+    if(!events.length)return;
+    var f=getFarbe(projektName);
+    var k=getKuerzel(projektName);
     var cId='vp-'+pi;
-    var mehrere=evs.length>1;
-    var meta=[erst.ort,erst.uhrzeit].filter(Boolean).join(' · ');
+    var erst=events[0];
+    var datObj=parseDatum(erst.datum);
+    var datLabel=datObj?ddmmyyyy(datObj):'';
+    var mehrere=events.length>1;
 
-    html+='<div class="t-card">'+
-      '<div class="t-head" onclick="toggleProj(\''+cId+'\')">'+
-        '<div class="datum-box">'+
-          '<div class="datum-tag">'+erst.dat.getDate()+'</div>'+
-          '<div class="datum-mon">'+MON[erst.dat.getMonth()]+'</div>'+
-          '<div class="datum-wt">'+WT[erst.dat.getDay()]+'</div>'+
+    html+='<div class="pcard">'+
+      '<div class="pcard-header" onclick="toggleProj(\''+cId+'\')">'+
+        '<div class="pcard-icon" style="background:'+f.bg+';color:'+f.color+'">'+esc(k)+'</div>'+
+        '<div class="pcard-meta">'+
+          '<div class="pcard-name">'+esc(ohnestern(projektName))+'</div>'+
+          '<div class="pcard-sub">'+esc(datLabel)+(erst.ort?' · '+esc(erst.ort):'')+(mehrere?' · '+events.length+' Termine':'')+'</div>'+
         '</div>'+
-        '<div class="t-info">'+
-          '<div class="t-titel">'+esc(proj)+'</div>'+
-          '<div class="t-meta">'+esc(meta)+(mehrere?' · '+evs.length+' Termine':'')+'</div>'+
-        '</div>'+
-        '<div class="t-chev" id="chev-'+cId+'">▾</div>'+
+        '<div class="pcard-chev" id="chev-'+cId+'"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>'+
       '</div>'+
-      '<div class="t-body" id="'+cId+'">';
+      '<div class="pcard-body" id="'+cId+'">';
 
     if(mehrere){
-      html+='<div class="evtabs-wrap"><div class="evtabs">'+
-        evs.map(function(ev,i){
-          var tp=ev.datStr.split('.');
-          var lbl=WT[ev.dat.getDay()]+' '+String(tp[0]||'').padStart(2,'0')+'.'+String(tp[1]||'').padStart(2,'0')+'.';
-          return '<button class="evtab'+(i===0?' active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(lbl)+'</button>';
-        }).join('')+
-      '</div></div><div class="evsecs">'+
-        evs.map(function(ev,i){
-          return '<div class="evsec'+(i===0?' active':'')+'" id="'+cId+'-ev-'+i+'">'+renderEvBody(ev)+'</div>';
-        }).join('')+
-      '</div>';
+      var tabs=events.map(function(ev,i){
+        var d=parseDatum(ev.datum);
+        var wt=d?WT[d.getDay()]:'';
+        var tp=(ev.datum||'').split('.');
+        var lbl=wt+' '+String(tp[0]||'').padStart(2,'0')+'.'+String(tp[1]||'').padStart(2,'0')+'.';
+        return '<button class="evtab'+(i===0?' active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(lbl)+'</button>';
+      }).join('');
+      var secs=events.map(function(ev,i){
+        return '<div class="evsec'+(i===0?' active':'')+'" id="'+cId+'-ev-'+i+'">'+renderEvProgramm(ev,projektName)+'</div>';
+      }).join('');
+      html+='<div class="evtabs-wrap"><div class="evtabs">'+tabs+'</div></div><div class="evsections">'+secs+'</div>';
     }else{
-      html+=renderEvBody(erst);
+      html+='<div style="padding:14px">'+renderEvProgramm(erst,projektName)+'</div>';
     }
 
     html+='</div></div>';
   });
 
-  el.innerHTML=html;
+  el.innerHTML=html||'<div class="empty">Keine Projekte gefunden.</div>';
 }
 
-function renderEvBody(ev){
-  var h='';
-  var kopf=[ev.datStr,ev.uhrzeit,ev.ort].filter(Boolean).join(' · ');
-  if(kopf)h+='<div class="ev-kopf">'+esc(kopf)+'</div>';
+function renderEvProgramm(ev,projektName){
+  var d=parseDatum(ev.datum);
+  var wt=d?WT[d.getDay()]:'';
+  var kopf=wt+(ev.datum?', '+ev.datum:'')+(ev.uhrzeit?' '+ev.uhrzeit:'');
+  if(ev._titel&&ev._titel!==projektName)kopf+='    '+ev._titel;
+  if(ev.ort)kopf+='    |    '+ev.ort;
 
+  var h='<div class="ev-kopf">'+esc(kopf)+'</div>';
   var werke=(ev.werke||[]).filter(function(w){return !w.pause;});
+
   if(!werke.length){
-    h+='<div class="ev-leer">Noch kein Programm eingetragen.</div>';
+    h+='<div class="ev-kein">Noch kein Programm eingetragen.</div>';
   }else{
     werke.forEach(function(w){
       var ld=w.lebensdaten?' ('+w.lebensdaten+')':'';
       h+='<div class="werk-block"><div class="werk-komp">'+esc((w.komponist||'')+ld)+'</div>';
       if(w.titel)h+='<div class="werk-titel">'+esc(w.titel)+'</div>';
-      var det=[w.dauer?'Dauer: '+w.dauer:'',w.besetzung?'Besetzung: '+w.besetzung:''].filter(Boolean);
-      if(det.length)h+='<div class="werk-details">'+esc(det.join(' · '))+'</div>';
+      if(w.dauer)h+='<div class="werk-details">Dauer: '+esc(w.dauer)+'</div>';
+      if(w.besetzung)h+='<div class="werk-details">Besetzung: '+esc(w.besetzung)+'</div>';
       h+='</div>';
     });
   }
   if(ev.solisten&&ev.solisten.length){
-    h+='<div class="werk-leit">';
+    h+='<div class="werk-leitung">';
     ev.solisten.forEach(function(s){
       h+=esc((s.instrument||'')+': '+(s.name||'')+(s.zusatz?' ('+s.zusatz+')':''))+'<br>';
     });
     h+='</div>';
   }
-  if(ev.leitung){
-    var leit=Array.isArray(ev.leitung)
-      ?ev.leitung.map(function(l){return typeof l==='object'?l.name:String(l);}).filter(Boolean).join(' / ')
-      :String(ev.leitung);
-    if(leit)h+='<div class="werk-leit">Leitung: '+esc(leit)+'</div>';
+  if(ev.leitung&&ev.leitung.length){
+    var leit=ev.leitung.map(function(l){return typeof l==='object'?l.name:String(l);}).filter(Boolean).join(' / ');
+    if(leit)h+='<div class="werk-leitung">Leitung: '+esc(leit)+'</div>';
   }
   return h;
 }
