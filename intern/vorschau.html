@@ -383,8 +383,12 @@ function renderProgramm(){
     return;
   }
 
-  // Sortieren nach erstem Datum
+  // Sortieren nach Typ-Reihenfolge, dann Datum
+  var TYPREIHE={'HSO':0,'13/14':1,'WK':2,'Blattspiel':3,'Repertoire':4,'Sonderprojekt':5};
   projekte.sort(function(a,b){
+    var tA=TYPREIHE[getTyp(a)]||99;
+    var tB=TYPREIHE[getTyp(b)]||99;
+    if(tA!==tB)return tA-tB;
     var evA=(_progDaten[a]||[])[0],evB=(_progDaten[b]||[])[0];
     var dA=evA?parseDatum(evA.datum):null;
     var dB=evB?parseDatum(evB.datum):null;
