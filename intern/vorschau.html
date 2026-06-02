@@ -417,7 +417,8 @@ function renderTermine(){
   // Typ-Filter
   if(_aktTyp!=='alle'){
     events=events.filter(function(ev){
-      return getProjTyp(ev.projekt)===_aktTyp;
+      var k=ev._projektKey||ev.projekt||'';
+      return getProjTyp(k)===_aktTyp;
     });
   }
 
@@ -429,14 +430,39 @@ function renderTermine(){
     return;
   }
 
-  // Nach Projekt gruppieren für aufklappbare Karten mit Event-Tabs
+  // Projektnamen normalisieren (Kalender-Titel → Projektname)
+  function extrahiereProjekt(titel){
+    var t=String(titel||'').replace(/^\*/,'');
+    var mLue=t.match(/^(WK\s+L[üu]\s+\d+)/i);if(mLue)return mLue[1];
+    var mNum=t.match(/^((?:HSO|WK)\s+\d+)/i);if(mNum)return mNum[1];
+    var m1314=t.match(/^(13\/14)/);if(m1314)return m1314[1];
+    var mBs=t.match(/^(HSO\s+Blattspiel)/i);if(mBs)return mBs[1];
+    var mRep=t.match(/^(HSO\s+Repertoire)/i);if(mRep)return mRep[1];
+    var mHso=t.match(/^(HSO\s+\S+)/i);if(mHso)return mHso[1];
+    // Sonderprojekte: * am Anfang
+    if(String(titel||'').startsWith('*'))return String(titel).split(/[\s(]/)[0];
+    return null;
+  }
+
+  // Nur Vorstellungen/Konzerte anzeigen (nicht alle Proben)
+  function istVorstellung(ev){
+    var t=String(ev.titel||ev.projekt||'');
+    var typ=String(ev.typ||ev.markerTyp||'').toLowerCase();
+    return /\(\d+\)/.test(t)||typ==='vorstellung'||typ==='konzert'||
+           (ev.werke&&ev.werke.filter(function(w){return !w.pause;}).length>0);
+  }
+
+  // Nach normalisiertem Projektnamen gruppieren, nur Vorstellungen
   var projMap={};
   var projOrder=[];
   events.forEach(function(ev){
-    var key=ev.projekt;
+    var key=extrahiereProjekt(ev.titel||ev.projekt)||ev.projekt;
+    ev._projKey=key;
     if(!projMap[key]){projMap[key]=[];projOrder.push(key);}
-    projMap[key].push(ev);
+    if(istVorstellung(ev))projMap[key].push(ev);
   });
+  // Projekte ohne Vorstellungen entfernen
+  projOrder=projOrder.filter(function(k){return projMap[k].length>0;});
 
   var html='';
   projOrder.forEach(function(proj,pi){
