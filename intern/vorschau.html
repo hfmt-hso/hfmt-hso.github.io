@@ -22,7 +22,6 @@
 html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5}
 body{min-height:100vh;max-width:520px;margin:0 auto}
 
-/* ── LOGIN ── */
 .login-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;gap:16px}
 .login-wrap.hidden{display:none}
 .login-mark{width:52px;height:52px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:4px}
@@ -36,7 +35,6 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
 .btn-login:active{opacity:.88}
 .err{font-size:12px;color:var(--red);text-align:center;min-height:14px}
 
-/* ── PW ÄNDERN ── */
 .pw-wrap{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;gap:16px}
 .pw-wrap.visible{display:flex}
 .pw-card{width:100%;max-width:340px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px}
@@ -45,10 +43,9 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
 .btn-blue{width:100%;padding:12px;background:var(--blue);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--sans)}
 .btn-out{width:100%;padding:10px;border:1.5px solid var(--border);border-radius:9px;background:none;font-size:13px;color:var(--ink3);cursor:pointer;font-family:var(--sans)}
 
-/* ── APP ── */
 .app{display:none}
 .app.visible{display:block}
-.topbar{height:52px;background:var(--ink);display:flex;align-items:center;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,0.06);gap:0}
+.topbar{height:52px;background:var(--ink);display:flex;align-items:center;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,0.06)}
 .topbar-logo{padding:0 14px;display:flex;align-items:center;gap:9px;border-right:1px solid rgba(255,255,255,0.06);flex-shrink:0}
 .topbar-mark{width:26px;height:26px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px}
 .topbar-name{font-size:11px;font-weight:700;color:rgba(255,255,255,0.8);font-family:var(--mono);white-space:nowrap}
@@ -64,12 +61,12 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
 .btn-pw{font-size:10px;color:rgba(255,255,255,0.3);background:none;border:none;cursor:pointer;font-family:var(--sans);padding:3px 6px}
 .btn-pw:hover{color:var(--gold)}
 
-/* ── INHALT ── */
-.inhalt{padding:16px 14px 48px}
-.section-h{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin:20px 0 10px;display:flex;align-items:center;gap:8px}
-.section-h::after{content:'';flex:1;height:1px;background:var(--border)}
+.typ-filter{display:flex;gap:5px;flex-wrap:wrap;padding:10px 14px;background:var(--paper);border-bottom:1px solid var(--border)}
+.typ-btn{padding:5px 11px;border-radius:16px;border:1px solid var(--border);background:#fff;color:var(--ink3);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all .15s}
+.typ-btn.active{background:var(--ink);border-color:var(--ink);color:#fff}
 
-/* Termin-Karte */
+.inhalt{padding:12px 14px 48px}
+
 .t-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:8px;overflow:hidden}
 .t-head{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;cursor:pointer}
 .t-head:hover{background:var(--paper2)}
@@ -85,7 +82,6 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
 .t-body{display:none;border-top:1px solid var(--border);padding:12px 14px;background:var(--paper)}
 .t-body.open{display:block}
 
-/* Event-Tabs */
 .evtabs-wrap{border-bottom:1px solid var(--border);background:var(--paper);overflow-x:auto;scrollbar-width:none;margin:-12px -14px 10px}
 .evtabs-wrap::-webkit-scrollbar{display:none}
 .evtabs{display:flex;min-width:max-content}
@@ -102,10 +98,6 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
 .werk-leit{font-size:11px;color:var(--ink3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
 .ev-leer{font-size:13px;color:var(--ink3);font-style:italic}
 
-.typ-filter{display:flex;gap:5px;flex-wrap:wrap;padding:12px 14px 0;background:var(--paper)}
-.typ-btn{padding:5px 11px;border-radius:16px;border:1px solid var(--border);background:#fff;color:var(--ink3);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all .15s}
-.typ-btn.active{background:var(--ink);border-color:var(--ink);color:#fff}
-
 .spinner{text-align:center;padding:40px 20px;color:var(--ink3);font-size:13px;display:flex;flex-direction:column;align-items:center;gap:10px}
 .spin{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -117,7 +109,6 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
 </head>
 <body>
 
-<!-- ── LOGIN ── -->
 <div class="login-wrap" id="sc-login">
   <div class="login-mark">🎼</div>
   <div class="login-title">HSO Vorschau</div>
@@ -136,7 +127,6 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
   </div>
 </div>
 
-<!-- ── PASSWORT ÄNDERN ── -->
 <div class="pw-wrap" id="sc-pw">
   <div class="pw-card">
     <div class="pw-title">Passwort setzen</div>
@@ -155,14 +145,13 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
   </div>
 </div>
 
-<!-- ── APP ── -->
 <div class="app" id="app">
   <div class="topbar">
     <div class="topbar-logo">
       <div class="topbar-mark">🎼</div>
       <div class="topbar-name">HSO</div>
     </div>
-    <div class="topbar-sj" id="sj-filter">
+    <div class="topbar-sj">
       <button class="sj-btn" data-sj="25_26" onclick="setSj(this)">25/26</button>
       <button class="sj-btn" data-sj="26_27" onclick="setSj(this)">26/27</button>
       <button class="sj-btn" data-sj="27_28" onclick="setSj(this)">27/28</button>
@@ -190,37 +179,19 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
 <div class="toast" id="toast"></div>
 
 <script>
-var WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
+var WEBAPP_URL  = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 var UE_JSON_URL = 'https://hfmt-hso.github.io/uebersetzer.json';
-var WT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+var WT  = ['So','Mo','Di','Mi','Do','Fr','Sa'];
 var MON = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
-var ALLE_SJ = ['25_26','26_27','27_28'];
 
-var _ich = null;
-var _aktSj = null;
+var _ich    = null;
+var _aktSj  = null;
 var _aktTyp = 'alle';
 var _ueData = null;
 
-function setTyp(btn){
-  document.querySelectorAll('.typ-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  _aktTyp = btn.dataset.typ;
-  renderTermine();
-}
-
-function getProjTyp(proj){
-  var k = String(proj||'').trim();
-  if(/^HSO\s+Blattspiel/i.test(k)) return 'Blattspiel';
-  if(/^HSO\s+Repertoire/i.test(k)) return 'Repertoire';
-  if(/^13\/14/.test(k))            return '1314';
-  if(/^HSO/i.test(k))              return 'HSO';
-  if(/^WK/i.test(k))               return 'WK';
-  return 'Sonder';
-}
-
-// ── UTILS ────────────────────────────────────────────────
+// ── UTILS ─────────────────────────────────────────────────
 async function sha256(msg){
-  var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+  var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(msg));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -264,6 +235,38 @@ async function apiPost(data){
   var r=await fetch(WEBAPP_URL,{method:'POST',body:JSON.stringify(data)});return r.json();
 }
 
+// ── PROJEKTNAMEN ──────────────────────────────────────────
+function extrahiereProjekt(titel){
+  var raw=String(titel||'').trim();
+  var istSonder=raw.startsWith('*');
+  var t=raw.replace(/^\*\s*/,'');
+  var mLue=t.match(/^(WK\s+L[üu]\s+\d+)/i); if(mLue)return mLue[1];
+  var mNum=t.match(/^((?:HSO|WK)\s+\d+)/i);  if(mNum)return mNum[1];
+  var m1314=t.match(/^(13\/14)/);             if(m1314)return m1314[1];
+  var mBs=t.match(/^(HSO\s+Blattspiel)/i);   if(mBs)return mBs[1];
+  var mRep=t.match(/^(HSO\s+Repertoire)/i);  if(mRep)return mRep[1];
+  var mHso=t.match(/^(HSO\s+\S+)/i);         if(mHso)return mHso[1];
+  if(istSonder)return '*'+t.split(/[\s(]/)[0];
+  return t.split(/[\s(]/)[0]||raw;
+}
+
+function getProjTyp(proj){
+  var k=String(proj||'').trim();
+  if(/^HSO\s+Blattspiel/i.test(k))return 'Blattspiel';
+  if(/^HSO\s+Repertoire/i.test(k))return 'Repertoire';
+  if(/^13\/14/.test(k))           return '1314';
+  if(/^HSO/i.test(k))             return 'HSO';
+  if(/^WK/i.test(k))              return 'WK';
+  return 'Sonder';
+}
+
+function setTyp(btn){
+  document.querySelectorAll('.typ-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  _aktTyp=btn.dataset.typ;
+  renderTermine();
+}
+
 // ── LOGIN ─────────────────────────────────────────────────
 async function login(){
   var user=document.getElementById('l-user').value.trim();
@@ -284,20 +287,16 @@ async function login(){
     _ich={mtknr:user,name:j.name||user};
     sessionStorage.setItem('hso_vorschau',JSON.stringify(_ich));
     document.getElementById('l-pw').value='';
-    if(j.erstanmeldung){
-      zeigeErstPw(true);
-    }else{
-      oeffneApp();
-    }
+    if(j.erstanmeldung){zeigeErstPw(true);}else{oeffneApp();}
   }catch(e){err.textContent='Verbindungsfehler.';}
 }
 
 // ── PASSWORT ─────────────────────────────────────────────
 function zeigeErstPw(erstmalig){
-  document.getElementById('pw-sub').textContent = erstmalig
-    ? 'Erstanmeldung — bitte wähle ein eigenes Passwort (mind. 6 Zeichen).'
-    : 'Neues Passwort wählen (mind. 6 Zeichen).';
-  document.getElementById('pw-abbrechen').style.display = erstmalig ? 'none' : 'block';
+  document.getElementById('pw-sub').textContent=erstmalig
+    ?'Erstanmeldung — bitte wähle ein eigenes Passwort (mind. 6 Zeichen).'
+    :'Neues Passwort wählen (mind. 6 Zeichen).';
+  document.getElementById('pw-abbrechen').style.display=erstmalig?'none':'block';
   document.getElementById('pw-n1').value='';
   document.getElementById('pw-n2').value='';
   document.getElementById('pw-err').textContent='';
@@ -324,24 +323,22 @@ async function pwSpeichern(){
 function oeffneApp(){
   document.getElementById('user-label').textContent=_ich.name||_ich.mtknr;
   zeige('app');
-  // Standard-SJ: nächstes wenn aktuell August oder später, sonst aktuell
-  var std = aktuellesSj();
-  // Aktiven Button setzen
-  var btns = document.querySelectorAll('.sj-btn');
-  var gefunden = false;
+  var std=aktuellesSj();
+  var btns=document.querySelectorAll('.sj-btn');
+  var gefunden=false;
   btns.forEach(function(b){
     if(b.dataset.sj===std){b.classList.add('active');gefunden=true;}
     else b.classList.remove('active');
   });
-  if(!gefunden) btns[0].classList.add('active');
-  _aktSj = std;
+  if(!gefunden)btns[0].classList.add('active');
+  _aktSj=std;
   ladeTermine();
 }
 
 function setSj(btn){
   document.querySelectorAll('.sj-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  _aktSj = btn.dataset.sj;
+  _aktSj=btn.dataset.sj;
   ladeTermine();
 }
 
@@ -354,7 +351,7 @@ function logout(){
   zeige('login');
 }
 
-// ── TERMINE LADEN ─────────────────────────────────────────
+// ── TERMINE ───────────────────────────────────────────────
 async function ladeTermine(){
   var el=document.getElementById('termine-liste');
   el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
@@ -373,60 +370,41 @@ function renderTermine(){
   var el=document.getElementById('termine-liste');
   if(!_ueData){el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';return;}
 
-  // uebersetzer.json: { events: [...] }
-  var rohdaten = Array.isArray(_ueData) ? _ueData : (_ueData.events || []);
+  // Rohdaten aus uebersetzer.json — Format: { events: [...] }
+  var rohdaten=Array.isArray(_ueData)?_ueData:(_ueData.events||[]);
 
-  // Projektnamen aus _titel extrahieren
-  function extrahiereProjekt(titel){
-    var t = String(titel||'').replace(/^\s*\*\s*/,'');
-    // Sonderprojekt: beginnt mit *
-    if(String(titel||'').trim().startsWith('*')) return String(titel).trim().split(/[\s(]/)[0];
-    var mLue = t.match(/^(WK\s+L[üu]\s+\d+)/i); if(mLue) return mLue[1];
-    var mNum = t.match(/^((?:HSO|WK)\s+\d+)/i);  if(mNum) return mNum[1];
-    var m1314 = t.match(/^(13\/14)/);              if(m1314) return m1314[1];
-    var mBs  = t.match(/^(HSO\s+Blattspiel)/i);   if(mBs)  return mBs[1];
-    var mRep = t.match(/^(HSO\s+Repertoire)/i);   if(mRep) return mRep[1];
-    var mHso = t.match(/^(HSO\s+\S+)/i);          if(mHso) return mHso[1];
-    return t.split(/[\s(]/)[0] || titel;
-  }
-
-  // Nur Vorstellungen/Konzerte (marker=Vorstellung oder Werke vorhanden)
-  function istVorstellung(ev){
-    var marker = String(ev.marker||'').toLowerCase();
-    var hatWerke = (ev.werke||[]).filter(function(w){return !w.pause;}).length > 0;
-    return marker === 'vorstellung' || marker === 'konzert' || hatWerke;
-  }
-
-  // Filtern: SJ + Vorstellungen
-  var events = [];
+  // Schritt 1: SJ filtern + normalisieren
+  var events=[];
   rohdaten.forEach(function(ev){
-    var dat = parseDatum(ev.datum);
-    if(!dat) return;
-    if(!istInSpieljahr(dat, _aktSj)) return;
-    if(!istVorstellung(ev)) return;
-    var proj = extrahiereProjekt(ev._titel||'');
+    var dat=parseDatum(ev.datum);
+    if(!dat)return;
+    if(!istInSpieljahr(dat,_aktSj))return;
+    var proj=extrahiereProjekt(ev._titel||'');
+    var marker=String(ev.marker||'').toLowerCase();
+    var hatWerke=(ev.werke||[]).filter(function(w){return !w.pause;}).length>0;
+    // Nur Vorstellungen, Konzerte, Blattspiel, Repertoire (die haben Werke)
+    var zeigen=marker==='vorstellung'||marker==='konzert'||marker==='blattspiel'||marker==='repertoire'||hatWerke;
+    if(!zeigen)return;
     events.push({
-      dat:      dat,
-      datumStr: ev.datum||'',
-      projekt:  proj,
-      titel:    ev._titel||proj,
-      ort:      ev.ort||'',
-      uhrzeit:  ev.uhrzeit||'',
-      marker:   ev.marker||'',
-      werke:    ev.werke||[],
-      leitung:  ev.leitung||null,
-      solisten: ev.solisten||[]
+      dat:     dat,
+      datStr:  ev.datum||'',
+      proj:    proj,
+      titel:   ev._titel||proj,
+      ort:     ev.ort||'',
+      uhrzeit: ev.uhrzeit||'',
+      marker:  ev.marker||'',
+      werke:   ev.werke||[],
+      leitung: ev.leitung||null,
+      solisten:ev.solisten||[]
     });
   });
 
-  // Typ-Filter
+  // Schritt 2: Typ-Filter
   if(_aktTyp!=='alle'){
-    events=events.filter(function(ev){
-      return getProjTyp(ev.projekt)===_aktTyp;
-    });
+    events=events.filter(function(ev){return getProjTyp(ev.proj)===_aktTyp;});
   }
 
-  // Chronologisch sortieren
+  // Schritt 3: Chronologisch sortieren
   events.sort(function(a,b){return a.dat-b.dat;});
 
   if(!events.length){
@@ -434,80 +412,52 @@ function renderTermine(){
     return;
   }
 
-  // Projektnamen normalisieren (Kalender-Titel → Projektname)
-  function extrahiereProjekt(titel){
-    var t=String(titel||'').replace(/^\*/,'');
-    var mLue=t.match(/^(WK\s+L[üu]\s+\d+)/i);if(mLue)return mLue[1];
-    var mNum=t.match(/^((?:HSO|WK)\s+\d+)/i);if(mNum)return mNum[1];
-    var m1314=t.match(/^(13\/14)/);if(m1314)return m1314[1];
-    var mBs=t.match(/^(HSO\s+Blattspiel)/i);if(mBs)return mBs[1];
-    var mRep=t.match(/^(HSO\s+Repertoire)/i);if(mRep)return mRep[1];
-    var mHso=t.match(/^(HSO\s+\S+)/i);if(mHso)return mHso[1];
-    // Sonderprojekte: * am Anfang
-    if(String(titel||'').startsWith('*'))return String(titel).split(/[\s(]/)[0];
-    return null;
-  }
-
-  // Nur Vorstellungen/Konzerte anzeigen (nicht alle Proben)
-  function istVorstellung(ev){
-    var t=String(ev.titel||ev.projekt||'');
-    var typ=String(ev.typ||ev.markerTyp||'').toLowerCase();
-    return /\(\d+\)/.test(t)||typ==='vorstellung'||typ==='konzert'||
-           (ev.werke&&ev.werke.filter(function(w){return !w.pause;}).length>0);
-  }
-
-  // Nach normalisiertem Projektnamen gruppieren, nur Vorstellungen
+  // Schritt 4: Nach Projekt gruppieren
   var projMap={};
   var projOrder=[];
   events.forEach(function(ev){
-    var key=extrahiereProjekt(ev.titel||ev.projekt)||ev.projekt;
-    ev._projKey=key;
-    if(!projMap[key]){projMap[key]=[];projOrder.push(key);}
-    if(istVorstellung(ev))projMap[key].push(ev);
+    if(!projMap[ev.proj]){projMap[ev.proj]=[];projOrder.push(ev.proj);}
+    projMap[ev.proj].push(ev);
   });
-  // Projekte ohne Vorstellungen entfernen
-  projOrder=projOrder.filter(function(k){return projMap[k].length>0;});
 
+  // Schritt 5: HTML bauen
   var html='';
   projOrder.forEach(function(proj,pi){
     var evs=projMap[proj];
-    var erster=evs[0];
-    var tag=erster.dat.getDate();
-    var mon=MON[erster.dat.getMonth()];
-    var wt=WT[erster.dat.getDay()];
+    var erst=evs[0];
     var cId='vp-'+pi;
-    var mehrereEvents=evs.length>1;
-    var metaTeile=[erster.ort,erster.uhrzeit,erster.typ].filter(Boolean);
+    var mehrere=evs.length>1;
+    var meta=[erst.ort,erst.uhrzeit].filter(Boolean).join(' · ');
 
     html+='<div class="t-card">'+
       '<div class="t-head" onclick="toggleProj(\''+cId+'\')">'+
         '<div class="datum-box">'+
-          '<div class="datum-tag">'+tag+'</div>'+
-          '<div class="datum-mon">'+esc(mon)+'</div>'+
-          '<div class="datum-wt">'+esc(wt)+'</div>'+
+          '<div class="datum-tag">'+erst.dat.getDate()+'</div>'+
+          '<div class="datum-mon">'+MON[erst.dat.getMonth()]+'</div>'+
+          '<div class="datum-wt">'+WT[erst.dat.getDay()]+'</div>'+
         '</div>'+
         '<div class="t-info">'+
-          '<div class="t-titel">'+esc(erster.titel||proj)+'</div>'+
-          '<div class="t-meta">'+esc(metaTeile.join(' · '))+(mehrereEvents?' · '+evs.length+' Termine':'')+'</div>'+
+          '<div class="t-titel">'+esc(proj)+'</div>'+
+          '<div class="t-meta">'+esc(meta)+(mehrere?' · '+evs.length+' Termine':'')+'</div>'+
         '</div>'+
         '<div class="t-chev" id="chev-'+cId+'">▾</div>'+
       '</div>'+
       '<div class="t-body" id="'+cId+'">';
 
-    if(mehrereEvents){
-      // Event-Tabs
+    if(mehrere){
       html+='<div class="evtabs-wrap"><div class="evtabs">'+
         evs.map(function(ev,i){
-          var tp=ev.datumStr.split('.');
-          var tabLabel=WT[ev.dat.getDay()]+' '+String(tp[0]||ev.dat.getDate()).padStart(2,'0')+'.'+String(tp[1]||(ev.dat.getMonth()+1)).padStart(2,'0')+'.';
-          return '<button class="evtab'+(i===0?' active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(tabLabel)+'</button>';
-        }).join('')+'</div></div>'+
-        '<div class="evsecs">'+
+          var tp=ev.datStr.split('.');
+          var lbl=WT[ev.dat.getDay()]+' '+String(tp[0]||'').padStart(2,'0')+'.'+String(tp[1]||'').padStart(2,'0')+'.';
+          return '<button class="evtab'+(i===0?' active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(lbl)+'</button>';
+        }).join('')+
+      '</div></div><div class="evsecs">'+
         evs.map(function(ev,i){
           return '<div class="evsec'+(i===0?' active':'')+'" id="'+cId+'-ev-'+i+'">'+renderEvBody(ev)+'</div>';
-        }).join('')+'</div>';
+        }).join('')+
+      '</div>';
     }else{
-      html+=renderEvBody(erster);
+      html+=renderEvBody(erst);
     }
 
     html+='</div></div>';
@@ -518,8 +468,8 @@ function renderTermine(){
 
 function renderEvBody(ev){
   var h='';
-  var kopfTeile=[ev.datumStr,ev.uhrzeit,ev.ort].filter(Boolean);
-  if(kopfTeile.length)h+='<div class="ev-kopf">'+esc(kopfTeile.join(' · '))+'</div>';
+  var kopf=[ev.datStr,ev.uhrzeit,ev.ort].filter(Boolean).join(' · ');
+  if(kopf)h+='<div class="ev-kopf">'+esc(kopf)+'</div>';
 
   var werke=(ev.werke||[]).filter(function(w){return !w.pause;});
   if(!werke.length){
@@ -527,15 +477,13 @@ function renderEvBody(ev){
   }else{
     werke.forEach(function(w){
       var ld=w.lebensdaten?' ('+w.lebensdaten+')':'';
-      h+='<div class="werk-block">'+
-        '<div class="werk-komp">'+esc((w.komponist||'')+ld)+'</div>';
+      h+='<div class="werk-block"><div class="werk-komp">'+esc((w.komponist||'')+ld)+'</div>';
       if(w.titel)h+='<div class="werk-titel">'+esc(w.titel)+'</div>';
-      var details=[w.dauer?'Dauer: '+w.dauer:'',w.besetzung?'Besetzung: '+w.besetzung:''].filter(Boolean);
-      if(details.length)h+='<div class="werk-details">'+esc(details.join(' · '))+'</div>';
+      var det=[w.dauer?'Dauer: '+w.dauer:'',w.besetzung?'Besetzung: '+w.besetzung:''].filter(Boolean);
+      if(det.length)h+='<div class="werk-details">'+esc(det.join(' · '))+'</div>';
       h+='</div>';
     });
   }
-
   if(ev.solisten&&ev.solisten.length){
     h+='<div class="werk-leit">';
     ev.solisten.forEach(function(s){
@@ -573,13 +521,7 @@ function showEvTab(e,cId,idx){
 // ── AUTO-LOGIN ────────────────────────────────────────────
 (function(){
   var s=sessionStorage.getItem('hso_vorschau');
-  if(s){
-    try{
-      _ich=JSON.parse(s);
-      oeffneApp();
-      return;
-    }catch(e){}
-  }
+  if(s){try{_ich=JSON.parse(s);oeffneApp();return;}catch(e){}}
   zeige('login');
 })();
 </script>
