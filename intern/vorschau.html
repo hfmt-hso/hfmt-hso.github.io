@@ -208,13 +208,13 @@ function setTyp(btn){
   renderTermine();
 }
 
-function getProjTyp(projektKey){
-  var k = String(projektKey||'').replace(/^\d{2}_\d{2}_/,'').toUpperCase();
-  if(k.startsWith('HSO_BLATTSPIEL')||k==='BLATTSPIEL') return 'Blattspiel';
-  if(k.startsWith('HSO_REPERTOIRE')||k==='REPERTOIRE') return 'Repertoire';
-  if(/^13.?14/.test(k)) return '1314';
-  if(k.startsWith('HSO')) return 'HSO';
-  if(k.startsWith('WK')) return 'WK';
+function getProjTyp(proj){
+  var k = String(proj||'').trim();
+  if(/^HSO\s+Blattspiel/i.test(k)) return 'Blattspiel';
+  if(/^HSO\s+Repertoire/i.test(k)) return 'Repertoire';
+  if(/^13\/14/.test(k))            return '1314';
+  if(/^HSO/i.test(k))              return 'HSO';
+  if(/^WK/i.test(k))               return 'WK';
   return 'Sonder';
 }
 
@@ -373,52 +373,56 @@ function renderTermine(){
   var el=document.getElementById('termine-liste');
   if(!_ueData){el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';return;}
 
-  // uebersetzer.json kann verschiedene Strukturen haben — normalisieren
-  var rohdaten=[];
-  if(Array.isArray(_ueData)){
-    rohdaten=_ueData;
-  }else if(_ueData.projekte){
-    // { projekte: { "25_26_HSO_1": [...events] } }
-    Object.keys(_ueData.projekte||{}).forEach(function(k){
-      (_ueData.projekte[k]||[]).forEach(function(ev){
-        rohdaten.push(Object.assign({},ev,{_projektKey:k}));
-      });
-    });
-  }else{
-    // { "25_26_HSO_1": [...events], ... }
-    Object.keys(_ueData).forEach(function(k){
-      if(!Array.isArray(_ueData[k]))return;
-      _ueData[k].forEach(function(ev){
-        rohdaten.push(Object.assign({},ev,{_projektKey:k}));
-      });
-    });
+  // uebersetzer.json: { events: [...] }
+  var rohdaten = Array.isArray(_ueData) ? _ueData : (_ueData.events || []);
+
+  // Projektnamen aus _titel extrahieren
+  function extrahiereProjekt(titel){
+    var t = String(titel||'').replace(/^\s*\*\s*/,'');
+    // Sonderprojekt: beginnt mit *
+    if(String(titel||'').trim().startsWith('*')) return String(titel).trim().split(/[\s(]/)[0];
+    var mLue = t.match(/^(WK\s+L[üu]\s+\d+)/i); if(mLue) return mLue[1];
+    var mNum = t.match(/^((?:HSO|WK)\s+\d+)/i);  if(mNum) return mNum[1];
+    var m1314 = t.match(/^(13\/14)/);              if(m1314) return m1314[1];
+    var mBs  = t.match(/^(HSO\s+Blattspiel)/i);   if(mBs)  return mBs[1];
+    var mRep = t.match(/^(HSO\s+Repertoire)/i);   if(mRep) return mRep[1];
+    var mHso = t.match(/^(HSO\s+\S+)/i);          if(mHso) return mHso[1];
+    return t.split(/[\s(]/)[0] || titel;
   }
 
-  // Filtern nach aktuellem SJ
-  var events=[];
+  // Nur Vorstellungen/Konzerte (marker=Vorstellung oder Werke vorhanden)
+  function istVorstellung(ev){
+    var marker = String(ev.marker||'').toLowerCase();
+    var hatWerke = (ev.werke||[]).filter(function(w){return !w.pause;}).length > 0;
+    return marker === 'vorstellung' || marker === 'konzert' || hatWerke;
+  }
+
+  // Filtern: SJ + Vorstellungen
+  var events = [];
   rohdaten.forEach(function(ev){
-    var dat=parseDatum(ev.datum||ev.Datum||ev.date);
-    if(!dat)return;
-    if(!istInSpieljahr(dat,_aktSj))return;
+    var dat = parseDatum(ev.datum);
+    if(!dat) return;
+    if(!istInSpieljahr(dat, _aktSj)) return;
+    if(!istVorstellung(ev)) return;
+    var proj = extrahiereProjekt(ev._titel||'');
     events.push({
-      dat:dat,
-      datumStr:ev.datum||ev.Datum||ev.date||'',
-      projekt:ev.projekt||ev.name||ev._projektKey||'',
-      titel:ev._titel||ev.titel||ev.projekt||ev.name||ev._projektKey||'',
-      ort:ev.ort||ev.Ort||'',
-      uhrzeit:ev.uhrzeit||ev.Uhrzeit||'',
-      typ:ev.typ||ev.Typ||ev.markerTyp||'',
-      werke:ev.werke||[],
-      leitung:ev.leitung||null,
-      solisten:ev.solisten||[]
+      dat:      dat,
+      datumStr: ev.datum||'',
+      projekt:  proj,
+      titel:    ev._titel||proj,
+      ort:      ev.ort||'',
+      uhrzeit:  ev.uhrzeit||'',
+      marker:   ev.marker||'',
+      werke:    ev.werke||[],
+      leitung:  ev.leitung||null,
+      solisten: ev.solisten||[]
     });
   });
 
   // Typ-Filter
   if(_aktTyp!=='alle'){
     events=events.filter(function(ev){
-      var k=ev._projektKey||ev.projekt||'';
-      return getProjTyp(k)===_aktTyp;
+      return getProjTyp(ev.projekt)===_aktTyp;
     });
   }
 
