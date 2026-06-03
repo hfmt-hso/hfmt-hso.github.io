@@ -5,43 +5,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#185FA5">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Vorschau">
 <title>HSO Vorschau – HfMT Hamburg</title>
-<link rel="apple-touch-icon" href="../icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --blue:#185FA5;--blue-light:#E6F1FB;
-  --gold:#b8962e;--gold2:#8a6e1f;--gold-light:#fdf8ee;
-  --green:#3B6D11;--green-light:#EAF3DE;
-  --amber:#854F0B;--amber-light:#FAEEDA;
+  --gold:#b8962e;--gold2:#8a6e1f;
   --teal:#0F6E56;--teal-light:#E1F5EE;
+  --amber:#854F0B;--amber-light:#FAEEDA;
   --purple:#534AB7;--purple-light:#EEEDFE;
   --gray:#5F5E5A;--gray-light:#F1EFE8;
-  --red:#9b2335;--red-light:#fbeaed;
+  --red:#9b2335;
   --text:#1a1a1a;--text-muted:#6b6b6b;
   --border:rgba(0,0,0,0.1);
   --bg:#f5f5f3;--card-bg:#fff;
   --header-bg:#fff;--filter-bg:#fff;
+  --safe-top:env(safe-area-inset-top,0px);
 }
 @media(prefers-color-scheme:dark){:root{
   --text:#f0f0ee;--text-muted:#999997;
-  --border:rgba(255,255,255,0.1);
+  --border:rgba(255,255,255,0.12);
   --bg:#1a1a18;--card-bg:#2a2a28;
   --header-bg:#222220;--filter-bg:#222220;
-  --blue-light:#0c447c;--green-light:#27500a;
-  --amber-light:#633806;--teal-light:#085041;
-  --purple-light:#3c3489;--gray-light:#444441;
-  --gold-light:#2a2008;--red-light:#3d0f15;
+  --blue-light:#0c447c;--teal-light:#085041;
+  --amber-light:#633806;--purple-light:#3c3489;--gray-light:#444441;
 }}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto;overflow-y:scroll;-webkit-overflow-scrolling:touch}
+html{height:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg);color:var(--text);
+  min-height:100%;max-width:480px;margin:0 auto;
+  /* verhindert bounce-scroll der ganzen Seite auf iOS */
+  position:fixed;width:100%;overflow:hidden;
+}
+/* Scrollbarer Bereich */
+.scroll-root{
+  height:100vh;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  /* Safe area oben berücksichtigen */
+  padding-top:var(--safe-top);
+}
 
 /* ── LOGIN ── */
 .login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;gap:14px}
 .login-screen.hidden{display:none}
-.login-icon{width:56px;height:56px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:4px}
 .login-title{font-size:20px;font-weight:700;color:var(--text)}
 .login-sub{font-size:12px;color:var(--text-muted);text-align:center}
 .login-card{width:100%;max-width:340px;background:var(--card-bg);border-radius:16px;border:0.5px solid var(--border);padding:20px;display:flex;flex-direction:column;gap:14px}
@@ -64,16 +76,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .app{display:none}
 .app.visible{display:block}
 
-/* ── HEADER ── */
-.header{background:var(--header-bg);padding:8px 14px 8px;padding-top:calc(8px + env(safe-area-inset-top));border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:10}
+/* ── HEADER (nicht sticky — im scroll-root) ── */
+.header{background:var(--header-bg);padding:8px 14px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:10}
 .header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
 .header-left{display:flex;align-items:center;gap:8px}
-.header-icon{width:30px;height:30px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.header-icon{width:30px;height:30px;border-radius:8px;overflow:hidden;flex-shrink:0}
+.header-icon img{width:100%;height:100%;object-fit:cover}
 .header-text h1{font-size:13px;font-weight:700;color:var(--text)}
 .header-text p{font-size:10px;color:var(--text-muted);margin-top:0}
 .header-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .user-chip{font-size:10px;color:var(--text-muted);font-weight:500;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.btn-icon{background:none;border:none;cursor:pointer;padding:4px;color:var(--text-muted);font-size:14px;-webkit-tap-highlight-color:transparent;border-radius:6px}
+.btn-icon{background:none;border:none;cursor:pointer;padding:5px;color:var(--text-muted);font-size:16px;-webkit-tap-highlight-color:transparent;border-radius:6px;line-height:1}
 .btn-icon:active{background:var(--border)}
 .btn-abmelden{font-size:10px;font-weight:600;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:7px;padding:4px 8px;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent}
 .btn-abmelden:active{background:var(--bg)}
@@ -84,10 +97,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .sj-pill{flex-shrink:0;padding:5px 12px;border-radius:16px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-muted);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:all .15s}
 .sj-pill.active{background:var(--blue);border-color:var(--blue);color:#fff}
 
-/* Typ-Filter */
+/* Typ-Filter — eine Zeile, kein Wrap */
 .typ-row{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding:6px 14px;background:var(--filter-bg);border-bottom:0.5px solid var(--border)}
 .typ-row::-webkit-scrollbar{display:none}
-.typ-pill{flex-shrink:0;padding:4px 10px;border-radius:14px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-muted);font-size:10px;font-weight:600;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:all .15s}
+.typ-pill{flex-shrink:0;padding:4px 10px;border-radius:14px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-muted);font-size:10px;font-weight:600;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:all .15s;white-space:nowrap}
 .typ-pill.active{background:var(--text);border-color:var(--text);color:var(--bg)}
 
 /* ── INHALT ── */
@@ -136,10 +149,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </style>
 </head>
 <body>
+<div class="scroll-root">
 
 <!-- LOGIN -->
 <div class="login-screen" id="sc-login">
-  <img src="../icon-192.png" style="width:64px;height:64px;border-radius:16px;margin-bottom:4px" alt="HSO">
+  <img src="icon-192.png" style="width:72px;height:72px;border-radius:18px;margin-bottom:4px;box-shadow:0 4px 16px rgba(0,0,0,0.15)" alt="HSO">
   <div class="login-title">HSO Vorschau</div>
   <div class="login-sub">HfMT Hamburg · Programmübersicht</div>
   <div class="login-card">
@@ -180,7 +194,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="header">
     <div class="header-row">
       <div class="header-left">
-        <div class="header-icon">🎼</div>
+        <div class="header-icon"><img src="icon-192.png" alt="HSO"></div>
         <div class="header-text">
           <h1>HSO Vorschau</h1>
           <p>HfMT Hamburg</p>
@@ -203,11 +217,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="typ-row">
     <button class="typ-pill active" data-typ="alle" onclick="setTyp(this)">Alle</button>
     <button class="typ-pill" data-typ="HSO" onclick="setTyp(this)">HSO</button>
-    <button class="typ-pill" data-typ="13/14" onclick="setTyp(this)">13/14</button>
     <button class="typ-pill" data-typ="WK" onclick="setTyp(this)">WK</button>
     <button class="typ-pill" data-typ="Blattspiel" onclick="setTyp(this)">Blattspiel</button>
     <button class="typ-pill" data-typ="Repertoire" onclick="setTyp(this)">Repertoire</button>
-    <button class="typ-pill" data-typ="Sonderprojekt" onclick="setTyp(this)">Sonderprojekt</button>
   </div>
 
   <div class="content" id="prog-liste">
@@ -215,6 +227,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
+</div><!-- /scroll-root -->
 <div class="toast" id="toast"></div>
 
 <script>
@@ -229,15 +242,10 @@ var FARBEN = {
   'Repertoire':{bg:'#EEEDFE',color:'#534AB7'},
   'default':{bg:'#F1EFE8',color:'#5F5E5A'}
 };
-var TYPREIHE = {'HSO':0,'13/14':1,'WK':2,'Blattspiel':3,'Repertoire':4,'Sonderprojekt':5};
+var TYPREIHE = {'HSO':0,'13/14':0,'WK':1,'Blattspiel':2,'Repertoire':3,'Sonderprojekt':4};
 
-var _ich    = null;
-var _aktSj  = null;
-var _aktTyp = 'alle';
-var _cache  = {};
-var _progDaten = null;
+var _ich=null,_aktSj=null,_aktTyp='alle',_cache={},_progDaten=null;
 
-// ── UTILS ─────────────────────────────────────────────────
 async function sha256(msg){
   var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(msg));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
@@ -257,9 +265,9 @@ function aktuellesSj(){
   return m>=8?String(y).slice(2)+'_'+String(y+1).slice(2):String(y-1).slice(2)+'_'+String(y).slice(2);
 }
 function zeige(sc){
-  document.getElementById('sc-login').classList.toggle('hidden', sc!=='login');
-  document.getElementById('sc-pw').classList.toggle('visible', sc==='pw');
-  document.getElementById('app').classList.toggle('visible', sc==='app');
+  document.getElementById('sc-login').classList.toggle('hidden',sc!=='login');
+  document.getElementById('sc-pw').classList.toggle('visible',sc==='pw');
+  document.getElementById('app').classList.toggle('visible',sc==='app');
 }
 function toast(msg){
   var t=document.getElementById('toast');
@@ -311,8 +319,7 @@ async function login(){
   var h=await sha256(pw);
   try{
     var url=WEBAPP_URL+'?action=vorschauLogin&nutzer='+encodeURIComponent(user)+'&pwHash='+encodeURIComponent(h);
-    var r=await fetch(url);
-    var j=await r.json();
+    var r=await fetch(url);var j=await r.json();
     if(!j.ok){
       err.textContent=j.error||'Falsches Passwort.';
       var el=document.getElementById('l-pw');
@@ -327,14 +334,12 @@ async function login(){
   }catch(e){err.textContent='Verbindungsfehler.';}
 }
 
-// ── PASSWORT ─────────────────────────────────────────────
 function zeigeErstPw(erstmalig){
   document.getElementById('pw-sub').textContent=erstmalig
     ?'Erstanmeldung — bitte wähle ein eigenes Passwort (mind. 6 Zeichen).'
     :'Neues Passwort wählen (mind. 6 Zeichen).';
   document.getElementById('pw-abbrechen').style.display=erstmalig?'none':'block';
-  document.getElementById('pw-n1').value='';
-  document.getElementById('pw-n2').value='';
+  document.getElementById('pw-n1').value='';document.getElementById('pw-n2').value='';
   document.getElementById('pw-err').textContent='';
   zeige('pw');
 }
@@ -350,102 +355,68 @@ async function pwSpeichern(){
     var h=await sha256(n1);
     var j=await apiPost({action:'vorschauChangePw',nutzer:_ich.nutzer,neuHash:h});
     if(!j.ok){err.textContent=j.error||'Fehler.';return;}
-    toast('Passwort gesetzt');
-    oeffneApp();
+    toast('Passwort gesetzt');oeffneApp();
   }catch(e){err.textContent='Verbindungsfehler.';}
 }
 
-// ── APP ───────────────────────────────────────────────────
 function oeffneApp(){
   document.getElementById('user-label').textContent=_ich.name||_ich.nutzer;
   zeige('app');
   var std=aktuellesSj();
-  document.querySelectorAll('.sj-pill').forEach(function(b){
-    b.classList.toggle('active',b.dataset.sj===std);
-  });
-  _aktSj=std;
-  ladenProgramm();
+  document.querySelectorAll('.sj-pill').forEach(function(b){b.classList.toggle('active',b.dataset.sj===std);});
+  _aktSj=std;ladenProgramm();
 }
 function setSj(btn){
   document.querySelectorAll('.sj-pill').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  _aktSj=btn.dataset.sj;
-  _progDaten=null;
-  ladenProgramm();
+  btn.classList.add('active');_aktSj=btn.dataset.sj;_progDaten=null;ladenProgramm();
 }
 function setTyp(btn){
   document.querySelectorAll('.typ-pill').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  _aktTyp=btn.dataset.typ;
-  renderProgramm();
+  btn.classList.add('active');_aktTyp=btn.dataset.typ;renderProgramm();
 }
-function aktualisierePortal(){
-  _cache={};
-  _progDaten=null;
-  ladenProgramm();
-  toast('Aktualisiert');
-}
-
 function logout(){
-  _ich=null;
-  sessionStorage.removeItem('hso_vorschau');
-  document.getElementById('l-user').value='';
-  document.getElementById('l-pw').value='';
-  document.getElementById('l-err').textContent='';
-  zeige('login');
+  _ich=null;sessionStorage.removeItem('hso_vorschau');
+  document.getElementById('l-user').value='';document.getElementById('l-pw').value='';
+  document.getElementById('l-err').textContent='';zeige('login');
 }
+function aktualisierePortal(){_cache={};_progDaten=null;ladenProgramm();toast('Aktualisiert');}
 
-// ── PROGRAMM ──────────────────────────────────────────────
 async function ladenProgramm(){
   var el=document.getElementById('prog-liste');
   el.innerHTML='<div class="loading"><div class="spin"></div>Lade...</div>';
   var d=await apiFetch('programm',{sj:_aktSj});
-  if(!d||!d.data){
-    el.innerHTML='<div class="empty">Keine Daten für '+(_aktSj||'').replace('_','/')+'.</div>';
-    return;
-  }
-  _progDaten=d.data;
-  renderProgramm();
+  if(!d||!d.data){el.innerHTML='<div class="empty">Keine Daten für '+(_aktSj||'').replace('_','/')+'.</div>';return;}
+  _progDaten=d.data;renderProgramm();
 }
 
 function renderProgramm(){
   var el=document.getElementById('prog-liste');
   if(!_progDaten){el.innerHTML='<div class="loading"><div class="spin"></div>Lade...</div>';return;}
-
   var projekte=Object.keys(_progDaten);
   if(_aktTyp!=='alle'){
-    projekte=projekte.filter(function(p){return getTyp(p)===_aktTyp;});
+    // HSO-Filter zeigt auch 13/14
+    if(_aktTyp==='HSO'){
+      projekte=projekte.filter(function(p){var t=getTyp(p);return t==='HSO'||t==='13/14';});
+    }else{
+      projekte=projekte.filter(function(p){return getTyp(p)===_aktTyp;});
+    }
   }
-  if(!projekte.length){
-    el.innerHTML='<div class="empty">Keine Projekte gefunden.</div>';
-    return;
-  }
-
-  // Sortierung: Typ-Reihenfolge, dann Datum
+  if(!projekte.length){el.innerHTML='<div class="empty">Keine Projekte gefunden.</div>';return;}
   projekte.sort(function(a,b){
-    var tA=TYPREIHE[getTyp(a)]??99;
-    var tB=TYPREIHE[getTyp(b)]??99;
+    var tA=TYPREIHE[getTyp(a)]??99,tB=TYPREIHE[getTyp(b)]??99;
     if(tA!==tB)return tA-tB;
     var evA=(_progDaten[a]||[])[0],evB=(_progDaten[b]||[])[0];
-    var dA=evA?parseDatum(evA.datum):null;
-    var dB=evB?parseDatum(evB.datum):null;
-    if(!dA&&!dB)return 0;if(!dA)return 1;if(!dB)return -1;
-    return dA-dB;
+    var dA=evA?parseDatum(evA.datum):null,dB=evB?parseDatum(evB.datum):null;
+    if(!dA&&!dB)return 0;if(!dA)return 1;if(!dB)return -1;return dA-dB;
   });
-
   var html='';
   projekte.forEach(function(projektName,pi){
-    var events=_progDaten[projektName]||[];
-    if(!events.length)return;
-    var f=getFarbe(projektName);
-    var k=getKuerzel(projektName);
-    var cId='vp-'+pi;
-    var erst=events[0];
-    var datObj=parseDatum(erst.datum);
+    var events=_progDaten[projektName]||[];if(!events.length)return;
+    var f=getFarbe(projektName),k=getKuerzel(projektName),cId='vp-'+pi;
+    var erst=events[0],datObj=parseDatum(erst.datum);
     var datLabel=datObj?ddmmyyyy(datObj):'';
     var mehrere=events.length>1;
     var sub=datLabel+(erst.ort?' · '+erst.ort:'')+(mehrere?' · '+events.length+' Termine':'');
-
     html+='<div class="proj-card">'+
       '<div class="proj-header" onclick="toggleProj(\''+cId+'\')">'+
         '<div class="proj-icon" style="background:'+f.bg+';color:'+f.color+'">'+esc(k)+'</div>'+
@@ -453,61 +424,46 @@ function renderProgramm(){
           '<div class="proj-name">'+esc(ohnestern(projektName))+'</div>'+
           '<div class="proj-sub">'+esc(sub)+'</div>'+
         '</div>'+
-        '<div class="proj-chevron" id="chev-'+cId+'">'+
-          '<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>'+
-        '</div>'+
+        '<div class="proj-chevron" id="chev-'+cId+'"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>'+
       '</div>'+
       '<div class="proj-body" id="'+cId+'">';
-
     if(mehrere){
       var tabs=events.map(function(ev,i){
-        var d2=parseDatum(ev.datum);
-        var wt=d2?WT[d2.getDay()]:'';
+        var d2=parseDatum(ev.datum),wt=d2?WT[d2.getDay()]:'';
         var tp=(ev.datum||'').split('.');
         var lbl=wt+' '+String(tp[0]||'').padStart(2,'0')+'.'+String(tp[1]||'').padStart(2,'0')+'.';
         return '<button class="ev-tab'+(i===0?' active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(lbl)+'</button>';
       }).join('');
       var secs=events.map(function(ev,i){
-        return '<div class="ev-section'+(i===0?' active':'')+'" id="'+cId+'-ev-'+i+'">'+renderEvProgramm(ev,projektName)+'</div>';
+        return '<div class="ev-section'+(i===0?' active':'')+'" id="'+cId+'-ev-'+i+'">'+renderEvProgramm(ev)+'</div>';
       }).join('');
-      html+='<div class="ev-tabs-wrap"><div class="ev-tabs">'+tabs+'</div></div>'+
-            '<div class="ev-sections">'+secs+'</div>';
+      html+='<div class="ev-tabs-wrap"><div class="ev-tabs">'+tabs+'</div></div><div class="ev-sections">'+secs+'</div>';
     }else{
-      html+='<div style="padding:14px">'+renderEvProgramm(erst,projektName)+'</div>';
+      html+='<div style="padding:14px">'+renderEvProgramm(erst)+'</div>';
     }
     html+='</div></div>';
   });
-
   el.innerHTML=html||'<div class="empty">Keine Projekte gefunden.</div>';
 }
 
-function renderEvProgramm(ev,projektName){
-  var d=parseDatum(ev.datum);
-  var wt=d?WT[d.getDay()]:'';
+function renderEvProgramm(ev){
+  var d=parseDatum(ev.datum),wt=d?WT[d.getDay()]:'';
   var kopf=wt+(ev.datum?', '+ev.datum:'')+(ev.uhrzeit?' · '+ev.uhrzeit:'');
   if(ev.ort)kopf+=' · '+ev.ort;
-
   var h='<div class="ev-kopf">'+esc(kopf)+'</div>';
   var werke=(ev.werke||[]).filter(function(w){return !w.pause;});
-
-  if(!werke.length){
-    h+='<div class="ev-kein">Noch kein Programm eingetragen.</div>';
-  }else{
-    werke.forEach(function(w){
-      var ld=w.lebensdaten?' ('+w.lebensdaten+')':'';
-      h+='<div class="werk-block">'+
-        '<div class="werk-komp">'+esc((w.komponist||'')+ld)+'</div>';
-      if(w.titel)h+='<div class="werk-titel">'+esc(w.titel)+'</div>';
-      if(w.dauer)h+='<div class="werk-details">Dauer: '+esc(w.dauer)+'</div>';
-      if(w.besetzung)h+='<div class="werk-details">Besetzung: '+esc(w.besetzung)+'</div>';
-      h+='</div>';
-    });
-  }
+  if(!werke.length){h+='<div class="ev-kein">Noch kein Programm eingetragen.</div>';}
+  else{werke.forEach(function(w){
+    var ld=w.lebensdaten?' ('+w.lebensdaten+')':'';
+    h+='<div class="werk-block"><div class="werk-komp">'+esc((w.komponist||'')+ld)+'</div>';
+    if(w.titel)h+='<div class="werk-titel">'+esc(w.titel)+'</div>';
+    if(w.dauer)h+='<div class="werk-details">Dauer: '+esc(w.dauer)+'</div>';
+    if(w.besetzung)h+='<div class="werk-details">Besetzung: '+esc(w.besetzung)+'</div>';
+    h+='</div>';
+  });}
   if(ev.solisten&&ev.solisten.length){
     h+='<div class="werk-leitung">';
-    ev.solisten.forEach(function(s){
-      h+=esc((s.instrument||'')+': '+(s.name||'')+(s.zusatz?' ('+s.zusatz+')':''))+'<br>';
-    });
+    ev.solisten.forEach(function(s){h+=esc((s.instrument||'')+': '+(s.name||'')+(s.zusatz?' ('+s.zusatz+')':''))+'<br>';});
     h+='</div>';
   }
   if(ev.leitung&&ev.leitung.length){
@@ -518,11 +474,9 @@ function renderEvProgramm(ev,projektName){
 }
 
 function toggleProj(cId){
-  var body=document.getElementById(cId);
-  var chev=document.getElementById('chev-'+cId);
+  var body=document.getElementById(cId),chev=document.getElementById('chev-'+cId);
   var open=body.classList.contains('open');
-  body.classList.toggle('open',!open);
-  if(chev)chev.classList.toggle('open',!open);
+  body.classList.toggle('open',!open);if(chev)chev.classList.toggle('open',!open);
 }
 function showEvTab(e,cId,idx){
   e.stopPropagation();
@@ -530,11 +484,9 @@ function showEvTab(e,cId,idx){
   body.querySelectorAll('.ev-tab').forEach(t=>t.classList.remove('active'));
   body.querySelectorAll('.ev-section').forEach(s=>s.classList.remove('active'));
   e.target.classList.add('active');
-  var sec=document.getElementById(cId+'-ev-'+idx);
-  if(sec)sec.classList.add('active');
+  var sec=document.getElementById(cId+'-ev-'+idx);if(sec)sec.classList.add('active');
 }
 
-// ── AUTO-LOGIN ────────────────────────────────────────────
 (function(){
   var s=sessionStorage.getItem('hso_vorschau');
   if(s){try{_ich=JSON.parse(s);oeffneApp();return;}catch(e){}}
