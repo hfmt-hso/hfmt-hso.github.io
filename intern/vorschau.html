@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#185FA5">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -34,7 +34,7 @@
   --purple-light:#3c3489;--gray-light:#444441;
   --gold-light:#2a2008;--red-light:#3d0f15;
 }}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto;overflow-y:scroll;-webkit-overflow-scrolling:touch}
 
 /* ── LOGIN ── */
 .login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;gap:14px}
@@ -63,7 +63,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .app.visible{display:block}
 
 /* ── HEADER ── */
-.header{background:var(--header-bg);padding:8px 14px 8px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:10}
+.header{background:var(--header-bg);padding:8px 14px 8px;padding-top:calc(8px + env(safe-area-inset-top));border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:10}
 .header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
 .header-left{display:flex;align-items:center;gap:8px}
 .header-icon{width:30px;height:30px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
