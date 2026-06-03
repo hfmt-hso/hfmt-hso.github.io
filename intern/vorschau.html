@@ -187,6 +187,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="header-right">
         <span class="user-chip" id="user-label"></span>
         <button class="btn-icon" onclick="zeigeErstPw(false)" title="Passwort ändern">🔒</button>
+        <button class="btn-icon" onclick="aktualisierePortal()" title="Aktualisieren">↺</button>
         <button class="btn-abmelden" onclick="logout()">Abmelden</button>
       </div>
     </div>
@@ -376,6 +377,13 @@ function setTyp(btn){
   _aktTyp=btn.dataset.typ;
   renderProgramm();
 }
+function aktualisierePortal(){
+  _cache={};
+  _progDaten=null;
+  ladenProgramm();
+  toast('Aktualisiert');
+}
+
 function logout(){
   _ich=null;
   sessionStorage.removeItem('hso_vorschau');
