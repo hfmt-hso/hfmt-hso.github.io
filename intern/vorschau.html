@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" style="height:100%;overflow:hidden">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -24,7 +24,6 @@
   --border:rgba(0,0,0,0.1);
   --bg:#f5f5f3;--card-bg:#fff;
   --header-bg:#fff;--filter-bg:#fff;
-  --safe-top:env(safe-area-inset-top,0px);
 }
 @media(prefers-color-scheme:dark){:root{
   --text:#f0f0ee;--text-muted:#999997;
@@ -34,25 +33,25 @@
   --blue-light:#0c447c;--teal-light:#085041;
   --amber-light:#633806;--purple-light:#3c3489;--gray-light:#444441;
 }}
-html{height:100%}
+html,body{height:100%;margin:0;padding:0}
 body{
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   background:var(--bg);color:var(--text);
-  min-height:100%;max-width:480px;margin:0 auto;
-  /* verhindert bounce-scroll der ganzen Seite auf iOS */
-  position:fixed;width:100%;overflow:hidden;
+  max-width:480px;margin:0 auto;
+  position:fixed;left:0;right:0;top:0;bottom:0;
+  overflow:hidden;
 }
-/* Scrollbarer Bereich */
 .scroll-root{
-  height:100vh;
+  height:100%;
+  height:100dvh;
   overflow-y:auto;
   -webkit-overflow-scrolling:touch;
-  /* Safe area oben berücksichtigen */
-  padding-top:var(--safe-top);
+  overscroll-behavior:none;
+  padding-top:env(safe-area-inset-top,0px);
 }
 
 /* ── LOGIN ── */
-.login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;gap:14px}
+.login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;padding:24px;gap:14px}
 .login-screen.hidden{display:none}
 .login-title{font-size:20px;font-weight:700;color:var(--text)}
 .login-sub{font-size:12px;color:var(--text-muted);text-align:center}
@@ -66,7 +65,7 @@ body{
 .err{font-size:12px;color:var(--red);text-align:center;min-height:16px}
 
 /* ── PW ── */
-.pw-screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;gap:14px}
+.pw-screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100%;padding:24px;gap:14px}
 .pw-screen.visible{display:flex}
 .pw-card{width:100%;max-width:340px;background:var(--card-bg);border-radius:16px;border:0.5px solid var(--border);padding:20px;display:flex;flex-direction:column;gap:14px}
 .pw-title{font-size:17px;font-weight:700}
@@ -76,7 +75,7 @@ body{
 .app{display:none}
 .app.visible{display:block}
 
-/* ── HEADER (nicht sticky — im scroll-root) ── */
+/* ── HEADER ── */
 .header{background:var(--header-bg);padding:8px 14px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:10}
 .header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
 .header-left{display:flex;align-items:center;gap:8px}
@@ -91,22 +90,18 @@ body{
 .btn-abmelden{font-size:10px;font-weight:600;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:7px;padding:4px 8px;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent}
 .btn-abmelden:active{background:var(--bg)}
 
-/* SJ-Filter */
 .sj-row{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding-bottom:1px}
 .sj-row::-webkit-scrollbar{display:none}
 .sj-pill{flex-shrink:0;padding:5px 12px;border-radius:16px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-muted);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:all .15s}
 .sj-pill.active{background:var(--blue);border-color:var(--blue);color:#fff}
 
-/* Typ-Filter — eine Zeile, kein Wrap */
 .typ-row{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding:6px 14px;background:var(--filter-bg);border-bottom:0.5px solid var(--border)}
 .typ-row::-webkit-scrollbar{display:none}
 .typ-pill{flex-shrink:0;padding:4px 10px;border-radius:14px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-muted);font-size:10px;font-weight:600;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:all .15s;white-space:nowrap}
 .typ-pill.active{background:var(--text);border-color:var(--text);color:var(--bg)}
 
-/* ── INHALT ── */
 .content{padding:10px 12px 48px;display:flex;flex-direction:column;gap:7px}
 
-/* ── PROJEKT-KARTE ── */
 .proj-card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);overflow:hidden}
 .proj-header{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .proj-header:active{background:var(--bg)}
@@ -120,7 +115,6 @@ body{
 .proj-body{display:none;border-top:0.5px solid var(--border)}
 .proj-body.open{display:block}
 
-/* Event-Tabs */
 .ev-tabs-wrap{border-bottom:0.5px solid var(--border);background:var(--bg);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .ev-tabs-wrap::-webkit-scrollbar{display:none}
 .ev-tabs{display:flex;min-width:max-content}
@@ -130,7 +124,6 @@ body{
 .ev-section{display:none}
 .ev-section.active{display:block}
 
-/* Programm */
 .ev-kopf{font-size:12px;font-weight:600;color:var(--blue);line-height:1.5;margin-bottom:10px;padding-bottom:8px;border-bottom:0.5px solid var(--border)}
 .werk-block{margin-bottom:10px}
 .werk-komp{font-size:13px;font-weight:600;color:var(--text)}
@@ -143,7 +136,6 @@ body{
 .spin{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .empty{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:13px}
-
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1a1a;color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:300;transition:transform .25s;pointer-events:none;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
 </style>
@@ -151,7 +143,6 @@ body{
 <body>
 <div class="scroll-root">
 
-<!-- LOGIN -->
 <div class="login-screen" id="sc-login">
   <img src="icon-192.png" style="width:72px;height:72px;border-radius:18px;margin-bottom:4px;box-shadow:0 4px 16px rgba(0,0,0,0.15)" alt="HSO">
   <div class="login-title">HSO Vorschau</div>
@@ -170,7 +161,6 @@ body{
   </div>
 </div>
 
-<!-- PASSWORT -->
 <div class="pw-screen" id="sc-pw">
   <div class="pw-card">
     <div class="pw-title">Passwort setzen</div>
@@ -189,7 +179,6 @@ body{
   </div>
 </div>
 
-<!-- APP -->
 <div class="app" id="app">
   <div class="header">
     <div class="header-row">
@@ -213,7 +202,6 @@ body{
       <button class="sj-pill" data-sj="27_28" onclick="setSj(this)">27/28</button>
     </div>
   </div>
-
   <div class="typ-row">
     <button class="typ-pill active" data-typ="alle" onclick="setTyp(this)">Alle</button>
     <button class="typ-pill" data-typ="HSO" onclick="setTyp(this)">HSO</button>
@@ -221,95 +209,39 @@ body{
     <button class="typ-pill" data-typ="Blattspiel" onclick="setTyp(this)">Blattspiel</button>
     <button class="typ-pill" data-typ="Repertoire" onclick="setTyp(this)">Repertoire</button>
   </div>
-
   <div class="content" id="prog-liste">
     <div class="loading"><div class="spin"></div>Lade...</div>
   </div>
 </div>
 
-</div><!-- /scroll-root -->
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
-var WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
-var WT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
-var FARBEN = {
-  'HSO':{bg:'#E6F1FB',color:'#185FA5'},
-  'WK Lü':{bg:'#E1F5EE',color:'#0F6E56'},
-  'WK':{bg:'#E1F5EE',color:'#0F6E56'},
-  '13/14':{bg:'#FAEEDA',color:'#854F0B'},
-  'Blattspiel':{bg:'#EEEDFE',color:'#534AB7'},
-  'Repertoire':{bg:'#EEEDFE',color:'#534AB7'},
-  'default':{bg:'#F1EFE8',color:'#5F5E5A'}
-};
-var TYPREIHE = {'HSO':0,'13/14':0,'WK':1,'Blattspiel':2,'Repertoire':3,'Sonderprojekt':4};
-
+var WEBAPP_URL='https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
+var WT=['So','Mo','Di','Mi','Do','Fr','Sa'];
+var FARBEN={'HSO':{bg:'#E6F1FB',color:'#185FA5'},'WK Lü':{bg:'#E1F5EE',color:'#0F6E56'},'WK':{bg:'#E1F5EE',color:'#0F6E56'},'13/14':{bg:'#FAEEDA',color:'#854F0B'},'Blattspiel':{bg:'#EEEDFE',color:'#534AB7'},'Repertoire':{bg:'#EEEDFE',color:'#534AB7'},'default':{bg:'#F1EFE8',color:'#5F5E5A'}};
+var TYPREIHE={'HSO':0,'13/14':0,'WK':1,'Blattspiel':2,'Repertoire':3,'Sonderprojekt':4};
 var _ich=null,_aktSj=null,_aktTyp='alle',_cache={},_progDaten=null;
 
-async function sha256(msg){
-  var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(msg));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
+async function sha256(msg){var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(msg));return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function parseDatum(s){
-  if(!s)return null;
-  var m=String(s).match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
-  if(m)return new Date(parseInt(m[3]),parseInt(m[2])-1,parseInt(m[1]));
-  m=String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if(m)return new Date(parseInt(m[1]),parseInt(m[2])-1,parseInt(m[3]));
-  return null;
-}
+function parseDatum(s){if(!s)return null;var m=String(s).match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);if(m)return new Date(parseInt(m[3]),parseInt(m[2])-1,parseInt(m[1]));m=String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);if(m)return new Date(parseInt(m[1]),parseInt(m[2])-1,parseInt(m[3]));return null;}
 function ddmmyyyy(d){return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();}
-function aktuellesSj(){
-  var d=new Date(),y=d.getFullYear(),m=d.getMonth();
-  return m>=8?String(y).slice(2)+'_'+String(y+1).slice(2):String(y-1).slice(2)+'_'+String(y).slice(2);
-}
+function aktuellesSj(){var d=new Date(),y=d.getFullYear(),m=d.getMonth();return m>=8?String(y).slice(2)+'_'+String(y+1).slice(2):String(y-1).slice(2)+'_'+String(y).slice(2);}
 function zeige(sc){
   document.getElementById('sc-login').classList.toggle('hidden',sc!=='login');
   document.getElementById('sc-pw').classList.toggle('visible',sc==='pw');
   document.getElementById('app').classList.toggle('visible',sc==='app');
 }
-function toast(msg){
-  var t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2400);
-}
-async function apiFetch(action,params){
-  var key=action+JSON.stringify(params||{});
-  if(_cache[key])return _cache[key];
-  var url=WEBAPP_URL+'?action='+action;
-  if(params)Object.keys(params).forEach(function(k){url+='&'+k+'='+encodeURIComponent(params[k]);});
-  try{var r=await fetch(url);var d=await r.json();if(d.ok!==false)_cache[key]=d;return d;}
-  catch(e){return{ok:false,error:e.message};}
-}
-async function apiPost(data){
-  var r=await fetch(WEBAPP_URL,{method:'POST',body:JSON.stringify(data)});return r.json();
-}
-function getFarbe(name){
-  var ks=Object.keys(FARBEN);
-  for(var i=0;i<ks.length;i++)if(name.indexOf(ks[i])!==-1)return FARBEN[ks[i]];
-  return FARBEN['default'];
-}
-function getKuerzel(n){
-  if(n.startsWith('HSO Blattspiel'))return'BS';
-  if(n.startsWith('HSO Repertoire'))return'Rep';
-  if(n.startsWith('HSO '))return'H'+n.replace('HSO ','').replace(/\D/g,'');
-  if(n.startsWith('WK Lü '))return'WL'+n.replace('WK Lü ','').trim();
-  if(n.startsWith('WK '))return'W'+n.replace('WK ','').trim();
-  if(n==='13/14')return'13';
-  return n.replace(/^\*/,'').substring(0,2).toUpperCase();
-}
-function getTyp(name){
-  if(name==='13/14')return'13/14';
-  if(/Blattspiel/i.test(name))return'Blattspiel';
-  if(/Repertoire/i.test(name))return'Repertoire';
-  if(name.startsWith('HSO'))return'HSO';
-  if(name.startsWith('WK'))return'WK';
-  return'Sonderprojekt';
-}
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+async function apiFetch(action,params){var key=action+JSON.stringify(params||{});if(_cache[key])return _cache[key];var url=WEBAPP_URL+'?action='+action;if(params)Object.keys(params).forEach(function(k){url+='&'+k+'='+encodeURIComponent(params[k]);});try{var r=await fetch(url);var d=await r.json();if(d.ok!==false)_cache[key]=d;return d;}catch(e){return{ok:false,error:e.message};}}
+async function apiPost(data){var r=await fetch(WEBAPP_URL,{method:'POST',body:JSON.stringify(data)});return r.json();}
+function getFarbe(name){var ks=Object.keys(FARBEN);for(var i=0;i<ks.length;i++)if(name.indexOf(ks[i])!==-1)return FARBEN[ks[i]];return FARBEN['default'];}
+function getKuerzel(n){if(n.startsWith('HSO Blattspiel'))return'BS';if(n.startsWith('HSO Repertoire'))return'Rep';if(n.startsWith('HSO '))return'H'+n.replace('HSO ','').replace(/\D/g,'');if(n.startsWith('WK Lü '))return'WL'+n.replace('WK Lü ','').trim();if(n.startsWith('WK '))return'W'+n.replace('WK ','').trim();if(n==='13/14')return'13';return n.replace(/^\*/,'').substring(0,2).toUpperCase();}
+function getTyp(name){if(name==='13/14')return'13/14';if(/Blattspiel/i.test(name))return'Blattspiel';if(/Repertoire/i.test(name))return'Repertoire';if(name.startsWith('HSO'))return'HSO';if(name.startsWith('WK'))return'WK';return'Sonderprojekt';}
 function ohnestern(s){return String(s||'').replace(/^\*/,'');}
 
-// ── LOGIN ─────────────────────────────────────────────────
 async function login(){
   var user=document.getElementById('l-user').value.trim();
   var pw=document.getElementById('l-pw').value;
@@ -318,47 +250,29 @@ async function login(){
   if(!user||!pw){err.textContent='Bitte alle Felder ausfüllen.';return;}
   var h=await sha256(pw);
   try{
-    var url=WEBAPP_URL+'?action=vorschauLogin&nutzer='+encodeURIComponent(user)+'&pwHash='+encodeURIComponent(h);
-    var r=await fetch(url);var j=await r.json();
-    if(!j.ok){
-      err.textContent=j.error||'Falsches Passwort.';
-      var el=document.getElementById('l-pw');
-      el.style.borderColor='var(--red)';
-      setTimeout(()=>el.style.borderColor='',700);
-      return;
-    }
+    var r=await fetch(WEBAPP_URL+'?action=vorschauLogin&nutzer='+encodeURIComponent(user)+'&pwHash='+encodeURIComponent(h));
+    var j=await r.json();
+    if(!j.ok){err.textContent=j.error||'Falsches Passwort.';var el=document.getElementById('l-pw');el.style.borderColor='var(--red)';setTimeout(()=>el.style.borderColor='',700);return;}
     _ich={nutzer:user,name:j.name||user};
     sessionStorage.setItem('hso_vorschau',JSON.stringify(_ich));
     document.getElementById('l-pw').value='';
     if(j.erstanmeldung){zeigeErstPw(true);}else{oeffneApp();}
   }catch(e){err.textContent='Verbindungsfehler.';}
 }
-
 function zeigeErstPw(erstmalig){
-  document.getElementById('pw-sub').textContent=erstmalig
-    ?'Erstanmeldung — bitte wähle ein eigenes Passwort (mind. 6 Zeichen).'
-    :'Neues Passwort wählen (mind. 6 Zeichen).';
+  document.getElementById('pw-sub').textContent=erstmalig?'Erstanmeldung — bitte wähle ein eigenes Passwort (mind. 6 Zeichen).':'Neues Passwort wählen (mind. 6 Zeichen).';
   document.getElementById('pw-abbrechen').style.display=erstmalig?'none':'block';
   document.getElementById('pw-n1').value='';document.getElementById('pw-n2').value='';
-  document.getElementById('pw-err').textContent='';
-  zeige('pw');
+  document.getElementById('pw-err').textContent='';zeige('pw');
 }
 async function pwSpeichern(){
-  var n1=document.getElementById('pw-n1').value;
-  var n2=document.getElementById('pw-n2').value;
-  var err=document.getElementById('pw-err');
-  err.textContent='';
+  var n1=document.getElementById('pw-n1').value,n2=document.getElementById('pw-n2').value;
+  var err=document.getElementById('pw-err');err.textContent='';
   if(!n1||!n2){err.textContent='Bitte beide Felder ausfüllen.';return;}
   if(n1.length<6){err.textContent='Mindestens 6 Zeichen.';return;}
   if(n1!==n2){err.textContent='Passwörter stimmen nicht überein.';return;}
-  try{
-    var h=await sha256(n1);
-    var j=await apiPost({action:'vorschauChangePw',nutzer:_ich.nutzer,neuHash:h});
-    if(!j.ok){err.textContent=j.error||'Fehler.';return;}
-    toast('Passwort gesetzt');oeffneApp();
-  }catch(e){err.textContent='Verbindungsfehler.';}
+  try{var h=await sha256(n1);var j=await apiPost({action:'vorschauChangePw',nutzer:_ich.nutzer,neuHash:h});if(!j.ok){err.textContent=j.error||'Fehler.';return;}toast('Passwort gesetzt');oeffneApp();}catch(e){err.textContent='Verbindungsfehler.';}
 }
-
 function oeffneApp(){
   document.getElementById('user-label').textContent=_ich.name||_ich.nutzer;
   zeige('app');
@@ -366,19 +280,9 @@ function oeffneApp(){
   document.querySelectorAll('.sj-pill').forEach(function(b){b.classList.toggle('active',b.dataset.sj===std);});
   _aktSj=std;ladenProgramm();
 }
-function setSj(btn){
-  document.querySelectorAll('.sj-pill').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');_aktSj=btn.dataset.sj;_progDaten=null;ladenProgramm();
-}
-function setTyp(btn){
-  document.querySelectorAll('.typ-pill').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');_aktTyp=btn.dataset.typ;renderProgramm();
-}
-function logout(){
-  _ich=null;sessionStorage.removeItem('hso_vorschau');
-  document.getElementById('l-user').value='';document.getElementById('l-pw').value='';
-  document.getElementById('l-err').textContent='';zeige('login');
-}
+function setSj(btn){document.querySelectorAll('.sj-pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');_aktSj=btn.dataset.sj;_progDaten=null;ladenProgramm();}
+function setTyp(btn){document.querySelectorAll('.typ-pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');_aktTyp=btn.dataset.typ;renderProgramm();}
+function logout(){_ich=null;sessionStorage.removeItem('hso_vorschau');document.getElementById('l-user').value='';document.getElementById('l-pw').value='';document.getElementById('l-err').textContent='';zeige('login');}
 function aktualisierePortal(){_cache={};_progDaten=null;ladenProgramm();toast('Aktualisiert');}
 
 async function ladenProgramm(){
@@ -388,18 +292,13 @@ async function ladenProgramm(){
   if(!d||!d.data){el.innerHTML='<div class="empty">Keine Daten für '+(_aktSj||'').replace('_','/')+'.</div>';return;}
   _progDaten=d.data;renderProgramm();
 }
-
 function renderProgramm(){
   var el=document.getElementById('prog-liste');
   if(!_progDaten){el.innerHTML='<div class="loading"><div class="spin"></div>Lade...</div>';return;}
   var projekte=Object.keys(_progDaten);
   if(_aktTyp!=='alle'){
-    // HSO-Filter zeigt auch 13/14
-    if(_aktTyp==='HSO'){
-      projekte=projekte.filter(function(p){var t=getTyp(p);return t==='HSO'||t==='13/14';});
-    }else{
-      projekte=projekte.filter(function(p){return getTyp(p)===_aktTyp;});
-    }
+    if(_aktTyp==='HSO'){projekte=projekte.filter(function(p){var t=getTyp(p);return t==='HSO'||t==='13/14';});}
+    else{projekte=projekte.filter(function(p){return getTyp(p)===_aktTyp;});}
   }
   if(!projekte.length){el.innerHTML='<div class="empty">Keine Projekte gefunden.</div>';return;}
   projekte.sort(function(a,b){
@@ -420,32 +319,19 @@ function renderProgramm(){
     html+='<div class="proj-card">'+
       '<div class="proj-header" onclick="toggleProj(\''+cId+'\')">'+
         '<div class="proj-icon" style="background:'+f.bg+';color:'+f.color+'">'+esc(k)+'</div>'+
-        '<div class="proj-meta">'+
-          '<div class="proj-name">'+esc(ohnestern(projektName))+'</div>'+
-          '<div class="proj-sub">'+esc(sub)+'</div>'+
-        '</div>'+
+        '<div class="proj-meta"><div class="proj-name">'+esc(ohnestern(projektName))+'</div><div class="proj-sub">'+esc(sub)+'</div></div>'+
         '<div class="proj-chevron" id="chev-'+cId+'"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>'+
       '</div>'+
       '<div class="proj-body" id="'+cId+'">';
     if(mehrere){
-      var tabs=events.map(function(ev,i){
-        var d2=parseDatum(ev.datum),wt=d2?WT[d2.getDay()]:'';
-        var tp=(ev.datum||'').split('.');
-        var lbl=wt+' '+String(tp[0]||'').padStart(2,'0')+'.'+String(tp[1]||'').padStart(2,'0')+'.';
-        return '<button class="ev-tab'+(i===0?' active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(lbl)+'</button>';
-      }).join('');
-      var secs=events.map(function(ev,i){
-        return '<div class="ev-section'+(i===0?' active':'')+'" id="'+cId+'-ev-'+i+'">'+renderEvProgramm(ev)+'</div>';
-      }).join('');
+      var tabs=events.map(function(ev,i){var d2=parseDatum(ev.datum),wt=d2?WT[d2.getDay()]:'';var tp=(ev.datum||'').split('.');var lbl=wt+' '+String(tp[0]||'').padStart(2,'0')+'.'+String(tp[1]||'').padStart(2,'0')+'.';return '<button class="ev-tab'+(i===0?' active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(lbl)+'</button>';}).join('');
+      var secs=events.map(function(ev,i){return '<div class="ev-section'+(i===0?' active':'')+'" id="'+cId+'-ev-'+i+'">'+renderEvProgramm(ev)+'</div>';}).join('');
       html+='<div class="ev-tabs-wrap"><div class="ev-tabs">'+tabs+'</div></div><div class="ev-sections">'+secs+'</div>';
-    }else{
-      html+='<div style="padding:14px">'+renderEvProgramm(erst)+'</div>';
-    }
+    }else{html+='<div style="padding:14px">'+renderEvProgramm(erst)+'</div>';}
     html+='</div></div>';
   });
   el.innerHTML=html||'<div class="empty">Keine Projekte gefunden.</div>';
 }
-
 function renderEvProgramm(ev){
   var d=parseDatum(ev.datum),wt=d?WT[d.getDay()]:'';
   var kopf=wt+(ev.datum?', '+ev.datum:'')+(ev.uhrzeit?' · '+ev.uhrzeit:'');
@@ -453,45 +339,15 @@ function renderEvProgramm(ev){
   var h='<div class="ev-kopf">'+esc(kopf)+'</div>';
   var werke=(ev.werke||[]).filter(function(w){return !w.pause;});
   if(!werke.length){h+='<div class="ev-kein">Noch kein Programm eingetragen.</div>';}
-  else{werke.forEach(function(w){
-    var ld=w.lebensdaten?' ('+w.lebensdaten+')':'';
-    h+='<div class="werk-block"><div class="werk-komp">'+esc((w.komponist||'')+ld)+'</div>';
-    if(w.titel)h+='<div class="werk-titel">'+esc(w.titel)+'</div>';
-    if(w.dauer)h+='<div class="werk-details">Dauer: '+esc(w.dauer)+'</div>';
-    if(w.besetzung)h+='<div class="werk-details">Besetzung: '+esc(w.besetzung)+'</div>';
-    h+='</div>';
-  });}
-  if(ev.solisten&&ev.solisten.length){
-    h+='<div class="werk-leitung">';
-    ev.solisten.forEach(function(s){h+=esc((s.instrument||'')+': '+(s.name||'')+(s.zusatz?' ('+s.zusatz+')':''))+'<br>';});
-    h+='</div>';
-  }
-  if(ev.leitung&&ev.leitung.length){
-    var leit=ev.leitung.map(function(l){return typeof l==='object'?l.name:String(l);}).filter(Boolean).join(' / ');
-    if(leit)h+='<div class="werk-leitung">Leitung: '+esc(leit)+'</div>';
-  }
+  else{werke.forEach(function(w){var ld=w.lebensdaten?' ('+w.lebensdaten+')':'';h+='<div class="werk-block"><div class="werk-komp">'+esc((w.komponist||'')+ld)+'</div>';if(w.titel)h+='<div class="werk-titel">'+esc(w.titel)+'</div>';if(w.dauer)h+='<div class="werk-details">Dauer: '+esc(w.dauer)+'</div>';if(w.besetzung)h+='<div class="werk-details">Besetzung: '+esc(w.besetzung)+'</div>';h+='</div>';});}
+  if(ev.solisten&&ev.solisten.length){h+='<div class="werk-leitung">';ev.solisten.forEach(function(s){h+=esc((s.instrument||'')+': '+(s.name||'')+(s.zusatz?' ('+s.zusatz+')':''))+'<br>';});h+='</div>';}
+  if(ev.leitung&&ev.leitung.length){var leit=ev.leitung.map(function(l){return typeof l==='object'?l.name:String(l);}).filter(Boolean).join(' / ');if(leit)h+='<div class="werk-leitung">Leitung: '+esc(leit)+'</div>';}
   return h;
 }
+function toggleProj(cId){var body=document.getElementById(cId),chev=document.getElementById('chev-'+cId);var open=body.classList.contains('open');body.classList.toggle('open',!open);if(chev)chev.classList.toggle('open',!open);}
+function showEvTab(e,cId,idx){e.stopPropagation();var body=document.getElementById(cId);body.querySelectorAll('.ev-tab').forEach(t=>t.classList.remove('active'));body.querySelectorAll('.ev-section').forEach(s=>s.classList.remove('active'));e.target.classList.add('active');var sec=document.getElementById(cId+'-ev-'+idx);if(sec)sec.classList.add('active');}
 
-function toggleProj(cId){
-  var body=document.getElementById(cId),chev=document.getElementById('chev-'+cId);
-  var open=body.classList.contains('open');
-  body.classList.toggle('open',!open);if(chev)chev.classList.toggle('open',!open);
-}
-function showEvTab(e,cId,idx){
-  e.stopPropagation();
-  var body=document.getElementById(cId);
-  body.querySelectorAll('.ev-tab').forEach(t=>t.classList.remove('active'));
-  body.querySelectorAll('.ev-section').forEach(s=>s.classList.remove('active'));
-  e.target.classList.add('active');
-  var sec=document.getElementById(cId+'-ev-'+idx);if(sec)sec.classList.add('active');
-}
-
-(function(){
-  var s=sessionStorage.getItem('hso_vorschau');
-  if(s){try{_ich=JSON.parse(s);oeffneApp();return;}catch(e){}}
-  zeige('login');
-})();
+(function(){var s=sessionStorage.getItem('hso_vorschau');if(s){try{_ich=JSON.parse(s);oeffneApp();return;}catch(e){}}zeige('login');})();
 </script>
 </body>
 </html>
