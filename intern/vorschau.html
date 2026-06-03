@@ -3,127 +3,159 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#1a1a2e">
+<meta name="theme-color" content="#185FA5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="HSO Vorschau">
 <title>HSO Vorschau – HfMT Hamburg</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ink:#0f0f14;--ink2:#2a2a38;--ink3:#4a4a5e;
-  --paper:#f7f6f2;--paper2:#eeece6;--paper3:#e4e1d8;
-  --gold:#b8962e;--gold2:#8a6e1f;--gold-bg:#fdf8ee;
-  --blue:#1a4b8c;--blue2:#0d2f5c;--blue-bg:#eef3fb;
-  --green:#1e6b3a;--green-bg:#e8f4ed;
-  --red:#9b2335;--red-bg:#fbeaed;
-  --border:#dddad0;--border2:#ccc9be;
-  --radius:10px;--mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
-  --shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.06);
+  --blue:#185FA5;--blue-light:#E6F1FB;
+  --gold:#b8962e;--gold2:#8a6e1f;--gold-light:#fdf8ee;
+  --green:#3B6D11;--green-light:#EAF3DE;
+  --amber:#854F0B;--amber-light:#FAEEDA;
+  --teal:#0F6E56;--teal-light:#E1F5EE;
+  --purple:#534AB7;--purple-light:#EEEDFE;
+  --gray:#5F5E5A;--gray-light:#F1EFE8;
+  --red:#9b2335;--red-light:#fbeaed;
+  --text:#1a1a1a;--text-muted:#6b6b6b;
+  --border:rgba(0,0,0,0.1);
+  --bg:#f5f5f3;--card-bg:#fff;
+  --header-bg:#fff;--filter-bg:#fff;
 }
-html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5}
-body{min-height:100vh;max-width:520px;margin:0 auto}
+@media(prefers-color-scheme:dark){:root{
+  --text:#f0f0ee;--text-muted:#999997;
+  --border:rgba(255,255,255,0.1);
+  --bg:#1a1a18;--card-bg:#2a2a28;
+  --header-bg:#222220;--filter-bg:#222220;
+  --blue-light:#0c447c;--green-light:#27500a;
+  --amber-light:#633806;--teal-light:#085041;
+  --purple-light:#3c3489;--gray-light:#444441;
+  --gold-light:#2a2008;--red-light:#3d0f15;
+}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto}
 
-.login-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;gap:16px}
-.login-wrap.hidden{display:none}
-.login-mark{width:52px;height:52px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:4px}
-.login-title{font-size:20px;font-weight:700;color:var(--ink);text-align:center}
-.login-sub{font-size:12px;color:var(--ink3);text-align:center}
-.login-card{width:100%;max-width:340px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px}
-.field-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:5px}
-.field-input{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;color:var(--ink);background:var(--paper);font-family:var(--sans);outline:none;transition:border-color .2s}
+/* ── LOGIN ── */
+.login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;gap:14px}
+.login-screen.hidden{display:none}
+.login-icon{width:56px;height:56px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:4px}
+.login-title{font-size:20px;font-weight:700;color:var(--text)}
+.login-sub{font-size:12px;color:var(--text-muted);text-align:center}
+.login-card{width:100%;max-width:340px;background:var(--card-bg);border-radius:16px;border:0.5px solid var(--border);padding:20px;display:flex;flex-direction:column;gap:14px}
+.field-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.field-input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;color:var(--text);background:var(--bg);font-family:inherit;outline:none;transition:border-color .2s;-webkit-appearance:none}
 .field-input:focus{border-color:var(--blue)}
-.btn-login{width:100%;padding:12px;background:var(--gold);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--sans)}
-.err{font-size:12px;color:var(--red);text-align:center;min-height:14px}
+.btn-primary{width:100%;padding:13px;background:var(--gold);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent}
+.btn-primary:active{opacity:.85}
+.btn-secondary{width:100%;padding:11px;border:1.5px solid var(--border);border-radius:12px;background:none;font-size:14px;color:var(--text-muted);cursor:pointer;font-family:inherit}
+.err{font-size:12px;color:var(--red);text-align:center;min-height:16px}
 
-.pw-wrap{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;gap:16px}
-.pw-wrap.visible{display:flex}
-.pw-card{width:100%;max-width:340px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px}
-.pw-title{font-size:16px;font-weight:700}
-.pw-sub{font-size:12px;color:var(--ink3);line-height:1.5}
-.btn-blue{width:100%;padding:12px;background:var(--blue);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--sans)}
-.btn-out{width:100%;padding:10px;border:1.5px solid var(--border);border-radius:9px;background:none;font-size:13px;color:var(--ink3);cursor:pointer;font-family:var(--sans)}
+/* ── PW ── */
+.pw-screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;gap:14px}
+.pw-screen.visible{display:flex}
+.pw-card{width:100%;max-width:340px;background:var(--card-bg);border-radius:16px;border:0.5px solid var(--border);padding:20px;display:flex;flex-direction:column;gap:14px}
+.pw-title{font-size:17px;font-weight:700}
+.pw-sub{font-size:13px;color:var(--text-muted);line-height:1.5}
 
+/* ── APP ── */
 .app{display:none}
 .app.visible{display:block}
-.topbar{height:52px;background:var(--ink);display:flex;align-items:center;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,0.06)}
-.topbar-logo{padding:0 14px;display:flex;align-items:center;gap:9px;border-right:1px solid rgba(255,255,255,0.06);flex-shrink:0}
-.topbar-mark{width:26px;height:26px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px}
-.topbar-name{font-size:11px;font-weight:700;color:rgba(255,255,255,0.8);font-family:var(--mono);white-space:nowrap}
-.topbar-sj{display:flex;align-items:center;gap:4px;padding:0 12px;flex:1;overflow-x:auto;scrollbar-width:none}
-.topbar-sj::-webkit-scrollbar{display:none}
-.sj-btn{padding:5px 12px;border-radius:16px;border:1px solid rgba(255,255,255,0.15);background:none;color:rgba(255,255,255,0.45);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans);white-space:nowrap;transition:all .15s;flex-shrink:0}
-.sj-btn:hover{color:rgba(255,255,255,0.75);border-color:rgba(255,255,255,0.3)}
-.sj-btn.active{background:rgba(184,150,46,0.25);border-color:rgba(184,150,46,0.5);color:var(--gold)}
-.topbar-end{padding:0 12px;border-left:1px solid rgba(255,255,255,0.06);flex-shrink:0;display:flex;align-items:center;gap:8px}
-.user-name{font-size:10px;color:rgba(255,255,255,0.4);font-family:var(--mono);white-space:nowrap}
-.btn-logout{font-size:10px;color:rgba(255,255,255,0.3);background:none;border:none;cursor:pointer;font-family:var(--sans);padding:3px 6px}
-.btn-logout:hover{color:rgba(255,255,255,0.6)}
-.btn-pw{font-size:10px;color:rgba(255,255,255,0.3);background:none;border:none;cursor:pointer;font-family:var(--sans);padding:3px 6px}
-.btn-pw:hover{color:var(--gold)}
 
-.typ-filter{display:flex;gap:5px;flex-wrap:wrap;padding:10px 14px;background:var(--paper);border-bottom:1px solid var(--border)}
-.typ-btn{padding:5px 11px;border-radius:16px;border:1px solid var(--border);background:#fff;color:var(--ink3);font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all .15s}
-.typ-btn.active{background:var(--ink);border-color:var(--ink);color:#fff}
+/* ── HEADER ── */
+.header{background:var(--header-bg);padding:12px 16px 10px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:10}
+.header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.header-text h1{font-size:15px;font-weight:700;color:var(--text)}
+.header-text p{font-size:11px;color:var(--text-muted);margin-top:1px}
+.header-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.user-chip{font-size:11px;color:var(--text-muted);font-weight:500;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn-icon{background:none;border:none;cursor:pointer;padding:6px;color:var(--text-muted);font-size:16px;-webkit-tap-highlight-color:transparent;border-radius:8px}
+.btn-icon:active{background:var(--border)}
+.btn-abmelden{font-size:11px;font-weight:600;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent}
+.btn-abmelden:active{background:var(--bg)}
 
-.inhalt{padding:12px 14px 48px}
+/* SJ-Filter */
+.sj-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.sj-row::-webkit-scrollbar{display:none}
+.sj-pill{flex-shrink:0;padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-muted);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:all .15s}
+.sj-pill.active{background:var(--blue);border-color:var(--blue);color:#fff}
 
-.pcard{background:#fff;border-radius:14px;border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow);margin-bottom:8px}
-.pcard-header{display:flex;align-items:center;gap:10px;padding:13px 14px;cursor:pointer}
-.pcard-header:hover{background:var(--paper2)}
-.pcard-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
-.pcard-meta{flex:1;min-width:0}
-.pcard-name{font-size:15px;font-weight:600;color:var(--ink)}
-.pcard-sub{font-size:12px;color:var(--ink3);margin-top:2px}
-.pcard-chev{color:var(--ink3);flex-shrink:0;transition:transform 0.2s}
-.pcard-chev svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.pcard-chev.open{transform:rotate(180deg)}
-.pcard-body{display:none;border-top:1px solid var(--border)}
-.pcard-body.open{display:block}
+/* Typ-Filter */
+.typ-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 16px 0;background:var(--filter-bg);border-bottom:0.5px solid var(--border)}
+.typ-row::-webkit-scrollbar{display:none}
+.typ-pill{flex-shrink:0;padding:6px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-muted);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:all .15s;margin-bottom:8px}
+.typ-pill.active{background:var(--text);border-color:var(--text);color:var(--bg)}
 
-.evtabs-wrap{border-bottom:1px solid var(--border);background:var(--paper);overflow-x:auto;scrollbar-width:none}
-.evtabs-wrap::-webkit-scrollbar{display:none}
-.evtabs{display:flex;min-width:max-content}
-.evtab{flex-shrink:0;padding:8px 12px;font-size:11px;color:var(--ink3);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:var(--sans);font-weight:500;white-space:nowrap}
-.evtab.active{color:var(--blue);border-bottom-color:var(--blue)}
-.evsections{padding:14px}
-.evsec{display:none}
-.evsec.active{display:block}
-.ev-kopf{font-size:12px;font-weight:600;color:var(--blue);line-height:1.5;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+/* ── INHALT ── */
+.content{padding:12px 14px 48px;display:flex;flex-direction:column;gap:8px}
+
+/* ── PROJEKT-KARTE ── */
+.proj-card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);overflow:hidden}
+.proj-header{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.proj-header:active{background:var(--bg)}
+.proj-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.proj-meta{flex:1;min-width:0}
+.proj-name{font-size:15px;font-weight:600;color:var(--text)}
+.proj-sub{font-size:12px;color:var(--text-muted);margin-top:2px}
+.proj-chevron{color:var(--text-muted);flex-shrink:0;transition:transform 0.2s}
+.proj-chevron svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.proj-chevron.open{transform:rotate(180deg)}
+.proj-body{display:none;border-top:0.5px solid var(--border)}
+.proj-body.open{display:block}
+
+/* Event-Tabs */
+.ev-tabs-wrap{border-bottom:0.5px solid var(--border);background:var(--bg);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.ev-tabs-wrap::-webkit-scrollbar{display:none}
+.ev-tabs{display:flex;min-width:max-content}
+.ev-tab{flex-shrink:0;padding:9px 12px;font-size:11px;color:var(--text-muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;font-weight:500;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.ev-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.ev-sections{padding:14px}
+.ev-section{display:none}
+.ev-section.active{display:block}
+
+/* Programm */
+.ev-kopf{font-size:12px;font-weight:600;color:var(--blue);line-height:1.5;margin-bottom:10px;padding-bottom:8px;border-bottom:0.5px solid var(--border)}
 .werk-block{margin-bottom:10px}
-.werk-komp{font-size:13px;font-weight:600;color:var(--ink)}
-.werk-titel{font-size:13px;color:var(--ink);margin-top:1px}
-.werk-details{font-size:11px;color:var(--ink3);margin-top:3px;line-height:1.5}
-.werk-leitung{font-size:11px;color:var(--ink3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
-.ev-kein{font-size:13px;color:var(--ink3)}
+.werk-komp{font-size:13px;font-weight:600;color:var(--text)}
+.werk-titel{font-size:13px;color:var(--text);margin-top:1px}
+.werk-details{font-size:11px;color:var(--text-muted);margin-top:3px;line-height:1.5}
+.werk-leitung{font-size:11px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
+.ev-kein{font-size:13px;color:var(--text-muted);font-style:italic}
 
-.spinner{text-align:center;padding:40px 20px;color:var(--ink3);font-size:13px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.loading{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:13px;display:flex;flex-direction:column;align-items:center;gap:10px}
 .spin{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.empty{text-align:center;padding:32px;color:var(--ink3);font-size:13px}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:300;transition:transform .25s;pointer-events:none;white-space:nowrap}
+.empty{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:13px}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1a1a;color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:300;transition:transform .25s;pointer-events:none;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 
-<div class="login-wrap" id="sc-login">
-  <div class="login-mark">🎼</div>
+<!-- LOGIN -->
+<div class="login-screen" id="sc-login">
+  <div class="login-icon">🎼</div>
   <div class="login-title">HSO Vorschau</div>
   <div class="login-sub">HfMT Hamburg · Programmübersicht</div>
   <div class="login-card">
     <div>
       <div class="field-label">Benutzername</div>
-      <input class="field-input" type="text" id="l-user" autocomplete="username" autocapitalize="none" onkeydown="if(event.key==='Enter')document.getElementById('l-pw').focus()">
+      <input class="field-input" type="text" id="l-user" autocomplete="username" autocapitalize="none" autocorrect="off" onkeydown="if(event.key==='Enter')document.getElementById('l-pw').focus()">
     </div>
     <div>
       <div class="field-label">Passwort</div>
       <input class="field-input" type="password" id="l-pw" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
     </div>
     <div class="err" id="l-err"></div>
-    <button class="btn-login" onclick="login()">Anmelden</button>
+    <button class="btn-primary" onclick="login()">Anmelden</button>
   </div>
 </div>
 
-<div class="pw-wrap" id="sc-pw">
+<!-- PASSWORT -->
+<div class="pw-screen" id="sc-pw">
   <div class="pw-card">
     <div class="pw-title">Passwort setzen</div>
     <div class="pw-sub" id="pw-sub">Erstanmeldung — bitte wähle ein eigenes Passwort (mind. 6 Zeichen).</div>
@@ -136,39 +168,47 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
       <input class="field-input" type="password" id="pw-n2" onkeydown="if(event.key==='Enter')pwSpeichern()">
     </div>
     <div class="err" id="pw-err"></div>
-    <button class="btn-blue" onclick="pwSpeichern()">Speichern</button>
-    <button class="btn-out" id="pw-abbrechen" onclick="zeige('app')" style="display:none">Abbrechen</button>
+    <button class="btn-primary" onclick="pwSpeichern()">Speichern</button>
+    <button class="btn-secondary" id="pw-abbrechen" onclick="zeige('app')" style="display:none">Abbrechen</button>
   </div>
 </div>
 
+<!-- APP -->
 <div class="app" id="app">
-  <div class="topbar">
-    <div class="topbar-logo">
-      <div class="topbar-mark">🎼</div>
-      <div class="topbar-name">HSO</div>
+  <div class="header">
+    <div class="header-row">
+      <div class="header-left">
+        <div class="header-icon">🎼</div>
+        <div class="header-text">
+          <h1>HSO Vorschau</h1>
+          <p>HfMT Hamburg</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="user-chip" id="user-label"></span>
+        <button class="btn-icon" onclick="zeigeErstPw(false)" title="Passwort ändern">🔒</button>
+        <button class="btn-abmelden" onclick="logout()">Abmelden</button>
+      </div>
     </div>
-    <div class="topbar-sj">
-      <button class="sj-btn" data-sj="25_26" onclick="setSj(this)">25/26</button>
-      <button class="sj-btn" data-sj="26_27" onclick="setSj(this)">26/27</button>
-      <button class="sj-btn" data-sj="27_28" onclick="setSj(this)">27/28</button>
-    </div>
-    <div class="topbar-end">
-      <span class="user-name" id="user-label"></span>
-      <button class="btn-pw" onclick="zeigeErstPw(false)" title="Passwort ändern">🔒</button>
-      <button class="btn-logout" onclick="logout()">Abmelden</button>
+    <div class="sj-row">
+      <button class="sj-pill" data-sj="25_26" onclick="setSj(this)">25/26</button>
+      <button class="sj-pill" data-sj="26_27" onclick="setSj(this)">26/27</button>
+      <button class="sj-pill" data-sj="27_28" onclick="setSj(this)">27/28</button>
     </div>
   </div>
-  <div class="typ-filter">
-    <button class="typ-btn active" data-typ="alle" onclick="setTyp(this)">Alle</button>
-    <button class="typ-btn" data-typ="HSO" onclick="setTyp(this)">HSO</button>
-    <button class="typ-btn" data-typ="13/14" onclick="setTyp(this)">13/14</button>
-    <button class="typ-btn" data-typ="WK" onclick="setTyp(this)">WK</button>
-    <button class="typ-btn" data-typ="Blattspiel" onclick="setTyp(this)">Blattspiel</button>
-    <button class="typ-btn" data-typ="Repertoire" onclick="setTyp(this)">Repertoire</button>
-    <button class="typ-btn" data-typ="Sonderprojekt" onclick="setTyp(this)">Sonderprojekt</button>
+
+  <div class="typ-row">
+    <button class="typ-pill active" data-typ="alle" onclick="setTyp(this)">Alle</button>
+    <button class="typ-pill" data-typ="HSO" onclick="setTyp(this)">HSO</button>
+    <button class="typ-pill" data-typ="13/14" onclick="setTyp(this)">13/14</button>
+    <button class="typ-pill" data-typ="WK" onclick="setTyp(this)">WK</button>
+    <button class="typ-pill" data-typ="Blattspiel" onclick="setTyp(this)">Blattspiel</button>
+    <button class="typ-pill" data-typ="Repertoire" onclick="setTyp(this)">Repertoire</button>
+    <button class="typ-pill" data-typ="Sonderprojekt" onclick="setTyp(this)">Sonderprojekt</button>
   </div>
-  <div class="inhalt">
-    <div id="prog-liste"><div class="spinner"><div class="spin"></div>Lade...</div></div>
+
+  <div class="content" id="prog-liste">
+    <div class="loading"><div class="spin"></div>Lade...</div>
   </div>
 </div>
 
@@ -176,8 +216,7 @@ body{min-height:100vh;max-width:520px;margin:0 auto}
 
 <script>
 var WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
-var WT  = ['So','Mo','Di','Mi','Do','Fr','Sa'];
-var ALLE_SJ = ['25_26','26_27','27_28'];
+var WT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
 var FARBEN = {
   'HSO':{bg:'#E6F1FB',color:'#185FA5'},
   'WK Lü':{bg:'#E1F5EE',color:'#0F6E56'},
@@ -187,11 +226,13 @@ var FARBEN = {
   'Repertoire':{bg:'#EEEDFE',color:'#534AB7'},
   'default':{bg:'#F1EFE8',color:'#5F5E5A'}
 };
+var TYPREIHE = {'HSO':0,'13/14':1,'WK':2,'Blattspiel':3,'Repertoire':4,'Sonderprojekt':5};
 
 var _ich    = null;
 var _aktSj  = null;
 var _aktTyp = 'alle';
 var _cache  = {};
+var _progDaten = null;
 
 // ── UTILS ─────────────────────────────────────────────────
 async function sha256(msg){
@@ -213,12 +254,9 @@ function aktuellesSj(){
   return m>=8?String(y).slice(2)+'_'+String(y+1).slice(2):String(y-1).slice(2)+'_'+String(y).slice(2);
 }
 function zeige(sc){
-  document.getElementById('sc-login').classList.add('hidden');
-  document.getElementById('sc-pw').classList.remove('visible');
-  document.getElementById('app').classList.remove('visible');
-  if(sc==='login')document.getElementById('sc-login').classList.remove('hidden');
-  if(sc==='pw')document.getElementById('sc-pw').classList.add('visible');
-  if(sc==='app')document.getElementById('app').classList.add('visible');
+  document.getElementById('sc-login').classList.toggle('hidden', sc!=='login');
+  document.getElementById('sc-pw').classList.toggle('visible', sc==='pw');
+  document.getElementById('app').classList.toggle('visible', sc==='app');
 }
 function toast(msg){
   var t=document.getElementById('toast');
@@ -236,7 +274,6 @@ async function apiFetch(action,params){
 async function apiPost(data){
   var r=await fetch(WEBAPP_URL,{method:'POST',body:JSON.stringify(data)});return r.json();
 }
-
 function getFarbe(name){
   var ks=Object.keys(FARBEN);
   for(var i=0;i<ks.length;i++)if(name.indexOf(ks[i])!==-1)return FARBEN[ks[i]];
@@ -249,7 +286,7 @@ function getKuerzel(n){
   if(n.startsWith('WK Lü '))return'WL'+n.replace('WK Lü ','').trim();
   if(n.startsWith('WK '))return'W'+n.replace('WK ','').trim();
   if(n==='13/14')return'13';
-  return n.substring(0,2).toUpperCase();
+  return n.replace(/^\*/,'').substring(0,2).toUpperCase();
 }
 function getTyp(name){
   if(name==='13/14')return'13/14';
@@ -270,16 +307,14 @@ async function login(){
   if(!user||!pw){err.textContent='Bitte alle Felder ausfüllen.';return;}
   var h=await sha256(pw);
   try{
-    var j=await apiFetch('vorschauLogin&nutzer='+encodeURIComponent(user)+'&pwHash='+encodeURIComponent(h)+'&_t='+Date.now());
-    // apiFetch baut URL falsch für diesen Fall — direkt fetchen
     var url=WEBAPP_URL+'?action=vorschauLogin&nutzer='+encodeURIComponent(user)+'&pwHash='+encodeURIComponent(h);
     var r=await fetch(url);
-    j=await r.json();
+    var j=await r.json();
     if(!j.ok){
       err.textContent=j.error||'Falsches Passwort.';
       var el=document.getElementById('l-pw');
       el.style.borderColor='var(--red)';
-      setTimeout(()=>el.style.borderColor='',600);
+      setTimeout(()=>el.style.borderColor='',700);
       return;
     }
     _ich={nutzer:user,name:j.name||user};
@@ -322,27 +357,25 @@ function oeffneApp(){
   document.getElementById('user-label').textContent=_ich.name||_ich.nutzer;
   zeige('app');
   var std=aktuellesSj();
-  document.querySelectorAll('.sj-btn').forEach(function(b){
+  document.querySelectorAll('.sj-pill').forEach(function(b){
     b.classList.toggle('active',b.dataset.sj===std);
   });
   _aktSj=std;
   ladenProgramm();
 }
-
 function setSj(btn){
-  document.querySelectorAll('.sj-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.sj-pill').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   _aktSj=btn.dataset.sj;
+  _progDaten=null;
   ladenProgramm();
 }
-
 function setTyp(btn){
-  document.querySelectorAll('.typ-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.typ-pill').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   _aktTyp=btn.dataset.typ;
   renderProgramm();
 }
-
 function logout(){
   _ich=null;
   sessionStorage.removeItem('hso_vorschau');
@@ -352,15 +385,13 @@ function logout(){
   zeige('login');
 }
 
-// ── PROGRAMM LADEN ────────────────────────────────────────
-var _progDaten = null;
-
+// ── PROGRAMM ──────────────────────────────────────────────
 async function ladenProgramm(){
   var el=document.getElementById('prog-liste');
-  el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
+  el.innerHTML='<div class="loading"><div class="spin"></div>Lade...</div>';
   var d=await apiFetch('programm',{sj:_aktSj});
   if(!d||!d.data){
-    el.innerHTML='<div class="empty">Keine Daten für '+(_aktSj||'').replace('_','/')+'</div>';
+    el.innerHTML='<div class="empty">Keine Daten für '+(_aktSj||'').replace('_','/')+'.</div>';
     return;
   }
   _progDaten=d.data;
@@ -369,25 +400,21 @@ async function ladenProgramm(){
 
 function renderProgramm(){
   var el=document.getElementById('prog-liste');
-  if(!_progDaten){el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';return;}
+  if(!_progDaten){el.innerHTML='<div class="loading"><div class="spin"></div>Lade...</div>';return;}
 
   var projekte=Object.keys(_progDaten);
-
-  // Typ-Filter
   if(_aktTyp!=='alle'){
     projekte=projekte.filter(function(p){return getTyp(p)===_aktTyp;});
   }
-
   if(!projekte.length){
     el.innerHTML='<div class="empty">Keine Projekte gefunden.</div>';
     return;
   }
 
-  // Sortieren nach Typ-Reihenfolge, dann Datum
-  var TYPREIHE={'HSO':0,'13/14':1,'WK':2,'Blattspiel':3,'Repertoire':4,'Sonderprojekt':5};
+  // Sortierung: Typ-Reihenfolge, dann Datum
   projekte.sort(function(a,b){
-    var tA=TYPREIHE[getTyp(a)]||99;
-    var tB=TYPREIHE[getTyp(b)]||99;
+    var tA=TYPREIHE[getTyp(a)]??99;
+    var tB=TYPREIHE[getTyp(b)]??99;
     if(tA!==tB)return tA-tB;
     var evA=(_progDaten[a]||[])[0],evB=(_progDaten[b]||[])[0];
     var dA=evA?parseDatum(evA.datum):null;
@@ -407,34 +434,37 @@ function renderProgramm(){
     var datObj=parseDatum(erst.datum);
     var datLabel=datObj?ddmmyyyy(datObj):'';
     var mehrere=events.length>1;
+    var sub=datLabel+(erst.ort?' · '+erst.ort:'')+(mehrere?' · '+events.length+' Termine':'');
 
-    html+='<div class="pcard">'+
-      '<div class="pcard-header" onclick="toggleProj(\''+cId+'\')">'+
-        '<div class="pcard-icon" style="background:'+f.bg+';color:'+f.color+'">'+esc(k)+'</div>'+
-        '<div class="pcard-meta">'+
-          '<div class="pcard-name">'+esc(ohnestern(projektName))+'</div>'+
-          '<div class="pcard-sub">'+esc(datLabel)+(erst.ort?' · '+esc(erst.ort):'')+(mehrere?' · '+events.length+' Termine':'')+'</div>'+
+    html+='<div class="proj-card">'+
+      '<div class="proj-header" onclick="toggleProj(\''+cId+'\')">'+
+        '<div class="proj-icon" style="background:'+f.bg+';color:'+f.color+'">'+esc(k)+'</div>'+
+        '<div class="proj-meta">'+
+          '<div class="proj-name">'+esc(ohnestern(projektName))+'</div>'+
+          '<div class="proj-sub">'+esc(sub)+'</div>'+
         '</div>'+
-        '<div class="pcard-chev" id="chev-'+cId+'"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>'+
+        '<div class="proj-chevron" id="chev-'+cId+'">'+
+          '<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>'+
+        '</div>'+
       '</div>'+
-      '<div class="pcard-body" id="'+cId+'">';
+      '<div class="proj-body" id="'+cId+'">';
 
     if(mehrere){
       var tabs=events.map(function(ev,i){
-        var d=parseDatum(ev.datum);
-        var wt=d?WT[d.getDay()]:'';
+        var d2=parseDatum(ev.datum);
+        var wt=d2?WT[d2.getDay()]:'';
         var tp=(ev.datum||'').split('.');
         var lbl=wt+' '+String(tp[0]||'').padStart(2,'0')+'.'+String(tp[1]||'').padStart(2,'0')+'.';
-        return '<button class="evtab'+(i===0?' active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(lbl)+'</button>';
+        return '<button class="ev-tab'+(i===0?' active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(lbl)+'</button>';
       }).join('');
       var secs=events.map(function(ev,i){
-        return '<div class="evsec'+(i===0?' active':'')+'" id="'+cId+'-ev-'+i+'">'+renderEvProgramm(ev,projektName)+'</div>';
+        return '<div class="ev-section'+(i===0?' active':'')+'" id="'+cId+'-ev-'+i+'">'+renderEvProgramm(ev,projektName)+'</div>';
       }).join('');
-      html+='<div class="evtabs-wrap"><div class="evtabs">'+tabs+'</div></div><div class="evsections">'+secs+'</div>';
+      html+='<div class="ev-tabs-wrap"><div class="ev-tabs">'+tabs+'</div></div>'+
+            '<div class="ev-sections">'+secs+'</div>';
     }else{
       html+='<div style="padding:14px">'+renderEvProgramm(erst,projektName)+'</div>';
     }
-
     html+='</div></div>';
   });
 
@@ -444,9 +474,8 @@ function renderProgramm(){
 function renderEvProgramm(ev,projektName){
   var d=parseDatum(ev.datum);
   var wt=d?WT[d.getDay()]:'';
-  var kopf=wt+(ev.datum?', '+ev.datum:'')+(ev.uhrzeit?' '+ev.uhrzeit:'');
-  if(ev._titel&&ev._titel!==projektName)kopf+='    '+ev._titel;
-  if(ev.ort)kopf+='    |    '+ev.ort;
+  var kopf=wt+(ev.datum?', '+ev.datum:'')+(ev.uhrzeit?' · '+ev.uhrzeit:'');
+  if(ev.ort)kopf+=' · '+ev.ort;
 
   var h='<div class="ev-kopf">'+esc(kopf)+'</div>';
   var werke=(ev.werke||[]).filter(function(w){return !w.pause;});
@@ -456,7 +485,8 @@ function renderEvProgramm(ev,projektName){
   }else{
     werke.forEach(function(w){
       var ld=w.lebensdaten?' ('+w.lebensdaten+')':'';
-      h+='<div class="werk-block"><div class="werk-komp">'+esc((w.komponist||'')+ld)+'</div>';
+      h+='<div class="werk-block">'+
+        '<div class="werk-komp">'+esc((w.komponist||'')+ld)+'</div>';
       if(w.titel)h+='<div class="werk-titel">'+esc(w.titel)+'</div>';
       if(w.dauer)h+='<div class="werk-details">Dauer: '+esc(w.dauer)+'</div>';
       if(w.besetzung)h+='<div class="werk-details">Besetzung: '+esc(w.besetzung)+'</div>';
@@ -484,12 +514,11 @@ function toggleProj(cId){
   body.classList.toggle('open',!open);
   if(chev)chev.classList.toggle('open',!open);
 }
-
 function showEvTab(e,cId,idx){
   e.stopPropagation();
   var body=document.getElementById(cId);
-  body.querySelectorAll('.evtab').forEach(t=>t.classList.remove('active'));
-  body.querySelectorAll('.evsec').forEach(s=>s.classList.remove('active'));
+  body.querySelectorAll('.ev-tab').forEach(t=>t.classList.remove('active'));
+  body.querySelectorAll('.ev-section').forEach(s=>s.classList.remove('active'));
   e.target.classList.add('active');
   var sec=document.getElementById(cId+'-ev-'+idx);
   if(sec)sec.classList.add('active');
