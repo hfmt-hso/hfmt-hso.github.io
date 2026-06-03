@@ -37,13 +37,14 @@ html,body{height:100%;margin:0;padding:0}
 body{
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   background:var(--bg);color:var(--text);
-  max-width:480px;margin:0 auto;
   position:fixed;left:0;right:0;top:0;bottom:0;
   overflow:hidden;
 }
 .scroll-root{
   height:100%;
   height:100dvh;
+  max-width:480px;
+  margin:0 auto;
   overflow-y:auto;
   -webkit-overflow-scrolling:touch;
   overscroll-behavior:none;
