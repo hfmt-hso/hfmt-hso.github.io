@@ -91,8 +91,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 /* ── KALENDER ── */
 .kal-month-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;padding:4px 0 6px;border-bottom:0.5px solid var(--border);margin-bottom:8px}
-.kal-card{background:var(--card-bg);border-radius:12px;border:0.5px solid var(--border);margin-bottom:6px;overflow:hidden}
-.kal-card.vorstellung{border-left:3px solid var(--blue);border-radius:0 12px 12px 0}
+.kal-card{background:var(--card-bg);border-radius:0 12px 12px 0;border:0.5px solid var(--border);border-left:3px solid #ccc;margin-bottom:6px;overflow:hidden}
+.kal-card.typ-hso{border-left-color:#185FA5}
+.kal-card.typ-1314{border-left-color:#854F0B}
+.kal-card.typ-wk{border-left-color:#0F6E56}
+.kal-card.typ-blattspiel{border-left-color:#534AB7}
+.kal-card.typ-repertoire{border-left-color:#534AB7}
+.kal-card.typ-sonder{border-left-color:#5F5E5A}
 .kal-card.vergangen{opacity:0.42}
 .kal-card-header{display:flex;align-items:center;gap:12px;padding:10px 13px;cursor:pointer}
 .kal-date-col{min-width:34px;text-align:center;flex-shrink:0}
@@ -484,8 +489,18 @@ async function ladenKalender(){
         const hatDetails = werke.length > 0 || (ev.leitung&&ev.leitung.length);
         const sub = [ev.uhrzeit||'', ev.ort||''].filter(Boolean).join(' · ');
         const kid = 'kal-'+kalIdx++;
+        // Typ-Klasse für Balkenfarbe
+        function getKalTyp(p) {
+          if(/Blattspiel/i.test(p)) return 'typ-blattspiel';
+          if(/Repertoire/i.test(p)) return 'typ-repertoire';
+          if(p==='13/14') return 'typ-1314';
+          if(p.startsWith('WK')) return 'typ-wk';
+          if(p.startsWith('HSO')) return 'typ-hso';
+          return 'typ-sonder';
+        }
+        const kalTyp = getKalTyp(projekt);
 
-        html += `<div class="kal-card${vergangen?' vergangen':''}${isVorstellung?' vorstellung':''}">
+        html += `<div class="kal-card ${kalTyp}${vergangen?' vergangen':''}">
   <div class="kal-card-header" onclick="${hatDetails?`toggleKal('${kid}')`:'void(0)'}">
     <div class="kal-date-col">
       <div class="kal-day-num">${tag}</div>
@@ -496,7 +511,6 @@ async function ladenKalender(){
       <div class="kal-event-title${isVorstellung?' bold':''}">${esc(ohnestern(ev._titel||projekt))}</div>
       ${sub?`<div class="kal-event-sub">${esc(sub)}</div>`:''}
     </div>
-    ${isVorstellung?'<div class="kal-dot"></div>':''}
     ${hatDetails?`<div class="kal-chev" id="kchev-${kid}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>`:''}
   </div>`;
 
