@@ -51,6 +51,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .content.active{display:flex}
 .section-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:4px}
 .loading{text-align:center;padding:24px;color:var(--text-muted);font-size:13px}
+
+/* ── PROJEKT-KARTEN ── */
 .proj-card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);overflow:hidden}
 .proj-header{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer}
 .proj-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
@@ -89,9 +91,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 /* ── KALENDER ── */
 .kal-month-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;padding:4px 0 6px;border-bottom:0.5px solid var(--border);margin-bottom:8px}
-.kal-event-card{background:var(--card-bg);border-radius:12px;border:0.5px solid var(--border);display:flex;align-items:center;gap:12px;padding:10px 13px;margin-bottom:6px}
-.kal-event-card.vergangen{opacity:0.45}
-.kal-event-card.vorstellung{border-left:3px solid var(--blue);border-radius:0 12px 12px 0}
+.kal-card{background:var(--card-bg);border-radius:12px;border:0.5px solid var(--border);margin-bottom:6px;overflow:hidden}
+.kal-card.vorstellung{border-left:3px solid var(--blue);border-radius:0 12px 12px 0}
+.kal-card.vergangen{opacity:0.42}
+.kal-card-header{display:flex;align-items:center;gap:12px;padding:10px 13px;cursor:pointer}
 .kal-date-col{min-width:34px;text-align:center;flex-shrink:0}
 .kal-day-num{font-size:18px;font-weight:600;color:var(--text);line-height:1.1}
 .kal-day-wt{font-size:10px;color:var(--text-muted)}
@@ -101,7 +104,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .kal-event-title.bold{font-weight:700}
 .kal-event-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
 .kal-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0}
+.kal-chev{color:var(--text-muted);flex-shrink:0;transition:transform 0.2s}
+.kal-chev svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.kal-chev.open{transform:rotate(180deg)}
+.kal-body{display:none;border-top:0.5px solid var(--border);padding:12px 14px}
+.kal-body.open{display:block}
+.kal-werk{margin-bottom:8px}
+.kal-werk-komp{font-size:12px;font-weight:600;color:var(--text)}
+.kal-werk-titel{font-size:12px;color:var(--text-muted);margin-top:1px}
+.kal-leitung{font-size:11px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
 
+/* ── BEDARF ── */
 .bedarf-card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);overflow:hidden;margin-bottom:2px}
 .bedarf-header{padding:12px 14px;display:flex;align-items:flex-start;gap:10px;cursor:pointer}
 .bedarf-nummer{width:28px;height:28px;border-radius:7px;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
@@ -124,6 +137,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .werk-text{font-size:12px;color:var(--text-muted);font-style:italic;margin-bottom:8px;line-height:1.4}
 .bedarf-aufbau a{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--blue);text-decoration:none;font-weight:500;margin-top:8px}
 .bedarf-aufbau svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── LINKS & SONSTIGES ── */
 .card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);overflow:hidden}
 .link-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:0.5px solid var(--border);text-decoration:none;color:inherit}
 .link-item:last-child{border-bottom:none}
@@ -183,25 +198,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </button>
 </nav>
 
-<!-- PROJEKTE -->
 <div class="content active" id="tab-projekte">
   <div class="section-label">Aktuelle Projekte</div>
   <div id="projekte-liste"><div class="loading">Projekte werden geladen…</div></div>
 </div>
 
-<!-- KALENDER -->
 <div class="content" id="tab-kalender">
-  <div class="section-label">Termine · <span id="kal-sj-label"></span></div>
+  <div class="section-label" id="kal-label">Termine</div>
   <div id="kal-liste"><div class="loading">Termine werden geladen…</div></div>
 </div>
 
-<!-- BEDARF -->
 <div class="content" id="tab-bedarf">
   <div class="section-label">Technikbedarf</div>
   <div id="bedarf-liste"><div class="loading">Termine werden geladen…</div></div>
 </div>
 
-<!-- NOTEN -->
 <div class="content" id="tab-noten">
   <div class="section-label">Notenmaterial</div>
   <div class="card">
@@ -221,7 +232,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- INFO -->
 <div class="content" id="tab-info">
   <div class="section-label">Wichtige Dokumente</div>
   <div class="card">
@@ -267,157 +277,144 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </div>
 
 <script>
-const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
-const BEDARF_SHEET_ID = '1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ';
-const BEDARF_GID      = '1642432141';
-const WT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+const WEBAPP_URL    = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
+const BEDARF_SHEET  = '1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ';
+const BEDARF_GID    = '1642432141';
+const CUTOFF_TAGE   = 14; // Projekte mit letztem Termin älter als X Tage ausblenden
+const WT  = ['So','Mo','Di','Mi','Do','Fr','Sa'];
 const MON = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 const FARBEN = {
-  'HSO':{bg:'#E6F1FB',color:'#185FA5'},
-  'WK Lü':{bg:'#E1F5EE',color:'#0F6E56'},
-  'WK':{bg:'#E1F5EE',color:'#0F6E56'},
-  '13/14':{bg:'#FAEEDA',color:'#854F0B'},
+  'HSO'    :{bg:'#E6F1FB',color:'#185FA5'},
+  'WK Lü'  :{bg:'#E1F5EE',color:'#0F6E56'},
+  'WK'     :{bg:'#E1F5EE',color:'#0F6E56'},
+  '13/14'  :{bg:'#FAEEDA',color:'#854F0B'},
   'Blattspiel':{bg:'#EEEDFE',color:'#534AB7'},
   'Repertoire':{bg:'#EEEDFE',color:'#534AB7'},
   'default':{bg:'#F1EFE8',color:'#5F5E5A'}
 };
-const ueCache = {};
+const ueCache  = {};
 const docCache = {};
 
-function getFarbe(n) {
-  for (const k in FARBEN) { if (n.indexOf(k) !== -1) return FARBEN[k]; }
-  return FARBEN['default'];
-}
-function getKuerzel(n) {
-  if (n.startsWith('HSO Blattspiel')) return 'BS';
-  if (n.startsWith('HSO Repertoire')) return 'Rep';
-  if (n.startsWith('HSO ')) return 'H' + n.replace('HSO ','').replace(/\D/g,'');
-  if (n.startsWith('WK Lü ')) return 'WL' + n.replace('WK Lü ','').trim();
-  if (n.startsWith('WK ')) return 'W' + n.replace('WK ','').trim();
-  if (n === '13/14') return '13';
+// ── HILFSFUNKTIONEN ───────────────────────────────────────────
+function getFarbe(n){for(const k in FARBEN){if(n.indexOf(k)!==-1)return FARBEN[k];}return FARBEN['default'];}
+function getKuerzel(n){
+  if(n.startsWith('HSO Blattspiel'))return'BS';
+  if(n.startsWith('HSO Repertoire'))return'Rep';
+  if(n.startsWith('HSO '))return'H'+n.replace('HSO ','').replace(/\D/g,'');
+  if(n.startsWith('WK Lü '))return'WL'+n.replace('WK Lü ','').trim();
+  if(n.startsWith('WK '))return'W'+n.replace('WK ','').trim();
+  if(n==='13/14')return'13';
   return n.substring(0,2).toUpperCase();
 }
-function aktuellesSj() {
-  const d = new Date(), m = d.getMonth(), y = d.getFullYear() % 100;
-  return m >= 8 ? y + '_' + (y+1) : (y-1) + '_' + y;
+function aktuellesSj(){
+  const d=new Date(),m=d.getMonth(),y=d.getFullYear()%100;
+  return m>=8?y+'_'+(y+1):(y-1)+'_'+y;
 }
-function parseDatum(s) {
-  if (!s) return null;
-  const str = String(s).trim();
-  let m = str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
-  if (m) return new Date(parseInt(m[3]),parseInt(m[2])-1,parseInt(m[1]));
-  m = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if (m) return new Date(parseInt(m[1]),parseInt(m[2])-1,parseInt(m[3]));
-  const d = new Date(str); return isNaN(d.getTime()) ? null : d;
+function parseDatum(s){
+  if(!s)return null;
+  const str=String(s).trim();
+  let m=str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if(m)return new Date(parseInt(m[3]),parseInt(m[2])-1,parseInt(m[1]));
+  m=str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(m)return new Date(parseInt(m[1]),parseInt(m[2])-1,parseInt(m[3]));
+  const d=new Date(str);return isNaN(d.getTime())?null:d;
 }
-function ddmmyyyy(d) {
-  return String(d.getDate()).padStart(2,'0') + '.' + String(d.getMonth()+1).padStart(2,'0') + '.' + d.getFullYear();
+function ddmmyyyy(d){return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();}
+function istInSpieljahr(datum,sj){
+  if(!datum||!sj)return false;
+  const p=sj.split('_');
+  const von=new Date(2000+parseInt(p[0]),8,1);
+  const bis=new Date(2000+parseInt(p[1]),7,31,23,59,59);
+  return datum>=von&&datum<=bis;
 }
-function istInSpieljahr(datum, sj) {
-  if (!datum || !sj) return false;
-  const parts = sj.split('_');
-  const von = new Date(2000+parseInt(parts[0],10), 8, 1);
-  const bis = new Date(2000+parseInt(parts[1],10), 7, 31);
-  bis.setHours(23,59,59,999);
-  return datum >= von && datum <= bis;
+function parseCsvZeile(z){
+  const res=[];let cur='',inQ=false,i=0;
+  while(i<z.length){const c=z[i];if(inQ){if(c==='"'){if(i+1<z.length&&z[i+1]==='"'){cur+='"';i+=2;continue;}else inQ=false;}else cur+=c;}else{if(c==='"')inQ=true;else if(c===','){res.push(cur);cur='';}else cur+=c;}i++;}
+  res.push(cur);return res;
 }
-function parseCsvZeile(z) {
-  const res = []; let cur = '', inQ = false, i = 0;
-  while (i < z.length) {
-    const c = z[i];
-    if (inQ) { if (c==='"') { if (i+1<z.length&&z[i+1]==='"'){cur+='"';i+=2;continue;} else {inQ=false;} } else {cur+=c;} }
-    else { if (c==='"'){inQ=true;} else if (c===','){res.push(cur);cur='';} else {cur+=c;} }
-    i++;
-  }
-  res.push(cur); return res;
-}
-function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function istBR(n) { return /Blattspiel|Repertoire/i.test(n); }
-function ohnestern(s) { return String(s||'').replace(/^\*/,''); }
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function istBR(n){return /Blattspiel|Repertoire/i.test(n);}
+function ohnestern(s){return String(s||'').replace(/^\*/,'');}
 
-function showTab(name, btn) {
-  document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
+function getSjTarget(){
+  return new URLSearchParams(window.location.search).get('sj')||aktuellesSj();
+}
+
+function showTab(name,btn){
+  document.querySelectorAll('.content').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el=>el.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
   btn.classList.add('active');
 }
 
-// ── PROJEKTE LADEN ────────────────────────────────────────────
-async function ladeProjekte() {
-  const params = new URLSearchParams(window.location.search);
-  const sjTarget = params.get('sj') || aktuellesSj();
-  document.getElementById('sj-badge').textContent = sjTarget.replace('_','/');
+// ── PROGRAMM-DATEN LADEN (gecacht) ────────────────────────────
+let _progData = null;
+async function ladeProgData(sj){
+  if(ueCache['__prog_'+sj])return ueCache['__prog_'+sj];
+  const res = await fetch(`${WEBAPP_URL}?action=programm&sj=${sj}`);
+  const json = await res.json();
+  const data = (json.ok && json.data) ? json.data : {};
+  ueCache['__prog_'+sj] = data;
+  return data;
+}
+
+// ── PROJEKTE ──────────────────────────────────────────────────
+async function ladeProjekte(){
+  const sj = getSjTarget();
+  document.getElementById('sj-badge').textContent = sj.replace('_','/');
 
   try {
-    const res = await fetch(`${WEBAPP_URL}?action=projekte&sj=${sjTarget}`);
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.error || 'Web-App Fehler');
+    // Beide Requests parallel
+    const [projRes, progData] = await Promise.all([
+      fetch(`${WEBAPP_URL}?action=projekte&sj=${sj}`).then(r=>r.json()),
+      ladeProgData(sj)
+    ]);
 
-    const projekte = json.data;
-    const liste = document.getElementById('projekte-liste');
-
-    if (!projekte.length) {
-      liste.innerHTML = '<div class="loading">Keine aktiven Projekte.</div>';
-      return;
-    }
-
-    // Projekte filtern: letzten Termin prüfen, abgelaufene (>14 Tage) ausblenden
-    // Die Web App macht das serverseitig bereits – aber wir filtern clientseitig
-    // nochmal nach Programmdaten um sicherzugehen
-    const progRes = await fetch(`${WEBAPP_URL}?action=programm&sj=${sjTarget}`);
-    const progJson = await progRes.json();
-    const progData = (progJson.ok && progJson.data) ? progJson.data : {};
+    if(!projRes.ok) throw new Error(projRes.error||'Fehler');
+    const projekte = projRes.data || [];
 
     const heute = new Date(); heute.setHours(0,0,0,0);
-    const CUTOFF_TAGE = 14;
 
-    const aktiveProjekte = projekte.filter(p => {
+    // Clientseitig filtern: nur Projekte deren letzter Termin im aktuellen SJ
+    // nicht älter als CUTOFF_TAGE ist
+    const aktiv = projekte.filter(p => {
       const events = progData[p.name] || [];
-      if (!events.length) return true; // kein Programm → zeigen (Server hat es reingelassen)
-      // Letztes Datum aller Events dieses Projekts
+      // Kein Programm-Eintrag → serverseitig schon gefiltert, trotzdem zeigen
+      if(!events.length) return true;
+      // Letztes Datum aller Events dieses Projekts im aktuellen SJ
       let letztes = null;
       events.forEach(ev => {
         const d = parseDatum(ev.datum);
-        if (d && (!letztes || d > letztes)) letztes = d;
+        if(d && istInSpieljahr(d, sj) && (!letztes || d > letztes)) letztes = d;
       });
-      if (!letztes) return true;
+      if(!letztes) return false; // Keine Termine im SJ → ausblenden
       const diffTage = (heute - letztes) / 86400000;
       return diffTage <= CUTOFF_TAGE;
     });
 
-    if (!aktiveProjekte.length) {
-      liste.innerHTML = '<div class="loading">Keine aktiven Projekte.</div>';
-      return;
-    }
+    const liste = document.getElementById('projekte-liste');
+    if(!aktiv.length){ liste.innerHTML='<div class="loading">Keine aktiven Projekte.</div>'; return; }
 
-    liste.innerHTML = aktiveProjekte.map((p, i) => {
+    liste.innerHTML = aktiv.map((p,i) => {
       const f = getFarbe(p.name);
       const k = p.zusatz ? '*' : getKuerzel(p.name);
-      const cId = 'proj-' + i;
-      const pAttr = p.name.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+      const cId = 'proj-'+i;
+      const pA = p.name.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 
-      if (istBR(p.name)) {
+      if(istBR(p.name)){
         return `<div class="proj-card">
-  <div class="proj-header" onclick="toggleBR('${cId}','${p.docId}','${pAttr}','${sjTarget}')">
+  <div class="proj-header" onclick="toggleBR('${cId}','${p.docId}','${pA}','${sj}')">
     <div class="proj-icon" style="background:${f.bg};color:${f.color}">${k}</div>
-    <div class="proj-meta">
-      <div class="proj-name">${esc(ohnestern(p.name))}</div>
-      <div class="proj-sub">${p.sj.replace('_','/')}</div>
-    </div>
+    <div class="proj-meta"><div class="proj-name">${esc(ohnestern(p.name))}</div><div class="proj-sub">${sj.replace('_','/')}</div></div>
     <div class="proj-chevron" id="chev-${cId}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
   </div>
   <div class="proj-body" id="${cId}"><div class="proj-loading" id="${cId}-loading">Wird geladen…</div></div>
 </div>`;
       } else {
         return `<div class="proj-card">
-  <div class="proj-header" onclick="toggleStd('${cId}','${p.docId}','${pAttr}','${sjTarget}')">
+  <div class="proj-header" onclick="toggleStd('${cId}','${p.docId}','${pA}','${sj}')">
     <div class="proj-icon" style="background:${f.bg};color:${f.color}">${k}</div>
-    <div class="proj-meta">
-      <div class="proj-name">${esc(ohnestern(p.name))}</div>
-      <div class="proj-sub">${p.sj.replace('_','/')}</div>
-    </div>
+    <div class="proj-meta"><div class="proj-name">${esc(ohnestern(p.name))}</div><div class="proj-sub">${sj.replace('_','/')}</div></div>
     <div class="proj-chevron" id="chev-${cId}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
   </div>
   <div class="proj-body" id="${cId}">
@@ -436,333 +433,305 @@ async function ladeProjekte() {
       }
     }).join('');
 
-  } catch(e) {
-    document.getElementById('projekte-liste').innerHTML = '<div class="loading">Laden fehlgeschlagen.</div>';
+  } catch(e){
+    document.getElementById('projekte-liste').innerHTML='<div class="loading">Laden fehlgeschlagen.</div>';
   }
 }
 
-// ── KALENDER LADEN ────────────────────────────────────────────
-async function ladenKalender() {
-  const params = new URLSearchParams(window.location.search);
-  const sjTarget = params.get('sj') || aktuellesSj();
-  document.getElementById('kal-sj-label').textContent = sjTarget.replace('_','/');
-
+// ── KALENDER ──────────────────────────────────────────────────
+async function ladenKalender(){
+  const sj = getSjTarget();
+  document.getElementById('kal-label').textContent = 'Termine · ' + sj.replace('_','/');
   const el = document.getElementById('kal-liste');
   try {
-    const res = await fetch(`${WEBAPP_URL}?action=programm&sj=${sjTarget}`);
-    const json = await res.json();
-    if (!json.ok || !json.data) { el.innerHTML = '<div class="loading">Keine Termine.</div>'; return; }
-
+    const progData = await ladeProgData(sj);
     const heute = new Date(); heute.setHours(0,0,0,0);
     const alle = [];
 
-    Object.keys(json.data).forEach(p => {
-      (json.data[p] || []).forEach(ev => {
+    Object.keys(progData).forEach(p => {
+      (progData[p]||[]).forEach(ev => {
         const dat = parseDatum(ev.datum);
-        if (dat) alle.push({ projekt: p, ev, dat });
+        if(dat) alle.push({projekt:p, ev, dat});
       });
     });
+    alle.sort((a,b)=>a.dat-b.dat);
 
-    alle.sort((a, b) => a.dat - b.dat);
-
-    if (!alle.length) { el.innerHTML = '<div class="loading">Keine Termine gefunden.</div>'; return; }
+    if(!alle.length){ el.innerHTML='<div class="loading">Keine Termine gefunden.</div>'; return; }
 
     // Nach Monat gruppieren
     const monate = {};
     alle.forEach(item => {
-      const key = item.dat.getFullYear() + '-' + String(item.dat.getMonth()).padStart(2,'0');
-      if (!monate[key]) monate[key] = {
-        label: MON[item.dat.getMonth()] + ' ' + item.dat.getFullYear(),
-        items: []
-      };
+      const key = item.dat.getFullYear()+'-'+String(item.dat.getMonth()).padStart(2,'0');
+      if(!monate[key]) monate[key]={label:MON[item.dat.getMonth()]+' '+item.dat.getFullYear(),items:[]};
       monate[key].items.push(item);
     });
 
-    let html = '';
+    let html = '', kalIdx = 0;
     Object.keys(monate).sort().forEach(key => {
       const m = monate[key];
       html += `<div class="kal-month-label">${m.label}</div>`;
-      m.items.forEach(({ projekt, ev, dat }) => {
+      m.items.forEach(({projekt, ev, dat}) => {
         const vergangen = dat < heute;
-        const wt = WT[dat.getDay()];
+        const wt  = WT[dat.getDay()];
         const tag = String(dat.getDate()).padStart(2,'0');
-        const isVorstellung = (ev.marker === 'Vorstellung') ||
-                              (ev.konzertart && ev.konzertart.length > 0);
-        const sub = [ev.uhrzeit || '', ev.ort || ''].filter(Boolean).join(' · ');
+        const isVorstellung = (ev.marker==='Vorstellung') || (ev.konzertart && ev.konzertart.length>0);
+        const werke = (ev.werke||[]).filter(w=>!w.pause);
+        const hatDetails = werke.length > 0 || (ev.leitung&&ev.leitung.length);
+        const sub = [ev.uhrzeit||'', ev.ort||''].filter(Boolean).join(' · ');
+        const kid = 'kal-'+kalIdx++;
 
-        html += `<div class="kal-event-card${vergangen ? ' vergangen' : ''}${isVorstellung ? ' vorstellung' : ''}">
-  <div class="kal-date-col">
-    <div class="kal-day-num">${tag}</div>
-    <div class="kal-day-wt">${wt}</div>
-  </div>
-  <div class="kal-divider"></div>
-  <div class="kal-info">
-    <div class="kal-event-title${isVorstellung ? ' bold' : ''}">${esc(ohnestern(ev._titel || projekt))}</div>
-    ${sub ? `<div class="kal-event-sub">${esc(sub)}</div>` : ''}
-  </div>
-  ${isVorstellung ? '<div class="kal-dot"></div>' : ''}
-</div>`;
+        html += `<div class="kal-card${vergangen?' vergangen':''}${isVorstellung?' vorstellung':''}">
+  <div class="kal-card-header" onclick="${hatDetails?`toggleKal('${kid}')`:'void(0)'}">
+    <div class="kal-date-col">
+      <div class="kal-day-num">${tag}</div>
+      <div class="kal-day-wt">${wt}</div>
+    </div>
+    <div class="kal-divider"></div>
+    <div class="kal-info">
+      <div class="kal-event-title${isVorstellung?' bold':''}">${esc(ohnestern(ev._titel||projekt))}</div>
+      ${sub?`<div class="kal-event-sub">${esc(sub)}</div>`:''}
+    </div>
+    ${isVorstellung?'<div class="kal-dot"></div>':''}
+    ${hatDetails?`<div class="kal-chev" id="kchev-${kid}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>`:''}
+  </div>`;
+
+        if(hatDetails){
+          html += `<div class="kal-body" id="${kid}">`;
+          werke.forEach(w => {
+            const ld = w.lebensdaten?' ('+w.lebensdaten+')':'';
+            html += `<div class="kal-werk">
+    <div class="kal-werk-komp">${esc((w.komponist||'')+ld)}</div>
+    ${w.titel?`<div class="kal-werk-titel">${esc(w.titel)}</div>`:''}
+  </div>`;
+          });
+          if(ev.solisten&&ev.solisten.length){
+            html += '<div class="kal-leitung">';
+            ev.solisten.forEach(s=>{ html+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'<br>'; });
+            html += '</div>';
+          }
+          if(ev.ensemble) html += `<div class="kal-leitung">${esc(ev.ensemble)}</div>`;
+          if(ev.leitung&&ev.leitung.length){
+            const lStr = ev.leitung.map(l=>typeof l==='object'?l.name:String(l)).filter(Boolean).join(' / ');
+            html += `<div class="kal-leitung">Leitung: ${esc(lStr)}</div>`;
+          }
+          html += '</div>';
+        }
+        html += '</div>';
       });
     });
 
     el.innerHTML = html;
-  } catch(e) {
-    el.innerHTML = '<div class="loading">Laden fehlgeschlagen.</div>';
+  } catch(e){
+    el.innerHTML='<div class="loading">Laden fehlgeschlagen.</div>';
   }
 }
 
-// ── UE-EVENTS ─────────────────────────────────────────────────
-async function ladeUeEvents(projektName, sjTarget) {
-  const key = sjTarget + '::' + projektName;
-  if (ueCache[key]) return ueCache[key];
-  try {
-    const res = await fetch(`${WEBAPP_URL}?action=programm&sj=${sjTarget}`);
-    const json = await res.json();
-    const rohdaten = (json.ok && json.data && json.data[projektName]) ? json.data[projektName] : [];
-    const events = rohdaten.map(ev => {
-      const datObj = parseDatum(ev.datum); if (!datObj) return null;
-      const datAnzeige = ev.datum || ddmmyyyy(datObj);
-      const wt = WT[datObj.getDay()];
-      let kopf = wt + ', ' + datAnzeige + (ev.uhrzeit ? ' ' + ev.uhrzeit : '') + '    ' + ohnestern(ev._titel || projektName);
-      if (ev.ort) kopf += '    |    ' + ev.ort;
-      const werke = (ev.werke || []).filter(w => !w.pause);
-      let leitung = '';
-      if (ev.leitung && ev.leitung.length) {
-        leitung = 'Leitung: ' + ev.leitung.map(l => typeof l === 'object' ? l.name : String(l)).filter(Boolean).join(' / ');
-      }
-      const tp = datAnzeige.split('.');
-      const tabLabel = wt + ' ' + String(tp[0]||'?').padStart(2,'0') + '.' + String(tp[1]||'?').padStart(2,'0') + '.';
-      return { datObj, datAnzeige, kopf, tabLabel, werke, leitung, solisten: ev.solisten||[], ensemble: ev.ensemble||null };
-    }).filter(Boolean).sort((a,b) => a.datObj - b.datObj);
-    ueCache[key] = events;
-    return events;
-  } catch(e) { return []; }
+function toggleKal(kid){
+  const body = document.getElementById(kid);
+  const chev = document.getElementById('kchev-'+kid);
+  if(!body) return;
+  const open = body.classList.contains('open');
+  body.classList.toggle('open',!open);
+  if(chev) chev.classList.toggle('open',!open);
 }
 
-function renderEventProgramm(ev) {
-  let h = '<div class="event-kopf">' + esc(ev.kopf) + '</div>';
-  if (!ev.werke.length) {
+// ── UE-EVENTS FÜR PROJEKTE ───────────────────────────────────
+async function ladeUeEvents(projektName, sj){
+  const key = sj+'::'+projektName;
+  if(ueCache[key]) return ueCache[key];
+  const progData = await ladeProgData(sj);
+  const rohdaten = progData[projektName] || [];
+  const events = rohdaten.map(ev => {
+    const datObj = parseDatum(ev.datum); if(!datObj) return null;
+    const datAnzeige = ev.datum || ddmmyyyy(datObj);
+    const wt = WT[datObj.getDay()];
+    let kopf = wt+', '+datAnzeige+(ev.uhrzeit?' '+ev.uhrzeit:'')+'    '+ohnestern(ev._titel||projektName);
+    if(ev.ort) kopf += '    |    '+ev.ort;
+    const werke = (ev.werke||[]).filter(w=>!w.pause);
+    let leitung = '';
+    if(ev.leitung&&ev.leitung.length) leitung='Leitung: '+ev.leitung.map(l=>typeof l==='object'?l.name:String(l)).filter(Boolean).join(' / ');
+    const tp = datAnzeige.split('.');
+    const tabLabel = wt+' '+String(tp[0]||'?').padStart(2,'0')+'.'+String(tp[1]||'?').padStart(2,'0')+'.';
+    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null};
+  }).filter(Boolean).sort((a,b)=>a.datObj-b.datObj);
+  ueCache[key] = events;
+  return events;
+}
+
+function renderEventProgramm(ev){
+  let h = '<div class="event-kopf">'+esc(ev.kopf)+'</div>';
+  if(!ev.werke.length){
     h += '<div class="event-kein">Noch kein Programm eingetragen.</div>';
   } else {
-    for (const w of ev.werke) {
-      const ld = w.lebensdaten ? ' (' + w.lebensdaten + ')' : '';
-      h += '<div class="werk-block"><div class="werk-komponist">' + esc((w.komponist||'') + ld) + '</div>';
-      if (w.titel) h += '<div class="werk-titel">' + esc(w.titel) + '</div>';
-      if (w.dauer) h += '<div class="werk-details">' + esc('Dauer: ' + w.dauer) + '</div>';
-      if (w.besetzung) h += '<div class="werk-details">' + esc('Besetzung: ' + w.besetzung) + '</div>';
+    for(const w of ev.werke){
+      const ld = w.lebensdaten?' ('+w.lebensdaten+')':'';
+      h += '<div class="werk-block"><div class="werk-komponist">'+esc((w.komponist||'')+ld)+'</div>';
+      if(w.titel) h += '<div class="werk-titel">'+esc(w.titel)+'</div>';
+      if(w.dauer) h += '<div class="werk-details">'+esc('Dauer: '+w.dauer)+'</div>';
+      if(w.besetzung) h += '<div class="werk-details">'+esc('Besetzung: '+w.besetzung)+'</div>';
       h += '</div>';
     }
   }
-  if (ev.solisten && ev.solisten.length) {
+  if(ev.solisten&&ev.solisten.length){
     h += '<div class="werk-leitung">';
-    ev.solisten.forEach(s => { h += esc(s.instrument + ': ' + s.name + (s.zusatz ? ' (' + s.zusatz + ')' : '')) + '<br>'; });
+    ev.solisten.forEach(s=>{ h+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'<br>'; });
     h += '</div>';
   }
-  if (ev.ensemble) h += '<div class="werk-leitung">' + esc(ev.ensemble) + '</div>';
-  if (ev.leitung) h += '<div class="werk-leitung">' + esc(ev.leitung) + '</div>';
+  if(ev.ensemble) h += '<div class="werk-leitung">'+esc(ev.ensemble)+'</div>';
+  if(ev.leitung) h += '<div class="werk-leitung">'+esc(ev.leitung)+'</div>';
   return h;
 }
 
-// ── DOC LADEN ─────────────────────────────────────────────────
-async function ladeProjektDoc(docId) {
-  if (docCache[docId]) return docCache[docId];
+// ── DOC LADEN ────────────────────────────────────────────────
+async function ladeProjektDoc(docId){
+  if(docCache[docId]) return docCache[docId];
   try {
     const res = await fetch(`https://docs.google.com/document/d/${docId}/export?format=txt`);
     const text = await res.text();
-    const ab = { programm:[], probenplan:[], spielende:[], biographien:[] };
-    const MK = {
-      '--- PROGRAMM ---':'programm',
-      '--- PROBENPLAN ---':'probenplan',
-      '--- SPIELENDE ---':'spielende',
-      '--- BIOGRAPHIEN ---':'biographien'
-    };
-    let aktiv = null, nach = false;
-    for (const line of text.split('\n')) {
-      const z = line.trim();
-      if (z === '--- AB HIER AUTOMATISCHER INHALT ---') { nach = true; aktiv = null; continue; }
-      if (!nach) continue;
-      if (MK[z] !== undefined) { aktiv = MK[z]; continue; }
-      if (/^Aktualisiert:/.test(z)) continue;
-      if (aktiv) ab[aktiv].push(z);
+    const ab = {programm:[],probenplan:[],spielende:[],biographien:[]};
+    const MK = {'--- PROGRAMM ---':'programm','--- PROBENPLAN ---':'probenplan','--- SPIELENDE ---':'spielende','--- BIOGRAPHIEN ---':'biographien'};
+    let aktiv=null,nach=false;
+    for(const line of text.split('\n')){
+      const z=line.trim();
+      if(z==='--- AB HIER AUTOMATISCHER INHALT ---'){nach=true;aktiv=null;continue;}
+      if(!nach)continue;
+      if(MK[z]!==undefined){aktiv=MK[z];continue;}
+      if(/^Aktualisiert:/.test(z))continue;
+      if(aktiv)ab[aktiv].push(z);
     }
-    for (const k in ab) {
-      const a = ab[k];
-      while (a.length && !a[0]) a.shift();
-      while (a.length && !a[a.length-1]) a.pop();
-    }
-    docCache[docId] = ab;
-    return ab;
-  } catch(e) { return null; }
+    for(const k in ab){const a=ab[k];while(a.length&&!a[0])a.shift();while(a.length&&!a[a.length-1])a.pop();}
+    docCache[docId]=ab; return ab;
+  } catch(e){ return null; }
 }
 
-// ── TOGGLE STD PROJEKT ────────────────────────────────────────
-async function toggleStd(cId, docId, projektName, sjTarget) {
-  const body = document.getElementById(cId);
-  const chev = document.getElementById('chev-' + cId);
-  const open = body.classList.contains('open');
-  body.classList.toggle('open', !open);
-  chev.classList.toggle('open', !open);
-  if (!open) {
-    const prog = document.getElementById(cId + '-programm');
-    if (prog && prog.querySelector('.proj-loading')) {
-      const events = await ladeUeEvents(projektName, sjTarget);
-      const elProg = document.getElementById(cId + '-programm');
-      if (elProg) {
-        if (!events || !events.length) {
-          elProg.innerHTML = '<p class="proj-text-muted">(Noch kein Programm)</p>';
-        } else {
-          const tabs = events.map((ev,i) =>
-            `<button class="event-tab ${i===0?'active':''}" onclick="showEvTabIn(event,'${cId}-programm',${i})">${esc(ev.tabLabel)}</button>`
-          ).join('');
-          const secs = events.map((ev,i) =>
-            `<div class="event-section ${i===0?'active':''}" id="${cId}-programm-prog-ev-${i}">${renderEventProgramm(ev)}</div>`
-          ).join('');
-          elProg.innerHTML = `<div class="event-tabs-wrap"><div class="event-tabs">${tabs}</div></div><div class="event-sections">${secs}</div>`;
+// ── TOGGLE STD ───────────────────────────────────────────────
+async function toggleStd(cId,docId,projektName,sj){
+  const body=document.getElementById(cId),chev=document.getElementById('chev-'+cId);
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open); chev.classList.toggle('open',!open);
+  if(!open){
+    const prog=document.getElementById(cId+'-programm');
+    if(prog&&prog.querySelector('.proj-loading')){
+      const events=await ladeUeEvents(projektName,sj);
+      const elProg=document.getElementById(cId+'-programm');
+      if(elProg){
+        if(!events||!events.length){elProg.innerHTML='<p class="proj-text-muted">(Noch kein Programm)</p>';}
+        else{
+          const tabs=events.map((ev,i)=>`<button class="event-tab ${i===0?'active':''}" onclick="showEvTabIn(event,'${cId}-programm',${i})">${esc(ev.tabLabel)}</button>`).join('');
+          const secs=events.map((ev,i)=>`<div class="event-section ${i===0?'active':''}" id="${cId}-programm-ev-${i}">${renderEventProgramm(ev)}</div>`).join('');
+          elProg.innerHTML=`<div class="event-tabs-wrap"><div class="event-tabs">${tabs}</div></div><div class="event-sections">${secs}</div>`;
         }
       }
-      const data = await ladeProjektDoc(docId);
-      const set = (s, arr, txt) => {
-        const el = document.getElementById(cId + '-' + s);
-        if (!el) return;
-        el.innerHTML = (arr && arr.length)
-          ? '<div class="proj-text">' + arr.join('\n') + '</div>'
-          : '<p class="proj-text-muted">' + txt + '</p>';
-      };
-      if (!data) {
-        ['probenplan','spielende','biographien'].forEach(s => set(s, null, 'Laden fehlgeschlagen.'));
-        return;
-      }
-      set('probenplan', data.probenplan, '(Noch keine Termine)');
-      set('spielende',  data.spielende,  '(Noch keine Einteilung)');
+      const data=await ladeProjektDoc(docId);
+      const set=(s,arr,txt)=>{const el=document.getElementById(cId+'-'+s);if(!el)return;el.innerHTML=(arr&&arr.length)?'<div class="proj-text">'+arr.join('\n')+'</div>':'<p class="proj-text-muted">'+txt+'</p>';};
+      if(!data){['probenplan','spielende','biographien'].forEach(s=>set(s,null,'Laden fehlgeschlagen.'));return;}
+      set('probenplan',data.probenplan,'(Noch keine Termine)');
+      set('spielende',data.spielende,'(Noch keine Einteilung)');
       set('biographien',data.biographien,'(Keine Biografien)');
     }
   }
 }
 
-// ── TOGGLE BR PROJEKT ─────────────────────────────────────────
-async function toggleBR(cId, docId, projektName, sjTarget) {
-  const body = document.getElementById(cId);
-  const chev = document.getElementById('chev-' + cId);
-  const open = body.classList.contains('open');
-  body.classList.toggle('open', !open);
-  chev.classList.toggle('open', !open);
-  if (!open) {
-    const loading = document.getElementById(cId + '-loading');
-    if (loading) {
-      const alleEvents = await ladeUeEvents(projektName, sjTarget);
-      const events = alleEvents.filter(ev => istInSpieljahr(ev.datObj, sjTarget));
-      if (!events || !events.length) {
-        body.innerHTML = `<div style="padding:14px"><p class="proj-text-muted">Keine Termine für ${esc(sjTarget.replace('_','/'))} gefunden.</p></div>`;
-        return;
-      }
-      const tabs = events.map((ev,i) =>
-        `<button class="event-tab ${i===0?'active':''}" onclick="showEvTab(event,'${cId}',${i})">${esc(ev.tabLabel)}</button>`
-      ).join('');
-      const secs = events.map((ev,i) =>
-        `<div class="event-section ${i===0?'active':''}" id="${cId}-ev-${i}">${renderEventProgramm(ev)}</div>`
-      ).join('');
-      body.innerHTML = `<div class="event-tabs-wrap"><div class="event-tabs">${tabs}</div></div><div class="event-sections">${secs}</div>`;
+// ── TOGGLE BR ────────────────────────────────────────────────
+async function toggleBR(cId,docId,projektName,sj){
+  const body=document.getElementById(cId),chev=document.getElementById('chev-'+cId);
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open); chev.classList.toggle('open',!open);
+  if(!open){
+    const loading=document.getElementById(cId+'-loading');
+    if(loading){
+      const alleEvents=await ladeUeEvents(projektName,sj);
+      const events=alleEvents.filter(ev=>istInSpieljahr(ev.datObj,sj));
+      if(!events||!events.length){body.innerHTML=`<div style="padding:14px"><p class="proj-text-muted">Keine Termine für ${esc(sj.replace('_','/'))} gefunden.</p></div>`;return;}
+      const tabs=events.map((ev,i)=>`<button class="event-tab ${i===0?'active':''}" onclick="showEvTab(event,'${cId}',${i})">${esc(ev.tabLabel)}</button>`).join('');
+      const secs=events.map((ev,i)=>`<div class="event-section ${i===0?'active':''}" id="${cId}-ev-${i}">${renderEventProgramm(ev)}</div>`).join('');
+      body.innerHTML=`<div class="event-tabs-wrap"><div class="event-tabs">${tabs}</div></div><div class="event-sections">${secs}</div>`;
     }
   }
 }
 
-function showProjTab(e, cId, tab) {
+function showProjTab(e,cId,tab){
   e.stopPropagation();
-  const body = document.getElementById(cId);
-  body.querySelectorAll('.proj-tab').forEach(t => t.classList.remove('active'));
-  body.querySelectorAll('.proj-section').forEach(s => s.classList.remove('active'));
+  const body=document.getElementById(cId);
+  body.querySelectorAll('.proj-tab').forEach(t=>t.classList.remove('active'));
+  body.querySelectorAll('.proj-section').forEach(s=>s.classList.remove('active'));
   e.target.classList.add('active');
-  document.getElementById(cId + '-' + tab).classList.add('active');
+  document.getElementById(cId+'-'+tab).classList.add('active');
 }
-function showEvTab(e, cId, idx) {
+function showEvTab(e,cId,idx){
   e.stopPropagation();
-  const body = document.getElementById(cId);
-  body.querySelectorAll('.event-tab').forEach(t => t.classList.remove('active'));
-  body.querySelectorAll('.event-section').forEach(s => s.classList.remove('active'));
+  const body=document.getElementById(cId);
+  body.querySelectorAll('.event-tab').forEach(t=>t.classList.remove('active'));
+  body.querySelectorAll('.event-section').forEach(s=>s.classList.remove('active'));
   e.target.classList.add('active');
-  const sec = document.getElementById(cId + '-ev-' + idx);
-  if (sec) sec.classList.add('active');
+  const sec=document.getElementById(cId+'-ev-'+idx); if(sec)sec.classList.add('active');
 }
-function showEvTabIn(e, containerId, idx) {
+function showEvTabIn(e,containerId,idx){
   e.stopPropagation();
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  container.querySelectorAll('.event-tab').forEach(t => t.classList.remove('active'));
-  container.querySelectorAll('.event-section').forEach(s => s.classList.remove('active'));
+  const container=document.getElementById(containerId); if(!container)return;
+  container.querySelectorAll('.event-tab').forEach(t=>t.classList.remove('active'));
+  container.querySelectorAll('.event-section').forEach(s=>s.classList.remove('active'));
   e.target.classList.add('active');
-  const sec = document.getElementById(containerId + '-prog-ev-' + idx);
-  if (sec) sec.classList.add('active');
+  const sec=document.getElementById(containerId+'-ev-'+idx); if(sec)sec.classList.add('active');
 }
 
-// ── BEDARF ────────────────────────────────────────────────────
-async function ladeBedarf() {
-  const url = `https://docs.google.com/spreadsheets/d/${BEDARF_SHEET_ID}/gviz/tq?tqx=out:csv&gid=${BEDARF_GID}`;
-  try {
-    const res = await fetch(url);
-    const text = await res.text();
-    const params = new URLSearchParams(window.location.search);
-    const sjTarget = params.get('sj') || aktuellesSj();
-    const sjParts = sjTarget.split('_');
-    const sjVon = new Date(2000+parseInt(sjParts[0],10), 8, 1);
-    const sjBis = new Date(2000+parseInt(sjParts[1],10), 7, 31, 23, 59, 59);
-    const termine = [];
-    text.trim().split('\n').slice(1).forEach(z => {
-      const t = parseCsvZeile(z); if (t.length < 10) return;
-      const datumRaw = t[5] || t[4]; if (!datumRaw) return;
-      const parts = datumRaw.split(' ')[0].split('.'); if (parts.length < 3) return;
-      const datum = new Date(parseInt(parts[2],10), parseInt(parts[1],10)-1, parseInt(parts[0],10));
-      if (datum < sjVon || datum > sjBis) return;
-      termine.push({
-        projekt:t[0], ort:t[1], werke:t[2], datum:datumRaw,
-        aufbauplan:t[7], tasten:t[9], stuehle:t[10],
-        basshocker:t[11], klHocker:t[12], pulte:t[13], gesamt:t[14]
-      });
+// ── BEDARF ───────────────────────────────────────────────────
+async function ladeBedarf(){
+  const sj = getSjTarget();
+  const url=`https://docs.google.com/spreadsheets/d/${BEDARF_SHEET}/gviz/tq?tqx=out:csv&gid=${BEDARF_GID}`;
+  try{
+    const res=await fetch(url); const text=await res.text();
+    const p=sj.split('_');
+    const sjVon=new Date(2000+parseInt(p[0]),8,1);
+    const sjBis=new Date(2000+parseInt(p[1]),7,31,23,59,59);
+    const termine=[];
+    text.trim().split('\n').slice(1).forEach(z=>{
+      const t=parseCsvZeile(z); if(t.length<10)return;
+      const dRaw=t[5]||t[4]; if(!dRaw)return;
+      const pts=dRaw.split(' ')[0].split('.'); if(pts.length<3)return;
+      const datum=new Date(parseInt(pts[2]),parseInt(pts[1])-1,parseInt(pts[0]));
+      if(datum<sjVon||datum>sjBis)return;
+      termine.push({projekt:t[0],ort:t[1],werke:t[2],datum:dRaw,aufbauplan:t[7],tasten:t[9],stuehle:t[10],basshocker:t[11],klHocker:t[12],pulte:t[13],gesamt:t[14]});
     });
-    const liste = document.getElementById('bedarf-liste');
-    if (!termine.length) { liste.innerHTML = '<div class="loading">Keine kommenden Termine.</div>'; return; }
-    liste.innerHTML = termine.map((t, i) => {
-      const f = getFarbe(t.projekt), did = 'bedarf-' + i;
-      let h = `<div class="bedarf-card">
+    const liste=document.getElementById('bedarf-liste');
+    if(!termine.length){liste.innerHTML='<div class="loading">Keine kommenden Termine.</div>';return;}
+    liste.innerHTML=termine.map((t,i)=>{
+      const f=getFarbe(t.projekt),did='bedarf-'+i;
+      let h=`<div class="bedarf-card">
   <div class="bedarf-header" onclick="toggleBedarf('${did}')">
     <div class="bedarf-nummer" style="background:${f.bg};color:${f.color}">${i+1}</div>
     <div class="bedarf-titel">
       <div class="bedarf-projekt">${esc(t.projekt)}</div>
       <div class="bedarf-datum">${esc(t.datum)}</div>
-      ${t.ort ? `<div class="bedarf-ort">${esc(t.ort)}</div>` : ''}
+      ${t.ort?`<div class="bedarf-ort">${esc(t.ort)}</div>`:''}
     </div>
     <div class="bedarf-toggle" id="btog-${did}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
   </div>
   <div class="bedarf-details" id="${did}">`;
-      if (t.werke) h += `<div class="werk-text">${esc(t.werke)}</div>`;
-      h += `<div class="stat-row">
+      if(t.werke)h+=`<div class="werk-text">${esc(t.werke)}</div>`;
+      h+=`<div class="stat-row">
     <div class="stat-box"><div class="stat-num">${t.stuehle||'–'}</div><div class="stat-label">Stühle</div></div>
     <div class="stat-box"><div class="stat-num">${t.pulte||'–'}</div><div class="stat-label">Pulte</div></div>
     <div class="stat-box"><div class="stat-num">${t.basshocker||'–'}</div><div class="stat-label">Basshocker</div></div>
     <div class="stat-box"><div class="stat-num">${t.klHocker||'–'}</div><div class="stat-label">Klavierhocker</div></div>
   </div>`;
-      if (t.tasten) h += `<div class="bedarf-row"><div class="bedarf-label">Tasten/Harfe</div><div class="bedarf-value">${esc(t.tasten)}</div></div>`;
-      if (t.gesamt) h += `<div class="bedarf-row"><div class="bedarf-label">Gesamt</div><div class="bedarf-value">${esc(t.gesamt)}</div></div>`;
-      if (t.aufbauplan) h += `<div class="bedarf-aufbau"><a href="${t.aufbauplan}" target="_blank"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Aufbauplan</a></div>`;
-      h += '</div></div>';
+      if(t.tasten)h+=`<div class="bedarf-row"><div class="bedarf-label">Tasten/Harfe</div><div class="bedarf-value">${esc(t.tasten)}</div></div>`;
+      if(t.gesamt)h+=`<div class="bedarf-row"><div class="bedarf-label">Gesamt</div><div class="bedarf-value">${esc(t.gesamt)}</div></div>`;
+      if(t.aufbauplan)h+=`<div class="bedarf-aufbau"><a href="${t.aufbauplan}" target="_blank"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Aufbauplan</a></div>`;
+      h+='</div></div>';
       return h;
     }).join('');
-  } catch(e) {
-    document.getElementById('bedarf-liste').innerHTML = '<div class="loading">Laden fehlgeschlagen.</div>';
-  }
+  }catch(e){document.getElementById('bedarf-liste').innerHTML='<div class="loading">Laden fehlgeschlagen.</div>';}
 }
-
-function toggleBedarf(did) {
+function toggleBedarf(did){
   document.getElementById(did).classList.toggle('open');
-  document.getElementById('btog-' + did).classList.toggle('open');
+  document.getElementById('btog-'+did).classList.toggle('open');
 }
 
-// ── PULL-TO-REFRESH ───────────────────────────────────────────
-let touchStartY = 0;
-document.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, {passive:true});
-document.addEventListener('touchend', e => {
-  const diff = e.changedTouches[0].clientY - touchStartY;
-  if (diff > 80 && window.scrollY === 0) location.reload();
-}, {passive:true});
+// ── PULL-TO-REFRESH ──────────────────────────────────────────
+let touchStartY=0;
+document.addEventListener('touchstart',e=>{touchStartY=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{if(e.changedTouches[0].clientY-touchStartY>80&&window.scrollY===0)location.reload();},{passive:true});
 
 // ── START ─────────────────────────────────────────────────────
 ladeProjekte();
