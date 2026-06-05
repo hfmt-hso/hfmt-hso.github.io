@@ -377,11 +377,16 @@ async function ladeProjekte(){
 
     // Clientseitig filtern: nur Projekte deren letzter Termin im aktuellen SJ
     // nicht älter als CUTOFF_TAGE ist
+    // Filterlogik: progData (Vorstellungs-Events des SJ) ist die einzige
+    // Wahrheitsquelle. Der Server gibt HSO 1/2 fälschlicherweise zurück weil
+    // er in uebersetzerAlleEvents() SJ-übergreifend nach dem letzten Event sucht
+    // und dabei 26/27-Proben findet. Wir ignorieren das und filtern nur nach
+    // progData: Projekt muss dort einen Eintrag mit Datum im SJ haben,
+    // dessen letztes Datum nicht älter als CUTOFF_TAGE ist.
     const aktiv = projekte.filter(p => {
       const events = progData[p.name] || [];
-      // Kein Programm-Eintrag → serverseitig schon gefiltert, trotzdem zeigen
-      if(!events.length) return true;
-      // Letztes Datum aller Events dieses Projekts im aktuellen SJ
+      if(!events.length) return false; // Kein Eintrag → vorbei
+
       let letztes = null;
       events.forEach(ev => {
         const d = parseDatum(ev.datum);
