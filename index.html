@@ -52,8 +52,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .content.active{display:flex}
 .section-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-top:4px}
 .loading{text-align:center;padding:24px;color:var(--text-muted);font-size:13px}
-
-/* ── PROJEKT-KARTEN ── */
 .proj-card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);overflow:hidden}
 .proj-header{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer}
 .proj-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
@@ -89,8 +87,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .werk-details{font-size:11px;color:var(--text-muted);margin-top:3px;line-height:1.5}
 .werk-leitung{font-size:11px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
 .event-kein{font-size:13px;color:var(--text-muted)}
-
-/* ── KALENDER ── */
 .kal-month-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;padding:4px 0 6px;border-bottom:0.5px solid var(--border);margin-bottom:8px}
 .kal-card{background:var(--card-bg);border-radius:0 12px 12px 0;border:0.5px solid var(--border);border-left:3px solid #ccc;margin-bottom:6px;overflow:hidden}
 .kal-card.typ-hso{border-left-color:#185FA5}
@@ -109,7 +105,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .kal-event-title{font-size:14px;font-weight:500;color:var(--text);line-height:1.2}
 .kal-event-title.bold{font-weight:700}
 .kal-event-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
-.kal-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0}
 .kal-chev{color:var(--text-muted);flex-shrink:0;transition:transform 0.2s}
 .kal-chev svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .kal-chev.open{transform:rotate(180deg)}
@@ -119,8 +114,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .kal-werk-komp{font-size:12px;font-weight:600;color:var(--text)}
 .kal-werk-titel{font-size:12px;color:var(--text-muted);margin-top:1px}
 .kal-leitung{font-size:11px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
-
-/* ── BEDARF ── */
 .bedarf-card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);overflow:hidden;margin-bottom:2px}
 .bedarf-header{padding:12px 14px;display:flex;align-items:flex-start;gap:10px;cursor:pointer}
 .bedarf-nummer{width:28px;height:28px;border-radius:7px;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
@@ -143,8 +136,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .werk-text{font-size:12px;color:var(--text-muted);font-style:italic;margin-bottom:8px;line-height:1.4}
 .bedarf-aufbau a{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--blue);text-decoration:none;font-weight:500;margin-top:8px}
 .bedarf-aufbau svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-
-/* ── LINKS & SONSTIGES ── */
 .card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);overflow:hidden}
 .link-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:0.5px solid var(--border);text-decoration:none;color:inherit}
 .link-item:last-child{border-bottom:none}
@@ -286,7 +277,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 const WEBAPP_URL    = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 const BEDARF_SHEET  = '1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ';
 const BEDARF_GID    = '1642432141';
-const CUTOFF_TAGE   = 14; // Projekte mit letztem Termin älter als X Tage ausblenden
+const CUTOFF_TAGE   = 14;
 const WT  = ['So','Mo','Di','Mi','Do','Fr','Sa'];
 const MON = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 const FARBEN = {
@@ -301,7 +292,6 @@ const FARBEN = {
 const ueCache  = {};
 const docCache = {};
 
-// ── HILFSFUNKTIONEN ───────────────────────────────────────────
 function getFarbe(n){for(const k in FARBEN){if(n.indexOf(k)!==-1)return FARBEN[k];}return FARBEN['default'];}
 function getKuerzel(n){
   if(n.startsWith('HSO Blattspiel'))return'BS';
@@ -341,11 +331,7 @@ function parseCsvZeile(z){
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function istBR(n){return /Blattspiel|Repertoire/i.test(n);}
 function ohnestern(s){return String(s||'').replace(/^\*/,'');}
-
-function getSjTarget(){
-  return new URLSearchParams(window.location.search).get('sj')||aktuellesSj();
-}
-
+function getSjTarget(){return new URLSearchParams(window.location.search).get('sj')||aktuellesSj();}
 function showTab(name,btn){
   document.querySelectorAll('.content').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(el=>el.classList.remove('active'));
@@ -353,8 +339,6 @@ function showTab(name,btn){
   btn.classList.add('active');
 }
 
-// ── PROGRAMM-DATEN LADEN (gecacht) ────────────────────────────
-let _progData = null;
 async function ladeProgData(sj){
   if(ueCache['__prog_'+sj])return ueCache['__prog_'+sj];
   const res = await fetch(`${WEBAPP_URL}?action=programm&sj=${sj}`);
@@ -364,54 +348,36 @@ async function ladeProgData(sj){
   return data;
 }
 
-// ── PROJEKTE ──────────────────────────────────────────────────
 async function ladeProjekte(){
   const sj = getSjTarget();
   document.getElementById('sj-badge').textContent = sj.replace('_','/');
-
   try {
-    // Beide Requests parallel
     const [projRes, progData] = await Promise.all([
       fetch(`${WEBAPP_URL}?action=projekte&sj=${sj}`).then(r=>r.json()),
       ladeProgData(sj)
     ]);
-
     if(!projRes.ok) throw new Error(projRes.error||'Fehler');
     const projekte = projRes.data || [];
-
     const heute = new Date(); heute.setHours(0,0,0,0);
-
-    // Clientseitig filtern: nur Projekte deren letzter Termin im aktuellen SJ
-    // nicht älter als CUTOFF_TAGE ist
-    // Filterlogik: progData (Vorstellungs-Events des SJ) ist die einzige
-    // Wahrheitsquelle. Der Server gibt HSO 1/2 fälschlicherweise zurück weil
-    // er in uebersetzerAlleEvents() SJ-übergreifend nach dem letzten Event sucht
-    // und dabei 26/27-Proben findet. Wir ignorieren das und filtern nur nach
-    // progData: Projekt muss dort einen Eintrag mit Datum im SJ haben,
-    // dessen letztes Datum nicht älter als CUTOFF_TAGE ist.
     const aktiv = projekte.filter(p => {
       const events = progData[p.name] || [];
-      if(!events.length) return false; // Kein Eintrag → vorbei
-
+      if(!events.length) return false;
       let letztes = null;
       events.forEach(ev => {
         const d = parseDatum(ev.datum);
         if(d && istInSpieljahr(d, sj) && (!letztes || d > letztes)) letztes = d;
       });
-      if(!letztes) return false; // Keine Termine im SJ → ausblenden
+      if(!letztes) return false;
       const diffTage = (heute - letztes) / 86400000;
       return diffTage <= CUTOFF_TAGE;
     });
-
     const liste = document.getElementById('projekte-liste');
     if(!aktiv.length){ liste.innerHTML='<div class="loading">Keine aktiven Projekte.</div>'; return; }
-
     liste.innerHTML = aktiv.map((p,i) => {
       const f = getFarbe(p.name);
       const k = p.zusatz ? '*' : getKuerzel(p.name);
       const cId = 'proj-'+i;
       const pA = p.name.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-
       if(istBR(p.name)){
         return `<div class="proj-card">
   <div class="proj-header" onclick="toggleBR('${cId}','${p.docId}','${pA}','${sj}')">
@@ -443,13 +409,11 @@ async function ladeProjekte(){
 </div>`;
       }
     }).join('');
-
   } catch(e){
     document.getElementById('projekte-liste').innerHTML='<div class="loading">Laden fehlgeschlagen.</div>';
   }
 }
 
-// ── KALENDER ──────────────────────────────────────────────────
 async function ladenKalender(){
   const sj = getSjTarget();
   document.getElementById('kal-label').textContent = 'Termine · ' + sj.replace('_','/');
@@ -458,7 +422,6 @@ async function ladenKalender(){
     const progData = await ladeProgData(sj);
     const heute = new Date(); heute.setHours(0,0,0,0);
     const alle = [];
-
     Object.keys(progData).forEach(p => {
       (progData[p]||[]).forEach(ev => {
         const dat = parseDatum(ev.datum);
@@ -466,17 +429,13 @@ async function ladenKalender(){
       });
     });
     alle.sort((a,b)=>a.dat-b.dat);
-
     if(!alle.length){ el.innerHTML='<div class="loading">Keine Termine gefunden.</div>'; return; }
-
-    // Nach Monat gruppieren
     const monate = {};
     alle.forEach(item => {
       const key = item.dat.getFullYear()+'-'+String(item.dat.getMonth()).padStart(2,'0');
       if(!monate[key]) monate[key]={label:MON[item.dat.getMonth()]+' '+item.dat.getFullYear(),items:[]};
       monate[key].items.push(item);
     });
-
     let html = '', kalIdx = 0;
     Object.keys(monate).sort().forEach(key => {
       const m = monate[key];
@@ -490,7 +449,6 @@ async function ladenKalender(){
         const hatDetails = werke.length > 0 || (ev.leitung&&ev.leitung.length);
         const sub = [ev.uhrzeit||'', ev.ort||''].filter(Boolean).join(' · ');
         const kid = 'kal-'+kalIdx++;
-        // Typ-Klasse für Balkenfarbe
         function getKalTyp(p) {
           if(/Blattspiel/i.test(p)) return 'typ-blattspiel';
           if(/Repertoire/i.test(p)) return 'typ-repertoire';
@@ -500,13 +458,9 @@ async function ladenKalender(){
           return 'typ-sonder';
         }
         const kalTyp = getKalTyp(projekt);
-
         html += `<div class="kal-card ${kalTyp}${vergangen?' vergangen':''}">
   <div class="kal-card-header" onclick="${hatDetails?`toggleKal('${kid}')`:'void(0)'}">
-    <div class="kal-date-col">
-      <div class="kal-day-num">${tag}</div>
-      <div class="kal-day-wt">${wt}</div>
-    </div>
+    <div class="kal-date-col"><div class="kal-day-num">${tag}</div><div class="kal-day-wt">${wt}</div></div>
     <div class="kal-divider"></div>
     <div class="kal-info">
       <div class="kal-event-title${isVorstellung?' bold':''}">${esc(ohnestern(ev._titel||projekt))}</div>
@@ -514,15 +468,11 @@ async function ladenKalender(){
     </div>
     ${hatDetails?`<div class="kal-chev" id="kchev-${kid}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>`:''}
   </div>`;
-
         if(hatDetails){
           html += `<div class="kal-body" id="${kid}">`;
           werke.forEach(w => {
             const ld = w.lebensdaten?' ('+w.lebensdaten+')':'';
-            html += `<div class="kal-werk">
-    <div class="kal-werk-komp">${esc((w.komponist||'')+ld)}</div>
-    ${w.titel?`<div class="kal-werk-titel">${esc(w.titel)}</div>`:''}
-  </div>`;
+            html += `<div class="kal-werk"><div class="kal-werk-komp">${esc((w.komponist||'')+ld)}</div>${w.titel?`<div class="kal-werk-titel">${esc(w.titel)}</div>`:''}</div>`;
           });
           if(ev.solisten&&ev.solisten.length){
             html += '<div class="kal-leitung">';
@@ -539,7 +489,6 @@ async function ladenKalender(){
         html += '</div>';
       });
     });
-
     el.innerHTML = html;
   } catch(e){
     el.innerHTML='<div class="loading">Laden fehlgeschlagen.</div>';
@@ -555,7 +504,6 @@ function toggleKal(kid){
   if(chev) chev.classList.toggle('open',!open);
 }
 
-// ── UE-EVENTS FÜR PROJEKTE ───────────────────────────────────
 async function ladeUeEvents(projektName, sj){
   const key = sj+'::'+projektName;
   if(ueCache[key]) return ueCache[key];
@@ -602,7 +550,6 @@ function renderEventProgramm(ev){
   return h;
 }
 
-// ── DOC LADEN ────────────────────────────────────────────────
 async function ladeProjektDoc(docId){
   if(docCache[docId]) return docCache[docId];
   try {
@@ -624,7 +571,6 @@ async function ladeProjektDoc(docId){
   } catch(e){ return null; }
 }
 
-// ── TOGGLE STD ───────────────────────────────────────────────
 async function toggleStd(cId,docId,projektName,sj){
   const body=document.getElementById(cId),chev=document.getElementById('chev-'+cId);
   const open=body.classList.contains('open');
@@ -652,7 +598,10 @@ async function toggleStd(cId,docId,projektName,sj){
   }
 }
 
-// ── TOGGLE BR ────────────────────────────────────────────────
+// ── TOGGLE BR: Blattspiel/Repertoire ─────────────────────────
+// Zeigt Werkliste pro Event direkt aus Übersetzer-JSON.
+// Solisten aus w.solisten (werkspezifisch, kein Fallback auf ev.solisten
+// da sonst alle Solisten bei jedem Werk wiederholt werden).
 async function toggleBR(cId,docId,projektName,sj){
   const body=document.getElementById(cId),chev=document.getElementById('chev-'+cId);
   const open=body.classList.contains('open');
@@ -663,25 +612,17 @@ async function toggleBR(cId,docId,projektName,sj){
       const alleEvents=await ladeUeEvents(projektName,sj);
       const events=alleEvents.filter(ev=>istInSpieljahr(ev.datObj,sj));
       if(!events||!events.length){body.innerHTML=`<div style="padding:14px"><p class="proj-text-muted">Keine Termine für ${esc(sj.replace('_','/'))} gefunden.</p></div>`;return;}
-      const zeilen=['Probenplan:'];
+      const zeilen=[];
       for(const ev of events){
-        const uhrM=ev.kopf.match(/(\d{2}:\d{2})/);
-        const uhr=uhrM?uhrM[1]:'';
-        if(!ev.werke.length){
-          zeilen.push((uhr?uhr+' ':'')+ohnestern(ev._titel||projektName));
-        } else {
-          for(const w of ev.werke){
-            const komp=(w.komponist||'').split('(')[0].trim();
-            let zeile=(uhr?uhr+' ':'')+komp+(w.titel?' \u201e'+w.titel+'\u201c':'');
-            const sol=(w.solisten&&w.solisten.length)?w.solisten:[];
-            if(sol&&sol.length) zeile+=' \u2013 '+sol.map(s=>s.instrument+': '+s.name.replace(/,\s*$/,'')).join(', ');
-            zeilen.push(zeile);
-          }
+        for(const w of ev.werke){
+          const komp=(w.komponist||'').split('(')[0].trim();
+          let zeile=komp+(w.titel?', \u201e'+w.titel+'\u201c':'');
+          const sol=(w.solisten&&w.solisten.length)?w.solisten:[];
+          if(sol.length) zeile+=' \u2013 '+sol.map(s=>s.instrument+': '+s.name.replace(/,\s*$/,'')).join(', ');
+          zeilen.push(zeile);
         }
-        zeilen.push('\u2014 Pause \u2014');
       }
-      zeilen.pop();
-      body.innerHTML='<div class="proj-text" style="padding:14px;white-space:pre-line">'+esc(zeilen.join('\n'))+'</div>';
+      body.innerHTML='<div class="proj-text" style="padding:14px">'+zeilen.map(z=>esc(z)).join('<br>')+'</div>';
     }
   }
 }
@@ -711,7 +652,6 @@ function showEvTabIn(e,containerId,idx){
   const sec=document.getElementById(containerId+'-ev-'+idx); if(sec)sec.classList.add('active');
 }
 
-// ── BEDARF ───────────────────────────────────────────────────
 async function ladeBedarf(){
   const sj = getSjTarget();
   const url=`https://docs.google.com/spreadsheets/d/${BEDARF_SHEET}/gviz/tq?tqx=out:csv&gid=${BEDARF_GID}`;
@@ -764,12 +704,10 @@ function toggleBedarf(did){
   document.getElementById('btog-'+did).classList.toggle('open');
 }
 
-// ── PULL-TO-REFRESH ──────────────────────────────────────────
 let touchStartY=0;
 document.addEventListener('touchstart',e=>{touchStartY=e.touches[0].clientY;},{passive:true});
 document.addEventListener('touchend',e=>{if(e.changedTouches[0].clientY-touchStartY>80&&window.scrollY===0)location.reload();},{passive:true});
 
-// ── START ─────────────────────────────────────────────────────
 ladeProjekte();
 ladenKalender();
 ladeBedarf();
