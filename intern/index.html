@@ -1423,8 +1423,7 @@ async function tasksSubSave() {
   if (!title || !_tasksSubParentId) return;
   tasksSubClose();
   var r = await apiPost({ action: 'taskAdd', listId: _tasksAktiveListe, title: title, parentId: _tasksSubParentId });
-  alert('Response: ' + JSON.stringify(r));
-  if (r && r.ok) {
+    if (r && r.ok) {
     var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
     if (liste) {
       liste.tasks.push({ id: r.id || ('tmp-' + Date.now()), title: title, notes: '', due: null, completed: false, parent: _tasksSubParentId });
