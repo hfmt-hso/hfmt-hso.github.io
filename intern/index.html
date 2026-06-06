@@ -1420,6 +1420,7 @@ function tasksSubClose() {
 
 async function tasksSubSave() {
   var title = document.getElementById('tasks-sub-input').value.trim();
+  alert('parentId: ' + _tasksSubParentId + ' | title: ' + title);
   if (!title || !_tasksSubParentId) return;
   tasksSubClose();
   var r = await apiPost({ action: 'taskAdd', listId: _tasksAktiveListe, title: title, parentId: _tasksSubParentId });
