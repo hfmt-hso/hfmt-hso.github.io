@@ -1305,7 +1305,7 @@ function tasksRenderListe() {
       (t.completed ? '<svg width="8" height="8" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>' : '') +
       '</div>' +
       // Titel + Datum
-      '<div style="flex:1;min-width:0;cursor:pointer" onclick="tasksEditOpen(\'' + t.id + '\')">' +
+      '<div style="flex:1;min-width:0;cursor:pointer" onclick="event.stopPropagation();tasksEditOpen(\'' + t.id + '\')">' +
       '<span style="font-size:12px;' + (t.completed ? 'text-decoration:line-through' : '') + '">' + esc(t.title) + '</span>' + dueHtml +
       '</div>' +
       // Unteraufgabe Button
@@ -1439,98 +1439,7 @@ async function apiPost(data) {
   } catch(e) { return null; }
 }
 
-async function tasksLaden() {
-  document.getElementById('tasks-list').innerHTML = '<div class="spinner"><div class="spin"></div>Lade...</div>';
-  var r = await apiFetch('tasks', {});
-  if (!r || !r.ok) {
-    document.getElementById('tasks-list').innerHTML = '<div style="padding:12px;font-size:12px;color:var(--ink3)">Fehler beim Laden.</div>';
-    return;
-  }
-  _tasksData = (r.data || []).filter(function(l) { return l.tasks && l.tasks.length > 0 || true; });
-  // Tabs rendern
-  var tabsEl = document.getElementById('tasks-lists-tabs');
-  tabsEl.innerHTML = _tasksData.map(function(l, i) {
-    return '<button class="proj-sj-btn' + (i === 0 ? ' active' : '') + '" onclick="tasksZeigeListe(\'' + l.id + '\',this)">' + esc(l.title) + '</button>';
-  }).join('');
-  if (_tasksData.length > 0) {
-    _tasksAktiveListe = _tasksData[0].id;
-    tasksRenderListe();
-  }
-}
 
-function tasksZeigeListe(listId, btn) {
-  _tasksAktiveListe = listId;
-  document.querySelectorAll('#tasks-lists-tabs .proj-sj-btn').forEach(function(b) { b.classList.remove('active'); });
-  btn.classList.add('active');
-  tasksRenderListe();
-}
-
-function tasksRenderListe() {
-  var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
-  var el = document.getElementById('tasks-list');
-  if (!liste) { el.innerHTML = ''; return; }
-  var tasks = liste.tasks.slice().sort(function(a, b) {
-    if (a.completed && !b.completed) return 1;
-    if (!a.completed && b.completed) return -1;
-    return 0;
-  });
-  if (tasks.length === 0) {
-    el.innerHTML = '<div style="padding:12px;font-size:12px;color:var(--ink3)">Keine Aufgaben.</div>';
-    return;
-  }
-  el.innerHTML = tasks.map(function(t) {
-    var due = t.due ? ' <span style="color:var(--ink3);font-size:10px">· ' + t.due.substring(0,10) + '</span>' : '';
-    var notes = t.notes && t.notes.trim() ? '<div style="font-size:10px;color:var(--ink3);padding:0 12px 6px 38px">' + esc(t.notes.replace(/@\S+/g,'').trim()) + '</div>' : '';
-    return '<div style="border-bottom:1px solid var(--border);' + (t.completed ? 'opacity:0.45' : '') + '">' +
-      '<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer" onclick="tasksToggle(\'' + esc(t.id) + '\',' + !t.completed + ')">' +
-      '<div style="width:16px;height:16px;border-radius:50%;border:2px solid ' + (t.completed ? 'var(--gold)' : 'var(--border2)') + ';background:' + (t.completed ? 'var(--gold)' : '#fff') + ';flex-shrink:0;display:flex;align-items:center;justify-content:center">' +
-      (t.completed ? '<svg width="8" height="8" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>' : '') +
-      '</div>' +
-      '<span style="font-size:12px;flex:1;' + (t.completed ? 'text-decoration:line-through' : '') + '">' + esc(t.title) + '</span>' + due +
-      '<button onclick="event.stopPropagation();tasksDelete(\'' + esc(t.id) + '\')" style="border:none;background:none;color:var(--ink3);font-size:14px;cursor:pointer;padding:0 2px;opacity:0.5">×</button>' +
-      '</div>' + notes + '</div>';
-  }).join('');
-}
-
-async function tasksToggle(taskId, completed) {
-  var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
-  if (!liste) return;
-  var task = liste.tasks.find(function(t) { return t.id === taskId; });
-  if (!task) return;
-  task.completed = completed;
-  tasksRenderListe();
-  await apiPost({ action: 'taskComplete', listId: _tasksAktiveListe, taskId: taskId, completed: completed });
-}
-
-async function tasksDelete(taskId) {
-  var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
-  if (!liste) return;
-  liste.tasks = liste.tasks.filter(function(t) { return t.id !== taskId; });
-  tasksRenderListe();
-  await apiPost({ action: 'taskDelete', listId: _tasksAktiveListe, taskId: taskId });
-}
-
-async function tasksAdd() {
-  var inp = document.getElementById('tasks-new-input');
-  var title = inp.value.trim();
-  if (!title || !_tasksAktiveListe) return;
-  inp.value = '';
-  var r = await apiPost({ action: 'taskAdd', listId: _tasksAktiveListe, title: title });
-  if (r && r.ok) {
-    var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
-    if (liste) {
-      liste.tasks.unshift({ id: r.id || 'tmp', title: title, notes: '', due: null, completed: false });
-      tasksRenderListe();
-    }
-  }
-}
-
-async function apiPost(data) {
-  try {
-    var r = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(data) });
-    return await r.json();
-  } catch(e) { return null; }
-}
 </script>
 </body>
 </html>
