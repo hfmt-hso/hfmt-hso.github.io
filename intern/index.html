@@ -1422,6 +1422,7 @@ async function tasksSubSave() {
   var title = document.getElementById('tasks-sub-input').value.trim();
   if (!title || !_tasksSubParentId) return;
   tasksSubClose();
+  delete _cache['tasks' + JSON.stringify({})];
   var r = await apiPost({ action: 'taskAdd', listId: _tasksAktiveListe, title: title, parentId: _tasksSubParentId });
     if (r && r.ok) {
     var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
