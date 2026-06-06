@@ -663,9 +663,25 @@ async function toggleBR(cId,docId,projektName,sj){
       const alleEvents=await ladeUeEvents(projektName,sj);
       const events=alleEvents.filter(ev=>istInSpieljahr(ev.datObj,sj));
       if(!events||!events.length){body.innerHTML=`<div style="padding:14px"><p class="proj-text-muted">Keine Termine für ${esc(sj.replace('_','/'))} gefunden.</p></div>`;return;}
-      const tabs=events.map((ev,i)=>`<button class="event-tab ${i===0?'active':''}" onclick="showEvTab(event,'${cId}',${i})">${esc(ev.tabLabel)}</button>`).join('');
-      const secs=events.map((ev,i)=>`<div class="event-section ${i===0?'active':''}" id="${cId}-ev-${i}">${renderEventProgramm(ev)}</div>`).join('');
-      body.innerHTML=`<div class="event-tabs-wrap"><div class="event-tabs">${tabs}</div></div><div class="event-sections">${secs}</div>`;
+      const zeilen=['Probenplan:'];
+      for(const ev of events){
+        const uhrM=ev.kopf.match(/(\d{2}:\d{2})/);
+        const uhr=uhrM?uhrM[1]:'';
+        if(!ev.werke.length){
+          zeilen.push((uhr?uhr+' ':'')+ohnestern(ev._titel||projektName));
+        } else {
+          for(const w of ev.werke){
+            const komp=(w.komponist||'').split('(')[0].trim();
+            let zeile=(uhr?uhr+' ':'')+komp+(w.titel?' \u201e'+w.titel+'\u201c':'');
+            const sol=(w.solisten&&w.solisten.length)?w.solisten:ev.solisten;
+            if(sol&&sol.length) zeile+=' \u2013 '+sol.map(s=>s.instrument+': '+s.name.replace(/,\s*$/,'')).join(', ');
+            zeilen.push(zeile);
+          }
+        }
+        zeilen.push('\u2014 Pause \u2014');
+      }
+      zeilen.pop();
+      body.innerHTML='<div class="proj-text" style="padding:14px;white-space:pre-line">'+esc(zeilen.join('\n'))+'</div>';
     }
   }
 }
