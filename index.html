@@ -664,7 +664,10 @@ async function toggleBR(cId,docId,projektName,sj){
       const events=alleEvents.filter(ev=>istInSpieljahr(ev.datObj,sj));
       if(!events||!events.length){body.innerHTML=`<div style="padding:14px"><p class="proj-text-muted">Keine Termine für ${esc(sj.replace('_','/'))} gefunden.</p></div>`;return;}
       const tabs=events.map((ev,i)=>`<button class="event-tab ${i===0?'active':''}" onclick="showEvTab(event,'${cId}',${i})">${esc(ev.tabLabel)}</button>`).join('');
-      const secs=events.map((ev,i)=>`<div class="event-section ${i===0?'active':''}" id="${cId}-ev-${i}">${renderEventProgramm(ev)}</div>`).join('');
+      const secs=events.map((ev,i)=>{
+        const pp=(ev.probenplan&&ev.probenplan.length)?'<div class="proj-text" style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border)">'+ev.probenplan.map(z=>esc(z)).join('<br>')+'</div>':'';
+        return`<div class="event-section ${i===0?'active':''}" id="${cId}-ev-${i}">${renderEventProgramm(ev)}${pp}</div>`;
+      }).join('');
       body.innerHTML=`<div class="event-tabs-wrap"><div class="event-tabs">${tabs}</div></div><div class="event-sections">${secs}</div>`;
     }
   }
