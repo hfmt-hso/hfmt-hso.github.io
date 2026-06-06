@@ -673,7 +673,7 @@ async function toggleBR(cId,docId,projektName,sj){
           for(const w of ev.werke){
             const komp=(w.komponist||'').split('(')[0].trim();
             let zeile=(uhr?uhr+' ':'')+komp+(w.titel?' \u201e'+w.titel+'\u201c':'');
-            const sol=(w.solisten&&w.solisten.length)?w.solisten:ev.solisten;
+            const sol=(w.solisten&&w.solisten.length)?w.solisten:[];
             if(sol&&sol.length) zeile+=' \u2013 '+sol.map(s=>s.instrument+': '+s.name.replace(/,\s*$/,'')).join(', ');
             zeilen.push(zeile);
           }
