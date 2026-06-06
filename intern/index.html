@@ -267,12 +267,46 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       <!-- TASKS -->
       <div>
         <div class="section-h" style="margin-bottom:8px">Google Tasks</div>
-        <div id="tasks-lists-tabs" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px"></div>
-        <div style="margin-bottom:8px;display:flex;gap:6px">
-          <input id="tasks-new-input" type="text" placeholder="Neue Aufgabe…" style="flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:inherit;outline:none">
+        <div id="tasks-lists-tabs" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px"></div>
+        <!-- Toolbar -->
+        <div style="display:flex;gap:6px;margin-bottom:8px;align-items:center">
+          <input id="tasks-new-input" type="text" placeholder="Neue Aufgabe…" style="flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:inherit;outline:none" onkeydown="if(event.key==='Enter')tasksAdd()">
           <button onclick="tasksAdd()" style="padding:7px 12px;background:var(--gold);border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">+</button>
         </div>
+        <!-- Filter-Zeile -->
+        <div style="display:flex;gap:6px;margin-bottom:8px;align-items:center">
+          <input id="tasks-search" type="text" placeholder="Suchen…" style="flex:1;padding:5px 8px;border:1px solid var(--border);border-radius:7px;font-size:11px;font-family:inherit;outline:none" oninput="tasksRenderListe()">
+          <button id="tasks-toggle-erledigt" onclick="tasksToggleErledigt(this)" style="padding:5px 10px;border:1px solid var(--border);border-radius:7px;font-size:11px;background:#fff;cursor:pointer;font-family:inherit;color:var(--ink3)">✓ ausblenden</button>
+          <select id="tasks-due-filter" onchange="tasksRenderListe()" style="padding:5px 8px;border:1px solid var(--border);border-radius:7px;font-size:11px;font-family:inherit;background:#fff;color:var(--ink3);cursor:pointer">
+            <option value="alle">Alle Termine</option>
+            <option value="heute">Heute</option>
+            <option value="woche">Diese Woche</option>
+            <option value="faellig">Überfällig</option>
+            <option value="kein">Ohne Termin</option>
+          </select>
+        </div>
         <div id="tasks-list" style="max-height:500px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius);background:#fff"><div class="spinner"><div class="spin"></div>Lade...</div></div>
+        <!-- Edit-Modal -->
+        <div id="tasks-edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;align-items:flex-end;justify-content:center" onclick="if(event.target===this)tasksEditClose()">
+          <div style="background:#fff;border-radius:16px 16px 0 0;padding:20px 16px 32px;width:100%;max-width:480px">
+            <div style="font-size:15px;font-weight:700;margin-bottom:16px">Aufgabe bearbeiten</div>
+            <input id="tasks-edit-title" type="text" placeholder="Titel" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;outline:none;margin-bottom:10px">
+            <textarea id="tasks-edit-notes" placeholder="Notizen…" rows="3" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;resize:vertical;margin-bottom:10px"></textarea>
+            <input id="tasks-edit-due" type="date" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;margin-bottom:16px">
+            <button onclick="tasksEditSave()" style="width:100%;padding:13px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:8px">Speichern</button>
+            <button onclick="tasksEditClose()" style="width:100%;padding:11px;border:1px solid var(--border);border-radius:8px;background:none;cursor:pointer;font-family:inherit;font-size:13px;color:var(--ink3)">Abbrechen</button>
+          </div>
+        </div>
+        <!-- Unteraufgabe-Modal -->
+        <div id="tasks-sub-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;align-items:flex-end;justify-content:center" onclick="if(event.target===this)tasksSubClose()">
+          <div style="background:#fff;border-radius:16px 16px 0 0;padding:20px 16px 32px;width:100%;max-width:480px">
+            <div style="font-size:15px;font-weight:700;margin-bottom:4px">Unteraufgabe</div>
+            <div id="tasks-sub-parent-label" style="font-size:12px;color:var(--ink3);margin-bottom:16px"></div>
+            <input id="tasks-sub-input" type="text" placeholder="Titel der Unteraufgabe…" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;outline:none;margin-bottom:16px" onkeydown="if(event.key==='Enter')tasksSubSave()">
+            <button onclick="tasksSubSave()" style="width:100%;padding:13px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:8px">Hinzufügen</button>
+            <button onclick="tasksSubClose()" style="width:100%;padding:11px;border:1px solid var(--border);border-radius:8px;background:none;cursor:pointer;font-family:inherit;font-size:13px;color:var(--ink3)">Abbrechen</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1173,6 +1207,237 @@ initialLaden();
 
 var _tasksData = [];
 var _tasksAktiveListe = null;
+var _tasksErledigtAusblenden = true;
+var _tasksEditId = null;
+
+async function tasksLaden() {
+  document.getElementById('tasks-list').innerHTML = '<div class="spinner"><div class="spin"></div>Lade...</div>';
+  var r = await apiFetch('tasks', {});
+  if (!r || !r.ok) {
+    document.getElementById('tasks-list').innerHTML = '<div style="padding:12px;font-size:12px;color:var(--ink3)">Fehler beim Laden.</div>';
+    return;
+  }
+  _tasksData = r.data || [];
+  var tabsEl = document.getElementById('tasks-lists-tabs');
+  tabsEl.innerHTML = _tasksData.map(function(l, i) {
+    return '<button class="proj-sj-btn' + (i === 0 ? ' active' : '') + '" onclick="tasksZeigeListe(\'' + l.id + '\',this)">' + esc(l.title) + '</button>';
+  }).join('');
+  if (_tasksData.length > 0) {
+    _tasksAktiveListe = _tasksData[0].id;
+    tasksRenderListe();
+  }
+}
+
+function tasksZeigeListe(listId, btn) {
+  _tasksAktiveListe = listId;
+  document.querySelectorAll('#tasks-lists-tabs .proj-sj-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  tasksRenderListe();
+}
+
+function tasksToggleErledigt(btn) {
+  _tasksErledigtAusblenden = !_tasksErledigtAusblenden;
+  btn.textContent = _tasksErledigtAusblenden ? '✓ ausblenden' : '✓ anzeigen';
+  btn.style.color = _tasksErledigtAusblenden ? 'var(--ink3)' : 'var(--blue)';
+  tasksRenderListe();
+}
+
+function tasksRenderListe() {
+  var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
+  var el = document.getElementById('tasks-list');
+  if (!liste) { el.innerHTML = ''; return; }
+
+  var suche = (document.getElementById('tasks-search').value || '').toLowerCase().trim();
+  var dueFilter = document.getElementById('tasks-due-filter').value;
+  var heute = new Date(); heute.setHours(0,0,0,0);
+  var wocheEnde = new Date(heute); wocheEnde.setDate(wocheEnde.getDate() + 7);
+
+  // Alle Tasks in Map
+  var taskMap = {};
+  liste.tasks.forEach(function(t) { taskMap[t.id] = t; });
+
+  // Top-level Tasks (kein parent)
+  var topLevel = liste.tasks.filter(function(t) { return !t.parent; });
+
+  // Filter
+  function passt(t) {
+    if (_tasksErledigtAusblenden && t.completed) return false;
+    if (suche && t.title.toLowerCase().indexOf(suche) === -1) return false;
+    if (dueFilter !== 'alle') {
+      var due = t.due ? new Date(t.due) : null;
+      if (dueFilter === 'heute') { if (!due || due.toDateString() !== heute.toDateString()) return false; }
+      else if (dueFilter === 'woche') { if (!due || due < heute || due > wocheEnde) return false; }
+      else if (dueFilter === 'faellig') { if (!due || due >= heute) return false; }
+      else if (dueFilter === 'kein') { if (due) return false; }
+    }
+    return true;
+  }
+
+  // Sortierung: offen zuerst, dann nach Fälligkeitsdatum
+  function sortTasks(arr) {
+    return arr.slice().sort(function(a, b) {
+      if (a.completed && !b.completed) return 1;
+      if (!a.completed && b.completed) return -1;
+      if (a.due && b.due) return new Date(a.due) - new Date(b.due);
+      if (a.due && !b.due) return -1;
+      if (!a.due && b.due) return 1;
+      return 0;
+    });
+  }
+
+  function renderTask(t, tiefe) {
+    var kinder = liste.tasks.filter(function(k) { return k.parent === t.id; });
+    var sichtbar = passt(t) || kinder.some(passt);
+    if (!sichtbar) return '';
+
+    var due = t.due ? new Date(t.due) : null;
+    var dueStr = due ? String(due.getDate()).padStart(2,'0') + '.' + String(due.getMonth()+1).padStart(2,'0') + '.' + due.getFullYear() : '';
+    var faellig = due && due < heute && !t.completed;
+    var dueHtml = dueStr ? ' <span style="font-size:10px;color:' + (faellig ? 'var(--red)' : 'var(--ink3)') + '">' + (faellig ? '⚠ ' : '') + dueStr + '</span>' : '';
+    var notesClean = (t.notes || '').replace(/@\S+/g,'').trim();
+    var notesHtml = notesClean ? '<div style="font-size:10px;color:var(--ink3);padding:2px 0 4px ' + (38 + tiefe*16) + 'px">' + esc(notesClean) + '</div>' : '';
+
+    var indent = tiefe * 16;
+    var html = '<div style="border-bottom:1px solid var(--border2)' + (t.completed ? ';opacity:0.4' : '') + '" id="task-row-' + t.id + '">' +
+      '<div style="display:flex;align-items:center;gap:6px;padding:7px 10px 7px ' + (10 + indent) + 'px">' +
+      // Checkbox
+      '<div onclick="tasksToggle(\'' + t.id + '\',' + !t.completed + ')" style="width:16px;height:16px;border-radius:50%;border:2px solid ' + (t.completed ? 'var(--gold)' : (tiefe > 0 ? 'var(--ink3)' : 'var(--border2)')) + ';background:' + (t.completed ? 'var(--gold)' : '#fff') + ';flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer">' +
+      (t.completed ? '<svg width="8" height="8" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>' : '') +
+      '</div>' +
+      // Titel + Datum
+      '<div style="flex:1;min-width:0;cursor:pointer" onclick="tasksEditOpen(\'' + t.id + '\')">' +
+      '<span style="font-size:12px;' + (t.completed ? 'text-decoration:line-through' : '') + '">' + esc(t.title) + '</span>' + dueHtml +
+      '</div>' +
+      // Unteraufgabe Button
+      (tiefe === 0 ? '<button onclick="tasksSubOpen(\'' + t.id + '\',\'' + esc(t.title) + '\')" title="Unteraufgabe" style="border:none;background:none;color:var(--ink3);font-size:12px;cursor:pointer;padding:0 3px;opacity:0.5" >⤵</button>' : '') +
+      // Löschen
+      '<button onclick="tasksDelete(\'' + t.id + '\')" style="border:none;background:none;color:var(--ink3);font-size:14px;cursor:pointer;padding:0 2px;opacity:0.4">×</button>' +
+      '</div>' +
+      notesHtml + '</div>';
+
+    // Unteraufgaben
+    sortTasks(kinder).forEach(function(k) { html += renderTask(k, tiefe + 1); });
+    return html;
+  }
+
+  var gefiltert = sortTasks(topLevel);
+  var html = gefiltert.map(function(t) { return renderTask(t, 0); }).join('');
+  if (!html.trim()) {
+    el.innerHTML = '<div style="padding:12px;font-size:12px;color:var(--ink3)">Keine Aufgaben.</div>';
+  } else {
+    el.innerHTML = html;
+  }
+}
+
+async function tasksToggle(taskId, completed) {
+  var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
+  if (!liste) return;
+  var task = liste.tasks.find(function(t) { return t.id === taskId; });
+  if (!task) return;
+  task.completed = completed;
+  tasksRenderListe();
+  await apiPost({ action: 'taskComplete', listId: _tasksAktiveListe, taskId: taskId, completed: completed });
+}
+
+async function tasksDelete(taskId) {
+  var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
+  if (!liste) return;
+  // Auch Unteraufgaben entfernen
+  var toDelete = new Set([taskId]);
+  liste.tasks.forEach(function(t) { if (t.parent === taskId) toDelete.add(t.id); });
+  liste.tasks = liste.tasks.filter(function(t) { return !toDelete.has(t.id); });
+  tasksRenderListe();
+  toDelete.forEach(function(id) {
+    apiPost({ action: 'taskDelete', listId: _tasksAktiveListe, taskId: id });
+  });
+}
+
+async function tasksAdd() {
+  var inp = document.getElementById('tasks-new-input');
+  var title = inp.value.trim();
+  if (!title || !_tasksAktiveListe) return;
+  inp.value = '';
+  var r = await apiPost({ action: 'taskAdd', listId: _tasksAktiveListe, title: title });
+  if (r && r.ok) {
+    var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
+    if (liste) {
+      liste.tasks.unshift({ id: r.id || ('tmp-' + Date.now()), title: title, notes: '', due: null, completed: false, parent: null });
+      tasksRenderListe();
+    }
+  }
+}
+
+// ── EDIT ─────────────────────────────────────────────────
+function tasksEditOpen(taskId) {
+  var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
+  if (!liste) return;
+  var task = liste.tasks.find(function(t) { return t.id === taskId; });
+  if (!task) return;
+  _tasksEditId = taskId;
+  document.getElementById('tasks-edit-title').value = task.title || '';
+  document.getElementById('tasks-edit-notes').value = (task.notes || '').replace(/@\S+/g,'').trim();
+  document.getElementById('tasks-edit-due').value = task.due ? task.due.substring(0,10) : '';
+  document.getElementById('tasks-edit-modal').style.display = 'flex';
+  setTimeout(function() { document.getElementById('tasks-edit-title').focus(); }, 50);
+}
+
+function tasksEditClose() {
+  document.getElementById('tasks-edit-modal').style.display = 'none';
+  _tasksEditId = null;
+}
+
+async function tasksEditSave() {
+  if (!_tasksEditId) return;
+  var title = document.getElementById('tasks-edit-title').value.trim();
+  var notes = document.getElementById('tasks-edit-notes').value;
+  var dueVal = document.getElementById('tasks-edit-due').value;
+  var due = dueVal ? dueVal + 'T00:00:00.000Z' : null;
+  if (!title) return;
+
+  var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
+  var task = liste ? liste.tasks.find(function(t) { return t.id === _tasksEditId; }) : null;
+  if (task) { task.title = title; task.notes = notes; task.due = due; }
+  tasksEditClose();
+  tasksRenderListe();
+  await apiPost({ action: 'taskUpdate', listId: _tasksAktiveListe, taskId: _tasksEditId, title: title, notes: notes, due: due });
+}
+
+// ── UNTERAUFGABEN ────────────────────────────────────────
+var _tasksSubParentId = null;
+
+function tasksSubOpen(parentId, parentTitle) {
+  _tasksSubParentId = parentId;
+  document.getElementById('tasks-sub-parent-label').textContent = '→ ' + parentTitle;
+  document.getElementById('tasks-sub-input').value = '';
+  document.getElementById('tasks-sub-modal').style.display = 'flex';
+  setTimeout(function() { document.getElementById('tasks-sub-input').focus(); }, 50);
+}
+
+function tasksSubClose() {
+  document.getElementById('tasks-sub-modal').style.display = 'none';
+  _tasksSubParentId = null;
+}
+
+async function tasksSubSave() {
+  var title = document.getElementById('tasks-sub-input').value.trim();
+  if (!title || !_tasksSubParentId) return;
+  tasksSubClose();
+  var r = await apiPost({ action: 'taskAdd', listId: _tasksAktiveListe, title: title, parentId: _tasksSubParentId });
+  if (r && r.ok) {
+    var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
+    if (liste) {
+      liste.tasks.push({ id: r.id || ('tmp-' + Date.now()), title: title, notes: '', due: null, completed: false, parent: _tasksSubParentId });
+      tasksRenderListe();
+    }
+  }
+}
+
+async function apiPost(data) {
+  try {
+    var r = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(data) });
+    return await r.json();
+  } catch(e) { return null; }
+}
 
 async function tasksLaden() {
   document.getElementById('tasks-list').innerHTML = '<div class="spinner"><div class="spin"></div>Lade...</div>';
