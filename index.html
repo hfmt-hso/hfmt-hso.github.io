@@ -572,7 +572,17 @@ async function ladeUeEvents(projektName, sj){
     if(ev.leitung&&ev.leitung.length) leitung='Leitung: '+ev.leitung.map(l=>typeof l==='object'?l.name:String(l)).filter(Boolean).join(' / ');
     const tp = datAnzeige.split('.');
     const tabLabel = wt+' '+String(tp[0]||'?').padStart(2,'0')+'.'+String(tp[1]||'?').padStart(2,'0')+'.';
-    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null};
+    const ppRoh=ev.probenplan||[];
+    const pp=[];
+    for(let pi=0;pi<ppRoh.length;pi++){
+      let z=ppRoh[pi];
+      while(z.endsWith('\u2013')||z.endsWith('–')||z.endsWith('-')){
+        pi++;if(pi>=ppRoh.length)break;
+        z=z+' '+ppRoh[pi].trim();
+      }
+      pp.push(z);
+    }
+    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:pp};
   }).filter(Boolean).sort((a,b)=>a.datObj-b.datObj);
   ueCache[key] = events;
   return events;
