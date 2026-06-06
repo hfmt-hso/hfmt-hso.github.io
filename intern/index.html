@@ -938,7 +938,7 @@ function renderEvProgramm(ev){
       h+='</div>';
     });
   }
-  if(ev.solisten&&ev.solisten.length){
+  if(ev.solisten&&ev.solisten.length&&!ev.werke.some(function(w){return w.solisten&&w.solisten.length;})){
     h+='<div class="werk-leitung">';
     ev.solisten.forEach(s=>{h+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'<br>';});
     h+='</div>';
