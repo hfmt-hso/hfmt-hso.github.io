@@ -920,7 +920,7 @@ async function ladeUeEvents(projektName,sj){
     if(ev.leitung&&ev.leitung.length)leitung='Leitung: '+ev.leitung.map(l=>typeof l==='object'?l.name:String(l)).filter(Boolean).join(' / ');
     var tp=datAnzeige.split('.');
     var tabLabel=wt+' '+String(tp[0]||'?').padStart(2,'0')+'.'+String(tp[1]||'?').padStart(2,'0')+'.';
-    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null};
+    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:ev.probenplan||[]};
   }).filter(Boolean).sort((a,b)=>a.datObj-b.datObj);
   _ueCache[key]=events;return events;
 }
@@ -988,7 +988,10 @@ async function toggleBR(cId,docId,projektName,sj){
       var events=alleEvents.filter(ev=>istInSpieljahr(ev.datObj,sj));
       if(!events||!events.length){body.innerHTML='<div style="padding:14px"><p class="proj-text-muted">Keine Termine für '+esc(sjAnzeige(sj))+' gefunden.</p></div>';return;}
       var tabs=events.map((ev,i)=>'<button class="evtab'+(i===0?' active':'')+'" onclick="showEvTab(event,\''+cId+'\','+i+')">'+esc(ev.tabLabel)+'</button>').join('');
-      var secs=events.map((ev,i)=>'<div class="evsec'+(i===0?' active':'')+'" id="'+cId+'-ev-'+i+'">'+renderEvProgramm(ev)+'</div>').join('');
+      var secs=events.map(function(ev,i){
+        var pp=(ev.probenplan&&ev.probenplan.length)?'<div class="proj-text" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">'+ev.probenplan.map(function(z){return esc(z);}).join('<br>')+'</div>':'';
+        return'<div class="evsec'+(i===0?' active':'')+'" id="'+cId+'-ev-'+i+'">'+renderEvProgramm(ev)+pp+'</div>';
+      }).join('');
       body.innerHTML='<div class="evtabs-wrap"><div class="evtabs">'+tabs+'</div></div><div class="evsections">'+secs+'</div>';
     }
   }
