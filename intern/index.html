@@ -1309,7 +1309,7 @@ function tasksRenderListe() {
       '<span style="font-size:12px;' + (t.completed ? 'text-decoration:line-through' : '') + '">' + esc(t.title) + '</span>' + dueHtml +
       '</div>' +
       // Unteraufgabe Button
-      (tiefe === 0 ? '<button onclick="tasksSubOpen(\'' + t.id + '\',\'' + esc(t.title) + '\')" title="Unteraufgabe" style="border:none;background:none;color:var(--ink3);font-size:12px;cursor:pointer;padding:0 3px;opacity:0.5" >⤵</button>' : '') +
+      (tiefe === 0 ? '<button onclick="event.stopPropagation();tasksSubOpen(\'' + t.id + '\',\'' + esc(t.title) + '\')" title="Unteraufgabe" style="border:none;background:none;color:var(--ink3);font-size:12px;cursor:pointer;padding:0 3px;opacity:0.5" >⤵</button>' : '') +
       // Löschen
       '<button onclick="tasksDelete(\'' + t.id + '\')" style="border:none;background:none;color:var(--ink3);font-size:14px;cursor:pointer;padding:0 2px;opacity:0.4">×</button>' +
       '</div>' +
@@ -1420,7 +1420,6 @@ function tasksSubClose() {
 
 async function tasksSubSave() {
   var title = document.getElementById('tasks-sub-input').value.trim();
-  alert('parentId: ' + _tasksSubParentId + ' | title: ' + title);
   if (!title || !_tasksSubParentId) return;
   tasksSubClose();
   var r = await apiPost({ action: 'taskAdd', listId: _tasksAktiveListe, title: title, parentId: _tasksSubParentId });
