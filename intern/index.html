@@ -188,6 +188,7 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       <button class="tnav active" data-tab="t-start" onclick="wechselTab(this)"><span class="tnav-icon">⌂</span> Start</button>
       <button class="tnav" data-tab="t-projekte" onclick="wechselTab(this)"><span class="tnav-icon">◫</span> Projekte</button>
       <button class="tnav" data-tab="t-unterricht" onclick="wechselTab(this)"><span class="tnav-icon">✎</span> Unterricht</button>
+      <button class="tnav" data-tab="t-zeitplan" onclick="wechselTab(this)"><span class="tnav-icon">⏱</span> Zeitplan</button>
       <button class="tnav" data-tab="t-links" onclick="wechselTab(this)"><span class="tnav-icon">⎋</span> Links</button>
     </nav>
   </div>
@@ -355,6 +356,11 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
     <div id="unt-inhalt"><div class="spinner"><div class="spin"></div>Lade Unterrichtsdaten...</div></div>
   </div>
 
+  <!-- ZEITPLAN -->
+  <div class="tab" id="t-zeitplan">
+    <div id="zp-inhalt"></div>
+  </div>
+
   <!-- LINKS -->
   <div class="tab" id="t-links">
     <div class="link-section">
@@ -398,7 +404,6 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <div class="qlink-icon" style="background:#eef6f0">📝</div>
   <div class="qlink-text"><div class="qlink-name">Freikarten</div><div class="qlink-type">Google Form</div></div>
   <div class="qlink-arr">↗</div>
-</a>
 </a>
     </div>
     <div class="link-section">
@@ -570,6 +575,7 @@ function ladenWennNoetig(tabId){
   if(tabId==='t-programm')ladenProgramm();
   if(tabId==='t-kalender')ladenKalender();
   if(tabId==='t-unterricht')ladenUnterricht();
+  if(tabId==='t-zeitplan')initZeitplan();
 }
 var _startSjFilter='alle';
 var _startTermineCache={};
@@ -1198,7 +1204,332 @@ function zeigToast(msg){
   t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
 }
+// ── ZEITPLAN ──────────────────────────────────────────────
 
+var _zpKandidaten = [];   // [{name, vorname, instrument, aktiv}]
+var _zpDragIdx = null;
+
+function initZeitplan() {
+  var el = document.getElementById('zp-inhalt');
+  el.innerHTML = `
+<div class="section-h">Datenquelle</div>
+<div class="card card-pad" style="margin-bottom:12px">
+  <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end">
+    <div>
+      <div style="font-size:11px;font-weight:600;color:var(--ink3);margin-bottom:4px">Google Sheet URL</div>
+      <input id="zp-url" type="text" placeholder="https://docs.google.com/spreadsheets/d/…" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-family:var(--mono);color:var(--ink);background:var(--paper)">
+    </div>
+    <button onclick="zpLadeSheet()" style="padding:8px 14px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap">Laden ↓</button>
+  </div>
+  <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div>
+      <div style="font-size:11px;font-weight:600;color:var(--ink3);margin-bottom:4px">Tab-Name (optional)</div>
+      <input id="zp-tab" type="text" placeholder="z.B. _Listen oder leer lassen" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;color:var(--ink);background:var(--paper)">
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:600;color:var(--ink3);margin-bottom:4px">Tab-Index (falls kein Name)</div>
+      <input id="zp-gid" type="text" placeholder="0" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;color:var(--ink);background:var(--paper)">
+    </div>
+  </div>
+</div>
+<div id="zp-zuordnung" style="display:none">
+  <div class="section-h">Feldzuordnung</div>
+  <div class="card card-pad" style="margin-bottom:12px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--ink3);margin-bottom:4px">Name / Nachname</div>
+        <select id="zp-col-name" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;background:var(--paper)"></select>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--ink3);margin-bottom:4px">Vorname</div>
+        <select id="zp-col-vorname" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;background:var(--paper)"></select>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--ink3);margin-bottom:4px">Instrument</div>
+        <select id="zp-col-instrument" style="width:100%;padding:8px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;background:var(--paper)"></select>
+      </div>
+    </div>
+    <button onclick="zpBaueKandidaten()" style="margin-top:10px;padding:8px 14px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer">Kandidaten laden →</button>
+  </div>
+</div>
+<div id="zp-konfig" style="display:none">
+  <div class="section-h">Zeitkonfiguration</div>
+  <div class="card card-pad" style="margin-bottom:12px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--ink3);margin-bottom:4px">Titel</div>
+        <input id="zp-titel" type="text" placeholder="z.B. Aufnahmeprüfung Master" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;color:var(--ink);background:var(--paper)">
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--ink3);margin-bottom:4px">Startzeit</div>
+        <input id="zp-start" type="time" value="10:00" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;color:var(--ink);background:var(--paper)">
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--ink3);margin-bottom:4px">Endzeit</div>
+        <input id="zp-end" type="time" value="18:00" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;color:var(--ink);background:var(--paper)">
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--ink3);margin-bottom:4px">Kandidaten</div>
+        <input id="zp-anzahl" type="number" min="1" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;color:var(--ink);background:var(--paper)" oninput="zpVorschau()">
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--ink3);margin-bottom:4px">Pause (Minuten)</div>
+        <input id="zp-pause-min" type="number" min="0" value="15" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;color:var(--ink);background:var(--paper)" oninput="zpVorschau()">
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--ink3);margin-bottom:4px">Pause nach Nr.</div>
+        <input id="zp-pause-nach" type="number" min="0" value="0" placeholder="0 = keine Pause" style="width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;color:var(--ink);background:var(--paper)" oninput="zpVorschau()">
+      </div>
+    </div>
+    <div id="zp-slot-info" style="margin-top:10px;font-size:12px;color:var(--ink3);font-family:var(--mono)"></div>
+  </div>
+  <div class="section-h">Kandidaten <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink3)">(ziehen zum Umsortieren · ☑ aktivieren/deaktivieren)</span></div>
+  <div id="zp-liste" style="margin-bottom:16px"></div>
+  <div class="section-h">Vorschau</div>
+  <div id="zp-vorschau" class="card" style="margin-bottom:16px;overflow:hidden"></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px">
+    <button onclick="zpExportCSV()" style="padding:10px 18px;background:var(--paper2);border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer">↓ CSV</button>
+    <button onclick="window.print()" style="padding:10px 18px;background:var(--paper2);border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer">🖨 Drucken</button>
+    <button onclick="zpErstelleSheet()" style="padding:10px 18px;background:var(--gold);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer">📊 Google Sheet erstellen</button>
+  </div>
+</div>`;
+  // Eingaben live updaten
+  ['zp-start','zp-end','zp-pause-min','zp-pause-nach'].forEach(id=>{
+    var el2=document.getElementById(id);
+    if(el2) el2.addEventListener('input',zpVorschau);
+  });
+}
+
+var _zpRohDaten = [];
+var _zpSpalten  = [];
+
+async function zpLadeSheet() {
+  var url = document.getElementById('zp-url').value.trim();
+  var tabName = document.getElementById('zp-tab').value.trim();
+  var gid = document.getElementById('zp-gid').value.trim() || '0';
+  if (!url) { zeigToast('Bitte URL eingeben'); return; }
+
+  // Sheet-ID extrahieren
+  var match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (!match) { zeigToast('Ungültige URL'); return; }
+  var sheetId = match[1];
+
+  // GID ermitteln falls Tab-Name gegeben → erst Sheet-Metadaten laden
+  var csvUrl;
+  if (tabName) {
+    // Lade alle Tabs per gviz um GID zu finden
+    try {
+      var metaUrl = 'https://docs.google.com/spreadsheets/d/' + sheetId + '/gviz/tq?tqx=out:json&sheet=' + encodeURIComponent(tabName);
+      var r = await fetch(metaUrl);
+      var txt = await r.text();
+      var json = JSON.parse(txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
+      _zpSpalten = json.table.cols.map((c,i)=>({idx:i, label:c.label||('Spalte '+(i+1))}));
+      _zpRohDaten = json.table.rows.map(row=>row.c.map(c=>c?String(c.v||''):''));
+      zpZeigZuordnung();
+      return;
+    } catch(e) {}
+  }
+
+  // Fallback: per GID
+  csvUrl = 'https://docs.google.com/spreadsheets/d/' + sheetId + '/gviz/tq?tqx=out:json&gid=' + gid;
+  try {
+    var r2 = await fetch(csvUrl);
+    var txt2 = await r2.text();
+    var json2 = JSON.parse(txt2.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
+    _zpSpalten = json2.table.cols.map((c,i)=>({idx:i, label:c.label||('Spalte '+(i+1))}));
+    _zpRohDaten = json2.table.rows.map(row=>row.c.map(c=>c?String(c.v||''):''));
+    zpZeigZuordnung();
+  } catch(e) {
+    zeigToast('Fehler beim Laden: ' + e.message);
+  }
+}
+
+function zpZeigZuordnung() {
+  if (!_zpSpalten.length) { zeigToast('Keine Spalten gefunden'); return; }
+  var opts = _zpSpalten.map((s,i)=>'<option value="'+i+'">'+esc(s.label)+'</option>').join('');
+  var leerOpt = '<option value="">– keine –</option>';
+  document.getElementById('zp-col-name').innerHTML = opts;
+  document.getElementById('zp-col-vorname').innerHTML = leerOpt + opts;
+  document.getElementById('zp-col-instrument').innerHTML = leerOpt + opts;
+  // Auto-Zuordnung versuchen
+  _zpSpalten.forEach((s,i)=>{
+    var l = s.label.toLowerCase();
+    if (l.includes('name') && !l.includes('vor')) document.getElementById('zp-col-name').value = i;
+    if (l.includes('vorname') || l.includes('first')) document.getElementById('zp-col-vorname').value = i;
+    if (l.includes('instrument') || l.includes('fach')) document.getElementById('zp-col-instrument').value = i;
+  });
+  document.getElementById('zp-zuordnung').style.display = 'block';
+  zeigToast(_zpRohDaten.length + ' Zeilen geladen');
+}
+
+function zpBaueKandidaten() {
+  var iName = parseInt(document.getElementById('zp-col-name').value);
+  var iVor  = document.getElementById('zp-col-vorname').value;
+  var iInst = document.getElementById('zp-col-instrument').value;
+  _zpKandidaten = _zpRohDaten
+    .filter(row => row[iName] && row[iName].trim())
+    .map(row => ({
+      name: row[iName]||'',
+      vorname: iVor!=='' ? (row[parseInt(iVor)]||'') : '',
+      instrument: iInst!=='' ? (row[parseInt(iInst)]||'') : '',
+      aktiv: true
+    }));
+  document.getElementById('zp-anzahl').value = _zpKandidaten.length;
+  document.getElementById('zp-konfig').style.display = 'block';
+  zpRenderListe();
+  zpVorschau();
+}
+
+function zpRenderListe() {
+  var el = document.getElementById('zp-liste');
+  if (!_zpKandidaten.length) { el.innerHTML='<div style="color:var(--ink3);font-size:13px">Keine Kandidaten</div>'; return; }
+  el.innerHTML = _zpKandidaten.map((k,i)=>`
+    <div class="zp-k-row" draggable="true" data-idx="${i}"
+      ondragstart="zpDragStart(${i})" ondragover="zpDragOver(event,${i})" ondrop="zpDrop(${i})" ondragend="zpDragEnd()"
+      style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:#fff;border:1.5px solid var(--border);border-radius:8px;margin-bottom:5px;cursor:grab;${!k.aktiv?'opacity:0.4':''}">
+      <span style="color:var(--ink3);font-size:12px;cursor:grab">⠿</span>
+      <input type="checkbox" ${k.aktiv?'checked':''} onchange="zpToggle(${i},this.checked)" style="cursor:pointer">
+      <span style="flex:1;font-size:13px">${esc(k.name)}${k.vorname?' '+esc(k.vorname):''}</span>
+      <span style="font-size:11px;color:var(--ink3);font-family:var(--mono)">${esc(k.instrument)}</span>
+    </div>`).join('');
+}
+
+function zpToggle(idx, aktiv) {
+  _zpKandidaten[idx].aktiv = aktiv;
+  var aktAnzahl = _zpKandidaten.filter(k=>k.aktiv).length;
+  document.getElementById('zp-anzahl').value = aktAnzahl;
+  zpVorschau();
+}
+
+function zpDragStart(idx) { _zpDragIdx = idx; }
+function zpDragEnd() { _zpDragIdx = null; }
+function zpDragOver(e, idx) { e.preventDefault(); }
+function zpDrop(idx) {
+  if (_zpDragIdx === null || _zpDragIdx === idx) return;
+  var arr = _zpKandidaten.splice(_zpDragIdx, 1)[0];
+  _zpKandidaten.splice(idx, 0, arr);
+  zpRenderListe();
+  zpVorschau();
+}
+
+function zpBerechne() {
+  var start = document.getElementById('zp-start').value || '10:00';
+  var end   = document.getElementById('zp-end').value   || '18:00';
+  var pauseMin  = parseInt(document.getElementById('zp-pause-min').value  || 0);
+  var pauseNach = parseInt(document.getElementById('zp-pause-nach').value || 0);
+  var aktive = _zpKandidaten.filter(k=>k.aktiv);
+  var anzahl = aktive.length;
+
+  var sp = start.split(':'), ep = end.split(':');
+  var startM = parseInt(sp[0])*60 + parseInt(sp[1]);
+  var endM   = parseInt(ep[0])*60 + parseInt(ep[1]);
+  var pauseGes = (pauseNach > 0 && pauseNach < anzahl) ? pauseMin : 0;
+  var verfuegbar = endM - startM - pauseGes;
+  var slot = anzahl > 0 ? Math.floor(verfuegbar / anzahl) : 0;
+
+  var zeilen = [];
+  var aktM = startM;
+  var nr = 0;
+  for (var i = 0; i < aktive.length; i++) {
+    nr++;
+    if (pauseNach > 0 && nr === pauseNach + 1) {
+      zeilen.push({ pause: true, uhrzeit: _zpMin2Zeit(aktM), dauer: pauseMin });
+      aktM += pauseMin;
+    }
+    zeilen.push({ nr: nr, k: aktive[i], uhrzeit: _zpMin2Zeit(aktM), slot: slot });
+    aktM += slot;
+  }
+  return { zeilen, slot, verfuegbar, anzahl, startM, endM, pauseGes };
+}
+
+function _zpMin2Zeit(m) {
+  var h = Math.floor(m/60), mn = m%60;
+  return (h<10?'0':'')+h+':'+(mn<10?'0':'')+mn;
+}
+
+function zpVorschau() {
+  if (!document.getElementById('zp-konfig') || document.getElementById('zp-konfig').style.display==='none') return;
+  var res = zpBerechne();
+  // Slot-Info
+  document.getElementById('zp-slot-info').textContent =
+    res.anzahl + ' Kandidaten · ' + res.slot + ' Min/Slot · verfügbar: ' + res.verfuegbar + ' Min';
+  // Vorschau-Tabelle
+  var rows = res.zeilen.map(z => {
+    if (z.pause) return `<tr style="background:#f0f0e8;color:#888;font-style:italic">
+      <td style="padding:5px 10px">–</td><td colspan="3" style="padding:5px 10px">PAUSE</td>
+      <td style="padding:5px 10px">${z.dauer} Min</td><td style="padding:5px 10px">${esc(z.uhrzeit)}</td></tr>`;
+    return `<tr style="${z.nr%2===0?'background:#fafaf8':''}">
+      <td style="padding:5px 10px;color:var(--ink3);font-family:var(--mono)">${z.nr}</td>
+      <td style="padding:5px 10px">${esc(z.k.name)}</td>
+      <td style="padding:5px 10px">${esc(z.k.vorname)}</td>
+      <td style="padding:5px 10px;color:var(--ink3)">${esc(z.k.instrument)}</td>
+      <td style="padding:5px 10px;font-family:var(--mono)">${z.slot}</td>
+      <td style="padding:5px 10px;font-family:var(--mono);font-weight:600">${esc(z.uhrzeit)}</td></tr>`;
+  }).join('');
+  document.getElementById('zp-vorschau').innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead><tr style="background:var(--ink);color:#fff">
+        <th style="padding:7px 10px;text-align:left;font-weight:600">Nr.</th>
+        <th style="padding:7px 10px;text-align:left;font-weight:600">Name</th>
+        <th style="padding:7px 10px;text-align:left;font-weight:600">Vorname</th>
+        <th style="padding:7px 10px;text-align:left;font-weight:600">Instrument</th>
+        <th style="padding:7px 10px;text-align:left;font-weight:600">Min</th>
+        <th style="padding:7px 10px;text-align:left;font-weight:600">Uhrzeit</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+function zpExportCSV() {
+  var titel = document.getElementById('zp-titel').value || 'Zeitplan';
+  var res = zpBerechne();
+  var zeilen = [['Nr.','Name','Vorname','Instrument','Min','Uhrzeit']];
+  res.zeilen.forEach(z => {
+    if (z.pause) zeilen.push(['–','PAUSE','','',z.dauer,z.uhrzeit]);
+    else zeilen.push([z.nr, z.k.name, z.k.vorname, z.k.instrument, z.slot, z.uhrzeit]);
+  });
+  var csv = zeilen.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  var a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csv);
+  a.download = titel.replace(/\s+/g,'_') + '.csv';
+  a.click();
+}
+
+async function zpErstelleSheet() {
+  var titel = document.getElementById('zp-titel').value || 'Zeitplan';
+  var start = document.getElementById('zp-start').value || '10:00';
+  var end   = document.getElementById('zp-end').value   || '18:00';
+  var pauseMin  = parseInt(document.getElementById('zp-pause-min').value  || 0);
+  var pauseNach = parseInt(document.getElementById('zp-pause-nach').value || 0);
+  var aktive = _zpKandidaten.filter(k=>k.aktiv);
+
+  zeigToast('Sheet wird erstellt…');
+  try {
+    var r = await fetch(WEB_APP_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'zeitplanErstellen',
+        titel: titel,
+        kandidaten: aktive,
+        startzeit: start,
+        endzeit: end,
+        pauseMin: pauseMin,
+        pauseNach: pauseNach
+      })
+    });
+    var d = await r.json();
+    if (d.ok) {
+      zeigToast('Sheet erstellt!');
+      window.open(d.url, '_blank');
+    } else {
+      zeigToast('Fehler: ' + d.error);
+    }
+  } catch(e) {
+    zeigToast('Fehler: ' + e.message);
+  }
+}
 initialLaden();
 
 // ══════════════════════════════════════════════════════════════
