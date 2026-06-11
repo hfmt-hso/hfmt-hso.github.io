@@ -1740,9 +1740,10 @@ async function tasksEditSave() {
   var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
   var task = liste ? liste.tasks.find(function(t) { return t.id === _tasksEditId; }) : null;
   if (task) { task.title = title; task.notes = notes; task.due = due; }
+  var savedEditId = _tasksEditId;
   tasksEditClose();
   tasksRenderListe();
-  var res = await apiPost({ action: 'taskUpdate', listId: _tasksAktiveListe, taskId: _tasksEditId, title: title, notes: notes, due: dueVal || null });
+  var res = await apiPost({ action: 'taskUpdate', listId: _tasksAktiveListe, taskId: savedEditId, title: title, notes: notes, due: dueVal || null });
   if (res && !res.ok) zeigToast('Fehler: ' + res.error);
   else if (!res) zeigToast('Keine Antwort vom Server');
 }
