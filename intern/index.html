@@ -1742,7 +1742,7 @@ async function tasksEditSave() {
   if (task) { task.title = title; task.notes = notes; task.due = due; }
   tasksEditClose();
   tasksRenderListe();
-  await apiPost({ action: 'taskUpdate', listId: _tasksAktiveListe, taskId: _tasksEditId, title: title, notes: notes, due: due });
+  await apiPost({ action: 'taskUpdate', listId: _tasksAktiveListe, taskId: _tasksEditId, title: title, notes: notes, due: dueVal || null });
 }
 
 // ── UNTERAUFGABEN ────────────────────────────────────────
