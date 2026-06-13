@@ -55,7 +55,8 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .qlink-text{flex:1;min-width:0}
 .qlink-name{font-size:13px;font-weight:600;line-height:1.2}
 .qlink-type{font-size:11px;color:var(--ink3);margin-top:1px}
-.qlink-arr{color:var(--ink3);flex-shrink:0;font-size:12px}
+.qlink-arr{color:var(--ink3);flex-shrink:0;font-size:12px;display:flex;align-items:center;gap:5px}
+.qlink-kb{font-size:9px;font-weight:700;font-family:var(--mono);color:var(--ink3);background:var(--paper2);border:1px solid var(--border2);border-radius:4px;padding:1px 4px;opacity:0.7}
 
 /* ── PROJEKTE ── */
 .proj-sj-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
@@ -197,45 +198,45 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <div class="tab active" id="t-start">
     <div class="section-h">Schnellzugriff</div>
     <div class="grid2">
-      <a class="qlink" href="https://docs.google.com/spreadsheets/d/1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU/edit" target="_blank">
+      <a class="qlink" id="ql1" href="https://docs.google.com/spreadsheets/d/1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU/edit" target="_blank">
         <div class="qlink-icon" style="background:#e8f3ff">📊</div>
         <div class="qlink-text"><div class="qlink-name">HfMT Lehre</div><div class="qlink-type">Google Sheet</div></div>
-        <div class="qlink-arr">↗</div>
+        <div class="qlink-arr"><span class="qlink-kb">⌃1</span> ↗</div>
       </a>
-      <a class="qlink" href="https://docs.google.com/spreadsheets/d/1v3D2o7G9AwFz6jO4Lz-jrft6PcjQWNk9YopqQ5ikPpI/edit" target="_blank">
+      <a class="qlink" id="ql2" href="https://docs.google.com/spreadsheets/d/1v3D2o7G9AwFz6jO4Lz-jrft6PcjQWNk9YopqQ5ikPpI/edit" target="_blank">
         <div class="qlink-icon" style="background:#fff3e8">🎵</div>
         <div class="qlink-text"><div class="qlink-name">Programmgestaltung</div><div class="qlink-type">Google Sheet</div></div>
-        <div class="qlink-arr">↗</div>
+        <div class="qlink-arr"><span class="qlink-kb">⌃2</span> ↗</div>
       </a>
-      <a class="qlink" href="https://calendar.google.com/calendar/r?cid=b11b52fea156e762892f701f4ecc35cc1ccbbb80f21b5e7ca3e924d251bb6d1b%40group.calendar.google.com" target="_blank">
+      <a class="qlink" id="ql3" href="https://calendar.google.com/calendar/r?cid=b11b52fea156e762892f701f4ecc35cc1ccbbb80f21b5e7ca3e924d251bb6d1b%40group.calendar.google.com" target="_blank">
         <div class="qlink-icon" style="background:#e8f0fe">📅</div>
         <div class="qlink-text"><div class="qlink-name">HfMT Lehre</div><div class="qlink-type">Google Kalender</div></div>
-        <div class="qlink-arr">↗</div>
+        <div class="qlink-arr"><span class="qlink-kb">⌃3</span> ↗</div>
       </a>
-      <a class="qlink" href="https://docs.google.com/document/d/163kmVbqRkw4m9dMjS8_BoBLW3se8h-d84yiw_AUPJKA/edit" target="_blank">
+      <a class="qlink" id="ql4" href="https://docs.google.com/document/d/163kmVbqRkw4m9dMjS8_BoBLW3se8h-d84yiw_AUPJKA/edit" target="_blank">
         <div class="qlink-icon" style="background:#f5eeff">📋</div>
-        <div class="qlink-text"><div class="qlink-name">Kontakte</div><div class="qlink-type">Google Contacts</div></div>
-        <div class="qlink-arr">↗</div>
+        <div class="qlink-text"><div class="qlink-name">Schwarzes Brett</div><div class="qlink-type">Google Doc</div></div>
+        <div class="qlink-arr"><span class="qlink-kb">⌃4</span> ↗</div>
       </a>
-      <a class="qlink" href="https://docs.google.com/spreadsheets/d/1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ/edit" target="_blank">
+      <a class="qlink" id="ql5" href="https://docs.google.com/spreadsheets/d/1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ/edit" target="_blank">
         <div class="qlink-icon" style="background:#fff8e8">🛠</div>
         <div class="qlink-text"><div class="qlink-name">Bedarf / Forum</div><div class="qlink-type">Google Sheet</div></div>
-        <div class="qlink-arr">↗</div>
+        <div class="qlink-arr"><span class="qlink-kb">⌃5</span> ↗</div>
       </a>
-      <a class="qlink" href="https://docs.google.com/spreadsheets/d/1bnD_wDw0jZ1jWuOa0yraGIpPpiiIlVGu3qyYbuLzOGc/edit?gid=1845353154" target="_blank">
+      <a class="qlink" id="ql6" href="https://docs.google.com/spreadsheets/d/1bnD_wDw0jZ1jWuOa0yraGIpPpiiIlVGu3qyYbuLzOGc/edit?gid=1845353154" target="_blank">
         <div class="qlink-icon" style="background:#fff3e0">💶</div>
         <div class="qlink-text"><div class="qlink-name">Finanzen / Werkverträge</div><div class="qlink-type">Google Sheet</div></div>
-        <div class="qlink-arr">↗</div>
+        <div class="qlink-arr"><span class="qlink-kb">⌃6</span> ↗</div>
       </a>
-      <a class="qlink" href="https://docs.google.com/spreadsheets/d/1EzFVAmvVtp0Slh04tx6ioYGk6U58fs6E2L1_qrZPsn4/edit?gid=760008888" target="_blank">
+      <a class="qlink" id="ql7" href="https://docs.google.com/spreadsheets/d/1EzFVAmvVtp0Slh04tx6ioYGk6U58fs6E2L1_qrZPsn4/edit?gid=760008888" target="_blank">
         <div class="qlink-icon" style="background:#eef6f0">✅</div>
         <div class="qlink-text"><div class="qlink-name">Anwesenheitsliste</div><div class="qlink-type">Google Sheet</div></div>
-        <div class="qlink-arr">↗</div>
+        <div class="qlink-arr"><span class="qlink-kb">⌃7</span> ↗</div>
       </a>
-      <a class="qlink" href="https://docs.google.com/spreadsheets/d/1xAdZ_HWhQxq5wsH1Ct88eew5uw07yDYyAWheS9ycPaI/edit" target="_blank">
+      <a class="qlink" id="ql8" href="https://docs.google.com/spreadsheets/d/1xAdZ_HWhQxq5wsH1Ct88eew5uw07yDYyAWheS9ycPaI/edit" target="_blank">
         <div class="qlink-icon" style="background:#e8f3ff">📐</div>
         <div class="qlink-text"><div class="qlink-name">Probendisposition</div><div class="qlink-type">Google Sheet</div></div>
-        <div class="qlink-arr">↗</div>
+        <div class="qlink-arr"><span class="qlink-kb">⌃8</span> ↗</div>
       </a>
     </div>
     <div class="section-h">Studienjahr-Vorschau</div>
@@ -1547,6 +1548,15 @@ async function zpErstelleSheet() {
     zeigToast('Fehler: ' + e.message);
   }
 }
+document.addEventListener('keydown', function(e) {
+  if (!e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+  var n = parseInt(e.key);
+  if (n >= 1 && n <= 8) {
+    e.preventDefault();
+    var el = document.getElementById('ql' + n);
+    if (el) el.click();
+  }
+});
 initialLaden();
 
 // ══════════════════════════════════════════════════════════════
