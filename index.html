@@ -599,6 +599,7 @@ function renderEventProgramm(ev){
       if(w.titel) h += '<div class="werk-titel">'+esc(w.titel)+'</div>';
       if(w.dauer) h += '<div class="werk-details">'+esc('Dauer: '+w.dauer)+'</div>';
       if(w.besetzung) h += '<div class="werk-details">'+esc('Besetzung: '+w.besetzung)+'</div>';
+      if(w.solisten&&w.solisten.length){ w.solisten.forEach(s=>{ h+='<div class="werk-details">'+esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'</div>'; }); }
       h += '</div>';
     }
   }
