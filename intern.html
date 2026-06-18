@@ -34,6 +34,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .screen{display:none;padding:18px 16px;flex-direction:column;gap:13px;padding-bottom:48px}
 .screen.active{display:flex}
+
+/* LOGIN */
 .login-hero{text-align:center;padding:6px 0 2px}
 .login-icon{font-size:2.4rem;margin-bottom:8px}
 .login-title{font-size:19px;font-weight:700;margin-bottom:4px}
@@ -51,9 +53,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-gold{background:var(--gold);color:#fff}.btn-gold:active{opacity:.85}
 .btn-out{background:none;border:1.5px solid var(--border);color:var(--text-muted);margin-top:8px}
 .hint{font-size:12px;color:var(--text-muted);text-align:center;line-height:1.5}
-.admin-link-wrap{text-align:center}
-.admin-link{font-size:11px;color:var(--text-muted);background:none;border:none;cursor:pointer;font-family:inherit;text-decoration:underline;opacity:0.55}
-.admin-link:hover{opacity:1}
+.pw-info{background:var(--blue-light);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--blue-dark);line-height:1.5}
+@media(prefers-color-scheme:dark){.pw-info{color:#a8cfff}}
+
+/* WELCOME BAR */
 .welcome-bar{background:var(--blue-light);border-radius:10px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between}
 .welcome-name{font-size:14px;font-weight:600;color:var(--blue-dark)}
 @media(prefers-color-scheme:dark){.welcome-name{color:#a8cfff}}
@@ -62,6 +65,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-tiny{font-size:11px;color:var(--text-muted);background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:6px;font-family:inherit}
 .pw-link{font-size:11px;color:var(--blue);background:none;border:none;cursor:pointer;font-family:inherit;text-decoration:underline}
 .slabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-top:2px}
+
+/* TERMIN-KARTEN (Studierenden-Sicht) */
 .termin-card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden}
 .termin-head{padding:12px 14px;cursor:pointer;display:flex;align-items:flex-start;gap:10px}
 .datum-box{background:var(--blue-light);border-radius:8px;padding:6px 10px;text-align:center;flex-shrink:0;min-width:44px}
@@ -75,6 +80,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .chev svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .chev.open{transform:rotate(180deg)}
 .badge-ok{font-size:10px;font-weight:700;padding:3px 8px;border-radius:12px;background:var(--green-light);color:var(--green)}
+.badge-gebucht{font-size:10px;font-weight:700;padding:3px 8px;border-radius:12px;background:var(--green-light);color:var(--green)}
+.badge-gruppe{font-size:10px;font-weight:700;padding:3px 8px;border-radius:12px;background:var(--blue-light);color:var(--blue-dark)}
+@media(prefers-color-scheme:dark){.badge-gruppe{color:#a8cfff}}
 .teiln-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
 .chip{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--blue-light);color:var(--blue-dark)}
 @media(prefers-color-scheme:dark){.chip{color:#a8cfff}}
@@ -93,6 +101,40 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .save-btn{width:100%;margin-top:14px;padding:13px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
 .save-btn:disabled{opacity:0.4;cursor:not-allowed}
 .save-hint{font-size:12px;color:var(--text-muted);text-align:center;margin-top:6px;min-height:16px}
+
+/* SLOT-SCREEN */
+.slot-back-btn{background:none;border:none;font-size:13px;color:var(--blue);cursor:pointer;font-family:inherit;padding:0;font-weight:600;display:flex;align-items:center;gap:4px}
+.slot-back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.slot-termin-info{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:14px 16px}
+.slot-termin-name{font-size:15px;font-weight:700}
+.slot-termin-meta{font-size:12px;color:var(--text-muted);margin-top:4px;line-height:1.5}
+.slots-grid{display:flex;flex-direction:column;gap:8px}
+.slot-kachel{background:var(--card);border-radius:10px;border:1.5px solid var(--border);padding:12px 14px;display:flex;align-items:center;gap:12px;transition:all 0.15s}
+.slot-kachel.frei{cursor:pointer}
+.slot-kachel.frei:active{opacity:0.8}
+.slot-kachel.belegt{opacity:0.65;background:var(--bg)}
+.slot-kachel.meine-buchung{border-color:var(--green);background:var(--green-light)}
+.slot-zeit{font-size:18px;font-weight:800;color:var(--blue);min-width:50px}
+.slot-kachel.belegt .slot-zeit{color:var(--text-muted)}
+.slot-kachel.meine-buchung .slot-zeit{color:var(--green)}
+.slot-info{flex:1}
+.slot-status{font-size:13px;font-weight:600}
+.slot-name{font-size:12px;color:var(--text-muted);margin-top:2px}
+.slot-btn-buchen{padding:8px 14px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+
+/* MEINE BUCHUNGEN */
+.buchung-card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden}
+.buchung-row{padding:11px 14px;display:flex;align-items:center;gap:11px;border-bottom:1px solid var(--border)}
+.buchung-row:last-child{border-bottom:none}
+.buchung-datum-box{background:var(--blue-light);border-radius:8px;padding:5px 9px;text-align:center;flex-shrink:0;min-width:40px}
+.buchung-tag{font-size:16px;font-weight:800;color:var(--blue);line-height:1}
+.buchung-mon{font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-top:1px}
+.buchung-info{flex:1;min-width:0}
+.buchung-titel{font-size:13px;font-weight:600}
+.buchung-meta{font-size:11px;color:var(--text-muted);margin-top:2px}
+.buchung-zeit{font-size:14px;font-weight:800;color:var(--green);flex-shrink:0}
+
+/* STATS */
 .stats-card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:16px}
 .stats-total{display:flex;align-items:baseline;gap:6px;margin-bottom:12px}
 .stats-num{font-size:34px;font-weight:800;color:var(--blue);line-height:1}
@@ -104,17 +146,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .td-right{text-align:right;font-weight:700;color:var(--blue);white-space:nowrap}
 .bar-wrap{height:4px;background:var(--border);border-radius:2px;margin-top:3px;overflow:hidden}
 .bar-fill{height:100%;background:var(--blue);border-radius:2px}
-.admin-bar{background:linear-gradient(135deg,var(--card) 0%,var(--gold-bg) 100%);border-radius:10px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--gold-border)}
-.admin-label{font-size:13px;font-weight:700;color:var(--gold-dark)}
-.doc-link{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:7px;text-decoration:none;color:var(--text)}
-.doc-link:hover{background:var(--gold-bg)}
-.doc-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
-.doc-name{font-weight:600;font-size:0.88rem}
-.doc-type{font-size:0.75rem;color:var(--text-muted);margin-top:2px}
-.doc-arrow{margin-left:auto;color:var(--text-muted)}
+
+/* LEHRENDEN-BEREICH */
+.dozent-bar{background:linear-gradient(135deg,var(--card) 0%,var(--gold-bg) 100%);border-radius:10px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--gold-border)}
+.dozent-label{font-size:13px;font-weight:700;color:var(--gold-dark)}
+.dozent-sub{font-size:11px;color:var(--text-muted);margin-top:1px}
 .filter-tabs{display:flex;background:var(--card);border-radius:10px;padding:3px;border:1px solid var(--border);gap:2px}
 .ftab{flex:1;padding:7px 4px;font-size:11px;font-weight:600;text-align:center;border:none;border-radius:8px;cursor:pointer;background:none;color:var(--text-muted);font-family:inherit;transition:all 0.15s}
 .ftab.active{background:var(--gold);color:#fff}
+
+/* BUCHUNGSVERWALTUNG (Lehrende) */
+.buchungen-block{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;margin-bottom:4px}
+.buchungen-head{padding:11px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.buchungen-head-titel{font-size:13px;font-weight:700}
+.buchungen-head-count{font-size:11px;color:var(--text-muted)}
+.adm-buchung-row{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.adm-buchung-row:last-child{border-bottom:none}
+.adm-buchung-uhr{font-size:14px;font-weight:800;color:var(--blue);min-width:46px;flex-shrink:0}
+.adm-buchung-info{flex:1;min-width:0}
+.adm-buchung-name{font-size:13px;font-weight:600}
+.adm-buchung-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
+.storno-btn{padding:6px 10px;background:var(--red-light);color:var(--red);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0}
+.storno-btn:active{opacity:0.8}
+
+/* RANGLISTE (Lehrende → Probezeiten) */
 .rangliste{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden}
 .rang-head{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700}
 .rang-hint{font-size:11px;color:var(--text-muted);font-weight:400}
@@ -132,15 +187,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .diff{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;display:inline-block;margin-top:2px}
 .diff-p{background:var(--green-light);color:var(--green)}
 .diff-m{background:var(--red-light);color:var(--red)}
-.logout-btn{width:100%;padding:12px;background:none;border:1.5px solid var(--border);border-radius:10px;color:var(--text-muted);font-size:13px;cursor:pointer;font-family:inherit;margin-top:4px}
-.logout-btn:hover{border-color:var(--gold);color:var(--gold-dark)}
-.pw-info{background:var(--blue-light);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--blue-dark);line-height:1.5}
-@media(prefers-color-scheme:dark){.pw-info{color:#a8cfff}}
-.spinner{text-align:center;padding:24px;color:var(--text-muted);font-size:13px}
-.empty{text-align:center;padding:24px;color:var(--text-muted);font-size:13px}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1a1a;color:#fff;padding:11px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:100;transition:transform 0.3s;white-space:nowrap;pointer-events:none}
-.toast.show{transform:translateX(-50%) translateY(0)}
-@media(prefers-color-scheme:dark){.toast{background:#fff;color:#1a1a1a}}
+
+/* DOC-LINKS */
+.doc-link{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:7px;text-decoration:none;color:var(--text)}
+.doc-link:hover{background:var(--gold-bg)}
+.doc-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.doc-name{font-weight:600;font-size:0.88rem}
+.doc-type{font-size:0.75rem;color:var(--text-muted);margin-top:2px}
+.doc-arrow{margin-left:auto;color:var(--text-muted)}
+
+/* FREIKARTEN */
 .fk-row{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:3px}
 .fk-row:last-child{border-bottom:none}
 .fk-titel{font-size:12px;font-weight:700;color:var(--blue)}
@@ -149,6 +205,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .fk-anzahl{display:inline-block;background:var(--gold);color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:10px}
 .fk-typ{display:inline-block;background:var(--blue-light);color:var(--blue-dark);font-size:10px;font-weight:600;padding:2px 7px;border-radius:8px}
 @media(prefers-color-scheme:dark){.fk-typ{color:#a8cfff}}
+
+.logout-btn{width:100%;padding:12px;background:none;border:1.5px solid var(--border);border-radius:10px;color:var(--text-muted);font-size:13px;cursor:pointer;font-family:inherit;margin-top:4px}
+.spinner{text-align:center;padding:24px;color:var(--text-muted);font-size:13px}
+.empty{text-align:center;padding:24px;color:var(--text-muted);font-size:13px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1a1a;color:#fff;padding:11px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:100;transition:transform 0.3s;white-space:nowrap;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+@media(prefers-color-scheme:dark){.toast{background:#fff;color:#1a1a1a}}
 </style>
 </head>
 <body>
@@ -165,28 +228,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </a>
 </div>
 
+<!-- ═══════════════════════════════
+     LOGIN
+     ═══════════════════════════════ -->
 <div class="screen active" id="sc-login">
   <div class="login-hero">
     <div class="login-icon">🎼</div>
     <div class="login-title">Willkommen</div>
-    <div class="login-sub">Bitte mit Matrikelnummer und Passwort anmelden.</div>
+    <div class="login-sub">Bitte mit Matrikelnummer (bzw. Benutzername) und Passwort anmelden.</div>
   </div>
   <div class="card">
-    <div class="field-label">Matrikelnummer</div>
-    <input class="field-input" type="text" id="s-mtknr" inputmode="numeric" placeholder="z. B. 12345678" autocomplete="username">
+    <div class="field-label">Matrikelnummer / Benutzername</div>
+    <input class="field-input" type="text" id="s-mtknr" inputmode="text" placeholder="z. B. 12345678 oder thomas.dorsch" autocomplete="username">
     <div class="gap"></div>
     <div class="field-label">Passwort</div>
-    <input class="field-input" type="password" id="s-pw" placeholder="Passwort" autocomplete="current-password" onkeydown="if(event.key==='Enter')studentLogin()">
+    <input class="field-input" type="password" id="s-pw" placeholder="Passwort" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
     <div class="gap"></div>
     <div class="err" id="s-err"></div>
-    <button class="btn btn-blue" onclick="studentLogin()">Anmelden</button>
+    <button class="btn btn-blue" onclick="login()">Anmelden</button>
   </div>
-  <div class="hint">Erstanmeldung: Passwort = Matrikelnummer.</div>
-  <div class="admin-link-wrap">
-    <button class="admin-link" onclick="zeige('sc-admin-login')">Administrator</button>
-  </div>
+  <div class="hint">Erstanmeldung (Studierende): Passwort = Matrikelnummer.</div>
 </div>
 
+<!-- ═══════════════════════════════
+     PASSWORT SETZEN (Erstanmeldung)
+     ═══════════════════════════════ -->
 <div class="screen" id="sc-pw-setzen">
   <div class="login-hero">
     <div class="login-icon">🔐</div>
@@ -206,23 +272,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<div class="screen" id="sc-student">
-  <div class="welcome-bar">
-    <div>
-      <div class="welcome-name" id="w-name">Hallo!</div>
-      <div class="welcome-sub" id="w-sub"></div>
-    </div>
-    <div class="top-actions">
-      <button class="btn-tiny" onclick="logout()">Abmelden</button>
-      <button class="pw-link" onclick="zeige('sc-pw-aendern')">Passwort ändern</button>
-    </div>
-  </div>
-  <div class="slabel">Kommende Unterrichtstermine</div>
-  <div id="termine-liste"><div class="spinner">Lade Termine…</div></div>
-  <div class="slabel">Meine Probezeiten</div>
-  <div id="meine-stats"><div class="spinner">Lade…</div></div>
-</div>
-
+<!-- ═══════════════════════════════
+     PASSWORT ÄNDERN
+     ═══════════════════════════════ -->
 <div class="screen" id="sc-pw-aendern">
   <div class="login-hero">
     <div class="login-icon">🔐</div>
@@ -240,279 +292,232 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="gap"></div>
     <div class="err" id="pw-ae-err"></div>
     <button class="btn btn-blue" onclick="pwAendern()">Speichern</button>
-    <button class="btn btn-out" onclick="zeige('sc-student')">Abbrechen</button>
+    <button class="btn btn-out" id="pw-aendern-back" onclick="zeige('sc-student')">Abbrechen</button>
   </div>
 </div>
 
-<div class="screen" id="sc-admin-login">
-  <div class="login-hero">
-    <div class="login-icon">🔑</div>
-    <div class="login-title">Administrator</div>
-  </div>
-  <div class="card">
-    <div class="field-label">Passwort</div>
-    <input class="field-input" type="password" id="a-pw" onkeydown="if(event.key==='Enter')adminLogin()">
-    <div class="gap"></div>
-    <div class="err" id="a-err"></div>
-    <button class="btn btn-gold" onclick="adminLogin()">Einloggen</button>
-    <button class="btn btn-out" onclick="zeige('sc-login')">Zurück</button>
-  </div>
-</div>
-
-<div class="screen" id="sc-admin">
-  <div class="admin-bar">
+<!-- ═══════════════════════════════
+     STUDIERENDEN-BEREICH
+     ═══════════════════════════════ -->
+<div class="screen" id="sc-student">
+  <div class="welcome-bar">
     <div>
-      <div class="admin-label">🔑 Administrator</div>
-      <div style="font-size:11px;color:var(--text-muted);margin-top:1px">HSO · HfMT Hamburg</div>
+      <div class="welcome-name" id="w-name">Hallo!</div>
+      <div class="welcome-sub" id="w-sub"></div>
     </div>
-    <button class="btn-tiny" onclick="adminLogout()">Abmelden</button>
+    <div class="top-actions">
+      <button class="btn-tiny" onclick="logout()">Abmelden</button>
+      <button class="pw-link" onclick="zeige('sc-pw-aendern')">Passwort ändern</button>
+    </div>
   </div>
-  <div class="slabel">Sheets &amp; Dokumente</div>
-  <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1EzFVAmvVtp0Slh04tx6ioYGk6U58fs6E2L1_qrZPsn4" target="_blank" rel="noopener">
-    <div class="doc-icon" style="background:#e8f5e9">✅</div>
-    <div><div class="doc-name">Anwesenheitsliste</div><div class="doc-type">Google Sheets</div></div>
-    <span class="doc-arrow">↗</span>
-  </a>
-  <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1bnD_wDw0jZ1jWuOa0yraGIpPpiiIlVGu3qyYbuLzOGc/edit?gid=0#gid=0" target="_blank" rel="noopener">
-    <div class="doc-icon" style="background:#fff3e0">💶</div>
-    <div><div class="doc-name">Finanzen</div><div class="doc-type">Google Sheets · Werkverträge</div></div>
-    <span class="doc-arrow">↗</span>
-  </a>
-  <a class="doc-link" href="https://docs.google.com/forms/d/1UHLh3cmVIF4HIR2QeEWEFrIHGNWkxbuw1Fj-26inl08/edit" target="_blank" rel="noopener">
-    <div class="doc-icon" style="background:#fce4ec">📝</div>
-    <div><div class="doc-name">Formular extern</div><div class="doc-type">Google Forms</div></div>
-    <span class="doc-arrow">↗</span>
-  </a>
-  <a class="doc-link" href="https://docs.google.com/forms/d/1ZLUgXjbxNqSYZp9LUv2FgHsXpYqBih6nBJZ4D7t-1f0/edit" target="_blank" rel="noopener">
-    <div class="doc-icon" style="background:#f3e5f5">📝</div>
-    <div><div class="doc-name">Formular interne Produktionen</div><div class="doc-type">Google Forms</div></div>
-    <span class="doc-arrow">↗</span>
-  </a>
-  <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ/edit?usp=drive_link" target="_blank" rel="noopener">
-    <div class="doc-icon" style="background:#e8eaf6">🏛️</div>
-    <div><div class="doc-name">Forum Bedarf</div><div class="doc-type">Google Sheets</div></div>
-    <span class="doc-arrow">↗</span>
-  </a>
-  <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1QrFLarPKpu-SqWEtKiDFGvS_lW_BC79jXf91-6GTaVg" target="_blank" rel="noopener">
-    <div class="doc-icon" style="background:#e3f2fd">📊</div>
-    <div><div class="doc-name">HfMT HSO Sheet</div><div class="doc-type">Google Sheets · Einteilung, Projekte</div></div>
-    <span class="doc-arrow">↗</span>
-  </a>
-  <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU/edit?gid=459228372#gid=459228372" target="_blank" rel="noopener">
-    <div class="doc-icon" style="background:#e0f7fa">📅</div>
-    <div><div class="doc-name">HfMT Lehre</div><div class="doc-type">Google Sheets · Kalender</div></div>
-    <span class="doc-arrow">↗</span>
-  </a>
-  <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1v3D2o7G9AwFz6jO4Lz-jrft6PcjQWNk9YopqQ5ikPpI/edit?gid=518967038#gid=518967038" target="_blank" rel="noopener">
-    <div class="doc-icon" style="background:#f9fbe7">🎼</div>
-    <div><div class="doc-name">Programmgestaltung</div><div class="doc-type">Google Sheets · Repertoire</div></div>
-    <span class="doc-arrow">↗</span>
-  </a>
-  <a class="doc-link" href="https://docs.google.com/document/d/163kmVbqRkw4m9dMjS8_BoBLW3se8h-d84yiw_AUPJKA" target="_blank" rel="noopener">
-    <div class="doc-icon" style="background:#fce4ec">📋</div>
-    <div><div class="doc-name">Schwarzes Brett</div><div class="doc-type">Google Docs</div></div>
-    <span class="doc-arrow">↗</span>
-  </a>
-  <div class="slabel">Probezeiten-Auswertung</div>
+
+  <div class="slabel">Kommende Unterrichtstermine</div>
+  <div id="termine-liste"><div class="spinner">Lade Termine…</div></div>
+
+  <div class="slabel">Meine gebuchten Slots</div>
+  <div id="meine-buchungen-liste"><div class="spinner">Lade…</div></div>
+
+  <div class="slabel">Meine Probezeiten</div>
+  <div id="meine-stats"><div class="spinner">Lade…</div></div>
+</div>
+
+<!-- ═══════════════════════════════
+     SLOT-AUSWAHL
+     ═══════════════════════════════ -->
+<div class="screen" id="sc-slots">
+  <button class="slot-back-btn" onclick="zeige('sc-student')">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Zurück zur Übersicht
+  </button>
+  <div class="slot-termin-info">
+    <div class="slot-termin-name" id="slot-titel"></div>
+    <div class="slot-termin-meta" id="slot-meta"></div>
+  </div>
+  <div class="slabel">Zeitfenster wählen</div>
+  <div class="slots-grid" id="slots-grid"><div class="spinner">Lade Slots…</div></div>
+</div>
+
+<!-- ═══════════════════════════════
+     ÜBE-EINTRAG (Probe-Dokumentation)
+     ═══════════════════════════════ -->
+<div class="screen" id="sc-eintrag">
+  <button class="slot-back-btn" onclick="zeige('sc-student')">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Zurück
+  </button>
+  <div class="slot-termin-info">
+    <div class="slot-termin-name" id="eintrag-titel"></div>
+    <div class="slot-termin-meta" id="eintrag-meta"></div>
+  </div>
+  <div id="eintrag-form"></div>
+</div>
+
+<!-- ═══════════════════════════════
+     LEHRENDEN-BEREICH
+     ═══════════════════════════════ -->
+<div class="screen" id="sc-dozent">
+  <div class="dozent-bar">
+    <div>
+      <div class="dozent-label" id="dozent-name-label">Lehrende:r</div>
+      <div class="dozent-sub">HSO · HfMT Hamburg</div>
+    </div>
+    <button class="btn-tiny" onclick="logout()">Abmelden</button>
+  </div>
+
   <div class="filter-tabs">
-    <button class="ftab active" id="ft-personen" onclick="adminTab('personen')">Personen</button>
-    <button class="ftab" id="ft-werke" onclick="adminTab('werke')">Werke</button>
-    <button class="ftab" id="ft-termine" onclick="adminTab('termine')">Termine</button>
-    <button class="ftab" id="ft-freikarten" onclick="adminTab('freikarten')">Freikarten</button>
+    <button class="ftab active" id="ft-buchungen" onclick="dozentTab('buchungen')">Buchungen</button>
+    <button class="ftab" id="ft-probezeiten" onclick="dozentTab('probezeiten')">Probezeiten</button>
+    <button class="ftab" id="ft-werke" onclick="dozentTab('werke')">Werke</button>
+    <button class="ftab" id="ft-freikarten" onclick="dozentTab('freikarten')">Freikarten</button>
+    <button class="ftab" id="ft-links" onclick="dozentTab('links')">Links</button>
   </div>
-  <div id="adm-personen"><div class="rangliste"><div class="rang-head">Probezeiten je Person<span class="rang-hint" id="adm-avg"></span></div><div id="adm-p-body"><div class="spinner">Lade…</div></div></div></div>
-  <div id="adm-werke" style="display:none"><div class="rangliste" id="adm-w-body"><div class="spinner">Lade…</div></div></div>
-  <div id="adm-termine" style="display:none"><div class="rangliste"><div class="rang-head">Eintragungen je Termin</div><div id="adm-t-body"><div class="spinner">Lade…</div></div></div></div>
+
+  <!-- Buchungen -->
+  <div id="adm-buchungen">
+    <div class="filter-tabs" style="margin-bottom:0">
+      <button class="ftab active" id="bt-alle" onclick="buchungenTab('alle')">Alle</button>
+      <button class="ftab" id="bt-meine" onclick="buchungenTab('meine')">Meine</button>
+    </div>
+    <div id="buchungen-container"><div class="spinner">Lade…</div></div>
+  </div>
+
+  <!-- Probezeiten -->
+  <div id="adm-probezeiten" style="display:none">
+    <div class="rangliste"><div class="rang-head">Probezeiten je Person <span class="rang-hint" id="adm-avg"></span></div><div id="adm-p-body"><div class="spinner">Lade…</div></div></div>
+  </div>
+
+  <!-- Werke -->
+  <div id="adm-werke" style="display:none">
+    <div class="rangliste" id="adm-w-body"><div class="spinner">Lade…</div></div>
+  </div>
+
+  <!-- Freikarten -->
   <div id="adm-freikarten" style="display:none">
     <div class="rangliste">
-      <div class="rang-head">Freikarten-Bestellungen<span class="rang-hint" id="fk-count"></span></div>
-      <div id="fk-filter" style="padding:8px 14px;border-bottom:1px solid var(--border)">
+      <div class="rang-head">Freikarten-Bestellungen <span class="rang-hint" id="fk-count"></span></div>
+      <div style="padding:8px 14px;border-bottom:1px solid var(--border)">
         <input id="fk-search" type="text" placeholder="Suchen…" oninput="renderFreikarten()" style="width:100%;padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);background:var(--bg);font-family:inherit;outline:none">
       </div>
       <div id="fk-body"><div class="spinner">Lade…</div></div>
     </div>
   </div>
-  <div class="slabel">Studienjahr-Vorschau</div>
-  <a class="doc-link" href="index.html?sj=26_27" target="_blank" rel="noopener">
-    <div class="doc-icon" style="background:#fce4ec;font-size:1rem">👁</div>
-    <div><div class="doc-name">Vorschau 26/27</div><div class="doc-type">Portal · Nächstes Studienjahr</div></div>
-    <span class="doc-arrow">↗</span>
-  </a>
-  <a class="doc-link" href="index.html?sj=27_28" target="_blank" rel="noopener">
-    <div class="doc-icon" style="background:#f3e5f5;font-size:1rem">👁</div>
-    <div><div class="doc-name">Vorschau 27/28</div><div class="doc-type">Portal · Übernächstes Studienjahr</div></div>
-    <span class="doc-arrow">↗</span>
-  </a>
-  <button class="logout-btn" onclick="adminLogout()">🔒 Abmelden</button>
+
+  <!-- Links -->
+  <div id="adm-links" style="display:none">
+    <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1EzFVAmvVtp0Slh04tx6ioYGk6U58fs6E2L1_qrZPsn4" target="_blank" rel="noopener"><div class="doc-icon" style="background:#e8f5e9">✅</div><div><div class="doc-name">Anwesenheitsliste</div><div class="doc-type">Google Sheets</div></div><span class="doc-arrow">↗</span></a>
+    <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1bnD_wDw0jZ1jWuOa0yraGIpPpiiIlVGu3qyYbuLzOGc/edit?gid=0#gid=0" target="_blank" rel="noopener"><div class="doc-icon" style="background:#fff3e0">💶</div><div><div class="doc-name">Finanzen</div><div class="doc-type">Google Sheets · Werkverträge</div></div><span class="doc-arrow">↗</span></a>
+    <a class="doc-link" href="https://docs.google.com/forms/d/1UHLh3cmVIF4HIR2QeEWEFrIHGNWkxbuw1Fj-26inl08/edit" target="_blank" rel="noopener"><div class="doc-icon" style="background:#fce4ec">📝</div><div><div class="doc-name">Formular extern</div><div class="doc-type">Google Forms</div></div><span class="doc-arrow">↗</span></a>
+    <a class="doc-link" href="https://docs.google.com/forms/d/1ZLUgXjbxNqSYZp9LUv2FgHsXpYqBih6nBJZ4D7t-1f0/edit" target="_blank" rel="noopener"><div class="doc-icon" style="background:#f3e5f5">📝</div><div><div class="doc-name">Formular interne Produktionen</div><div class="doc-type">Google Forms</div></div><span class="doc-arrow">↗</span></a>
+    <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ/edit" target="_blank" rel="noopener"><div class="doc-icon" style="background:#e8eaf6">🏛️</div><div><div class="doc-name">Forum Bedarf</div><div class="doc-type">Google Sheets</div></div><span class="doc-arrow">↗</span></a>
+    <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1QrFLarPKpu-SqWEtKiDFGvS_lW_BC79jXf91-6GTaVg" target="_blank" rel="noopener"><div class="doc-icon" style="background:#e3f2fd">📊</div><div><div class="doc-name">HfMT HSO Sheet</div><div class="doc-type">Google Sheets · Einteilung</div></div><span class="doc-arrow">↗</span></a>
+    <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU/edit?gid=459228372#gid=459228372" target="_blank" rel="noopener"><div class="doc-icon" style="background:#e0f7fa">📅</div><div><div class="doc-name">HfMT Lehre</div><div class="doc-type">Google Sheets · Kalender</div></div><span class="doc-arrow">↗</span></a>
+    <a class="doc-link" href="https://docs.google.com/spreadsheets/d/1v3D2o7G9AwFz6jO4Lz-jrft6PcjQWNk9YopqQ5ikPpI/edit?gid=518967038#gid=518967038" target="_blank" rel="noopener"><div class="doc-icon" style="background:#f9fbe7">🎼</div><div><div class="doc-name">Programmgestaltung</div><div class="doc-type">Google Sheets · Repertoire</div></div><span class="doc-arrow">↗</span></a>
+    <a class="doc-link" href="https://docs.google.com/document/d/163kmVbqRkw4m9dMjS8_BoBLW3se8h-d84yiw_AUPJKA" target="_blank" rel="noopener"><div class="doc-icon" style="background:#fce4ec">📋</div><div><div class="doc-name">Schwarzes Brett</div><div class="doc-type">Google Docs</div></div><span class="doc-arrow">↗</span></a>
+    <a class="doc-link" href="index.html?sj=26_27" target="_blank" rel="noopener"><div class="doc-icon" style="background:#fce4ec;font-size:1rem">👁</div><div><div class="doc-name">Vorschau 26/27</div><div class="doc-type">Portal · Nächstes Studienjahr</div></div><span class="doc-arrow">↗</span></a>
+  </div>
+
+  <button class="logout-btn" onclick="logout()">🔒 Abmelden</button>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
 const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
-const ADMIN_HASH = 'c09f968d8072567698e09ab003e7f187ba96ce6bedc3deb02c65f257db0fe4da';
-const MONATE = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
-const WT     = ['So','Mo','Di','Mi','Do','Fr','Sa'];
-const MINUTEN = [
-  { val:30,  label:'30', unit:'Min' },
-  { val:60,  label:'60', unit:'Min' },
-  { val:90,  label:'90', unit:'Min' },
-  { val:120, label:'120',unit:'Min' }
-];
-
-let ich          = null;
-let alleTermine  = [];
-let alleEintr    = [];
-let adminDaten   = null;
-let freikartenDaten = null;
-
+const DOZENTEN   = ['thomas.dorsch','anhoon.song']; // Benutzernamen der Lehrenden
+const MONATE     = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+const WT         = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+const MINUTEN    = [{val:30,label:'30',unit:'Min'},{val:60,label:'60',unit:'Min'},{val:90,label:'90',unit:'Min'},{val:120,label:'120',unit:'Min'}];
 const FK_SHEET_ID  = '1WwuIPvNJN2CVwcH7GDH69f3ixS6ahFgF8o28lB0agKk';
 const FK_SHEET_GID = '443859367';
 
-async function ladeFreikarten() {
-  const el = document.getElementById('fk-body');
-  el.innerHTML = '<div class="spinner">Lade…</div>';
-  try {
-    const url = `https://docs.google.com/spreadsheets/d/${FK_SHEET_ID}/export?format=csv&gid=${FK_SHEET_GID}`;
-    const resp = await fetch(url);
-    const text = await resp.text();
-    const rows = text.trim().split('\n').map(r => {
-      // CSV parse: handle quoted fields
-      const cols = [];
-      let cur = '', inQ = false;
-      for (let i = 0; i < r.length; i++) {
-        const c = r[i];
-        if (c === '"') { inQ = !inQ; }
-        else if (c === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
-        else cur += c;
-      }
-      cols.push(cur.trim());
-      return cols;
-    });
-    // rows[0] = header, rows[1..] = data, sort descending by timestamp (col 0)
-    const header = rows[0];
-    const data = rows.slice(1).filter(r => r.length > 1 && r[0]);
-    data.sort((a, b) => {
-      // parse DD.MM.YYYY HH:MM:SS
-      const toMs = s => {
-        const m = s.match(/(\d{2})\.(\d{2})\.(\d{4})\s+(\d{2}):(\d{2}):(\d{2})/);
-        if (!m) return 0;
-        return new Date(m[3], m[2]-1, m[1], m[4], m[5], m[6]).getTime();
-      };
-      return toMs(b[0]) - toMs(a[0]);
-    });
-    freikartenDaten = data;
-    renderFreikarten();
-  } catch(e) {
-    el.innerHTML = '<div class="empty">Laden fehlgeschlagen: ' + esc(e.message) + '</div>';
-  }
-}
+let ich            = null;   // { mtknr, name, instrument, rolle: 'student'|'dozent' }
+let alleTermine    = [];
+let alleEintr      = [];
+let adminDaten     = null;
+let adminBuchungen = null;
+let buchungenTabAktiv = 'alle';
+let dozentTabAktiv    = 'buchungen';
+let freikartenDaten   = null;
+let aktuellerEintragTermin = null;
 
-function renderFreikarten() {
-  if (!freikartenDaten) return;
-  const q = (document.getElementById('fk-search').value || '').toLowerCase();
-  const filtered = q
-    ? freikartenDaten.filter(r => r.join(' ').toLowerCase().includes(q))
-    : freikartenDaten;
-  document.getElementById('fk-count').textContent = ' · ' + filtered.length + ' Einträge';
-  if (!filtered.length) {
-    document.getElementById('fk-body').innerHTML = '<div class="empty">Keine Einträge.</div>';
-    return;
-  }
-  document.getElementById('fk-body').innerHTML = filtered.map(r => {
-    const zeitstempel = r[0] || '';
-    const titel       = r[1] || '';
-    const anzahl      = r[3] || '';
-    const name        = r[4] || '';
-    const email       = r[5] || '';
-    const typ         = r[6] || '';
-    const kommentar   = r[8] || '';
-    return `<div class="fk-row">
-      <div class="fk-titel">${esc(titel)}</div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <span class="fk-anzahl">${esc(anzahl)} Karte${anzahl=='1'?'':'n'}</span>
-        <span class="fk-name">${esc(name)}</span>
-      </div>
-      <div class="fk-meta">
-        <span class="fk-typ">${esc(typ)}</span>
-        ${email ? `<span>${esc(email)}</span>` : ''}
-        ${kommentar && kommentar !== 'ok' ? `<span style="color:var(--gold-dark);font-style:italic">${esc(kommentar)}</span>` : ''}
-        <span style="margin-left:auto;opacity:0.5">${esc(zeitstempel)}</span>
-      </div>
-    </div>`;
-  }).join('');
-}
-
+// ── HELFER ────────────────────────────────────────────────────
 function zeige(id) {
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
 }
-async function hash(s) {
-  const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+async function sha(s) {
+  const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
   return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');
 }
 async function apiGet(p)  { return (await fetch(WEBAPP_URL+'?'+new URLSearchParams(p))).json(); }
 async function apiPost(d) { return (await fetch(WEBAPP_URL,{method:'POST',body:JSON.stringify(d)})).json(); }
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
+function fmt(min){ return Math.floor(min/60)+'h '+String(min%60).padStart(2,'0')+'min'; }
 function parseDate(s){
   if(!s) return null;
-  const str = String(s).trim();
+  const str=String(s).trim();
   let m=str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
-  if(m) return new Date(parseInt(m[3],10), parseInt(m[2],10)-1, parseInt(m[1],10));
+  if(m) return new Date(+m[3],+m[2]-1,+m[1]);
   m=str.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if(m) return new Date(parseInt(m[1],10), parseInt(m[2],10)-1, parseInt(m[3],10));
+  if(m) return new Date(+m[1],+m[2]-1,+m[3]);
   const d=new Date(str); return isNaN(d.getTime())?null:d;
 }
-
 let _tt=null;
-function toast(msg){
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),2800);
-}
+function toast(msg){ const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show'); clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),2800); }
 
-async function studentLogin() {
+// ── LOGIN ─────────────────────────────────────────────────────
+async function login() {
   const mtknr = document.getElementById('s-mtknr').value.trim();
   const pw    = document.getElementById('s-pw').value;
   const err   = document.getElementById('s-err');
-  err.textContent = '';
+  err.textContent='';
   if (!mtknr||!pw) { err.textContent='Bitte alle Felder ausfüllen.'; return; }
-  const pwHash = await hash(pw);
+  const pwHash = await sha(pw);
   try {
     const j = await apiGet({action:'studentLogin', mtknr, pwHash});
     if (!j.ok) {
-      err.textContent = j.error||'Anmeldung fehlgeschlagen.';
-      ['s-mtknr','s-pw'].forEach(id=>{
-        const el=document.getElementById(id);
-        el.classList.add('shake');
-        setTimeout(()=>el.classList.remove('shake'),600);
-      });
+      err.textContent=j.error||'Anmeldung fehlgeschlagen.';
+      ['s-mtknr','s-pw'].forEach(id=>{ const el=document.getElementById(id); el.classList.add('shake'); setTimeout(()=>el.classList.remove('shake'),600); });
       return;
     }
-    ich = j.student;
+    const rolle = DOZENTEN.includes(mtknr.toLowerCase()) ? 'dozent' : 'student';
+    ich = Object.assign({}, j.student, { rolle });
     if (j.student.erstanmeldung) { zeige('sc-pw-setzen'); return; }
     sessionStorage.setItem('hso_ich', JSON.stringify(ich));
-    oeffneStudentBereich();
+    oeffneBereich();
   } catch(e) { err.textContent='Verbindungsfehler.'; }
 }
 
+function oeffneBereich() {
+  if (ich.rolle === 'dozent') oeffneDozentBereich();
+  else oeffneStudentBereich();
+}
+
+function logout() {
+  ich=null; adminDaten=null; adminBuchungen=null; freikartenDaten=null;
+  sessionStorage.removeItem('hso_ich');
+  document.getElementById('s-mtknr').value='';
+  document.getElementById('s-pw').value='';
+  zeige('sc-login');
+}
+
+// ── PASSWORT ──────────────────────────────────────────────────
 async function pwSetzen() {
   const p1=document.getElementById('pw1').value;
   const p2=document.getElementById('pw2').value;
   const err=document.getElementById('pw-err');
   err.textContent='';
-  if (p1.length<6) { err.textContent='Mindestens 6 Zeichen.'; return; }
-  if (p1!==p2)     { err.textContent='Passwörter stimmen nicht überein.'; return; }
+  if (p1.length<6){ err.textContent='Mindestens 6 Zeichen.'; return; }
+  if (p1!==p2)    { err.textContent='Passwörter stimmen nicht überein.'; return; }
   try {
-    const j=await apiPost({action:'setPw', mtknr:ich.mtknr, pwHash:await hash(p1)});
-    if (!j.ok) { err.textContent=j.error||'Fehler.'; return; }
+    const j=await apiPost({action:'setPw', mtknr:ich.mtknr, pwHash:await sha(p1)});
+    if (!j.ok){ err.textContent=j.error||'Fehler.'; return; }
     ich.erstanmeldung=false;
     sessionStorage.setItem('hso_ich',JSON.stringify(ich));
     toast('✅ Passwort gesetzt!');
-    oeffneStudentBereich();
-  } catch(e) { err.textContent='Verbindungsfehler.'; }
+    oeffneBereich();
+  } catch(e){ err.textContent='Verbindungsfehler.'; }
 }
 
 async function pwAendern() {
@@ -521,272 +526,351 @@ async function pwAendern() {
   const n2 =document.getElementById('pw-n2').value;
   const err=document.getElementById('pw-ae-err');
   err.textContent='';
-  if (!alt||!n1||!n2)  { err.textContent='Bitte alle Felder ausfüllen.'; return; }
-  if (n1.length<6)     { err.textContent='Mindestens 6 Zeichen.'; return; }
-  if (n1!==n2)         { err.textContent='Neue Passwörter stimmen nicht überein.'; return; }
+  if (!alt||!n1||!n2){ err.textContent='Bitte alle Felder ausfüllen.'; return; }
+  if (n1.length<6)   { err.textContent='Mindestens 6 Zeichen.'; return; }
+  if (n1!==n2)       { err.textContent='Neue Passwörter stimmen nicht überein.'; return; }
   try {
-    const j=await apiPost({action:'changePw', mtknr:ich.mtknr, altHash:await hash(alt), neuHash:await hash(n1)});
-    if (!j.ok) { err.textContent=j.error||'Fehler.'; return; }
+    const j=await apiPost({action:'changePw', mtknr:ich.mtknr, altHash:await sha(alt), neuHash:await sha(n1)});
+    if (!j.ok){ err.textContent=j.error||'Fehler.'; return; }
     toast('✅ Passwort geändert!');
-    zeige('sc-student');
-  } catch(e) { err.textContent='Verbindungsfehler.'; }
+    oeffneBereich();
+  } catch(e){ err.textContent='Verbindungsfehler.'; }
 }
 
+// ══════════════════════════════════════════════════════════════
+// STUDIERENDEN-BEREICH
+// ══════════════════════════════════════════════════════════════
 async function oeffneStudentBereich() {
-  document.getElementById('w-name').textContent = 'Hallo, '+(ich.name||ich.mtknr)+'!';
-  document.getElementById('w-sub').textContent  = 'Mtknr: '+ich.mtknr+(ich.instrument?' · '+ich.instrument:'');
+  document.getElementById('w-name').textContent='Hallo, '+(ich.name||ich.mtknr)+'!';
+  document.getElementById('w-sub').textContent='Mtknr: '+ich.mtknr+(ich.instrument?' · '+ich.instrument:'');
+  // "Zurück"-Button im Passwort-Ändern-Screen korrekt setzen
+  document.getElementById('pw-aendern-back').onclick = ()=>zeige('sc-student');
   zeige('sc-student');
-  await ladeTermine();
-  await ladeMeineStats();
+  await Promise.all([ladeTermine(), ladeMeineBuchungen(), ladeMeineStats()]);
 }
 
 async function ladeTermine() {
   const el=document.getElementById('termine-liste');
   el.innerHTML='<div class="spinner">Lade Termine…</div>';
   try {
-    const [tj,ej] = await Promise.all([
+    const [tj,ej]=await Promise.all([
       apiGet({action:'unterrichtTermine'}),
       apiGet({action:'meineEintraege', mtknr:ich.mtknr})
     ]);
-    alleTermine = tj.ok ? tj.data : [];
-    alleEintr   = ej.ok ? ej.data : [];
-    if (!alleTermine.length) {
-      el.innerHTML='<div class="empty">📅 Noch keine Termine eingetragen.</div>';
-      return;
-    }
-    el.innerHTML = alleTermine.map((t,i)=>renderTermin(t,i)).join('');
-  } catch(e) { el.innerHTML='<div class="empty">⚠️ Laden fehlgeschlagen.</div>'; }
+    alleTermine=tj.ok?tj.data:[];
+    alleEintr  =ej.ok?ej.data:[];
+    if (!alleTermine.length){ el.innerHTML='<div class="empty">📅 Noch keine Termine eingetragen.</div>'; return; }
+    el.innerHTML=alleTermine.map((t,i)=>renderTerminKarte(t,i)).join('');
+  } catch(e){ el.innerHTML='<div class="empty">⚠️ Laden fehlgeschlagen.</div>'; }
 }
 
-function renderTermin(t, idx) {
-  const temporaeresDatum = parseDate(t.datum);
-  const d = temporaeresDatum ? new Date(temporaeresDatum.getTime()) : null;
-  const tag = d ? d.getDate() : '?';
-  const mon = d ? MONATE[d.getMonth()] : '';
-  const wt  = d ? WT[d.getDay()] : '';
-  const mein = alleEintr.find(e=>e.terminId===t.id);
+function renderTerminKarte(t, idx) {
+  const d   = parseDate(t.datum);
+  const tag = d?d.getDate():'?';
+  const mon = d?MONATE[d.getMonth()]:'';
+  const wt  = d?WT[d.getDay()]:'';
+  const istGruppe  = t.marker==='Gruppenunterricht';
+  const hatSlots   = (t.slots||[]).length>0;
+  const meinEintrag = alleEintr.find(e=>e.terminId===t.id);
+
+  // Einzelunterricht → Slot buchen; alle Termine → auch Übe-Eintrag möglich
+  let rechts = '';
+  if (istGruppe) rechts='<div class="badge-gruppe">Gruppe</div>';
+  else if (hatSlots) rechts='<div class="chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>';
+
+  const onclickSlot = (!istGruppe && hatSlots) ? `onclick="oeffneSlots('${esc(t.id)}')"` : '';
+
+  // Übe-Eintrag: sichtbar für alle Termine
+  const hatWerke = (t.werke||[]).filter(w=>w.titel&&w.titel!=='Unterricht').length>0;
+  const eintragBadge = meinEintrag?'<div class="badge-ok">✓ Eingetragen</div>':'';
   const chips = (t.teilnehmer||[]).map(n=>`<div class="chip">${esc(n)}</div>`).join('');
-  const werkOptionen = (t.werke||[]).filter(w=>w.titel&&w.titel!=='Unterricht').map(w=>`<option value="${esc(w.id)}">${esc(w.komponist?w.komponist+' – '+w.titel:w.titel)}</option>`).join('');
-  const hatWerke = werkOptionen.length > 0;
-  const meinMinVal = mein ? mein.minuten : 0;
-  const meinWerkFrei = mein ? (mein.werkFreitext||'') : '';
 
   return `<div class="termin-card">
-    <div class="termin-head" onclick="toggleTermin(${idx})">
-      <div class="datum-box">
-        <div class="datum-tag">${tag}</div>
-        <div class="datum-mon">${mon}</div>
-      </div>
+    <div class="termin-head" ${onclickSlot}>
+      <div class="datum-box"><div class="datum-tag">${tag}</div><div class="datum-mon">${mon}</div></div>
       <div class="termin-info">
-        <div class="termin-titel">${esc(t.projekt||'Unterricht')}</div>
-        <div class="termin-meta">${wt}${t.uhrzeit?', '+t.uhrzeit:''}${t.ort?' · '+t.ort:''}</div>
+        <div class="termin-titel">${esc(t.projekt||t.marker||'Unterricht')}</div>
+        <div class="termin-meta">${wt}${t.dozent?' · '+esc(t.dozent):''}${t.ort?' · '+esc(t.ort):''}</div>
         ${chips?`<div class="teiln-chips">${chips}</div>`:''}
       </div>
-      <div class="termin-right">
-        ${mein?'<div class="badge-ok">✓ Eingetragen</div>':''}
-        <div class="chev" id="chev-${idx}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
-      </div>
+      <div class="termin-right">${eintragBadge}${rechts}</div>
     </div>
-    <div class="termin-body" id="tb-${idx}">
-      ${hatWerke?`
-      <div class="form-section">
-        <div class="form-label">Werk</div>
-        <select class="field-select" id="werk-${idx}" onchange="werkGeaendert(${idx})">
-          <option value="">— Werk auswählen —</option>
-          ${werkOptionen}
-          <option value="__frei__">Anderes Werk…</option>
-        </select>
-        <div class="freitext-wrap ${meinWerkFrei?'show':''}" id="freitext-wrap-${idx}">
-          <input class="field-input" type="text" id="freitext-${idx}" placeholder="Werk eingeben…" value="${esc(meinWerkFrei)}" style="margin-top:8px">
-        </div>
-      </div>`:`
-      <div class="form-section">
-        <div class="form-label">Werk</div>
-        <input class="field-input" type="text" id="freitext-${idx}" placeholder="Werk eingeben (optional)…" value="${esc(meinWerkFrei)}">
-      </div>`}
-      <div class="form-section">
-        <div class="form-label">Probezeit</div>
-        <div class="min-grid" id="mg-${idx}">
-          ${MINUTEN.map(m=>`<button class="min-btn ${meinMinVal===m.val?'active':''}" onclick="waehleMin(${idx},${m.val})">${m.label}<span>${m.unit}</span></button>`).join('')}
-        </div>
-      </div>
-      <button class="save-btn" id="sbtn-${idx}" onclick="speichern(${idx})">Eintragung speichern</button>
-      <div class="save-hint" id="shint-${idx}"></div>
+    <div style="padding:8px 14px 12px;border-top:1px solid var(--border);display:flex;gap:8px">
+      ${(!istGruppe&&hatSlots)?`<button style="flex:1;padding:8px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit" onclick="oeffneSlots('${esc(t.id)}')">🗓 Slot buchen</button>`:''}
+      <button style="flex:1;padding:8px;background:var(--bg);color:var(--text);border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit" onclick="oeffneEintrag(${idx})">✏️ Probezeit eintragen</button>
     </div>
   </div>`;
 }
 
-function toggleTermin(idx) {
-  document.getElementById('tb-'+idx).classList.toggle('open');
-  document.getElementById('chev-'+idx).classList.toggle('open');
-}
-function werkGeaendert(idx) {
-  const val = document.getElementById('werk-'+idx).value;
-  const wrap = document.getElementById('freitext-wrap-'+idx);
-  if (wrap) wrap.classList.toggle('show', val==='__frei__');
-}
-function waehleMin(idx, val) {
-  document.getElementById('mg-'+idx).querySelectorAll('.min-btn').forEach(b=>{
-    b.classList.toggle('active', parseInt(b.textContent, 10)===val);
-  });
-}
-async function speichern(idx) {
-  const t    = alleTermine[idx];
-  const btn  = document.getElementById('sbtn-'+idx);
-  const hint = document.getElementById('shint-'+idx);
-  btn.disabled=true; hint.textContent='Wird gespeichert…';
-  const aktMin = document.querySelector(`#mg-${idx} .min-btn.active`);
-  const minuten = aktMin ? parseInt(aktMin.textContent, 10) : 0;
-  if (!minuten) { hint.textContent='Bitte Probezeit auswählen.'; btn.disabled=false; return; }
-  let werkId='', werkFreitext='';
-  const werkSel = document.getElementById('werk-'+idx);
-  if (werkSel) {
-    werkId = werkSel.value;
-    if (werkId==='__frei__') { werkId=''; werkFreitext=document.getElementById('freitext-'+idx).value.trim(); }
-  } else {
-    werkFreitext = (document.getElementById('freitext-'+idx)||{value:''}).value.trim();
-  }
+// ── SLOTS BUCHEN ──────────────────────────────────────────────
+async function oeffneSlots(terminId) {
+  zeige('sc-slots');
+  document.getElementById('slots-grid').innerHTML='<div class="spinner">Lade Slots…</div>';
+  document.getElementById('slot-titel').textContent='';
+  document.getElementById('slot-meta').textContent='';
   try {
-    const j = await apiPost({action:'speichernEintrag', mtknr: ich.mtknr, name: ich.name, terminId: t.id, werkId, werkFreitext, minuten});
-    if (j.ok) {
-      hint.textContent='✅ Gespeichert!';
-      toast('✅ Eintragung gespeichert!');
-      alleEintr = alleEintr.filter(e=>e.terminId!==t.id);
+    const json=await apiGet({action:'unterrichtSlots', terminId});
+    if (!json.ok) throw new Error(json.error);
+    const {termin,slots}=json.data;
+    document.getElementById('slot-titel').textContent=termin.projekt||termin.marker;
+    document.getElementById('slot-meta').textContent=termin.datum+(termin.dozent?' · '+termin.dozent:'')+(termin.ort?' · '+termin.ort:'');
+    if (!slots.length){ document.getElementById('slots-grid').innerHTML='<div class="empty">⏰ Keine Slots vorhanden.</div>'; return; }
+    document.getElementById('slots-grid').innerHTML=slots.map(s=>renderSlot(s,terminId)).join('');
+  } catch(e){ document.getElementById('slots-grid').innerHTML='<div class="empty">⚠️ Laden fehlgeschlagen.</div>'; }
+}
+
+function renderSlot(s, terminId) {
+  const istMeinSlot = s.mtknr===(ich?ich.mtknr:null);
+  if (s.frei) return `<div class="slot-kachel frei" onclick="buchungErstellen('${esc(terminId)}','${esc(s.uhrzeit)}')"><div class="slot-zeit">${esc(s.uhrzeit)}</div><div class="slot-info"><div class="slot-status">Frei</div><div class="slot-name">60 Minuten</div></div><div><button class="slot-btn-buchen">Buchen</button></div></div>`;
+  if (istMeinSlot)   return `<div class="slot-kachel meine-buchung"><div class="slot-zeit">${esc(s.uhrzeit)}</div><div class="slot-info"><div class="slot-status">✓ Dein Slot</div><div class="slot-name">60 Minuten</div></div></div>`;
+  return `<div class="slot-kachel belegt"><div class="slot-zeit">${esc(s.uhrzeit)}</div><div class="slot-info"><div class="slot-status">Belegt</div><div class="slot-name">${esc(s.name||'')}</div></div></div>`;
+}
+
+async function buchungErstellen(terminId, slotStart) {
+  if (!ich) return;
+  if (!confirm('Slot '+slotStart+' Uhr buchen?')) return;
+  try {
+    const j=await apiPost({action:'buchungErstellen', mtknr:ich.mtknr, name:ich.name, terminId, slotStart});
+    if (!j.ok){ toast('❌ '+(j.error||'Fehler')); return; }
+    toast('✅ Slot gebucht!');
+    await oeffneSlots(terminId);
+    await ladeMeineBuchungen();
+  } catch(e){ toast('❌ Verbindungsfehler.'); }
+}
+
+// ── MEINE BUCHUNGEN ───────────────────────────────────────────
+async function ladeMeineBuchungen() {
+  const el=document.getElementById('meine-buchungen-liste');
+  el.innerHTML='<div class="spinner">Lade…</div>';
+  try {
+    const j=await apiGet({action:'meineBuchungen', mtknr:ich.mtknr});
+    const buch=j.ok?j.data:[];
+    if (!buch.length){ el.innerHTML='<div class="empty">📋 Noch keine Buchungen.</div>'; return; }
+    el.innerHTML='<div class="buchung-card">'+buch.map(b=>{
+      const d=parseDate(b.datum);
+      const tag=d?d.getDate():'?'; const mon=d?MONATE[d.getMonth()]:'';
+      return `<div class="buchung-row"><div class="buchung-datum-box"><div class="buchung-tag">${tag}</div><div class="buchung-mon">${mon}</div></div><div class="buchung-info"><div class="buchung-titel">${esc(b.dozent||'Unterricht')}</div><div class="buchung-meta">${esc(b.datum)}${b.ort?' · '+esc(b.ort):''}</div></div><div class="buchung-zeit">${esc(b.slotStart)}</div></div>`;
+    }).join('')+'</div>';
+  } catch(e){ el.innerHTML='<div class="empty">⚠️ Laden fehlgeschlagen.</div>'; }
+}
+
+// ── ÜBEZEIT EINTRAGEN ─────────────────────────────────────────
+function oeffneEintrag(idx) {
+  const t=alleTermine[idx];
+  aktuellerEintragTermin=t;
+  const d=parseDate(t.datum); const tag=d?d.getDate():'?'; const mon=d?MONATE[d.getMonth()]:'';
+  document.getElementById('eintrag-titel').textContent=t.projekt||t.marker||'Unterricht';
+  document.getElementById('eintrag-meta').textContent=(d?WT[d.getDay()]+', '+tag+'. '+mon:'')+(t.dozent?' · '+t.dozent:'')+(t.ort?' · '+t.ort:'');
+  const mein=alleEintr.find(e=>e.terminId===t.id);
+  const meinMinVal=mein?mein.minuten:0;
+  const meinWerkFrei=mein?(mein.werkFreitext||''):'';
+  const werkOpts=(t.werke||[]).filter(w=>w.titel&&w.titel!=='Unterricht').map(w=>`<option value="${esc(w.id)}">${esc(w.komponist?w.komponist+' – '+w.titel:w.titel)}</option>`).join('');
+  const hatWerke=werkOpts.length>0;
+  document.getElementById('eintrag-form').innerHTML=`
+    ${hatWerke?`<div class="form-section"><div class="form-label">Werk</div>
+      <select class="field-select" id="eintrag-werk" onchange="eintragWerkGeaendert()">
+        <option value="">— auswählen —</option>${werkOpts}<option value="__frei__">Anderes Werk…</option>
+      </select>
+      <div class="freitext-wrap ${meinWerkFrei?'show':''}" id="eintrag-frei-wrap">
+        <input class="field-input" type="text" id="eintrag-freitext" placeholder="Werk eingeben…" value="${esc(meinWerkFrei)}" style="margin-top:8px">
+      </div></div>`
+    :`<div class="form-section"><div class="form-label">Werk</div>
+      <input class="field-input" type="text" id="eintrag-freitext" placeholder="Werk eingeben (optional)…" value="${esc(meinWerkFrei)}"></div>`}
+    <div class="form-section"><div class="form-label">Probezeit</div>
+      <div class="min-grid" id="eintrag-min-grid">
+        ${MINUTEN.map(m=>`<button class="min-btn ${meinMinVal===m.val?'active':''}" onclick="eintragWaehleMin(${m.val})">${m.label}<span>${m.unit}</span></button>`).join('')}
+      </div></div>
+    <button class="save-btn" id="eintrag-save-btn" onclick="eintragSpeichern()">Eintragung speichern</button>
+    <div class="save-hint" id="eintrag-hint"></div>`;
+  zeige('sc-eintrag');
+}
+
+function eintragWerkGeaendert(){
+  const val=document.getElementById('eintrag-werk')?.value;
+  const wrap=document.getElementById('eintrag-frei-wrap');
+  if(wrap) wrap.classList.toggle('show',val==='__frei__');
+}
+function eintragWaehleMin(val){
+  document.getElementById('eintrag-min-grid').querySelectorAll('.min-btn').forEach(b=>b.classList.toggle('active',parseInt(b.textContent,10)===val));
+}
+async function eintragSpeichern(){
+  const t=aktuellerEintragTermin;
+  const btn=document.getElementById('eintrag-save-btn');
+  const hint=document.getElementById('eintrag-hint');
+  btn.disabled=true; hint.textContent='Wird gespeichert…';
+  const aktMin=document.querySelector('#eintrag-min-grid .min-btn.active');
+  const minuten=aktMin?parseInt(aktMin.textContent,10):0;
+  if (!minuten){ hint.textContent='Bitte Probezeit auswählen.'; btn.disabled=false; return; }
+  let werkId='', werkFreitext='';
+  const werkSel=document.getElementById('eintrag-werk');
+  if (werkSel){ werkId=werkSel.value; if(werkId==='__frei__'){werkId='';werkFreitext=document.getElementById('eintrag-freitext').value.trim();} }
+  else { werkFreitext=(document.getElementById('eintrag-freitext')||{value:''}).value.trim(); }
+  try {
+    const j=await apiPost({action:'speichernEintrag', mtknr:ich.mtknr, name:ich.name, terminId:t.id, werkId, werkFreitext, minuten});
+    if (j.ok){
+      hint.textContent='✅ Gespeichert!'; toast('✅ Eintragung gespeichert!');
+      alleEintr=alleEintr.filter(e=>e.terminId!==t.id);
       alleEintr.push({terminId:t.id, werkId, werkFreitext, minuten});
-      const head = document.getElementById('tb-'+idx).previousElementSibling;
-      if (!head.querySelector('.badge-ok')) { head.querySelector('.termin-right').insertAdjacentHTML('afterbegin','<div class="badge-ok">✓ Eingetragen</div>'); }
-      const chipsEl = head.querySelector('.teiln-chips');
-      const neuChip = `<div class="chip">${esc(ich.name)}</div>`;
-      if (chipsEl) { if(!chipsEl.innerHTML.includes(esc(ich.name))) chipsEl.insertAdjacentHTML('beforeend',neuChip); }
-      else { head.querySelector('.termin-info').insertAdjacentHTML('beforeend',`<div class="teiln-chips">${neuChip}</div>`); }
       await ladeMeineStats();
     } else { hint.textContent=j.error||'Fehler.'; }
-  } catch(e) { hint.textContent='Verbindungsfehler.'; }
+  } catch(e){ hint.textContent='Verbindungsfehler.'; }
   btn.disabled=false;
 }
 
-async function ladeMeineStats() {
+async function ladeMeineStats(){
   const el=document.getElementById('meine-stats');
   try {
     const j=await apiGet({action:'meineStats', mtknr:ich.mtknr});
-    if (!j.ok||!j.data) { el.innerHTML='<div class="empty">Noch keine Einträge.</div>'; return; }
+    if (!j.ok||!j.data){ el.innerHTML='<div class="empty">Noch keine Einträge.</div>'; return; }
     const d=j.data;
-    function fmt(min){ return Math.floor(min/60)+'h '+String(min%60).padStart(2,'0')+'min'; }
-    const maxMin = d.werke.length ? Math.max(...d.werke.map(w=>w.minuten)) : 1;
-    el.innerHTML=`<div class="stats-card">
-      <div class="stats-total"><div class="stats-num">${fmt(d.gesamt)}</div></div>
-      ${d.werke.length?`<table class="stats-tbl">
-        <thead><tr><th>Werk</th><th style="text-align:right">Zeit</th></tr></thead>
-        <tbody>${d.werke.map(w=>`<tr>
-          <td><div style="font-size:12px;font-weight:600">${esc(w.titel||'Unterricht')}</div>
-              <div class="bar-wrap"><div class="bar-fill" style="width:${Math.round(w.minuten/maxMin*100)}%"></div></div></td>
-          <td class="td-right">${fmt(w.minuten)}</td>
-        </tr>`).join('')}</tbody>
-      </table>`:'<div style="font-size:13px;color:var(--text-muted)">Noch keine Einträge.</div>'}
+    const maxMin=d.werke.length?Math.max(...d.werke.map(w=>w.minuten)):1;
+    el.innerHTML=`<div class="stats-card"><div class="stats-total"><div class="stats-num">${fmt(d.gesamt)}</div></div>
+      ${d.werke.length?`<table class="stats-tbl"><thead><tr><th>Werk</th><th style="text-align:right">Zeit</th></tr></thead><tbody>
+        ${d.werke.map(w=>`<tr><td><div style="font-size:12px;font-weight:600">${esc(w.titel||'Unterricht')}</div><div class="bar-wrap"><div class="bar-fill" style="width:${Math.round(w.minuten/maxMin*100)}%"></div></div></td><td class="td-right">${fmt(w.minuten)}</td></tr>`).join('')}
+      </tbody></table>`:'<div style="font-size:13px;color:var(--text-muted)">Noch keine Einträge.</div>'}
     </div>`;
-  } catch(e) { el.innerHTML='<div class="empty">Laden fehlgeschlagen.</div>'; }
-}
-function logout() {
-  ich=null; sessionStorage.removeItem('hso_ich');
-  document.getElementById('s-mtknr').value='';
-  document.getElementById('s-pw').value='';
-  zeige('sc-login');
+  } catch(e){ el.innerHTML='<div class="empty">Laden fehlgeschlagen.</div>'; }
 }
 
-// ── ADMIN BEREICH ─────────────────────────────────────────────
-async function adminLogin() {
-  const pw=document.getElementById('a-pw').value;
-  const err=document.getElementById('a-err');
-  err.textContent='';
-  const h=await hash(pw);
-  if (h===ADMIN_HASH) {
-    sessionStorage.setItem('hso_auth','1');
-    document.getElementById('a-pw').value='';
-    zeige('sc-admin');
-    ladeAdminDaten();
-  } else {
-    err.textContent='Falsches Passwort.';
-    const el=document.getElementById('a-pw');
-    el.classList.add('shake');
-    setTimeout(()=>el.classList.remove('shake'),600);
-  }
+// ══════════════════════════════════════════════════════════════
+// LEHRENDEN-BEREICH
+// ══════════════════════════════════════════════════════════════
+function oeffneDozentBereich(){
+  document.getElementById('dozent-name-label').textContent=ich.name||ich.mtknr;
+  document.getElementById('pw-aendern-back').onclick=()=>zeige('sc-dozent');
+  zeige('sc-dozent');
+  ladeBuchungen();
+  ladeAdminDaten();
 }
-function adminLogout() { sessionStorage.removeItem('hso_auth'); zeige('sc-login'); }
-function adminTab(tab) {
-  ['personen','werke','termine','freikarten'].forEach(t=>{
+
+function dozentTab(tab){
+  dozentTabAktiv=tab;
+  ['buchungen','probezeiten','werke','freikarten','links'].forEach(t=>{
     document.getElementById('adm-'+t).style.display=t===tab?'block':'none';
     document.getElementById('ft-'+t).classList.toggle('active',t===tab);
   });
-  if (tab==='freikarten' && !freikartenDaten) ladeFreikarten();
+  if (tab==='freikarten'&&!freikartenDaten) ladeFreikarten();
 }
-async function ladeAdminDaten() {
-  if (adminDaten) { renderAdmin(); return; }
+
+// BUCHUNGEN
+function buchungenTab(tab){
+  buchungenTabAktiv=tab;
+  ['alle','meine'].forEach(t=>{ document.getElementById('bt-'+t).classList.toggle('active',t===tab); });
+  renderBuchungen();
+}
+
+async function ladeBuchungen(){
+  document.getElementById('buchungen-container').innerHTML='<div class="spinner">Lade…</div>';
+  try {
+    const j=await apiGet({action:'adminBuchungen'});
+    adminBuchungen=j.ok?j.data:[];
+    renderBuchungen();
+  } catch(e){ document.getElementById('buchungen-container').innerHTML='<div class="empty">Laden fehlgeschlagen.</div>'; }
+}
+
+function renderBuchungen(){
+  const el=document.getElementById('buchungen-container');
+  if (!adminBuchungen) return;
+  let liste=adminBuchungen;
+  if (buchungenTabAktiv==='meine'){
+    const meinVorname=(ich.name||'').split(' ')[0].toLowerCase();
+    liste=adminBuchungen.filter(b=>(b.dozent||'').toLowerCase().includes(meinVorname)||(b.dozent||'').toLowerCase().includes(ich.mtknr));
+  }
+  if (!liste.length){ el.innerHTML='<div class="empty">📋 Keine Buchungen vorhanden.</div>'; return; }
+  // Gruppieren nach Datum
+  const gruppen={};
+  liste.forEach(b=>{ if(!gruppen[b.datum])gruppen[b.datum]=[]; gruppen[b.datum].push(b); });
+  el.innerHTML=Object.entries(gruppen).map(([datum,buch])=>{
+    const d=parseDate(datum); const wt=d?WT[d.getDay()]:'';
+    return `<div class="buchungen-block"><div class="buchungen-head"><div class="buchungen-head-titel">${wt}, ${esc(datum)}</div><div class="buchungen-head-count">${buch.length} Buchung${buch.length!==1?'en':''}</div></div>
+      ${buch.map(b=>`<div class="adm-buchung-row"><div class="adm-buchung-uhr">${esc(b.slotStart)}</div><div class="adm-buchung-info"><div class="adm-buchung-name">${esc(b.name)}</div><div class="adm-buchung-sub">${esc(b.marker)} · ${esc(b.dozent)}${b.ort?' · '+esc(b.ort):''}</div></div><button class="storno-btn" onclick="buchungStornieren('${esc(b.buchungId)}','${esc(b.name)}')">Stornieren</button></div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+async function buchungStornieren(buchungId, name){
+  if (!confirm('Buchung von '+name+' stornieren?\n\nDie Person erhält eine E-Mail-Benachrichtigung.')) return;
+  try {
+    const j=await apiPost({action:'buchungStornieren', buchungId});
+    if (!j.ok){ toast('❌ '+(j.error||'Fehler')); return; }
+    toast('✅ Storniert, E-Mail verschickt.');
+    adminBuchungen=null; await ladeBuchungen();
+  } catch(e){ toast('❌ Verbindungsfehler.'); }
+}
+
+// PROBEZEITEN + WERKE (Admin-Stats)
+async function ladeAdminDaten(){
+  if (adminDaten){ renderAdminDaten(); return; }
   try {
     const j=await apiGet({action:'adminStats'});
     if (!j.ok) throw new Error(j.error);
-    adminDaten=j.data; renderAdmin();
-  } catch(e) { document.getElementById('adm-p-body').innerHTML='<div class="empty">Laden fehlgeschlagen.</div>'; }
+    adminDaten=j.data; renderAdminDaten();
+  } catch(e){ document.getElementById('adm-p-body').innerHTML='<div class="empty">Laden fehlgeschlagen.</div>'; }
 }
-function renderAdmin() {
-  function fmt(min){ return Math.floor(min/60)+'h '+String(min%60).padStart(2,'0')+'m'; }
+
+function renderAdminDaten(){
+  // Probezeiten
   const pers=(adminDaten.personen||[]).sort((a,b)=>b.minuten-a.minuten);
-  if (!pers.length) {
-    document.getElementById('adm-p-body').innerHTML='<div class="empty">Noch keine Einträge.</div>';
-  } else {
+  if (!pers.length){ document.getElementById('adm-p-body').innerHTML='<div class="empty">Noch keine Einträge.</div>'; }
+  else {
     const avg=pers.reduce((s,p)=>s+p.minuten,0)/pers.length;
     const maxM=Math.max(...pers.map(p=>p.minuten),1);
     document.getElementById('adm-avg').textContent='Ø '+fmt(avg);
     document.getElementById('adm-p-body').innerHTML=pers.map((p,i)=>{
-      const diff=p.minuten-avg;
-      const pct=Math.round(p.minuten/maxM*100);
-      return `<div class="rang-row">
-        <div class="rang-nr">${i+1}</div>
-        <div class="rang-info">
-          <div class="rang-name">${esc(p.name)}</div>
-          <div class="rang-sub">${esc(p.instrument||'')} · ${p.termine||0} Termine</div>
-          <div class="rang-bar"><div class="rang-bar-fill" style="width:${pct}%"></div></div>
-        </div>
-        <div class="rang-std">
-          <div class="rang-std-num">${fmt(p.minuten)}</div>
-          <div class="rang-std-lbl">gesamt</div>
-          <div class="diff ${diff>=0?'diff-p':'diff-m'}">${(diff>=0?'+':'')+fmt(Math.abs(diff))}</div>
-        </div>
-      </div>`;
+      const diff=p.minuten-avg; const pct=Math.round(p.minuten/maxM*100);
+      return `<div class="rang-row"><div class="rang-nr">${i+1}</div><div class="rang-info"><div class="rang-name">${esc(p.name)}</div><div class="rang-sub">${esc(p.instrument||'')} · ${p.termine||0} Termine</div><div class="rang-bar"><div class="rang-bar-fill" style="width:${pct}%"></div></div></div><div class="rang-std"><div class="rang-std-num">${fmt(p.minuten)}</div><div class="rang-std-lbl">gesamt</div><div class="diff ${diff>=0?'diff-p':'diff-m'}">${(diff>=0?'+':'')+fmt(Math.abs(diff))}</div></div></div>`;
     }).join('');
   }
+  // Werke
   const werke=(adminDaten.werke||[]).sort((a,b)=>b.minuten-a.minuten);
   document.getElementById('adm-w-body').innerHTML=werke.length
-    ? werke.map(w=>`<div class="rang-row">
-        <div class="rang-info">
-          <div class="rang-name">${esc(w.titel||'Unterricht')}</div>
-          <div class="rang-sub">${esc((w.studierende||[]).join(', '))}</div>
-        </div>
-        <div class="rang-std">
-          <div class="rang-std-num">${fmt(w.minuten)}</div>
-          <div class="rang-std-lbl">gesamt</div>
-        </div>
-      </div>`).join('')
-    : '<div class="empty">Noch keine Einträge.</div>';
-
-  const term=(adminDaten.termine||[]);
-  document.getElementById('adm-t-body').innerHTML=term.length
-    ? term.map(t=>`<div class="rang-row">
-        <div class="rang-info">
-          <div class="rang-name">${esc(t.projekt||t.datum)}</div>
-          <div class="rang-sub">${esc(t.datum)}${t.ort?' · '+t.ort:''}</div>
-        </div>
-        <div class="rang-std">
-          <div class="rang-std-num">${t.eintraege||0}</div>
-          <div class="rang-std-lbl">Einträge</div>
-        </div>
-      </div>`).join('')
-    : '<div class="empty">Noch keine Einträge.</div>';
+    ?werke.map(w=>`<div class="rang-row"><div class="rang-info"><div class="rang-name">${esc(w.titel||'Unterricht')}</div><div class="rang-sub">${esc((w.studierende||[]).join(', '))}</div></div><div class="rang-std"><div class="rang-std-num">${fmt(w.minuten)}</div><div class="rang-std-lbl">gesamt</div></div></div>`).join('')
+    :'<div class="empty">Noch keine Einträge.</div>';
 }
 
+// FREIKARTEN
+async function ladeFreikarten(){
+  const el=document.getElementById('fk-body');
+  el.innerHTML='<div class="spinner">Lade…</div>';
+  try {
+    const url=`https://docs.google.com/spreadsheets/d/${FK_SHEET_ID}/export?format=csv&gid=${FK_SHEET_GID}`;
+    const text=await (await fetch(url)).text();
+    const rows=text.trim().split('\n').map(r=>{
+      const cols=[]; let cur='',inQ=false;
+      for (let i=0;i<r.length;i++){
+        const c=r[i];
+        if(c==='"'){inQ=!inQ;}
+        else if(c===','&&!inQ){cols.push(cur.trim());cur='';}
+        else cur+=c;
+      }
+      cols.push(cur.trim()); return cols;
+    });
+    const data=rows.slice(1).filter(r=>r.length>1&&r[0]);
+    data.sort((a,b)=>{
+      const toMs=s=>{const m=s.match(/(\d{2})\.(\d{2})\.(\d{4})\s+(\d{2}):(\d{2}):(\d{2})/);return m?new Date(m[3],m[2]-1,m[1],m[4],m[5],m[6]).getTime():0;};
+      return toMs(b[0])-toMs(a[0]);
+    });
+    freikartenDaten=data; renderFreikarten();
+  } catch(e){ el.innerHTML='<div class="empty">Laden fehlgeschlagen: '+esc(e.message)+'</div>'; }
+}
+
+function renderFreikarten(){
+  if (!freikartenDaten) return;
+  const q=(document.getElementById('fk-search').value||'').toLowerCase();
+  const filtered=q?freikartenDaten.filter(r=>r.join(' ').toLowerCase().includes(q)):freikartenDaten;
+  document.getElementById('fk-count').textContent=' · '+filtered.length+' Einträge';
+  if (!filtered.length){ document.getElementById('fk-body').innerHTML='<div class="empty">Keine Einträge.</div>'; return; }
+  document.getElementById('fk-body').innerHTML=filtered.map(r=>`<div class="fk-row">
+    <div class="fk-titel">${esc(r[1]||'')}</div>
+    <div style="display:flex;align-items:center;gap:6px"><span class="fk-anzahl">${esc(r[3]||'')} Karte${r[3]==='1'?'':'n'}</span><span class="fk-name">${esc(r[4]||'')}</span></div>
+    <div class="fk-meta"><span class="fk-typ">${esc(r[6]||'')}</span>${r[5]?`<span>${esc(r[5])}</span>`:''}<span style="margin-left:auto;opacity:0.5">${esc(r[0]||'')}</span></div>
+  </div>`).join('');
+}
+
+// ── AUTO-LOGIN ────────────────────────────────────────────────
 (function(){
   const s=sessionStorage.getItem('hso_ich');
-  if (s) { try { ich=JSON.parse(s); oeffneStudentBereich(); return; } catch(e){} }
-  if (sessionStorage.getItem('hso_auth')==='1') { zeige('sc-admin'); ladeAdminDaten(); }
+  if (s){ try{ ich=JSON.parse(s); oeffneBereich(); }catch(e){} }
 })();
 </script>
 </body>
