@@ -28,10 +28,9 @@
   --blue-light:#0c447c;--green-light:#1b4d1e;
   --red-light:#4d1a17;--gray-light:#333331;--gold-light:#3a3010;
 }}
-
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto}
 
-/* ── HEADER ── */
+/* HEADER */
 .header{background:var(--card);padding:12px 16px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:20}
 .header-row{display:flex;align-items:center;gap:10px}
 .header-logo{height:44px;width:auto;flex-shrink:0}
@@ -40,11 +39,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .back-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:var(--gray-light);border:none;border-radius:20px;font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;text-decoration:none;font-family:inherit;margin-left:auto;flex-shrink:0}
 .back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-/* ── SCREENS ── */
+/* SCREENS */
 .screen{display:none;padding:20px 16px;flex-direction:column;gap:14px}
 .screen.active{display:flex}
 
-/* ── LOGIN ── */
+/* LOGIN */
 .login-hero{text-align:center;padding:10px 0 4px}
 .login-icon{font-size:2.8rem;margin-bottom:10px}
 .login-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:4px}
@@ -62,25 +61,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-blue:active{opacity:0.85}
 .btn-outline{background:none;border:1.5px solid var(--border-solid);color:var(--text-muted);margin-top:8px}
 .hint{font-size:12px;color:var(--text-muted);text-align:center;line-height:1.5}
-.hint a{color:var(--blue);text-decoration:none;font-weight:600}
-
-/* Passwort-Ändern Modal */
 .pw-change-info{background:var(--blue-light);border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;color:var(--blue-dark);line-height:1.5}
 @media(prefers-color-scheme:dark){.pw-change-info{color:#a8cfff}}
 
-/* ── STUDIERENDEN-BEREICH ── */
+/* WELCOME BAR */
 .welcome-bar{background:var(--blue-light);border-radius:var(--radius-sm);padding:11px 14px;display:flex;align-items:center;justify-content:space-between}
 .welcome-name{font-size:14px;font-weight:600;color:var(--blue-dark)}
 @media(prefers-color-scheme:dark){.welcome-name{color:#a8cfff}}
 .welcome-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
 .logout-small{font-size:12px;color:var(--text-muted);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px;font-family:inherit}
-.logout-small:active{background:var(--border-solid)}
+.pw-change-link{font-size:12px;color:var(--blue);background:none;border:none;cursor:pointer;font-family:inherit;padding:0;text-decoration:underline}
 
 .section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-top:2px}
 
-/* Termin-Karte */
-.termin-card{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);overflow:hidden}
-.termin-header{padding:12px 14px;cursor:pointer;display:flex;align-items:flex-start;gap:10px}
+/* TERMIN-KARTEN (Übersicht) */
+.termin-card{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);overflow:hidden;cursor:pointer}
+.termin-header{padding:12px 14px;display:flex;align-items:flex-start;gap:10px}
 .termin-datum-box{background:var(--blue-light);border-radius:8px;padding:6px 10px;text-align:center;flex-shrink:0;min-width:44px}
 .termin-tag{font-size:18px;font-weight:800;color:var(--blue);line-height:1}
 .termin-mon{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-top:2px}
@@ -88,111 +84,86 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .termin-titel{font-size:14px;font-weight:600;color:var(--text)}
 .termin-meta{font-size:12px;color:var(--text-muted);margin-top:2px;line-height:1.4}
 .termin-status{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
-.termin-chevron{color:var(--text-muted);transition:transform 0.2s}
+.termin-chevron{color:var(--text-muted)}
 .termin-chevron svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.termin-chevron.open{transform:rotate(180deg)}
-.eingetragen-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:12px;background:var(--green-light);color:var(--green)}
+.badge-gebucht{font-size:10px;font-weight:700;padding:3px 8px;border-radius:12px;background:var(--green-light);color:var(--green)}
+.badge-gruppe{font-size:10px;font-weight:700;padding:3px 8px;border-radius:12px;background:var(--blue-light);color:var(--blue-dark)}
 
-.termin-body{display:none;border-top:0.5px solid var(--border);padding:14px}
-.termin-body.open{display:block}
+/* SLOT-SCREEN */
+.slot-termin-info{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);padding:14px 16px}
+.slot-termin-name{font-size:15px;font-weight:700;color:var(--text)}
+.slot-termin-meta{font-size:12px;color:var(--text-muted);margin-top:4px;line-height:1.5}
+.slot-back-btn{background:none;border:none;font-size:13px;color:var(--blue);cursor:pointer;font-family:inherit;padding:0;font-weight:600;display:flex;align-items:center;gap:4px}
+.slot-back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 
-/* Werk-Slots */
-.werk-slot{background:var(--bg);border-radius:var(--radius-sm);padding:12px;margin-bottom:8px;border:1.5px solid transparent;transition:border-color 0.15s,background 0.15s}
-.werk-slot.selected{background:var(--blue-light);border-color:var(--blue)}
-.werk-slot-header{display:flex;align-items:center;gap:10px;cursor:pointer}
-.werk-slot-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--border-solid);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s;background:var(--card)}
-.werk-slot.selected .werk-slot-check{background:var(--blue);border-color:var(--blue)}
-.werk-slot-check svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:0;transition:opacity 0.15s}
-.werk-slot.selected .werk-slot-check svg{opacity:1}
-.werk-slot-name{flex:1}
-.werk-slot-komp{font-size:13px;font-weight:600;color:var(--text)}
-.werk-slot-titel{font-size:12px;color:var(--text-muted);margin-top:1px}
+/* SLOT KACHELN */
+.slots-grid{display:flex;flex-direction:column;gap:8px}
+.slot-kachel{background:var(--card);border-radius:var(--radius-sm);border:1.5px solid var(--border-solid);padding:12px 14px;display:flex;align-items:center;gap:12px;transition:all 0.15s}
+.slot-kachel.frei{cursor:pointer}
+.slot-kachel.frei:active{opacity:0.8}
+.slot-kachel.belegt{opacity:0.7;background:var(--gray-light)}
+.slot-kachel.meine-buchung{border-color:var(--green);background:var(--green-light)}
+.slot-zeit{font-size:18px;font-weight:800;color:var(--blue);min-width:48px}
+.slot-kachel.belegt .slot-zeit{color:var(--text-muted)}
+.slot-kachel.meine-buchung .slot-zeit{color:var(--green)}
+.slot-info{flex:1}
+.slot-status{font-size:13px;font-weight:600;color:var(--text)}
+.slot-name{font-size:12px;color:var(--text-muted);margin-top:2px}
+.slot-action{flex-shrink:0}
+.slot-btn-buchen{padding:8px 14px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.slot-btn-buchen:active{opacity:0.85}
+.slot-btn-stornieren{padding:8px 14px;background:var(--red-light);color:var(--red);border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
 
-/* Stunden-Picker */
-.stunden-picker{margin-top:10px;display:none}
-.werk-slot.selected .stunden-picker{display:block}
-.stunden-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:8px}
-.stunden-grid{display:flex;flex-wrap:wrap;gap:6px}
-.std-btn{padding:7px 12px;border-radius:8px;border:1.5px solid var(--border-solid);background:var(--card);font-size:13px;font-weight:600;color:var(--text);cursor:pointer;font-family:inherit;transition:all 0.12s}
-.std-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
-.notiz-input{width:100%;margin-top:8px;padding:9px 12px;border:1.5px solid var(--border-solid);border-radius:8px;font-size:13px;color:var(--text);background:var(--card);font-family:inherit;outline:none;resize:none}
-.notiz-input:focus{border-color:var(--blue)}
+/* MEINE BUCHUNGEN */
+.buchung-card{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);overflow:hidden}
+.buchung-row{padding:12px 14px;display:flex;align-items:center;gap:12px;border-bottom:0.5px solid var(--border)}
+.buchung-row:last-child{border-bottom:none}
+.buchung-datum-box{background:var(--blue-light);border-radius:8px;padding:5px 9px;text-align:center;flex-shrink:0;min-width:40px}
+.buchung-tag{font-size:16px;font-weight:800;color:var(--blue);line-height:1}
+.buchung-mon{font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-top:1px}
+.buchung-info{flex:1;min-width:0}
+.buchung-titel{font-size:13px;font-weight:600;color:var(--text)}
+.buchung-meta{font-size:11px;color:var(--text-muted);margin-top:2px}
+.buchung-zeit{font-size:14px;font-weight:800;color:var(--green);flex-shrink:0}
 
-.speichern-btn{width:100%;margin-top:12px;padding:12px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.15s}
-.speichern-btn:active{opacity:0.85}
-.speichern-btn:disabled{opacity:0.4;cursor:not-allowed}
-.save-hint{font-size:11px;color:var(--text-muted);text-align:center;margin-top:6px}
-
-/* Meine Stunden */
+/* STATS */
 .stats-card{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);padding:16px}
-.stats-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px}
 .stats-gesamt{display:flex;align-items:baseline;gap:6px;margin-bottom:12px}
 .stats-num{font-size:36px;font-weight:800;color:var(--blue);line-height:1}
 .stats-unit{font-size:14px;font-weight:600;color:var(--text-muted)}
-.stats-table{width:100%;border-collapse:collapse;font-size:13px}
-.stats-table th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);padding:0 0 6px;border-bottom:0.5px solid var(--border)}
-.stats-table td{padding:7px 0;border-bottom:0.5px solid var(--border);color:var(--text);vertical-align:top}
-.stats-table tr:last-child td{border-bottom:none}
-.stats-table .std-col{text-align:right;font-weight:700;color:var(--blue);white-space:nowrap}
-.bar-wrap{height:4px;background:var(--border-solid);border-radius:2px;margin-top:3px;overflow:hidden}
-.bar-fill{height:100%;background:var(--blue);border-radius:2px;transition:width 0.4s}
 
-/* ── ADMIN-BEREICH ── */
+/* ADMIN */
 .admin-bar{background:linear-gradient(135deg,#fff 0%,var(--gold-light) 100%);border-radius:var(--radius-sm);padding:11px 14px;display:flex;align-items:center;justify-content:space-between;border:1px solid #e8e0cc}
 .admin-label{font-size:13px;font-weight:700;color:var(--gold-dark)}
 .admin-sub{font-size:11px;color:var(--text-muted);margin-top:1px}
+@media(prefers-color-scheme:dark){.admin-bar{background:linear-gradient(135deg,#2a2a28 0%,#3a3010 100%)}}
 
-/* Filter-Tabs */
 .filter-tabs{display:flex;background:var(--card);border-radius:var(--radius-sm);padding:3px;border:0.5px solid var(--border);gap:2px}
 .filter-tab{flex:1;padding:7px 4px;font-size:11px;font-weight:600;text-align:center;border:none;border-radius:8px;cursor:pointer;background:none;color:var(--text-muted);font-family:inherit;transition:all 0.15s}
 .filter-tab.active{background:var(--blue);color:#fff}
 
-/* Admin Rangliste */
-.rangliste{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);overflow:hidden}
-.rangliste-header{padding:12px 14px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.rangliste-title{font-size:13px;font-weight:700;color:var(--text)}
-.rangliste-hint{font-size:11px;color:var(--text-muted)}
-.rang-row{padding:10px 14px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px}
-.rang-row:last-child{border-bottom:none}
-.rang-nr{width:22px;font-size:12px;font-weight:700;color:var(--text-muted);text-align:center;flex-shrink:0}
-.rang-name{flex:1;min-width:0}
-.rang-hauptname{font-size:13px;font-weight:600;color:var(--text)}
-.rang-instr{font-size:11px;color:var(--text-muted);margin-top:1px}
-.rang-stunden{flex-shrink:0;text-align:right}
-.rang-std-num{font-size:16px;font-weight:800;color:var(--blue)}
-.rang-std-label{font-size:10px;color:var(--text-muted);margin-top:1px}
-.diff-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;margin-top:3px}
-.diff-minus{background:var(--red-light);color:var(--red)}
-.diff-plus{background:var(--green-light);color:var(--green)}
-.rang-bar{height:3px;background:var(--border-solid);border-radius:2px;margin-top:5px;overflow:hidden}
-.rang-bar-fill{height:100%;background:var(--blue);border-radius:2px}
+/* ADMIN BUCHUNGSLISTE */
+.buchungen-liste{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);overflow:hidden}
+.buchungen-header{padding:12px 14px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.buchungen-title{font-size:13px;font-weight:700;color:var(--text)}
+.buchungen-count{font-size:11px;color:var(--text-muted)}
+.admin-buchung-row{padding:11px 14px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px}
+.admin-buchung-row:last-child{border-bottom:none}
+.admin-buchung-datum{font-size:12px;font-weight:700;color:var(--text);white-space:nowrap;min-width:72px}
+.admin-buchung-uhr{font-size:13px;font-weight:800;color:var(--blue);min-width:42px}
+.admin-buchung-info{flex:1;min-width:0}
+.admin-buchung-name{font-size:13px;font-weight:600;color:var(--text)}
+.admin-buchung-dozent{font-size:11px;color:var(--text-muted);margin-top:2px}
+.storno-btn{padding:6px 10px;background:var(--red-light);color:var(--red);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0}
+.storno-btn:active{opacity:0.8}
 
-/* Werke-Tabelle */
-.werke-admin{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);overflow:hidden}
-.werk-admin-row{padding:10px 14px;border-bottom:0.5px solid var(--border);display:flex;align-items:flex-start;gap:10px}
-.werk-admin-row:last-child{border-bottom:none}
-.werk-admin-info{flex:1;min-width:0}
-.werk-admin-name{font-size:13px;font-weight:600;color:var(--text)}
-.werk-admin-komp{font-size:11px;color:var(--text-muted);margin-top:1px}
-.werk-admin-studierende{font-size:11px;color:var(--blue);margin-top:4px}
-.werk-admin-std{text-align:right;flex-shrink:0}
-.werk-admin-num{font-size:15px;font-weight:700;color:var(--text)}
-.werk-admin-label{font-size:10px;color:var(--text-muted)}
-
-/* Leere Zustände */
+/* EMPTY / SPINNER / TOAST */
 .empty-state{text-align:center;padding:28px 20px;color:var(--text-muted);font-size:13px}
 .empty-state-icon{font-size:2rem;margin-bottom:8px}
-
-/* Spinner */
 .spinner{text-align:center;padding:28px;color:var(--text-muted);font-size:13px}
-
-/* Toast */
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1a1a;color:#fff;padding:11px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:100;transition:transform 0.3s;white-space:nowrap;pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0)}
 @media(prefers-color-scheme:dark){.toast{background:#fff;color:#1a1a1a}}
-
-/* Passwort-Ändern Link */
-.pw-change-link{font-size:12px;color:var(--blue);background:none;border:none;cursor:pointer;font-family:inherit;padding:0;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -201,41 +172,37 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="header-row">
     <img class="header-logo" src="icon-192.png" alt="HfMT">
     <div class="header-text">
-      <h1>Unterrichtseinteilung</h1>
+      <h1>Unterrichtstermine</h1>
       <p id="header-sub">Hochschulorchester · HfMT Hamburg</p>
     </div>
     <a class="back-btn" href="intern.html">
       <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-      Zurück
+      Portal
     </a>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     SCREEN 1: START (Auswahl Login)
-     ════════════════════════════════════════ -->
+<!-- SCREEN 1: START -->
 <div class="screen active" id="screen-start">
   <div class="login-hero">
     <div class="login-icon">🎼</div>
-    <div class="login-title">Unterrichtseinteilung</div>
-    <div class="login-sub">Trage deine Probezeiten ein oder melde dich als Administrator an.</div>
+    <div class="login-title">Unterrichtstermine</div>
+    <div class="login-sub">Slots buchen oder als Lehrende:r Buchungen verwalten.</div>
   </div>
   <div class="login-card">
     <div class="field-label">Anmelden als</div>
     <button class="btn btn-blue" onclick="zeige('screen-student-login')">👤 Studierende:r</button>
-    <button class="btn btn-outline" onclick="zeige('screen-admin-login')">🔑 Administrator</button>
+    <button class="btn btn-outline" onclick="zeige('screen-admin-login')">🔑 Lehrende:r</button>
   </div>
-  <div class="hint">Noch kein Passwort? Deine Matrikelnummer ist dein Initialpasswort.</div>
+  <div class="hint">Erstanmeldung: Passwort = Matrikelnummer.</div>
 </div>
 
-<!-- ════════════════════════════════════════
-     SCREEN 2: STUDIERENDEN-LOGIN
-     ════════════════════════════════════════ -->
+<!-- SCREEN 2: STUDIERENDEN-LOGIN -->
 <div class="screen" id="screen-student-login">
   <div class="login-hero">
     <div class="login-icon">👤</div>
     <div class="login-title">Studierende:r</div>
-    <div class="login-sub">Bitte mit Matrikelnummer und Passwort anmelden.</div>
+    <div class="login-sub">Mit Matrikelnummer und Passwort anmelden.</div>
   </div>
   <div class="login-card">
     <div class="field-label">Matrikelnummer</div>
@@ -248,12 +215,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="btn btn-blue" onclick="studentLogin()">Anmelden</button>
     <button class="btn btn-outline" onclick="zeige('screen-start')">Zurück</button>
   </div>
-  <div class="hint">Erstanmeldung: Passwort = Matrikelnummer.<br>Du wirst danach aufgefordert, ein eigenes zu setzen.</div>
+  <div class="hint">Erstanmeldung: Passwort = Matrikelnummer.</div>
 </div>
 
-<!-- ════════════════════════════════════════
-     SCREEN 3: PASSWORT SETZEN (Erstanmeldung)
-     ════════════════════════════════════════ -->
+<!-- SCREEN 3: PASSWORT SETZEN -->
 <div class="screen" id="screen-pw-setzen">
   <div class="login-hero">
     <div class="login-icon">🔐</div>
@@ -261,7 +226,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="login-sub">Bitte wähle ein persönliches Passwort.</div>
   </div>
   <div class="login-card">
-    <div class="pw-change-info">Erstanmeldung erkannt. Bitte setze jetzt dein eigenes Passwort — es ersetzt die Matrikelnummer als Passwort.</div>
+    <div class="pw-change-info">Erstanmeldung erkannt — bitte setze jetzt dein eigenes Passwort.</div>
     <div class="field-gap"></div>
     <div class="field-label">Neues Passwort</div>
     <input class="field-input" type="password" id="pw1" placeholder="Mindestens 6 Zeichen">
@@ -274,14 +239,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     SCREEN 4: STUDIERENDEN-BEREICH
-     ════════════════════════════════════════ -->
+<!-- SCREEN 4: STUDIERENDEN-BEREICH (Terminübersicht) -->
 <div class="screen" id="screen-student">
   <div class="welcome-bar">
     <div>
       <div class="welcome-name" id="welcome-name">Hallo!</div>
-      <div class="welcome-sub" id="welcome-mtknr"></div>
+      <div class="welcome-sub" id="welcome-sub"></div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
       <button class="logout-small" onclick="logout()">Abmelden</button>
@@ -289,16 +252,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
   </div>
 
-  <div class="section-label">Meine Probezeiten — Stunden eintragen</div>
+  <div class="section-label">Kommende Unterrichtstermine</div>
   <div id="termine-liste"><div class="spinner">Lade Termine…</div></div>
 
-  <div class="section-label">Meine Gesamtübersicht</div>
-  <div id="meine-stats"><div class="spinner">Lade Statistik…</div></div>
+  <div class="section-label">Meine gebuchten Slots</div>
+  <div id="meine-buchungen-liste"><div class="spinner">Lade Buchungen…</div></div>
 </div>
 
-<!-- ════════════════════════════════════════
-     SCREEN 5: PASSWORT ÄNDERN
-     ════════════════════════════════════════ -->
+<!-- SCREEN 5: SLOT-AUSWAHL -->
+<div class="screen" id="screen-slots">
+  <button class="slot-back-btn" onclick="zeige('screen-student')">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Zurück zur Übersicht
+  </button>
+  <div class="slot-termin-info" id="slot-termin-info">
+    <div class="slot-termin-name" id="slot-termin-name"></div>
+    <div class="slot-termin-meta" id="slot-termin-meta"></div>
+  </div>
+  <div class="section-label">Verfügbare Zeitfenster</div>
+  <div class="slots-grid" id="slots-grid"><div class="spinner">Lade Slots…</div></div>
+</div>
+
+<!-- SCREEN 6: PASSWORT ÄNDERN -->
 <div class="screen" id="screen-pw-aendern">
   <div class="login-hero">
     <div class="login-icon">🔐</div>
@@ -320,17 +295,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     SCREEN 6: ADMIN-LOGIN
-     ════════════════════════════════════════ -->
+<!-- SCREEN 7: LEHRENDEN-LOGIN -->
 <div class="screen" id="screen-admin-login">
   <div class="login-hero">
     <div class="login-icon">🔑</div>
-    <div class="login-title">Administrator</div>
-    <div class="login-sub">Internes Passwort eingeben.</div>
+    <div class="login-title">Lehrende:r</div>
+    <div class="login-sub">Benutzername und Passwort eingeben.</div>
   </div>
   <div class="login-card">
-    <div class="field-label">Admin-Passwort</div>
+    <div class="field-label">Benutzername</div>
+    <input class="field-input" type="text" id="a-user" placeholder="z. B. thomas.dorsch" autocomplete="username">
+    <div class="field-gap"></div>
+    <div class="field-label">Passwort</div>
     <input class="field-input" type="password" id="a-pw" placeholder="Passwort" onkeydown="if(event.key==='Enter')adminLogin()">
     <div class="field-gap"></div>
     <div class="error-msg" id="a-error"></div>
@@ -339,49 +315,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     SCREEN 7: ADMIN-BEREICH
-     ════════════════════════════════════════ -->
+<!-- SCREEN 8: LEHRENDEN-BEREICH -->
 <div class="screen" id="screen-admin">
   <div class="admin-bar">
     <div>
-      <div class="admin-label">Administrator</div>
-      <div class="admin-sub">Alle Probezeiten · HfMT Hamburg</div>
+      <div class="admin-label" id="admin-name-label">Lehrende:r</div>
+      <div class="admin-sub">Buchungsverwaltung · HfMT Hamburg</div>
     </div>
     <button class="logout-small" onclick="adminLogout()">Abmelden</button>
   </div>
 
-  <div class="section-label">Auswertung nach</div>
   <div class="filter-tabs">
-    <button class="filter-tab active" id="ftab-personen" onclick="adminTab('personen')">Personen</button>
-    <button class="filter-tab" id="ftab-werke" onclick="adminTab('werke')">Werke</button>
-    <button class="filter-tab" id="ftab-termine" onclick="adminTab('termine')">Termine</button>
+    <button class="filter-tab active" id="ftab-alle" onclick="adminTab('alle')">Alle</button>
+    <button class="filter-tab" id="ftab-meine" onclick="adminTab('meine')">Meine</button>
   </div>
 
-  <!-- Personen-Rangliste -->
-  <div id="admin-personen">
-    <div class="rangliste">
-      <div class="rangliste-header">
-        <div class="rangliste-title">Probezeiten je Person</div>
-        <div class="rangliste-hint" id="admin-durchschnitt"></div>
-      </div>
-      <div id="admin-rangliste-body"><div class="spinner">Lade Daten…</div></div>
-    </div>
-  </div>
-
-  <!-- Werke-Übersicht -->
-  <div id="admin-werke" style="display:none">
-    <div class="werke-admin" id="admin-werke-body">
-      <div class="spinner">Lade Daten…</div>
-    </div>
-  </div>
-
-  <!-- Termine-Übersicht -->
-  <div id="admin-termine" style="display:none">
-    <div class="rangliste" id="admin-termine-body">
-      <div class="rangliste-header"><div class="rangliste-title">Eintragungen je Termin</div></div>
-      <div id="admin-termine-list"><div class="spinner">Lade Daten…</div></div>
-    </div>
+  <div id="admin-buchungen-container">
+    <div class="spinner">Lade Buchungen…</div>
   </div>
 </div>
 
@@ -393,16 +343,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 // ══════════════════════════════════════════
 const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 
-// Admin-Passwort-Hash (identisch zu intern.html)
-const ADMIN_HASH = 'c09f968d8072567698e09ab003e7f187ba96ce6bedc3deb02c65f257db0fe4da';
-
 // ══════════════════════════════════════════
 // ZUSTAND
 // ══════════════════════════════════════════
-let aktuellerStudent = null; // { mtknr, name, instrument }
-let alleTermine      = [];   // aus Web-App
-let alleEintraege    = [];   // gecachte Einträge des Studierenden
-let adminDaten       = null; // gecacht
+let aktuellerStudent = null;
+let aktuellerAdmin   = null;  // { nutzer, name }
+let alleTermine      = [];
+let adminBuchungen   = null;
+let adminTabAktiv    = 'alle';
 
 // ══════════════════════════════════════════
 // NAVIGATION
@@ -418,7 +366,7 @@ function zeige(screenId) {
 // ══════════════════════════════════════════
 async function hashStr(s) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
 
 // ══════════════════════════════════════════
@@ -442,479 +390,15 @@ async function webAppGet(params) {
   return res.json();
 }
 async function webAppPost(data) {
-  const res = await fetch(WEBAPP_URL, {
-    method: 'POST',
-    body: JSON.stringify(data)
-  });
+  const res = await fetch(WEBAPP_URL, { method:'POST', body: JSON.stringify(data) });
   return res.json();
-}
-
-// ══════════════════════════════════════════
-// STUDIERENDEN-LOGIN
-// ══════════════════════════════════════════
-async function studentLogin() {
-  const mtknr = document.getElementById('s-mtknr').value.trim();
-  const pw    = document.getElementById('s-pw').value;
-  const errEl = document.getElementById('s-error');
-  errEl.textContent = '';
-
-  if (!mtknr || !pw) { errEl.textContent = 'Bitte alle Felder ausfüllen.'; return; }
-
-  const pwHash = await hashStr(pw);
-
-  try {
-    const json = await webAppGet({ action: 'studentLogin', mtknr, pwHash });
-
-    if (!json.ok) {
-      errEl.textContent = json.error || 'Anmeldung fehlgeschlagen.';
-      document.getElementById('s-mtknr').classList.add('error');
-      document.getElementById('s-pw').classList.add('error');
-      setTimeout(() => {
-        document.getElementById('s-mtknr').classList.remove('error');
-        document.getElementById('s-pw').classList.remove('error');
-      }, 1500);
-      return;
-    }
-
-    aktuellerStudent = json.student; // { mtknr, name, instrument, erstanmeldung }
-
-    if (json.student.erstanmeldung) {
-      // Passwort noch nicht gesetzt → Passwort-Setzen-Screen
-      zeige('screen-pw-setzen');
-      return;
-    }
-
-    sessionStorage.setItem('hso_student', JSON.stringify(aktuellerStudent));
-    oeffneStudentBereich();
-
-  } catch(e) {
-    errEl.textContent = 'Verbindungsfehler. Bitte erneut versuchen.';
-  }
-}
-
-// ══════════════════════════════════════════
-// PASSWORT SETZEN (Erstanmeldung)
-// ══════════════════════════════════════════
-async function pwSetzen() {
-  const pw1   = document.getElementById('pw1').value;
-  const pw2   = document.getElementById('pw2').value;
-  const errEl = document.getElementById('pw-error');
-  errEl.textContent = '';
-
-  if (pw1.length < 6)          { errEl.textContent = 'Mindestens 6 Zeichen.'; return; }
-  if (pw1 !== pw2)             { errEl.textContent = 'Passwörter stimmen nicht überein.'; return; }
-
-  const pwHash = await hashStr(pw1);
-  try {
-    const json = await webAppPost({ action: 'setPw', mtknr: aktuellerStudent.mtknr, pwHash });
-    if (!json.ok) { errEl.textContent = json.error || 'Fehler beim Speichern.'; return; }
-    aktuellerStudent.erstanmeldung = false;
-    sessionStorage.setItem('hso_student', JSON.stringify(aktuellerStudent));
-    toast('✅ Passwort gesetzt!');
-    oeffneStudentBereich();
-  } catch(e) {
-    errEl.textContent = 'Verbindungsfehler.';
-  }
-}
-
-// ══════════════════════════════════════════
-// PASSWORT ÄNDERN
-// ══════════════════════════════════════════
-async function pwAendern() {
-  const alt   = document.getElementById('pw-alt').value;
-  const neu1  = document.getElementById('pw-neu1').value;
-  const neu2  = document.getElementById('pw-neu2').value;
-  const errEl = document.getElementById('pw-aend-error');
-  errEl.textContent = '';
-
-  if (!alt || !neu1 || !neu2)  { errEl.textContent = 'Bitte alle Felder ausfüllen.'; return; }
-  if (neu1.length < 6)         { errEl.textContent = 'Neues Passwort: mindestens 6 Zeichen.'; return; }
-  if (neu1 !== neu2)           { errEl.textContent = 'Neue Passwörter stimmen nicht überein.'; return; }
-
-  const altHash = await hashStr(alt);
-  const neuHash = await hashStr(neu1);
-  try {
-    const json = await webAppPost({ action: 'changePw', mtknr: aktuellerStudent.mtknr, altHash, neuHash });
-    if (!json.ok) { errEl.textContent = json.error || 'Fehler.'; return; }
-    toast('✅ Passwort geändert!');
-    zeige('screen-student');
-  } catch(e) {
-    errEl.textContent = 'Verbindungsfehler.';
-  }
-}
-
-// ══════════════════════════════════════════
-// STUDIERENDEN-BEREICH ÖFFNEN
-// ══════════════════════════════════════════
-async function oeffneStudentBereich() {
-  document.getElementById('welcome-name').textContent = 'Hallo, ' + (aktuellerStudent.name || aktuellerStudent.mtknr) + '!';
-  document.getElementById('welcome-mtknr').textContent = 'Mtknr: ' + aktuellerStudent.mtknr + ' · ' + (aktuellerStudent.instrument || '');
-  zeige('screen-student');
-  await ladeTermine();
-  await ladeMeineStats();
-}
-
-// ══════════════════════════════════════════
-// TERMINE LADEN
-// ══════════════════════════════════════════
-async function ladeTermine() {
-  const liste = document.getElementById('termine-liste');
-  liste.innerHTML = '<div class="spinner">Lade Termine…</div>';
-
-  try {
-    // Termine aus Web-App (Kalender + manuell)
-    const [tJson, eJson] = await Promise.all([
-      webAppGet({ action: 'unterrichtTermine' }),
-      webAppGet({ action: 'meineEintraege', mtknr: aktuellerStudent.mtknr })
-    ]);
-
-    alleTermine   = tJson.ok ? tJson.data : [];
-    alleEintraege = eJson.ok ? eJson.data : [];
-
-    if (!alleTermine.length) {
-      liste.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📅</div>Noch keine Termine eingetragen.</div>';
-      return;
-    }
-
-    liste.innerHTML = alleTermine.map((t, i) => renderTermin(t, i)).join('');
-  } catch(e) {
-    liste.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
-  }
-}
-
-// ══════════════════════════════════════════
-// TERMIN RENDERN
-// ══════════════════════════════════════════
-function renderTermin(t, idx) {
-  const d      = parseDate(t.datum);
-  const tag    = d ? d.getDate() : '?';
-  const mon    = d ? ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'][d.getMonth()] : '';
-  const wt     = d ? ['So','Mo','Di','Mi','Do','Fr','Sa'][d.getDay()] : '';
-
-  // Vorhandene Einträge für diesen Termin
-  const meine  = alleEintraege.filter(e => e.terminId === t.id);
-  const eingetragen = meine.length > 0;
-
-  const werkeHtml = (t.werke || []).map((w, wi) => {
-    const meinWerk = meine.find(e => e.werkId === w.id);
-    return `
-    <div class="werk-slot ${meinWerk ? 'selected' : ''}" id="ws-${idx}-${wi}">
-      <div class="werk-slot-header" onclick="toggleWerk(${idx},${wi})">
-        <div class="werk-slot-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 20 4 15"/></svg></div>
-        <div class="werk-slot-name">
-          <div class="werk-slot-komp">${esc(w.komponist || '')}</div>
-          <div class="werk-slot-titel">${esc(w.titel || '')}</div>
-        </div>
-      </div>
-      <div class="stunden-picker">
-        <div class="stunden-label">Probezeit</div>
-        <div class="stunden-grid" id="sg-${idx}-${wi}">
-          ${[0.5,1,1.5,2,2.5,3,3.5,4].map(h =>
-            `<button class="std-btn ${meinWerk && meinWerk.stunden === h ? 'active' : ''}"
-             onclick="waehleStunden(${idx},${wi},${h})">${h.toFixed(1).replace('.',',')} Std</button>`
-          ).join('')}
-        </div>
-        <textarea class="notiz-input" id="notiz-${idx}-${wi}" rows="2"
-          placeholder="Notiz (optional)">${meinWerk ? (meinWerk.notiz || '') : ''}</textarea>
-      </div>
-    </div>`;
-  }).join('');
-
-  return `
-  <div class="termin-card">
-    <div class="termin-header" onclick="toggleTermin(${idx})">
-      <div class="termin-datum-box">
-        <div class="termin-tag">${tag}</div>
-        <div class="termin-mon">${mon}</div>
-      </div>
-      <div class="termin-info">
-        <div class="termin-titel">${esc(t.projekt || t.titel || 'Probe')}</div>
-        <div class="termin-meta">${wt}${t.uhrzeit ? ', ' + t.uhrzeit : ''}${t.ort ? ' · ' + t.ort : ''}</div>
-      </div>
-      <div class="termin-status">
-        ${eingetragen ? '<div class="eingetragen-badge">✓ Eingetragen</div>' : ''}
-        <div class="termin-chevron" id="chev-${idx}">
-          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-      </div>
-    </div>
-    <div class="termin-body" id="tb-${idx}">
-      ${werkeHtml || '<div style="color:var(--text-muted);font-size:13px;">Keine Werke für diesen Termin hinterlegt.</div>'}
-      ${t.werke && t.werke.length ? `
-      <button class="speichern-btn" id="sbtn-${idx}" onclick="speichern(${idx})">Eintragung speichern</button>
-      <div class="save-hint" id="shint-${idx}"></div>` : ''}
-    </div>
-  </div>`;
-}
-
-// ══════════════════════════════════════════
-// INTERAKTION: TERMIN / WERK / STUNDEN
-// ══════════════════════════════════════════
-function toggleTermin(idx) {
-  const body = document.getElementById('tb-' + idx);
-  const chev = document.getElementById('chev-' + idx);
-  const open = body.classList.contains('open');
-  body.classList.toggle('open', !open);
-  chev.classList.toggle('open', !open);
-}
-
-function toggleWerk(tIdx, wIdx) {
-  const slot = document.getElementById('ws-' + tIdx + '-' + wIdx);
-  slot.classList.toggle('selected');
-}
-
-function waehleStunden(tIdx, wIdx, h) {
-  const grid = document.getElementById('sg-' + tIdx + '-' + wIdx);
-  grid.querySelectorAll('.std-btn').forEach(b => b.classList.remove('active'));
-  grid.querySelectorAll('.std-btn').forEach(b => {
-    if (parseFloat(b.textContent) === h) b.classList.add('active');
-  });
-  // Slot als ausgewählt markieren falls nicht schon
-  document.getElementById('ws-' + tIdx + '-' + wIdx).classList.add('selected');
-}
-
-// ══════════════════════════════════════════
-// SPEICHERN
-// ══════════════════════════════════════════
-async function speichern(tIdx) {
-  const t    = alleTermine[tIdx];
-  const btn  = document.getElementById('sbtn-' + tIdx);
-  const hint = document.getElementById('shint-' + tIdx);
-  btn.disabled = true;
-  hint.textContent = 'Wird gespeichert…';
-
-  const eintraege = [];
-  (t.werke || []).forEach((w, wi) => {
-    const slot = document.getElementById('ws-' + tIdx + '-' + wi);
-    if (!slot || !slot.classList.contains('selected')) return;
-    const aktiv = document.querySelector(`#sg-${tIdx}-${wi} .std-btn.active`);
-    const stunden = aktiv ? parseFloat(aktiv.textContent.replace(',', '.')) : 0;
-    const notiz = document.getElementById(`notiz-${tIdx}-${wi}`).value.trim();
-    if (stunden > 0) eintraege.push({ werkId: w.id, stunden, notiz });
-  });
-
-  if (!eintraege.length) {
-    hint.textContent = 'Bitte mindestens ein Werk mit Stundenzahl auswählen.';
-    btn.disabled = false;
-    return;
-  }
-
-  try {
-    const json = await webAppPost({
-      action: 'speichernEintrag',
-      mtknr: aktuellerStudent.mtknr,
-      terminId: t.id,
-      eintraege
-    });
-
-    if (json.ok) {
-      hint.textContent = '✅ Gespeichert!';
-      toast('✅ Eintragung gespeichert!');
-      // Lokalen Cache aktualisieren
-      alleEintraege = alleEintraege.filter(e => e.terminId !== t.id);
-      eintraege.forEach(e => alleEintraege.push({ terminId: t.id, ...e }));
-      // Badge aktualisieren
-      const header = document.querySelector(`#tb-${tIdx}`).previousElementSibling;
-      if (!header.querySelector('.eingetragen-badge')) {
-        header.querySelector('.termin-status').insertAdjacentHTML('afterbegin', '<div class="eingetragen-badge">✓ Eingetragen</div>');
-      }
-      await ladeMeineStats();
-    } else {
-      hint.textContent = json.error || 'Fehler beim Speichern.';
-    }
-  } catch(e) {
-    hint.textContent = 'Verbindungsfehler.';
-  }
-  btn.disabled = false;
-}
-
-// ══════════════════════════════════════════
-// MEINE STATISTIK
-// ══════════════════════════════════════════
-async function ladeMeineStats() {
-  const el = document.getElementById('meine-stats');
-  try {
-    const json = await webAppGet({ action: 'meineStats', mtknr: aktuellerStudent.mtknr });
-    if (!json.ok || !json.data) { el.innerHTML = '<div class="empty-state">Noch keine Einträge.</div>'; return; }
-    const d = json.data;
-    const gesamt = d.gesamt || 0;
-    const werke  = d.werke  || [];
-    const maxStd = werke.length ? Math.max(...werke.map(w => w.stunden)) : 1;
-
-    const werkeRows = werke.map(w => `
-      <tr>
-        <td>
-          <div style="font-size:12px;font-weight:600">${esc(w.komponist || '')}</div>
-          <div style="font-size:11px;color:var(--text-muted)">${esc(w.titel || '')}</div>
-          <div class="bar-wrap"><div class="bar-fill" style="width:${Math.round(w.stunden/maxStd*100)}%"></div></div>
-        </td>
-        <td class="std-col">${w.stunden.toFixed(1).replace('.',',')} Std</td>
-      </tr>`).join('');
-
-    el.innerHTML = `
-    <div class="stats-card">
-      <div class="stats-gesamt">
-        <div class="stats-num">${gesamt.toFixed(1).replace('.',',')}</div>
-        <div class="stats-unit">Stunden gesamt</div>
-      </div>
-      ${werke.length ? `
-      <table class="stats-table">
-        <thead><tr><th>Werk</th><th style="text-align:right">Stunden</th></tr></thead>
-        <tbody>${werkeRows}</tbody>
-      </table>` : '<div style="font-size:13px;color:var(--text-muted)">Noch keine Einträge.</div>'}
-    </div>`;
-  } catch(e) {
-    el.innerHTML = '<div class="empty-state">Laden fehlgeschlagen.</div>';
-  }
-}
-
-// ══════════════════════════════════════════
-// LOGOUT
-// ══════════════════════════════════════════
-function logout() {
-  aktuellerStudent = null;
-  sessionStorage.removeItem('hso_student');
-  zeige('screen-start');
-}
-
-// ══════════════════════════════════════════
-// ADMIN-LOGIN
-// ══════════════════════════════════════════
-async function adminLogin() {
-  const pw    = document.getElementById('a-pw').value;
-  const errEl = document.getElementById('a-error');
-  errEl.textContent = '';
-  const hash = await hashStr(pw);
-  if (hash === ADMIN_HASH) {
-    sessionStorage.setItem('hso_admin', '1');
-    document.getElementById('a-pw').value = '';
-    zeige('screen-admin');
-    ladeAdminDaten();
-  } else {
-    errEl.textContent = 'Falsches Passwort.';
-    document.getElementById('a-pw').classList.add('error');
-    setTimeout(() => document.getElementById('a-pw').classList.remove('error'), 1500);
-  }
-}
-function adminLogout() {
-  sessionStorage.removeItem('hso_admin');
-  zeige('screen-start');
-}
-
-// ══════════════════════════════════════════
-// ADMIN: TABS
-// ══════════════════════════════════════════
-function adminTab(tab) {
-  ['personen','werke','termine'].forEach(t => {
-    document.getElementById('admin-' + t).style.display = t === tab ? 'block' : 'none';
-    document.getElementById('ftab-' + t).classList.toggle('active', t === tab);
-  });
-}
-
-// ══════════════════════════════════════════
-// ADMIN: DATEN LADEN
-// ══════════════════════════════════════════
-async function ladeAdminDaten() {
-  if (adminDaten) { renderAdmin(); return; }
-  try {
-    const json = await webAppGet({ action: 'adminStats' });
-    if (!json.ok) throw new Error(json.error);
-    adminDaten = json.data;
-    renderAdmin();
-  } catch(e) {
-    document.getElementById('admin-rangliste-body').innerHTML = '<div class="empty-state">Laden fehlgeschlagen.</div>';
-  }
-}
-
-function renderAdmin() {
-  renderPersonen();
-  renderWerke();
-  renderTermine();
-}
-
-// Personen-Rangliste
-function renderPersonen() {
-  const d         = adminDaten;
-  const personen  = d.personen || [];
-  if (!personen.length) {
-    document.getElementById('admin-rangliste-body').innerHTML = '<div class="empty-state"><div class="empty-state-icon">👤</div>Noch keine Einträge.</div>';
-    return;
-  }
-  const gesamt  = personen.reduce((s, p) => s + p.stunden, 0);
-  const schnitt = gesamt / personen.length;
-  document.getElementById('admin-durchschnitt').textContent = 'Ø ' + schnitt.toFixed(1).replace('.', ',') + ' Std';
-  const maxStd  = Math.max(...personen.map(p => p.stunden), 1);
-
-  document.getElementById('admin-rangliste-body').innerHTML = personen
-    .sort((a, b) => b.stunden - a.stunden)
-    .map((p, i) => {
-      const diff   = p.stunden - schnitt;
-      const diffStr = (diff >= 0 ? '+' : '') + diff.toFixed(1).replace('.', ',');
-      const diffClass = diff >= 0 ? 'diff-plus' : 'diff-minus';
-      const pct    = Math.round(p.stunden / maxStd * 100);
-      return `
-      <div class="rang-row">
-        <div class="rang-nr">${i + 1}</div>
-        <div class="rang-name">
-          <div class="rang-hauptname">${esc(p.name)}</div>
-          <div class="rang-instr">${esc(p.instrument || '')} · ${p.konzerte || 0} Projekt${p.konzerte !== 1 ? 'e' : ''}</div>
-          <div class="rang-bar"><div class="rang-bar-fill" style="width:${pct}%"></div></div>
-        </div>
-        <div class="rang-stunden">
-          <div class="rang-std-num">${p.stunden.toFixed(1).replace('.', ',')}</div>
-          <div class="rang-std-label">Stunden</div>
-          <div class="diff-badge ${diffClass}">${diffStr}</div>
-        </div>
-      </div>`;
-    }).join('');
-}
-
-// Werke-Übersicht
-function renderWerke() {
-  const werke = (adminDaten.werke || []).sort((a, b) => b.stunden - a.stunden);
-  if (!werke.length) {
-    document.getElementById('admin-werke-body').innerHTML = '<div class="empty-state"><div class="empty-state-icon">🎵</div>Noch keine Einträge.</div>';
-    return;
-  }
-  document.getElementById('admin-werke-body').innerHTML = werke.map(w => `
-    <div class="werk-admin-row">
-      <div class="werk-admin-info">
-        <div class="werk-admin-name">${esc(w.titel || '')}</div>
-        <div class="werk-admin-komp">${esc(w.komponist || '')}</div>
-        <div class="werk-admin-studierende">${esc((w.studierende || []).join(', '))}</div>
-      </div>
-      <div class="werk-admin-std">
-        <div class="werk-admin-num">${w.stunden.toFixed(1).replace('.', ',')}</div>
-        <div class="werk-admin-label">Std gesamt</div>
-      </div>
-    </div>`).join('');
-}
-
-// Termine-Übersicht
-function renderTermine() {
-  const termine = adminDaten.termine || [];
-  if (!termine.length) {
-    document.getElementById('admin-termine-list').innerHTML = '<div class="empty-state">Noch keine Einträge.</div>';
-    return;
-  }
-  document.getElementById('admin-termine-list').innerHTML = termine.map(t => `
-    <div class="rang-row">
-      <div class="rang-name">
-        <div class="rang-hauptname">${esc(t.projekt || t.datum)}</div>
-        <div class="rang-instr">${esc(t.datum)}${t.ort ? ' · ' + t.ort : ''}</div>
-      </div>
-      <div class="rang-stunden">
-        <div class="rang-std-num">${t.eintraege || 0}</div>
-        <div class="rang-std-label">Einträge</div>
-      </div>
-    </div>`).join('');
 }
 
 // ══════════════════════════════════════════
 // HILFSFUNKTIONEN
 // ══════════════════════════════════════════
 function esc(s) {
-  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 function parseDate(s) {
   if (!s) return null;
@@ -926,22 +410,391 @@ function parseDate(s) {
   const d = new Date(str);
   return isNaN(d.getTime()) ? null : d;
 }
+const MONATE = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+const WT     = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+
+// ══════════════════════════════════════════
+// STUDIERENDEN-LOGIN
+// ══════════════════════════════════════════
+async function studentLogin() {
+  const mtknr = document.getElementById('s-mtknr').value.trim();
+  const pw    = document.getElementById('s-pw').value;
+  const errEl = document.getElementById('s-error');
+  errEl.textContent = '';
+  if (!mtknr || !pw) { errEl.textContent = 'Bitte alle Felder ausfüllen.'; return; }
+
+  const pwHash = await hashStr(pw);
+  try {
+    const json = await webAppGet({ action:'studentLogin', mtknr, pwHash });
+    if (!json.ok) {
+      errEl.textContent = json.error || 'Anmeldung fehlgeschlagen.';
+      ['s-mtknr','s-pw'].forEach(id => {
+        const el = document.getElementById(id);
+        el.classList.add('error');
+        setTimeout(() => el.classList.remove('error'), 1500);
+      });
+      return;
+    }
+    aktuellerStudent = json.student;
+    if (json.student.erstanmeldung) { zeige('screen-pw-setzen'); return; }
+    sessionStorage.setItem('hso_student', JSON.stringify(aktuellerStudent));
+    oeffneStudentBereich();
+  } catch(e) {
+    errEl.textContent = 'Verbindungsfehler.';
+  }
+}
+
+// ══════════════════════════════════════════
+// PASSWORT SETZEN / ÄNDERN
+// ══════════════════════════════════════════
+async function pwSetzen() {
+  const pw1 = document.getElementById('pw1').value;
+  const pw2 = document.getElementById('pw2').value;
+  const err = document.getElementById('pw-error');
+  err.textContent = '';
+  if (pw1.length < 6) { err.textContent = 'Mindestens 6 Zeichen.'; return; }
+  if (pw1 !== pw2)    { err.textContent = 'Passwörter stimmen nicht überein.'; return; }
+  try {
+    const json = await webAppPost({ action:'setPw', mtknr: aktuellerStudent.mtknr, pwHash: await hashStr(pw1) });
+    if (!json.ok) { err.textContent = json.error || 'Fehler.'; return; }
+    aktuellerStudent.erstanmeldung = false;
+    sessionStorage.setItem('hso_student', JSON.stringify(aktuellerStudent));
+    toast('✅ Passwort gesetzt!');
+    oeffneStudentBereich();
+  } catch(e) { err.textContent = 'Verbindungsfehler.'; }
+}
+
+async function pwAendern() {
+  const alt  = document.getElementById('pw-alt').value;
+  const neu1 = document.getElementById('pw-neu1').value;
+  const neu2 = document.getElementById('pw-neu2').value;
+  const err  = document.getElementById('pw-aend-error');
+  err.textContent = '';
+  if (!alt||!neu1||!neu2) { err.textContent = 'Bitte alle Felder ausfüllen.'; return; }
+  if (neu1.length < 6)    { err.textContent = 'Mindestens 6 Zeichen.'; return; }
+  if (neu1 !== neu2)      { err.textContent = 'Passwörter stimmen nicht überein.'; return; }
+  try {
+    const json = await webAppPost({ action:'changePw', mtknr: aktuellerStudent.mtknr, altHash: await hashStr(alt), neuHash: await hashStr(neu1) });
+    if (!json.ok) { err.textContent = json.error || 'Fehler.'; return; }
+    toast('✅ Passwort geändert!');
+    zeige('screen-student');
+  } catch(e) { err.textContent = 'Verbindungsfehler.'; }
+}
+
+// ══════════════════════════════════════════
+// STUDIERENDEN-BEREICH
+// ══════════════════════════════════════════
+async function oeffneStudentBereich() {
+  document.getElementById('welcome-name').textContent = 'Hallo, ' + (aktuellerStudent.name || aktuellerStudent.mtknr) + '!';
+  document.getElementById('welcome-sub').textContent  = 'Mtknr: ' + aktuellerStudent.mtknr + (aktuellerStudent.instrument ? ' · ' + aktuellerStudent.instrument : '');
+  zeige('screen-student');
+  await Promise.all([ladeTermine(), ladeMeineBuchungen()]);
+}
+
+async function ladeTermine() {
+  const el = document.getElementById('termine-liste');
+  el.innerHTML = '<div class="spinner">Lade Termine…</div>';
+  try {
+    const json = await webAppGet({ action:'unterrichtTermine' });
+    alleTermine = json.ok ? json.data : [];
+    if (!alleTermine.length) {
+      el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📅</div>Noch keine Termine eingetragen.</div>';
+      return;
+    }
+    el.innerHTML = alleTermine.map(renderTerminKarte).join('');
+  } catch(e) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
+  }
+}
+
+function renderTerminKarte(t) {
+  const d   = parseDate(t.datum);
+  const tag = d ? d.getDate() : '?';
+  const mon = d ? MONATE[d.getMonth()] : '';
+  const wt  = d ? WT[d.getDay()] : '';
+
+  const istGruppe  = t.marker === 'Gruppenunterricht';
+  const hatSlots   = (t.slots || []).length > 0;
+  const slotAnzahl = (t.slots || []).length;
+
+  const badge = istGruppe
+    ? '<div class="badge-gruppe">Gruppe</div>'
+    : (hatSlots ? `<div class="termin-chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>` : '');
+
+  const onclick = istGruppe ? '' : (hatSlots ? `onclick="oeffneSlots('${esc(t.id)}')"` : '');
+
+  return `
+  <div class="termin-card" ${onclick}>
+    <div class="termin-header">
+      <div class="termin-datum-box">
+        <div class="termin-tag">${tag}</div>
+        <div class="termin-mon">${mon}</div>
+      </div>
+      <div class="termin-info">
+        <div class="termin-titel">${esc(t.projekt || t.marker)}</div>
+        <div class="termin-meta">${wt}${t.dozent ? ' · ' + esc(t.dozent) : ''}${t.ort ? ' · ' + esc(t.ort) : ''}${!istGruppe && hatSlots ? ' · ' + slotAnzahl + ' Slot' + (slotAnzahl!==1?'s':'') : ''}</div>
+      </div>
+      <div class="termin-status">${badge}</div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════
+// SLOTS ÖFFNEN + BUCHEN
+// ══════════════════════════════════════════
+async function oeffneSlots(terminId) {
+  zeige('screen-slots');
+  document.getElementById('slots-grid').innerHTML = '<div class="spinner">Lade Slots…</div>';
+  document.getElementById('slot-termin-name').textContent = '';
+  document.getElementById('slot-termin-meta').textContent = '';
+
+  try {
+    const json = await webAppGet({ action:'unterrichtSlots', terminId });
+    if (!json.ok) throw new Error(json.error);
+
+    const { termin, slots } = json.data;
+    document.getElementById('slot-termin-name').textContent = termin.projekt || termin.marker;
+    document.getElementById('slot-termin-meta').textContent =
+      termin.datum + (termin.dozent ? ' · ' + termin.dozent : '') + (termin.ort ? ' · ' + termin.ort : '');
+
+    if (!slots.length) {
+      document.getElementById('slots-grid').innerHTML = '<div class="empty-state"><div class="empty-state-icon">⏰</div>Keine Slots für diesen Termin.</div>';
+      return;
+    }
+
+    document.getElementById('slots-grid').innerHTML = slots.map(s => renderSlot(s, terminId)).join('');
+  } catch(e) {
+    document.getElementById('slots-grid').innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
+  }
+}
+
+function renderSlot(s, terminId) {
+  const istMeinSlot = s.mtknr === (aktuellerStudent ? aktuellerStudent.mtknr : null);
+  if (s.frei) {
+    return `
+    <div class="slot-kachel frei" onclick="buchungErstellen('${esc(terminId)}','${esc(s.uhrzeit)}')">
+      <div class="slot-zeit">${esc(s.uhrzeit)}</div>
+      <div class="slot-info">
+        <div class="slot-status">Frei</div>
+        <div class="slot-name">60 Minuten</div>
+      </div>
+      <div class="slot-action"><button class="slot-btn-buchen">Buchen</button></div>
+    </div>`;
+  } else if (istMeinSlot) {
+    return `
+    <div class="slot-kachel meine-buchung">
+      <div class="slot-zeit">${esc(s.uhrzeit)}</div>
+      <div class="slot-info">
+        <div class="slot-status">✓ Dein Slot</div>
+        <div class="slot-name">60 Minuten</div>
+      </div>
+    </div>`;
+  } else {
+    return `
+    <div class="slot-kachel belegt">
+      <div class="slot-zeit">${esc(s.uhrzeit)}</div>
+      <div class="slot-info">
+        <div class="slot-status">Belegt</div>
+        <div class="slot-name">${esc(s.name || '')}</div>
+      </div>
+    </div>`;
+  }
+}
+
+async function buchungErstellen(terminId, slotStart) {
+  if (!aktuellerStudent) return;
+  if (!confirm('Slot ' + slotStart + ' Uhr buchen?')) return;
+  try {
+    const json = await webAppPost({
+      action: 'buchungErstellen',
+      mtknr:     aktuellerStudent.mtknr,
+      name:      aktuellerStudent.name,
+      terminId,
+      slotStart
+    });
+    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
+    toast('✅ Slot gebucht!');
+    await oeffneSlots(terminId);
+    await ladeMeineBuchungen();
+  } catch(e) {
+    toast('❌ Verbindungsfehler.');
+  }
+}
+
+// ══════════════════════════════════════════
+// MEINE BUCHUNGEN
+// ══════════════════════════════════════════
+async function ladeMeineBuchungen() {
+  const el = document.getElementById('meine-buchungen-liste');
+  el.innerHTML = '<div class="spinner">Lade Buchungen…</div>';
+  try {
+    const json = await webAppGet({ action:'meineBuchungen', mtknr: aktuellerStudent.mtknr });
+    const buchungen = json.ok ? json.data : [];
+    if (!buchungen.length) {
+      el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Noch keine Buchungen.</div>';
+      return;
+    }
+    el.innerHTML = '<div class="buchung-card">' + buchungen.map(b => {
+      const d   = parseDate(b.datum);
+      const tag = d ? d.getDate() : '?';
+      const mon = d ? MONATE[d.getMonth()] : '';
+      return `
+      <div class="buchung-row">
+        <div class="buchung-datum-box">
+          <div class="buchung-tag">${tag}</div>
+          <div class="buchung-mon">${mon}</div>
+        </div>
+        <div class="buchung-info">
+          <div class="buchung-titel">${esc(b.dozent || 'Unterricht')}</div>
+          <div class="buchung-meta">${esc(b.datum)}${b.ort ? ' · ' + esc(b.ort) : ''}</div>
+        </div>
+        <div class="buchung-zeit">${esc(b.slotStart)}</div>
+      </div>`;
+    }).join('') + '</div>';
+  } catch(e) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('hso_student');
+  aktuellerStudent = null;
+  zeige('screen-start');
+}
+
+// ══════════════════════════════════════════
+// LEHRENDEN-LOGIN
+// ══════════════════════════════════════════
+async function adminLogin() {
+  const nutzer = document.getElementById('a-user').value.trim().toLowerCase();
+  const pw     = document.getElementById('a-pw').value;
+  const errEl  = document.getElementById('a-error');
+  errEl.textContent = '';
+  if (!nutzer || !pw) { errEl.textContent = 'Bitte alle Felder ausfüllen.'; return; }
+
+  const pwHash = await hashStr(pw);
+  try {
+    const json = await webAppGet({ action:'studentLogin', mtknr: nutzer, pwHash });
+    if (!json.ok) { errEl.textContent = json.error || 'Anmeldung fehlgeschlagen.'; return; }
+    aktuellerAdmin = { nutzer, name: json.student.name || nutzer };
+    sessionStorage.setItem('hso_admin_unterricht', JSON.stringify(aktuellerAdmin));
+    oeffneAdminBereich();
+  } catch(e) {
+    errEl.textContent = 'Verbindungsfehler.';
+  }
+}
+
+// ══════════════════════════════════════════
+// LEHRENDEN-BEREICH
+// ══════════════════════════════════════════
+function oeffneAdminBereich() {
+  document.getElementById('admin-name-label').textContent = aktuellerAdmin.name || 'Lehrende:r';
+  zeige('screen-admin');
+  ladeAdminBuchungen();
+}
+
+function adminTab(tab) {
+  adminTabAktiv = tab;
+  ['alle','meine'].forEach(t => {
+    document.getElementById('ftab-' + t).classList.toggle('active', t === tab);
+  });
+  renderAdminBuchungen();
+}
+
+async function ladeAdminBuchungen() {
+  const el = document.getElementById('admin-buchungen-container');
+  el.innerHTML = '<div class="spinner">Lade Buchungen…</div>';
+  try {
+    const json = await webAppGet({ action:'adminBuchungen' });
+    adminBuchungen = json.ok ? json.data : [];
+    renderAdminBuchungen();
+  } catch(e) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
+  }
+}
+
+function renderAdminBuchungen() {
+  const el = document.getElementById('admin-buchungen-container');
+  if (!adminBuchungen) return;
+
+  let liste = adminBuchungen;
+  if (adminTabAktiv === 'meine' && aktuellerAdmin) {
+    const meinName = (aktuellerAdmin.name || '').split(' ')[0].toLowerCase();
+    liste = adminBuchungen.filter(b => (b.dozent || '').toLowerCase().includes(meinName));
+  }
+
+  if (!liste.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Keine Buchungen vorhanden.</div>';
+    return;
+  }
+
+  // Gruppiert nach Datum
+  const gruppen = {};
+  liste.forEach(b => {
+    if (!gruppen[b.datum]) gruppen[b.datum] = [];
+    gruppen[b.datum].push(b);
+  });
+
+  el.innerHTML = Object.entries(gruppen).map(([datum, buchungen]) => {
+    const d  = parseDate(datum);
+    const wt = d ? WT[d.getDay()] : '';
+    return `
+    <div class="buchungen-liste">
+      <div class="buchungen-header">
+        <div class="buchungen-title">${wt}, ${esc(datum)}</div>
+        <div class="buchungen-count">${buchungen.length} Buchung${buchungen.length!==1?'en':''}</div>
+      </div>
+      ${buchungen.map(b => `
+      <div class="admin-buchung-row">
+        <div class="admin-buchung-uhr">${esc(b.slotStart)}</div>
+        <div class="admin-buchung-info">
+          <div class="admin-buchung-name">${esc(b.name)}</div>
+          <div class="admin-buchung-dozent">${esc(b.marker)} · ${esc(b.dozent)}${b.ort ? ' · ' + esc(b.ort) : ''}</div>
+        </div>
+        <button class="storno-btn" onclick="buchungStornieren('${esc(b.buchungId)}','${esc(b.name)}')">Stornieren</button>
+      </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+async function buchungStornieren(buchungId, name) {
+  if (!confirm('Buchung von ' + name + ' stornieren?\n\nDie Person erhält eine E-Mail-Benachrichtigung.')) return;
+  try {
+    const json = await webAppPost({ action:'buchungStornieren', buchungId });
+    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
+    toast('✅ Buchung storniert, E-Mail verschickt.');
+    adminBuchungen = null;
+    await ladeAdminBuchungen();
+  } catch(e) {
+    toast('❌ Verbindungsfehler.');
+  }
+}
+
+function adminLogout() {
+  sessionStorage.removeItem('hso_admin_unterricht');
+  aktuellerAdmin = null;
+  adminBuchungen = null;
+  zeige('screen-start');
+}
 
 // ══════════════════════════════════════════
 // AUTO-LOGIN (Session)
 // ══════════════════════════════════════════
 (function() {
-  const stored = sessionStorage.getItem('hso_student');
-  if (stored) {
+  const storedStudent = sessionStorage.getItem('hso_student');
+  if (storedStudent) {
     try {
-      aktuellerStudent = JSON.parse(stored);
+      aktuellerStudent = JSON.parse(storedStudent);
       oeffneStudentBereich();
       return;
     } catch(e) {}
   }
-  if (sessionStorage.getItem('hso_admin') === '1') {
-    zeige('screen-admin');
-    ladeAdminDaten();
+  const storedAdmin = sessionStorage.getItem('hso_admin_unterricht');
+  if (storedAdmin) {
+    try {
+      aktuellerAdmin = JSON.parse(storedAdmin);
+      oeffneAdminBereich();
+    } catch(e) {}
   }
 })();
 </script>
