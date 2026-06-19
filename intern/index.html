@@ -23,6 +23,31 @@
   --shadow-lg:0 4px 16px rgba(0,0,0,0.12),0 16px 40px rgba(0,0,0,0.1);
 }
 html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5}
+.unt-stab{padding:10px 16px;border:none;background:none;font-size:12px;font-weight:600;color:var(--ink3);cursor:pointer;font-family:var(--sans);border-bottom:2px solid transparent;transition:all 0.15s;}
+.unt-stab:hover{color:var(--ink)}
+.unt-stab.active{color:var(--blue);border-bottom-color:var(--blue);}
+.ut-pane{display:none;}
+.ut-pane.active{display:block;}
+.tcard{background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:12px;box-shadow:var(--shadow);}
+.tcard-date{background:var(--blue-bg);border-radius:7px;padding:5px 8px;text-align:center;flex-shrink:0;min-width:40px;}
+.tcard-day{font-size:16px;font-weight:800;color:var(--blue);line-height:1;}
+.tcard-mon{font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase;}
+.tcard-body{flex:1;min-width:0;}
+.tcard-title{font-size:13px;font-weight:700;margin-bottom:2px;}
+.tcard-meta{font-size:11px;color:var(--ink3);}
+.tcard-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle;}
+.tcard-badge.kal{background:var(--blue-bg);color:var(--blue);}
+.tcard-badge.man{background:var(--gold-bg);color:var(--gold2);}
+.tcard-acts{display:flex;flex-direction:column;gap:4px;flex-shrink:0;}
+.tact{padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all 0.15s;white-space:nowrap;}
+.tact:hover{border-color:var(--border2);background:var(--paper2);}
+.tact.del{color:var(--red);border-color:rgba(155,35,53,0.2);}
+.tact.del:hover{background:var(--red-bg);}
+.tfield{margin-bottom:12px;}
+.tfield label{display:block;font-size:11px;font-weight:700;color:var(--ink3);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em;}
+.tfield input{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--sans);background:#fff;}
+.tfield input:focus{outline:none;border-color:var(--blue);}
+.tfield .hint{font-size:11px;color:var(--ink3);margin-top:3px;}
 
 #app{display:flex;min-height:100vh;flex-direction:column}
 .topbar{height:52px;background:var(--ink);display:flex;align-items:center;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,0.06)}
@@ -228,9 +253,9 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
         <div class="qlink-text"><div class="qlink-name">Finanzen / Werkverträge</div><div class="qlink-type">Google Sheet</div></div>
         <div class="qlink-arr"><span class="qlink-kb">⌃6</span> ↗</div>
       </a>
-      <a class="qlink" id="ql7" href="https://docs.google.com/spreadsheets/d/1EzFVAmvVtp0Slh04tx6ioYGk6U58fs6E2L1_qrZPsn4/edit?gid=760008888" target="_blank">
-        <div class="qlink-icon" style="background:#eef6f0">✅</div>
-        <div class="qlink-text"><div class="qlink-name">Anwesenheitsliste</div><div class="qlink-type">Google Sheet</div></div>
+      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/spreadsheets/d/1YIY3SUOedlYYtXCUfIYPIGpppEAukOoU_W_VtFcJagw/edit" target="_blank">
+        <div class="qlink-icon" style="background:#e8f3ff">📊</div>
+        <div class="qlink-text"><div class="qlink-name">Konzertexamen</div><div class="qlink-type">1YIY3SUOedlYYtXCUfIYPIGpppEAukOoU_W_VtFcJagw</div></div>
         <div class="qlink-arr"><span class="qlink-kb">⌃7</span> ↗</div>
       </a>
       <a class="qlink" id="ql8" href="https://docs.google.com/spreadsheets/d/1xAdZ_HWhQxq5wsH1Ct88eew5uw07yDYyAWheS9ycPaI/edit" target="_blank">
@@ -354,7 +379,28 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 
   <!-- UNTERRICHT -->
   <div class="tab" id="t-unterricht">
-    <div id="unt-inhalt"><div class="spinner"><div class="spin"></div>Lade Unterrichtsdaten...</div></div>
+    <div style="display:flex;gap:0;border-bottom:1px solid var(--border);margin:-20px -16px 16px;padding:0 16px;">
+      <button class="unt-stab active" data-utab="ut-stats"  onclick="wechselUntTab(this)">📊 Übersicht</button>
+      <button class="unt-stab"       data-utab="ut-termine" onclick="wechselUntTab(this)">📅 Termine</button>
+    </div>
+    <div id="ut-stats" class="ut-pane active">
+      <div id="unt-inhalt"><div class="spinner"><div class="spin"></div>Lade Unterrichtsdaten...</div></div>
+    </div>
+    <div id="ut-termine" class="ut-pane">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+        <input id="term-suche" type="search" placeholder="Suche Datum, Projekt, Ort…"
+          style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--sans);background:#fff;"
+          oninput="filterTermine()">
+        <button onclick="openTerminModal(null)"
+          style="padding:8px 14px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans);">
+          + Neu
+        </button>
+        <button onclick="ladenTermineNeu()"
+          style="padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:13px;cursor:pointer;"
+          title="Neu laden">↻</button>
+      </div>
+      <div id="term-liste"><div class="spinner"><div class="spin"></div>Lade Termine...</div></div>
+    </div>
   </div>
 
   <!-- ZEITPLAN -->
@@ -366,29 +412,9 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <div class="tab" id="t-links">
     <div class="link-section">
       <div class="link-section-h">📊 Sheets</div>
-      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/spreadsheets/d/1YIY3SUOedlYYtXCUfIYPIGpppEAukOoU_W_VtFcJagw/edit" target="_blank">
-        <div class="qlink-icon" style="background:#e8f3ff">📊</div>
-        <div class="qlink-text"><div class="qlink-name">Konzertexamen</div><div class="qlink-type">1YIY3SUOedlYYtXCUfIYPIGpppEAukOoU_W_VtFcJagw</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
       <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/spreadsheets/d/1QrFLarPKpu-SqWEtKiDFGvS_lW_BC79jXf91-6GTaVg/edit" target="_blank">
         <div class="qlink-icon" style="background:#eef6f0">👥</div>
         <div class="qlink-text"><div class="qlink-name">HfMT HSO (Einteilungen)</div><div class="qlink-type">1QrFLarPKpu-SqWEtKiDFGvS_lW_BC79jXf91-6GTaVg</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/spreadsheets/d/1v3D2o7G9AwFz6jO4Lz-jrft6PcjQWNk9YopqQ5ikPpI/edit" target="_blank">
-        <div class="qlink-icon" style="background:#fff3e8">🎵</div>
-        <div class="qlink-text"><div class="qlink-name">Programmgestaltung Konzerttext</div><div class="qlink-type">1v3D2o7G9AwFz6jO4Lz-jrft6PcjQWNk9YopqQ5ikPpI</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/spreadsheets/d/1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ/edit" target="_blank">
-        <div class="qlink-icon" style="background:#fff8e8">🛠</div>
-        <div class="qlink-text"><div class="qlink-name">Bedarf / Forum</div><div class="qlink-type">1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/spreadsheets/d/1bnD_wDw0jZ1jWuOa0yraGIpPpiiIlVGu3qyYbuLzOGc/edit?gid=1845353154" target="_blank">
-        <div class="qlink-icon" style="background:#fff3e0">💶</div>
-        <div class="qlink-text"><div class="qlink-name">Finanzen / Werkverträge</div><div class="qlink-type">1bnD_wDw0jZ1jWuOa0yraGIpPpiiIlVGu3qyYbuLzOGc · gid 1845353154</div></div>
         <div class="qlink-arr">↗</div>
       </a>
       <a class="qlink" style="margin-bottom:7px" href="https://docs.google.com/spreadsheets/d/1xAdZ_HWhQxq5wsH1Ct88eew5uw07yDYyAWheS9ycPaI/edit" target="_blank">
@@ -1195,6 +1221,113 @@ async function ladenUnterricht(){
   el.innerHTML=html;
 }
 
+function wechselUntTab(btn){
+  document.querySelectorAll('.unt-stab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.ut-pane').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(btn.dataset.utab).classList.add('active');
+  if(btn.dataset.utab==='ut-termine'&&!_termineGeladen)ladenTermine();
+}
+
+var _termineGeladen=false;
+var _alleTermine=[];
+var _MONATE=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+
+async function ladenTermine(){
+  _termineGeladen=true;
+  var el=document.getElementById('term-liste');
+  el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
+  try{
+    var r=await fetch(WEB_APP_URL+'?action=alleTermine');
+    var d=await r.json();
+    if(!d||!d.data){el.innerHTML='<div class="empty">Keine Termine</div>';return;}
+    _alleTermine=d.data;
+    renderTermine(_alleTermine);
+  }catch(e){el.innerHTML='<div class="empty" style="color:var(--red)">Fehler: '+esc(e.message)+'</div>';}
+}
+
+async function ladenTermineNeu(){_termineGeladen=false;ladenTermine();}
+
+function filterTermine(){
+  var q=document.getElementById('term-suche').value.toLowerCase();
+  renderTermine(q?_alleTermine.filter(function(t){
+    return (t.datum+t.projekt+t.ort+t.uhrzeit).toLowerCase().includes(q);
+  }):_alleTermine);
+}
+
+function renderTermine(liste){
+  var el=document.getElementById('term-liste');
+  if(!liste.length){el.innerHTML='<div class="empty">Keine Termine</div>';return;}
+  el.innerHTML=liste.map(function(t){
+    var p=( t.datum||'').split('.');
+    var day=p[0]||'?',mon=_MONATE[parseInt(p[1]||'0',10)-1]||'';
+    var vergangen=new Date((p[2]||'2000')+'-'+(p[1]||'01')+'-'+(p[0]||'01'))<new Date();
+    var td=JSON.stringify(t).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return '<div class="tcard" style="'+(vergangen?'opacity:0.55;':'')+'">'+
+      '<div class="tcard-date"><div class="tcard-day">'+esc(day)+'</div><div class="tcard-mon">'+esc(mon)+'</div></div>'+
+      '<div class="tcard-body">'+
+        '<div class="tcard-title">'+esc(t.projekt)+
+          '<span class="tcard-badge '+(t.quelle==='kalender'?'kal':'man')+'">'+(t.quelle==='kalender'?'📅 Kalender':'✏ Manuell')+'</span>'+
+        '</div>'+
+        '<div class="tcard-meta">'+esc(t.uhrzeit||'')+(t.ort?' · '+esc(t.ort):'')+'</div>'+
+      '</div>'+
+      '<div class="tcard-acts">'+
+        '<button class="tact" onclick="openTerminModal(\''+td+'\')">Bearbeiten</button>'+
+        (t.quelle==='manuell'?'<button class="tact del" onclick="terminLoeschen(\''+esc(t.id)+'\',\''+esc(t.projekt)+'\')">Löschen</button>':'')+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+var _editId=null,_editQuelle=null;
+
+function openTerminModal(t){
+  if(typeof t==='string')t=JSON.parse(t);
+  _editId=t?t.id:null;
+  _editQuelle=t?t.quelle:'manuell';
+  var istKal=_editQuelle==='kalender';
+  document.getElementById('tf-datum').value  =t?t.datum:'';
+  document.getElementById('tf-projekt').value=t?t.projekt:'';
+  document.getElementById('tf-uhrzeit').value=t?t.uhrzeit:'';
+  document.getElementById('tf-ort').value    =t?t.ort:'';
+  document.getElementById('tf-datum-row').style.display  =istKal?'none':'block';
+  document.getElementById('tf-projekt-row').style.display=istKal?'none':'block';
+  document.getElementById('tmodal-title').textContent=_editId?(istKal?'Kalender-Termin anpassen':'Termin bearbeiten'):'Neuen Termin anlegen';
+  document.getElementById('tmodal-bg').style.display='flex';
+}
+
+function closeTerminModal(){document.getElementById('tmodal-bg').style.display='none';}
+
+async function speichernTermin(){
+  var datum  =document.getElementById('tf-datum').value.trim();
+  var projekt=document.getElementById('tf-projekt').value.trim();
+  var uhrzeit=document.getElementById('tf-uhrzeit').value.trim();
+  var ort    =document.getElementById('tf-ort').value.trim();
+  var btn    =document.getElementById('tmodal-save-btn');
+  if(!_editId&&(!datum||!projekt)){zeigToast('Datum und Projekt sind Pflichtfelder.');return;}
+  btn.textContent='Speichere…';btn.disabled=true;
+  try{
+    var payload=_editId
+      ?{action:'terminAendern',id:_editId,termin:{datum,projekt,uhrzeit,ort}}
+      :{action:'terminSpeichern',termin:{datum,projekt,uhrzeit,ort}};
+    var r=await fetch(WEB_APP_URL,{method:'POST',body:JSON.stringify(payload)});
+    var d=await r.json();
+    if(d.ok){zeigToast(_editId?'Gespeichert ✓':'Termin angelegt ✓');closeTerminModal();ladenTermineNeu();}
+    else zeigToast('Fehler: '+(d.error||'?'));
+  }catch(e){zeigToast('Netzwerkfehler: '+e.message);}
+  btn.textContent='Speichern';btn.disabled=false;
+}
+
+async function terminLoeschen(id,titel){
+  if(!confirm('Termin "'+titel+'" wirklich löschen?'))return;
+  try{
+    var r=await fetch(WEB_APP_URL,{method:'POST',body:JSON.stringify({action:'terminLoeschen',id:id})});
+    var d=await r.json();
+    if(d.ok){zeigToast('Gelöscht ✓');ladenTermineNeu();}
+    else zeigToast('Fehler: '+(d.error||'?'));
+  }catch(e){zeigToast('Netzwerkfehler: '+e.message);}
+}
+
 // ── SJ MODAL ─────────────────────────────────────────────
 function oeffneSjModal(){
   var d=new Date(),y=d.getFullYear(),sjs=[];
@@ -1805,5 +1938,37 @@ async function apiPost(data) {
 
 
 </script>
+<div id="tmodal-bg" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;align-items:flex-end;justify-content:center;">
+  <div style="background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:540px;padding:20px 20px 32px;max-height:90vh;overflow-y:auto;">
+    <div id="tmodal-title" style="font-size:15px;font-weight:800;margin-bottom:16px;">Termin</div>
+    <div id="tf-datum-row" class="tfield">
+      <label>Datum (TT.MM.JJJJ)</label>
+      <input id="tf-datum" type="text" placeholder="z.B. 15.09.2026">
+    </div>
+    <div id="tf-projekt-row" class="tfield">
+      <label>Projekt</label>
+      <input id="tf-projekt" type="text" placeholder="z.B. HSO 2">
+    </div>
+    <div class="tfield">
+      <label>Uhrzeit</label>
+      <input id="tf-uhrzeit" type="text" placeholder="z.B. 10:00 Uhr">
+      <div class="hint">Kalender-Termin: überschreibt Anzeige im Portal</div>
+    </div>
+    <div class="tfield">
+      <label>Ort</label>
+      <input id="tf-ort" type="text" placeholder="z.B. Orchesterstudio">
+    </div>
+    <div style="display:flex;gap:8px;margin-top:16px;">
+      <button id="tmodal-save-btn" onclick="speichernTermin()"
+        style="flex:1;padding:10px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);">
+        Speichern
+      </button>
+      <button onclick="closeTerminModal()"
+        style="flex:1;padding:10px;border-radius:8px;border:none;background:var(--paper2);color:var(--ink);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);">
+        Abbrechen
+      </button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
