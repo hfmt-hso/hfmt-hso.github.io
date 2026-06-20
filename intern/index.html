@@ -1278,7 +1278,7 @@ function renderTermine(liste){
         '<div class="tcard-meta">'+esc(t.uhrzeit||'')+(t.ort?' · '+esc(t.ort):'')+'</div>'+
       '</div>'+
       '<div class="tcard-acts">'+
-        '<button class="tact" onclick="openTerminModal(\''+td+'\')">Bearbeiten</button>'+
+        '<button class="tact" onclick="openTerminModalById(\''+esc(t.id)+'\')">Bearbeiten</button>'+
         (t.quelle==='manuell'?'<button class="tact del" onclick="terminLoeschen(\''+esc(t.id)+'\',\''+esc(t.projekt)+'\')">Löschen</button>':'')+
       '</div>'+
     '</div>';
@@ -1286,7 +1286,10 @@ function renderTermine(liste){
 }
 
 var _editId=null,_editQuelle=null;
-
+function openTerminModalById(id){
+  var t=_alleTermine.find(function(x){return x.id===id;});
+  if(t)openTerminModal(t);
+}
 function openTerminModal(t){
   if(typeof t==='string')t=JSON.parse(t);
   _editId=t?t.id:null;
