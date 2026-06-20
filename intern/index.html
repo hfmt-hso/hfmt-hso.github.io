@@ -1191,7 +1191,9 @@ async function ladenKalender(){
 
 // ── UNTERRICHT TAB ────────────────────────────────────────
 async function ladenUnterricht(){
-  var d=await apiFetch('adminStats');
+  var url=WEB_APP_URL+'?action=adminStats';
+  var r=await fetch(url);
+  var d=await r.json();
   var el=document.getElementById('unt-inhalt');
   if(!d||!d.data){el.innerHTML='<div class="empty">Keine Unterrichtsdaten</div>';return;}
   var personen=(d.data.personen||[]).sort((a,b)=>b.minuten-a.minuten);
@@ -1241,7 +1243,11 @@ async function ladenTermine(){
     var r=await fetch(WEB_APP_URL+'?action=alleTermine');
     var d=await r.json();
     if(!d||!d.data){el.innerHTML='<div class="empty">Keine Termine</div>';return;}
-    _alleTermine=d.data;
+    _alleTermine=d.data.sort(function(a,b){
+      var da=parseDatum(a.datum),db=parseDatum(b.datum);
+      if(!da&&!db)return 0; if(!da)return 1; if(!db)return -1;
+      return da-db;
+    });
     renderTermine(_alleTermine);
   }catch(e){el.innerHTML='<div class="empty" style="color:var(--red)">Fehler: '+esc(e.message)+'</div>';}
 }
