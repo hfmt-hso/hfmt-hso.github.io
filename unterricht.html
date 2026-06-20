@@ -532,7 +532,7 @@ function renderTerminKarte(t) {
       </div>
       <div class="termin-info">
         <div class="termin-titel">${esc(t.projekt || t.marker)}</div>
-        <div class="termin-meta">${wt}${t.dozent ? ' · ' + esc(t.dozent) : ''}${t.ort ? ' · ' + esc(t.ort) : ''}${!istGruppe && hatSlots ? ' · ' + slotAnzahl + ' Slot' + (slotAnzahl!==1?'s':'') : ''}</div>
+        <div class="termin-meta">${wt}${t.dozent ? ' · ' + esc(t.dozent) : ''}${t.ort ? ' · ' + esc(t.ort) : ''}</div>
       </div>
       <div class="termin-status">${badge}</div>
     </div>
