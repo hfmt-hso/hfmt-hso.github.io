@@ -562,13 +562,13 @@ async function oeffneSlots(terminId) {
       return;
     }
 
-    document.getElementById('slots-grid').innerHTML = slots.map(s => renderSlot(s, terminId)).join('');
+    document.getElementById('slots-grid').innerHTML = slots.map(s => renderSlot(s, terminId, termin)).join('');
   } catch(e) {
     document.getElementById('slots-grid').innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
   }
 }
 
-function renderSlot(s, terminId) {
+function renderSlot(s, terminId, termin) {
   const istMeinSlot = s.mtknr === (aktuellerStudent ? aktuellerStudent.mtknr : null);
   if (s.frei) {
     return `
@@ -576,7 +576,7 @@ function renderSlot(s, terminId) {
       <div class="slot-zeit">${esc(s.uhrzeit)}</div>
       <div class="slot-info">
         <div class="slot-status">Frei</div>
-        <div class="slot-name">60 Minuten</div>
+        <div class="slot-name">60 Minuten${termin && termin.ort ? ' · ' + esc(termin.ort) : ''}</div>
       </div>
       <div class="slot-action"><button class="slot-btn-buchen">Buchen</button></div>
     </div>`;
@@ -586,7 +586,7 @@ function renderSlot(s, terminId) {
       <div class="slot-zeit">${esc(s.uhrzeit)}</div>
       <div class="slot-info">
         <div class="slot-status">✓ Dein Slot</div>
-        <div class="slot-name">60 Minuten</div>
+        <div class="slot-name">60 Minuten${termin && termin.ort ? ' · ' + esc(termin.ort) : ''}</div>
       </div>
       <div class="slot-action"><button class="slot-btn-stornieren" onclick="eigeneBuchungStornieren('${esc(s.buchungId)}','${esc(terminId)}')">Stornieren</button></div>
     </div>`;
