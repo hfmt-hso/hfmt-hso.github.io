@@ -588,6 +588,7 @@ function renderSlot(s, terminId) {
         <div class="slot-status">✓ Dein Slot</div>
         <div class="slot-name">60 Minuten</div>
       </div>
+      <div class="slot-action"><button class="slot-btn-stornieren" onclick="eigeneBuchungStornieren('${esc(s.buchungId)}','${esc(terminId)}')">Stornieren</button></div>
     </div>`;
   } else {
     return `
@@ -620,7 +621,18 @@ async function buchungErstellen(terminId, slotStart) {
     toast('❌ Verbindungsfehler.');
   }
 }
-
+async function eigeneBuchungStornieren(buchungId, terminId) {
+  if (!confirm('Deinen Slot stornieren?')) return;
+  try {
+    const json = await webAppPost({ action: 'buchungStornieren', buchungId });
+    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
+    toast('✅ Slot storniert.');
+    await oeffneSlots(terminId);
+    await ladeMeineBuchungen();
+  } catch(e) {
+    toast('❌ Verbindungsfehler.');
+  }
+}
 // ══════════════════════════════════════════
 // MEINE BUCHUNGEN
 // ══════════════════════════════════════════
