@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-06-06T06:36:38.617Z",
+  "generiert": "2026-06-20T12:35:53.030Z",
   "events": [
     {
       "datum": "29.06.2026",
@@ -23,7 +23,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "Çetin, Kim | 2. Wan, Choi | 3. Han, Bosch | 4. Gröper, Lembeck",
+          "name": "Çetin, Kim | 2. Wan, Choi | 3. Han, Bosch | 4. Gröper, Lembeck | Studierende aus Peabody für Ausschnitte eigener Wahl",
           "werk": "",
           "klasse": ""
         }
@@ -33,233 +33,6 @@
       "probenplan": [],
       "_eventId": "3minfg4276t9n27760ke7eq8up@google.com",
       "_titel": "HSO Blattspiel (Calvin Abdiel, Klavier)"
-    },
-    {
-      "datum": "08.06.2026",
-      "uhrzeit": "18:00 Uhr",
-      "ort": "Friedrich-Ebert-Halle Harburg",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "2l0hpqdh429f9e49268pv00cji@google.com",
-      "_titel": "HSO 3 Anspielprobe Harburg"
-    },
-    {
-      "datum": "08.06.2026",
-      "uhrzeit": "19:30 Uhr",
-      "ort": "Friedrich-Ebert-Halle",
-      "konzertart": "Symphoniekonzert",
-      "marker": "Vorstellung",
-      "werke": [
-        {
-          "komponist": "Gordon Kampe",
-          "lebensdaten": "1976*",
-          "titel": "Drei Liebeslieder für Stimme und Orchester",
-          "saetze": [],
-          "dauer": "ca. 12 min",
-          "besetzung": "3.2.3.3-4.3.3.1-Pk-Hrf.-Str. (10.8.6.5.4)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "Gustav Mahler",
-          "lebensdaten": "1860–1911",
-          "titel": "Sinfonie Nr. 6",
-          "saetze": [
-            "Allegro energico, ma non troppo",
-            "Scherzo: Wuchtig",
-            "Andante moderato",
-            "Finale: Allegro moderato – Allegro energico"
-          ],
-          "dauer": "ca. 80 min",
-          "besetzung": "5.5.5.5-8.6.4.1-Pk+4, Hrf., Cel.-Str. (12.10.8.6.4)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Sopran",
-              "name": "Michaela Kaune",
-              "zusatz": ""
-            }
-          ]
-        }
-      ],
-      "solisten": [
-        {
-          "instrument": "Sopran",
-          "name": "Michaela Kaune",
-          "zusatz": ""
-        }
-      ],
-      "ensemble": "Symphonieorchester der HfMT",
-      "leitung": [
-        {
-          "name": "Ulrich Windfuhr",
-          "werk": "",
-          "klasse": ""
-        }
-      ],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "_eventId": "3eihf18q76ti236be6ot424c3b@google.com",
-      "_titel": "HSO 3 Harburg"
-    },
-    {
-      "datum": "09.06.2026",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Elbphilharmonie",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "5nmphv1kkftgvrfio3dkqhdf1i@google.com",
-      "_titel": "HSO 3 Laden"
-    },
-    {
-      "datum": "09.06.2026",
-      "uhrzeit": "20:00 Uhr",
-      "ort": "Elbphilharmonie",
-      "konzertart": "Symphoniekonzert",
-      "marker": "Vorstellung",
-      "werke": [
-        {
-          "komponist": "Gordon Kampe",
-          "lebensdaten": "1976*",
-          "titel": "Drei Liebeslieder für Stimme und Orchester",
-          "saetze": [],
-          "dauer": "ca. 12 min",
-          "besetzung": "3.2.3.3-4.3.3.1-Pk-Hrf.-Str. (10.8.6.5.4)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "Gustav Mahler",
-          "lebensdaten": "1860–1911",
-          "titel": "Sinfonie Nr. 6",
-          "saetze": [
-            "Allegro energico, ma non troppo",
-            "Scherzo: Wuchtig",
-            "Andante moderato",
-            "Finale: Allegro moderato – Allegro energico"
-          ],
-          "dauer": "ca. 80 min",
-          "besetzung": "5.5.5.5-8.6.4.1-Pk+4-Cel.-4 Hrf.-Str. (14.12.10.8.6)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Sopran",
-              "name": "Michaela Kaune",
-              "zusatz": ""
-            }
-          ]
-        }
-      ],
-      "solisten": [
-        {
-          "instrument": "Sopran",
-          "name": "Michaela Kaune",
-          "zusatz": ""
-        }
-      ],
-      "ensemble": "Symphonieorchester der HfMT",
-      "leitung": [
-        {
-          "name": "Ulrich Windfuhr",
-          "werk": "",
-          "klasse": ""
-        }
-      ],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "_eventId": "2a097u4itga94279608gihhq43@google.com",
-      "_titel": "HSO 3"
-    },
-    {
-      "datum": "09.06.2026",
-      "uhrzeit": "22:00 Uhr",
-      "ort": "Elbphilharmonie",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "0fao7jblmgnuhgp96hi5ocmodg@google.com",
-      "_titel": "HSO 3 Abbau"
-    },
-    {
-      "datum": "15.06.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "0jifsfqla95bm0vhuq54chqvgd@google.com",
-      "_titel": "Aufnahmeprüfung"
-    },
-    {
-      "datum": "16.06.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "1aq685gru9b7rqdn9d3qt6afsr@google.com",
-      "_titel": "Aufnahmeprüfung"
-    },
-    {
-      "datum": "17.06.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "2ta71ndo73fv039hcrefn9j5c5@google.com",
-      "_titel": "Aufnahmeprüfung"
-    },
-    {
-      "datum": "18.06.2026",
-      "uhrzeit": "19:00 Uhr",
-      "ort": "",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "3fhh73kbr6vbon34p9h0jqekdo@google.com",
-      "_titel": "Klavierabschluss Dirigierklasse"
     },
     {
       "datum": "23.06.2026",
@@ -344,7 +117,7 @@
           "solisten": [
             {
               "instrument": "Sopran",
-              "name": "Antonia Schlenzen,",
+              "name": "Antonia Schlenzen",
               "zusatz": ""
             },
             {
@@ -366,7 +139,7 @@
           "solisten": [
             {
               "instrument": "Sopran",
-              "name": "Antonia Schlenzen,",
+              "name": "Antonia Schlenzen",
               "zusatz": ""
             },
             {
@@ -405,7 +178,7 @@
           "solisten": [
             {
               "instrument": "Sopran",
-              "name": "Nardi Thonen,",
+              "name": "Nardi Thonen",
               "zusatz": ""
             },
             {
@@ -534,7 +307,7 @@
         },
         {
           "instrument": "Sopran",
-          "name": "Antonia Schlenzen,",
+          "name": "Antonia Schlenzen",
           "zusatz": ""
         },
         {
@@ -544,7 +317,7 @@
         },
         {
           "instrument": "Sopran",
-          "name": "Antonia Schlenzen,",
+          "name": "Antonia Schlenzen",
           "zusatz": ""
         },
         {
@@ -559,7 +332,7 @@
         },
         {
           "instrument": "Sopran",
-          "name": "Nardi Thonen,",
+          "name": "Nardi Thonen",
           "zusatz": ""
         },
         {
@@ -694,7 +467,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [
-        "Ohne Harfe"
+        "Ohne Harfe | Binyu He singt (ohne Begg) |"
       ],
       "probenplan": [],
       "_eventId": "15m5ketr2t1e0kd8f4s72am19h@google.com",
@@ -726,7 +499,10 @@
       "ensemble": null,
       "leitung": [],
       "aufbauplan": null,
-      "notizen": [],
+      "notizen": [
+        "ohne Scheffler"
+      ],
+      "probenplan": [],
       "_eventId": "2modarri6dei4l6afncoohnqb8@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -760,6 +536,9 @@
           "besetzung": "1.2.0.2-2.2.0.0-Pk-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
           "pause": false
+        },
+        {
+          "pause": true
         },
         {
           "komponist": "Wolfgang Amadeus Mozart",
@@ -1330,7 +1109,7 @@
       "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "N.N.",
+          "name": "Frank Beermann",
           "werk": "",
           "klasse": ""
         }
@@ -1339,7 +1118,7 @@
       "notizen": [],
       "probenplan": [],
       "_eventId": "45tp7sohfl3anq5qgh9s2chk5u@google.com",
-      "_titel": "HSO 1 Konzert zur Semestereröffnung (1) Webcast"
+      "_titel": "HSO 1 (1)"
     },
     {
       "datum": "09.10.2026",
@@ -1409,8 +1188,8 @@
       "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "N.N.",
-          "werk": "",
+          "name": "Studierende der Dirigierklasse",
+          "werk": "Leitung des Dirigierkurses: Frank Beermann",
           "klasse": ""
         }
       ],
@@ -1418,7 +1197,7 @@
       "notizen": [],
       "probenplan": [],
       "_eventId": "14vcu75be9in7sdlrpbgm4r66p@google.com",
-      "_titel": "HSO 1 Konzert zur Semestereröffnung (2) (Studierende)"
+      "_titel": "HSO 1 (2)"
     },
     {
       "datum": "14.10.2026",
@@ -1637,7 +1416,7 @@
       "leitung": [
         {
           "name": "Studierende der Dirigierklasse",
-          "werk": "",
+          "werk": "Kursleitung: Rasmus Baumann",
           "klasse": ""
         }
       ],
@@ -1881,22 +1660,6 @@
     },
     {
       "datum": "02.12.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": "1. Probe",
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "_eventId": "2r6kgesd3vkcuctcfpm5apljb8@google.com",
-      "_titel": "13/14 OA"
-    },
-    {
-      "datum": "02.12.2026",
       "uhrzeit": "14:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -2060,11 +1823,21 @@
     },
     {
       "datum": "10.12.2026",
-      "uhrzeit": "19:30 Uhr",
+      "uhrzeit": "19:00 Uhr",
       "ort": "Forum",
       "konzertart": "Kammerkonzert",
       "marker": "Vorstellung",
       "werke": [
+        {
+          "komponist": "Marc Migo",
+          "lebensdaten": "1993*",
+          "titel": "Uraufführung AT",
+          "saetze": [],
+          "dauer": "ca. 7 min",
+          "besetzung": "1.1.2.2-1.1.1.0-Perk., Hrf.-Str. (1.1.1.1.1)",
+          "urauffuehrung": false,
+          "pause": false
+        },
         {
           "komponist": "Paul Hindemith",
           "lebensdaten": "1895–1963",
@@ -2087,22 +1860,6 @@
           "saetze": [],
           "dauer": "ca. 10 min",
           "besetzung": "1.1.2.1-1.1.1.0-Perk., Hrf.-Str. (1.1.1.1.1)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "Paul Hindemith",
-          "lebensdaten": "1895–1963",
-          "titel": "Kammermusik Nr. 3, op. 36 Nr. 2 (Klavierkonzert)",
-          "saetze": [
-            "Lebhaftes Achtel (♩= 92)",
-            "Sehr langsame Achtel",
-            "Kleines Potpourri (Schnelle Viertel)",
-            "Solo",
-            "Finale"
-          ],
-          "dauer": "ca. 16 min",
-          "besetzung": "1.1.1.1-1.1.1.0-Str. (1.0.0.1.1)",
           "urauffuehrung": false,
           "pause": false
         },
@@ -2130,12 +1887,36 @@
           "dauer": "ca. 10 min",
           "besetzung": "1.1.2.1-1.1.1.0-Perk., Hrf.-Str. (1.1.1.1.1)",
           "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Béla Bartók",
+          "lebensdaten": "1881–1945",
+          "titel": "Konzert für Klavier und Orchester Nr.3 (Sz 119, BB 127) (Bearbeitung von Marc Migo)",
+          "saetze": [
+            "Allegretto",
+            "Adagio religioso",
+            "Allegro vivace"
+          ],
+          "dauer": "ca. 26 min",
+          "besetzung": "1.1.2.1-1.1.1.0-Perk., Hrf.-Str. (1.1.1.1.1)",
+          "urauffuehrung": false,
           "pause": false,
           "solisten": [
             {
               "instrument": "Violoncello",
               "name": "Oliwia Meiser",
               "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
+            },
+            {
+              "instrument": "Violoncello",
+              "name": "Clara Eglhuber",
+              "zusatz": "Klasse Prof. Sebastian Klinger"
+            },
+            {
+              "instrument": "Klavier",
+              "name": "Pacheco Portalés",
+              "zusatz": "Konzertexamen, Klasse Prof. Stepan Simonyan"
             }
           ]
         }
@@ -2145,12 +1926,22 @@
           "instrument": "Violoncello",
           "name": "Oliwia Meiser",
           "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
+        },
+        {
+          "instrument": "Violoncello",
+          "name": "Clara Eglhuber",
+          "zusatz": "Klasse Prof. Sebastian Klinger"
+        },
+        {
+          "instrument": "Klavier",
+          "name": "Pacheco Portalés",
+          "zusatz": "Konzertexamen, Klasse Prof. Stepan Simonyan"
         }
       ],
       "ensemble": "Kammerorchester der HfMT",
       "leitung": [
         {
-          "name": "N.N.",
+          "name": "Roland Böer",
           "werk": "",
           "klasse": ""
         }
@@ -2163,7 +1954,7 @@
     },
     {
       "datum": "11.12.2026",
-      "uhrzeit": "18:00 Uhr",
+      "uhrzeit": "17:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": null,
@@ -2178,11 +1969,21 @@
     },
     {
       "datum": "11.12.2026",
-      "uhrzeit": "19:30 Uhr",
+      "uhrzeit": "19:00 Uhr",
       "ort": "Forum",
       "konzertart": "Kammerkonzert",
       "marker": "Vorstellung",
       "werke": [
+        {
+          "komponist": "Marc Migo",
+          "lebensdaten": "1993*",
+          "titel": "Uraufführung AT",
+          "saetze": [],
+          "dauer": "ca. 7 min",
+          "besetzung": "1.1.2.2-1.1.1.0-Perk., Hrf.-Str. (1.1.1.1.1)",
+          "urauffuehrung": false,
+          "pause": false
+        },
         {
           "komponist": "Paul Hindemith",
           "lebensdaten": "1895–1963",
@@ -2205,22 +2006,6 @@
           "saetze": [],
           "dauer": "ca. 10 min",
           "besetzung": "1.1.2.1-1.1.1.0-Perk., Hrf.-Str. (1.1.1.1.1)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "Paul Hindemith",
-          "lebensdaten": "1895–1963",
-          "titel": "Kammermusik Nr. 3, op. 36 Nr. 2 (Klavierkonzert)",
-          "saetze": [
-            "Lebhaftes Achtel (♩= 92)",
-            "Sehr langsame Achtel",
-            "Kleines Potpourri (Schnelle Viertel)",
-            "Solo",
-            "Finale"
-          ],
-          "dauer": "ca. 16 min",
-          "besetzung": "1.1.1.1-1.1.1.0-Str. (1.0.0.1.1)",
           "urauffuehrung": false,
           "pause": false
         },
@@ -2248,12 +2033,36 @@
           "dauer": "ca. 10 min",
           "besetzung": "1.1.2.1-1.1.1.0-Perk., Hrf.-Str. (1.1.1.1.1)",
           "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Béla Bartók",
+          "lebensdaten": "1881–1945",
+          "titel": "Konzert für Klavier und Orchester Nr.3 (Sz 119, BB 127) (Bearbeitung von Marc Migo)",
+          "saetze": [
+            "Allegretto",
+            "Adagio religioso",
+            "Allegro vivace"
+          ],
+          "dauer": "ca. 26 min",
+          "besetzung": "1.1.2.1-1.1.1.0-Perk., Hrf.-Str. (1.1.1.1.1)",
+          "urauffuehrung": false,
           "pause": false,
           "solisten": [
             {
               "instrument": "Violoncello",
               "name": "Oliwia Meiser",
               "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
+            },
+            {
+              "instrument": "Violoncello",
+              "name": "Clara Eglhuber",
+              "zusatz": "Klasse Prof. Sebastian Klinger"
+            },
+            {
+              "instrument": "Klavier",
+              "name": "Pacheco Portalés",
+              "zusatz": "Konzertexamen, Klasse Prof. Stepan Simonyan"
             }
           ]
         }
@@ -2263,13 +2072,23 @@
           "instrument": "Violoncello",
           "name": "Oliwia Meiser",
           "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
+        },
+        {
+          "instrument": "Violoncello",
+          "name": "Clara Eglhuber",
+          "zusatz": "Klasse Prof. Sebastian Klinger"
+        },
+        {
+          "instrument": "Klavier",
+          "name": "Pacheco Portalés",
+          "zusatz": "Konzertexamen, Klasse Prof. Stepan Simonyan"
         }
       ],
       "ensemble": "Kammerorchester der HfMT",
       "leitung": [
         {
-          "name": "N.N.",
-          "werk": "",
+          "name": "Studierende der Dirigierklasse",
+          "werk": "Leitung der Arbeitsphase: Roland Böer",
           "klasse": ""
         }
       ],
@@ -2294,17 +2113,24 @@
       "_titel": "HSO Repertoireprobe"
     },
     {
-      "datum": "06.01.2027",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Orchesterstudio",
+      "datum": "25.11.2026",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Forum",
       "konzertart": null,
       "marker": null,
       "werke": [],
       "solisten": [],
       "ensemble": null,
-      "leitung": [],
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
       "aufbauplan": null,
       "notizen": [],
+      "probenplan": [],
       "_eventId": "4iplcjpva75k46i4437v5juq31@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -2389,16 +2215,26 @@
       "marker": "Vorstellung",
       "werke": [
         {
-          "komponist": "Gioacchino Rossini",
-          "lebensdaten": "1792–1868",
-          "titel": "Concerto a fagotto principale, „Concerto da esperimento“",
+          "komponist": "N. N.",
+          "lebensdaten": "2026*",
+          "titel": "Uraufführung, Arbeitstitel",
+          "saetze": [],
+          "dauer": "ca. 10 min",
+          "besetzung": "2.2.2.2-4.2.3.1-Pk+1-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Johannes Brahms",
+          "lebensdaten": "1833–1897",
+          "titel": "Doppelkonzert a-Moll für Violine, Violoncello und Orchester op. 102",
           "saetze": [
-            "Largo",
             "Allegro",
-            "Rondo – Allegretto"
+            "Andante",
+            "Vivace non troppo"
           ],
-          "dauer": "ca. 16 min",
-          "besetzung": "2.1.2.0-2.2.0.0-Str. (8.6.5.4.3)",
+          "dauer": "ca. 32 min",
+          "besetzung": "2.2.2.2-4.2.0.0-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
           "pause": false
         },
@@ -2422,18 +2258,28 @@
           "pause": false,
           "solisten": [
             {
-              "instrument": "Fagott",
-              "name": "Christian Kunert",
-              "zusatz": ""
+              "instrument": "Violoncello",
+              "name": "Kyungon Yoon",
+              "zusatz": "Konzertexamen, Klasse Prof. Niklas Schmidt"
+            },
+            {
+              "instrument": "Violine",
+              "name": "Onyu Kim",
+              "zusatz": "als Gast"
             }
           ]
         }
       ],
       "solisten": [
         {
-          "instrument": "Fagott",
-          "name": "Christian Kunert",
-          "zusatz": ""
+          "instrument": "Violoncello",
+          "name": "Kyungon Yoon",
+          "zusatz": "Konzertexamen, Klasse Prof. Niklas Schmidt"
+        },
+        {
+          "instrument": "Violine",
+          "name": "Onyu Kim",
+          "zusatz": "als Gast"
         }
       ],
       "ensemble": null,
@@ -2676,7 +2522,7 @@
     },
     {
       "datum": "09.02.2027",
-      "uhrzeit": "19:30 Uhr",
+      "uhrzeit": "19:00 Uhr",
       "ort": "Forum",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -2796,7 +2642,7 @@
     },
     {
       "datum": "10.02.2027",
-      "uhrzeit": "20:00 Uhr",
+      "uhrzeit": "19:30 Uhr",
       "ort": "Laeiszhalle",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -3109,6 +2955,16 @@
       "marker": "Vorstellung",
       "werke": [
         {
+          "komponist": "N. N.",
+          "lebensdaten": "2026*",
+          "titel": "Uraufführung, Arbeitstitel",
+          "saetze": [],
+          "dauer": "ca. 10 min",
+          "besetzung": "2.2.2.2-4.2.3.1-Pk+1-Str. (8.6.5.4.3)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
           "komponist": "Robert Schumann",
           "lebensdaten": "1810–1856",
           "titel": "Konzert für Klavier und Orchester a-Moll op. 54",
@@ -3382,7 +3238,7 @@
     },
     {
       "datum": "08.04.2027",
-      "uhrzeit": "19:30 Uhr",
+      "uhrzeit": "19:00 Uhr",
       "ort": "Forum",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -3429,23 +3285,22 @@
     },
     {
       "datum": "09.04.2027",
-      "uhrzeit": "18:00 Uhr",
+      "uhrzeit": "17:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
-      "marker": "Vorstellung",
+      "marker": null,
       "werke": [],
       "solisten": [],
       "ensemble": null,
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
       "_eventId": "3oujttut38bm5qdiov46ds0tct@google.com",
       "_titel": "HSO 3 Anspielprobe"
     },
     {
       "datum": "09.04.2027",
-      "uhrzeit": "19:30 Uhr",
+      "uhrzeit": "19:00 Uhr",
       "ort": "Forum",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -3519,17 +3374,24 @@
       "_titel": "HSO Blattspiel"
     },
     {
-      "datum": "07.07.2027",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Orchesterstudio",
+      "datum": "24.02.2027",
+      "uhrzeit": "15:00 Uhr",
+      "ort": "Forum",
       "konzertart": null,
       "marker": null,
       "werke": [],
       "solisten": [],
       "ensemble": null,
-      "leitung": [],
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
       "aufbauplan": null,
       "notizen": [],
+      "probenplan": [],
       "_eventId": "7m3jm9banhoi8ut3uhcbkck9vt@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -3609,92 +3471,17 @@
       "_titel": "Abbau"
     },
     {
-      "datum": "30.06.2027",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Orchesterstudio",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "27e42nmo0jftavl2m7rk7c9rel@google.com",
-      "_titel": "HSO Repertoireprobe"
-    },
-    {
-      "datum": "08.06.2026",
-      "uhrzeit": "14:00 Uhr",
+      "datum": "21.10.2026",
+      "uhrzeit": "14:15 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": null,
       "werke": [],
       "solisten": [],
       "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "7mj3q2185ea4li0uqq0l5h86b3@google.com",
-      "_titel": "HSO 3 Laden"
-    },
-    {
-      "datum": "08.06.2026",
-      "uhrzeit": "16:00 Uhr",
-      "ort": "Friedrich-Ebert-Halle Harburg",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "381fqf1oc4mbsnr63sbrdo4o7j@google.com",
-      "_titel": "HSO 3 Aufbau"
-    },
-    {
-      "datum": "09.06.2026",
-      "uhrzeit": "16:00 Uhr",
-      "ort": "Elbphilharmonie",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "0jjbme24b2pakobmlic3476eqv@google.com",
-      "_titel": "HSO 3 Aufbau"
-    },
-    {
-      "datum": "09.06.2026",
-      "uhrzeit": "17:30 Uhr",
-      "ort": "Elbphilharmonie",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "0m2m90m47renpjto55tmn8ee0m@google.com",
-      "_titel": "HSO 3 Anspielprobe"
-    },
-    {
-      "datum": "14.06.2026",
-      "uhrzeit": "18:00 Uhr",
-      "ort": "",
-      "konzertart": null,
-      "marker": "Vorstellung",
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
       "leitung": [
         {
-          "name": "Jacob Gröper",
+          "name": "Song",
           "werk": "",
           "klasse": ""
         }
@@ -3702,30 +3489,8 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
-      "_eventId": "43p4chdqq1qbdrn6nl5jv24ivu@google.com",
-      "_titel": "*Die Zauberflöte"
-    },
-    {
-      "datum": "16.06.2026",
-      "uhrzeit": "19:00 Uhr",
-      "ort": "",
-      "konzertart": null,
-      "marker": "Vorstellung",
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [
-        {
-          "name": "Uschik Choi",
-          "werk": "",
-          "klasse": ""
-        }
-      ],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "_eventId": "1ma0t7ihrk1n4fls3psb2lh0ec@google.com",
-      "_titel": "*Die Zauberflöte"
+      "_eventId": "27e42nmo0jftavl2m7rk7c9rel@google.com",
+      "_titel": "HSO Repertoire"
     },
     {
       "datum": "01.07.2026",
@@ -3775,7 +3540,7 @@
     {
       "datum": "30.06.2026",
       "uhrzeit": "18:00 Uhr",
-      "ort": "Blau 206",
+      "ort": "Forum",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -3783,14 +3548,17 @@
       "ensemble": null,
       "leitung": [],
       "aufbauplan": null,
-      "notizen": [],
+      "notizen": [
+        "ohne Scheffler"
+      ],
+      "probenplan": [],
       "_eventId": "7ple5qmo3qeo6mn3dumsf5v1br@google.com",
       "_titel": "HSO 4 Ensembleprobe"
     },
     {
-      "datum": "14.07.2027",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Orchesterstudio",
+      "datum": "02.06.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Forum",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -3876,11 +3644,11 @@
       "aufbauplan": null,
       "notizen": [],
       "_eventId": "0lbluql3ah0gp7u9ds0u9oa8l6@google.com",
-      "_titel": "HSO 4 OSP"
+      "_titel": "HSO 4 OA"
     },
     {
       "datum": "23.06.2027",
-      "uhrzeit": "17:00 Uhr",
+      "uhrzeit": "14:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": null,
@@ -3891,7 +3659,7 @@
       "aufbauplan": null,
       "notizen": [],
       "_eventId": "076tl8ebpvembu4hh71git1cg2@google.com",
-      "_titel": "HSO 4 OSP"
+      "_titel": "HSO 4 OA"
     },
     {
       "datum": "24.06.2027",
@@ -3906,11 +3674,11 @@
       "aufbauplan": null,
       "notizen": [],
       "_eventId": "331h9p60pols9cu1icth8dh8r3@google.com",
-      "_titel": "HSO 4 OSP"
+      "_titel": "HSO 4 OA"
     },
     {
       "datum": "24.06.2027",
-      "uhrzeit": "19:30 Uhr",
+      "uhrzeit": "14:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": null,
@@ -3921,11 +3689,11 @@
       "aufbauplan": null,
       "notizen": [],
       "_eventId": "03k2q94pobauimnsqqdn9mdvpa@google.com",
-      "_titel": "HSO 4 HP"
+      "_titel": "HSO 4 OA"
     },
     {
       "datum": "25.06.2027",
-      "uhrzeit": "12:00 Uhr",
+      "uhrzeit": "11:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": null,
@@ -3949,17 +3717,9 @@
           "komponist": "Anna Clyne",
           "lebensdaten": "1980*",
           "titel": "Sound and Fury (2019)",
-          "saetze": [],
-          "dauer": "ca. 12 min",
-          "besetzung": "2.2.2.2-2.2.0.0-Str. (8.6.4.4.2)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "Emilie Mayer",
-          "lebensdaten": "1812–1883",
-          "titel": "Sinfonie Nr. 1, c-Moll (1847)",
           "saetze": [
+            "Emilie Mayer (1812–1883) oder schumann farrenc? konzert",
+            "Sinfonie Nr. 1, c-Moll (1847)",
             "Adagio - Allegro molto",
             "Scherzo. Allegro molto",
             "Andante sostenuto",
@@ -4023,17 +3783,9 @@
           "komponist": "Anna Clyne",
           "lebensdaten": "1980*",
           "titel": "Sound and Fury (2019)",
-          "saetze": [],
-          "dauer": "ca. 12 min",
-          "besetzung": "2.2.2.2-2.2.0.0-Str. (8.6.4.4.2)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "Emilie Mayer",
-          "lebensdaten": "1812–1883",
-          "titel": "Sinfonie Nr. 1, c-Moll (1847)",
           "saetze": [
+            "Emilie Mayer (1812–1883) oder schumann farrenc? konzert",
+            "Sinfonie Nr. 1, c-Moll (1847)",
             "Adagio - Allegro molto",
             "Scherzo. Allegro molto",
             "Andante sostenuto",
@@ -4085,6 +3837,2100 @@
       "probenplan": [],
       "_eventId": "3p3ufaqkv4niqcp84r509penmq@google.com",
       "_titel": "HSO 4"
+    },
+    {
+      "datum": "21.09.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "1. Probe",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "nfehh1oc0pj6gndsm8bcdnceds@google.com",
+      "_titel": "WK 1 OA"
+    },
+    {
+      "datum": "22.09.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "0lgdiuaafhunl43li4c91t1i2o@google.com",
+      "_titel": "WK 1 OA"
+    },
+    {
+      "datum": "23.09.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "2t8ncmhiqvg6nr6r3anika7od4@google.com",
+      "_titel": "WK 1 GP"
+    },
+    {
+      "datum": "23.09.2027",
+      "uhrzeit": "19:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "3503ji296pblbnsmskpdv9t390@google.com",
+      "_titel": "WK 1"
+    },
+    {
+      "datum": "01.10.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "1. Probe",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "9g3nheriikkjub9saqje0bd5vs@google.com",
+      "_titel": "HSO 1 OA Violinen"
+    },
+    {
+      "datum": "01.10.2027",
+      "uhrzeit": "13:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "gj4o84fpodjklvpse1usrbjpls@google.com",
+      "_titel": "HSO 1 OA Violen"
+    },
+    {
+      "datum": "01.10.2027",
+      "uhrzeit": "16:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "n6t0gpe1pmggitubksv2kmeqs4@google.com",
+      "_titel": "HSO 1 OA Celli"
+    },
+    {
+      "datum": "01.10.2027",
+      "uhrzeit": "19:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "toei690ho7a9j5et1p58aoheng@google.com",
+      "_titel": "HSO 1 OA Kontrabässe"
+    },
+    {
+      "datum": "02.10.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "mjqdg06bpjpjuio9a53193ttn8@google.com",
+      "_titel": "HSO 1 OA Streicher"
+    },
+    {
+      "datum": "02.10.2027",
+      "uhrzeit": "14:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "u6m2kchf5jo2duts3anfv0j9l0@google.com",
+      "_titel": "HSO 1 OA Bläser"
+    },
+    {
+      "datum": "04.10.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "9b5vbtvbe01vm31jhlghl8jb3k@google.com",
+      "_titel": "HSO 1 OA tutti"
+    },
+    {
+      "datum": "04.10.2027",
+      "uhrzeit": "14:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "6nt0t7l15vr1457jdvh1ktoc5c@google.com",
+      "_titel": "HSO 1 OA tutti"
+    },
+    {
+      "datum": "05.10.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "kuv61mjpvqa73tbtodcmkds1v8@google.com",
+      "_titel": "HSO 1 OA tutti"
+    },
+    {
+      "datum": "05.10.2027",
+      "uhrzeit": "14:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "lfdkemon79a4r00ie0nkiolsa4@google.com",
+      "_titel": "HSO 1 OA tutti"
+    },
+    {
+      "datum": "06.10.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "efmoi0t2rfo8a62sbclb35sfik@google.com",
+      "_titel": "HSO 1 OA tutti"
+    },
+    {
+      "datum": "06.10.2027",
+      "uhrzeit": "14:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "ihonsu1k45qdrt6pdcd3anhhc4@google.com",
+      "_titel": "HSO 1 GP"
+    },
+    {
+      "datum": "07.10.2027",
+      "uhrzeit": "19:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "486ehlnni32vef3jj375077nfk@google.com",
+      "_titel": "HSO 1 Konzert zur Semestereröffnung (1) Webcast"
+    },
+    {
+      "datum": "08.10.2027",
+      "uhrzeit": "19:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "cc6otp6cbcug1v1ja1kk5jgkdg@google.com",
+      "_titel": "HSO 1 Konzert zur Semestereröffnung (2) (Studierende)"
+    },
+    {
+      "datum": "19.10.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "1. Probe",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "bdsv9akfs0a6nq6po114knfbfk@google.com",
+      "_titel": "WK 2 OA"
+    },
+    {
+      "datum": "20.10.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "f5p3q7uvgva5k9kr4hshvs82m4@google.com",
+      "_titel": "WK 2 OA"
+    },
+    {
+      "datum": "21.10.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "6lbrnteovh1gd6098td46a191s@google.com",
+      "_titel": "WK 2 GP"
+    },
+    {
+      "datum": "21.10.2027",
+      "uhrzeit": "19:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "9ghfc8t7p39i6r7bjdnlvk8i7o@google.com",
+      "_titel": "WK 2"
+    },
+    {
+      "datum": "25.01.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "0h49k02a9tofgig3bjbee8484c@google.com",
+      "_titel": "WK 3 OA"
+    },
+    {
+      "datum": "26.01.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "chqo1fdochsp557rvln108v0v0@google.com",
+      "_titel": "WK 3 OA"
+    },
+    {
+      "datum": "27.01.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "nn9n81veddhiujmhg688ahcaak@google.com",
+      "_titel": "WK 3 GP"
+    },
+    {
+      "datum": "28.01.2028",
+      "uhrzeit": "19:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "faobur7sip0t3aqh57c81jm16c@google.com",
+      "_titel": "WK 3"
+    },
+    {
+      "datum": "01.12.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "1. Probe",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "kd0s5tjlh5ubvp2peo9di9l77s@google.com",
+      "_titel": "13/14 OA"
+    },
+    {
+      "datum": "02.12.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "8fmponjkio9f3vt1cncni6vg28@google.com",
+      "_titel": "13/14 OA"
+    },
+    {
+      "datum": "03.12.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "j7bol1c5nehia4si7k85jb9pdo@google.com",
+      "_titel": "13/14 OA"
+    },
+    {
+      "datum": "06.12.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "qsa030ghf05j1u8nnf6u2m9t5o@google.com",
+      "_titel": "13/14 OA"
+    },
+    {
+      "datum": "06.12.2027",
+      "uhrzeit": "17:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "qb4is6ic87i1fd6le3gneeku1k@google.com",
+      "_titel": "13/14 OA"
+    },
+    {
+      "datum": "07.12.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "i9jq3iptc5b45gid8uhonpd17g@google.com",
+      "_titel": "13/14 OA"
+    },
+    {
+      "datum": "07.12.2027",
+      "uhrzeit": "17:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "aup50dvqkc4u83b3c0k6qii0pk@google.com",
+      "_titel": "13/14 OA"
+    },
+    {
+      "datum": "08.12.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "2q8v61jbufic1t3pqkoju8dv94@google.com",
+      "_titel": "13/14 OA"
+    },
+    {
+      "datum": "08.12.2027",
+      "uhrzeit": "18:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "k9g80tb2s2kltfob554smbqfj4@google.com",
+      "_titel": "13/14 OA"
+    },
+    {
+      "datum": "09.12.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "cc9hog7lpe9v1h2g6hgfti09rk@google.com",
+      "_titel": "13/14 GP"
+    },
+    {
+      "datum": "09.12.2027",
+      "uhrzeit": "19:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "vt1eksgsqg04v06us8ecoo9cj4@google.com",
+      "_titel": "13/14 (1)"
+    },
+    {
+      "datum": "10.12.2027",
+      "uhrzeit": "17:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "1pbp4896lel6am69tlcor38cvg@google.com",
+      "_titel": "13/14 Anspielprobe"
+    },
+    {
+      "datum": "10.12.2027",
+      "uhrzeit": "19:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "kuiu2ctqso8qb6dhelqu0833k4@google.com",
+      "_titel": "13/14 (2)"
+    },
+    {
+      "datum": "22.02.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Laeiszhalle",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "mfq8rgcvcttkopj3kdrlmm5r54@google.com",
+      "_titel": "WK 4 OA"
+    },
+    {
+      "datum": "23.02.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Laeiszhalle",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "34ec83e7cb7r98sitqd7o4qc4c@google.com",
+      "_titel": "WK 4 OA"
+    },
+    {
+      "datum": "24.02.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Laeiszhalle",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "5gon85eq2chheh31i1t6apqe8s@google.com",
+      "_titel": "WK 4 GP"
+    },
+    {
+      "datum": "24.02.2028",
+      "uhrzeit": "19:30 Uhr",
+      "ort": "Laeiszhalle",
+      "konzertart": "Werkstattkonzert",
+      "marker": "Vorstellung",
+      "werke": [
+        {
+          "komponist": "Piotr Illich Tchaikovsky",
+          "lebensdaten": "1840–1893",
+          "titel": "\"Romeo und Julia\" Fantasieouvertüre nach Shakespeare",
+          "saetze": [],
+          "dauer": "ca. 12 min",
+          "besetzung": "3.2.2.2-4.2.3.1-Pk+2, Hrf.-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Aleksandr Glazunov",
+          "lebensdaten": "1865–1936",
+          "titel": "Konzert für Violine und Orchester, op. 82 (1904)",
+          "saetze": [
+            "Moderato",
+            "Andante",
+            "Allegro"
+          ],
+          "dauer": "ca. 25 min",
+          "besetzung": "3.2.2.2-4.2.3.0-Pk+3, Hrf.-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "pause": true
+        },
+        {
+          "komponist": "Piotr Illich Tchaikovsky",
+          "lebensdaten": "1840–1893",
+          "titel": "Sinfonie Nr. 5 e-Moll op. 64",
+          "saetze": [
+            "Andante – Allegro con anima",
+            "Andante cantabile",
+            "con alcuna licenza",
+            "Valse: Allegro moderato",
+            "Finale: Andante maestoso – Allegro vivace",
+            "Symphoniker Hamburg"
+          ],
+          "dauer": "ca. 50 min",
+          "besetzung": "2.2.2.2-4.2.3.1-Pauken-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Violine",
+              "name": "Johanna Röhrig",
+              "zusatz": "Konzertexamen, Klasse Prof. Sebastian Schmidt"
+            }
+          ]
+        }
+      ],
+      "solisten": [
+        {
+          "instrument": "Violine",
+          "name": "Johanna Röhrig",
+          "zusatz": "Konzertexamen, Klasse Prof. Sebastian Schmidt"
+        }
+      ],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Studierende der Dirigierklasse der HfMT Hamburg",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "7sidokg7n9mt07rmth3i7t6pgk@google.com",
+      "_titel": "WK 4"
+    },
+    {
+      "datum": "02.02.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "mpv2nm76aofirjo1a14cquuvh4@google.com",
+      "_titel": "HSO 2 OA Kontrabass"
+    },
+    {
+      "datum": "02.02.2028",
+      "uhrzeit": "13:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "206v4hrfn940sp30phupp50oek@google.com",
+      "_titel": "HSO 2 OA Cello"
+    },
+    {
+      "datum": "02.02.2028",
+      "uhrzeit": "16:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "4itaflrkv4mjesnraokms2om1k@google.com",
+      "_titel": "HSO 2 OA Viola"
+    },
+    {
+      "datum": "03.02.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "ueg25485ei85vv4bi7j464rits@google.com",
+      "_titel": "HSO 2 OA Violine"
+    },
+    {
+      "datum": "03.02.2028",
+      "uhrzeit": "14:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "odkokkldh1bl31sa0ec0bmrudk@google.com",
+      "_titel": "HSO 2 OA Bläser"
+    },
+    {
+      "datum": "04.02.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "sl3qinhtl74eueud7tadhkp9fs@google.com",
+      "_titel": "HSO 2 OA Streicher"
+    },
+    {
+      "datum": "04.02.2028",
+      "uhrzeit": "14:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "h8hgo8ouikab1p8mnm5n4dglro@google.com",
+      "_titel": "HSO 2 OA Bläser"
+    },
+    {
+      "datum": "05.02.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "h2a274c5outcl4t5ijdj9u6ob8@google.com",
+      "_titel": "HSO 2 OA"
+    },
+    {
+      "datum": "05.02.2028",
+      "uhrzeit": "14:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "tts79s19gu2mn29ej3qu63ns28@google.com",
+      "_titel": "HSO 2 OA"
+    },
+    {
+      "datum": "06.02.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "hekkm4thjqs7gfndh92r20aecc@google.com",
+      "_titel": "HSO 2 OA"
+    },
+    {
+      "datum": "06.02.2028",
+      "uhrzeit": "14:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "46neg1h8tmjhs0i5kbhasdn7ls@google.com",
+      "_titel": "HSO 2 OA"
+    },
+    {
+      "datum": "07.02.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "fnnofgo32cqkh7679bu8tao01k@google.com",
+      "_titel": "HSO 2 OA"
+    },
+    {
+      "datum": "07.02.2028",
+      "uhrzeit": "14:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "4pu3qv1npj4mt09o88ao2uglv8@google.com",
+      "_titel": "HSO 2 OA"
+    },
+    {
+      "datum": "08.02.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "jv8eg5584h70oj1hg3m1j3raa4@google.com",
+      "_titel": "HSO 2 GP"
+    },
+    {
+      "datum": "08.02.2028",
+      "uhrzeit": "19:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "sbuc99tcn475qr8fdncrj5vkak@google.com",
+      "_titel": "HSO 2 (1)"
+    },
+    {
+      "datum": "09.02.2028",
+      "uhrzeit": "19:30 Uhr",
+      "ort": "Laeiszhalle",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "rneiel5lr0223ds9fjqdd8q0ms@google.com",
+      "_titel": "HSO 2 (2)"
+    },
+    {
+      "datum": "22.05.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "kein Raum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "sqrlporo53i2pc4tavi2ul56ug@google.com",
+      "_titel": "WK 5 OA"
+    },
+    {
+      "datum": "23.05.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "kein Raum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "i4aifp6lt54gd7mlok9vm78iqk@google.com",
+      "_titel": "WK 5 OA"
+    },
+    {
+      "datum": "24.05.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "kein Raum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "ahqf8d8jqd8kci23eq8vaf79j4@google.com",
+      "_titel": "WK 5 GP"
+    },
+    {
+      "datum": "24.05.2028",
+      "uhrzeit": "19:30 Uhr",
+      "ort": "kein Raum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "2h27htagcm7n5flao4rnud6okc@google.com",
+      "_titel": "WK 5"
+    },
+    {
+      "datum": "27.06.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "ljii2bjjg7vvm8id46oecjgdpo@google.com",
+      "_titel": "WK 6 OA"
+    },
+    {
+      "datum": "28.06.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "dkutu2s8of3c7l9ucnuk1670b0@google.com",
+      "_titel": "WK 6 OA"
+    },
+    {
+      "datum": "29.06.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "q1lrtqva13li7rb2lvmo3eqra8@google.com",
+      "_titel": "WK 6 GP"
+    },
+    {
+      "datum": "29.06.2028",
+      "uhrzeit": "19:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "gne0vmg59bfmk7u9386vs36o9c@google.com",
+      "_titel": "WK 6"
+    },
+    {
+      "datum": "30.03.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "oothalgbc2j5pjs58l412mi5hc@google.com",
+      "_titel": "HSO 3 OA Violine"
+    },
+    {
+      "datum": "30.03.2028",
+      "uhrzeit": "13:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "dme7rhu79238r2gvb5spmd68ak@google.com",
+      "_titel": "HSO 3 OA Viola"
+    },
+    {
+      "datum": "30.03.2028",
+      "uhrzeit": "16:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "1gteqe24r9jvbf2lrp0kgiikjk@google.com",
+      "_titel": "HSO 3 OA Bläser"
+    },
+    {
+      "datum": "31.03.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "ppn4h3jkftdoem9a804ar2skas@google.com",
+      "_titel": "HSO 3 OA Cello"
+    },
+    {
+      "datum": "31.03.2028",
+      "uhrzeit": "13:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "ca0io1evtrl9bcpdidtmnqlsak@google.com",
+      "_titel": "HSO 3 OA Kontrabässe"
+    },
+    {
+      "datum": "31.03.2028",
+      "uhrzeit": "16:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "7tlaupkr710j6mthken5aatad4@google.com",
+      "_titel": "HSO 3 OA Bläser"
+    },
+    {
+      "datum": "01.04.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "g5bn2b95ve1jj979kvoa7ttj64@google.com",
+      "_titel": "HSO 3 OA Streicher"
+    },
+    {
+      "datum": "01.04.2028",
+      "uhrzeit": "16:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "j13rimrlmnnocj00uuo8ujui4g@google.com",
+      "_titel": "HSO 3 OA"
+    },
+    {
+      "datum": "02.04.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "36vvv82an0n6l177o5q27k9g5o@google.com",
+      "_titel": "HSO 3 OA"
+    },
+    {
+      "datum": "03.04.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "1u335kld05mtcthmr2e55obark@google.com",
+      "_titel": "HSO 3 OA"
+    },
+    {
+      "datum": "03.04.2028",
+      "uhrzeit": "16:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "79osr6m14ra40s0oqtbgh31ccc@google.com",
+      "_titel": "HSO 3 OA"
+    },
+    {
+      "datum": "04.04.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "4q45jem2irq1v2r67pdjv38sd8@google.com",
+      "_titel": "HSO 3 OA"
+    },
+    {
+      "datum": "04.04.2028",
+      "uhrzeit": "16:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "6qiuv3hrbf8humnqht4uiaku28@google.com",
+      "_titel": "HSO 3 OA"
+    },
+    {
+      "datum": "05.04.2028",
+      "uhrzeit": "16:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "4nicdo49gurqg4g0867lls42v8@google.com",
+      "_titel": "HSO 3 GP"
+    },
+    {
+      "datum": "06.04.2028",
+      "uhrzeit": "19:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "onk5gn6k516b2mrbtnrgm6fhd8@google.com",
+      "_titel": "HSO 3 (1)"
+    },
+    {
+      "datum": "07.04.2028",
+      "uhrzeit": "17:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "pt0eqna6v2u57nulj8t53h68a8@google.com",
+      "_titel": "HSO 3 Anspielprobe"
+    },
+    {
+      "datum": "07.04.2028",
+      "uhrzeit": "19:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "vpmu57m5bmv0mo7fljnps0ntqs@google.com",
+      "_titel": "HSO 3 (2)"
+    },
+    {
+      "datum": "03.05.2028",
+      "uhrzeit": "18:00 Uhr",
+      "ort": "",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "kn4duarvn4qkjl3iltjr9oks68@google.com",
+      "_titel": "HSO 3 Wiederaufnahme GP"
+    },
+    {
+      "datum": "04.05.2028",
+      "uhrzeit": "11:00 Uhr",
+      "ort": "Elbphilharmonie Hamburg, Platz d. Deutschen Einheit 4, 20457 Hamburg, Deutschland",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "c8taj8d3grmdurq3ucb5hdrabs@google.com",
+      "_titel": "HSO 3"
+    },
+    {
+      "datum": "19.06.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "1. Probe",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "4obnnduhmb2a7ekb8srrovkrdg@google.com",
+      "_titel": "HSO 4 OA"
+    },
+    {
+      "datum": "19.06.2028",
+      "uhrzeit": "14:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "gg3luitfclbstnt74ugk1kod1s@google.com",
+      "_titel": "HSO 4 OA"
+    },
+    {
+      "datum": "20.06.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "0gfmh4a5fohr7ndkkrj2jh3pao@google.com",
+      "_titel": "HSO 4 OA"
+    },
+    {
+      "datum": "20.06.2028",
+      "uhrzeit": "14:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "oe488kdvr6qe6f9bfta3g1stl8@google.com",
+      "_titel": "HSO 4 OA"
+    },
+    {
+      "datum": "21.06.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "s804s0sj56cu92hnkev5rhnj68@google.com",
+      "_titel": "HSO 4 OSP"
+    },
+    {
+      "datum": "21.06.2028",
+      "uhrzeit": "17:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "f7r0kdnunpp7smdhpfgedks7es@google.com",
+      "_titel": "HSO 4 OSP"
+    },
+    {
+      "datum": "22.06.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "0jfei5bkjlo6g7hm98v7jemk9c@google.com",
+      "_titel": "HSO 4 OSP"
+    },
+    {
+      "datum": "22.06.2028",
+      "uhrzeit": "19:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "vbqli4pmkq8s0smk1dg7b15qrg@google.com",
+      "_titel": "HSO 4 HP"
+    },
+    {
+      "datum": "23.06.2028",
+      "uhrzeit": "12:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "p1j1d2bsdte67kqo5a6gs0fvg0@google.com",
+      "_titel": "HSO 4 GP"
+    },
+    {
+      "datum": "24.06.2028",
+      "uhrzeit": "19:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "imidmfejmc3qagvpkkg2hjofa4@google.com",
+      "_titel": "HSO 4"
+    },
+    {
+      "datum": "25.06.2028",
+      "uhrzeit": "19:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "9abj4n89vkv9p2qsdoe0ls5nmc@google.com",
+      "_titel": "HSO 4"
+    },
+    {
+      "datum": "14.10.2026",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Orchesterstudio",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Dorsch",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "0hsn0t9p5qd3t73muvflj1nc1c@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "28.10.2026",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "3i29n01gbccgn22t1ebcahrv35@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "04.11.2026",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "5ulndvlfgv1ite0pspau9a84rg@google.com",
+      "_titel": "HSO Repertoire"
+    },
+    {
+      "datum": "11.11.2026",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "6lnkj5u06eqds0cfosc2i7uelg@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "18.11.2026",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Orchesterstudio",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "4u4dcm6j7sq6884r7s92r5moaf@google.com",
+      "_titel": "HSO Repertoire"
+    },
+    {
+      "datum": "02.12.2026",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "5f3b3vu21dcb5at8vtk6n93efc@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "09.12.2026",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "15apmiqmrd1n7rli0123e8kfk5@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "16.12.2026",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Orchesterstudio",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "300v5ej6b7o32mgoas18h92mn1@google.com",
+      "_titel": "HSO Repertoire"
+    },
+    {
+      "datum": "06.01.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "4k8okqeq7bcnuca9hm8lhv7aha@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "13.01.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Orchesterstudio",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "1dvmh7lvi2ekljcc5lo3jbrg5a@google.com",
+      "_titel": "HSO Repertoire"
+    },
+    {
+      "datum": "20.01.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Orchesterstudio",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "3k7gmj206bpcm6nfvuj87cs4eq@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "27.01.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Orchesterstudio",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "2v2o3ta1jilno105pgcfur1ugd@google.com",
+      "_titel": "HSO Repertoire"
+    },
+    {
+      "datum": "17.02.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Orchesterstudio",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "2qeqksi8sql91fskpe07blbchh@google.com",
+      "_titel": "HSO Repertoire"
+    },
+    {
+      "datum": "14.04.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Orchesterstudio",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "6rqcoh5bo7qugso366cpbvif04@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "21.04.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Orchesterstudio",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "0267ec23tttoocb4k5buh8va8u@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "28.04.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Orchesterstudio",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "1a41dvmch4361nu2g0j3guqgcl@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "05.05.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Orchesterstudio",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "6r30qvrtghfln1tbas02oru0g6@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "12.05.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Orchesterstudio",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "30f9hmvdnjpgg3tqc2dcrpm47m@google.com",
+      "_titel": "HSO Repertoire"
+    },
+    {
+      "datum": "19.05.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Orchesterstudio",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "47ccno9ffe7ivoou5gbnpcc1lh@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "26.05.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Orchesterstudio",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "5huhq7ed9k6mch4uj97o8f6hc2@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "09.06.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "03smbqm44bq6m3c1ga8scjf4lj@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "16.06.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "2gpoptu1f4ph3bua756qhqoscd@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "30.06.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Orchesterstudio",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [
+        {
+          "name": "Song",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "_eventId": "2ueh70ao1iu6t1uc0jijhej8l1@google.com",
+      "_titel": "HSO Repertoire"
+    },
+    {
+      "datum": "07.07.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "22a00tluftjed4cugghohueccd@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "14.07.2027",
+      "uhrzeit": "14:15 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "2ug097ita11g2453u3e0q4q0k1@google.com",
+      "_titel": "HSO Blattspiel"
+    },
+    {
+      "datum": "03.12.2026",
+      "uhrzeit": "14:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "2ne9b56hevg3vgorjccvpkq7sk@google.com",
+      "_titel": "13/14 OA"
+    },
+    {
+      "datum": "04.12.2026",
+      "uhrzeit": "14:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "7jahtl2q8fmp6fmiq20lecgu7q@google.com",
+      "_titel": "13/14 OA"
     }
   ]
 }
