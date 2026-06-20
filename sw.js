@@ -8,7 +8,7 @@ self.addEventListener('install', e => {
 
 self.addEventListener('fetch', e => {
   // Web App-Requests nie cachen
-  if (e.request.url.includes('script.google.com')) {
+  if (e.request.url.includes('script.google.com') || e.request.url.includes('googleusercontent.com')) {
     e.respondWith(fetch(e.request));
     return;
   }
