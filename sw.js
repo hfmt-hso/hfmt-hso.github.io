@@ -7,6 +7,11 @@ self.addEventListener('install', e => {
 });
 
 self.addEventListener('fetch', e => {
+  // Web App-Requests nie cachen
+  if (e.request.url.includes('script.google.com')) {
+    e.respondWith(fetch(e.request));
+    return;
+  }
   e.respondWith(
     caches.match(e.request).then(cached => {
       return fetch(e.request).then(fresh => {
