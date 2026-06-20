@@ -317,8 +317,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="slabel">Meine gebuchten Slots</div>
   <div id="meine-buchungen-liste"><div class="spinner">Lade…</div></div>
 
-  <div class="slabel">Meine Probezeiten</div>
-  <div id="meine-stats"><div class="spinner">Lade…</div></div>
+  
 </div>
 
 <!-- ═══════════════════════════════
@@ -546,7 +545,7 @@ async function oeffneStudentBereich() {
   // "Zurück"-Button im Passwort-Ändern-Screen korrekt setzen
   document.getElementById('pw-aendern-back').onclick = ()=>zeige('sc-student');
   zeige('sc-student');
-  await Promise.all([ladeTermine(), ladeMeineBuchungen(), ladeMeineStats()]);
+  await Promise.all([ladeTermine(), ladeMeineBuchungen()]);
 }
 
 async function ladeTermine() {
