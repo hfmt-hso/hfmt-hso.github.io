@@ -580,8 +580,8 @@ async function ladenKalender(){
               const klasse = typeof l==='object'&&l.klasse?l.klasse:'';
               if(!name)return;
               let row = '<div class="kal-leitung">Leitung: '+esc(name);
-              if(werk) row += ' <span class="kal-leitung-kurs">'+esc(werk)+'</span>';
               if(klasse) row += '<br><span class="kal-leitung-kurs">'+esc(klasse)+'</span>';
+              if(werk) row += '<br><span class="kal-leitung-kurs">('+esc(werk)+')</span>';
               row += '</div>';
               html += row;
             });
@@ -669,8 +669,8 @@ function renderEventProgramm(ev){
       const klasse = typeof l==='object'&&l.klasse?l.klasse:'';
       if(!name)return;
       h += '<div class="werk-leitung">Leitung: '+esc(name);
-      if(werk) h += ' <span class="werk-leitung-kurs">'+esc(werk)+'</span>';
       if(klasse) h += '<br><span class="werk-leitung-kurs">'+esc(klasse)+'</span>';
+      if(werk) h += '<br><span class="werk-leitung-kurs">('+esc(werk)+')</span>';
       h += '</div>';
     });
   }
