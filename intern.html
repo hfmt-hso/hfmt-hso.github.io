@@ -368,6 +368,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="ftab" id="ft-probezeiten" onclick="dozentTab('probezeiten')">Probezeiten</button>
     <button class="ftab" id="ft-werke" onclick="dozentTab('werke')">Werke</button>
     
+    <button class="ftab" id="ft-studierende" onclick="dozentTab('studierende')">Studierende</button>
     <button class="ftab" id="ft-links" onclick="dozentTab('links')">Links</button>
   </div>
 
@@ -391,6 +392,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 
   
+
+  <!-- Studierende -->
+  <div id="adm-studierende" style="display:none">
+    <div class="rangliste" id="stud-inhalt"><div class="spinner">Lade…</div></div>
+  </div>
 
   <!-- Links -->
   <div id="adm-links" style="display:none">
@@ -735,10 +741,11 @@ function oeffneDozentBereich(){
 
 function dozentTab(tab){
   dozentTabAktiv=tab;
-  ['buchungen','probezeiten','werke','links'].forEach(t=>{
+  ['buchungen','probezeiten','werke','studierende','links'].forEach(t=>{
     document.getElementById('adm-'+t).style.display=t===tab?'block':'none';
     document.getElementById('ft-'+t).classList.toggle('active',t===tab);
   });
+  if (tab==='studierende') ladeStudierende();
 }
 
 // BUCHUNGEN
@@ -854,6 +861,79 @@ function renderFreikarten(){
     <div style="display:flex;align-items:center;gap:6px"><span class="fk-anzahl">${esc(r[3]||'')} Karte${r[3]==='1'?'':'n'}</span><span class="fk-name">${esc(r[4]||'')}</span></div>
     <div class="fk-meta"><span class="fk-typ">${esc(r[6]||'')}</span>${r[5]?`<span>${esc(r[5])}</span>`:''}<span style="margin-left:auto;opacity:0.5">${esc(r[0]||'')}</span></div>
   </div>`).join('');
+}
+
+// ── STUDIERENDE-EINTEILUNG ────────────────────────────────────
+let _studDaten = null;
+async function ladeStudierende() {
+  if (_studDaten) { renderStudierende(); return; }
+  const el = document.getElementById('stud-inhalt');
+  el.innerHTML = '<div class="spinner">Lade…</div>';
+  try {
+    const ALLE_SJ = ['25_26','26_27','27_28'];
+    const results = await Promise.all(ALLE_SJ.map(sj =>
+      fetch(WEBAPP_URL+'?action=programm&sj='+sj).then(r=>r.json())
+    ));
+    const personen = {};
+    function add(name, rolle, projekt, datum) {
+      if (!name || name.length < 2) return;
+      if (!personen[name]) personen[name] = { leitung: [], klavier: [] };
+      personen[name][rolle].push({ projekt, datum });
+    }
+    ALLE_SJ.forEach((sj, idx) => {
+      const d = results[idx];
+      if (!d || !d.data) return;
+      Object.keys(d.data).forEach(projekt => {
+        (d.data[projekt] || []).forEach(ev => {
+          const datum = ev.datum || '';
+          (ev.leitung || []).forEach(l => {
+            const name = typeof l === 'object' ? l.name : String(l);
+            if (/song|dorsch/i.test(name)) return;
+            add(name, 'leitung', projekt, datum);
+          });
+          (ev.solisten || []).forEach(s => {
+            if (/klavier|flügel|flugel|piano/i.test(s.instrument || ''))
+              add(s.name, 'klavier', projekt, datum);
+          });
+        });
+      });
+    });
+    _studDaten = personen;
+    renderStudierende();
+  } catch(e) {
+    document.getElementById('stud-inhalt').innerHTML = '<div class="empty">Laden fehlgeschlagen.</div>';
+  }
+}
+
+function renderStudierende() {
+  const el = document.getElementById('stud-inhalt');
+  const namen = Object.keys(_studDaten).sort((a,b) => {
+    const la = a.split(' ').pop(), lb = b.split(' ').pop();
+    return la.localeCompare(lb, 'de');
+  });
+  if (!namen.length) { el.innerHTML = '<div class="empty">Keine Einträge.</div>'; return; }
+  const leitungPersonen = namen.filter(n => _studDaten[n].leitung.length);
+  const klavierPersonen = namen.filter(n => _studDaten[n].klavier.length);
+  function renderBlock(titel, liste, rolle) {
+    if (!liste.length) return '';
+    return `<div class="rang-head">${titel}</div>` +
+      liste.map(name => {
+        const eintraege = _studDaten[name][rolle];
+        const zeilen = eintraege.map(e =>
+          `<div style="font-size:11px;color:var(--text-muted);margin-top:2px">${esc(e.projekt)} · ${esc(e.datum)}</div>`
+        ).join('');
+        return `<div class="rang-row">
+          <div class="rang-info">
+            <div class="rang-name">${esc(name)}</div>
+            ${zeilen}
+          </div>
+          <div class="rang-std"><div class="rang-std-num" style="font-size:13px">${eintraege.length}</div><div class="rang-std-lbl">Einsätze</div></div>
+        </div>`;
+      }).join('');
+  }
+  el.innerHTML =
+    renderBlock('🎼 Dirigat', leitungPersonen, 'leitung') +
+    renderBlock('🎹 Klavier', klavierPersonen, 'klavier');
 }
 
 // ── AUTO-LOGIN ────────────────────────────────────────────────
