@@ -95,7 +95,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .werk-komponist{font-size:13px;font-weight:600;color:var(--text)}
 .werk-titel{font-size:13px;color:var(--text);margin-top:1px}
 .werk-details{font-size:11px;color:var(--text-muted);margin-top:3px;line-height:1.5}
-.werk-leitung{font-size:11px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
+.werk-solisten{font-size:11px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
+.werk-leitung{font-size:11px;color:var(--text-muted);margin-top:4px}
+.werk-leitung-kurs{font-size:11px;color:var(--text-muted);font-style:italic}
 .event-kein{font-size:13px;color:var(--text-muted)}
 
 /* ── KALENDER ── */
@@ -126,7 +128,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .kal-werk{margin-bottom:8px}
 .kal-werk-komp{font-size:12px;font-weight:600;color:var(--text)}
 .kal-werk-titel{font-size:12px;color:var(--text-muted);margin-top:1px}
-.kal-leitung{font-size:11px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
+.kal-solisten{font-size:11px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
+.kal-leitung{font-size:11px;color:var(--text-muted);margin-top:4px}
+.kal-leitung-kurs{font-size:11px;color:var(--text-muted);font-style:italic}
 
 /* ── BEDARF ── */
 .bedarf-card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);overflow:hidden;margin-bottom:2px}
@@ -564,14 +568,23 @@ async function ladenKalender(){
   </div>`;
           });
           if(ev.solisten&&ev.solisten.length){
-            html += '<div class="kal-leitung">';
+            html += '<div class="kal-solisten">';
             ev.solisten.forEach(s=>{ html+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'<br>'; });
             html += '</div>';
           }
           if(ev.ensemble) html += `<div class="kal-leitung">${esc(ev.ensemble)}</div>`;
           if(ev.leitung&&ev.leitung.length){
-            const lStr = ev.leitung.map(l=>typeof l==='object'?l.name:String(l)).filter(Boolean).join(' / ');
-            html += `<div class="kal-leitung">Leitung: ${esc(lStr)}</div>`;
+            ev.leitung.forEach(l=>{
+              const name = typeof l==='object'?l.name:String(l);
+              const werk = typeof l==='object'&&l.werk?l.werk:'';
+              const klasse = typeof l==='object'&&l.klasse?l.klasse:'';
+              if(!name)return;
+              let row = '<div class="kal-leitung">Leitung: '+esc(name);
+              if(werk) row += ' <span class="kal-leitung-kurs">'+esc(werk)+'</span>';
+              if(klasse) row += '<br><span class="kal-leitung-kurs">'+esc(klasse)+'</span>';
+              row += '</div>';
+              html += row;
+            });
           }
           html += '</div>';
         }
@@ -621,7 +634,9 @@ async function ladeUeEvents(projektName, sj){
       }
       pp.push(z);
     }
-    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:pp};
+    const titelRest = (ev._titel||'').match(/^\*\s+(.+)/);
+    const notiz = titelRest ? titelRest[1] : null;
+    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:pp,_notiz:notiz};
   }).filter(Boolean).sort((a,b)=>a.datObj-b.datObj);
   ueCache[key] = events;
   return events;
@@ -643,12 +658,25 @@ function renderEventProgramm(ev){
     }
   }
   if(ev.solisten&&ev.solisten.length&&!ev.werke.some(w=>w.solisten&&w.solisten.length)){
-    h += '<div class="werk-leitung">';
+    h += '<div class="werk-solisten">';
     ev.solisten.forEach(s=>{ h+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'<br>'; });
     h += '</div>';
   }
   if(ev.ensemble) h += '<div class="werk-leitung">'+esc(ev.ensemble)+'</div>';
-  if(ev.leitung) h += '<div class="werk-leitung">'+esc(ev.leitung)+'</div>';
+  if(ev.leitung){
+    const lArr = Array.isArray(ev.leitung) ? ev.leitung : [ev.leitung];
+    lArr.forEach(l=>{
+      const name = typeof l==='object'?l.name:String(l);
+      const werk = typeof l==='object'&&l.werk?l.werk:'';
+      const klasse = typeof l==='object'&&l.klasse?l.klasse:'';
+      if(!name)return;
+      h += '<div class="werk-leitung">Leitung: '+esc(name);
+      if(werk) h += ' <span class="werk-leitung-kurs">'+esc(werk)+'</span>';
+      if(klasse) h += '<br><span class="werk-leitung-kurs">'+esc(klasse)+'</span>';
+      h += '</div>';
+    });
+  }
+  if(ev._notiz) h += '<div class="werk-leitung" style="margin-top:8px">'+esc(ev._notiz)+'</div>';
   return h;
 }
 
