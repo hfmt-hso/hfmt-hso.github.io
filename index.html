@@ -594,7 +594,12 @@ async function ladeUeEvents(projektName, sj){
       }
       pp.push(z);
     }
-    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:pp,_notiz:ev._titelNotiz||null};
+    var _notiz = ev._titelNotiz || null;
+    if (!_notiz && ev.probenplan && ev.probenplan.length > 0) {
+      var ersteZ = ev.probenplan[0];
+      if (/^\*\s/.test(ersteZ)) _notiz = ersteZ.replace(/^\*\s*/, '');
+    }
+    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:pp,_notiz:_notiz};
   }).filter(Boolean).sort((a,b)=>a.datObj-b.datObj);
   ueCache[key] = events;
   return events;
