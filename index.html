@@ -597,9 +597,11 @@ async function ladeUeEvents(projektName, sj){
     var _notiz = ev._titelNotiz || null;
     if (!_notiz && ev.probenplan && ev.probenplan.length > 0) {
       var notizTeile = [];
+      var inNotiz = false;
       ev.probenplan.forEach(function(z){
-        if(/^\*\s/.test(z)) notizTeile.push(z.replace(/^\*\s*/,''));
-        else if(notizTeile.length>0) notizTeile.push(z);
+        if(/^\*\s/.test(z)){ inNotiz=true; notizTeile.push(z.replace(/^\*\s*/,'')); }
+        else if(/^\*$/.test(z.trim())){ inNotiz=true; }
+        else if(inNotiz) notizTeile.push(z);
       });
       if(notizTeile.length>0) _notiz = notizTeile.join(' ');
     }
