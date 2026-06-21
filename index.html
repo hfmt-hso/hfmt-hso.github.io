@@ -596,8 +596,12 @@ async function ladeUeEvents(projektName, sj){
     }
     var _notiz = ev._titelNotiz || null;
     if (!_notiz && ev.probenplan && ev.probenplan.length > 0) {
-      var ersteZ = ev.probenplan[0];
-      if (/^\*\s/.test(ersteZ)) _notiz = ersteZ.replace(/^\*\s*/, '');
+      var notizTeile = [];
+      ev.probenplan.forEach(function(z){
+        if(/^\*\s/.test(z)) notizTeile.push(z.replace(/^\*\s*/,''));
+        else if(notizTeile.length>0) notizTeile.push(z);
+      });
+      if(notizTeile.length>0) _notiz = notizTeile.join(' ');
     }
     return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:pp,_notiz:_notiz};
   }).filter(Boolean).sort((a,b)=>a.datObj-b.datObj);
@@ -638,7 +642,7 @@ function renderEventProgramm(ev){
       h += '</div>';
     });
   }
-  if(ev._notiz) h += '<div class="werk-leitung" style="margin-top:8px">* '+esc(ev._notiz)+'</div>';
+  if(ev._notiz) h += '<div class="werk-leitung" style="margin-top:8px">'+esc(ev._notiz)+'</div>';
   return h;
 }
 
