@@ -43,14 +43,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .header-text p{font-size:11px;color:var(--text-muted);margin-top:1px}
 .badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600}
 .badge-green{background:var(--green-light);color:var(--green)}
-.badge-green.klickbar{cursor:pointer;user-select:none}
-.sj-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:100;align-items:flex-end;justify-content:center}
-.sj-modal.open{display:flex}
-.sj-sheet{background:var(--card-bg);border-radius:18px 18px 0 0;padding:20px 16px 32px;width:100%;max-width:480px}
-.sj-sheet-h{font-size:14px;font-weight:600;color:var(--text-muted);text-align:center;margin-bottom:16px}
-.sj-option{display:block;width:100%;padding:14px;margin-bottom:8px;border:1.5px solid var(--border);border-radius:12px;background:none;font-family:inherit;font-size:15px;font-weight:500;color:var(--text);cursor:pointer;text-align:center}
-.sj-option.aktiv{border-color:var(--blue);background:var(--blue-light);color:var(--blue)}
-.sj-abbrechen{display:block;width:100%;padding:13px;border:1px solid var(--border);border-radius:12px;background:none;font-family:inherit;font-size:13px;color:var(--text-muted);cursor:pointer;margin-top:4px}
 .nav{display:flex;background:var(--nav-bg);border-bottom:0.5px solid var(--border);position:sticky;top:73px;z-index:9}
 .nav-btn{flex:1;padding:10px 4px 8px;font-size:10px;color:var(--text-muted);background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:inherit}
 .nav-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
@@ -191,7 +183,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <p>Hochschulorchester · HfMT Hamburg</p>
       </div>
     </div>
-    <span class="badge badge-green klickbar" id="sj-badge" onclick="oeffneSjModal()" title="Studienjahr wechseln"></span>
+    <span class="badge badge-green" id="sj-badge"></span>
     <button onclick="window.location.href=window.location.href" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--text-muted)">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
     </button>
@@ -263,11 +255,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="link-text"><span>Freikarten bestellen</span><small>Formular · Google Forms</small></div>
       <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </a>
-    <a class="link-item" href="unterricht.html">
-      <div class="link-icon" style="background:var(--blue-light);color:var(--blue)"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
-      <div class="link-text"><span>Unterrichtstermine</span><small>Slots buchen · HfMT Hamburg</small></div>
-      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
-    </a>
     <a class="link-item" href="intern.html">
       <div class="link-icon" style="background:var(--gray-light);color:var(--gray)"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
       <div class="link-text"><span>Interner Bereich</span><small>Passwortgeschützt</small></div>
@@ -297,14 +284,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
   </div>
   <div class="info-card"><h3>HSO Portal</h3><p>Wird täglich automatisch aktualisiert. Bei Fragen: Orchesterbüro.</p></div>
-</div>
-
-<div class="sj-modal" id="sj-modal" onclick="if(event.target===this)schliesseSjModal()">
-  <div class="sj-sheet">
-    <div class="sj-sheet-h">Studienjahr wechseln</div>
-    <div id="sj-optionen"></div>
-    <button class="sj-abbrechen" onclick="schliesseSjModal()">Abbrechen</button>
-  </div>
 </div>
 
 <script>
@@ -369,24 +348,6 @@ function ohnestern(s){return String(s||'').replace(/^\*/,'');}
 
 function getSjTarget(){
   return new URLSearchParams(window.location.search).get('sj')||aktuellesSj();
-}
-
-const ALLE_SJ = ['25_26','26_27','27_28'];
-
-function oeffneSjModal(){
-  const aktSj = getSjTarget();
-  document.getElementById('sj-optionen').innerHTML = ALLE_SJ.map(sj =>
-    `<button class="sj-option${sj===aktSj?' aktiv':''}" onclick="wechsleSj('${sj}')">${sj.replace('_','/')}</button>`
-  ).join('');
-  document.getElementById('sj-modal').classList.add('open');
-}
-function schliesseSjModal(){
-  document.getElementById('sj-modal').classList.remove('open');
-}
-function wechsleSj(sj){
-  const url = new URL(window.location.href);
-  url.searchParams.set('sj', sj);
-  window.location.href = url.toString();
 }
 
 function showTab(name,btn){
@@ -620,8 +581,7 @@ async function ladeUeEvents(projektName, sj){
     let kopf = wt+', '+datAnzeige+(ev.uhrzeit?' '+ev.uhrzeit:'')+'    '+ohnestern(ev._titel||projektName);
     if(ev.ort) kopf += '    |    '+ev.ort;
     const werke = (ev.werke||[]).filter(w=>!w.pause);
-    let leitung = '';
-    if(ev.leitung&&ev.leitung.length) leitung='Leitung: '+ev.leitung.map(l=>typeof l==='object'?l.name:String(l)).filter(Boolean).join(' / ');
+    const leitung = ev.leitung||[];
     const tp = datAnzeige.split('.');
     const tabLabel = wt+' '+String(tp[0]||'?').padStart(2,'0')+'.'+String(tp[1]||'?').padStart(2,'0')+'.';
     const ppRoh=ev.probenplan||[];
@@ -651,7 +611,6 @@ function renderEventProgramm(ev){
       if(w.titel) h += '<div class="werk-titel">'+esc(w.titel)+'</div>';
       if(w.dauer) h += '<div class="werk-details">'+esc('Dauer: '+w.dauer)+'</div>';
       if(w.besetzung) h += '<div class="werk-details">'+esc('Besetzung: '+w.besetzung)+'</div>';
-      if(w.solisten&&w.solisten.length){ w.solisten.forEach(s=>{ h+='<div class="werk-details">'+esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'</div>'; }); }
       h += '</div>';
     }
   }
@@ -674,7 +633,7 @@ function renderEventProgramm(ev){
       h += '</div>';
     });
   }
-  if(ev._notiz) h += '<div class="werk-leitung" style="margin-top:8px">'+esc(ev._notiz)+'</div>';
+  if(ev._notiz) h += '<div class="werk-leitung" style="margin-top:8px">* '+esc(ev._notiz)+'</div>';
   return h;
 }
 
