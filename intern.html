@@ -864,6 +864,15 @@ function renderFreikarten(){
 }
 
 // ── STUDIERENDE-EINTEILUNG ────────────────────────────────────
+const STUD_WHITELIST = ['Doğa Çetin','Jacob Gröper','Miquel Bosch Roca','Philine Lembeck',
+  'Rémi Geniet','Sukjong Kim','Chenyu Wan','Uschik Choi','Yuan Xin'];
+function studNormName(name) {
+  return name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+}
+function findStud(name) {
+  const n = studNormName(name);
+  return STUD_WHITELIST.find(s => studNormName(s) === n || n.includes(studNormName(s).split(' ')[0]));
+}
 let _studDaten = null;
 async function ladeStudierende() {
   if (_studDaten) { renderStudierende(); return; }
@@ -875,10 +884,11 @@ async function ladeStudierende() {
       fetch(WEBAPP_URL+'?action=programm&sj='+sj).then(r=>r.json())
     ));
     const personen = {};
-    function add(name, rolle, projekt, datum) {
-      if (!name || name.length < 2) return;
-      if (!personen[name]) personen[name] = { leitung: [], klavier: [] };
-      personen[name][rolle].push({ projekt, datum });
+    function add(kanonName, rolle, projekt, datum, werk) {
+      if (!personen[kanonName]) personen[kanonName] = { leitung: [], klavier: [] };
+      // Duplikat vermeiden
+      const exists = personen[kanonName][rolle].some(e => e.projekt===projekt && e.datum===datum && e.werk===werk);
+      if (!exists) personen[kanonName][rolle].push({ projekt, datum, werk: werk||'' });
     }
     ALLE_SJ.forEach((sj, idx) => {
       const d = results[idx];
@@ -888,12 +898,17 @@ async function ladeStudierende() {
           const datum = ev.datum || '';
           (ev.leitung || []).forEach(l => {
             const name = typeof l === 'object' ? l.name : String(l);
-            if (/song|dorsch/i.test(name)) return;
-            add(name, 'leitung', projekt, datum);
+            const werk = (typeof l === 'object' && l.werk) ? l.werk : '';
+            const kanon = findStud(name);
+            if (!kanon) return;
+            add(kanon, 'leitung', projekt, datum, werk);
           });
           (ev.solisten || []).forEach(s => {
-            if (/klavier|flügel|flugel|piano/i.test(s.instrument || ''))
-              add(s.name, 'klavier', projekt, datum);
+            if (!/klavier|flügel|flugel|piano/i.test(s.instrument || '')) return;
+            const kanon = findStud(s.name || '');
+            if (!kanon) return;
+            const werk = s.zusatz || '';
+            add(kanon, 'klavier', projekt, datum, werk);
           });
         });
       });
@@ -907,33 +922,39 @@ async function ladeStudierende() {
 
 function renderStudierende() {
   const el = document.getElementById('stud-inhalt');
-  const namen = Object.keys(_studDaten).sort((a,b) => {
+  // Alle 9 Studierenden alphabetisch nach Nachname
+  const namen = STUD_WHITELIST.slice().sort((a,b) => {
     const la = a.split(' ').pop(), lb = b.split(' ').pop();
     return la.localeCompare(lb, 'de');
   });
-  if (!namen.length) { el.innerHTML = '<div class="empty">Keine Einträge.</div>'; return; }
-  const leitungPersonen = namen.filter(n => _studDaten[n].leitung.length);
-  const klavierPersonen = namen.filter(n => _studDaten[n].klavier.length);
-  function renderBlock(titel, liste, rolle) {
-    if (!liste.length) return '';
+  function renderBlock(titel, rolle) {
+    const mitEintraegen = namen.filter(n => _studDaten[n] && _studDaten[n][rolle].length);
+    const ohneEintraege = namen.filter(n => !_studDaten[n] || !_studDaten[n][rolle].length);
+    if (!mitEintraegen.length && !ohneEintraege.length) return '';
     return `<div class="rang-head">${titel}</div>` +
-      liste.map(name => {
+      mitEintraegen.map(name => {
         const eintraege = _studDaten[name][rolle];
-        const zeilen = eintraege.map(e =>
-          `<div style="font-size:11px;color:var(--text-muted);margin-top:2px">${esc(e.projekt)} · ${esc(e.datum)}</div>`
-        ).join('');
+        const zeilen = eintraege.map(e => {
+          const werkLabel = e.werk ? ` <span style="color:var(--gold-dark);font-weight:600">${esc(e.werk)}</span>` : '';
+          return `<div style="font-size:11px;color:var(--text-muted);margin-top:3px">${esc(e.projekt)}${werkLabel} · ${esc(e.datum)}</div>`;
+        }).join('');
         return `<div class="rang-row">
           <div class="rang-info">
             <div class="rang-name">${esc(name)}</div>
             ${zeilen}
           </div>
-          <div class="rang-std"><div class="rang-std-num" style="font-size:13px">${eintraege.length}</div><div class="rang-std-lbl">Einsätze</div></div>
+          <div class="rang-std"><div class="rang-std-num" style="font-size:14px;color:var(--gold-dark)">${eintraege.length}</div><div class="rang-std-lbl">Einsätze</div></div>
         </div>`;
-      }).join('');
+      }).join('') +
+      ohneEintraege.map(name =>
+        `<div class="rang-row" style="opacity:0.4">
+          <div class="rang-info"><div class="rang-name">${esc(name)}</div><div style="font-size:11px;color:var(--text-muted)">Kein Einsatz</div></div>
+        </div>`
+      ).join('');
   }
   el.innerHTML =
-    renderBlock('🎼 Dirigat', leitungPersonen, 'leitung') +
-    renderBlock('🎹 Klavier', klavierPersonen, 'klavier');
+    renderBlock('🎼 Dirigat', 'leitung') +
+    renderBlock('🎹 Klavier', 'klavier');
 }
 
 // ── AUTO-LOGIN ────────────────────────────────────────────────
