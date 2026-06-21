@@ -367,7 +367,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="ftab active" id="ft-buchungen" onclick="dozentTab('buchungen')">Buchungen</button>
     <button class="ftab" id="ft-probezeiten" onclick="dozentTab('probezeiten')">Probezeiten</button>
     <button class="ftab" id="ft-werke" onclick="dozentTab('werke')">Werke</button>
-    <button class="ftab" id="ft-freikarten" onclick="dozentTab('freikarten')">Freikarten</button>
+    
     <button class="ftab" id="ft-links" onclick="dozentTab('links')">Links</button>
   </div>
 
@@ -390,16 +390,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="rangliste" id="adm-w-body"><div class="spinner">Lade…</div></div>
   </div>
 
-  <!-- Freikarten -->
-  <div id="adm-freikarten" style="display:none">
-    <div class="rangliste">
-      <div class="rang-head">Freikarten-Bestellungen <span class="rang-hint" id="fk-count"></span></div>
-      <div style="padding:8px 14px;border-bottom:1px solid var(--border)">
-        <input id="fk-search" type="text" placeholder="Suchen…" oninput="renderFreikarten()" style="width:100%;padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);background:var(--bg);font-family:inherit;outline:none">
-      </div>
-      <div id="fk-body"><div class="spinner">Lade…</div></div>
-    </div>
-  </div>
+  
 
   <!-- Links -->
   <div id="adm-links" style="display:none">
@@ -744,11 +735,10 @@ function oeffneDozentBereich(){
 
 function dozentTab(tab){
   dozentTabAktiv=tab;
-  ['buchungen','probezeiten','werke','freikarten','links'].forEach(t=>{
+  ['buchungen','probezeiten','werke','links'].forEach(t=>{
     document.getElementById('adm-'+t).style.display=t===tab?'block':'none';
     document.getElementById('ft-'+t).classList.toggle('active',t===tab);
   });
-  if (tab==='freikarten'&&!freikartenDaten) ladeFreikarten();
 }
 
 // BUCHUNGEN
