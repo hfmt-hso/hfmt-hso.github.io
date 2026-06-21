@@ -619,7 +619,7 @@ function renderEventProgramm(ev){
       h += '</div>';
     }
   }
-  if(ev.solisten&&ev.solisten.length&&!ev.werke.some(w=>w.solisten&&w.solisten.length)){
+  if(ev.solisten&&ev.solisten.length){
     h += '<div class="werk-solisten">';
     ev.solisten.forEach(s=>{ h+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'<br>'; });
     h += '</div>';
