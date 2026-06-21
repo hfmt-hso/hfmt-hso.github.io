@@ -634,9 +634,7 @@ async function ladeUeEvents(projektName, sj){
       }
       pp.push(z);
     }
-    const titelRest = (ev._titel||'').match(/^\*\s+(.+)/);
-    const notiz = titelRest ? titelRest[1] : null;
-    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:pp,_notiz:notiz};
+    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:pp,_notiz:ev._titelNotiz||null};
   }).filter(Boolean).sort((a,b)=>a.datObj-b.datObj);
   ueCache[key] = events;
   return events;
