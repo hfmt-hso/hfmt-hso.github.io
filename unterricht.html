@@ -57,8 +57,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .field-gap{height:12px}
 .error-msg{font-size:12px;color:var(--red);text-align:center;min-height:16px}
 .btn{width:100%;padding:13px;border:none;border-radius:var(--radius-sm);font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.15s}
-.btn-blue{background:var(--blue);color:#fff}
-.btn-blue:active{opacity:0.85}
+.btn-blue{background:var(--blue);color:#fff}.btn-blue:active{opacity:0.85}
 .btn-outline{background:none;border:1.5px solid var(--border-solid);color:var(--text-muted);margin-top:8px}
 .hint{font-size:12px;color:var(--text-muted);text-align:center;line-height:1.5}
 .pw-change-info{background:var(--blue-light);border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;color:var(--blue-dark);line-height:1.5}
@@ -71,10 +70,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .welcome-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
 .logout-small{font-size:12px;color:var(--text-muted);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px;font-family:inherit}
 .pw-change-link{font-size:12px;color:var(--blue);background:none;border:none;cursor:pointer;font-family:inherit;padding:0;text-decoration:underline}
-
 .section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-top:2px}
 
-/* TERMIN-KARTEN (Übersicht) */
+/* TERMIN-KARTEN */
 .termin-card{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);overflow:hidden;cursor:pointer}
 .termin-header{padding:12px 14px;display:flex;align-items:flex-start;gap:10px}
 .termin-datum-box{background:var(--blue-light);border-radius:8px;padding:6px 10px;text-align:center;flex-shrink:0;min-width:44px}
@@ -95,12 +93,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .slot-termin-meta{font-size:12px;color:var(--text-muted);margin-top:4px;line-height:1.5}
 .slot-back-btn{background:none;border:none;font-size:13px;color:var(--blue);cursor:pointer;font-family:inherit;padding:0;font-weight:600;display:flex;align-items:center;gap:4px}
 .slot-back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-
-/* SLOT KACHELN */
 .slots-grid{display:flex;flex-direction:column;gap:8px}
 .slot-kachel{background:var(--card);border-radius:var(--radius-sm);border:1.5px solid var(--border-solid);padding:12px 14px;display:flex;align-items:center;gap:12px;transition:all 0.15s}
-.slot-kachel.frei{cursor:pointer}
-.slot-kachel.frei:active{opacity:0.8}
+.slot-kachel.frei{cursor:pointer}.slot-kachel.frei:active{opacity:0.8}
 .slot-kachel.belegt{opacity:0.7;background:var(--gray-light)}
 .slot-kachel.meine-buchung{border-color:var(--green);background:var(--green-light)}
 .slot-zeit{font-size:18px;font-weight:800;color:var(--blue);min-width:48px}
@@ -137,9 +132,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .admin-label{font-size:13px;font-weight:700;color:var(--gold-dark)}
 .admin-sub{font-size:11px;color:var(--text-muted);margin-top:1px}
 @media(prefers-color-scheme:dark){.admin-bar{background:linear-gradient(135deg,#2a2a28 0%,#3a3010 100%)}}
-
-.filter-tabs{display:flex;background:var(--card);border-radius:var(--radius-sm);padding:3px;border:0.5px solid var(--border);gap:2px}
-.filter-tab{flex:1;padding:7px 4px;font-size:11px;font-weight:600;text-align:center;border:none;border-radius:8px;cursor:pointer;background:none;color:var(--text-muted);font-family:inherit;transition:all 0.15s}
+.filter-tabs{display:flex;background:var(--card);border-radius:var(--radius-sm);padding:3px;border:0.5px solid var(--border);gap:2px;overflow-x:auto;scrollbar-width:none}
+.filter-tabs::-webkit-scrollbar{display:none}
+.filter-tab{flex:1;min-width:max-content;padding:7px 10px;font-size:11px;font-weight:600;text-align:center;border:none;border-radius:8px;cursor:pointer;background:none;color:var(--text-muted);font-family:inherit;transition:all 0.15s}
 .filter-tab.active{background:var(--blue);color:#fff}
 
 /* ADMIN BUCHUNGSLISTE */
@@ -149,13 +144,51 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .buchungen-count{font-size:11px;color:var(--text-muted)}
 .admin-buchung-row{padding:11px 14px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px}
 .admin-buchung-row:last-child{border-bottom:none}
-.admin-buchung-datum{font-size:12px;font-weight:700;color:var(--text);white-space:nowrap;min-width:72px}
 .admin-buchung-uhr{font-size:13px;font-weight:800;color:var(--blue);min-width:42px}
 .admin-buchung-info{flex:1;min-width:0}
 .admin-buchung-name{font-size:13px;font-weight:600;color:var(--text)}
 .admin-buchung-dozent{font-size:11px;color:var(--text-muted);margin-top:2px}
 .storno-btn{padding:6px 10px;background:var(--red-light);color:var(--red);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0}
 .storno-btn:active{opacity:0.8}
+
+/* ── ABWESENHEITEN ─────────────────────────────────────── */
+.aw-card{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);overflow:hidden}
+.aw-row{padding:12px 14px;border-bottom:0.5px solid var(--border)}
+.aw-row:last-child{border-bottom:none}
+.aw-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aw-zeitraum{font-size:13px;font-weight:700;color:var(--text)}
+.aw-uhren{font-size:11px;color:var(--text-muted);margin-top:2px}
+.aw-grund{font-size:12px;color:var(--text-muted);margin-top:5px;line-height:1.4}
+.aw-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;flex-shrink:0;white-space:nowrap}
+.aw-badge.offen{background:rgba(184,150,46,0.12);color:var(--gold-dark);border:1px solid rgba(184,150,46,0.3)}
+.aw-badge.gesehen{background:var(--green-light);color:var(--green)}
+.aw-kommentar{font-size:11px;color:var(--green);margin-top:5px;font-style:italic}
+.aw-actions{display:flex;gap:6px;margin-top:10px}
+.aw-btn{padding:6px 12px;border-radius:8px;border:1.5px solid var(--border-solid);background:var(--bg);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--text)}
+.aw-btn.del{color:var(--red);border-color:rgba(192,57,43,0.25)}
+.aw-btn:active{opacity:0.8}
+/* Abwesenheits-Formular */
+.aw-form-card{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);padding:16px}
+.aw-grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.aw-date-input{width:100%;padding:10px 12px;border:1.5px solid var(--border-solid);border-radius:var(--radius-sm);font-size:14px;color:var(--text);background:var(--bg);font-family:inherit;outline:none;transition:border-color 0.2s}
+.aw-date-input:focus{border-color:var(--blue)}
+.aw-time-sel{width:100%;padding:10px 12px;border:1.5px solid var(--border-solid);border-radius:var(--radius-sm);font-size:14px;color:var(--text);background:var(--bg);font-family:inherit;outline:none;transition:border-color 0.2s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.aw-time-sel:focus{border-color:var(--blue)}
+/* Admin-Abwesenheiten */
+.aw-adm-block{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);overflow:hidden;margin-bottom:8px}
+.aw-adm-name-head{padding:10px 14px;border-bottom:0.5px solid var(--border);font-size:12px;font-weight:700;color:var(--text-muted);display:flex;align-items:center;justify-content:space-between}
+.aw-adm-row{padding:12px 14px;border-bottom:0.5px solid var(--border);display:flex;align-items:flex-start;gap:10px}
+.aw-adm-row:last-child{border-bottom:none}
+.aw-adm-info{flex:1;min-width:0}
+.aw-adm-zeit{font-size:12px;font-weight:700;color:var(--blue-dark);margin-bottom:3px}
+.aw-adm-grund{font-size:12px;color:var(--text-muted);line-height:1.4}
+.aw-adm-komm-anzeige{font-size:11px;color:var(--green);margin-top:4px;font-style:italic}
+.aw-komm-input{width:100%;padding:7px 10px;border:1px solid var(--border-solid);border-radius:7px;font-size:12px;font-family:inherit;margin-top:7px;background:var(--bg);color:var(--text)}
+.aw-seen-btn{padding:7px 12px;background:var(--green-light);color:var(--green);border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+.aw-unseen-btn{padding:7px 10px;background:var(--bg);color:var(--text-muted);border:1px solid var(--border-solid);border-radius:8px;font-size:11px;cursor:pointer;font-family:inherit}
+.aw-filter-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.aw-filter-btn{padding:5px 12px;border-radius:16px;border:0.5px solid var(--border-solid);background:var(--card);color:var(--text-muted);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.aw-filter-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
 
 /* EMPTY / SPINNER / TOAST */
 .empty-state{text-align:center;padding:28px 20px;color:var(--text-muted);font-size:13px}
@@ -239,7 +272,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- SCREEN 4: STUDIERENDEN-BEREICH (Terminübersicht) -->
+<!-- SCREEN 4: STUDIERENDEN-BEREICH -->
 <div class="screen" id="screen-student">
   <div class="welcome-bar">
     <div>
@@ -251,6 +284,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <button class="pw-change-link" onclick="zeige('screen-pw-aendern')">Passwort ändern</button>
     </div>
   </div>
+
+  <div class="section-label">Meine Abwesenheiten</div>
+  <div id="aw-student-liste"><div class="spinner">Lade…</div></div>
+  <button class="btn btn-outline" style="margin-top:0" onclick="awFormularOeffnen(null)">+ Abwesenheit melden</button>
 
   <div class="section-label">Meine gebuchten Slots</div>
   <div id="meine-buchungen-liste"><div class="spinner">Lade Buchungen…</div></div>
@@ -295,7 +332,50 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- SCREEN 7: LEHRENDEN-LOGIN -->
+<!-- SCREEN 7: ABWESENHEIT MELDEN / BEARBEITEN -->
+<div class="screen" id="screen-abwesenheit">
+  <button class="slot-back-btn" onclick="zeige('screen-student')">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Zurück zur Übersicht
+  </button>
+  <div class="login-hero" style="padding:4px 0 8px">
+    <div class="login-icon">🗓</div>
+    <div class="login-title" id="aw-form-titel">Abwesenheit melden</div>
+    <div class="login-sub">Zeitraum und Grund angeben</div>
+  </div>
+  <div class="aw-form-card">
+    <div class="field-label" style="margin-bottom:10px">Von</div>
+    <div class="aw-grid2">
+      <div>
+        <div class="field-label">Datum</div>
+        <input class="aw-date-input" type="date" id="aw-von-datum">
+      </div>
+      <div>
+        <div class="field-label">Uhrzeit</div>
+        <select class="aw-time-sel" id="aw-von-uhr"></select>
+      </div>
+    </div>
+    <div class="field-label" style="margin-bottom:10px">Bis</div>
+    <div class="aw-grid2">
+      <div>
+        <div class="field-label">Datum</div>
+        <input class="aw-date-input" type="date" id="aw-bis-datum">
+      </div>
+      <div>
+        <div class="field-label">Uhrzeit</div>
+        <select class="aw-time-sel" id="aw-bis-uhr"></select>
+      </div>
+    </div>
+    <div class="field-label">Grund</div>
+    <textarea class="field-input" id="aw-grund" rows="3" placeholder="Kurze Beschreibung…" style="resize:none;margin-bottom:0"></textarea>
+    <div class="field-gap"></div>
+    <div class="error-msg" id="aw-err"></div>
+    <button class="btn btn-blue" id="aw-save-btn" onclick="awSpeichern()">Speichern</button>
+    <button class="btn btn-outline" onclick="zeige('screen-student')">Abbrechen</button>
+  </div>
+</div>
+
+<!-- SCREEN 8: LEHRENDEN-LOGIN -->
 <div class="screen" id="screen-admin-login">
   <div class="login-hero">
     <div class="login-icon">🔑</div>
@@ -315,7 +395,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- SCREEN 8: LEHRENDEN-BEREICH -->
+<!-- SCREEN 9: LEHRENDEN-BEREICH -->
 <div class="screen" id="screen-admin">
   <div class="admin-bar">
     <div>
@@ -326,77 +406,66 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 
   <div class="filter-tabs">
-    <button class="filter-tab active" id="ftab-alle" onclick="adminTab('alle')">Alle</button>
-    <button class="filter-tab" id="ftab-meine" onclick="adminTab('meine')">Meine</button>
+    <button class="filter-tab active" id="ftab-buchungen" onclick="adminTab('buchungen')">Buchungen</button>
+    <button class="filter-tab" id="ftab-abwesenheiten" onclick="adminTab('abwesenheiten')">Abwesenheiten</button>
   </div>
 
-  <div id="admin-buchungen-container">
-    <div class="spinner">Lade Buchungen…</div>
+  <!-- Buchungen -->
+  <div id="adm-buchungen">
+    <div class="filter-tabs" style="margin-bottom:0">
+      <button class="filter-tab active" id="ftab-alle" onclick="buchungenTab('alle')">Alle</button>
+      <button class="filter-tab" id="ftab-meine" onclick="buchungenTab('meine')">Meine</button>
+    </div>
+    <div id="admin-buchungen-container"><div class="spinner">Lade Buchungen…</div></div>
+  </div>
+
+  <!-- Abwesenheiten -->
+  <div id="adm-abwesenheiten" style="display:none">
+    <div class="aw-filter-row">
+      <button class="aw-filter-btn active" onclick="awAdminFilter('alle',this)">Alle</button>
+      <button class="aw-filter-btn" onclick="awAdminFilter('offen',this)">Offen</button>
+      <button class="aw-filter-btn" onclick="awAdminFilter('gesehen',this)">Gesehen</button>
+    </div>
+    <div id="aw-adm-liste"><div class="spinner">Lade…</div></div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════════════════
-// KONFIGURATION
-// ══════════════════════════════════════════
 const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
+const MONATE = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+const WT     = ['So','Mo','Di','Mi','Do','Fr','Sa'];
 
-// ══════════════════════════════════════════
-// ZUSTAND
-// ══════════════════════════════════════════
 let aktuellerStudent = null;
-let aktuellerAdmin   = null;  // { nutzer, name }
+let aktuellerAdmin   = null;
 let alleTermine      = [];
 let adminBuchungen   = null;
 let adminTabAktiv    = 'alle';
+let hauptTabAktiv    = 'buchungen';
+let _awEditId        = null;
+let _awDaten         = [];
+let _awAdminDaten    = null;
+let _awAdminFilter   = 'alle';
 
-// ══════════════════════════════════════════
-// NAVIGATION
-// ══════════════════════════════════════════
+// ── HELFER ────────────────────────────────────────────────────
 function zeige(screenId) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(screenId).classList.add('active');
   window.scrollTo(0, 0);
 }
-
-// ══════════════════════════════════════════
-// CRYPTO
-// ══════════════════════════════════════════
 async function hashStr(s) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
-
-// ══════════════════════════════════════════
-// TOAST
-// ══════════════════════════════════════════
-let toastTimer = null;
-function toast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
-}
-
-// ══════════════════════════════════════════
-// WEBAPP-HELFER
-// ══════════════════════════════════════════
 async function webAppGet(params) {
-  const url = WEBAPP_URL + '?' + new URLSearchParams(params);
-  const res = await fetch(url);
+  const res = await fetch(WEBAPP_URL + '?' + new URLSearchParams(params));
   return res.json();
 }
 async function webAppPost(data) {
   const res = await fetch(WEBAPP_URL, { method:'POST', body: JSON.stringify(data) });
   return res.json();
 }
-
-// ══════════════════════════════════════════
-// HILFSFUNKTIONEN
-// ══════════════════════════════════════════
 function esc(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
@@ -410,19 +479,21 @@ function parseDate(s) {
   const d = new Date(str);
   return isNaN(d.getTime()) ? null : d;
 }
-const MONATE = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
-const WT     = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+let toastTimer = null;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
 
-// ══════════════════════════════════════════
-// STUDIERENDEN-LOGIN
-// ══════════════════════════════════════════
+// ── LOGIN ─────────────────────────────────────────────────────
 async function studentLogin() {
   const mtknr = document.getElementById('s-mtknr').value.trim();
   const pw    = document.getElementById('s-pw').value;
   const errEl = document.getElementById('s-error');
   errEl.textContent = '';
   if (!mtknr || !pw) { errEl.textContent = 'Bitte alle Felder ausfüllen.'; return; }
-
   const pwHash = await hashStr(pw);
   try {
     const json = await webAppGet({ action:'studentLogin', mtknr, pwHash });
@@ -439,14 +510,9 @@ async function studentLogin() {
     if (json.student.erstanmeldung) { zeige('screen-pw-setzen'); return; }
     sessionStorage.setItem('hso_student', JSON.stringify(aktuellerStudent));
     oeffneStudentBereich();
-  } catch(e) {
-    errEl.textContent = 'Verbindungsfehler.';
-  }
+  } catch(e) { errEl.textContent = 'Verbindungsfehler.'; }
 }
 
-// ══════════════════════════════════════════
-// PASSWORT SETZEN / ÄNDERN
-// ══════════════════════════════════════════
 async function pwSetzen() {
   const pw1 = document.getElementById('pw1').value;
   const pw2 = document.getElementById('pw2').value;
@@ -481,14 +547,18 @@ async function pwAendern() {
   } catch(e) { err.textContent = 'Verbindungsfehler.'; }
 }
 
-// ══════════════════════════════════════════
-// STUDIERENDEN-BEREICH
-// ══════════════════════════════════════════
+function logout() {
+  sessionStorage.removeItem('hso_student');
+  aktuellerStudent = null;
+  zeige('screen-start');
+}
+
+// ── STUDIERENDEN-BEREICH ──────────────────────────────────────
 async function oeffneStudentBereich() {
   document.getElementById('welcome-name').textContent = 'Hallo, ' + (aktuellerStudent.name || aktuellerStudent.mtknr) + '!';
   document.getElementById('welcome-sub').textContent  = 'Mtknr: ' + aktuellerStudent.mtknr + (aktuellerStudent.instrument ? ' · ' + aktuellerStudent.instrument : '');
   zeige('screen-student');
-  await Promise.all([ladeTermine(), ladeMeineBuchungen()]);
+  await Promise.all([ladeTermine(), ladeMeineBuchungen(), ladeAbwesenheiten()]);
 }
 
 async function ladeTermine() {
@@ -512,17 +582,12 @@ function renderTerminKarte(t) {
   const tag = d ? d.getDate() : '?';
   const mon = d ? MONATE[d.getMonth()] : '';
   const wt  = d ? WT[d.getDay()] : '';
-
-  const istGruppe  = t.marker === 'Gruppenunterricht';
-  const hatSlots   = (t.slots || []).length > 0;
-  const slotAnzahl = (t.slots || []).length;
-
+  const istGruppe = t.marker === 'Gruppenunterricht';
+  const hatSlots  = (t.slots || []).length > 0;
   const badge = istGruppe
     ? '<div class="badge-gruppe">Gruppe</div>'
     : (hatSlots ? `<div class="termin-chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>` : '');
-
   const onclick = istGruppe ? '' : (hatSlots ? `onclick="oeffneSlots('${esc(t.id)}')"` : '');
-
   return `
   <div class="termin-card" ${onclick}>
     <div class="termin-header">
@@ -539,29 +604,22 @@ function renderTerminKarte(t) {
   </div>`;
 }
 
-// ══════════════════════════════════════════
-// SLOTS ÖFFNEN + BUCHEN
-// ══════════════════════════════════════════
+// ── SLOTS ─────────────────────────────────────────────────────
 async function oeffneSlots(terminId) {
   zeige('screen-slots');
   document.getElementById('slots-grid').innerHTML = '<div class="spinner">Lade Slots…</div>';
   document.getElementById('slot-termin-name').textContent = '';
   document.getElementById('slot-termin-meta').textContent = '';
-
   try {
     const json = await webAppGet({ action:'unterrichtSlots', terminId });
     if (!json.ok) throw new Error(json.error);
-
     const { termin, slots } = json.data;
     document.getElementById('slot-termin-name').textContent = termin.projekt || termin.marker;
-    document.getElementById('slot-termin-meta').textContent =
-      termin.datum + (termin.dozent ? ' · ' + termin.dozent : '') + (termin.ort ? ' · ' + termin.ort : '');
-
+    document.getElementById('slot-termin-meta').textContent = termin.datum + (termin.dozent ? ' · ' + termin.dozent : '') + (termin.ort ? ' · ' + termin.ort : '');
     if (!slots.length) {
       document.getElementById('slots-grid').innerHTML = '<div class="empty-state"><div class="empty-state-icon">⏰</div>Keine Slots für diesen Termin.</div>';
       return;
     }
-
     document.getElementById('slots-grid').innerHTML = slots.map(s => renderSlot(s, terminId, termin)).join('');
   } catch(e) {
     document.getElementById('slots-grid').innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
@@ -570,72 +628,48 @@ async function oeffneSlots(terminId) {
 
 function renderSlot(s, terminId, termin) {
   const istMeinSlot = s.mtknr === (aktuellerStudent ? aktuellerStudent.mtknr : null);
-  if (s.frei) {
-    return `
+  if (s.frei) return `
     <div class="slot-kachel frei" onclick="buchungErstellen('${esc(terminId)}','${esc(s.uhrzeit)}')">
       <div class="slot-zeit">${esc(s.uhrzeit)}</div>
-      <div class="slot-info">
-        <div class="slot-status">Frei</div>
-        <div class="slot-name">60 Minuten${termin && termin.ort ? ' · ' + esc(termin.ort) : ''}</div>
-      </div>
+      <div class="slot-info"><div class="slot-status">Frei</div><div class="slot-name">60 Minuten${termin&&termin.ort?' · '+esc(termin.ort):''}</div></div>
       <div class="slot-action"><button class="slot-btn-buchen">Buchen</button></div>
     </div>`;
-  } else if (istMeinSlot) {
-    return `
+  if (istMeinSlot) return `
     <div class="slot-kachel meine-buchung">
       <div class="slot-zeit">${esc(s.uhrzeit)}</div>
-      <div class="slot-info">
-        <div class="slot-status">✓ Dein Slot</div>
-        <div class="slot-name">60 Minuten${termin && termin.ort ? ' · ' + esc(termin.ort) : ''}</div>
-      </div>
+      <div class="slot-info"><div class="slot-status">✓ Dein Slot</div><div class="slot-name">60 Minuten${termin&&termin.ort?' · '+esc(termin.ort):''}</div></div>
       <div class="slot-action"><button class="slot-btn-stornieren" onclick="eigeneBuchungStornieren('${esc(s.buchungId)}','${esc(terminId)}')">Stornieren</button></div>
     </div>`;
-  } else {
-    return `
+  return `
     <div class="slot-kachel belegt">
       <div class="slot-zeit">${esc(s.uhrzeit)}</div>
-      <div class="slot-info">
-        <div class="slot-status">Belegt</div>
-        <div class="slot-name">${esc(s.name || '')}</div>
-      </div>
+      <div class="slot-info"><div class="slot-status">Belegt</div><div class="slot-name">${esc(s.name||'')}</div></div>
     </div>`;
-  }
 }
 
 async function buchungErstellen(terminId, slotStart) {
   if (!aktuellerStudent) return;
   if (!confirm('Slot ' + slotStart + ' Uhr buchen?')) return;
   try {
-    const json = await webAppPost({
-      action: 'buchungErstellen',
-      mtknr:     aktuellerStudent.mtknr,
-      name:      aktuellerStudent.name,
-      terminId,
-      slotStart
-    });
+    const json = await webAppPost({ action:'buchungErstellen', mtknr: aktuellerStudent.mtknr, name: aktuellerStudent.name, terminId, slotStart });
     if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
     toast('✅ Slot gebucht!');
     await oeffneSlots(terminId);
     await ladeMeineBuchungen();
-  } catch(e) {
-    toast('❌ Verbindungsfehler.');
-  }
+  } catch(e) { toast('❌ Verbindungsfehler.'); }
 }
+
 async function eigeneBuchungStornieren(buchungId, terminId) {
   if (!confirm('Deinen Slot stornieren?')) return;
   try {
-    const json = await webAppPost({ action: 'buchungStornieren', buchungId });
+    const json = await webAppPost({ action:'buchungStornieren', buchungId });
     if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
     toast('✅ Slot storniert.');
     await oeffneSlots(terminId);
     await ladeMeineBuchungen();
-  } catch(e) {
-    toast('❌ Verbindungsfehler.');
-  }
+  } catch(e) { toast('❌ Verbindungsfehler.'); }
 }
-// ══════════════════════════════════════════
-// MEINE BUCHUNGEN
-// ══════════════════════════════════════════
+
 async function ladeMeineBuchungen() {
   const el = document.getElementById('meine-buchungen-liste');
   el.innerHTML = '<div class="spinner">Lade Buchungen…</div>';
@@ -647,19 +681,10 @@ async function ladeMeineBuchungen() {
       return;
     }
     el.innerHTML = '<div class="buchung-card">' + buchungen.map(b => {
-      const d   = parseDate(b.datum);
-      const tag = d ? d.getDate() : '?';
-      const mon = d ? MONATE[d.getMonth()] : '';
-      return `
-      <div class="buchung-row">
-        <div class="buchung-datum-box">
-          <div class="buchung-tag">${tag}</div>
-          <div class="buchung-mon">${mon}</div>
-        </div>
-        <div class="buchung-info">
-          <div class="buchung-titel">${esc(b.dozent || 'Unterricht')}</div>
-          <div class="buchung-meta">${esc(b.datum)}${b.ort ? ' · ' + esc(b.ort) : ''}</div>
-        </div>
+      const d = parseDate(b.datum), tag = d ? d.getDate() : '?', mon = d ? MONATE[d.getMonth()] : '';
+      return `<div class="buchung-row">
+        <div class="buchung-datum-box"><div class="buchung-tag">${tag}</div><div class="buchung-mon">${mon}</div></div>
+        <div class="buchung-info"><div class="buchung-titel">${esc(b.dozent||'Unterricht')}</div><div class="buchung-meta">${esc(b.datum)}${b.ort?' · '+esc(b.ort):''}</div></div>
         <div class="buchung-zeit">${esc(b.slotStart)}</div>
       </div>`;
     }).join('') + '</div>';
@@ -668,22 +693,154 @@ async function ladeMeineBuchungen() {
   }
 }
 
-function logout() {
-  sessionStorage.removeItem('hso_student');
-  aktuellerStudent = null;
-  zeige('screen-start');
+// ── ABWESENHEITEN – STUDIERENDEN-SEITE ───────────────────────
+function awFuelleUhrzeitDropdowns() {
+  const zeiten = [];
+  for (let h = 0; h < 24; h++) {
+    zeiten.push(String(h).padStart(2,'0') + ':00');
+    zeiten.push(String(h).padStart(2,'0') + ':30');
+  }
+  const opts = zeiten.map(z => `<option value="${z}">${z} Uhr</option>`).join('');
+  ['aw-von-uhr','aw-bis-uhr'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = opts;
+  });
 }
 
-// ══════════════════════════════════════════
-// LEHRENDEN-LOGIN
-// ══════════════════════════════════════════
+function awDatumFuerInput(s) {
+  if (!s) return '';
+  const m = String(s).match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if (m) return m[3] + '-' + m[2].padStart(2,'0') + '-' + m[1].padStart(2,'0');
+  return s;
+}
+function awDatumAnzeige(s) {
+  if (!s) return '';
+  const m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (m) return m[3] + '.' + m[2] + '.' + m[1];
+  return s;
+}
+
+function awFormularOeffnen(eintrag) {
+  awFuelleUhrzeitDropdowns();
+  _awEditId = eintrag ? eintrag.id : null;
+  document.getElementById('aw-form-titel').textContent = eintrag ? 'Abwesenheit bearbeiten' : 'Abwesenheit melden';
+  document.getElementById('aw-err').textContent = '';
+  if (eintrag) {
+    document.getElementById('aw-von-datum').value = awDatumFuerInput(eintrag.datumVon);
+    document.getElementById('aw-von-uhr').value   = eintrag.uhrzeitVon;
+    document.getElementById('aw-bis-datum').value = awDatumFuerInput(eintrag.datumBis);
+    document.getElementById('aw-bis-uhr').value   = eintrag.uhrzeitBis;
+    document.getElementById('aw-grund').value     = eintrag.grund;
+  } else {
+    const heute = new Date();
+    const hStr  = heute.getFullYear() + '-' + String(heute.getMonth()+1).padStart(2,'0') + '-' + String(heute.getDate()).padStart(2,'0');
+    document.getElementById('aw-von-datum').value = hStr;
+    document.getElementById('aw-von-uhr').value   = '08:00';
+    document.getElementById('aw-bis-datum').value = hStr;
+    document.getElementById('aw-bis-uhr').value   = '20:00';
+    document.getElementById('aw-grund').value     = '';
+  }
+  zeige('screen-abwesenheit');
+}
+
+async function awSpeichern() {
+  const datumVon   = document.getElementById('aw-von-datum').value;
+  const uhrzeitVon = document.getElementById('aw-von-uhr').value;
+  const datumBis   = document.getElementById('aw-bis-datum').value;
+  const uhrzeitBis = document.getElementById('aw-bis-uhr').value;
+  const grund      = document.getElementById('aw-grund').value.trim();
+  const err        = document.getElementById('aw-err');
+  err.textContent  = '';
+  if (!datumVon || !uhrzeitVon || !datumBis || !uhrzeitBis || !grund) {
+    err.textContent = 'Bitte alle Felder ausfüllen.'; return;
+  }
+  if (datumVon > datumBis || (datumVon === datumBis && uhrzeitVon >= uhrzeitBis)) {
+    err.textContent = 'Enddatum/-zeit muss nach dem Beginn liegen.'; return;
+  }
+  const btn = document.getElementById('aw-save-btn');
+  btn.disabled = true; btn.textContent = 'Speichere…';
+  try {
+    const json = await webAppPost({
+      action: 'abwesenheitSpeichern',
+      id:         _awEditId || '',
+      mtknr:      aktuellerStudent.mtknr,
+      name:       aktuellerStudent.name || aktuellerStudent.mtknr,
+      datumVon:   awDatumAnzeige(datumVon),
+      uhrzeitVon,
+      datumBis:   awDatumAnzeige(datumBis),
+      uhrzeitBis,
+      grund
+    });
+    if (!json.ok) { err.textContent = json.error || 'Fehler.'; btn.disabled = false; btn.textContent = 'Speichern'; return; }
+    toast('✅ Abwesenheit gespeichert!');
+    zeige('screen-student');
+    await ladeAbwesenheiten();
+  } catch(e) { err.textContent = 'Verbindungsfehler.'; }
+  btn.disabled = false; btn.textContent = 'Speichern';
+}
+
+async function ladeAbwesenheiten() {
+  const el = document.getElementById('aw-student-liste');
+  if (!el) return;
+  el.innerHTML = '<div class="spinner">Lade…</div>';
+  try {
+    const json = await webAppGet({ action:'meineAbwesenheiten', mtknr: aktuellerStudent.mtknr });
+    _awDaten = json.ok ? json.data : [];
+    renderAbwesenheiten();
+  } catch(e) { el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>'; }
+}
+
+function renderAbwesenheiten() {
+  const el = document.getElementById('aw-student-liste');
+  if (!el) return;
+  if (!_awDaten.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Noch keine Abwesenheiten gemeldet.</div>';
+    return;
+  }
+  el.innerHTML = '<div class="aw-card">' + _awDaten.map(aw => {
+    const gesehen   = !!aw.gesehenVon;
+    const badgeHtml = gesehen
+      ? '<span class="aw-badge gesehen">✓ Gesehen</span>'
+      : '<span class="aw-badge offen">Offen</span>';
+    const kommHtml  = (gesehen && aw.gesehenKommentar)
+      ? `<div class="aw-kommentar">💬 ${esc(aw.gesehenKommentar)}</div>` : '';
+    const aktionen  = !gesehen
+      ? `<div class="aw-actions">
+           <button class="aw-btn" onclick='awFormularOeffnen(${JSON.stringify(aw).replace(/'/g,"&#39;")})'>✏️ Bearbeiten</button>
+           <button class="aw-btn del" onclick="awLoeschen('${esc(aw.id)}')">🗑 Löschen</button>
+         </div>` : '';
+    return `<div class="aw-row">
+      <div class="aw-head">
+        <div>
+          <div class="aw-zeitraum">${esc(aw.datumVon)} – ${esc(aw.datumBis)}</div>
+          <div class="aw-uhren">${esc(aw.uhrzeitVon)} – ${esc(aw.uhrzeitBis)} Uhr</div>
+          <div class="aw-grund">${esc(aw.grund)}</div>
+          ${kommHtml}
+        </div>
+        ${badgeHtml}
+      </div>
+      ${aktionen}
+    </div>`;
+  }).join('') + '</div>';
+}
+
+async function awLoeschen(id) {
+  if (!confirm('Abwesenheit wirklich löschen?')) return;
+  try {
+    const json = await webAppPost({ action:'abwesenheitLoeschen', id, mtknr: aktuellerStudent.mtknr });
+    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
+    toast('✅ Gelöscht.');
+    await ladeAbwesenheiten();
+  } catch(e) { toast('❌ Verbindungsfehler.'); }
+}
+
+// ── LEHRENDEN-LOGIN ───────────────────────────────────────────
 async function adminLogin() {
   const nutzer = document.getElementById('a-user').value.trim().toLowerCase();
   const pw     = document.getElementById('a-pw').value;
   const errEl  = document.getElementById('a-error');
   errEl.textContent = '';
   if (!nutzer || !pw) { errEl.textContent = 'Bitte alle Felder ausfüllen.'; return; }
-
   const pwHash = await hashStr(pw);
   try {
     const json = await webAppGet({ action:'studentLogin', mtknr: nutzer, pwHash });
@@ -691,14 +848,9 @@ async function adminLogin() {
     aktuellerAdmin = { nutzer, name: json.student.name || nutzer };
     sessionStorage.setItem('hso_admin_unterricht', JSON.stringify(aktuellerAdmin));
     oeffneAdminBereich();
-  } catch(e) {
-    errEl.textContent = 'Verbindungsfehler.';
-  }
+  } catch(e) { errEl.textContent = 'Verbindungsfehler.'; }
 }
 
-// ══════════════════════════════════════════
-// LEHRENDEN-BEREICH
-// ══════════════════════════════════════════
 function oeffneAdminBereich() {
   document.getElementById('admin-name-label').textContent = aktuellerAdmin.name || 'Lehrende:r';
   zeige('screen-admin');
@@ -706,10 +858,17 @@ function oeffneAdminBereich() {
 }
 
 function adminTab(tab) {
-  adminTabAktiv = tab;
-  ['alle','meine'].forEach(t => {
+  hauptTabAktiv = tab;
+  ['buchungen','abwesenheiten'].forEach(t => {
+    document.getElementById('adm-' + t).style.display = t === tab ? 'block' : 'none';
     document.getElementById('ftab-' + t).classList.toggle('active', t === tab);
   });
+  if (tab === 'abwesenheiten') ladeAbwesenheitenAdmin();
+}
+
+function buchungenTab(tab) {
+  adminTabAktiv = tab;
+  ['alle','meine'].forEach(t => document.getElementById('ftab-' + t).classList.toggle('active', t === tab));
   renderAdminBuchungen();
 }
 
@@ -728,40 +887,29 @@ async function ladeAdminBuchungen() {
 function renderAdminBuchungen() {
   const el = document.getElementById('admin-buchungen-container');
   if (!adminBuchungen) return;
-
   let liste = adminBuchungen;
   if (adminTabAktiv === 'meine' && aktuellerAdmin) {
     const meinName = (aktuellerAdmin.name || '').split(' ')[0].toLowerCase();
     liste = adminBuchungen.filter(b => (b.dozent || '').toLowerCase().includes(meinName));
   }
-
   if (!liste.length) {
     el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Keine Buchungen vorhanden.</div>';
     return;
   }
-
-  // Gruppiert nach Datum
   const gruppen = {};
-  liste.forEach(b => {
-    if (!gruppen[b.datum]) gruppen[b.datum] = [];
-    gruppen[b.datum].push(b);
-  });
-
+  liste.forEach(b => { if (!gruppen[b.datum]) gruppen[b.datum] = []; gruppen[b.datum].push(b); });
   el.innerHTML = Object.entries(gruppen).map(([datum, buchungen]) => {
-    const d  = parseDate(datum);
-    const wt = d ? WT[d.getDay()] : '';
-    return `
-    <div class="buchungen-liste">
+    const d  = parseDate(datum), wt = d ? WT[d.getDay()] : '';
+    return `<div class="buchungen-liste">
       <div class="buchungen-header">
         <div class="buchungen-title">${wt}, ${esc(datum)}</div>
         <div class="buchungen-count">${buchungen.length} Buchung${buchungen.length!==1?'en':''}</div>
       </div>
-      ${buchungen.map(b => `
-      <div class="admin-buchung-row">
+      ${buchungen.map(b => `<div class="admin-buchung-row">
         <div class="admin-buchung-uhr">${esc(b.slotStart)}</div>
         <div class="admin-buchung-info">
           <div class="admin-buchung-name">${esc(b.name)}</div>
-          <div class="admin-buchung-dozent">${esc(b.marker)} · ${esc(b.dozent)}${b.ort ? ' · ' + esc(b.ort) : ''}</div>
+          <div class="admin-buchung-dozent">${esc(b.marker)} · ${esc(b.dozent)}${b.ort?' · '+esc(b.ort):''}</div>
         </div>
         <button class="storno-btn" onclick="buchungStornieren('${esc(b.buchungId)}','${esc(b.name)}')">Stornieren</button>
       </div>`).join('')}
@@ -777,36 +925,111 @@ async function buchungStornieren(buchungId, name) {
     toast('✅ Buchung storniert, E-Mail verschickt.');
     adminBuchungen = null;
     await ladeAdminBuchungen();
-  } catch(e) {
-    toast('❌ Verbindungsfehler.');
+  } catch(e) { toast('❌ Verbindungsfehler.'); }
+}
+
+// ── ABWESENHEITEN – ADMIN-SEITE ───────────────────────────────
+async function ladeAbwesenheitenAdmin() {
+  const el = document.getElementById('aw-adm-liste');
+  if (!el) return;
+  if (_awAdminDaten) { renderAbwesenheitenAdmin(); return; }
+  el.innerHTML = '<div class="spinner">Lade…</div>';
+  try {
+    const json = await webAppGet({ action:'alleAbwesenheiten' });
+    _awAdminDaten = json.ok ? json.data : [];
+    renderAbwesenheitenAdmin();
+  } catch(e) { el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>'; }
+}
+
+function awAdminFilter(filter, btn) {
+  _awAdminFilter = filter;
+  document.querySelectorAll('.aw-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAbwesenheitenAdmin();
+}
+
+function renderAbwesenheitenAdmin() {
+  const el = document.getElementById('aw-adm-liste');
+  if (!el || !_awAdminDaten) return;
+  let liste = _awAdminDaten;
+  if (_awAdminFilter === 'offen')   liste = liste.filter(a => !a.gesehenVon);
+  if (_awAdminFilter === 'gesehen') liste = liste.filter(a =>  a.gesehenVon);
+  if (!liste.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Keine Abwesenheiten vorhanden.</div>';
+    return;
   }
+  const gruppen = {};
+  liste.forEach(aw => { const k = aw.name || aw.mtknr; if (!gruppen[k]) gruppen[k] = []; gruppen[k].push(aw); });
+  el.innerHTML = Object.entries(gruppen).map(([name, eintraege]) => {
+    const rows = eintraege.map(aw => {
+      const gesehen   = !!aw.gesehenVon;
+      const badgeHtml = gesehen
+        ? `<span class="aw-badge gesehen" style="font-size:10px">✓ ${esc(aw.gesehenVon)}</span>`
+        : '<span class="aw-badge offen" style="font-size:10px">Offen</span>';
+      const kommBlock = gesehen && aw.gesehenKommentar
+        ? `<div class="aw-adm-komm-anzeige">💬 ${esc(aw.gesehenKommentar)}</div>`
+        : (!gesehen ? `<input class="aw-komm-input" type="text" placeholder="Kommentar (optional)…" id="aw-komm-${esc(aw.id)}">` : '');
+      const aktBtn = !gesehen
+        ? `<button class="aw-seen-btn" onclick="awAlsGesehen('${esc(aw.id)}')">✓ Gesehen</button>`
+        : `<button class="aw-unseen-btn" onclick="awGesehenZurueck('${esc(aw.id)}')">↩ Zurück</button>`;
+      return `<div class="aw-adm-row">
+        <div class="aw-adm-info">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px">
+            <div class="aw-adm-zeit">${esc(aw.datumVon)} ${esc(aw.uhrzeitVon)} – ${esc(aw.datumBis)} ${esc(aw.uhrzeitBis)} Uhr</div>
+            ${badgeHtml}
+          </div>
+          <div class="aw-adm-grund">${esc(aw.grund)}</div>
+          ${kommBlock}
+        </div>
+        <div style="flex-shrink:0;margin-left:6px">${aktBtn}</div>
+      </div>`;
+    }).join('');
+    return `<div class="aw-adm-block">
+      <div class="aw-adm-name-head">${esc(name)}<span>${eintraege.length} Eintrag${eintraege.length!==1?'einträge':''}</span></div>
+      ${rows}
+    </div>`;
+  }).join('');
+}
+
+async function awAlsGesehen(id) {
+  const inp  = document.getElementById('aw-komm-' + id);
+  const komm = inp ? inp.value.trim() : '';
+  try {
+    const json = await webAppPost({ action:'abwesenheitGesehen', id, gesehenVon: aktuellerAdmin.name || aktuellerAdmin.nutzer, kommentar: komm });
+    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
+    toast('✅ Als gesehen markiert.');
+    _awAdminDaten = null;
+    await ladeAbwesenheitenAdmin();
+  } catch(e) { toast('❌ Verbindungsfehler.'); }
+}
+
+async function awGesehenZurueck(id) {
+  try {
+    const json = await webAppPost({ action:'abwesenheitGesehenZurueck', id });
+    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
+    toast('✅ Zurückgesetzt.');
+    _awAdminDaten = null;
+    await ladeAbwesenheitenAdmin();
+  } catch(e) { toast('❌ Verbindungsfehler.'); }
 }
 
 function adminLogout() {
   sessionStorage.removeItem('hso_admin_unterricht');
   aktuellerAdmin = null;
   adminBuchungen = null;
+  _awAdminDaten  = null;
   zeige('screen-start');
 }
 
-// ══════════════════════════════════════════
-// AUTO-LOGIN (Session)
-// ══════════════════════════════════════════
+// ── AUTO-LOGIN ────────────────────────────────────────────────
 (function() {
   const storedStudent = sessionStorage.getItem('hso_student');
   if (storedStudent) {
-    try {
-      aktuellerStudent = JSON.parse(storedStudent);
-      oeffneStudentBereich();
-      return;
-    } catch(e) {}
+    try { aktuellerStudent = JSON.parse(storedStudent); oeffneStudentBereich(); return; } catch(e) {}
   }
   const storedAdmin = sessionStorage.getItem('hso_admin_unterricht');
   if (storedAdmin) {
-    try {
-      aktuellerAdmin = JSON.parse(storedAdmin);
-      oeffneAdminBereich();
-    } catch(e) {}
+    try { aktuellerAdmin = JSON.parse(storedAdmin); oeffneAdminBereich(); } catch(e) {}
   }
 })();
 </script>
