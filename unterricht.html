@@ -800,15 +800,18 @@ function renderAbwesenheiten() {
   el.innerHTML = '<div class="aw-card">' + _awDaten.map(aw => {
     const gesehen   = !!aw.gesehenVon;
     const badgeHtml = gesehen
-      ? '<span class="aw-badge gesehen">✓ Gesehen</span>'
+      ? '<span class="aw-badge gesehen">✓ Bestätigt</span>'
       : '<span class="aw-badge offen">Offen</span>';
     const kommHtml  = (gesehen && aw.gesehenKommentar)
       ? `<div class="aw-kommentar">💬 ${esc(aw.gesehenKommentar)}</div>` : '';
-    const aktionen  = !gesehen
+    const aktionen = !gesehen
       ? `<div class="aw-actions">
            <button class="aw-btn" onclick='awFormularOeffnen(${JSON.stringify(aw).replace(/'/g,"&#39;")})'>✏️ Bearbeiten</button>
            <button class="aw-btn del" onclick="awLoeschen('${esc(aw.id)}')">🗑 Löschen</button>
-         </div>` : '';
+         </div>`
+      : `<div class="aw-actions">
+           <button class="aw-btn del" onclick="awLoeschen('${esc(aw.id)}')">🗑 Bestätigte Abwesenheit löschen</button>
+         </div>`;
     return `<div class="aw-row">
       <div class="aw-head">
         <div>
