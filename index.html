@@ -253,11 +253,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="content" id="tab-info">
   <div class="section-label">Wichtige Dokumente</div>
   <div class="card">
-    <a class="link-item" href="https://docs.google.com/document/d/1L2kSqMZz9K1T3c7Hyku2OlznebWqU3XQyRoFdlurVb4/pub" target="_blank">
+    <div class="link-item" style="cursor:pointer" onclick="toggleOO()">
       <div class="link-icon" style="background:var(--teal-light);color:var(--teal)"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
       <div class="link-text"><span>Orchesterordnung</span><small>Regelwerk · HfMT Hamburg</small></div>
-      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
-    </a>
+      <div class="chevron" id="oo-chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+    <div id="oo-body" style="display:none;border-top:0.5px solid var(--border);padding:14px 14px 18px">
+      <style>#oo-body h2{font-size:15px;font-weight:700;margin:16px 0 6px}#oo-body h2:first-child{margin-top:0}#oo-body p{font-size:13px;color:var(--text);line-height:1.65;margin-bottom:6px}</style>
+      <h2>1. Teilnahme und Umfang</h2>
+      <p>Das Hochschulorchester (HSO), das Blattspielorchester und die Repertoireproben sind Pflichtbestandteile des Kernmoduls für Studierende des Studiengangs Instrumentalmusik mit den Hauptfächern Streicherinstrumente und Blasinstrumente. Bei ausgewählten Projekten können auch Studierende anderer Studienrichtungen teilnehmen; sie werden von ihren Lehrenden vorgeschlagen, die endgültige Entscheidung trifft die Orchesterleitung. Der Anteil dieser Studierenden beträgt maximal 10–20 Prozent der Teilnehmenden insgesamt. Innerhalb der HfMT werden Orchesterprojekte vorab mit Pflichtveranstaltungen durch die zuständigen Lehrkräfte abgestimmt, um zeitliche Überschneidungen durch frühzeitige und transparente Planung zu vermeiden.</p>
+      <h2>2. Hochschulorchester</h2>
+      <p>Bachelorstudierende nehmen in der Regel vom ersten bis zum siebten Semester am Hochschulorchester teil. Vorgeschrieben sind mindestens neun Projekte im jeweils durch Studienplan und Modulbeschreibung festgelegten Stundenumfang.</p>
+      <p>Masterstudierende sind ab dem ersten Semester teilnahmepflichtig und haben mindestens vier Projekte gemäß Studienplan und Modulbeschreibung zu absolvieren. Im Konzertexamen umfasst die Teilnahme zwei Projekte über vier Semester; Konzertexamensstudierende der Streichinstrumente wirken hier als Konzertmeister:in oder Stimmführer:in, Konzertexamensstudierende der Blasinstrumente wirken hier in führenden Positionen mit.</p>
+      <h2>3. Blattspielorchester, Repertoireproben</h2>
+      <p>Bachelorstudierende nehmen in der Regel vom zweiten bis zum siebten Semester teil, wobei sechs Semester Pflicht sind und eine Teilnahme ab dem ersten Semester möglich ist. Eine Befreiung für ein Semester ist möglich, muss jedoch im gleichen Umfang nachgeholt werden. Masterstudierende sind für zwei Semester zur Teilnahme verpflichtet, beginnend ab dem ersten Semester. Das Blattspielorchester findet regelmäßig statt.</p>
+      <h2>4. Praktika, Zeitverträge und Akademiemitgliedschaften</h2>
+      <p>Eine Freistellung von der Orchesterpflicht, ganz oder teilweise, ist nur in begründeten Ausnahmefällen möglich. Der entsprechende Antrag muss von den Hauptfachlehrenden unterzeichnet und bei der Orchesterleitung eingereicht werden; die Entscheidung wird gemeinsam zwischen Hauptfachlehrer:in und der Orchesterleitung getroffen. Studierende, die trotz einer Akademiemitgliedschaft, eines Praktikums oder eines Zeitvertrags weiterhin Hauptfachunterricht an der Hochschule erhalten, sind zur Mitwirkung an mindestens einem Projekt des Hochschulorchesters pro Studienjahr verpflichtet. Von Blattspielorchester und Repertoireproben sind diese Studierenden befreit. Studierende, die für die Dauer einer Akademiemitgliedschaft, eines Praktikums oder eines Zeitvertrags beurlaubt sind und keinen Hauptfachunterricht an der Hochschule erhalten, sind von der Mitwirkung im Hochschulorchester und im Blattspielorchester sowie von den Repertoireproben befreit.</p>
+      <h2>5. Testate</h2>
+      <p>Testate werden im Auftrag der Orchesterleitung vergeben und sind Voraussetzung für den Abschluss im Bachelor, Master und Konzertexamen. In der Regel wird je abgeschlossenem Projekt ein Testat ausgestellt; die Entscheidung darüber liegt bei der/dem Leiter:in des Hochschulorchesters.</p>
+      <h2>6. Organisation und Einteilung</h2>
+      <p>Die Einteilung der Studierenden erfolgt durch das Orchesterbüro unter Einbeziehung der Hauptfachprofessor:innen sowie der musikalischen Leitung. Eingeteilte Mitglieder sind zur Teilnahme an allen Proben verpflichtet. Eine Befreiung von einzelnen Proben ist bei solistischen Auftritten, Kammermusikkonzerten, Wettbewerben oder bei Beteiligung an akademischen Hochschulgremien nach Abstimmung mit der musikalischen Leitung möglich; der Antrag ist spätestens vier Wochen vor der ersten Probe beim Orchesterbüro einzureichen. Von einzelnen Projektteilen des Ensemble 13/14 ist keine Befreiung möglich.</p>
+      <h2>7. Orchestervorstand</h2>
+      <p>Zu Beginn jedes Wintersemesters wird ein Orchestervorstand gewählt, der nach Möglichkeit mindestens ein studentisches Mitglied der Fachgruppe Streicher und ein studentisches Mitglied der Fachgruppe Bläser umfasst. Die Amtszeit beträgt ein Studienjahr. Der Orchestervorstand vertritt die Studierenden gegenüber Orchester- und Hochschulleitung und wirkt bei organisatorischen Fragen mit.</p>
+      <h2>8. Proben- und Konzertreglement</h2>
+      <p>Die reguläre Probenzeit beträgt drei Stunden mit einer zwanzigminütigen Pause spätestens nach 80 Minuten. Abwesenheiten sind schriftlich zu begründen; dauert eine krankheitsbedingte Abwesenheit mehr als zwei Tage, ist eine ärztliche Bescheinigung vorzulegen.</p>
+      <h2>9. Inkrafttreten</h2>
+      <p>Diese Orchesterordnung tritt am Tag ihrer Bekanntmachung im hochschulinternen Amtlichen Anzeiger in Kraft. Gleichzeitig tritt die Orchesterordnung vom 18. Juli 2014 (zuletzt geändert am 11. Dezember 2019) außer Kraft.</p>
+    </div>
     <a class="link-item" href="https://forms.gle/jMKuPx2Mov9s8fcn8" target="_blank">
       <div class="link-icon" style="background:var(--amber-light);color:var(--amber)"><svg viewBox="0 0 24 24"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/></svg></div>
       <div class="link-text"><span>Freikarten bestellen</span><small>Formular · Google Forms</small></div>
@@ -808,6 +830,14 @@ async function ladeBedarf(){
 function toggleBedarf(did){
   document.getElementById(did).classList.toggle('open');
   document.getElementById('btog-'+did).classList.toggle('open');
+}
+
+// ── ORCHESTERORDNUNG ─────────────────────────────────────────
+function toggleOO(){
+  const b=document.getElementById('oo-body'),c=document.getElementById('oo-chev');
+  const open=b.style.display==='block';
+  b.style.display=open?'none':'block';
+  c.style.transform=open?'':'rotate(90deg)';
 }
 
 // ── PULL-TO-REFRESH ──────────────────────────────────────────
