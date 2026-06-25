@@ -232,8 +232,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="kal-filter-btn active" onclick="setKalFilter('alle',this)">Alle</button>
     <button class="kal-filter-btn" onclick="setKalFilter('hso',this)">HSO</button>
     <button class="kal-filter-btn" onclick="setKalFilter('wk',this)">WK</button>
-    <button class="kal-filter-btn" onclick="setKalFilter('blatt',this)">Blatt</button>
-    <button class="kal-filter-btn" onclick="setKalFilter('rep',this)">Rep</button>
+    <button class="kal-filter-btn" onclick="setKalFilter('blatt',this)">Blattspiel</button>
+    <button class="kal-filter-btn" onclick="setKalFilter('rep',this)">Repertoire</button>
     <button class="kal-filter-btn" onclick="setKalFilter('sonder',this)">Sonstiges</button>
   </div>
   <div id="kal-liste"><div class="loading">Termine werden geladen…</div></div>
@@ -491,6 +491,16 @@ async function ladeProjekte(){
   }
 }
 
+// ── KALENDER-DATEN LADEN (alle Events, gecacht) ───────────────
+async function ladeKalenderData(sj){
+  if(ueCache['__kal_'+sj])return ueCache['__kal_'+sj];
+  const res = await fetch(`${WEBAPP_URL}?action=kalender&sj=${sj}`);
+  const json = await res.json();
+  const data = (json.ok && json.data) ? json.data : {};
+  ueCache['__kal_'+sj] = data;
+  return data;
+}
+
 // ── KALENDER ──────────────────────────────────────────────────
 let _kalFilter = 'alle';
 let _kalItems = [];
@@ -537,16 +547,16 @@ function renderKalListe() {
   Object.keys(monate).sort().forEach(key => {
     const m = monate[key];
     html += `<div class="kal-month-label">${m.label}</div>`;
-    m.items.forEach(({projekt, ev, dat, typ, isProbe}) => {
+    m.items.forEach(({projekt, ev, dat, typ}) => {
       const wt  = WT[dat.getDay()];
       const tag = String(dat.getDate()).padStart(2,'0');
-      const isVorstellung = !isProbe && ((ev.marker==='Vorstellung') || (ev.konzertart && ev.konzertart.length>0));
+      const isVorstellung = (ev.marker==='Vorstellung') || (ev.konzertart && ev.konzertart.length>0);
       const werke = (ev.werke||[]).filter(w=>!w.pause);
       const hatDetails = werke.length > 0 || (ev.leitung&&ev.leitung.length);
       const sub = [ev.uhrzeit||'', ev.ort||''].filter(Boolean).join(' · ');
       const kid = 'kal-'+kalIdx++;
       const typKlasse = 'typ-'+(typ==='blattspiel'?'blattspiel':typ==='repertoire'?'repertoire':typ==='wk'?'wk':typ==='hso'?'hso':'sonder');
-      const titelText = isProbe ? (ohnestern(projekt)+' · Probe') : ohnestern(ev._titel||projekt);
+      const titelText = ohnestern(ev._titel||projekt);
 
       html += `<div class="kal-card ${typKlasse}">
   <div class="kal-card-header" onclick="${hatDetails?`toggleKal('${kid}')`:'void(0)'}">
@@ -605,20 +615,16 @@ async function ladenKalender(){
   const el = document.getElementById('kal-liste');
   el.innerHTML = '<div class="loading">Termine werden geladen…</div>';
   try {
-    const progData = await ladeProgData(sj);
+    const progData = await ladeKalenderData(sj);
     const heute = new Date(); heute.setHours(0,0,0,0);
     const alle = [];
 
-    Object.keys(progData).forEach(p => {
+    (progData||[]).forEach(ev => {
+      const dat = parseDatum(ev.datum);
+      if(!dat || dat < heute) return;
+      const p = ohnestern(ev._titel||'');
       const typ = getKalTyp(p);
-      (progData[p]||[]).forEach(ev => {
-        const dat = parseDatum(ev.datum);
-        if(dat && dat >= heute) alle.push({projekt:p, ev, dat, typ, isProbe:false});
-        (ev.proben||[]).forEach(probe => {
-          const pd = parseDatum(probe.datum);
-          if(pd && pd >= heute) alle.push({projekt:p, ev:probe, dat:pd, typ, isProbe:true});
-        });
-      });
+      alle.push({projekt:p, ev, dat, typ});
     });
     alle.sort((a,b)=>a.dat-b.dat);
     _kalItems = alle;
