@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-06-20T12:35:53.030Z",
+  "generiert": "2026-06-25T11:59:50.802Z",
   "events": [
     {
       "datum": "29.06.2026",
@@ -33,21 +33,6 @@
       "probenplan": [],
       "_eventId": "3minfg4276t9n27760ke7eq8up@google.com",
       "_titel": "HSO Blattspiel (Calvin Abdiel, Klavier)"
-    },
-    {
-      "datum": "23.06.2026",
-      "uhrzeit": "00:00 Uhr",
-      "ort": "",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "u0j5rg7a30lfrqojcao95u2lhg@google.com",
-      "_titel": "Peabody 2026"
     },
     {
       "datum": "26.06.2026",
@@ -376,6 +361,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [
+        "Probenplan:",
         "10:00 Le nozze di Figaro, „Voi, che sapete che cosa è amor“ – Sopran: Maria Tilibtsev",
         "10:11 Don Giovanni, „Batti, batti, o bel Masetto“ – Sopran: Juyeon Lee",
         "10:25 Le nozze di Figaro, Duett Nr. 1 „Cinque, dieci!“ – Sopran: Antonia Schlenzen, Bariton: Mihai",
@@ -394,22 +380,6 @@
       "_titel": "HSO Blattspiel"
     },
     {
-      "datum": "29.06.2026",
-      "uhrzeit": "14:30 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": "1. Probe",
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "_eventId": "0a6k0mc90qe2kv8lntald0dad2@google.com",
-      "_titel": "HSO 4 Streicher"
-    },
-    {
       "datum": "01.07.2026",
       "uhrzeit": "11:00 Uhr",
       "ort": "Forum",
@@ -424,21 +394,6 @@
       "probenplan": [],
       "_eventId": "6r3lsvkheqjvi5o4etb5497cki@google.com",
       "_titel": "WK 6 OA"
-    },
-    {
-      "datum": "29.06.2026",
-      "uhrzeit": "18:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "2iobesohqgmom5vnta3b7ttkhl@google.com",
-      "_titel": "HSO 4 Bläser"
     },
     {
       "datum": "02.07.2026",
@@ -466,10 +421,7 @@
       "ensemble": null,
       "leitung": [],
       "aufbauplan": null,
-      "notizen": [
-        "Ohne Harfe | Binyu He singt (ohne Begg) |"
-      ],
-      "probenplan": [],
+      "notizen": [],
       "_eventId": "15m5ketr2t1e0kd8f4s72am19h@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -489,7 +441,7 @@
       "_titel": "WK 6 GP"
     },
     {
-      "datum": "30.06.2026",
+      "datum": "29.06.2026",
       "uhrzeit": "14:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -499,10 +451,7 @@
       "ensemble": null,
       "leitung": [],
       "aufbauplan": null,
-      "notizen": [
-        "ohne Scheffler"
-      ],
-      "probenplan": [],
+      "notizen": [],
       "_eventId": "2modarri6dei4l6afncoohnqb8@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -548,8 +497,7 @@
             "Molto allegro",
             "Andante",
             "Menuetto. Allegretto",
-            "Finale. Allegro assai",
-            "Symphoniker Hamburg"
+            "Finale. Allegro assai"
           ],
           "dauer": "ca. 35 min",
           "besetzung": "1.2.2.2-2.0.0.0-Pk-Str. (8.6.5.4.3)",
@@ -571,7 +519,7 @@
           "zusatz": ""
         }
       ],
-      "ensemble": null,
+      "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
           "name": "Ulrich Windfuhr",
@@ -634,14 +582,33 @@
       "datum": "05.07.2026",
       "uhrzeit": "19:00 Uhr",
       "ort": "Forum",
-      "konzertart": "Konzertante Aufführung in Kooperation mit der Musikhochschule Lübeck",
+      "konzertart": "Konzertante Aufführung",
       "marker": "Vorstellung",
       "werke": [
         {
           "komponist": "Benjamin Britten",
           "lebensdaten": "1913–1976",
-          "titel": "The turn of the screw",
-          "saetze": [],
+          "titel": "The turn of the screw, Opera in a prologue and two acts after a story by Henry James, op. 54 (1954)",
+          "saetze": [
+            "Prologue",
+            "Theme",
+            "Variation I - The Journey",
+            "Variation II - The Welcome",
+            "Variation III - The Letter",
+            "Variation IV - The Tower",
+            "Variation V - The Window",
+            "Variation VI - The Lesson",
+            "Variation VII - The Lake",
+            "Variation VIII - At Night",
+            "Variation IX - The Bells",
+            "Variation X - Miss Jessel",
+            "Variation XI - The Bedroom",
+            "Variation XII - Quint",
+            "Variation XIII - The Piano",
+            "Variation XIV - Flora",
+            "Variation XV - Miles",
+            "Natalia Willot-Förster — Gouvernante | Yeseul Kwon — Miles | Lisa Scheffler — Flora | Rosa Lüttschwager — Mrs. Grose, Haushälterin | Virginia Ferentschik — Miss Jessel | Bingyu He — Prolog | Seumas Aonghas Begg — Peter Quint"
+          ],
           "dauer": "ca. 105 min",
           "besetzung": "1.1.1.1-1.0.0.0-Pk-Klav., Cel.-Hrf.-Str. (1.1.1.1.1)",
           "urauffuehrung": false,
@@ -667,14 +634,33 @@
       "datum": "06.07.2026",
       "uhrzeit": "19:00 Uhr",
       "ort": "Forum",
-      "konzertart": "Konzertante Aufführung in Kooperation mit der Musikhochschule Lübeck",
+      "konzertart": "Konzertante Aufführung",
       "marker": "Vorstellung",
       "werke": [
         {
           "komponist": "Benjamin Britten",
           "lebensdaten": "1913–1976",
-          "titel": "The turn of the screw",
-          "saetze": [],
+          "titel": "The turn of the screw, Opera in a prologue and two acts after a story by Henry James, op. 54 (1954)",
+          "saetze": [
+            "Prologue",
+            "Theme",
+            "Variation I - The Journey",
+            "Variation II - The Welcome",
+            "Variation III - The Letter",
+            "Variation IV - The Tower",
+            "Variation V - The Window",
+            "Variation VI - The Lesson",
+            "Variation VII - The Lake",
+            "Variation VIII - At Night",
+            "Variation IX - The Bells",
+            "Variation X - Miss Jessel",
+            "Variation XI - The Bedroom",
+            "Variation XII - Quint",
+            "Variation XIII - The Piano",
+            "Variation XIV - Flora",
+            "Variation XV - Miles",
+            "Natalia Willot-Förster — Gouvernante | Yeseul Kwon — Miles | Lisa Scheffler — Flora | Rosa Lüttschwager — Mrs. Grose, Haushälterin | Virginia Ferentschik — Miss Jessel | Bingyu He — Prolog | Seumas Aonghas Begg — Peter Quint"
+          ],
           "dauer": "ca. 105 min",
           "besetzung": "1.1.1.1-1.0.0.0-Pk-Klav., Cel.-Hrf.-Str. (1.1.1.1.1)",
           "urauffuehrung": false,
@@ -700,14 +686,33 @@
       "datum": "07.07.2026",
       "uhrzeit": "19:00 Uhr",
       "ort": "Forum",
-      "konzertart": "Konzertante Aufführung in Kooperation mit der Musikhochschule Lübeck",
+      "konzertart": "Konzertante Aufführung",
       "marker": "Vorstellung",
       "werke": [
         {
           "komponist": "Benjamin Britten",
           "lebensdaten": "1913–1976",
-          "titel": "The turn of the screw",
-          "saetze": [],
+          "titel": "The turn of the screw, Opera in a prologue and two acts after a story by Henry James, op. 54 (1954)",
+          "saetze": [
+            "Prologue",
+            "Theme",
+            "Variation I - The Journey",
+            "Variation II - The Welcome",
+            "Variation III - The Letter",
+            "Variation IV - The Tower",
+            "Variation V - The Window",
+            "Variation VI - The Lesson",
+            "Variation VII - The Lake",
+            "Variation VIII - At Night",
+            "Variation IX - The Bells",
+            "Variation X - Miss Jessel",
+            "Variation XI - The Bedroom",
+            "Variation XII - Quint",
+            "Variation XIII - The Piano",
+            "Variation XIV - Flora",
+            "Variation XV - Miles",
+            "Natalia Willot-Förster — Gouvernante | Yeseul Kwon — Miles | Lisa Scheffler — Flora | Rosa Lüttschwager — Mrs. Grose, Haushälterin | Virginia Ferentschik — Miss Jessel | Bingyu He — Prolog | Seumas Aonghas Begg — Peter Quint"
+          ],
           "dauer": "ca. 105 min",
           "besetzung": "1.1.1.1-1.0.0.0-Pk-Klav., Cel.-Hrf.-Str. (1.1.1.1.1)",
           "urauffuehrung": false,
@@ -718,9 +723,9 @@
       "ensemble": "Kammerorchester der HfMT",
       "leitung": [
         {
-          "name": "Doğa Çetin, Sangjun Han, Philine Lembeck, Jacob Gröper  Als Gast: Ying Lam Eva Chu",
-          "werk": "Marin Alsop - Peabody Institute - Johns Hopkins University",
-          "klasse": "Klasse Prof. Ulrich Windfuhr"
+          "name": "Doğa Çetin, Sangjun Han, Philine Lembeck, Jacob Gröper (Klasse Prof. Ulrich Windfuhr) Als Gast: Ying Lam Eva Chu (Marin Alsop - Peabody Institute - Johns Hopkins University)",
+          "werk": "",
+          "klasse": ""
         }
       ],
       "aufbauplan": null,
@@ -853,7 +858,7 @@
             "Allegro vivace"
           ],
           "dauer": "ca. 21 min",
-          "besetzung": "3.2.2.2-4.3.3.1-Pk-Str. (10.8.6.5.4)",
+          "besetzung": "3.2.2.2-4.3.3.1-Pk+2-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
           "pause": false
         },
@@ -868,8 +873,7 @@
             "Andante – Allegro ma non troppo",
             "Andante con moto",
             "Scherzo. Allegro vivace – Trio",
-            "Allegro vivace",
-            "Symphoniker Hamburg"
+            "Allegro vivace"
           ],
           "dauer": "ca. 48 min",
           "besetzung": "2.2.2.2-2.2.3.0-Pk-Str. (10.8.6.5.4)",
@@ -891,17 +895,20 @@
           "zusatz": "Konzertexamen, Klasse Prof. Anna Kreetta Gribajcevic"
         }
       ],
-      "ensemble": null,
+      "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "N.N.",
-          "werk": "",
+          "name": "Chenyu Wan (Blacher), Jacob Gröper (Bartok), Doğa Çetin, Uschik Choi, Miquel Bosch Roca (Schubert)",
+          "werk": "Leitung des Dirigierkurses: Aleksandar Marković",
           "klasse": ""
         }
       ],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
+      "probenplan": [
+        "*",
+        "Klavier: Uschik Choi, Miquel Bosch Roca, Doğa Çetin, Yuan Xin, Sukjong Kim (Schubert); Uschik Choi (Bartok)"
+      ],
       "_eventId": "2e09o1l03uthgf5319iig1879m@google.com",
       "_titel": "WK 1"
     },
@@ -1188,44 +1195,19 @@
       "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "Studierende der Dirigierklasse",
+          "name": "Doğa Çetin (Trojahn), Yuan Xin (Stravinsky), Rémi Geniet, Philine Lembeck, Sukjong Kim (Brahms)",
           "werk": "Leitung des Dirigierkurses: Frank Beermann",
           "klasse": ""
         }
       ],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
+      "probenplan": [
+        "*",
+        "Klavier: Chenyu Wan (Strawinsky); Miquel Bosch Roca, Doğa Çetin, Sukjong Kim, Jacob Gröper (Brahms)"
+      ],
       "_eventId": "14vcu75be9in7sdlrpbgm4r66p@google.com",
       "_titel": "HSO 1 (2)"
-    },
-    {
-      "datum": "14.10.2026",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Orchesterstudio",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "4iplcjpva75k46i4437v5juq31@google.com",
-      "_titel": "HSO Blattspiel"
-    },
-    {
-      "datum": "21.10.2026",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Orchesterstudio",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "27e42nmo0jftavl2m7rk7c9rel@google.com",
-      "_titel": "HSO Repertoireprobe"
     },
     {
       "datum": "26.10.2026",
@@ -1321,20 +1303,6 @@
     {
       "datum": "28.10.2026",
       "uhrzeit": "14:00 Uhr",
-      "ort": "HfMT, Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "4iplcjpva75k46i4437v5juq31@google.com",
-      "_titel": "HSO Blattspiel"
-    },
-    {
-      "datum": "28.10.2026",
-      "uhrzeit": "14:00 Uhr",
       "ort": "Probenraum der Staatskapelle Halle, Große Gosenstraße 12, 06114 Halle (Saale), Deutschland",
       "konzertart": null,
       "marker": null,
@@ -1355,7 +1323,7 @@
       "marker": "Vorstellung",
       "werke": [
         {
-          "komponist": "Felix Mendelssohn - Bartholdy",
+          "komponist": "Felix Mendelssohn-Bartholdy",
           "lebensdaten": "1809–1847",
           "titel": "Ruy Blas Ouvertüre, op. 95",
           "saetze": [],
@@ -1389,8 +1357,7 @@
             "Allegro maestoso",
             "Poco Adagio",
             "Scherzo. Vivace",
-            "Finale. Allegro",
-            "Symphoniker Hamburg"
+            "Finale. Allegro"
           ],
           "dauer": "ca. 40 min",
           "besetzung": "2.2.2.2-4.2.3.0-Pk-Str. (10.8.6.5.4)",
@@ -1412,17 +1379,20 @@
           "zusatz": "Konzertexamen, Klasse Prof. Christoph Schickedanz"
         }
       ],
-      "ensemble": null,
+      "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Studierende der Dirigierklasse",
-          "werk": "Kursleitung: Rasmus Baumann",
+          "name": "Philine Lembeck (Mendelssohn), Rémi Geniet (Tchaikovsky), Yuan Xin, Sukjong Kim (Dvořak)  (Kursleitung: Rasmus Baumann)",
+          "werk": "",
           "klasse": ""
         }
       ],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
+      "probenplan": [
+        "*",
+        "Klavier: Miquel Bosch Roca (Tchaikovsky); Uschik Choi, Chenyu Wan (Tchaikovsky); Rémi Geniet, Jacob Gröper (Dvorak)"
+      ],
       "_eventId": "67hltgsrqovqrqi62ukprs47ft@google.com",
       "_titel": "WK 2"
     },
@@ -1548,20 +1518,6 @@
     },
     {
       "datum": "11.11.2026",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "HfMT, Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "4iplcjpva75k46i4437v5juq31@google.com",
-      "_titel": "HSO Blattspiel"
-    },
-    {
-      "datum": "11.11.2026",
       "uhrzeit": "19:30 Uhr",
       "ort": "Forum",
       "konzertart": "Werkstattkonzert",
@@ -1593,8 +1549,7 @@
             "Das Meer und Sindbads Schiff",
             "Die Geschichte vom Prinzen Kalender",
             "Der junge Prinz und die junge Prinzessin",
-            "Fest von Bagdad – Das Meer – Das Schiff zerschellt am Felsen",
-            "Symphoniker Hamburg"
+            "Fest von Bagdad – Das Meer – Das Schiff zerschellt am Felsen"
           ],
           "dauer": "ca. 41 min",
           "besetzung": "3.2.2.2-4.2.3.1-Pk+4, Hrf.-Str. (10.8.6.5.4)",
@@ -1616,61 +1571,22 @@
           "zusatz": "Konzertexamen, Klasse Prof. Stepan Simonyan"
         }
       ],
-      "ensemble": null,
+      "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Studierende der Dirigierklasse",
+          "name": "Philine Lembeck, Miquel Bosch Roca, Chenyu Wan (Brahms), Yuan Xin, Doğa Çetin, Rémi Geniet (Rimsky-Korsakow)",
           "werk": "",
           "klasse": ""
         }
       ],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
+      "probenplan": [
+        "*",
+        "Klavier: Sukjong Kim (Brahms); Philine Lembeck, Doğa Çetin, Jacob Gröper, Miquel Bosch Roca, Chenyu Wan, Uschik Choi (Rimsky-Korsakow)"
+      ],
       "_eventId": "2f1l56416m0es6ea5d4cdbckvs@google.com",
       "_titel": "WK 3"
-    },
-    {
-      "datum": "18.11.2026",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Orchesterstudio",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "27e42nmo0jftavl2m7rk7c9rel@google.com",
-      "_titel": "HSO Repertoireprobe"
-    },
-    {
-      "datum": "25.11.2026",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "27e42nmo0jftavl2m7rk7c9rel@google.com",
-      "_titel": "HSO Blattspiel"
-    },
-    {
-      "datum": "02.12.2026",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "4iplcjpva75k46i4437v5juq31@google.com",
-      "_titel": "HSO Blattspiel"
     },
     {
       "datum": "03.12.2026",
@@ -1779,20 +1695,6 @@
     },
     {
       "datum": "09.12.2026",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "4iplcjpva75k46i4437v5juq31@google.com",
-      "_titel": "HSO Blattspiel"
-    },
-    {
-      "datum": "09.12.2026",
       "uhrzeit": "18:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -1828,16 +1730,6 @@
       "konzertart": "Kammerkonzert",
       "marker": "Vorstellung",
       "werke": [
-        {
-          "komponist": "Marc Migo",
-          "lebensdaten": "1993*",
-          "titel": "Uraufführung AT",
-          "saetze": [],
-          "dauer": "ca. 7 min",
-          "besetzung": "1.1.2.2-1.1.1.0-Perk., Hrf.-Str. (1.1.1.1.1)",
-          "urauffuehrung": false,
-          "pause": false
-        },
         {
           "komponist": "Paul Hindemith",
           "lebensdaten": "1895–1963",
@@ -1892,7 +1784,7 @@
         {
           "komponist": "Béla Bartók",
           "lebensdaten": "1881–1945",
-          "titel": "Konzert für Klavier und Orchester Nr.3 (Sz 119, BB 127) (Bearbeitung von Marc Migo)",
+          "titel": "Konzert für Klavier und Orchester Nr.3 (Sz 119, BB 127) (Bearbeitung für Kammerorchester)",
           "saetze": [
             "Allegretto",
             "Adagio religioso",
@@ -1975,16 +1867,6 @@
       "marker": "Vorstellung",
       "werke": [
         {
-          "komponist": "Marc Migo",
-          "lebensdaten": "1993*",
-          "titel": "Uraufführung AT",
-          "saetze": [],
-          "dauer": "ca. 7 min",
-          "besetzung": "1.1.2.2-1.1.1.0-Perk., Hrf.-Str. (1.1.1.1.1)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
           "komponist": "Paul Hindemith",
           "lebensdaten": "1895–1963",
           "titel": "Kammermusik Nr. 2, op. 36 Nr. 1 (Cellokonzert)",
@@ -2038,7 +1920,7 @@
         {
           "komponist": "Béla Bartók",
           "lebensdaten": "1881–1945",
-          "titel": "Konzert für Klavier und Orchester Nr.3 (Sz 119, BB 127) (Bearbeitung von Marc Migo)",
+          "titel": "Konzert für Klavier und Orchester Nr.3 (Sz 119, BB 127) (Bearbeitung für Kammerorchester)",
           "saetze": [
             "Allegretto",
             "Adagio religioso",
@@ -2087,43 +1969,53 @@
       "ensemble": "Kammerorchester der HfMT",
       "leitung": [
         {
-          "name": "Studierende der Dirigierklasse",
+          "name": "Philine Lembeck (Hindemith), Jacob Gröper (Yin), Rémi Geniet (Ligeti), Miquel Bosch Roca (Zaczek), Uschik Choi (Bartok)",
           "werk": "Leitung der Arbeitsphase: Roland Böer",
           "klasse": ""
         }
       ],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
+      "probenplan": [
+        "*",
+        "Klavier: Uschik Choi (Hindemith), Rémi Geniet (Bartok), Chenyu Wan (Ligeti)"
+      ],
       "_eventId": "483ioq7loajlp49rp2adjongfj@google.com",
       "_titel": "13/14 (2)"
-    },
-    {
-      "datum": "16.12.2026",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Orchesterstudio",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "27e42nmo0jftavl2m7rk7c9rel@google.com",
-      "_titel": "HSO Repertoireprobe"
     },
     {
       "datum": "25.11.2026",
       "uhrzeit": "14:15 Uhr",
       "ort": "Forum",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Blattspiel",
+      "werke": [
+        {
+          "komponist": "Richard Wagner",
+          "lebensdaten": "1813–1883",
+          "titel": "Tristan und Isolde, Vorspiel und Liebestod",
+          "saetze": [],
+          "dauer": "ca. 19 min",
+          "besetzung": "3.3.3.3-4.3.3.1-Pk, Hrf.-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Richard Wagner",
+          "lebensdaten": "1813–1883",
+          "titel": "Tannhäuser, Ouvertüre",
+          "saetze": [],
+          "dauer": "30.12.1899",
+          "besetzung": "3.2.2.3-4.3.3.1-Pk, Hrf.-Str. (14.12.10.8.6)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song",
+          "name": "An Hoon Song | Jacob Gröper, Uschik Choi, Rémi Geniet",
           "werk": "",
           "klasse": ""
         }
@@ -2132,34 +2024,6 @@
       "notizen": [],
       "probenplan": [],
       "_eventId": "4iplcjpva75k46i4437v5juq31@google.com",
-      "_titel": "HSO Blattspiel"
-    },
-    {
-      "datum": "13.01.2027",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Orchesterstudio",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "27e42nmo0jftavl2m7rk7c9rel@google.com",
-      "_titel": "HSO Repertoireprobe"
-    },
-    {
-      "datum": "20.01.2027",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Orchesterstudio",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "7m3jm9banhoi8ut3uhcbkck9vt@google.com",
       "_titel": "HSO Blattspiel"
     },
     {
@@ -2215,12 +2079,12 @@
       "marker": "Vorstellung",
       "werke": [
         {
-          "komponist": "N. N.",
-          "lebensdaten": "2026*",
-          "titel": "Uraufführung, Arbeitstitel",
+          "komponist": "Jonas Otte",
+          "lebensdaten": "2000*",
+          "titel": "SĪMURGH",
           "saetze": [],
           "dauer": "ca. 10 min",
-          "besetzung": "2.2.2.2-4.2.3.1-Pk+1-Str. (10.8.6.5.4)",
+          "besetzung": "2.2.2.2-4.2.3.1-Pk+1-Hrf.-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
           "pause": false
         },
@@ -2249,8 +2113,7 @@
             "Andante sostenuto – Moderato con anima",
             "Andantino in modo di canzona",
             "Scherzo. Pizzicato ostinato – Allegro",
-            "Finale. Allegro con fuoco",
-            "Symphoniker Hamburg"
+            "Finale. Allegro con fuoco"
           ],
           "dauer": "ca. 44 min",
           "besetzung": "3.2.2.2-4.2.3.1-Pk+3-Str. (10.8.6.5.4)",
@@ -2282,33 +2145,22 @@
           "zusatz": "als Gast"
         }
       ],
-      "ensemble": null,
+      "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Studierende der Dirigierklasse",
+          "name": "Rémi Geniet (UA), Uschik Choi, Yuan Xin (Brahms), Sukjong Kim, Jacob Gröper, Chenyu Wan, Miquel Bosch Roca (Tchaikovsky)",
           "werk": "",
           "klasse": ""
         }
       ],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
+      "probenplan": [
+        "*",
+        "Klavier: Jacob Gröper, Chenyu Wan (Brahms)"
+      ],
       "_eventId": "499i0thls65ibhpin9lbvct0so@google.com",
       "_titel": "WK 4"
-    },
-    {
-      "datum": "27.01.2027",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Orchesterstudio",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "27e42nmo0jftavl2m7rk7c9rel@google.com",
-      "_titel": "HSO Repertoireprobe"
     },
     {
       "datum": "03.02.2027",
@@ -2719,14 +2571,17 @@
       "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "Studierende der HfMT",
+          "name": "Yuan Xin (Schnittke), Sukjong Kim (Tchaikovsky), Chenyu Wan, Uschik Choi, Miquel Bosch Roca (Bernstein)",
           "werk": "",
           "klasse": ""
         }
       ],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
+      "probenplan": [
+        "*",
+        "Klavier: Chenyu Wan (Schnittke); Rémi Geniet, Miquel Bosch Roca, Philine Lembeck (Tchaikovsky); Uschik Choi, Sukjong Kim (Bernstein)"
+      ],
       "_eventId": "1r4sa0bpcglgid5c5b2modkqhq@google.com",
       "_titel": "HSO 2 (2)"
     },
@@ -2744,20 +2599,6 @@
       "notizen": [],
       "_eventId": "3ua1i0vhfadsvucvcqp8em2m7h@google.com",
       "_titel": "Abbau"
-    },
-    {
-      "datum": "17.02.2027",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Orchesterstudio",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "27e42nmo0jftavl2m7rk7c9rel@google.com",
-      "_titel": "HSO Repertoireprobe"
     },
     {
       "datum": "23.02.2027",
@@ -2788,20 +2629,6 @@
       "notizen": [],
       "_eventId": "0cco6vei8u2ie7u7r1htvecvdg@google.com",
       "_titel": "WK 5 OA"
-    },
-    {
-      "datum": "24.02.2027",
-      "uhrzeit": "14:45 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "7m3jm9banhoi8ut3uhcbkck9vt@google.com",
-      "_titel": "HSO Blattspiel"
     },
     {
       "datum": "25.02.2027",
@@ -2865,8 +2692,7 @@
             "Allegro con spirito",
             "Andante",
             "Menuetto",
-            "Presto",
-            "Symphoniker Hamburg"
+            "Presto"
           ],
           "dauer": "ca. 18 min",
           "besetzung": "2.2.2.2-2.2.0.0-Pk-Str. (8.6.5.4.3)",
@@ -2888,17 +2714,20 @@
           "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya"
         }
       ],
-      "ensemble": null,
+      "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Studierende der Dirigierklasse",
+          "name": "Uschik Choi (Bach), Philine Lembeck (Mozart Konzert), Doğa Çetin (Mozart Sinfonie)",
           "werk": "",
           "klasse": ""
         }
       ],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
+      "probenplan": [
+        "*",
+        "Klavier: Rémi Geniet, Chenyu Wan, Doğa Çetin (Bach); Uschik Choi (Klavierkonzert); Miquel Bosch Roca, Jacob Gröper, Yuan Xin, Sukjong Kim (Sinfonie)"
+      ],
       "_eventId": "7qcbcpg2p6rjvsdbck8u5jp43l@google.com",
       "_titel": "WK 5"
     },
@@ -2989,8 +2818,7 @@
             "Largo – Allegro vivace",
             "Andante",
             "Allegretto",
-            "Presto vivace",
-            "Symphoniker Hamburg"
+            "Presto vivace"
           ],
           "dauer": "ca. 32 min",
           "besetzung": "1.2.2.2-2.2.0.0-Pk-Str. (8.6.5.4.3)",
@@ -2999,7 +2827,7 @@
           "solisten": [
             {
               "instrument": "Klavier",
-              "name": "Prof. Stepan Simonyan",
+              "name": "N.N",
               "zusatz": ""
             }
           ]
@@ -3008,21 +2836,24 @@
       "solisten": [
         {
           "instrument": "Klavier",
-          "name": "Prof. Stepan Simonyan",
+          "name": "N.N",
           "zusatz": ""
         }
       ],
-      "ensemble": null,
+      "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Studierende der Dirigierklasse",
+          "name": "Sukjong Kim (UA, Konzert); Jacob Gröper (Schubert)",
           "werk": "",
           "klasse": ""
         }
       ],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
+      "probenplan": [
+        "*",
+        "Klavier: Rémi Geniet (Schumann); Philine Lembeck, Uschik Choi, Chenyu Wan, Doğa Çetin, Yuan Xin, Miquel Bosch Roca (Schubert)"
+      ],
       "_eventId": "3pdpchb2im48csclnepiss0udr@google.com",
       "_titel": "WK 6"
     },
@@ -3244,7 +3075,7 @@
       "marker": "Vorstellung",
       "werke": [
         {
-          "komponist": "Frederik Schwenk",
+          "komponist": "Fredrik Schwenk",
           "lebensdaten": "1960*",
           "titel": "Non confundar, AT",
           "saetze": [],
@@ -3306,7 +3137,7 @@
       "marker": "Vorstellung",
       "werke": [
         {
-          "komponist": "Frederik Schwenk",
+          "komponist": "Fredrik Schwenk",
           "lebensdaten": "1960*",
           "titel": "Non confundar, AT",
           "saetze": [],
@@ -3346,45 +3177,61 @@
       "_titel": "HSO 3 (2)"
     },
     {
-      "datum": "14.04.2027",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "7m3jm9banhoi8ut3uhcbkck9vt@google.com",
-      "_titel": "HSO Blattspiel"
-    },
-    {
-      "datum": "21.04.2027",
-      "uhrzeit": "14:15 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "27e42nmo0jftavl2m7rk7c9rel@google.com",
-      "_titel": "HSO Blattspiel"
-    },
-    {
       "datum": "24.02.2027",
       "uhrzeit": "15:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Blattspiel",
+      "werke": [
+        {
+          "komponist": "Karl Ditters von Dittersdorf",
+          "lebensdaten": "1739–1799",
+          "titel": "Konzert für Kontrabass und Orchester E-dur Krebs 172",
+          "saetze": [
+            "Moderato",
+            "Adagio",
+            "Allegro"
+          ],
+          "dauer": "ca. 15 min",
+          "besetzung": "2.0.0.0-2.0.0.0-Str. (8.6.5.4.3)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Franz Anton Hoffmeister",
+          "lebensdaten": "1754–1812",
+          "titel": "Konzert für Viola und Orchester D-Dur",
+          "saetze": [
+            "Moderato",
+            "Andante",
+            "Rondo"
+          ],
+          "dauer": "ca. 19 min",
+          "besetzung": "0.2.0.0-2.0.0.0-Str. (8.6.5.4.3)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Joseph Haydn",
+          "lebensdaten": "1732–1809",
+          "titel": "Konzert für Trompete und Orchester Hob. 7e, 1 Es-Dur",
+          "saetze": [
+            "Allegro",
+            "Andante",
+            "Finale: Allegro",
+            "N.N."
+          ],
+          "dauer": "ca. 15 min",
+          "besetzung": "2.2.0.2-2.2.0.0-Pk-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song",
+          "name": "An Hoon Song | Philine Lembeck, Miquel Bosch Roca, Yuan Xin",
           "werk": "",
           "klasse": ""
         }
@@ -3409,20 +3256,6 @@
       "notizen": [],
       "_eventId": "663trbfg87i80e36jqfertgiaj@google.com",
       "_titel": "HSO 3 Wiederaufnahme GP"
-    },
-    {
-      "datum": "05.05.2027",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "_eventId": "27e42nmo0jftavl2m7rk7c9rel@google.com",
-      "_titel": "HSO Blattspiel"
     },
     {
       "datum": "06.05.2027",
@@ -3475,13 +3308,32 @@
       "uhrzeit": "14:15 Uhr",
       "ort": "Forum",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Blattspiel",
+      "werke": [
+        {
+          "komponist": "Gustav Holst",
+          "lebensdaten": "1874–1934",
+          "titel": "The Planets op.32",
+          "saetze": [
+            "Mars, the Bringer of War",
+            "Venus, the Bringer of Peace",
+            "Mercury, the Winged Messenger",
+            "Jupiter, the Bringer of Jollity",
+            "Saturn, the Bringer of Old Age",
+            "Uranus, the Magician",
+            "Neptune, the Mystic"
+          ],
+          "dauer": "ca. 50 min",
+          "besetzung": "4.3.3.3-6.4.3.1-Pauken, Glockenspiel, Xylophon, Triangel, Becken, Tamtam, Trommel, Snare Drum, Hrf., Orgel, Celesta-Str. (14.12.10.8.6)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song",
+          "name": "Song | Jacob Gröper, Rémi Geniet, Sukjong Kim, Uschik Choi",
           "werk": "",
           "klasse": ""
         }
@@ -3548,12 +3400,9 @@
       "ensemble": null,
       "leitung": [],
       "aufbauplan": null,
-      "notizen": [
-        "ohne Scheffler"
-      ],
-      "probenplan": [],
+      "notizen": [],
       "_eventId": "7ple5qmo3qeo6mn3dumsf5v1br@google.com",
-      "_titel": "HSO 4 Ensembleprobe"
+      "_titel": "HSO 4 Ensembleprobe für SängerInnen"
     },
     {
       "datum": "02.06.2027",
@@ -4522,8 +4371,7 @@
             "Andante cantabile",
             "con alcuna licenza",
             "Valse: Allegro moderato",
-            "Finale: Andante maestoso – Allegro vivace",
-            "Symphoniker Hamburg"
+            "Finale: Andante maestoso – Allegro vivace"
           ],
           "dauer": "ca. 50 min",
           "besetzung": "2.2.2.2-4.2.3.1-Pauken-Str. (10.8.6.5.4)",
@@ -4545,7 +4393,7 @@
           "zusatz": "Konzertexamen, Klasse Prof. Sebastian Schmidt"
         }
       ],
-      "ensemble": null,
+      "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
           "name": "Studierende der Dirigierklasse der HfMT Hamburg",
@@ -5385,13 +5233,49 @@
       "uhrzeit": "14:15 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Blattspiel",
+      "werke": [
+        {
+          "komponist": "Wolfgang Amadeus Mozart",
+          "lebensdaten": "1756–1791",
+          "titel": "Le nozze di Figaro, Ouvertüre",
+          "saetze": [],
+          "dauer": "ca. 5 min",
+          "besetzung": "2.2.2.2-2.2.0.0-Pk-Str. (8.6.5.4.3)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Gioacchino Rossini",
+          "lebensdaten": "1792–1868",
+          "titel": "Il barbiere di Siviglia, Ouvertüre",
+          "saetze": [],
+          "dauer": "ca. 7 min",
+          "besetzung": "2.2.2.2-2.2.0.0-Pk+2-Str. (8.6.5.4.3)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Joseph Haydn",
+          "lebensdaten": "1732–1809",
+          "titel": "Sinfonie Nr. 86 D-Dur",
+          "saetze": [
+            "Adagio – Allegro spiritoso",
+            "Capriccio: Largo",
+            "Menuet: Allegretto",
+            "Finale: Allegro con spirito"
+          ],
+          "dauer": "ca. 28 min",
+          "besetzung": "1.2.0.2-2.2.0.0-Pauken-Str. (8.6.5.4.3)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Dorsch",
+          "name": "Thomas Dorsch | Rémi Geniet (Mozart); Chenyu Wan (Rossini); Yuan Xin, Uschik Choi (Haydn)",
           "werk": "",
           "klasse": ""
         }
@@ -5407,13 +5291,30 @@
       "uhrzeit": "14:15 Uhr",
       "ort": "Forum",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Blattspiel",
+      "werke": [
+        {
+          "komponist": "Piotr Illich Tchaikovsky",
+          "lebensdaten": "1840–1893",
+          "titel": "Sinfonie Nr. 5 e-Moll op. 64",
+          "saetze": [
+            "Andante – Allegro con anima",
+            "Andante cantabile",
+            "con alcuna licenza",
+            "Valse: Allegro moderato",
+            "Finale: Andante maestoso – Allegro vivace"
+          ],
+          "dauer": "ca. 50 min",
+          "besetzung": "2.2.2.2-4.2.3.1-Pauken-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song",
+          "name": "An Hoon Song | Sukjong Kim, Jacob Gröper, Chenyu Wan, Philine Lembeck",
           "werk": "",
           "klasse": ""
         }
@@ -5429,13 +5330,24 @@
       "uhrzeit": "14:15 Uhr",
       "ort": "Forum",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Repertoire",
+      "werke": [
+        {
+          "komponist": "Richard Strauss",
+          "lebensdaten": "1864–1949",
+          "titel": "Also sprach Zarathustra",
+          "saetze": [],
+          "dauer": "ca. 33 min",
+          "besetzung": "3.3.3.3-4.3.3.1-Pk+3, Hrf., Org.-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song",
+          "name": "An Hoon Song | Doğa Çetin, Miquel Bosch Roca, Rémi Geniet, Philine Lembeck",
           "werk": "",
           "klasse": ""
         }
@@ -5451,13 +5363,84 @@
       "uhrzeit": "14:15 Uhr",
       "ort": "Forum",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Blattspiel",
+      "werke": [
+        {
+          "komponist": "John Williams",
+          "lebensdaten": "1932*",
+          "titel": "Harry Potter, Hedwig's Theme",
+          "saetze": [],
+          "dauer": "ca. 5 min",
+          "besetzung": null,
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "John Williams",
+          "lebensdaten": "1932*",
+          "titel": "Harry Potter, Harry's Wondrous World",
+          "saetze": [],
+          "dauer": "ca. 4 min",
+          "besetzung": null,
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "John Williams",
+          "lebensdaten": "1932*",
+          "titel": "E.T. (The Extra Terrestrial), Adventures on Earth",
+          "saetze": [],
+          "dauer": "ca. 9 min",
+          "besetzung": null,
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "John Williams",
+          "lebensdaten": "1932*",
+          "titel": "Star Wars, Main Theme (Episode IV)",
+          "saetze": [],
+          "dauer": "ca. 5 min",
+          "besetzung": null,
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "John Williams",
+          "lebensdaten": "1932*",
+          "titel": "Star Wars, The imperial march",
+          "saetze": [],
+          "dauer": "ca. 3 min",
+          "besetzung": null,
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "John Williams",
+          "lebensdaten": "1932*",
+          "titel": "Star Wars, Princess Leia's theme (Episode IV)",
+          "saetze": [],
+          "dauer": "ca. 4 min",
+          "besetzung": null,
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "John Williams",
+          "lebensdaten": "1932*",
+          "titel": "Star Wars, Finale and Throne room",
+          "saetze": [],
+          "dauer": "ca. 8 min",
+          "besetzung": "2.2.2.2-4.3.3.1-Pk+4, Hrf., Klav., Cel.-Str. (8.6.5.4.3)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song",
+          "name": "Thomas Dorsch | Doğa Çetin, Miquel Bosch Roca, Yuan Xin, Jacob Gröper",
           "werk": "",
           "klasse": ""
         }
@@ -5473,13 +5456,29 @@
       "uhrzeit": "14:15 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Repertoire",
+      "werke": [
+        {
+          "komponist": "Robert Schumann",
+          "lebensdaten": "1810–1856",
+          "titel": "Sinfonie Nr. 4 d-moll, op. 120",
+          "saetze": [
+            "Ziemlich langsam – Lebhaft",
+            "Romanze: Ziemlich langsam",
+            "Scherzo: Lebhaft",
+            "Langsam – Lebhaft"
+          ],
+          "dauer": "ca. 29 min",
+          "besetzung": "2.2.2.2-4.2.3.0-Pk-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song",
+          "name": "Thomas Dorsch | Yuan Xin, Philine Lembeck, Chenyu Wan",
           "werk": "",
           "klasse": ""
         }
@@ -5495,13 +5494,29 @@
       "uhrzeit": "14:15 Uhr",
       "ort": "Forum",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Blattspiel",
+      "werke": [
+        {
+          "komponist": "Ludwig van Beethoven",
+          "lebensdaten": "1770–1827",
+          "titel": "Sinfonie Nr. 5 op. 67 c-Moll",
+          "saetze": [
+            "Allegro con brio",
+            "Andante con moto",
+            "Scherzo. Allegro",
+            "Allegro"
+          ],
+          "dauer": "ca. 31 min",
+          "besetzung": "3.2.2.3-2.2.3.0-Pk-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song",
+          "name": "An Hoon Song | Doğa Çetin, Philine Lembeck, Miquel Bosch Roca, Sukjong Kim",
           "werk": "",
           "klasse": ""
         }
@@ -5517,13 +5532,56 @@
       "uhrzeit": "14:15 Uhr",
       "ort": "Forum",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Blattspiel",
+      "werke": [
+        {
+          "komponist": "Wolfgang Amadeus Mozart",
+          "lebensdaten": "1756–1791",
+          "titel": "Konzert für Fagott und Orchester B-Dur, KV 191 (1774)",
+          "saetze": [
+            "Allegro",
+            "Andante ma Adagio",
+            "Rondo. Tempo di Menuetto"
+          ],
+          "dauer": "ca. 18 min",
+          "besetzung": "0.2.0.0-2.0.0.0-Str. (8.6.5.4.3)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Wolfgang Amadeus Mozart",
+          "lebensdaten": "1756–1791",
+          "titel": "Konzert für Horn und Orchester Nr. 4 Es-Dur KV 495",
+          "saetze": [
+            "Allegro moderato",
+            "Romanza. Andante cantabile",
+            "Rondo. Allegro vivace"
+          ],
+          "dauer": "ca. 22 min",
+          "besetzung": "0.2.0.2-2.0.0.0-Str. (8.6.5.4.3)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Wolfgang Amadeus Mozart",
+          "lebensdaten": "1756–1791",
+          "titel": "Konzert für Flöte und Orchester G-Dur KV 313 (285c)",
+          "saetze": [
+            "Allegro maestoso",
+            "Adagio ma non troppo",
+            "Rondo. Tempo di Menuetto"
+          ],
+          "dauer": "ca. 25 min",
+          "besetzung": "0.2.0.2-2.0.0.0-Str. (8.6.5.4.3)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song",
+          "name": "An Hoon Song | Chenyu Wan, Uschik Choi, Philine Lembeck, Rémi Geniet",
           "werk": "",
           "klasse": ""
         }
@@ -5539,13 +5597,28 @@
       "uhrzeit": "14:15 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Repertoire",
+      "werke": [
+        {
+          "komponist": "Maurice Ravel",
+          "lebensdaten": "1875–1937",
+          "titel": "Konzert für Klavier",
+          "saetze": [
+            "Allegramente",
+            "Adagio assai",
+            "Presto"
+          ],
+          "dauer": "ca. 23 min",
+          "besetzung": "2.2.2.2-2.1.1.0-Pk+1, Hrf., Klav.-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song",
+          "name": "An Hoon Song | Sukjong Kim, Doğa Çetin, Chenyu Wan",
           "werk": "",
           "klasse": ""
         }
@@ -5561,13 +5634,29 @@
       "uhrzeit": "14:15 Uhr",
       "ort": "Forum",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Blattspiel",
+      "werke": [
+        {
+          "komponist": "Felix Mendelssohn-Bartholdy",
+          "lebensdaten": "1809–1847",
+          "titel": "Sinfonie Nr. 5 d-Moll op. 107 „Reformationssinfonie“",
+          "saetze": [
+            "Andante - Allegro con fuoco",
+            "Allegro vivace",
+            "Andante",
+            "Choral \"Ein feste Burg ist unser Gott\" - Allegro vivace - Allegro maestoso"
+          ],
+          "dauer": "ca. 27 min",
+          "besetzung": "2.2.2.3-2.2.3.1-Pk-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song",
+          "name": "An Hoon Song | Miquel Bosch Roca, Yuan Xin, Jacob Gröper, Uschik Choi",
           "werk": "",
           "klasse": ""
         }
@@ -5583,13 +5672,28 @@
       "uhrzeit": "14:15 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Repertoire",
+      "werke": [
+        {
+          "komponist": "Ludwig van Beethoven",
+          "lebensdaten": "1770–1827",
+          "titel": "Konzert für Klavier und Orchester Nr.3 op.37",
+          "saetze": [
+            "Allegro con brio",
+            "Largo",
+            "Rondo. Allegro"
+          ],
+          "dauer": "ca. 37 min",
+          "besetzung": "2.2.2.2-2.2.0.0-Pk-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song",
+          "name": "An Hoon Song | Uschik Choi, Doğa Çetin, Sukjong Kim",
           "werk": "",
           "klasse": ""
         }
@@ -5605,13 +5709,24 @@
       "uhrzeit": "14:15 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Blattspiel",
+      "werke": [
+        {
+          "komponist": "Wolfgang Amadeus Mozart",
+          "lebensdaten": "1756–1791",
+          "titel": "Die Zauberflöte",
+          "saetze": [],
+          "dauer": "ca. 150 min",
+          "besetzung": "2.2.2.2-2.2.3.0-Pk-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song",
+          "name": "An Hoon Song | Alle",
           "werk": "",
           "klasse": ""
         }
@@ -5627,13 +5742,29 @@
       "uhrzeit": "14:15 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Repertoire",
+      "werke": [
+        {
+          "komponist": "Ludwig van Beethoven",
+          "lebensdaten": "1770–1827",
+          "titel": "Sinfonie Nr. 4 op. 60 B",
+          "saetze": [
+            "Adagio – Allegro vivace",
+            "Adagio",
+            "Allegro vivace",
+            "Allegro ma non troppo"
+          ],
+          "dauer": "ca. 34 min",
+          "besetzung": "1.2.2.2-2.2.0.0-Pk-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song",
+          "name": "An Hoon Song | Jacob Gröper, Chenyu Wan, Rémi Geniet, Yuan Xin",
           "werk": "",
           "klasse": ""
         }
@@ -5649,13 +5780,29 @@
       "uhrzeit": "14:15 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
-      "marker": null,
-      "werke": [],
+      "marker": "Repertoire",
+      "werke": [
+        {
+          "komponist": "Ludwig van Beethoven",
+          "lebensdaten": "1770–1827",
+          "titel": "Sinfonie Nr. 2 op. 36 D",
+          "saetze": [
+            "Adagio molto – Allegro con brio",
+            "Larghetto",
+            "Scherzo. Allegro",
+            "Allegro molto"
+          ],
+          "dauer": "ca. 32 min",
+          "besetzung": "2.2.2.2-2.2.0.0-Pk-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song",
+          "name": "An Hoon Song | Philine Lembeck, Miquel Bosch Roca, Yuan Xin",
           "werk": "",
           "klasse": ""
         }
@@ -5931,6 +6078,36 @@
       "notizen": [],
       "_eventId": "7jahtl2q8fmp6fmiq20lecgu7q@google.com",
       "_titel": "13/14 OA"
+    },
+    {
+      "datum": "29.06.2026",
+      "uhrzeit": "18:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "6a4a0jaf36b8jim702un0n0qhv@google.com",
+      "_titel": "HSO 4 OA"
+    },
+    {
+      "datum": "23.06.2026",
+      "uhrzeit": "00:00 Uhr",
+      "ort": "",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "u0j5rg7a30lfrqojcao95u2lhg@google.com",
+      "_titel": "Peabody 2026"
     }
   ]
 }
