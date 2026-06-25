@@ -648,9 +648,12 @@ var _startTermineCache={};
 function initialLaden(){ladenStartTermine();tasksLaden();}
 
 // ── START ─────────────────────────────────────────────────
-alle.sort((a,b)=>a.dat-b.dat);
-  if(_startTypFilter!=='alle')alle=alle.filter(function(item){return getTerminTyp(item.projekt)===_startTypFilter;});
-  if(!alle.length){el.innerHTML='<div class="empty">Keine bevorstehenden Termine</div>';return;}
+function setSjTermin(sj,btn){
+  _startSjFilter=sj;
+  document.querySelectorAll('#st-alle,#st-2526,#st-2627,#st-2728').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderStartTermine();
+}
 
 function setTypTermin(typ,btn){
   _startTypFilter=typ;
