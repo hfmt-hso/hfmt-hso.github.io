@@ -1921,7 +1921,13 @@ async function tasksLaden() {
     return '<button class="proj-sj-btn' + (i === 0 ? ' active' : '') + '" onclick="tasksZeigeListe(\'' + l.id + '\',this)">' + esc(l.title) + '</button>';
   }).join('');
   if (_tasksData.length > 0) {
-    _tasksAktiveListe = _tasksData[0].id;
+    var hfmtListe = _tasksData.find(function(l){ return l.title && l.title.toLowerCase().includes('hfmt'); });
+    _tasksAktiveListe = (hfmtListe || _tasksData[0]).id;
+    var aktBtn = document.querySelector('#tasks-lists-tabs .proj-sj-btn.active');
+    if(aktBtn) aktBtn.classList.remove('active');
+    var hfmtIdx = _tasksData.indexOf(hfmtListe || _tasksData[0]);
+    var btns = document.querySelectorAll('#tasks-lists-tabs .proj-sj-btn');
+    if(btns[hfmtIdx]) btns[hfmtIdx].classList.add('active');
     tasksRenderListe();
   }
 }
