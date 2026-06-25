@@ -380,26 +380,38 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <!-- UNTERRICHT -->
   <div class="tab" id="t-unterricht">
     <div style="display:flex;gap:0;border-bottom:1px solid var(--border);margin:-20px -16px 16px;padding:0 16px;">
-      <button class="unt-stab active" data-utab="ut-stats"  onclick="wechselUntTab(this)">📊 Übersicht</button>
-      <button class="unt-stab"       data-utab="ut-termine" onclick="wechselUntTab(this)">📅 Termine</button>
+      <button class="unt-stab active" data-utab="ut-abwesenheiten" onclick="wechselUntTab(this)">Abwesenheiten</button>
+      <button class="unt-stab" data-utab="ut-buchungen" onclick="wechselUntTab(this)">Buchungen</button>
+      <button class="unt-stab" data-utab="ut-termine" onclick="wechselUntTab(this)">Termine</button>
+      <button class="unt-stab" data-utab="ut-probezeiten" onclick="wechselUntTab(this)">Probezeiten</button>
     </div>
-    <div id="ut-stats" class="ut-pane active">
-      <div id="unt-inhalt"><div class="spinner"><div class="spin"></div>Lade Unterrichtsdaten...</div></div>
+    <div id="ut-abwesenheiten" class="ut-pane active">
+      <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+        <button class="proj-sj-btn active" id="awf-alle" onclick="untAwFilter('alle',this)">Alle</button>
+        <button class="proj-sj-btn" id="awf-offen" onclick="untAwFilter('offen',this)">Offen</button>
+        <button class="proj-sj-btn" id="awf-gesehen" onclick="untAwFilter('gesehen',this)">Gesehen</button>
+        <button style="margin-left:auto;padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:var(--sans)" onclick="ladeUntAw(true)">↻</button>
+      </div>
+      <div id="unt-aw-liste"><div class="spinner"><div class="spin"></div>Lade...</div></div>
+    </div>
+    <div id="ut-buchungen" class="ut-pane">
+      <div style="display:flex;gap:6px;margin-bottom:10px;align-items:center">
+        <button class="proj-sj-btn active" id="buch-alle" onclick="untBuchFilter('alle',this)">Alle</button>
+        <button class="proj-sj-btn" id="buch-meine" onclick="untBuchFilter('meine',this)">Meine</button>
+        <button style="margin-left:auto;padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:var(--sans)" onclick="ladeUntBuchungen(true)">↻</button>
+      </div>
+      <div id="unt-buch-liste"><div class="spinner"><div class="spin"></div>Lade...</div></div>
     </div>
     <div id="ut-termine" class="ut-pane">
       <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
-        <input id="term-suche" type="search" placeholder="Suche Datum, Projekt, Ort…"
-          style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--sans);background:#fff;"
-          oninput="filterTermine()">
-        <button onclick="openTerminModal(null)"
-          style="padding:8px 14px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans);">
-          + Neu
-        </button>
-        <button onclick="ladenTermineNeu()"
-          style="padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:13px;cursor:pointer;"
-          title="Neu laden">↻</button>
+        <input id="term-suche" type="search" placeholder="Suche Datum, Projekt, Ort…" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--sans);background:#fff;" oninput="filterTermine()">
+        <button onclick="openTerminModal(null)" style="padding:8px 14px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans);">+ Neu</button>
+        <button onclick="ladenTermineNeu()" style="padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:13px;cursor:pointer;">↻</button>
       </div>
       <div id="term-liste"><div class="spinner"><div class="spin"></div>Lade Termine...</div></div>
+    </div>
+    <div id="ut-probezeiten" class="ut-pane">
+      <div id="unt-probe-inhalt"><div class="spinner"><div class="spin"></div>Lade...</div></div>
     </div>
   </div>
 
@@ -1190,45 +1202,197 @@ async function ladenKalender(){
 }
 
 // ── UNTERRICHT TAB ────────────────────────────────────────
+var _untAwDaten=null,_untAwFilter='alle',_untBuchDaten=null,_untBuchFilter='alle',_untTabGeladen={};
+
+function wechselUntTab(btn){
+  document.querySelectorAll('.unt-stab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.ut-pane').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  var tab=btn.dataset.utab;
+  document.getElementById(tab).classList.add('active');
+  if(!_untTabGeladen[tab]){
+    _untTabGeladen[tab]=true;
+    if(tab==='ut-abwesenheiten')ladeUntAw(false);
+    if(tab==='ut-buchungen')ladeUntBuchungen(false);
+    if(tab==='ut-termine'&&!_termineGeladen)ladenTermine();
+    if(tab==='ut-probezeiten')ladeUntProbezeiten();
+  }
+}
+
 async function ladenUnterricht(){
-  var url=WEB_APP_URL+'?action=adminStats';
-  var r=await fetch(url);
-  var d=await r.json();
-  var el=document.getElementById('unt-inhalt');
-  if(!d||!d.data){el.innerHTML='<div class="empty">Keine Unterrichtsdaten</div>';return;}
+  _untTabGeladen['ut-abwesenheiten']=true;
+  ladeUntAw(false);
+}
+
+async function ladeUntAw(force){
+  if(force)_untAwDaten=null;
+  var el=document.getElementById('unt-aw-liste');
+  if(_untAwDaten){renderUntAw();return;}
+  el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
+  try{
+    var r=await fetch(WEB_APP_URL+'?action=alleAbwesenheiten');
+    var d=await r.json();
+    _untAwDaten=d.ok?d.data:[];
+    renderUntAw();
+  }catch(e){el.innerHTML='<div class="empty">Laden fehlgeschlagen</div>';}
+}
+
+function untAwFilter(filter,btn){
+  _untAwFilter=filter;
+  document.querySelectorAll('#ut-abwesenheiten .proj-sj-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderUntAw();
+}
+
+function renderUntAw(){
+  var el=document.getElementById('unt-aw-liste');
+  if(!_untAwDaten)return;
+  var liste=_untAwDaten;
+  if(_untAwFilter==='offen')liste=liste.filter(a=>!a.gesehenVon);
+  if(_untAwFilter==='gesehen')liste=liste.filter(a=>a.gesehenVon);
+  if(!liste.length){el.innerHTML='<div class="empty">Keine Abwesenheiten</div>';return;}
+  var gruppen={};
+  liste.forEach(function(aw){var k=aw.name||aw.mtknr;if(!gruppen[k])gruppen[k]=[];gruppen[k].push(aw);});
+  el.innerHTML=Object.entries(gruppen).map(function(entry){
+    var name=entry[0],eintraege=entry[1];
+    var rows=eintraege.map(function(aw){
+      var gesehen=!!aw.gesehenVon;
+      var badge=gesehen
+        ?'<span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;background:var(--green-bg);color:var(--green);flex-shrink:0">✓ '+esc(aw.gesehenVon)+'</span>'
+        :'<span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;background:var(--gold-bg);color:var(--gold2);border:1px solid #e8e0cc;flex-shrink:0">Offen</span>';
+      var komm=gesehen&&aw.gesehenKommentar
+        ?'<div style="font-size:11px;color:var(--green);margin-top:5px;font-style:italic">💬 '+esc(aw.gesehenKommentar)+'</div>'
+        :(!gesehen?'<input type="text" placeholder="Kommentar (optional)…" id="aw-komm-'+esc(aw.id)+'" style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);margin-top:7px;background:#fff">':'');
+      var aktBtn=!gesehen
+        ?'<button onclick="untAwGesehen(\''+esc(aw.id)+'\')" style="padding:6px 12px;background:var(--green-bg);color:var(--green);border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:var(--sans)">✓ Gesehen</button>'
+        :'<button onclick="untAwZurueck(\''+esc(aw.id)+'\')" style="padding:6px 10px;background:var(--paper2);color:var(--ink3);border:1px solid var(--border);border-radius:8px;font-size:11px;cursor:pointer;font-family:var(--sans)">↩ Zurück</button>';
+      return '<div style="padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px">'+
+        '<div style="flex:1;min-width:0">'+
+          '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px">'+
+            '<div style="font-size:12px;font-weight:700;color:var(--blue)">'+esc(aw.datumVon)+' '+esc(aw.uhrzeitVon)+' – '+esc(aw.datumBis)+' '+esc(aw.uhrzeitBis)+' Uhr</div>'+
+            badge+
+          '</div>'+
+          '<div style="font-size:12px;color:var(--ink3);line-height:1.4">'+esc(aw.grund)+'</div>'+
+          komm+
+        '</div>'+
+        '<div style="flex-shrink:0;margin-left:6px">'+aktBtn+'</div>'+
+      '</div>';
+    }).join('');
+    return '<div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:8px">'+
+      '<div style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;font-weight:700;color:var(--ink3);display:flex;justify-content:space-between">'+
+        esc(name)+'<span style="font-weight:400">'+eintraege.length+' Eintrag'+(eintraege.length!==1?'einträge':'')+'</span>'+
+      '</div>'+rows+'</div>';
+  }).join('');
+}
+
+async function untAwGesehen(id){
+  var inp=document.getElementById('aw-komm-'+id);
+  var komm=inp?inp.value.trim():'';
+  try{
+    var r=await fetch(WEB_APP_URL,{method:'POST',body:JSON.stringify({action:'abwesenheitGesehen',id,gesehenVon:'Thomas Dorsch',kommentar:komm})});
+    var d=await r.json();
+    if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
+    zeigToast('✓ Als gesehen markiert');
+    _untAwDaten=null;ladeUntAw(false);
+  }catch(e){zeigToast('Verbindungsfehler');}
+}
+
+async function untAwZurueck(id){
+  try{
+    var r=await fetch(WEB_APP_URL,{method:'POST',body:JSON.stringify({action:'abwesenheitGesehenZurueck',id})});
+    var d=await r.json();
+    if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
+    zeigToast('✓ Zurückgesetzt');
+    _untAwDaten=null;ladeUntAw(false);
+  }catch(e){zeigToast('Verbindungsfehler');}
+}
+
+async function ladeUntBuchungen(force){
+  if(force)_untBuchDaten=null;
+  var el=document.getElementById('unt-buch-liste');
+  if(_untBuchDaten){renderUntBuchungen();return;}
+  el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
+  try{
+    var r=await fetch(WEB_APP_URL+'?action=adminBuchungen');
+    var d=await r.json();
+    _untBuchDaten=d.ok?d.data:[];
+    renderUntBuchungen();
+  }catch(e){el.innerHTML='<div class="empty">Laden fehlgeschlagen</div>';}
+}
+
+function untBuchFilter(filter,btn){
+  _untBuchFilter=filter;
+  document.querySelectorAll('#ut-buchungen .proj-sj-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderUntBuchungen();
+}
+
+function renderUntBuchungen(){
+  var el=document.getElementById('unt-buch-liste');
+  if(!_untBuchDaten)return;
+  var liste=_untBuchDaten;
+  if(_untBuchFilter==='meine')liste=liste.filter(function(b){return(b.dozent||'').toLowerCase().includes('dorsch');});
+  if(!liste.length){el.innerHTML='<div class="empty">Keine Buchungen</div>';return;}
+  var gruppen={};
+  liste.forEach(function(b){if(!gruppen[b.datum])gruppen[b.datum]=[];gruppen[b.datum].push(b);});
+  el.innerHTML=Object.entries(gruppen).sort(function(a,b){return a[0]<b[0]?-1:1;}).map(function(entry){
+    var datum=entry[0],buchungen=entry[1];
+    var d=parseDatum(datum),wt=d?WT[d.getDay()]:'';
+    return '<div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:8px">'+
+      '<div style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;font-weight:700;display:flex;justify-content:space-between">'+
+        wt+', '+esc(datum)+'<span style="font-weight:400;color:var(--ink3)">'+buchungen.length+' Buchung'+(buchungen.length!==1?'en':'')+'</span>'+
+      '</div>'+
+      buchungen.map(function(b){
+        return '<div style="padding:11px 14px;border-bottom:1px solid var(--paper3);display:flex;align-items:center;gap:10px">'+
+          '<div style="font-size:14px;font-weight:800;color:var(--blue);min-width:44px">'+esc(b.slotStart)+'</div>'+
+          '<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600">'+esc(b.name)+'</div>'+
+          '<div style="font-size:11px;color:var(--ink3)">'+esc(b.marker)+' · '+esc(b.dozent)+(b.ort?' · '+esc(b.ort):'')+'</div></div>'+
+          '<button onclick="untBuchungStornieren(\''+esc(b.buchungId)+'\',\''+esc(b.name)+'\')" style="padding:5px 10px;background:var(--red-bg);color:var(--red);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">Stornieren</button>'+
+        '</div>';
+      }).join('')+
+    '</div>';
+  }).join('');
+}
+
+async function untBuchungStornieren(buchungId,name){
+  if(!confirm('Buchung von '+name+' stornieren?'))return;
+  try{
+    var r=await fetch(WEB_APP_URL,{method:'POST',body:JSON.stringify({action:'buchungStornieren',buchungId})});
+    var d=await r.json();
+    if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
+    zeigToast('✓ Buchung storniert');
+    _untBuchDaten=null;ladeUntBuchungen(false);
+  }catch(e){zeigToast('Verbindungsfehler');}
+}
+
+async function ladeUntProbezeiten(){
+  var el=document.getElementById('unt-probe-inhalt');
+  var d=await apiFetch('adminStats');
+  if(!d||!d.data){el.innerHTML='<div class="empty">Keine Daten</div>';return;}
   var personen=(d.data.personen||[]).sort((a,b)=>b.minuten-a.minuten);
   var werke=(d.data.werke||[]).sort((a,b)=>b.minuten-a.minuten);
   var maxMin=personen.length?personen[0].minuten:1;
-  var html='<div class="section-h">Übersicht Unterrichtsminuten</div>';
-  html+='<div class="card card-pad" style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink3);margin-bottom:12px">Studierende</div>';
+  function fmt(m){return Math.floor(m/60)+'h '+String(m%60).padStart(2,'0')+'m';}
+  var html='<div class="section-h">Probezeiten je Studierender</div><div class="card card-pad" style="margin-bottom:16px">';
   if(!personen.length){html+='<div class="empty" style="padding:12px">Noch keine Einträge</div>';}
   else{personen.forEach(function(p){
-    var pct=Math.round(p.minuten/maxMin*100),std=Math.floor(p.minuten/60),min=p.minuten%60;
+    var pct=Math.round(p.minuten/maxMin*100);
     html+='<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">'+
       '<div style="font-size:13px;font-weight:600">'+esc(p.name)+'<span style="font-size:11px;color:var(--ink3);margin-left:6px">'+esc(p.instrument||'')+'</span></div>'+
-      '<div style="font-size:13px;font-weight:700;font-family:var(--mono);color:var(--blue)">'+std+'h '+String(min).padStart(2,'0')+'m</div></div>'+
+      '<div style="font-size:13px;font-weight:700;font-family:var(--mono);color:var(--blue)">'+fmt(p.minuten)+'</div></div>'+
       '<div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:var(--blue);border-radius:2px"></div></div></div>';
   });}
   html+='</div>';
   if(werke.length){
     html+='<div class="section-h">Werke</div><div class="card card-pad">';
     werke.slice(0,10).forEach(function(w){
-      var std=Math.floor(w.minuten/60),min=w.minuten%60;
       html+='<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--paper3)">'+
-        '<div style="font-size:12px;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(w.titel)+'</div>'+
-        '<div style="font-size:12px;font-weight:700;font-family:var(--mono);color:var(--gold2);flex-shrink:0;margin-left:8px">'+std+'h'+(min?' '+min+'m':'')+'</div></div>';
+        '<div style="font-size:12px;font-weight:500;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(w.titel)+'</div>'+
+        '<div style="font-size:12px;font-weight:700;font-family:var(--mono);color:var(--gold2);flex-shrink:0;margin-left:8px">'+fmt(w.minuten)+'</div></div>';
     });
     html+='</div>';
   }
   el.innerHTML=html;
-}
-
-function wechselUntTab(btn){
-  document.querySelectorAll('.unt-stab').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.ut-pane').forEach(p=>p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById(btn.dataset.utab).classList.add('active');
-  if(btn.dataset.utab==='ut-termine'&&!_termineGeladen)ladenTermine();
 }
 
 var _termineGeladen=false;
@@ -1245,7 +1409,7 @@ async function ladenTermine(){
     if(!d||!d.data){el.innerHTML='<div class="empty">Keine Termine</div>';return;}
     _alleTermine=d.data.sort(function(a,b){
       var da=parseDatum(a.datum),db=parseDatum(b.datum);
-      if(!da&&!db)return 0; if(!da)return 1; if(!db)return -1;
+      if(!da&&!db)return 0;if(!da)return 1;if(!db)return -1;
       return da-db;
     });
     renderTermine(_alleTermine);
@@ -1257,7 +1421,7 @@ async function ladenTermineNeu(){_termineGeladen=false;ladenTermine();}
 function filterTermine(){
   var q=document.getElementById('term-suche').value.toLowerCase();
   renderTermine(q?_alleTermine.filter(function(t){
-    return (t.datum+t.projekt+t.ort+t.uhrzeit).toLowerCase().includes(q);
+    return(t.datum+t.projekt+t.ort+t.uhrzeit).toLowerCase().includes(q);
   }):_alleTermine);
 }
 
@@ -1265,10 +1429,9 @@ function renderTermine(liste){
   var el=document.getElementById('term-liste');
   if(!liste.length){el.innerHTML='<div class="empty">Keine Termine</div>';return;}
   el.innerHTML=liste.map(function(t){
-    var p=( t.datum||'').split('.');
+    var p=(t.datum||'').split('.');
     var day=p[0]||'?',mon=_MONATE[parseInt(p[1]||'0',10)-1]||'';
     var vergangen=new Date((p[2]||'2000')+'-'+(p[1]||'01')+'-'+(p[0]||'01'))<new Date();
-    var td=JSON.stringify(t).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     return '<div class="tcard" style="'+(vergangen?'opacity:0.55;':'')+'">'+
       '<div class="tcard-date"><div class="tcard-day">'+esc(day)+'</div><div class="tcard-mon">'+esc(mon)+'</div></div>'+
       '<div class="tcard-body">'+
@@ -1291,28 +1454,26 @@ function openTerminModalById(id){
   if(t)openTerminModal(t);
 }
 function openTerminModal(t){
-  if(typeof t==='string')t=JSON.parse(t);
   _editId=t?t.id:null;
   _editQuelle=t?t.quelle:'manuell';
   var istKal=_editQuelle==='kalender';
-  document.getElementById('tf-datum').value  =t?t.datum:'';
+  document.getElementById('tf-datum').value=t?t.datum:'';
   document.getElementById('tf-projekt').value=t?t.projekt:'';
   document.getElementById('tf-uhrzeit').value=t?t.uhrzeit:'';
-  document.getElementById('tf-ort').value    =t?t.ort:'';
-  document.getElementById('tf-datum-row').style.display  =istKal?'none':'block';
+  document.getElementById('tf-ort').value=t?t.ort:'';
+  document.getElementById('tf-datum-row').style.display=istKal?'none':'block';
   document.getElementById('tf-projekt-row').style.display=istKal?'none':'block';
   document.getElementById('tmodal-title').textContent=_editId?(istKal?'Kalender-Termin anpassen':'Termin bearbeiten'):'Neuen Termin anlegen';
   document.getElementById('tmodal-bg').style.display='flex';
 }
-
 function closeTerminModal(){document.getElementById('tmodal-bg').style.display='none';}
 
 async function speichernTermin(){
-  var datum  =document.getElementById('tf-datum').value.trim();
+  var datum=document.getElementById('tf-datum').value.trim();
   var projekt=document.getElementById('tf-projekt').value.trim();
   var uhrzeit=document.getElementById('tf-uhrzeit').value.trim();
-  var ort    =document.getElementById('tf-ort').value.trim();
-  var btn    =document.getElementById('tmodal-save-btn');
+  var ort=document.getElementById('tf-ort').value.trim();
+  var btn=document.getElementById('tmodal-save-btn');
   if(!_editId&&(!datum||!projekt)){zeigToast('Datum und Projekt sind Pflichtfelder.');return;}
   btn.textContent='Speichere…';btn.disabled=true;
   try{
