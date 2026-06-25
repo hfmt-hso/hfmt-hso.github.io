@@ -660,8 +660,7 @@ async function ladenStartTermine(){
 }
 
 function renderStartTermine(){
-  var el=document.getElementById('start-terme');
-  el=document.getElementById('start-termine');
+  var el=document.getElementById('start-termine');
   var sjListe=_startSjFilter==='alle'?ALLE_SJ:[_startSjFilter];
   var alle=[],heute=new Date();heute.setHours(0,0,0,0);
   sjListe.forEach(function(sj){
@@ -676,43 +675,55 @@ function renderStartTermine(){
   });
   alle.sort((a,b)=>a.dat-b.dat);
   if(!alle.length){el.innerHTML='<div class="empty">Keine bevorstehenden Termine</div>';return;}
-  el.innerHTML=alle.map(function(item){
-    var ev=item.ev,d2=item.dat;
-    var tag=String(d2.getDate()).padStart(2,'0');
-    var mon=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'][d2.getMonth()];
-    var wt=WT[d2.getDay()];
-    var sjLabel=item.sj.replace('_','/');
-    var werkeHtml=(ev.werke||[]).filter(w=>!w.pause).map(function(w){
-      return '<div style="font-size:11px;color:var(--ink3)">'+(w.komponist?esc(w.komponist):'')+(w.titel?' – '+esc(w.titel):'')+'</div>';
-    }).join('');
-    var dot=item.projekt.startsWith('HSO')?'':item.projekt.startsWith('WK')?' green':' gold';
-    // aufklappbar: body versteckt, toggle onclick
-    var bid='st-'+item.dat.getTime()+'-'+encodeURIComponent(item.projekt).slice(0,8);
-    var hatProg=(ev.werke&&ev.werke.filter(w=>!w.pause).length>0)||ev.leitung;
-    return '<div style="border-bottom:1px solid var(--paper3)">'+
-      '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;cursor:'+(hatProg?'pointer':'default')+'" onclick="toggleStTerm(\''+bid+'\','+hatProg+')">'+
-        '<div class="kal-dot'+dot+'" style="margin-top:6px"></div>'+
-        '<div style="background:var(--blue-bg);border-radius:7px;padding:4px 8px;text-align:center;flex-shrink:0;min-width:38px">'+
-          '<div style="font-size:15px;font-weight:800;color:var(--blue);line-height:1">'+tag+'</div>'+
-          '<div style="font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase">'+mon+'</div>'+
-          '<div style="font-size:9px;color:var(--ink3)">'+wt+'</div>'+
+
+  // Nach Monat gruppieren
+  var monate={};
+  alle.forEach(function(item){
+    var key=item.dat.getFullYear()+'-'+String(item.dat.getMonth()).padStart(2,'0');
+    if(!monate[key])monate[key]={label:['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'][item.dat.getMonth()]+' '+item.dat.getFullYear(),items:[]};
+    monate[key].items.push(item);
+  });
+
+  var kalIdx=0;
+  var html='';
+  Object.keys(monate).sort().forEach(function(key){
+    var m=monate[key];
+    html+='<div style="font-size:11px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:0.06em;padding:8px 12px 4px;border-bottom:1px solid var(--border)">'+m.label+'</div>';
+    m.items.forEach(function(item){
+      var ev=item.ev,d2=item.dat;
+      var tag=String(d2.getDate()).padStart(2,'0');
+      var wt=WT[d2.getDay()];
+      var sjLabel=item.sj.replace('_','/');
+      var hatProg=(ev.werke&&ev.werke.filter(function(w){return!w.pause;}).length>0)||ev.leitung;
+      var kid='st-'+kalIdx++;
+      // Balkenfarbe je Projekttyp
+      var balken=item.projekt.startsWith('WK')?'#0F6E56':item.projekt==='13/14'?'#854F0B':/Blattspiel|Repertoire/i.test(item.projekt)?'#534AB7':'#185FA5';
+      var isVorstellung=(ev.marker==='Vorstellung')||(ev.konzertart&&ev.konzertart.length>0);
+      html+='<div style="border-left:3px solid '+balken+';background:#fff;border-bottom:1px solid var(--border);margin-left:0">'+
+        '<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;cursor:'+(hatProg?'pointer':'default')+'" onclick="toggleStTerm(\''+kid+'\','+hatProg+')">'+
+          '<div style="min-width:34px;text-align:center;flex-shrink:0">'+
+            '<div style="font-size:17px;font-weight:600;color:var(--ink);line-height:1.1">'+tag+'</div>'+
+            '<div style="font-size:10px;color:var(--ink3)">'+wt+'</div>'+
+          '</div>'+
+          '<div style="width:1px;height:28px;background:var(--border);flex-shrink:0"></div>'+
+          '<div style="flex:1;min-width:0">'+
+            '<div style="font-size:13px;font-weight:'+(isVorstellung?'700':'500')+';color:var(--ink)">'+esc(ev._titel||item.projekt)+'</div>'+
+            '<div style="font-size:11px;color:var(--ink3);margin-top:2px">'+esc(ev.uhrzeit||'')+(ev.ort?' · '+esc(ev.ort):'')+'</div>'+
+          '</div>'+
+          (hatProg?'<div id="chev-'+kid+'" style="color:var(--ink3);font-size:11px;flex-shrink:0;transition:transform 0.2s">▾</div>':'')+
         '</div>'+
-        '<div style="flex:1;min-width:0">'+
-          '<div style="font-size:13px;font-weight:600">'+esc(ev._titel||item.projekt)+'</div>'+
-          '<div style="font-size:11px;color:var(--ink3);margin-top:2px">'+esc(ev.uhrzeit||'')+(ev.ort?' · '+esc(ev.ort):'')+(item.sj?' · '+sjLabel:'')+'</div>'+
-        '</div>'+
-        (hatProg?'<div id="chev-'+bid+'" style="color:var(--ink3);font-size:12px;flex-shrink:0;padding-top:4px">▾</div>':'')+
-      '</div>'+
-      (hatProg?'<div id="'+bid+'" style="display:none;padding:10px 12px 14px 52px;background:var(--paper)">'+
-        (ev.werke||[]).filter(w=>!w.pause).map(function(w){
-          var ld=w.lebensdaten?' ('+w.lebensdaten+')':'';
-          return '<div style="margin-bottom:6px"><div style="font-size:12px;font-weight:600">'+esc((w.komponist||'')+ld)+'</div>'+(w.titel?'<div style="font-size:12px;color:var(--ink3)">'+esc(w.titel)+'</div>':'')+'</div>';
-        }).join('')+
-        (ev.leitung&&ev.leitung.length?'<div style="font-size:11px;color:var(--ink3);margin-top:4px">Leitung: '+
-          (Array.isArray(ev.leitung)?ev.leitung.map(l=>esc(typeof l==='object'?l.name:l)).join(', '):esc(ev.leitung))+'</div>':'')
-      +'</div>':'')
-    +'</div>';
-  }).join('');
+        (hatProg?'<div id="'+kid+'" style="display:none;padding:10px 12px 14px 58px;background:var(--paper)">'+
+          (ev.werke||[]).filter(function(w){return!w.pause;}).map(function(w){
+            var ld=w.lebensdaten?' ('+w.lebensdaten+')':'';
+            return '<div style="margin-bottom:6px"><div style="font-size:12px;font-weight:600">'+esc((w.komponist||'')+ld)+'</div>'+(w.titel?'<div style="font-size:12px;color:var(--ink3)">'+esc(w.titel)+'</div>':'')+'</div>';
+          }).join('')+
+          (ev.leitung&&ev.leitung.length?'<div style="font-size:11px;color:var(--ink3);margin-top:4px">Leitung: '+
+            (Array.isArray(ev.leitung)?ev.leitung.map(function(l){return esc(typeof l==='object'?l.name:l);}).join(', '):esc(ev.leitung))+'</div>':'')
+        +'</div>':'')
+      +'</div>';
+    });
+  });
+  el.innerHTML=html;
 }
 
 function toggleStTerm(id,hatProg){
