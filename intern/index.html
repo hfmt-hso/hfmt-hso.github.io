@@ -652,7 +652,7 @@ async function ladenStartTermine(){
   var sjListe=_startSjFilter==='alle'?ALLE_SJ:[_startSjFilter];
   for(var sj of sjListe){
     if(!_startTermineCache[sj]){
-      var d=await apiFetch('programm',{sj:sj});
+      var d=await apiFetch('kalender',{sj:sj});
       _startTermineCache[sj]=d;
     }
   }
@@ -666,11 +666,10 @@ function renderStartTermine(){
   sjListe.forEach(function(sj){
     var d=_startTermineCache[sj];
     if(!d||!d.data)return;
-    Object.keys(d.data).forEach(function(p){
-      (d.data[p]||[]).forEach(function(ev){
-        var dat=parseDatum(ev.datum);
-        if(dat&&dat>=heute)alle.push({projekt:p,ev:ev,dat:dat,sj:sj});
-      });
+    // kalender-Endpunkt gibt flaches Array zurück
+    (Array.isArray(d.data)?d.data:Object.values(d.data).flat()).forEach(function(ev){
+      var dat=parseDatum(ev.datum);
+      if(dat&&dat>=heute)alle.push({projekt:ev.projekt||ev._titel||'',ev:ev,dat:dat,sj:sj});
     });
   });
   alle.sort((a,b)=>a.dat-b.dat);
