@@ -100,6 +100,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .werk-leitung-kurs{font-size:11px;color:var(--text-muted)}
 .event-kein{font-size:13px;color:var(--text-muted)}
 
+/* ── KALENDER FILTER ── */
+.kal-filter-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.kal-filter-row::-webkit-scrollbar{display:none}
+.kal-filter-btn{flex-shrink:0;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-muted);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap}
+.kal-filter-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+
 /* ── KALENDER ── */
 .kal-month-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;padding:4px 0 6px;border-bottom:0.5px solid var(--border);margin-bottom:8px}
 .kal-card{background:var(--card-bg);border-radius:0 12px 12px 0;border:0.5px solid var(--border);border-left:3px solid #ccc;margin-bottom:6px;overflow:hidden}
@@ -109,7 +115,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .kal-card.typ-blattspiel{border-left-color:#534AB7}
 .kal-card.typ-repertoire{border-left-color:#534AB7}
 .kal-card.typ-sonder{border-left-color:#5F5E5A}
-.kal-card.vergangen{opacity:0.42}
 .kal-card-header{display:flex;align-items:center;gap:12px;padding:10px 13px;cursor:pointer}
 .kal-date-col{min-width:34px;text-align:center;flex-shrink:0}
 .kal-day-num{font-size:18px;font-weight:600;color:var(--text);line-height:1.1}
@@ -202,7 +207,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <button class="nav-btn active" onclick="showTab('projekte',this)">
     <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Projekte
   </button>
-  <button class="nav-btn" onclick="showTab('kalender',this)">
+  <button class="nav-btn" onclick="showTab('kalender',this);ladenKalender()">
     <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Kalender
   </button>
   <button class="nav-btn" onclick="showTab('bedarf',this)">
@@ -223,6 +228,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <div class="content" id="tab-kalender">
   <div class="section-label" id="kal-label">Termine</div>
+  <div class="kal-filter-row">
+    <button class="kal-filter-btn active" onclick="setKalFilter('alle',this)">Alle</button>
+    <button class="kal-filter-btn" onclick="setKalFilter('hso',this)">HSO</button>
+    <button class="kal-filter-btn" onclick="setKalFilter('wk',this)">WK</button>
+    <button class="kal-filter-btn" onclick="setKalFilter('blatt',this)">Blatt</button>
+    <button class="kal-filter-btn" onclick="setKalFilter('rep',this)">Rep</button>
+    <button class="kal-filter-btn" onclick="setKalFilter('sonder',this)">Sonstiges</button>
+  </div>
   <div id="kal-liste"><div class="loading">Termine werden geladen…</div></div>
 </div>
 
@@ -325,7 +338,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 const WEBAPP_URL    = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 const BEDARF_SHEET  = '1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ';
 const BEDARF_GID    = '1642432141';
-const CUTOFF_TAGE   = 14; // Projekte mit letztem Termin älter als X Tage ausblenden
+const CUTOFF_TAGE   = 14;
 const WT  = ['So','Mo','Di','Mi','Do','Fr','Sa'];
 const MON = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 const FARBEN = {
@@ -409,7 +422,6 @@ async function ladeProjekte(){
   document.getElementById('sj-badge').textContent = sj.replace('_','/');
 
   try {
-    // Beide Requests parallel
     const [projRes, progData] = await Promise.all([
       fetch(`${WEBAPP_URL}?action=projekte&sj=${sj}`).then(r=>r.json()),
       ladeProgData(sj)
@@ -420,24 +432,15 @@ async function ladeProjekte(){
 
     const heute = new Date(); heute.setHours(0,0,0,0);
 
-    // Clientseitig filtern: nur Projekte deren letzter Termin im aktuellen SJ
-    // nicht älter als CUTOFF_TAGE ist
-    // Filterlogik: progData (Vorstellungs-Events des SJ) ist die einzige
-    // Wahrheitsquelle. Der Server gibt HSO 1/2 fälschlicherweise zurück weil
-    // er in uebersetzerAlleEvents() SJ-übergreifend nach dem letzten Event sucht
-    // und dabei 26/27-Proben findet. Wir ignorieren das und filtern nur nach
-    // progData: Projekt muss dort einen Eintrag mit Datum im SJ haben,
-    // dessen letztes Datum nicht älter als CUTOFF_TAGE ist.
     const aktiv = projekte.filter(p => {
       const events = progData[p.name] || [];
-      if(!events.length) return false; // Kein Eintrag → vorbei
-
+      if(!events.length) return false;
       let letztes = null;
       events.forEach(ev => {
         const d = parseDatum(ev.datum);
         if(d && istInSpieljahr(d, sj) && (!letztes || d > letztes)) letztes = d;
       });
-      if(!letztes) return false; // Keine Termine im SJ → ausblenden
+      if(!letztes) return false;
       const diffTage = (heute - letztes) / 86400000;
       return diffTage <= CUTOFF_TAGE;
     });
@@ -489,58 +492,63 @@ async function ladeProjekte(){
 }
 
 // ── KALENDER ──────────────────────────────────────────────────
-async function ladenKalender(){
-  const sj = getSjTarget();
-  document.getElementById('kal-label').textContent = 'Termine · ' + sj.replace('_','/');
+let _kalFilter = 'alle';
+let _kalItems = [];
+
+function getKalTyp(p) {
+  if(/Blattspiel/i.test(p)) return 'blattspiel';
+  if(/Repertoire/i.test(p)) return 'repertoire';
+  if(p==='13/14') return 'hso';
+  if(p.startsWith('WK')) return 'wk';
+  if(p.startsWith('HSO')) return 'hso';
+  return 'sonder';
+}
+
+function kalFilterMatch(typ, filter) {
+  if(filter==='alle') return true;
+  if(filter==='hso')  return typ==='hso';
+  if(filter==='wk')   return typ==='wk';
+  if(filter==='blatt') return typ==='blattspiel';
+  if(filter==='rep')   return typ==='repertoire';
+  if(filter==='sonder') return typ==='sonder';
+  return true;
+}
+
+function setKalFilter(filter, btn) {
+  _kalFilter = filter;
+  document.querySelectorAll('.kal-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderKalListe();
+}
+
+function renderKalListe() {
   const el = document.getElementById('kal-liste');
-  try {
-    const progData = await ladeProgData(sj);
-    const heute = new Date(); heute.setHours(0,0,0,0);
-    const alle = [];
+  const filtered = _kalItems.filter(item => kalFilterMatch(item.typ, _kalFilter));
+  if(!filtered.length){ el.innerHTML='<div class="loading">Keine Termine.</div>'; return; }
 
-    Object.keys(progData).forEach(p => {
-      (progData[p]||[]).forEach(ev => {
-        const dat = parseDatum(ev.datum);
-        if(dat) alle.push({projekt:p, ev, dat});
-      });
-    });
-    alle.sort((a,b)=>a.dat-b.dat);
+  const monate = {};
+  filtered.forEach(item => {
+    const key = item.dat.getFullYear()+'-'+String(item.dat.getMonth()).padStart(2,'0');
+    if(!monate[key]) monate[key]={label:MON[item.dat.getMonth()]+' '+item.dat.getFullYear(),items:[]};
+    monate[key].items.push(item);
+  });
 
-    if(!alle.length){ el.innerHTML='<div class="loading">Keine Termine gefunden.</div>'; return; }
+  let html = '', kalIdx = 0;
+  Object.keys(monate).sort().forEach(key => {
+    const m = monate[key];
+    html += `<div class="kal-month-label">${m.label}</div>`;
+    m.items.forEach(({projekt, ev, dat, typ, isProbe}) => {
+      const wt  = WT[dat.getDay()];
+      const tag = String(dat.getDate()).padStart(2,'0');
+      const isVorstellung = !isProbe && ((ev.marker==='Vorstellung') || (ev.konzertart && ev.konzertart.length>0));
+      const werke = (ev.werke||[]).filter(w=>!w.pause);
+      const hatDetails = werke.length > 0 || (ev.leitung&&ev.leitung.length);
+      const sub = [ev.uhrzeit||'', ev.ort||''].filter(Boolean).join(' · ');
+      const kid = 'kal-'+kalIdx++;
+      const typKlasse = 'typ-'+(typ==='blattspiel'?'blattspiel':typ==='repertoire'?'repertoire':typ==='wk'?'wk':typ==='hso'?'hso':'sonder');
+      const titelText = isProbe ? (ohnestern(projekt)+' · Probe') : ohnestern(ev._titel||projekt);
 
-    // Nach Monat gruppieren
-    const monate = {};
-    alle.forEach(item => {
-      const key = item.dat.getFullYear()+'-'+String(item.dat.getMonth()).padStart(2,'0');
-      if(!monate[key]) monate[key]={label:MON[item.dat.getMonth()]+' '+item.dat.getFullYear(),items:[]};
-      monate[key].items.push(item);
-    });
-
-    let html = '', kalIdx = 0;
-    Object.keys(monate).sort().forEach(key => {
-      const m = monate[key];
-      html += `<div class="kal-month-label">${m.label}</div>`;
-      m.items.forEach(({projekt, ev, dat}) => {
-        const vergangen = dat < heute;
-        const wt  = WT[dat.getDay()];
-        const tag = String(dat.getDate()).padStart(2,'0');
-        const isVorstellung = (ev.marker==='Vorstellung') || (ev.konzertart && ev.konzertart.length>0);
-        const werke = (ev.werke||[]).filter(w=>!w.pause);
-        const hatDetails = werke.length > 0 || (ev.leitung&&ev.leitung.length);
-        const sub = [ev.uhrzeit||'', ev.ort||''].filter(Boolean).join(' · ');
-        const kid = 'kal-'+kalIdx++;
-        // Typ-Klasse für Balkenfarbe
-        function getKalTyp(p) {
-          if(/Blattspiel/i.test(p)) return 'typ-blattspiel';
-          if(/Repertoire/i.test(p)) return 'typ-repertoire';
-          if(p==='13/14') return 'typ-1314';
-          if(p.startsWith('WK')) return 'typ-wk';
-          if(p.startsWith('HSO')) return 'typ-hso';
-          return 'typ-sonder';
-        }
-        const kalTyp = getKalTyp(projekt);
-
-        html += `<div class="kal-card ${kalTyp}${vergangen?' vergangen':''}">
+      html += `<div class="kal-card ${typKlasse}">
   <div class="kal-card-header" onclick="${hatDetails?`toggleKal('${kid}')`:'void(0)'}">
     <div class="kal-date-col">
       <div class="kal-day-num">${tag}</div>
@@ -548,47 +556,75 @@ async function ladenKalender(){
     </div>
     <div class="kal-divider"></div>
     <div class="kal-info">
-      <div class="kal-event-title${isVorstellung?' bold':''}">${esc(ohnestern(ev._titel||projekt))}</div>
+      <div class="kal-event-title${isVorstellung?' bold':''}">${esc(titelText)}</div>
       ${sub?`<div class="kal-event-sub">${esc(sub)}</div>`:''}
     </div>
     ${hatDetails?`<div class="kal-chev" id="kchev-${kid}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>`:''}
   </div>`;
 
-        if(hatDetails){
-          html += `<div class="kal-body" id="${kid}">`;
-          werke.forEach(w => {
-            const ld = w.lebensdaten?' ('+w.lebensdaten+')':'';
-            html += `<div class="kal-werk">
+      if(hatDetails){
+        html += `<div class="kal-body" id="${kid}">`;
+        werke.forEach(w => {
+          const ld = w.lebensdaten?' ('+w.lebensdaten+')':'';
+          html += `<div class="kal-werk">
     <div class="kal-werk-komp">${esc((w.komponist||'')+ld)}</div>
     ${w.titel?`<div class="kal-werk-titel">${esc(w.titel)}</div>`:''}
   </div>`;
-          });
-          if(ev.solisten&&ev.solisten.length){
-            html += '<div class="kal-solisten">';
-            ev.solisten.forEach(s=>{ html+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'<br>'; });
-            html += '</div>';
-          }
-          if(ev.ensemble) html += `<div class="kal-leitung">${esc(ev.ensemble)}</div>`;
-          if(ev.leitung&&ev.leitung.length){
-            ev.leitung.forEach(l=>{
-              const name = typeof l==='object'?l.name:String(l);
-              const werk = typeof l==='object'&&l.werk?l.werk:'';
-              const klasse = typeof l==='object'&&l.klasse?l.klasse:'';
-              if(!name)return;
-              let row = '<div class="kal-leitung">Leitung: '+esc(name);
-              if(klasse) row += '<br><span class="kal-leitung-kurs">'+esc(klasse)+'</span>';
-              if(werk) row += '<br><span class="kal-leitung-kurs">('+esc(werk)+')</span>';
-              row += '</div>';
-              html += row;
-            });
-          }
+        });
+        if(ev.solisten&&ev.solisten.length){
+          html += '<div class="kal-solisten">';
+          ev.solisten.forEach(s=>{ html+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'<br>'; });
           html += '</div>';
         }
+        if(ev.ensemble) html += `<div class="kal-leitung">${esc(ev.ensemble)}</div>`;
+        if(ev.leitung&&ev.leitung.length){
+          ev.leitung.forEach(l=>{
+            const name = typeof l==='object'?l.name:String(l);
+            const werk = typeof l==='object'&&l.werk?l.werk:'';
+            const klasse = typeof l==='object'&&l.klasse?l.klasse:'';
+            if(!name)return;
+            let row = '<div class="kal-leitung">Leitung: '+esc(name);
+            if(klasse) row += '<br><span class="kal-leitung-kurs">'+esc(klasse)+'</span>';
+            if(werk) row += '<br><span class="kal-leitung-kurs">('+esc(werk)+')</span>';
+            row += '</div>';
+            html += row;
+          });
+        }
         html += '</div>';
+      }
+      html += '</div>';
+    });
+  });
+
+  el.innerHTML = html;
+}
+
+async function ladenKalender(){
+  const sj = getSjTarget();
+  document.getElementById('kal-label').textContent = 'Termine · ' + sj.replace('_','/');
+  const el = document.getElementById('kal-liste');
+  el.innerHTML = '<div class="loading">Termine werden geladen…</div>';
+  try {
+    const progData = await ladeProgData(sj);
+    const heute = new Date(); heute.setHours(0,0,0,0);
+    const alle = [];
+
+    Object.keys(progData).forEach(p => {
+      const typ = getKalTyp(p);
+      (progData[p]||[]).forEach(ev => {
+        const dat = parseDatum(ev.datum);
+        if(dat && dat >= heute) alle.push({projekt:p, ev, dat, typ, isProbe:false});
+        (ev.proben||[]).forEach(probe => {
+          const pd = parseDatum(probe.datum);
+          if(pd && pd >= heute) alle.push({projekt:p, ev:probe, dat:pd, typ, isProbe:true});
+        });
       });
     });
+    alle.sort((a,b)=>a.dat-b.dat);
+    _kalItems = alle;
 
-    el.innerHTML = html;
+    if(!alle.length){ el.innerHTML='<div class="loading">Keine Termine gefunden.</div>'; return; }
+    renderKalListe();
   } catch(e){
     el.innerHTML='<div class="loading">Laden fehlgeschlagen.</div>';
   }
