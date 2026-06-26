@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-06-25T11:59:50.802Z",
+  "generiert": "2026-06-26T14:00:57.047Z",
   "events": [
     {
       "datum": "29.06.2026",
@@ -1195,8 +1195,8 @@
       "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "Doğa Çetin (Trojahn), Yuan Xin (Stravinsky), Rémi Geniet, Philine Lembeck, Sukjong Kim (Brahms)",
-          "werk": "Leitung des Dirigierkurses: Frank Beermann",
+          "name": "Doğa Çetin (Trojahn), Yuan Xin (Stravinsky), Rémi Geniet, Philine Lembeck, Sukjong Kim (Brahms)  (Kursleitung: Frank Beermann)",
+          "werk": "",
           "klasse": ""
         }
       ],
@@ -1574,7 +1574,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Philine Lembeck, Miquel Bosch Roca, Chenyu Wan (Brahms), Yuan Xin, Doğa Çetin, Rémi Geniet (Rimsky-Korsakow)",
+          "name": "Philine Lembeck, Miquel Bosch Roca, Chenyu Wan (Brahms), Yuan Xin, Doğa Çetin, Rémi Geniet (Rimsky-Korsakow) (Kursleitung: Mihkel Kütson)",
           "werk": "",
           "klasse": ""
         }
@@ -2148,7 +2148,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Rémi Geniet (UA), Uschik Choi, Yuan Xin (Brahms), Sukjong Kim, Jacob Gröper, Chenyu Wan, Miquel Bosch Roca (Tchaikovsky)",
+          "name": "Rémi Geniet (UA), Uschik Choi, Yuan Xin (Brahms), Sukjong Kim, Jacob Gröper, Chenyu Wan, Miquel Bosch Roca (Tchaikovsky) (Kursleitung: Golo Berg)",
           "werk": "",
           "klasse": ""
         }
@@ -2571,7 +2571,7 @@
       "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "Yuan Xin (Schnittke), Sukjong Kim (Tchaikovsky), Chenyu Wan, Uschik Choi, Miquel Bosch Roca (Bernstein)",
+          "name": "Yuan Xin (Schnittke), Sukjong Kim (Tchaikovsky), Chenyu Wan, Uschik Choi, Miquel Bosch Roca (Bernstein) (Kursleitung: Markus L. Frank)",
           "werk": "",
           "klasse": ""
         }
@@ -2717,7 +2717,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Uschik Choi (Bach), Philine Lembeck (Mozart Konzert), Doğa Çetin (Mozart Sinfonie)",
+          "name": "Uschik Choi (Bach), Philine Lembeck (Mozart Konzert), Doğa Çetin (Mozart Sinfonie) (Kursleitung: An Hoon Song)",
           "werk": "",
           "klasse": ""
         }
@@ -2843,7 +2843,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Sukjong Kim (UA, Konzert); Jacob Gröper (Schubert)",
+          "name": "Sukjong Kim (UA, Konzert); Jacob Gröper (Schubert) (Kursleitung: Sylvain Cambreling)",
           "werk": "",
           "klasse": ""
         }
@@ -3103,7 +3103,7 @@
       "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "N.N.",
+          "name": "Bar Avni",
           "werk": "",
           "klasse": ""
         }
@@ -3610,7 +3610,7 @@
       "ensemble": "Kammerorchester der HfMT",
       "leitung": [
         {
-          "name": "N.N",
+          "name": "Baldur Brönnimann",
           "werk": "",
           "klasse": ""
         }
@@ -3619,7 +3619,7 @@
       "notizen": [],
       "probenplan": [],
       "_eventId": "51jun9k1v6uhlnddqk45hr28sf@google.com",
-      "_titel": "HSO 4"
+      "_titel": "HSO 4 (1)"
     },
     {
       "datum": "27.06.2027",
@@ -3676,7 +3676,7 @@
       "ensemble": "Kammerorchester der HfMT",
       "leitung": [
         {
-          "name": "N.N",
+          "name": "N.N (Kursleitung:  Baldur Brönnimann)",
           "werk": "",
           "klasse": ""
         }
