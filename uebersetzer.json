@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-06-26T14:11:44.163Z",
+  "generiert": "2026-06-26T14:55:02.173Z",
   "events": [
     {
       "datum": "29.06.2026",
@@ -671,7 +671,7 @@
       "ensemble": "Kammerorchester der HfMT",
       "leitung": [
         {
-          "name": "Doğa Çetin, Sangjun Han, Philine Lembeck, Jacob Gröper",
+          "name": "Studierende der Dirigierklasse",
           "werk": "",
           "klasse": "Klasse Prof. Ulrich Windfuhr"
         }
@@ -723,9 +723,9 @@
       "ensemble": "Kammerorchester der HfMT",
       "leitung": [
         {
-          "name": "Doğa Çetin, Sangjun Han, Philine Lembeck, Jacob Gröper (Klasse Prof. Ulrich Windfuhr) Als Gast: Ying Lam Eva Chu (Marin Alsop - Peabody Institute - Johns Hopkins University)",
+          "name": "Studierende der Dirigierklasse",
           "werk": "",
-          "klasse": ""
+          "klasse": "Klasse Prof. Ulrich Windfuhr"
         }
       ],
       "aufbauplan": null,
@@ -1969,8 +1969,8 @@
       "ensemble": "Kammerorchester der HfMT",
       "leitung": [
         {
-          "name": "Philine Lembeck (Hindemith), Jacob Gröper (Yin), Rémi Geniet (Ligeti), Miquel Bosch Roca (Zaczek), Uschik Choi (Bartok)",
-          "werk": "Leitung der Arbeitsphase: Roland Böer",
+          "name": "Philine Lembeck (Hindemith), Jacob Gröper (Yin), Rémi Geniet (Ligeti), Miquel Bosch Roca (Zaczek), Uschik Choi (Bartok) (Kursleitung: Roland Böer)",
+          "werk": "",
           "klasse": ""
         }
       ],
