@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-06-26T14:55:02.173Z",
+  "generiert": "2026-06-26T17:32:30.970Z",
   "events": [
     {
       "datum": "29.06.2026",
@@ -3218,16 +3218,28 @@
           "saetze": [
             "Allegro",
             "Andante",
-            "Finale: Allegro",
-            "N.N."
+            "Finale: Allegro"
           ],
           "dauer": "ca. 15 min",
           "besetzung": "2.2.0.2-2.2.0.0-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Kontrabass",
+              "name": "Yi Wei",
+              "zusatz": ""
+            }
+          ]
         }
       ],
-      "solisten": [],
+      "solisten": [
+        {
+          "instrument": "Kontrabass",
+          "name": "Yi Wei",
+          "zusatz": ""
+        }
+      ],
       "ensemble": null,
       "leitung": [
         {
