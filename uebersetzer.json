@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-06-26T14:00:57.047Z",
+  "generiert": "2026-06-26T14:11:44.163Z",
   "events": [
     {
       "datum": "29.06.2026",
@@ -3165,7 +3165,7 @@
       "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "N.N.",
+          "name": "N.N. (Kursleitung: Bar Avni)",
           "werk": "",
           "klasse": ""
         }
@@ -3275,13 +3275,44 @@
     {
       "datum": "06.05.2027",
       "uhrzeit": "11:00 Uhr",
-      "ort": "Elbphilharmonie Hamburg, Platz d. Deutschen Einheit 4, 20457 Hamburg, Deutschland",
-      "konzertart": null,
+      "ort": "Elbphilharmonie",
+      "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
-      "werke": [],
+      "werke": [
+        {
+          "komponist": "Fredrik Schwenk",
+          "lebensdaten": "1960*",
+          "titel": "Non confundar, AT",
+          "saetze": [],
+          "dauer": "ca. 20 min",
+          "besetzung": "3.3.3.3-8.3.3.1-Pk+2-Str. (12.10.8.6.4)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Anton Bruckner",
+          "lebensdaten": "1824–1896",
+          "titel": "Sinfonie Nr. 9 d-Moll",
+          "saetze": [
+            "Feierlich, misterioso",
+            "Scherzo. Bewegt, lebhaft – Trio. Schnell",
+            "Adagio. Langsam, feierlich"
+          ],
+          "dauer": "ca. 60 min",
+          "besetzung": "3.3.3.3-8.3.3.1-Pk-Str. (12.10.8.6.4)",
+          "urauffuehrung": false,
+          "pause": false
+        }
+      ],
       "solisten": [],
-      "ensemble": null,
-      "leitung": [],
+      "ensemble": "Symphonieorchester der HfMT",
+      "leitung": [
+        {
+          "name": "N.N. (Kursleitung: Bar Avni)",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
