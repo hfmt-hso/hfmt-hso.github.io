@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-06-26T17:32:30.970Z",
+  "generiert": "2026-06-28T13:11:17.683Z",
   "events": [
     {
       "datum": "29.06.2026",
@@ -23,31 +23,26 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "Çetin, Kim | 2. Wan, Choi | 3. Han, Bosch | 4. Gröper, Lembeck | Studierende aus Peabody für Ausschnitte eigener Wahl",
+          "name": "Kim, Dor | 2. Wan, Choi | 3. Han, Bosch | 4. Gröper, Lembeck",
           "werk": "",
           "klasse": ""
         }
       ],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
+      "probenplan": [
+        "Probenplan:",
+        "10:00 Sukjong Kim",
+        "10:20 Alon Ben Dor",
+        "10:40 Chenyu Wan",
+        "11:00 Uschik Choi",
+        "11:20 — Pause —",
+        "11:40 Sangjun Han",
+        "12:00 Miquel Bosch Roca",
+        "12:20 Jacob Gröper"
+      ],
       "_eventId": "3minfg4276t9n27760ke7eq8up@google.com",
       "_titel": "HSO Blattspiel (Calvin Abdiel, Klavier)"
-    },
-    {
-      "datum": "26.06.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Yamaha Studio, Siemensstraße 22, 25462 Rellingen",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "6l4tqtnkdik41hucgl08g04lfk@google.com",
-      "_titel": "Hamburg Media School"
     },
     {
       "datum": "30.06.2026",
