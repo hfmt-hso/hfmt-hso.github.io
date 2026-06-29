@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-06-28T15:48:31.369Z",
+  "generiert": "2026-06-29T19:17:14.526Z",
   "events": [
     {
       "datum": "29.06.2026",
@@ -829,18 +829,14 @@
       "marker": "Vorstellung",
       "werke": [
         {
-          "komponist": "Boris Blacher",
-          "lebensdaten": "1903–1975",
-          "titel": "Concertante Musik für Orchester op. 10",
+          "komponist": "Alexander Borodin",
+          "lebensdaten": "1833–1887",
+          "titel": "Ouvertüre zu „Fürst Igor“",
           "saetze": [
-            "Praeludium",
-            "Lied",
-            "Scherzo",
-            "Capriccio",
-            "Finale"
+            "Allegro"
           ],
-          "dauer": "ca. 12 min",
-          "besetzung": "2.2.2.2-4.2.3.1-Pk-Str. (8.6.5.4.3)",
+          "dauer": "ca. 10 min",
+          "besetzung": "2.2.2.2-4.2.3.1-Pauken, Triangel, Becken, Große Trommel-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
           "pause": false
         },
@@ -894,7 +890,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Chenyu Wan (Blacher), Jacob Gröper (Bartok), Doğa Çetin, Uschik Choi, Miquel Bosch Roca (Schubert)",
+          "name": "Chenyu Wan (Borodin), Jacob Gröper (Bartok), Doğa Çetin, Uschik Choi, Miquel Bosch Roca (Schubert)",
           "werk": "Leitung des Dirigierkurses: Aleksandar Marković",
           "klasse": ""
         }
