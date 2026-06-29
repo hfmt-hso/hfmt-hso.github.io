@@ -15,6 +15,7 @@
   --gold:#b8962e;--gold-light:#fdf8ee;--gold-dark:#8a6e1f;
   --green:#2e7d32;--green-light:#e8f5e9;
   --red:#c0392b;--red-light:#fdecea;
+  --amber:#b8962e;--amber-light:#fdf3dc;--amber-dark:#8a6e1f;
   --gray:#5F5E5A;--gray-light:#F1EFE8;
   --text:#1a1a1a;--text-muted:#6b6b6b;
   --border:rgba(0,0,0,0.1);--border-solid:#e0ddd6;
@@ -27,6 +28,7 @@
   --bg:#1a1a18;--card:#2a2a28;
   --blue-light:#0c447c;--green-light:#1b4d1e;
   --red-light:#4d1a17;--gray-light:#333331;--gold-light:#3a3010;
+  --amber-light:#3a2e10;
 }}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto}
 
@@ -162,7 +164,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .aw-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;flex-shrink:0;white-space:nowrap}
 .aw-badge.offen{background:rgba(184,150,46,0.12);color:var(--gold-dark);border:1px solid rgba(184,150,46,0.3)}
 .aw-badge.gesehen{background:var(--green-light);color:var(--green)}
+.aw-badge.ruecksprache{background:var(--amber-light);color:var(--amber-dark);border:1px solid rgba(184,150,46,0.4)}
 .aw-kommentar{font-size:11px;color:var(--green);margin-top:5px;font-style:italic}
+.aw-kommentar.ruecksprache{color:var(--amber-dark)}
 .aw-actions{display:flex;gap:6px;margin-top:10px}
 .aw-btn{padding:6px 12px;border-radius:8px;border:1.5px solid var(--border-solid);background:var(--bg);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--text)}
 .aw-btn.del{color:var(--red);border-color:rgba(192,57,43,0.25)}
@@ -183,8 +187,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .aw-adm-zeit{font-size:12px;font-weight:700;color:var(--blue-dark);margin-bottom:3px}
 .aw-adm-grund{font-size:12px;color:var(--text-muted);line-height:1.4}
 .aw-adm-komm-anzeige{font-size:11px;color:var(--green);margin-top:4px;font-style:italic}
+.aw-adm-komm-anzeige.ruecksprache{color:var(--amber-dark)}
 .aw-komm-input{width:100%;padding:7px 10px;border:1px solid var(--border-solid);border-radius:7px;font-size:12px;font-family:inherit;margin-top:7px;background:var(--bg);color:var(--text)}
 .aw-seen-btn{padding:7px 12px;background:var(--green-light);color:var(--green);border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+.aw-rueck-btn{padding:7px 12px;background:var(--amber-light);color:var(--amber-dark);border:1.5px solid rgba(184,150,46,0.35);border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
 .aw-unseen-btn{padding:7px 10px;background:var(--bg);color:var(--text-muted);border:1px solid var(--border-solid);border-radius:8px;font-size:11px;cursor:pointer;font-family:inherit}
 .aw-filter-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
 .aw-filter-btn{padding:5px 12px;border-radius:16px;border:0.5px solid var(--border-solid);background:var(--card);color:var(--text-muted);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s}
@@ -425,6 +431,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <button class="aw-filter-btn active" onclick="awAdminFilter('alle',this)">Alle</button>
       <button class="aw-filter-btn" onclick="awAdminFilter('offen',this)">Offen</button>
       <button class="aw-filter-btn" onclick="awAdminFilter('gesehen',this)">Gesehen</button>
+      <button class="aw-filter-btn" onclick="awAdminFilter('ruecksprache',this)">Rücksprache</button>
     </div>
     <div id="aw-adm-liste"><div class="spinner">Lade…</div></div>
   </div>
@@ -798,19 +805,28 @@ function renderAbwesenheiten() {
     return;
   }
   el.innerHTML = '<div class="aw-card">' + _awDaten.map(aw => {
-    const gesehen   = !!aw.gesehenVon;
-    const badgeHtml = gesehen
-      ? '<span class="aw-badge gesehen">✓ Bestätigt</span>'
-      : '<span class="aw-badge offen">Offen</span>';
-    const kommHtml  = (gesehen && aw.gesehenKommentar)
-      ? `<div class="aw-kommentar">💬 ${esc(aw.gesehenKommentar)}</div>` : '';
-    const aktionen = !gesehen
+    const status = aw.status || (aw.gesehenVon ? 'gesehen' : 'offen');
+    let badgeHtml, kommHtml;
+    if (status === 'ruecksprache') {
+      badgeHtml = '<span class="aw-badge ruecksprache">💬 Bitte Rücksprache</span>';
+      kommHtml  = aw.gesehenKommentar
+        ? `<div class="aw-kommentar ruecksprache">💬 ${esc(aw.gesehenKommentar)}</div>` : '';
+    } else if (status === 'gesehen') {
+      badgeHtml = '<span class="aw-badge gesehen">✓ Bestätigt</span>';
+      kommHtml  = aw.gesehenKommentar
+        ? `<div class="aw-kommentar">💬 ${esc(aw.gesehenKommentar)}</div>` : '';
+    } else {
+      badgeHtml = '<span class="aw-badge offen">Offen</span>';
+      kommHtml  = '';
+    }
+    const bearbeitbar = (status === 'offen');
+    const aktionen = bearbeitbar
       ? `<div class="aw-actions">
            <button class="aw-btn" onclick='awFormularOeffnen(${JSON.stringify(aw).replace(/'/g,"&#39;")})'>✏️ Bearbeiten</button>
            <button class="aw-btn del" onclick="awLoeschen('${esc(aw.id)}')">🗑 Löschen</button>
          </div>`
       : `<div class="aw-actions">
-           <button class="aw-btn del" onclick="awLoeschen('${esc(aw.id)}')">🗑 Bestätigte Abwesenheit löschen</button>
+           <button class="aw-btn del" onclick="awLoeschen('${esc(aw.id)}')">🗑 Löschen</button>
          </div>`;
     return `<div class="aw-row">
       <div class="aw-head">
@@ -921,11 +937,11 @@ function renderAdminBuchungen() {
 }
 
 async function buchungStornieren(buchungId, name) {
-  if (!confirm('Buchung von ' + name + ' stornieren?\n\nDie Person erhält eine E-Mail-Benachrichtigung.')) return;
+  if (!confirm('Buchung von ' + name + ' stornieren?')) return;
   try {
     const json = await webAppPost({ action:'buchungStornieren', buchungId });
     if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
-    toast('✅ Buchung storniert, E-Mail verschickt.');
+    toast('✅ Buchung storniert.');
     adminBuchungen = null;
     await ladeAdminBuchungen();
   } catch(e) { toast('❌ Verbindungsfehler.'); }
@@ -955,8 +971,9 @@ function renderAbwesenheitenAdmin() {
   const el = document.getElementById('aw-adm-liste');
   if (!el || !_awAdminDaten) return;
   let liste = _awAdminDaten;
-  if (_awAdminFilter === 'offen')   liste = liste.filter(a => !a.gesehenVon);
-  if (_awAdminFilter === 'gesehen') liste = liste.filter(a =>  a.gesehenVon);
+  if (_awAdminFilter === 'offen')       liste = liste.filter(a => a.status === 'offen');
+  if (_awAdminFilter === 'gesehen')     liste = liste.filter(a => a.status === 'gesehen');
+  if (_awAdminFilter === 'ruecksprache') liste = liste.filter(a => a.status === 'ruecksprache');
   if (!liste.length) {
     el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Keine Abwesenheiten vorhanden.</div>';
     return;
@@ -965,16 +982,26 @@ function renderAbwesenheitenAdmin() {
   liste.forEach(aw => { const k = aw.name || aw.mtknr; if (!gruppen[k]) gruppen[k] = []; gruppen[k].push(aw); });
   el.innerHTML = Object.entries(gruppen).map(([name, eintraege]) => {
     const rows = eintraege.map(aw => {
-      const gesehen   = !!aw.gesehenVon;
-      const badgeHtml = gesehen
-        ? `<span class="aw-badge gesehen" style="font-size:10px">✓ ${esc(aw.gesehenVon)}</span>`
-        : '<span class="aw-badge offen" style="font-size:10px">Offen</span>';
-      const kommBlock = gesehen && aw.gesehenKommentar
-        ? `<div class="aw-adm-komm-anzeige">💬 ${esc(aw.gesehenKommentar)}</div>`
-        : (!gesehen ? `<input class="aw-komm-input" type="text" placeholder="Kommentar (optional)…" id="aw-komm-${esc(aw.id)}">` : '');
-      const aktBtn = !gesehen
-        ? `<button class="aw-seen-btn" onclick="awAlsGesehen('${esc(aw.id)}')">✓ Gesehen</button>`
-        : `<button class="aw-unseen-btn" onclick="awGesehenZurueck('${esc(aw.id)}')">↩ Zurück</button>`;
+      const status = aw.status || 'offen';
+      let badgeHtml, kommBlock, aktBtn;
+      if (status === 'offen') {
+        badgeHtml = '<span class="aw-badge offen" style="font-size:10px">Offen</span>';
+        kommBlock = `<input class="aw-komm-input" type="text" placeholder="Kommentar (optional)…" id="aw-komm-${esc(aw.id)}">`;
+        aktBtn    = `<div style="display:flex;flex-direction:column;gap:5px">
+                       <button class="aw-seen-btn" onclick="awAlsGesehen('${esc(aw.id)}')">✓ Gesehen</button>
+                       <button class="aw-rueck-btn" onclick="awAlsRuecksprache('${esc(aw.id)}')">💬 Rücksprache</button>
+                     </div>`;
+      } else if (status === 'ruecksprache') {
+        badgeHtml = '<span class="aw-badge ruecksprache" style="font-size:10px">💬 Rücksprache</span>';
+        kommBlock = aw.gesehenKommentar
+          ? `<div class="aw-adm-komm-anzeige ruecksprache">💬 ${esc(aw.gesehenKommentar)}</div>` : '';
+        aktBtn    = `<button class="aw-unseen-btn" onclick="awGesehenZurueck('${esc(aw.id)}')">↩ Zurück</button>`;
+      } else {
+        badgeHtml = `<span class="aw-badge gesehen" style="font-size:10px">✓ ${esc(aw.gesehenVon)}</span>`;
+        kommBlock = aw.gesehenKommentar
+          ? `<div class="aw-adm-komm-anzeige">💬 ${esc(aw.gesehenKommentar)}</div>` : '';
+        aktBtn    = `<button class="aw-unseen-btn" onclick="awGesehenZurueck('${esc(aw.id)}')">↩ Zurück</button>`;
+      }
       return `<div class="aw-adm-row">
         <div class="aw-adm-info">
           <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px">
@@ -1001,6 +1028,18 @@ async function awAlsGesehen(id) {
     const json = await webAppPost({ action:'abwesenheitGesehen', id, gesehenVon: aktuellerAdmin.name || aktuellerAdmin.nutzer, kommentar: komm });
     if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
     toast('✅ Als gesehen markiert.');
+    _awAdminDaten = null;
+    await ladeAbwesenheitenAdmin();
+  } catch(e) { toast('❌ Verbindungsfehler.'); }
+}
+
+async function awAlsRuecksprache(id) {
+  const inp  = document.getElementById('aw-komm-' + id);
+  const komm = inp ? inp.value.trim() : '';
+  try {
+    const json = await webAppPost({ action:'abwesenheitRuecksprache', id, gesehenVon: aktuellerAdmin.name || aktuellerAdmin.nutzer, kommentar: komm });
+    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
+    toast('💬 Rücksprache angefordert.');
     _awAdminDaten = null;
     await ladeAbwesenheitenAdmin();
   } catch(e) { toast('❌ Verbindungsfehler.'); }
