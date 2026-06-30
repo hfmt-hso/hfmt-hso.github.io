@@ -497,7 +497,7 @@ function toast(msg) {
 // ── LOGIN ─────────────────────────────────────────────────────
 async function studentLogin() {
   const mtknr = document.getElementById('s-mtknr').value.trim();
-  const pw    = document.getElementById('s-pw').value;
+  const pw    = document.getElementById('s-pw').value.trim();
   const errEl = document.getElementById('s-error');
   errEl.textContent = '';
   if (!mtknr || !pw) { errEl.textContent = 'Bitte alle Felder ausfüllen.'; return; }
