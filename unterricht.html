@@ -1024,6 +1024,9 @@ function renderAbwesenheitenAdmin() {
 }
 
 async function awAlsGesehen(id) {
+  const btn = event.target;
+  if (btn.disabled) return;
+  btn.disabled = true;
   const inp  = document.getElementById('aw-komm-' + id);
   const komm = inp ? inp.value.trim() : '';
   try {
@@ -1032,7 +1035,7 @@ async function awAlsGesehen(id) {
     toast('✅ Als gesehen markiert.');
     _awAdminDaten = null;
     await ladeAbwesenheitenAdmin();
-  } catch(e) { toast('❌ Verbindungsfehler.'); }
+  } catch(e) { toast('❌ Verbindungsfehler.'); btn.disabled = false; }
 }
 
 async function awAlsRuecksprache(id) {
