@@ -565,7 +565,9 @@ async function oeffneStudentBereich() {
   document.getElementById('welcome-name').textContent = 'Hallo, ' + (aktuellerStudent.name || aktuellerStudent.mtknr) + '!';
   document.getElementById('welcome-sub').textContent  = 'Mtknr: ' + aktuellerStudent.mtknr + (aktuellerStudent.instrument ? ' · ' + aktuellerStudent.instrument : '');
   zeige('screen-student');
-  await Promise.all([ladeTermine(), ladeMeineBuchungen(), ladeAbwesenheiten()]);
+  await ladeTermine();
+  await ladeMeineBuchungen();
+  await ladeAbwesenheiten();
 }
 
 async function ladeTermine() {
