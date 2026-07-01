@@ -122,6 +122,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .buchung-titel{font-size:13px;font-weight:600;color:var(--text)}
 .buchung-meta{font-size:11px;color:var(--text-muted);margin-top:2px}
 .buchung-zeit{font-size:14px;font-weight:800;color:var(--green);flex-shrink:0}
+.buchung-storno-btn{padding:5px 10px;background:var(--red-light);color:var(--red);border:none;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+.buchung-storno-btn:active{opacity:0.8}
 
 /* STATS */
 .stats-card{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);padding:16px}
@@ -689,6 +691,19 @@ async function eigeneBuchungStornieren(buchungId, terminId) {
   } catch(e) { toast('❌ Verbindungsfehler.'); }
 }
 
+// Stornieren direkt aus der Liste "Meine gebuchten Slots" heraus,
+// ohne erst über den Termin navigieren zu müssen.
+async function meineBuchungStornieren(buchungId) {
+  if (!confirm('Diesen Slot wirklich stornieren?')) return;
+  try {
+    const json = await webAppPost({ action:'buchungStornieren', buchungId });
+    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
+    toast('✅ Slot storniert.');
+    await ladeMeineBuchungen();
+    await ladeTermine();
+  } catch(e) { toast('❌ Verbindungsfehler.'); }
+}
+
 async function ladeMeineBuchungen() {
   const el = document.getElementById('meine-buchungen-liste');
   el.innerHTML = '<div class="spinner">Lade Buchungen…</div>';
@@ -704,7 +719,10 @@ async function ladeMeineBuchungen() {
       return `<div class="buchung-row">
         <div class="buchung-datum-box"><div class="buchung-tag">${tag}</div><div class="buchung-mon">${mon}</div></div>
         <div class="buchung-info"><div class="buchung-titel">${esc(b.dozent||'Unterricht')}</div><div class="buchung-meta">${esc(b.datum)}${b.ort?' · '+esc(b.ort):''}</div>${b.werk?`<div class="buchung-meta">🎵 ${esc(b.werk)}</div>`:''}</div>
-        <div class="buchung-zeit">${esc(b.slotStart)}</div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <div class="buchung-zeit">${esc(b.slotStart)}</div>
+          <button class="buchung-storno-btn" onclick="meineBuchungStornieren('${esc(b.buchungId)}')">Stornieren</button>
+        </div>
       </div>`;
     }).join('') + '</div>';
   } catch(e) {
