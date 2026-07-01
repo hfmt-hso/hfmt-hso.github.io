@@ -638,15 +638,23 @@ async function oeffneSlots(terminId) {
 function renderSlot(s, terminId, termin) {
   const istMeinSlot = s.mtknr === (aktuellerStudent ? aktuellerStudent.mtknr : null);
   if (s.frei) return `
-    <div class="slot-kachel frei" onclick="buchungErstellen('${esc(terminId)}','${esc(s.uhrzeit)}')">
+    <div class="slot-kachel frei">
       <div class="slot-zeit">${esc(s.uhrzeit)}</div>
-      <div class="slot-info"><div class="slot-status">Frei</div><div class="slot-name">60 Minuten${termin&&termin.ort?' · '+esc(termin.ort):''}</div></div>
-      <div class="slot-action"><button class="slot-btn-buchen">Buchen</button></div>
+      <div class="slot-info">
+        <div class="slot-status">Frei</div>
+        <div class="slot-name">60 Minuten${termin&&termin.ort?' · '+esc(termin.ort):''}</div>
+        <input class="aw-komm-input" type="text" placeholder="Werk (optional)…" id="werk-${esc(terminId)}-${esc(s.uhrzeit)}">
+      </div>
+      <div class="slot-action"><button class="slot-btn-buchen" onclick="buchungErstellen('${esc(terminId)}','${esc(s.uhrzeit)}')">Buchen</button></div>
     </div>`;
   if (istMeinSlot) return `
     <div class="slot-kachel meine-buchung">
       <div class="slot-zeit">${esc(s.uhrzeit)}</div>
-      <div class="slot-info"><div class="slot-status">✓ Dein Slot</div><div class="slot-name">60 Minuten${termin&&termin.ort?' · '+esc(termin.ort):''}</div></div>
+      <div class="slot-info">
+        <div class="slot-status">✓ Dein Slot</div>
+        <div class="slot-name">60 Minuten${termin&&termin.ort?' · '+esc(termin.ort):''}</div>
+        ${s.werk ? `<div class="slot-name">🎵 ${esc(s.werk)}</div>` : ''}
+      </div>
       <div class="slot-action"><button class="slot-btn-stornieren" onclick="eigeneBuchungStornieren('${esc(s.buchungId)}','${esc(terminId)}')">Stornieren</button></div>
     </div>`;
   return `
@@ -658,9 +666,11 @@ function renderSlot(s, terminId, termin) {
 
 async function buchungErstellen(terminId, slotStart) {
   if (!aktuellerStudent) return;
+  const werkInput = document.getElementById('werk-' + terminId + '-' + slotStart);
+  const werk = werkInput ? werkInput.value.trim() : '';
   if (!confirm('Slot ' + slotStart + ' Uhr buchen?')) return;
   try {
-    const json = await webAppPost({ action:'buchungErstellen', mtknr: aktuellerStudent.mtknr, name: aktuellerStudent.name, terminId, slotStart });
+    const json = await webAppPost({ action:'buchungErstellen', mtknr: aktuellerStudent.mtknr, name: aktuellerStudent.name, terminId, slotStart, werk });
     if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
     toast('✅ Slot gebucht!');
     await oeffneSlots(terminId);
@@ -693,7 +703,7 @@ async function ladeMeineBuchungen() {
       const d = parseDate(b.datum), tag = d ? d.getDate() : '?', mon = d ? MONATE[d.getMonth()] : '';
       return `<div class="buchung-row">
         <div class="buchung-datum-box"><div class="buchung-tag">${tag}</div><div class="buchung-mon">${mon}</div></div>
-        <div class="buchung-info"><div class="buchung-titel">${esc(b.dozent||'Unterricht')}</div><div class="buchung-meta">${esc(b.datum)}${b.ort?' · '+esc(b.ort):''}</div></div>
+        <div class="buchung-info"><div class="buchung-titel">${esc(b.dozent||'Unterricht')}</div><div class="buchung-meta">${esc(b.datum)}${b.ort?' · '+esc(b.ort):''}</div>${b.werk?`<div class="buchung-meta">🎵 ${esc(b.werk)}</div>`:''}</div>
         <div class="buchung-zeit">${esc(b.slotStart)}</div>
       </div>`;
     }).join('') + '</div>';
@@ -931,6 +941,7 @@ function renderAdminBuchungen() {
         <div class="admin-buchung-info">
           <div class="admin-buchung-name">${esc(b.name)}</div>
           <div class="admin-buchung-dozent">${esc(b.marker)} · ${esc(b.dozent)}${b.ort?' · '+esc(b.ort):''}</div>
+          ${b.werk?`<div class="admin-buchung-dozent">🎵 ${esc(b.werk)}</div>`:''}
         </div>
         <button class="storno-btn" onclick="buchungStornieren('${esc(b.buchungId)}','${esc(b.name)}')">Stornieren</button>
       </div>`).join('')}
