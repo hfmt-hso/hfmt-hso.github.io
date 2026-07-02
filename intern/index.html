@@ -2031,6 +2031,9 @@ function mlRender(){
     if (!gruppen[k]) gruppen[k] = [];
     gruppen[k].push(l);
   });
+  Object.keys(gruppen).forEach(function(k){
+    gruppen[k].sort(function(a,b){ return a.name.localeCompare(b.name,'de'); });
+  });
   var html = '';
   Object.keys(gruppen).sort().forEach(function(kat){
     html += '<div class="link-section"><div class="link-section-h">' + esc(kat) + '</div>';
