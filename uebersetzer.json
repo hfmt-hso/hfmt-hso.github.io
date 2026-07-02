@@ -1,396 +1,6 @@
 {
-  "generiert": "2026-06-29T19:17:14.526Z",
+  "generiert": "2026-07-02T07:39:12.178Z",
   "events": [
-    {
-      "datum": "29.06.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": "Blattspiel",
-      "werke": [
-        {
-          "komponist": "Igor Stravinsky",
-          "lebensdaten": "1882–1971",
-          "titel": "Petrouchka (1947)",
-          "saetze": [],
-          "dauer": "ca. 34 min",
-          "besetzung": "3.3.3.3-4.3.3.1-Pk+3, Hrf., Klav., Cel.-Str. (10.8.6.5.4)",
-          "urauffuehrung": false,
-          "pause": false
-        }
-      ],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [
-        {
-          "name": "Kim, Dor | 2. Wan, Choi | 3. Han, Bosch | 4. Gröper, Lembeck",
-          "werk": "",
-          "klasse": ""
-        }
-      ],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [
-        "Probenplan:",
-        "10:00 Sukjong Kim",
-        "10:20 Alon Ben Dor",
-        "10:40 Chenyu Wan",
-        "11:00 Uschik Choi",
-        "11:20 — Pause —",
-        "11:40 Sangjun Han",
-        "12:00 Miquel Bosch Roca",
-        "12:20 Jacob Gröper",
-        "12:40 Philine Lembeck"
-      ],
-      "_eventId": "3minfg4276t9n27760ke7eq8up@google.com",
-      "_titel": "HSO Blattspiel (Calvin Abdiel, Klavier)"
-    },
-    {
-      "datum": "30.06.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": "Blattspiel",
-      "werke": [
-        {
-          "komponist": "Wolfgang Amadeus Mozart",
-          "lebensdaten": "1756–1791",
-          "titel": "Le nozze di Figaro, „Voi, che sapete che cosa è amor“",
-          "saetze": [],
-          "dauer": "ca. 3 min",
-          "besetzung": "0.2.0.2-2.0.0.0-Str. (8.6.4.3.2)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Sopran",
-              "name": "Maria Tilibtsev",
-              "zusatz": ""
-            }
-          ]
-        },
-        {
-          "komponist": "Wolfgang Amadeus Mozart",
-          "lebensdaten": "1756–1791",
-          "titel": "Don Giovanni, „Batti, batti, o bel Masetto“",
-          "saetze": [],
-          "dauer": "ca. 4 min",
-          "besetzung": "1.1.0.1-2.0.0.0-Str. (8.6.4.3.2)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Sopran",
-              "name": "Juyeon Lee",
-              "zusatz": ""
-            }
-          ]
-        },
-        {
-          "komponist": "Wolfgang Amadeus Mozart",
-          "lebensdaten": "1756–1791",
-          "titel": "Le nozze di Figaro, Duett Nr. 1 „Cinque, dieci!“",
-          "saetze": [],
-          "dauer": "ca. 3 min",
-          "besetzung": "2.2.0.2-2.0.0.0-Str. (8.6.4.3.2)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Sopran",
-              "name": "Antonia Schlenzen",
-              "zusatz": ""
-            },
-            {
-              "instrument": "Bariton",
-              "name": "Mihai",
-              "zusatz": ""
-            }
-          ]
-        },
-        {
-          "komponist": "Wolfgang Amadeus Mozart",
-          "lebensdaten": "1756–1791",
-          "titel": "Le nozze di Figaro, Duett Nr. 2 „Se a caso“",
-          "saetze": [],
-          "dauer": "ca. 3 min",
-          "besetzung": "2.2.0.2-2.0.0.0-Str. (8.6.5.4.3)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Sopran",
-              "name": "Antonia Schlenzen",
-              "zusatz": ""
-            },
-            {
-              "instrument": "Bariton",
-              "name": "Mihai",
-              "zusatz": ""
-            }
-          ]
-        },
-        {
-          "komponist": "Wolfgang Amadeus Mozart",
-          "lebensdaten": "1756–1791",
-          "titel": "Le nozze di Figaro, Duett „Via resti servita“",
-          "saetze": [],
-          "dauer": "ca. 2 min",
-          "besetzung": "2.2.0.2-2.0.0.0-Str. (8.6.4.3.2)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Mezzo",
-              "name": "Binta Anne",
-              "zusatz": ""
-            }
-          ]
-        },
-        {
-          "komponist": "Wolfgang Amadeus Mozart",
-          "lebensdaten": "1756–1791",
-          "titel": "Così fan tutte, „Prenderò quel brunettino“",
-          "saetze": [],
-          "dauer": "ca. 3 min",
-          "besetzung": "0.2.0.2-2.0.0.0-Str. (8.6.4.3.2)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Sopran",
-              "name": "Nardi Thonen",
-              "zusatz": ""
-            },
-            {
-              "instrument": "Mezzo",
-              "name": "Stefana Sima",
-              "zusatz": ""
-            }
-          ]
-        },
-        {
-          "komponist": "Wolfgang Amadeus Mozart",
-          "lebensdaten": "1756–1791",
-          "titel": "Così fan tutte, “Ah scostati!... Smanie implacabile“",
-          "saetze": [],
-          "dauer": "ca. 3 min",
-          "besetzung": "2.0.2.2-2.0.0.0-Str. (8.6.4.3.2)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Mezzo",
-              "name": "Liss Walisch",
-              "zusatz": ""
-            }
-          ]
-        },
-        {
-          "pause": true
-        },
-        {
-          "komponist": "Wolfgang Amadeus Mozart",
-          "lebensdaten": "1756–1791",
-          "titel": "Le nozze di Figaro, „Dove sono i bei momenti“",
-          "saetze": [],
-          "dauer": "ca. 4 min",
-          "besetzung": "0.2.0.2-2.0.0.0-Str. (8.6.4.3.2)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Sopran",
-              "name": "Esther Barski",
-              "zusatz": ""
-            }
-          ]
-        },
-        {
-          "komponist": "Wolfgang Amadeus Mozart",
-          "lebensdaten": "1756–1791",
-          "titel": "Don Giovanni, „In quali ecessi, o Numi... Mi tradì quell'alma ingrata“",
-          "saetze": [],
-          "dauer": "ca. 7 min",
-          "besetzung": "1.0.1.1-2.0.0.0-Str. (8.6.4.3.2)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Sopran",
-              "name": "Fei Han",
-              "zusatz": ""
-            }
-          ]
-        },
-        {
-          "komponist": "Wolfgang Amadeus Mozart",
-          "lebensdaten": "1756–1791",
-          "titel": "Così fan tutte, „Come scoglio“",
-          "saetze": [],
-          "dauer": "ca. 6 min",
-          "besetzung": "0.2.2.2-0.2.0.0-Str. (8.6.4.3.2)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Sopran",
-              "name": "Hyunseo Lee",
-              "zusatz": ""
-            }
-          ]
-        },
-        {
-          "komponist": "Wolfgang Amadeus Mozart",
-          "lebensdaten": "1756–1791",
-          "titel": "Così fan tutte, „In uomini, in soldati“",
-          "saetze": [],
-          "dauer": "ca. 3 min",
-          "besetzung": "1.1.0.1-0.0.0.0-Str. (8.6.4.3.2)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Sopran",
-              "name": "Nardi Thonen",
-              "zusatz": ""
-            }
-          ]
-        },
-        {
-          "komponist": "Wolfgang Amadeus Mozart",
-          "lebensdaten": "1756–1791",
-          "titel": "Le nozze di Figaro, „Che soave zeffiretto“",
-          "saetze": [],
-          "dauer": "ca. 3 min",
-          "besetzung": "0.1.0.1-0.0.0.0-Str. (8.6.4.3.2)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Sopran",
-              "name": "Morgane Solignac",
-              "zusatz": ""
-            }
-          ]
-        }
-      ],
-      "solisten": [
-        {
-          "instrument": "Sopran",
-          "name": "Maria Tilibtsev",
-          "zusatz": ""
-        },
-        {
-          "instrument": "Sopran",
-          "name": "Juyeon Lee",
-          "zusatz": ""
-        },
-        {
-          "instrument": "Sopran",
-          "name": "Antonia Schlenzen",
-          "zusatz": ""
-        },
-        {
-          "instrument": "Bariton",
-          "name": "Mihai",
-          "zusatz": ""
-        },
-        {
-          "instrument": "Sopran",
-          "name": "Antonia Schlenzen",
-          "zusatz": ""
-        },
-        {
-          "instrument": "Bariton",
-          "name": "Mihai",
-          "zusatz": ""
-        },
-        {
-          "instrument": "Mezzo",
-          "name": "Binta Anne",
-          "zusatz": ""
-        },
-        {
-          "instrument": "Sopran",
-          "name": "Nardi Thonen",
-          "zusatz": ""
-        },
-        {
-          "instrument": "Mezzo",
-          "name": "Stefana Sima",
-          "zusatz": ""
-        },
-        {
-          "instrument": "Mezzo",
-          "name": "Liss Walisch",
-          "zusatz": ""
-        },
-        {
-          "instrument": "Sopran",
-          "name": "Esther Barski",
-          "zusatz": ""
-        },
-        {
-          "instrument": "Sopran",
-          "name": "Fei Han",
-          "zusatz": ""
-        },
-        {
-          "instrument": "Sopran",
-          "name": "Hyunseo Lee",
-          "zusatz": ""
-        },
-        {
-          "instrument": "Sopran",
-          "name": "Nardi Thonen",
-          "zusatz": ""
-        },
-        {
-          "instrument": "Sopran",
-          "name": "Morgane Solignac",
-          "zusatz": ""
-        }
-      ],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [
-        "Probenplan:",
-        "10:00 Le nozze di Figaro, „Voi, che sapete che cosa è amor“ – Sopran: Maria Tilibtsev",
-        "10:11 Don Giovanni, „Batti, batti, o bel Masetto“ – Sopran: Juyeon Lee",
-        "10:25 Le nozze di Figaro, Duett Nr. 1 „Cinque, dieci!“ – Sopran: Antonia Schlenzen, Bariton: Mihai",
-        "10:36 Le nozze di Figaro, Duett Nr. 2 „Se a caso“ – Sopran: Antonia Schlenzen, Bariton: Mihai",
-        "10:47 Le nozze di Figaro, Duett „Via resti servita“ – Mezzo: Binta Anne",
-        "10:55 Così fan tutte, „Prenderò quel brunettino“ – Sopran: Nardi Thonen, Mezzo: Stefana Sima",
-        "11:05 Così fan tutte, “Ah scostati!... Smanie implacabile“ – Mezzo: Liss Walisch",
-        "— Pause —",
-        "11:36 Le nozze di Figaro, „Dove sono i bei momenti“ – Sopran: Esther Barski",
-        "11:51 Don Giovanni, „In quali ecessi, o Numi... Mi tradì quell'alma ingrata“ – Sopran: Fei Han",
-        "12:16 Così fan tutte, „Come scoglio“ – Sopran: Hyunseo Lee",
-        "12:38 Così fan tutte, „In uomini, in soldati“ – Sopran: Nardi Thonen",
-        "12:49 Le nozze di Figaro, „Che soave zeffiretto“ – Sopran: Morgane Solignac"
-      ],
-      "_eventId": "2jo4oglkgq2kv8vnk9ljofb8a9@google.com",
-      "_titel": "HSO Blattspiel"
-    },
-    {
-      "datum": "01.07.2026",
-      "uhrzeit": "11:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": "1. Probe",
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "_eventId": "6r3lsvkheqjvi5o4etb5497cki@google.com",
-      "_titel": "WK 6 OA"
-    },
     {
       "datum": "02.07.2026",
       "uhrzeit": "10:00 Uhr",
@@ -435,21 +45,6 @@
       "notizen": [],
       "_eventId": "4gd3n23nkjop3h4gmmp0jp8ic9@google.com",
       "_titel": "WK 6 GP"
-    },
-    {
-      "datum": "29.06.2026",
-      "uhrzeit": "14:30 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "2modarri6dei4l6afncoohnqb8@google.com",
-      "_titel": "HSO 4 OA"
     },
     {
       "datum": "03.07.2026",
@@ -542,21 +137,6 @@
       "aufbauplan": null,
       "notizen": [],
       "_eventId": "1d4qof07g385pa06q2pmo1am8c@google.com",
-      "_titel": "HSO 4 OA"
-    },
-    {
-      "datum": "01.07.2026",
-      "uhrzeit": "18:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "4lvsrj95ohqblrtqgd1r76vske@google.com",
       "_titel": "HSO 4 OA"
     },
     {
@@ -3380,21 +2960,6 @@
       "_titel": "HSO Repertoire"
     },
     {
-      "datum": "01.07.2026",
-      "uhrzeit": "14:30 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "4im67otsgjfve90s63nui3l2f1@google.com",
-      "_titel": "HSO 4 OA"
-    },
-    {
       "datum": "06.07.2026",
       "uhrzeit": "17:30 Uhr",
       "ort": "",
@@ -3423,21 +2988,6 @@
       "notizen": [],
       "_eventId": "5eqh1u92cgscmap8pp127l37kk@google.com",
       "_titel": "HSO 4 Anspielprobe"
-    },
-    {
-      "datum": "30.06.2026",
-      "uhrzeit": "18:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "7ple5qmo3qeo6mn3dumsf5v1br@google.com",
-      "_titel": "HSO 4 Ensembleprobe für SängerInnen"
     },
     {
       "datum": "02.06.2027",
@@ -3601,16 +3151,23 @@
           "komponist": "Anna Clyne",
           "lebensdaten": "1980*",
           "titel": "Sound and Fury (2019)",
+          "saetze": [],
+          "dauer": "30.12.1899",
+          "besetzung": "2.2.2.2-2.2.0.0-Str. (6.4.4.3.2)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Clara Schumann",
+          "lebensdaten": "1819–1896",
+          "titel": "Konzert a-moll für Klavier und Orchester, op. 7",
           "saetze": [
-            "Emilie Mayer (1812–1883) oder schumann farrenc? konzert",
-            "Sinfonie Nr. 1, c-Moll (1847)",
-            "Adagio - Allegro molto",
-            "Scherzo. Allegro molto",
-            "Andante sostenuto",
-            "Finale. Allegro vivace"
+            "Allegro maestoso",
+            "Romanze. Andante non troppo",
+            "Finale. Allegro non troppo"
           ],
-          "dauer": "ca. 35 min",
-          "besetzung": "2.2.2.2-2.2.0.0-Pk-Str. (6.4.4.3.2)",
+          "dauer": "ca. 20 min",
+          "besetzung": "2.2.2.2-2.2.1.0-Str. (6.4.4.3.2)",
           "urauffuehrung": false,
           "pause": false
         },
@@ -3618,34 +3175,39 @@
           "pause": true
         },
         {
-          "komponist": "Dmitri Shostakovich",
-          "lebensdaten": "1906–1975",
-          "titel": "Sinfonie Nr. 14, op. 135 für Sopran, Bass und Kammerorchester (1969)",
+          "komponist": "Louise Farrenc",
+          "lebensdaten": "1804–1875",
+          "titel": "Sinfonie Nr. 3 g-Moll, op. 36",
           "saetze": [
-            "De profundis",
-            "Malagueña",
-            "Loreley",
-            "Der Selbstmörder",
-            "Auf Vorposten",
-            "Madame, schau her!",
-            "Im Gefängnis",
-            "Die Antwort der Zaporoger Kosaken an den Sultan von Konstantinopel",
-            "O Delvig, Delvig!",
-            "Der Tod des Dichters",
-            "Schluss",
-            "N.N"
+            "Introduzione. Adagio – Allegro vivace",
+            "Adagio cantabile",
+            "Scherzo. Vivace",
+            "Finale. Allegro moderato"
           ],
-          "dauer": "ca. 45 min",
-          "besetzung": "0.0.0.0-0.0.0.0-Perk., Cel.-Str. (6.4.4.3.2)",
+          "dauer": "ca. 33 min",
+          "besetzung": "2.2.2.2-2.0.0.0-Pauken-Str. (6.4.4.3.2)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Klavier",
+              "name": "Chengcheng Zhang",
+              "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya"
+            }
+          ]
         }
       ],
-      "solisten": [],
-      "ensemble": "Kammerorchester der HfMT",
+      "solisten": [
+        {
+          "instrument": "Klavier",
+          "name": "Chengcheng Zhang",
+          "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya"
+        }
+      ],
+      "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "Baldur Brönnimann",
+          "name": "Baldur Brönniman",
           "werk": "",
           "klasse": ""
         }
@@ -3667,16 +3229,23 @@
           "komponist": "Anna Clyne",
           "lebensdaten": "1980*",
           "titel": "Sound and Fury (2019)",
+          "saetze": [],
+          "dauer": "30.12.1899",
+          "besetzung": "2.2.2.2-2.2.0.0-Str. (6.4.4.3.2)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Clara Schumann",
+          "lebensdaten": "1819–1896",
+          "titel": "Konzert a-moll für Klavier und Orchester, op. 7",
           "saetze": [
-            "Emilie Mayer (1812–1883) oder schumann farrenc? konzert",
-            "Sinfonie Nr. 1, c-Moll (1847)",
-            "Adagio - Allegro molto",
-            "Scherzo. Allegro molto",
-            "Andante sostenuto",
-            "Finale. Allegro vivace"
+            "Allegro maestoso",
+            "Romanze. Andante non troppo",
+            "Finale. Allegro non troppo"
           ],
-          "dauer": "ca. 35 min",
-          "besetzung": "2.2.2.2-2.2.0.0-Pk-Str. (6.4.4.3.2)",
+          "dauer": "ca. 20 min",
+          "besetzung": "2.2.2.2-2.2.1.0-Str. (6.4.4.3.2)",
           "urauffuehrung": false,
           "pause": false
         },
@@ -3684,34 +3253,39 @@
           "pause": true
         },
         {
-          "komponist": "Dmitri Shostakovich",
-          "lebensdaten": "1906–1975",
-          "titel": "Sinfonie Nr. 14, op. 135 für Sopran, Bass und Kammerorchester (1969)",
+          "komponist": "Louise Farrenc",
+          "lebensdaten": "1804–1875",
+          "titel": "Sinfonie Nr. 3 g-Moll, op. 36",
           "saetze": [
-            "De profundis",
-            "Malagueña",
-            "Loreley",
-            "Der Selbstmörder",
-            "Auf Vorposten",
-            "Madame, schau her!",
-            "Im Gefängnis",
-            "Die Antwort der Zaporoger Kosaken an den Sultan von Konstantinopel",
-            "O Delvig, Delvig!",
-            "Der Tod des Dichters",
-            "Schluss",
-            "N.N"
+            "Introduzione. Adagio – Allegro vivace",
+            "Adagio cantabile",
+            "Scherzo. Vivace",
+            "Finale. Allegro moderato"
           ],
-          "dauer": "ca. 45 min",
-          "besetzung": "0.0.0.0-0.0.0.0-Perk., Cel.-Str. (6.4.4.3.2)",
+          "dauer": "ca. 33 min",
+          "besetzung": "2.2.2.2-2.0.0.0-Pauken-Str. (6.4.4.3.2)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Klavier",
+              "name": "Chengcheng Zhang",
+              "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya"
+            }
+          ]
         }
       ],
-      "solisten": [],
-      "ensemble": "Kammerorchester der HfMT",
+      "solisten": [
+        {
+          "instrument": "Klavier",
+          "name": "Chengcheng Zhang",
+          "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya"
+        }
+      ],
+      "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "N.N (Kursleitung:  Baldur Brönnimann)",
+          "name": "Studierende der Dirigierklasse",
           "werk": "",
           "klasse": ""
         }
@@ -3720,7 +3294,7 @@
       "notizen": [],
       "probenplan": [],
       "_eventId": "3p3ufaqkv4niqcp84r509penmq@google.com",
-      "_titel": "HSO 4"
+      "_titel": "HSO 4 (2)"
     },
     {
       "datum": "21.09.2027",
@@ -6113,21 +5687,6 @@
       "notizen": [],
       "_eventId": "7jahtl2q8fmp6fmiq20lecgu7q@google.com",
       "_titel": "13/14 OA"
-    },
-    {
-      "datum": "29.06.2026",
-      "uhrzeit": "18:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "6a4a0jaf36b8jim702un0n0qhv@google.com",
-      "_titel": "HSO 4 OA"
     },
     {
       "datum": "23.06.2026",
