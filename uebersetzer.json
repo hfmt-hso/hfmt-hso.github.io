@@ -1,36 +1,6 @@
 {
-  "generiert": "2026-07-02T07:46:24.690Z",
+  "generiert": "2026-07-03T15:58:30.734Z",
   "events": [
-    {
-      "datum": "02.07.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "6m8b0ce0h8et13u0ahrcqdfigu@google.com",
-      "_titel": "WK 6 OA"
-    },
-    {
-      "datum": "02.07.2026",
-      "uhrzeit": "19:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "15m5ketr2t1e0kd8f4s72am19h@google.com",
-      "_titel": "HSO 4 OA"
-    },
     {
       "datum": "03.07.2026",
       "uhrzeit": "10:00 Uhr",
@@ -3005,7 +2975,7 @@
       "_titel": "HSO Blattspiel"
     },
     {
-      "datum": "21.06.2027",
+      "datum": "01.07.2027",
       "uhrzeit": "10:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -3018,10 +2988,10 @@
       "notizen": [],
       "probenplan": [],
       "_eventId": "2earghn1silugqbbpr6vdfpmb3@google.com",
-      "_titel": "HSO 4 OA"
+      "_titel": "HSO 4 OA Streicher"
     },
     {
-      "datum": "21.06.2027",
+      "datum": "01.07.2027",
       "uhrzeit": "14:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -3033,10 +3003,10 @@
       "aufbauplan": null,
       "notizen": [],
       "_eventId": "2q4uhnd599i0h85slab5qe7als@google.com",
-      "_titel": "HSO 4 OA"
+      "_titel": "HSO 4 OA Bläser"
     },
     {
-      "datum": "22.06.2027",
+      "datum": "02.07.2027",
       "uhrzeit": "10:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -3051,7 +3021,7 @@
       "_titel": "HSO 4 OA"
     },
     {
-      "datum": "22.06.2027",
+      "datum": "02.07.2027",
       "uhrzeit": "14:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -3066,7 +3036,7 @@
       "_titel": "HSO 4 OA"
     },
     {
-      "datum": "23.06.2027",
+      "datum": "03.07.2027",
       "uhrzeit": "10:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -3081,23 +3051,8 @@
       "_titel": "HSO 4 OA"
     },
     {
-      "datum": "23.06.2027",
+      "datum": "03.07.2027",
       "uhrzeit": "14:30 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "076tl8ebpvembu4hh71git1cg2@google.com",
-      "_titel": "HSO 4 OA"
-    },
-    {
-      "datum": "24.06.2027",
-      "uhrzeit": "10:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": null,
@@ -3111,8 +3066,8 @@
       "_titel": "HSO 4 OA"
     },
     {
-      "datum": "24.06.2027",
-      "uhrzeit": "14:30 Uhr",
+      "datum": "05.07.2027",
+      "uhrzeit": "10:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": null,
@@ -3126,8 +3081,8 @@
       "_titel": "HSO 4 OA"
     },
     {
-      "datum": "25.06.2027",
-      "uhrzeit": "11:00 Uhr",
+      "datum": "05.07.2027",
+      "uhrzeit": "14:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": null,
@@ -3141,8 +3096,8 @@
       "_titel": "HSO 4 GP"
     },
     {
-      "datum": "26.06.2027",
-      "uhrzeit": "19:30 Uhr",
+      "datum": "06.07.2027",
+      "uhrzeit": "19:00 Uhr",
       "ort": "Forum",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -3219,8 +3174,8 @@
       "_titel": "HSO 4 (1)"
     },
     {
-      "datum": "27.06.2027",
-      "uhrzeit": "19:30 Uhr",
+      "datum": "07.07.2027",
+      "uhrzeit": "19:00 Uhr",
       "ort": "Forum",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -5609,7 +5564,7 @@
     {
       "datum": "30.06.2027",
       "uhrzeit": "14:15 Uhr",
-      "ort": "Orchesterstudio",
+      "ort": "Forum",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -5702,6 +5657,21 @@
       "notizen": [],
       "_eventId": "u0j5rg7a30lfrqojcao95u2lhg@google.com",
       "_titel": "Peabody 2026"
+    },
+    {
+      "datum": "04.07.2027",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "_eventId": "5eehak4ab7m323dacaa7ho7fsp@google.com",
+      "_titel": "HSO 4 OA"
     }
   ]
 }
