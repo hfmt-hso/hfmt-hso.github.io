@@ -1,99 +1,6 @@
 {
-  "generiert": "2026-07-03T15:58:30.734Z",
+  "generiert": "2026-07-04T15:16:36.170Z",
   "events": [
-    {
-      "datum": "03.07.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "4gd3n23nkjop3h4gmmp0jp8ic9@google.com",
-      "_titel": "WK 6 GP"
-    },
-    {
-      "datum": "03.07.2026",
-      "uhrzeit": "19:30 Uhr",
-      "ort": "Forum",
-      "konzertart": "Werkstattkonzert",
-      "marker": "Vorstellung",
-      "werke": [
-        {
-          "komponist": "Nina Deuse",
-          "lebensdaten": "1990*",
-          "titel": "Firestarter (Uraufführung)",
-          "saetze": [],
-          "dauer": "ca. 10 min",
-          "besetzung": "2.2.2.2-2.2.0.0-Pk-Str. (8.6.5.4.3)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "Wolfgang Amadeus Mozart",
-          "lebensdaten": "1756–1791",
-          "titel": "Konzert für Klavier KV 466 d",
-          "saetze": [
-            "Allegro",
-            "Romanze",
-            "Rondo (Allegro assai)"
-          ],
-          "dauer": "ca. 30 min",
-          "besetzung": "1.2.0.2-2.2.0.0-Pk-Str. (8.6.5.4.3)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "pause": true
-        },
-        {
-          "komponist": "Wolfgang Amadeus Mozart",
-          "lebensdaten": "1756–1791",
-          "titel": "Sinfonie Nr. 40 KV 550",
-          "saetze": [
-            "Molto allegro",
-            "Andante",
-            "Menuetto. Allegretto",
-            "Finale. Allegro assai"
-          ],
-          "dauer": "ca. 35 min",
-          "besetzung": "1.2.2.2-2.0.0.0-Pk-Str. (8.6.5.4.3)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Klavier",
-              "name": "Hubert Rutkowski",
-              "zusatz": ""
-            }
-          ]
-        }
-      ],
-      "solisten": [
-        {
-          "instrument": "Klavier",
-          "name": "Hubert Rutkowski",
-          "zusatz": ""
-        }
-      ],
-      "ensemble": "Symphoniker Hamburg",
-      "leitung": [
-        {
-          "name": "Ulrich Windfuhr",
-          "werk": "",
-          "klasse": ""
-        }
-      ],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "_eventId": "6m7n1h51to79319mtcbc6f22cc@google.com",
-      "_titel": "WK 6"
-    },
     {
       "datum": "04.07.2026",
       "uhrzeit": "10:00 Uhr",
@@ -106,6 +13,8 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "probenplan": [],
+      "abwesend": "Oboe, Simon",
       "_eventId": "1d4qof07g385pa06q2pmo1am8c@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -121,6 +30,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "1p5c6pqp4ggkhacfjh73tlh4dg@google.com",
       "_titel": "HSO 4 (GP)"
     },
@@ -173,6 +83,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "2ts281g239igjlmfltnn59qp97@google.com",
       "_titel": "HSO 4 (1)"
     },
@@ -225,6 +136,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "77pf0gj4q2ddnale7iqhi84e50@google.com",
       "_titel": "HSO 4 (2)"
     },
@@ -277,6 +189,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "5uedbmiguga1k5h40b45adh044@google.com",
       "_titel": "HSO 4 (3)"
     },
@@ -293,6 +206,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "57ce9pppm3i8nfebbr8sdu23bp@google.com",
       "_titel": "WK 1 OA"
     },
@@ -308,6 +222,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "5kh0a90ravg64p9rt6i3t80g0d@google.com",
       "_titel": "WK 1 OA"
     },
@@ -323,6 +238,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "3vvv9u5q6b6hit7ve4k9dq84bd@google.com",
       "_titel": "WK 1 GP"
     },
@@ -338,6 +254,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "3t25rtc4gq28ub20igv8mt9oha@google.com",
       "_titel": "HSO 1 OA Celli"
     },
@@ -353,6 +270,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2f608j3e8ndgmiou35r6sutp3h@google.com",
       "_titel": "HSO 1 OA Violen"
     },
@@ -368,6 +286,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "7glpqcdq66kjsbia344tjulfns@google.com",
       "_titel": "HSO 1 OA Kontrabässe"
     },
@@ -451,6 +370,7 @@
         "*",
         "Klavier: Uschik Choi, Miquel Bosch Roca, Doğa Çetin, Yuan Xin, Sukjong Kim (Schubert); Uschik Choi (Bartok)"
       ],
+      "abwesend": null,
       "_eventId": "2e09o1l03uthgf5319iig1879m@google.com",
       "_titel": "WK 1"
     },
@@ -467,6 +387,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "1k1o5f1jqr326hbehces4i5evp@google.com",
       "_titel": "HSO 1 OA Violinen"
     },
@@ -482,6 +403,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0lqr4o4pr0nv733s2vl204u2n2@google.com",
       "_titel": "HSO 1 OA Streicher"
     },
@@ -497,6 +419,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2m89poepcgrf3jtgce6gh1ri7i@google.com",
       "_titel": "HSO 1 OA Bläser"
     },
@@ -512,6 +435,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "642k0k5clqausib94d96ibbj9c@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -527,6 +451,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "5fpvfdenqakngf38al0ucu2qf5@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -542,6 +467,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0ge1ap2vhdvqhsas95gadikfhl@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -557,6 +483,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "1vm2iec3le7e2n4tuh447dfv9k@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -572,6 +499,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "10uk4hb17akhg87s7lms4lnp32@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -587,6 +515,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "7uqpjkomartle5dg0707llndhn@google.com",
       "_titel": "HSO 1 GP"
     },
@@ -666,6 +595,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "45tp7sohfl3anq5qgh9s2chk5u@google.com",
       "_titel": "HSO 1 (1)"
     },
@@ -748,6 +678,7 @@
         "*",
         "Klavier: Chenyu Wan (Strawinsky); Miquel Bosch Roca, Doğa Çetin, Sukjong Kim, Jacob Gröper (Brahms)"
       ],
+      "abwesend": null,
       "_eventId": "14vcu75be9in7sdlrpbgm4r66p@google.com",
       "_titel": "HSO 1 (2)"
     },
@@ -763,6 +694,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "4b2gk7hiq1ld8tfinp6hlse9lb@google.com",
       "_titel": "IMCH Hamburg Vorbereitung"
     },
@@ -779,6 +711,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "43ahgq4rsers8ftof5p6s27b4d@google.com",
       "_titel": "WK 2 OA"
     },
@@ -794,6 +727,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0crl55h8ngo9b66npofmui256e@google.com",
       "_titel": "IMCH Hamburg Vorbereitung"
     },
@@ -809,6 +743,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "7s5dq65acmtosi7am8ro8o97fd@google.com",
       "_titel": "WK 2 OA"
     },
@@ -824,6 +759,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "39mac96n4q9s3ft5h21jggpibm@google.com",
       "_titel": "WK 2 GP"
     },
@@ -839,6 +775,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "1d7qsppqq6u7i12nil0iodmuv3@google.com",
       "_titel": "OA IMCH Halle"
     },
@@ -854,6 +791,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "08jqil68i5jjul20u3g832u0av@google.com",
       "_titel": "OA IMCH Halle"
     },
@@ -935,6 +873,7 @@
         "*",
         "Klavier: Miquel Bosch Roca (Tchaikovsky); Uschik Choi, Chenyu Wan (Tchaikovsky); Rémi Geniet, Jacob Gröper (Dvorak)"
       ],
+      "abwesend": null,
       "_eventId": "67hltgsrqovqrqi62ukprs47ft@google.com",
       "_titel": "WK 2"
     },
@@ -950,6 +889,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "03v38s4ma3ct32ft7cnpvfo5fu@google.com",
       "_titel": "OA IMCH Halle"
     },
@@ -965,6 +905,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2rb3urfg6opjvu8p7f6iigndp0@google.com",
       "_titel": "OA IMCH Halle"
     },
@@ -980,6 +921,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "3ebfas7185aeer6igpfb3oumdg@google.com",
       "_titel": "HP IMCH Halle"
     },
@@ -995,6 +937,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2tmik4h3r5h7afitmc3ts9s39m@google.com",
       "_titel": "GP IMCH Halle"
     },
@@ -1010,6 +953,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "06dvulhb5dhr41fmlt97d513if@google.com",
       "_titel": "Konzert IMCH Staatskapelle Halle"
     },
@@ -1025,6 +969,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "5k71aj3nkbr3n0c34alo6ls24p@google.com",
       "_titel": "WK 3 OA"
     },
@@ -1040,6 +985,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "6hs7q40j47dpcbden61gdf46l6@google.com",
       "_titel": "WK 3 OA"
     },
@@ -1055,6 +1001,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "7np1gugcirda4af83sm181pveq@google.com",
       "_titel": "WK 3 GP"
     },
@@ -1127,6 +1074,7 @@
         "*",
         "Klavier: Sukjong Kim (Brahms); Philine Lembeck, Doğa Çetin, Jacob Gröper, Miquel Bosch Roca, Chenyu Wan, Uschik Choi (Rimsky-Korsakow)"
       ],
+      "abwesend": null,
       "_eventId": "2f1l56416m0es6ea5d4cdbckvs@google.com",
       "_titel": "WK 3"
     },
@@ -1142,6 +1090,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0to28hmpc2773gvjcaua1tu2us@google.com",
       "_titel": "13/14 OA"
     },
@@ -1157,6 +1106,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0osvh862v7c1pjfotsicvc4hgg@google.com",
       "_titel": "13/14 OA"
     },
@@ -1172,6 +1122,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "37q57vjk490g76vrnb4cjbnt5c@google.com",
       "_titel": "13/14 OA"
     },
@@ -1187,6 +1138,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "6moe5gurcjoasd05h99n9ugjm1@google.com",
       "_titel": "13/14 OA"
     },
@@ -1202,6 +1154,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "1hbk7oud337uhb71lr6ke44bro@google.com",
       "_titel": "13/14 OA"
     },
@@ -1217,6 +1170,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "6o8uajhsg1sbtpn8dkjemo5sdk@google.com",
       "_titel": "13/14 OA"
     },
@@ -1232,6 +1186,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "7lt47r8cae1r3b2rqur2ut7b8n@google.com",
       "_titel": "13/14 OA"
     },
@@ -1247,6 +1202,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "5n4s3lg0ie154b6skv16m33pbj@google.com",
       "_titel": "13/14 OA"
     },
@@ -1262,6 +1218,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "4hhphkctcm5j8rosml40kkjvp2@google.com",
       "_titel": "13/14 GP"
     },
@@ -1383,6 +1340,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "6kjv6b3s2nm7umhhr3ej5ohgs3@google.com",
       "_titel": "13/14 (1)"
     },
@@ -1398,6 +1356,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "7hs8r4ch0qpu58b02np9j1k9o0@google.com",
       "_titel": "13/14 Anspielprobe"
     },
@@ -1522,6 +1481,7 @@
         "*",
         "Klavier: Uschik Choi (Hindemith), Rémi Geniet (Bartok), Chenyu Wan (Ligeti)"
       ],
+      "abwesend": null,
       "_eventId": "483ioq7loajlp49rp2adjongfj@google.com",
       "_titel": "13/14 (2)"
     },
@@ -1565,6 +1525,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "4iplcjpva75k46i4437v5juq31@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -1580,6 +1541,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2ha25ibtugq2mvq1hoaall159v@google.com",
       "_titel": "WK 4 OA"
     },
@@ -1595,6 +1557,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "5nmlv77hdrs0pdjlf6md418cb5@google.com",
       "_titel": "WK 4 OA"
     },
@@ -1610,6 +1573,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2lmgrml71u11jporomff7t07p1@google.com",
       "_titel": "WK 4 GP"
     },
@@ -1701,6 +1665,7 @@
         "*",
         "Klavier: Jacob Gröper, Chenyu Wan (Brahms)"
       ],
+      "abwesend": null,
       "_eventId": "499i0thls65ibhpin9lbvct0so@google.com",
       "_titel": "WK 4"
     },
@@ -1716,6 +1681,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0t9a0gekjaoaq17d1jir6mkf8l@google.com",
       "_titel": "HSO 2 OA Kontrabass"
     },
@@ -1731,6 +1697,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "10cfqhqaeu35s29b6e56culk54@google.com",
       "_titel": "HSO 2 OA Cello"
     },
@@ -1746,6 +1713,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "4efrssembhvokpova4tplsfbga@google.com",
       "_titel": "HSO 2 OA Viola"
     },
@@ -1761,6 +1729,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "663mr2v1dhvr824scd6s1p98rv@google.com",
       "_titel": "HSO 2 OA Violine"
     },
@@ -1776,6 +1745,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "679oia8e6ig3lscfn7jcvn52tr@google.com",
       "_titel": "HSO 2 OA Bläser"
     },
@@ -1791,6 +1761,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "52vls6a8sr72dq8rak13n67kuv@google.com",
       "_titel": "HSO 2 OA Streicher"
     },
@@ -1806,6 +1777,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "5unbcbirljcef67duoaba2k2jk@google.com",
       "_titel": "HSO 2 OA Bläser"
     },
@@ -1821,6 +1793,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "21mj4kubp7mhicjkoev7p7e2fe@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -1836,6 +1809,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "02r8an9vcv68ea5n6sprg3q07t@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -1851,6 +1825,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "7a0v9ss2e7hr6sdhqo6phgmelp@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -1866,6 +1841,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "61mchpqdj5kmk4khdgnmcuh1bb@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -1881,6 +1857,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0ku28tldpb2d07hb2qsg80jjao@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -1896,6 +1873,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0qafrfp1a6tgfc64vcdlhn13ra@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -1911,6 +1889,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2ltletd7icbvt5iet13gsoj4m0@google.com",
       "_titel": "HSO 2 GP"
     },
@@ -2001,6 +1980,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "6um4i26bd68neh5p0d89jbaf59@google.com",
       "_titel": "HSO 2 (1)"
     },
@@ -2016,6 +1996,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "4j5foglrsb9higko97oa4jpk58@google.com",
       "_titel": "Aufbau"
     },
@@ -2031,6 +2012,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "43r6ltlevm05epp16irqdhap12@google.com",
       "_titel": "Anspielprobe HSO 2"
     },
@@ -2124,6 +2106,7 @@
         "*",
         "Klavier: Chenyu Wan (Schnittke); Rémi Geniet, Miquel Bosch Roca, Philine Lembeck (Tchaikovsky); Uschik Choi, Sukjong Kim (Bernstein)"
       ],
+      "abwesend": null,
       "_eventId": "1r4sa0bpcglgid5c5b2modkqhq@google.com",
       "_titel": "HSO 2 (2)"
     },
@@ -2139,6 +2122,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "3ua1i0vhfadsvucvcqp8em2m7h@google.com",
       "_titel": "Abbau"
     },
@@ -2154,6 +2138,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "7s8r3gp9u7ue2hunp482t25geu@google.com",
       "_titel": "WK 5 OA"
     },
@@ -2169,6 +2154,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0cco6vei8u2ie7u7r1htvecvdg@google.com",
       "_titel": "WK 5 OA"
     },
@@ -2184,6 +2170,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "57kusk5m0ccklhkv98jv1s8n0q@google.com",
       "_titel": "WK 5 GP"
     },
@@ -2270,6 +2257,7 @@
         "*",
         "Klavier: Rémi Geniet, Chenyu Wan, Doğa Çetin (Bach); Uschik Choi (Klavierkonzert); Miquel Bosch Roca, Jacob Gröper, Yuan Xin, Sukjong Kim (Sinfonie)"
       ],
+      "abwesend": null,
       "_eventId": "7qcbcpg2p6rjvsdbck8u5jp43l@google.com",
       "_titel": "WK 5"
     },
@@ -2285,6 +2273,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "04jp2lnk3g08co77ibi11879ph@google.com",
       "_titel": "WK 6 OA"
     },
@@ -2300,6 +2289,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "6vd81ucmjq6stoi0sej29gb6jm@google.com",
       "_titel": "WK 6 OA"
     },
@@ -2315,6 +2305,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "55tfcunji1cqp1chi6fh0t65nk@google.com",
       "_titel": "WK 6 GP"
     },
@@ -2396,6 +2387,7 @@
         "*",
         "Klavier: Rémi Geniet (Schumann); Philine Lembeck, Uschik Choi, Chenyu Wan, Doğa Çetin, Yuan Xin, Miquel Bosch Roca (Schubert)"
       ],
+      "abwesend": null,
       "_eventId": "3pdpchb2im48csclnepiss0udr@google.com",
       "_titel": "WK 6"
     },
@@ -2411,6 +2403,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0o64d8oaioro1qbfcb86e3f49b@google.com",
       "_titel": "HSO 3 OA Violine"
     },
@@ -2426,6 +2419,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2v9bt0726o7egnh39cp0ks5q2c@google.com",
       "_titel": "HSO 3 OA Viola"
     },
@@ -2441,6 +2435,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "631vcl334is24os58s26gc0o04@google.com",
       "_titel": "HSO 3 OA Bläser"
     },
@@ -2456,6 +2451,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "7bilg4i7e17h6vqbe36j87k6al@google.com",
       "_titel": "HSO 3 OA Cello"
     },
@@ -2471,6 +2467,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "4j6ojjr9f4mnj0qice5a56nua3@google.com",
       "_titel": "HSO 3 OA Kontrabässe"
     },
@@ -2486,6 +2483,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2o4omaibhhp5p2vmecke0cbapt@google.com",
       "_titel": "HSO 3 OA Bläser"
     },
@@ -2501,6 +2499,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "1jefsp3gog2mnug8agk07f1o1a@google.com",
       "_titel": "HSO 3 OA Streicher"
     },
@@ -2516,6 +2515,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "6h24av8kehqgth87mh18517lqo@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -2531,6 +2531,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "5s53gco18qf6u9285a3ghg452o@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -2546,6 +2547,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2rmnbuo63kgb8pusk07rml1c4r@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -2561,6 +2563,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "58v4dfvjo6gfak3661kcbk941f@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -2576,6 +2579,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "7mt4k1je36qc3q9moavdo3lp1m@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -2591,6 +2595,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "6qbms97tvprbi0iash9ql953lk@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -2606,6 +2611,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "69m8nhnlsi9qgh35bjs2q2bqkf@google.com",
       "_titel": "HSO 3 GP"
     },
@@ -2653,6 +2659,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "1d9v2rb1453rhcs4bijj2ipdt6@google.com",
       "_titel": "HSO 3 (1)"
     },
@@ -2668,6 +2675,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "3oujttut38bm5qdiov46ds0tct@google.com",
       "_titel": "HSO 3 Anspielprobe"
     },
@@ -2715,6 +2723,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "2e27qh4alp8f0imcn125m25qd8@google.com",
       "_titel": "HSO 3 (2)"
     },
@@ -2793,6 +2802,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "7m3jm9banhoi8ut3uhcbkck9vt@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -2808,6 +2818,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "663trbfg87i80e36jqfertgiaj@google.com",
       "_titel": "HSO 3 Wiederaufnahme GP"
     },
@@ -2823,6 +2834,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0h2ksmq538jc9jnmqjc9emnjvt@google.com",
       "_titel": "Aufbau Probe"
     },
@@ -2870,6 +2882,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "7dgb980veq3ktguor1t05arvm5@google.com",
       "_titel": "HSO 3"
     },
@@ -2885,6 +2898,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "6u0qotlpq63bo28okfmevcbuo8@google.com",
       "_titel": "Abbau"
     },
@@ -2926,6 +2940,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "27e42nmo0jftavl2m7rk7c9rel@google.com",
       "_titel": "HSO Repertoire"
     },
@@ -2941,6 +2956,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "1jmjjhj15sie1rtbv6ol990pjt@google.com",
       "_titel": "HSO 4 Anspielprobe"
     },
@@ -2956,6 +2972,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "5eqh1u92cgscmap8pp127l37kk@google.com",
       "_titel": "HSO 4 Anspielprobe"
     },
@@ -2971,6 +2988,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "33vkntcada6bnbgjkamn6gvbm9@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -2987,6 +3005,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "2earghn1silugqbbpr6vdfpmb3@google.com",
       "_titel": "HSO 4 OA Streicher"
     },
@@ -3002,6 +3021,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2q4uhnd599i0h85slab5qe7als@google.com",
       "_titel": "HSO 4 OA Bläser"
     },
@@ -3017,6 +3037,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "776at8hrhrubaj736j1uq7bksu@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -3032,6 +3053,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "4ismi4r5k74r3baclqviea5nkf@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -3047,6 +3069,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0lbluql3ah0gp7u9ds0u9oa8l6@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -3062,6 +3085,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "331h9p60pols9cu1icth8dh8r3@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -3077,6 +3101,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "03k2q94pobauimnsqqdn9mdvpa@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -3092,6 +3117,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "53un6dj3pdebbt4gs9pg7k9po6@google.com",
       "_titel": "HSO 4 GP"
     },
@@ -3162,7 +3188,7 @@
       "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "Baldur Brönniman",
+          "name": "Baldur Brönnimann",
           "werk": "",
           "klasse": ""
         }
@@ -3170,6 +3196,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "51jun9k1v6uhlnddqk45hr28sf@google.com",
       "_titel": "HSO 4 (1)"
     },
@@ -3248,6 +3275,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "3p3ufaqkv4niqcp84r509penmq@google.com",
       "_titel": "HSO 4 (2)"
     },
@@ -3264,6 +3292,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "nfehh1oc0pj6gndsm8bcdnceds@google.com",
       "_titel": "WK 1 OA"
     },
@@ -3279,6 +3308,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0lgdiuaafhunl43li4c91t1i2o@google.com",
       "_titel": "WK 1 OA"
     },
@@ -3294,6 +3324,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2t8ncmhiqvg6nr6r3anika7od4@google.com",
       "_titel": "WK 1 GP"
     },
@@ -3310,6 +3341,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "3503ji296pblbnsmskpdv9t390@google.com",
       "_titel": "WK 1"
     },
@@ -3326,6 +3358,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "9g3nheriikkjub9saqje0bd5vs@google.com",
       "_titel": "HSO 1 OA Violinen"
     },
@@ -3341,6 +3374,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "gj4o84fpodjklvpse1usrbjpls@google.com",
       "_titel": "HSO 1 OA Violen"
     },
@@ -3356,6 +3390,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "n6t0gpe1pmggitubksv2kmeqs4@google.com",
       "_titel": "HSO 1 OA Celli"
     },
@@ -3371,6 +3406,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "toei690ho7a9j5et1p58aoheng@google.com",
       "_titel": "HSO 1 OA Kontrabässe"
     },
@@ -3386,6 +3422,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "mjqdg06bpjpjuio9a53193ttn8@google.com",
       "_titel": "HSO 1 OA Streicher"
     },
@@ -3401,6 +3438,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "u6m2kchf5jo2duts3anfv0j9l0@google.com",
       "_titel": "HSO 1 OA Bläser"
     },
@@ -3416,6 +3454,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "9b5vbtvbe01vm31jhlghl8jb3k@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -3431,6 +3470,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "6nt0t7l15vr1457jdvh1ktoc5c@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -3446,6 +3486,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "kuv61mjpvqa73tbtodcmkds1v8@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -3461,6 +3502,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "lfdkemon79a4r00ie0nkiolsa4@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -3476,6 +3518,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "efmoi0t2rfo8a62sbclb35sfik@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -3491,6 +3534,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "ihonsu1k45qdrt6pdcd3anhhc4@google.com",
       "_titel": "HSO 1 GP"
     },
@@ -3507,6 +3551,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "486ehlnni32vef3jj375077nfk@google.com",
       "_titel": "HSO 1 Konzert zur Semestereröffnung (1) Webcast"
     },
@@ -3523,6 +3568,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "cc6otp6cbcug1v1ja1kk5jgkdg@google.com",
       "_titel": "HSO 1 Konzert zur Semestereröffnung (2) (Studierende)"
     },
@@ -3539,6 +3585,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "bdsv9akfs0a6nq6po114knfbfk@google.com",
       "_titel": "WK 2 OA"
     },
@@ -3554,6 +3601,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "f5p3q7uvgva5k9kr4hshvs82m4@google.com",
       "_titel": "WK 2 OA"
     },
@@ -3569,6 +3617,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "6lbrnteovh1gd6098td46a191s@google.com",
       "_titel": "WK 2 GP"
     },
@@ -3585,6 +3634,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "9ghfc8t7p39i6r7bjdnlvk8i7o@google.com",
       "_titel": "WK 2"
     },
@@ -3600,6 +3650,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0h49k02a9tofgig3bjbee8484c@google.com",
       "_titel": "WK 3 OA"
     },
@@ -3615,6 +3666,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "chqo1fdochsp557rvln108v0v0@google.com",
       "_titel": "WK 3 OA"
     },
@@ -3630,6 +3682,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "nn9n81veddhiujmhg688ahcaak@google.com",
       "_titel": "WK 3 GP"
     },
@@ -3646,6 +3699,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "faobur7sip0t3aqh57c81jm16c@google.com",
       "_titel": "WK 3"
     },
@@ -3662,6 +3716,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "kd0s5tjlh5ubvp2peo9di9l77s@google.com",
       "_titel": "13/14 OA"
     },
@@ -3677,6 +3732,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "8fmponjkio9f3vt1cncni6vg28@google.com",
       "_titel": "13/14 OA"
     },
@@ -3692,6 +3748,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "j7bol1c5nehia4si7k85jb9pdo@google.com",
       "_titel": "13/14 OA"
     },
@@ -3707,6 +3764,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "qsa030ghf05j1u8nnf6u2m9t5o@google.com",
       "_titel": "13/14 OA"
     },
@@ -3722,6 +3780,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "qb4is6ic87i1fd6le3gneeku1k@google.com",
       "_titel": "13/14 OA"
     },
@@ -3737,6 +3796,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "i9jq3iptc5b45gid8uhonpd17g@google.com",
       "_titel": "13/14 OA"
     },
@@ -3752,6 +3812,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "aup50dvqkc4u83b3c0k6qii0pk@google.com",
       "_titel": "13/14 OA"
     },
@@ -3767,6 +3828,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2q8v61jbufic1t3pqkoju8dv94@google.com",
       "_titel": "13/14 OA"
     },
@@ -3782,6 +3844,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "k9g80tb2s2kltfob554smbqfj4@google.com",
       "_titel": "13/14 OA"
     },
@@ -3797,6 +3860,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "cc9hog7lpe9v1h2g6hgfti09rk@google.com",
       "_titel": "13/14 GP"
     },
@@ -3813,6 +3877,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "vt1eksgsqg04v06us8ecoo9cj4@google.com",
       "_titel": "13/14 (1)"
     },
@@ -3828,6 +3893,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "1pbp4896lel6am69tlcor38cvg@google.com",
       "_titel": "13/14 Anspielprobe"
     },
@@ -3844,6 +3910,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "kuiu2ctqso8qb6dhelqu0833k4@google.com",
       "_titel": "13/14 (2)"
     },
@@ -3859,6 +3926,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "mfq8rgcvcttkopj3kdrlmm5r54@google.com",
       "_titel": "WK 4 OA"
     },
@@ -3874,6 +3942,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "34ec83e7cb7r98sitqd7o4qc4c@google.com",
       "_titel": "WK 4 OA"
     },
@@ -3889,6 +3958,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "5gon85eq2chheh31i1t6apqe8s@google.com",
       "_titel": "WK 4 GP"
     },
@@ -3968,6 +4038,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "7sidokg7n9mt07rmth3i7t6pgk@google.com",
       "_titel": "WK 4"
     },
@@ -3983,6 +4054,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "mpv2nm76aofirjo1a14cquuvh4@google.com",
       "_titel": "HSO 2 OA Kontrabass"
     },
@@ -3998,6 +4070,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "206v4hrfn940sp30phupp50oek@google.com",
       "_titel": "HSO 2 OA Cello"
     },
@@ -4013,6 +4086,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "4itaflrkv4mjesnraokms2om1k@google.com",
       "_titel": "HSO 2 OA Viola"
     },
@@ -4028,6 +4102,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "ueg25485ei85vv4bi7j464rits@google.com",
       "_titel": "HSO 2 OA Violine"
     },
@@ -4043,6 +4118,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "odkokkldh1bl31sa0ec0bmrudk@google.com",
       "_titel": "HSO 2 OA Bläser"
     },
@@ -4058,6 +4134,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "sl3qinhtl74eueud7tadhkp9fs@google.com",
       "_titel": "HSO 2 OA Streicher"
     },
@@ -4073,6 +4150,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "h8hgo8ouikab1p8mnm5n4dglro@google.com",
       "_titel": "HSO 2 OA Bläser"
     },
@@ -4088,6 +4166,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "h2a274c5outcl4t5ijdj9u6ob8@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -4103,6 +4182,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "tts79s19gu2mn29ej3qu63ns28@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -4118,6 +4198,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "hekkm4thjqs7gfndh92r20aecc@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -4133,6 +4214,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "46neg1h8tmjhs0i5kbhasdn7ls@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -4148,6 +4230,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "fnnofgo32cqkh7679bu8tao01k@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -4163,6 +4246,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "4pu3qv1npj4mt09o88ao2uglv8@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -4178,6 +4262,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "jv8eg5584h70oj1hg3m1j3raa4@google.com",
       "_titel": "HSO 2 GP"
     },
@@ -4194,6 +4279,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "sbuc99tcn475qr8fdncrj5vkak@google.com",
       "_titel": "HSO 2 (1)"
     },
@@ -4210,6 +4296,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "rneiel5lr0223ds9fjqdd8q0ms@google.com",
       "_titel": "HSO 2 (2)"
     },
@@ -4225,6 +4312,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "sqrlporo53i2pc4tavi2ul56ug@google.com",
       "_titel": "WK 5 OA"
     },
@@ -4240,6 +4328,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "i4aifp6lt54gd7mlok9vm78iqk@google.com",
       "_titel": "WK 5 OA"
     },
@@ -4255,6 +4344,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "ahqf8d8jqd8kci23eq8vaf79j4@google.com",
       "_titel": "WK 5 GP"
     },
@@ -4271,6 +4361,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "2h27htagcm7n5flao4rnud6okc@google.com",
       "_titel": "WK 5"
     },
@@ -4286,6 +4377,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "ljii2bjjg7vvm8id46oecjgdpo@google.com",
       "_titel": "WK 6 OA"
     },
@@ -4301,6 +4393,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "dkutu2s8of3c7l9ucnuk1670b0@google.com",
       "_titel": "WK 6 OA"
     },
@@ -4316,6 +4409,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "q1lrtqva13li7rb2lvmo3eqra8@google.com",
       "_titel": "WK 6 GP"
     },
@@ -4332,6 +4426,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "gne0vmg59bfmk7u9386vs36o9c@google.com",
       "_titel": "WK 6"
     },
@@ -4347,6 +4442,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "oothalgbc2j5pjs58l412mi5hc@google.com",
       "_titel": "HSO 3 OA Violine"
     },
@@ -4362,6 +4458,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "dme7rhu79238r2gvb5spmd68ak@google.com",
       "_titel": "HSO 3 OA Viola"
     },
@@ -4377,6 +4474,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "1gteqe24r9jvbf2lrp0kgiikjk@google.com",
       "_titel": "HSO 3 OA Bläser"
     },
@@ -4392,6 +4490,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "ppn4h3jkftdoem9a804ar2skas@google.com",
       "_titel": "HSO 3 OA Cello"
     },
@@ -4407,6 +4506,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "ca0io1evtrl9bcpdidtmnqlsak@google.com",
       "_titel": "HSO 3 OA Kontrabässe"
     },
@@ -4422,6 +4522,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "7tlaupkr710j6mthken5aatad4@google.com",
       "_titel": "HSO 3 OA Bläser"
     },
@@ -4437,6 +4538,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "g5bn2b95ve1jj979kvoa7ttj64@google.com",
       "_titel": "HSO 3 OA Streicher"
     },
@@ -4452,6 +4554,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "j13rimrlmnnocj00uuo8ujui4g@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -4467,6 +4570,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "36vvv82an0n6l177o5q27k9g5o@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -4482,6 +4586,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "1u335kld05mtcthmr2e55obark@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -4497,6 +4602,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "79osr6m14ra40s0oqtbgh31ccc@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -4512,6 +4618,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "4q45jem2irq1v2r67pdjv38sd8@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -4527,6 +4634,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "6qiuv3hrbf8humnqht4uiaku28@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -4542,6 +4650,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "4nicdo49gurqg4g0867lls42v8@google.com",
       "_titel": "HSO 3 GP"
     },
@@ -4558,6 +4667,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "onk5gn6k516b2mrbtnrgm6fhd8@google.com",
       "_titel": "HSO 3 (1)"
     },
@@ -4574,6 +4684,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "pt0eqna6v2u57nulj8t53h68a8@google.com",
       "_titel": "HSO 3 Anspielprobe"
     },
@@ -4590,6 +4701,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "vpmu57m5bmv0mo7fljnps0ntqs@google.com",
       "_titel": "HSO 3 (2)"
     },
@@ -4605,6 +4717,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "kn4duarvn4qkjl3iltjr9oks68@google.com",
       "_titel": "HSO 3 Wiederaufnahme GP"
     },
@@ -4621,6 +4734,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "c8taj8d3grmdurq3ucb5hdrabs@google.com",
       "_titel": "HSO 3"
     },
@@ -4637,6 +4751,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "4obnnduhmb2a7ekb8srrovkrdg@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -4652,6 +4767,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "gg3luitfclbstnt74ugk1kod1s@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -4667,6 +4783,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0gfmh4a5fohr7ndkkrj2jh3pao@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -4682,6 +4799,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "oe488kdvr6qe6f9bfta3g1stl8@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -4697,6 +4815,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "s804s0sj56cu92hnkev5rhnj68@google.com",
       "_titel": "HSO 4 OSP"
     },
@@ -4712,6 +4831,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "f7r0kdnunpp7smdhpfgedks7es@google.com",
       "_titel": "HSO 4 OSP"
     },
@@ -4727,6 +4847,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "0jfei5bkjlo6g7hm98v7jemk9c@google.com",
       "_titel": "HSO 4 OSP"
     },
@@ -4742,6 +4863,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "vbqli4pmkq8s0smk1dg7b15qrg@google.com",
       "_titel": "HSO 4 HP"
     },
@@ -4757,6 +4879,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "p1j1d2bsdte67kqo5a6gs0fvg0@google.com",
       "_titel": "HSO 4 GP"
     },
@@ -4773,6 +4896,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "imidmfejmc3qagvpkkg2hjofa4@google.com",
       "_titel": "HSO 4"
     },
@@ -4789,6 +4913,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "9abj4n89vkv9p2qsdoe0ls5nmc@google.com",
       "_titel": "HSO 4"
     },
@@ -4847,6 +4972,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "0hsn0t9p5qd3t73muvflj1nc1c@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -4886,6 +5012,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "3i29n01gbccgn22t1ebcahrv35@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -4919,6 +5046,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "5ulndvlfgv1ite0pspau9a84rg@google.com",
       "_titel": "HSO Repertoire"
     },
@@ -5012,6 +5140,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "6lnkj5u06eqds0cfosc2i7uelg@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5050,6 +5179,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "4u4dcm6j7sq6884r7s92r5moaf@google.com",
       "_titel": "HSO Repertoire"
     },
@@ -5088,6 +5218,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "5f3b3vu21dcb5at8vtk6n93efc@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5153,6 +5284,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "15apmiqmrd1n7rli0123e8kfk5@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5190,6 +5322,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "300v5ej6b7o32mgoas18h92mn1@google.com",
       "_titel": "HSO Repertoire"
     },
@@ -5228,6 +5361,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "4k8okqeq7bcnuca9hm8lhv7aha@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5265,6 +5399,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "1dvmh7lvi2ekljcc5lo3jbrg5a@google.com",
       "_titel": "HSO Repertoire"
     },
@@ -5298,6 +5433,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "3k7gmj206bpcm6nfvuj87cs4eq@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5336,6 +5472,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "2v2o3ta1jilno105pgcfur1ugd@google.com",
       "_titel": "HSO Repertoire"
     },
@@ -5374,6 +5511,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "2qeqksi8sql91fskpe07blbchh@google.com",
       "_titel": "HSO Repertoire"
     },
@@ -5396,6 +5534,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "6rqcoh5bo7qugso366cpbvif04@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5418,6 +5557,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "0267ec23tttoocb4k5buh8va8u@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5440,6 +5580,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "1a41dvmch4361nu2g0j3guqgcl@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5462,6 +5603,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "6r30qvrtghfln1tbas02oru0g6@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5484,6 +5626,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "30f9hmvdnjpgg3tqc2dcrpm47m@google.com",
       "_titel": "HSO Repertoire"
     },
@@ -5506,6 +5649,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "47ccno9ffe7ivoou5gbnpcc1lh@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5528,6 +5672,7 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "5huhq7ed9k6mch4uj97o8f6hc2@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5543,6 +5688,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "03smbqm44bq6m3c1ga8scjf4lj@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5558,13 +5704,14 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2gpoptu1f4ph3bua756qhqoscd@google.com",
       "_titel": "HSO Blattspiel"
     },
     {
-      "datum": "30.06.2027",
+      "datum": "23.06.2027",
       "uhrzeit": "14:15 Uhr",
-      "ort": "Forum",
+      "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -5580,11 +5727,12 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
+      "abwesend": null,
       "_eventId": "2ueh70ao1iu6t1uc0jijhej8l1@google.com",
       "_titel": "HSO Repertoire"
     },
     {
-      "datum": "07.07.2027",
+      "datum": "30.06.2027",
       "uhrzeit": "14:15 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -5595,6 +5743,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "22a00tluftjed4cugghohueccd@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5610,6 +5759,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2ug097ita11g2453u3e0q4q0k1@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5625,6 +5775,7 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "2ne9b56hevg3vgorjccvpkq7sk@google.com",
       "_titel": "13/14 OA"
     },
@@ -5640,23 +5791,9 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "7jahtl2q8fmp6fmiq20lecgu7q@google.com",
       "_titel": "13/14 OA"
-    },
-    {
-      "datum": "23.06.2026",
-      "uhrzeit": "00:00 Uhr",
-      "ort": "",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "_eventId": "u0j5rg7a30lfrqojcao95u2lhg@google.com",
-      "_titel": "Peabody 2026"
     },
     {
       "datum": "04.07.2027",
@@ -5670,8 +5807,41 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "abwesend": null,
       "_eventId": "5eehak4ab7m323dacaa7ho7fsp@google.com",
       "_titel": "HSO 4 OA"
+    },
+    {
+      "datum": "07.07.2027",
+      "uhrzeit": "17:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "abwesend": null,
+      "_eventId": "6untkd6u55pmdr6ni4os57usnp@google.com",
+      "_titel": "HSO 4 Anspielprobe"
+    },
+    {
+      "datum": "23.06.2026",
+      "uhrzeit": "00:00 Uhr",
+      "ort": "",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "abwesend": null,
+      "_eventId": "u0j5rg7a30lfrqojcao95u2lhg@google.com",
+      "_titel": "Peabody 2026"
     }
   ]
 }
