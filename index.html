@@ -124,6 +124,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .kal-event-title{font-size:14px;font-weight:500;color:var(--text);line-height:1.2}
 .kal-event-title.bold{font-weight:700}
 .kal-event-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
+.kal-abwesend{font-size:11px;color:#c0392b;font-weight:600;margin-top:2px}
 .kal-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0}
 .kal-chev{color:var(--text-muted);flex-shrink:0;transition:transform 0.2s}
 .kal-chev svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -564,6 +565,7 @@ function renderKalListe() {
     <div class="kal-info">
       <div class="kal-event-title${isVorstellung?' bold':''}">${esc(titelText)}</div>
       ${sub?`<div class="kal-event-sub">${esc(sub)}</div>`:''}
+      ${ev.abwesend?`<div class="kal-abwesend">Abwesend: ${esc(ev.abwesend)}</div>`:''}
     </div>
     ${hatDetails?`<div class="kal-chev" id="kchev-${kid}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>`:''}
   </div>`;
