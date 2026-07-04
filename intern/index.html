@@ -216,7 +216,6 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       <button class="tnav" data-tab="t-unterricht" onclick="wechselTab(this)"><span class="tnav-icon">✎</span> Unterricht</button>
       <button class="tnav" data-tab="t-zeitplan" onclick="wechselTab(this)"><span class="tnav-icon">⏱</span> Zeitplan</button>
       <button class="tnav" data-tab="t-links" onclick="wechselTab(this)"><span class="tnav-icon">⎋</span> Links</button>
-      <button class="tnav" data-tab="t-meine-links" onclick="wechselTab(this)"><span class="tnav-icon">🔗</span> Meine Links</button>
     </nav>
   </div>
 
@@ -524,45 +523,6 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       </a>
        </div>
   </div>
-
-  <!-- MEINE LINKS -->
-  <div class="tab" id="t-meine-links">
-    <div class="card card-pad" style="margin-bottom:16px">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px">
-        <div style="font-size:12px;font-weight:700;color:var(--ink3)">GitHub-Verbindung</div>
-        <div id="ml-token-status" style="font-size:12px"></div>
-      </div>
-      <div style="font-size:11px;color:var(--ink3);line-height:1.5">Links werden direkt als Commit in <code style="font-family:var(--mono);background:var(--paper2);padding:1px 5px;border-radius:4px">intern/meine-links.json</code> im Repo <code style="font-family:var(--mono);background:var(--paper2);padding:1px 5px;border-radius:4px">hfmt-hso/hfmt-hso.github.io</code> gespeichert. Der Token wird nur lokal in diesem Browser abgelegt.</div>
-    </div>
-
-    <div class="section-h">Neuen Link anlegen</div>
-    <div class="card card-pad" style="margin-bottom:20px">
-      <div style="display:grid;grid-template-columns:2fr 3fr;gap:10px;margin-bottom:10px">
-        <div class="tfield" style="margin-bottom:0">
-          <label>Name</label>
-          <input id="ml-name" type="text" placeholder="z.B. Notenarchiv">
-        </div>
-        <div class="tfield" style="margin-bottom:0">
-          <label>URL</label>
-          <input id="ml-url" type="text" placeholder="https://…" onkeydown="if(event.key==='Enter')mlHinzufuegen()">
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 2fr auto;gap:10px;align-items:end">
-        <div class="tfield" style="margin-bottom:0">
-          <label>Icon</label>
-          <input id="ml-icon" type="text" placeholder="🔗" maxlength="4" onkeydown="if(event.key==='Enter')mlHinzufuegen()">
-        </div>
-        <div class="tfield" style="margin-bottom:0">
-          <label>Kategorie</label>
-          <input id="ml-kategorie" type="text" placeholder="z.B. Allgemein" onkeydown="if(event.key==='Enter')mlHinzufuegen()">
-        </div>
-        <button id="ml-add-btn" onclick="mlHinzufuegen()" style="padding:9px 16px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);white-space:nowrap">+ Hinzufügen</button>
-      </div>
-    </div>
-
-    <div class="section-h">Gespeicherte Links</div>
-    <div id="ml-liste"><div class="spinner"><div class="spin"></div>Lade...</div></div>
-  </div>
 </div>
 
 <!-- Kombinieren Modal -->
@@ -690,7 +650,6 @@ function ladenWennNoetig(tabId){
   if(tabId==='t-kalender')ladenKalender();
   if(tabId==='t-unterricht')ladenUnterricht();
   if(tabId==='t-zeitplan')initZeitplan();
-  if(tabId==='t-meine-links'){mlUpdateTokenStatus();mlLaden(false);}
 }
 var _startSjFilter='alle';
 var _startTypFilter='alle';
@@ -770,7 +729,7 @@ function renderStartTermine(){
       var tag=String(d2.getDate()).padStart(2,'0');
       var wt=WT[d2.getDay()];
       var sjLabel=item.sj.replace('_','/');
-      var hatProg=(ev.werke&&ev.werke.filter(function(w){return!w.pause;}).length>0)||ev.leitung;
+      var hatProg=(ev.werke&&ev.werke.filter(function(w){return!w.pause;}).length>0)||(ev.leitung&&ev.leitung.length>0);
       var kid='st-'+kalIdx++;
       // Balkenfarbe je Projekttyp
       var balken=item.projekt.startsWith('WK')?'#0F6E56':item.projekt==='13/14'?'#854F0B':/Blattspiel|Repertoire/i.test(item.projekt)?'#534AB7':'#185FA5';
@@ -785,6 +744,7 @@ function renderStartTermine(){
           '<div style="flex:1;min-width:0">'+
             '<div style="font-size:13px;font-weight:'+(isVorstellung?'700':'500')+';color:var(--ink)">'+esc(ev._titel||item.projekt)+'</div>'+
             '<div style="font-size:11px;color:var(--ink3);margin-top:2px">'+esc(ev.uhrzeit||'')+(ev.ort?' · '+esc(ev.ort):'')+'</div>'+
+            (ev.abwesend?'<div style="font-size:11px;color:var(--red);font-weight:600;margin-top:2px">Abwesend: '+esc(ev.abwesend)+'</div>':'')+
           '</div>'+
           (hatProg?'<div id="chev-'+kid+'" style="color:var(--ink3);font-size:11px;flex-shrink:0;transition:transform 0.2s">▾</div>':'')+
         '</div>'+
@@ -1951,179 +1911,6 @@ document.addEventListener('keydown', function(e) {
 initialLaden();
 
 // ══════════════════════════════════════════════════════════════
-// MEINE LINKS — eigener Generator, schreibt direkt per GitHub API
-// ══════════════════════════════════════════════════════════════
-var ML_REPO = 'hfmt-hso/hfmt-hso.github.io';
-var ML_BRANCH = 'main';
-var ML_PATH = 'intern/meine-links.json';
-var _mlToken = localStorage.getItem('mlGithubToken') || '';
-var _mlSha = null;
-var _mlDaten = { links: [] };
-var _mlGeladen = false;
-
-function mlTokenVorhanden(){ return !!_mlToken; }
-
-function mlOeffneTokenModal(){
-  var t = prompt('GitHub Personal Access Token (mit Schreibrechten für hfmt-hso/hfmt-hso.github.io):', '');
-  if (t === null) return;
-  t = t.trim();
-  if (!t) { zeigToast('Kein Token eingegeben'); return; }
-  _mlToken = t;
-  localStorage.setItem('mlGithubToken', t);
-  mlUpdateTokenStatus();
-  zeigToast('Token gespeichert ✓');
-}
-
-function mlTokenLoeschen(){
-  if (!confirm('Token wirklich aus diesem Browser entfernen?')) return;
-  _mlToken = '';
-  localStorage.removeItem('mlGithubToken');
-  mlUpdateTokenStatus();
-  zeigToast('Token entfernt');
-}
-
-function mlUpdateTokenStatus(){
-  var el = document.getElementById('ml-token-status');
-  if (!el) return;
-  el.innerHTML = mlTokenVorhanden()
-    ? '<span style="color:var(--green);font-weight:600">✓ Verbunden</span> <button onclick="mlTokenLoeschen()" style="margin-left:8px;background:none;border:none;color:var(--ink3);font-size:11px;cursor:pointer;text-decoration:underline;font-family:var(--sans)">entfernen</button>'
-    : '<span style="color:var(--red);font-weight:600">Kein Token hinterlegt</span> <button onclick="mlOeffneTokenModal()" style="margin-left:8px;background:none;border:none;color:var(--blue);font-size:11px;cursor:pointer;text-decoration:underline;font-family:var(--sans)">Token eintragen</button>';
-}
-
-function mlB64Encode(str){ return btoa(unescape(encodeURIComponent(str))); }
-function mlB64Decode(b64){ return decodeURIComponent(escape(atob(b64.replace(/\n/g,'')))); }
-
-async function mlLaden(force){
-  if (_mlGeladen && !force) { mlRender(); return; }
-  var el = document.getElementById('ml-liste');
-  if (el) el.innerHTML = '<div class="spinner"><div class="spin"></div>Lade...</div>';
-  try {
-    var r = await fetch('https://api.github.com/repos/' + ML_REPO + '/contents/' + ML_PATH + '?ref=' + ML_BRANCH, {
-      headers: { 'Accept': 'application/vnd.github+json' }
-    });
-    if (r.status === 404) {
-      _mlDaten = { links: [] };
-      _mlSha = null;
-      _mlGeladen = true;
-      mlRender();
-      return;
-    }
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    var meta = await r.json();
-    _mlSha = meta.sha;
-    _mlDaten = JSON.parse(mlB64Decode(meta.content));
-    if (!_mlDaten.links) _mlDaten.links = [];
-    _mlGeladen = true;
-    mlRender();
-  } catch (e) {
-    if (el) el.innerHTML = '<div class="empty">Fehler beim Laden: ' + esc(e.message) + '</div>';
-  }
-}
-
-function mlRender(){
-  var el = document.getElementById('ml-liste');
-  if (!el) return;
-  var links = _mlDaten.links || [];
-  if (!links.length) { el.innerHTML = '<div class="empty">Noch keine Links gespeichert</div>'; return; }
-  var gruppen = {};
-  links.forEach(function(l){
-    var k = l.kategorie || 'Allgemein';
-    if (!gruppen[k]) gruppen[k] = [];
-    gruppen[k].push(l);
-  });
-  Object.keys(gruppen).forEach(function(k){
-    gruppen[k].sort(function(a,b){ return a.name.localeCompare(b.name,'de'); });
-  });
-  var html = '';
-  Object.keys(gruppen).sort().forEach(function(kat){
-    html += '<div class="link-section"><div class="link-section-h">' + esc(kat) + '</div>';
-    gruppen[kat].forEach(function(l){
-      html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">' +
-        '<a class="qlink" style="flex:1;min-width:0" href="' + esc(l.url) + '" target="_blank">' +
-          '<div class="qlink-icon" style="background:var(--paper2)">' + esc(l.icon || '🔗') + '</div>' +
-          '<div class="qlink-text"><div class="qlink-name">' + esc(l.name) + '</div><div class="qlink-type">' + esc(l.url) + '</div></div>' +
-          '<div class="qlink-arr">↗</div>' +
-        '</a>' +
-        '<button onclick="mlLoeschen(\'' + esc(l.id) + '\')" title="Löschen" style="flex-shrink:0;width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:#fff;color:var(--red);cursor:pointer;font-size:15px;font-family:var(--sans)">×</button>' +
-      '</div>';
-    });
-    html += '</div>';
-  });
-  el.innerHTML = html;
-}
-
-async function mlHinzufuegen(){
-  if (!mlTokenVorhanden()) { zeigToast('Bitte zuerst GitHub-Token eintragen'); mlOeffneTokenModal(); return; }
-  var name = document.getElementById('ml-name').value.trim();
-  var url = document.getElementById('ml-url').value.trim();
-  var icon = document.getElementById('ml-icon').value.trim() || '🔗';
-  var kategorie = document.getElementById('ml-kategorie').value.trim() || 'Allgemein';
-  if (!name || !url) { zeigToast('Name und URL sind Pflichtfelder'); return; }
-  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
-  var btn = document.getElementById('ml-add-btn');
-  btn.disabled = true; btn.textContent = 'Speichere…';
-  try {
-    if (!_mlGeladen) await mlLaden(true);
-    var neu = { id: 'l' + Date.now(), name: name, url: url, icon: icon, kategorie: kategorie, erstellt: new Date().toISOString() };
-    _mlDaten.links.push(neu);
-    await mlSpeichern('Link hinzugefügt: ' + name);
-    document.getElementById('ml-name').value = '';
-    document.getElementById('ml-url').value = '';
-    document.getElementById('ml-icon').value = '';
-    document.getElementById('ml-kategorie').value = '';
-    mlRender();
-    zeigToast('✓ Link gespeichert');
-  } catch (e) {
-    zeigToast('Fehler: ' + e.message);
-  }
-  btn.disabled = false; btn.textContent = '+ Hinzufügen';
-}
-
-async function mlLoeschen(id){
-  if (!mlTokenVorhanden()) { zeigToast('Bitte zuerst GitHub-Token eintragen'); mlOeffneTokenModal(); return; }
-  if (!confirm('Link wirklich löschen?')) return;
-  var vorher = _mlDaten.links.slice();
-  _mlDaten.links = _mlDaten.links.filter(function(l){ return l.id !== id; });
-  mlRender();
-  try {
-    await mlSpeichern('Link gelöscht');
-    zeigToast('✓ Gelöscht');
-  } catch (e) {
-    _mlDaten.links = vorher;
-    mlRender();
-    zeigToast('Fehler: ' + e.message);
-  }
-}
-
-async function mlSpeichern(commitMsg){
-  var body = {
-    message: commitMsg + ' [Meine Links]',
-    content: mlB64Encode(JSON.stringify(_mlDaten, null, 2)),
-    branch: ML_BRANCH
-  };
-  if (_mlSha) body.sha = _mlSha;
-  var r = await fetch('https://api.github.com/repos/' + ML_REPO + '/contents/' + ML_PATH, {
-    method: 'PUT',
-    headers: {
-      'Accept': 'application/vnd.github+json',
-      'Authorization': 'Bearer ' + _mlToken,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  });
-  if (!r.ok) {
-    var errTxt = '';
-    try { var errJson = await r.json(); errTxt = errJson.message || ''; } catch (e2) {}
-    if (r.status === 401) errTxt = 'Token ungültig oder abgelaufen';
-    if (r.status === 403) errTxt = 'Token hat keine Schreibrechte für dieses Repo';
-    if (r.status === 409) errTxt = 'Datei wurde inzwischen anderweitig geändert – bitte Seite neu laden';
-    throw new Error('HTTP ' + r.status + (errTxt ? ' – ' + errTxt : ''));
-  }
-  var d = await r.json();
-  _mlSha = d.content.sha;
-}
-
-// ══════════════════════════════════════════════════════════════
 // GOOGLE TASKS
 // ══════════════════════════════════════════════════════════════
 
@@ -2408,5 +2195,3 @@ async function apiPost(data) {
 </div>
 </body>
 </html>
-
-
