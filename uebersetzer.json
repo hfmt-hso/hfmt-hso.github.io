@@ -1,145 +1,6 @@
 {
-  "generiert": "2026-07-04T15:16:36.170Z",
+  "generiert": "2026-07-07T09:54:55.851Z",
   "events": [
-    {
-      "datum": "04.07.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "abwesend": "Oboe, Simon",
-      "_eventId": "1d4qof07g385pa06q2pmo1am8c@google.com",
-      "_titel": "HSO 4 OA"
-    },
-    {
-      "datum": "04.07.2026",
-      "uhrzeit": "18:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "_eventId": "1p5c6pqp4ggkhacfjh73tlh4dg@google.com",
-      "_titel": "HSO 4 (GP)"
-    },
-    {
-      "datum": "05.07.2026",
-      "uhrzeit": "19:00 Uhr",
-      "ort": "Forum",
-      "konzertart": "Konzertante Aufführung",
-      "marker": "Vorstellung",
-      "werke": [
-        {
-          "komponist": "Benjamin Britten",
-          "lebensdaten": "1913–1976",
-          "titel": "The turn of the screw, Opera in a prologue and two acts after a story by Henry James, op. 54 (1954)",
-          "saetze": [
-            "Prologue",
-            "Theme",
-            "Variation I - The Journey",
-            "Variation II - The Welcome",
-            "Variation III - The Letter",
-            "Variation IV - The Tower",
-            "Variation V - The Window",
-            "Variation VI - The Lesson",
-            "Variation VII - The Lake",
-            "Variation VIII - At Night",
-            "Variation IX - The Bells",
-            "Variation X - Miss Jessel",
-            "Variation XI - The Bedroom",
-            "Variation XII - Quint",
-            "Variation XIII - The Piano",
-            "Variation XIV - Flora",
-            "Variation XV - Miles",
-            "Natalia Willot-Förster — Gouvernante | Yeseul Kwon — Miles | Lisa Scheffler — Flora | Rosa Lüttschwager — Mrs. Grose, Haushälterin | Virginia Ferentschik — Miss Jessel | Bingyu He — Prolog | Seumas Aonghas Begg — Peter Quint"
-          ],
-          "dauer": "ca. 105 min",
-          "besetzung": "1.1.1.1-1.0.0.0-Pk-Klav., Cel.-Hrf.-Str. (1.1.1.1.1)",
-          "urauffuehrung": false,
-          "pause": false
-        }
-      ],
-      "solisten": [],
-      "ensemble": "Kammerorchester der HfMT",
-      "leitung": [
-        {
-          "name": "Ulrich Windfuhr",
-          "werk": "",
-          "klasse": ""
-        }
-      ],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "abwesend": null,
-      "_eventId": "2ts281g239igjlmfltnn59qp97@google.com",
-      "_titel": "HSO 4 (1)"
-    },
-    {
-      "datum": "06.07.2026",
-      "uhrzeit": "19:00 Uhr",
-      "ort": "Forum",
-      "konzertart": "Konzertante Aufführung",
-      "marker": "Vorstellung",
-      "werke": [
-        {
-          "komponist": "Benjamin Britten",
-          "lebensdaten": "1913–1976",
-          "titel": "The turn of the screw, Opera in a prologue and two acts after a story by Henry James, op. 54 (1954)",
-          "saetze": [
-            "Prologue",
-            "Theme",
-            "Variation I - The Journey",
-            "Variation II - The Welcome",
-            "Variation III - The Letter",
-            "Variation IV - The Tower",
-            "Variation V - The Window",
-            "Variation VI - The Lesson",
-            "Variation VII - The Lake",
-            "Variation VIII - At Night",
-            "Variation IX - The Bells",
-            "Variation X - Miss Jessel",
-            "Variation XI - The Bedroom",
-            "Variation XII - Quint",
-            "Variation XIII - The Piano",
-            "Variation XIV - Flora",
-            "Variation XV - Miles",
-            "Natalia Willot-Förster — Gouvernante | Yeseul Kwon — Miles | Lisa Scheffler — Flora | Rosa Lüttschwager — Mrs. Grose, Haushälterin | Virginia Ferentschik — Miss Jessel | Bingyu He — Prolog | Seumas Aonghas Begg — Peter Quint"
-          ],
-          "dauer": "ca. 105 min",
-          "besetzung": "1.1.1.1-1.0.0.0-Pk-Klav., Cel.-Hrf.-Str. (1.1.1.1.1)",
-          "urauffuehrung": false,
-          "pause": false
-        }
-      ],
-      "solisten": [],
-      "ensemble": "Kammerorchester der HfMT",
-      "leitung": [
-        {
-          "name": "Studierende der Dirigierklasse",
-          "werk": "",
-          "klasse": "Klasse Prof. Ulrich Windfuhr"
-        }
-      ],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "abwesend": null,
-      "_eventId": "77pf0gj4q2ddnale7iqhi84e50@google.com",
-      "_titel": "HSO 4 (2)"
-    },
     {
       "datum": "07.07.2026",
       "uhrzeit": "19:00 Uhr",
@@ -667,7 +528,7 @@
       "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "Doğa Çetin (Trojahn), Yuan Xin (Stravinsky), Rémi Geniet, Philine Lembeck, Sukjong Kim (Brahms)  (Kursleitung: Frank Beermann)",
+          "name": "Doğa Çetin (Trojahn), Yuan Xin (Stravinsky), Rémi Geniet, Philine Lembeck, Jacob Gröper (Brahms)  (Kursleitung: Frank Beermann)",
           "werk": "",
           "klasse": ""
         }
@@ -2945,22 +2806,6 @@
       "_titel": "HSO Repertoire"
     },
     {
-      "datum": "06.07.2026",
-      "uhrzeit": "17:30 Uhr",
-      "ort": "",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "_eventId": "1jmjjhj15sie1rtbv6ol990pjt@google.com",
-      "_titel": "HSO 4 Anspielprobe"
-    },
-    {
       "datum": "07.07.2026",
       "uhrzeit": "17:30 Uhr",
       "ort": "",
@@ -2994,7 +2839,7 @@
     },
     {
       "datum": "01.07.2027",
-      "uhrzeit": "10:00 Uhr",
+      "uhrzeit": "18:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "1. Probe",
@@ -3173,7 +3018,7 @@
             {
               "instrument": "Klavier",
               "name": "Chengcheng Zhang",
-              "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya"
+              "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya, Prof. Caroline Weichert"
             }
           ]
         }
@@ -3182,7 +3027,7 @@
         {
           "instrument": "Klavier",
           "name": "Chengcheng Zhang",
-          "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya"
+          "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya, Prof. Caroline Weichert"
         }
       ],
       "ensemble": "Symphonieorchester der HfMT",
@@ -3252,7 +3097,7 @@
             {
               "instrument": "Klavier",
               "name": "Chengcheng Zhang",
-              "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya"
+              "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya, Prof. Caroline Weichert"
             }
           ]
         }
@@ -3261,7 +3106,7 @@
         {
           "instrument": "Klavier",
           "name": "Chengcheng Zhang",
-          "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya"
+          "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya, Prof. Caroline Weichert"
         }
       ],
       "ensemble": "Symphonieorchester der HfMT",
@@ -5842,6 +5687,22 @@
       "abwesend": null,
       "_eventId": "u0j5rg7a30lfrqojcao95u2lhg@google.com",
       "_titel": "Peabody 2026"
+    },
+    {
+      "datum": "08.10.2026",
+      "uhrzeit": "17:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "abwesend": null,
+      "_eventId": "6n3keh7bvfsfc64sjdaie9qjnq@google.com",
+      "_titel": "HSO 1 Anspielprobe"
     }
   ]
 }
