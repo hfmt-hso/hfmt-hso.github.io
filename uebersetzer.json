@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-07-07T09:54:55.851Z",
+  "generiert": "2026-07-07T11:17:31.088Z",
   "events": [
     {
       "datum": "07.07.2026",
@@ -1875,7 +1875,7 @@
       "notizen": [],
       "abwesend": null,
       "_eventId": "43r6ltlevm05epp16irqdhap12@google.com",
-      "_titel": "Anspielprobe HSO 2"
+      "_titel": "HSO 2 Anspielprobe "
     },
     {
       "datum": "10.02.2027",
@@ -5673,6 +5673,22 @@
       "_titel": "HSO 4 Anspielprobe"
     },
     {
+      "datum": "08.10.2026",
+      "uhrzeit": "17:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "abwesend": null,
+      "_eventId": "6n3keh7bvfsfc64sjdaie9qjnq@google.com",
+      "_titel": "HSO 1 Anspielprobe"
+    },
+    {
       "datum": "23.06.2026",
       "uhrzeit": "00:00 Uhr",
       "ort": "",
@@ -5689,9 +5705,9 @@
       "_titel": "Peabody 2026"
     },
     {
-      "datum": "08.10.2026",
-      "uhrzeit": "17:30 Uhr",
-      "ort": "Forum",
+      "datum": "06.05.2027",
+      "uhrzeit": "09:30 Uhr",
+      "ort": "",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -5701,8 +5717,8 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
-      "_eventId": "6n3keh7bvfsfc64sjdaie9qjnq@google.com",
-      "_titel": "HSO 1 Anspielprobe"
+      "_eventId": "6vb9qi511b1ccjimdmgjtcpims@google.com",
+      "_titel": "HSO 3 Anspielprobe"
     }
   ]
 }
