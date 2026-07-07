@@ -365,6 +365,13 @@ function aktuellesSj(){
   const d=new Date(),m=d.getMonth(),y=d.getFullYear()%100;
   return m>=8?y+'_'+(y+1):(y-1)+'_'+y;
 }
+
+function zeitZuMin(s){
+  if(!s) return 0;
+  const m = String(s).match(/(\d{1,2}):(\d{2})/);
+  return m ? parseInt(m[1],10)*60 + parseInt(m[2],10) : 0;
+}
+
 function parseDatum(s){
   if(!s)return null;
   const str=String(s).trim();
@@ -624,7 +631,11 @@ async function ladenKalender(){
       const typ = getKalTyp(p);
       alle.push({projekt:p, ev, dat, typ});
     });
-    alle.sort((a,b)=>a.dat-b.dat);
+    alle.sort((a,b)=>{
+      const diff = a.dat - b.dat;
+      if(diff !== 0) return diff;
+      return zeitZuMin(a.ev.uhrzeit) - zeitZuMin(b.ev.uhrzeit);
+    });
     _kalItems = alle;
 
     if(!alle.length){ el.innerHTML='<div class="loading">Keine Termine gefunden.</div>'; return; }
