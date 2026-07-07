@@ -1256,15 +1256,16 @@ async function ladenProgramm(){
 
 // ── KALENDER TAB ──────────────────────────────────────────
 async function ladenKalender(){
-  var d=await apiFetch('programm',{sj:_aktSj});
+  var d=await apiFetch('kalender',{sj:_aktSj});
   var el=document.getElementById('kal-inhalt');
   if(!d||!d.data){el.innerHTML='<div class="empty">Keine Daten</div>';return;}
   var alle=[],heute=new Date();heute.setHours(0,0,0,0);
-  Object.keys(d.data).forEach(function(p){
-    (d.data[p]||[]).forEach(function(ev){
-      var dat=parseDatum(ev.datum);
-      if(dat)alle.push({projekt:p,ev:ev,dat:dat});
-    });
+  // kalender-Endpunkt liefert flaches Array aller Events (auch ohne eigenes
+  // Projekt, z.B. Anspielprobe/Aufbau/Abbau/Workshop) — anders als 'programm',
+  // das nur Events zeigt, die einem registrierten Projekt zugeordnet sind.
+  (Array.isArray(d.data)?d.data:Object.values(d.data).flat()).forEach(function(ev){
+    var dat=parseDatum(ev.datum);
+    if(dat)alle.push({ev:ev,dat:dat});
   });
   alle.sort((a,b)=>a.dat-b.dat);
   if(!alle.length){el.innerHTML='<div class="empty">Keine Termine</div>';return;}
@@ -1278,11 +1279,12 @@ async function ladenKalender(){
     html+='<div class="kal-day" style="'+(vergangen?'opacity:0.45':'')+'"><div class="kal-day-h">'+kopf+'</div>';
     tage[datum].forEach(function(item){
       var ev=item.ev;
-      var dot=item.projekt.startsWith('HSO')?'':item.projekt.startsWith('WK')?' green':' gold';
+      var titel=ev._titel||'';
+      var dot=titel.startsWith('HSO')?'':titel.startsWith('WK')?' green':' gold';
       html+='<div class="kal-event"><div class="kal-dot'+dot+'"></div>'+
         '<div class="kal-time">'+esc((ev.uhrzeit||'').replace(' Uhr',''))+'</div>'+
-        '<div class="kal-info"><div class="kal-titel">'+esc(ev._titel||item.projekt)+'</div>'+
-        '<div class="kal-ort">'+esc(item.projekt)+(ev.ort?' · '+esc(ev.ort):'')+'</div></div></div>';
+        '<div class="kal-info"><div class="kal-titel">'+esc(titel)+'</div>'+
+        '<div class="kal-ort">'+esc(ev.ort||'')+'</div></div></div>';
     });
     html+='</div>';
   });
