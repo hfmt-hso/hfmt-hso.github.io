@@ -216,6 +216,7 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       <button class="tnav" data-tab="t-unterricht" onclick="wechselTab(this)"><span class="tnav-icon">✎</span> Unterricht</button>
       <button class="tnav" data-tab="t-zeitplan" onclick="wechselTab(this)"><span class="tnav-icon">⏱</span> Zeitplan</button>
       <button class="tnav" data-tab="t-links" onclick="wechselTab(this)"><span class="tnav-icon">⎋</span> Links</button>
+      <button class="tnav" data-tab="t-meine-links" onclick="wechselTab(this)"><span class="tnav-icon">🔗</span> Meine Links</button>
     </nav>
   </div>
 
@@ -266,6 +267,10 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
     </div>
     <div class="section-h">Studienjahr-Vorschau</div>
     <div class="grid3">
+      <a class="qlink" href="https://hfmt-hso.github.io/index.html?sj=25_26" target="_blank">
+        <div class="qlink-text"><div class="qlink-name" style="font-size:11px">Portal 25/26</div></div>
+        <div class="qlink-arr">↗</div>
+      </a>
       <a class="qlink" href="https://hfmt-hso.github.io/index.html?sj=26_27" target="_blank">
         <div class="qlink-text"><div class="qlink-name" style="font-size:11px">Portal 26/27</div></div>
         <div class="qlink-arr">↗</div>
@@ -281,6 +286,7 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
         <div class="section-h" style="margin-bottom:8px">Nächste Termine</div>
         <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px">
           <button class="proj-sj-btn active" id="st-alle" onclick="setSjTermin('alle',this)">Alle</button>
+          <button class="proj-sj-btn" id="st-2526" onclick="setSjTermin('25_26',this)">25/26</button>
           <button class="proj-sj-btn" id="st-2627" onclick="setSjTermin('26_27',this)">26/27</button>
           <button class="proj-sj-btn" id="st-2728" onclick="setSjTermin('27_28',this)">27/28</button>
         </div>
@@ -345,6 +351,7 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <div class="tab" id="t-projekte">
     <div class="proj-sj-filter" id="proj-sj-filter">
       <button class="proj-sj-btn active" data-sj="alle" onclick="filterProjSj(this)">Alle</button>
+      <button class="proj-sj-btn" data-sj="25_26" onclick="filterProjSj(this)">25/26</button>
       <button class="proj-sj-btn" data-sj="26_27" onclick="filterProjSj(this)">26/27</button>
       <button class="proj-sj-btn" data-sj="27_28" onclick="filterProjSj(this)">27/28</button>
     </div>
@@ -517,6 +524,45 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       </a>
        </div>
   </div>
+
+  <!-- MEINE LINKS -->
+  <div class="tab" id="t-meine-links">
+    <div class="card card-pad" style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px">
+        <div style="font-size:12px;font-weight:700;color:var(--ink3)">GitHub-Verbindung</div>
+        <div id="ml-token-status" style="font-size:12px"></div>
+      </div>
+      <div style="font-size:11px;color:var(--ink3);line-height:1.5">Links werden direkt als Commit in <code style="font-family:var(--mono);background:var(--paper2);padding:1px 5px;border-radius:4px">intern/meine-links.json</code> im Repo <code style="font-family:var(--mono);background:var(--paper2);padding:1px 5px;border-radius:4px">hfmt-hso/hfmt-hso.github.io</code> gespeichert. Der Token wird nur lokal in diesem Browser abgelegt.</div>
+    </div>
+
+    <div class="section-h">Neuen Link anlegen</div>
+    <div class="card card-pad" style="margin-bottom:20px">
+      <div style="display:grid;grid-template-columns:2fr 3fr;gap:10px;margin-bottom:10px">
+        <div class="tfield" style="margin-bottom:0">
+          <label>Name</label>
+          <input id="ml-name" type="text" placeholder="z.B. Notenarchiv">
+        </div>
+        <div class="tfield" style="margin-bottom:0">
+          <label>URL</label>
+          <input id="ml-url" type="text" placeholder="https://…" onkeydown="if(event.key==='Enter')mlHinzufuegen()">
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 2fr auto;gap:10px;align-items:end">
+        <div class="tfield" style="margin-bottom:0">
+          <label>Icon</label>
+          <input id="ml-icon" type="text" placeholder="🔗" maxlength="4" onkeydown="if(event.key==='Enter')mlHinzufuegen()">
+        </div>
+        <div class="tfield" style="margin-bottom:0">
+          <label>Kategorie</label>
+          <input id="ml-kategorie" type="text" placeholder="z.B. Allgemein" onkeydown="if(event.key==='Enter')mlHinzufuegen()">
+        </div>
+        <button id="ml-add-btn" onclick="mlHinzufuegen()" style="padding:9px 16px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);white-space:nowrap">+ Hinzufügen</button>
+      </div>
+    </div>
+
+    <div class="section-h">Gespeicherte Links</div>
+    <div id="ml-liste"><div class="spinner"><div class="spin"></div>Lade...</div></div>
+  </div>
 </div>
 
 <!-- Kombinieren Modal -->
@@ -560,7 +606,7 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 
 <script>
 var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
-var ALLE_SJ = ['26_27','27_28'];
+var ALLE_SJ = ['25_26','26_27','27_28'];
 var WT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
 var FARBEN = {
   'HSO':{bg:'#E6F1FB',color:'#185FA5'},
@@ -583,8 +629,8 @@ var _selektiert = new Set(); // Set von cIds
 
 function sjAusHeute(){
   var d=new Date(),y=d.getFullYear(),m=d.getMonth();
-  var berechnet = m>=8?String(y).slice(2)+'_'+String(y+1).slice(2):String(y-1).slice(2)+'_'+String(y).slice(2);
-  return berechnet < '26_27' ? '26_27' : berechnet; // 25_26 ist abgelaufen
+  if(m>=8)return String(y).slice(2)+'_'+String(y+1).slice(2);
+  return String(y-1).slice(2)+'_'+String(y).slice(2);
 }
 function sjAnzeige(sj){return sj.replace('_','/');}
 function getFarbe(n){var ks=Object.keys(FARBEN);for(var i=0;i<ks.length;i++)if(n.indexOf(ks[i])!==-1)return FARBEN[ks[i]];return FARBEN['default'];}
@@ -644,6 +690,7 @@ function ladenWennNoetig(tabId){
   if(tabId==='t-kalender')ladenKalender();
   if(tabId==='t-unterricht')ladenUnterricht();
   if(tabId==='t-zeitplan')initZeitplan();
+  if(tabId==='t-meine-links'){mlUpdateTokenStatus();mlLaden(false);}
 }
 var _startSjFilter='alle';
 var _startTypFilter='alle';
@@ -654,7 +701,7 @@ function initialLaden(){ladenStartTermine();tasksLaden();}
 // ── START ─────────────────────────────────────────────────
 function setSjTermin(sj,btn){
   _startSjFilter=sj;
-  document.querySelectorAll('#st-alle,#st-2627,#st-2728').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#st-alle,#st-2526,#st-2627,#st-2728').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderStartTermine();
 }
@@ -723,7 +770,7 @@ function renderStartTermine(){
       var tag=String(d2.getDate()).padStart(2,'0');
       var wt=WT[d2.getDay()];
       var sjLabel=item.sj.replace('_','/');
-      var hatProg=(ev.werke&&ev.werke.filter(function(w){return!w.pause;}).length>0)||ev.leitung;
+      var hatProg=(ev.werke&&ev.werke.filter(function(w){return!w.pause;}).length>0)||(ev.leitung&&ev.leitung.length>0);
       var kid='st-'+kalIdx++;
       // Balkenfarbe je Projekttyp
       var balken=item.projekt.startsWith('WK')?'#0F6E56':item.projekt==='13/14'?'#854F0B':/Blattspiel|Repertoire/i.test(item.projekt)?'#534AB7':'#185FA5';
@@ -738,6 +785,7 @@ function renderStartTermine(){
           '<div style="flex:1;min-width:0">'+
             '<div style="font-size:13px;font-weight:'+(isVorstellung?'700':'500')+';color:var(--ink)">'+esc(ev._titel||item.projekt)+'</div>'+
             '<div style="font-size:11px;color:var(--ink3);margin-top:2px">'+esc(ev.uhrzeit||'')+(ev.ort?' · '+esc(ev.ort):'')+'</div>'+
+            (ev.abwesend?'<div style="font-size:11px;color:var(--red);font-weight:600;margin-top:2px">Abwesend: '+esc(ev.abwesend)+'</div>':'')+
           '</div>'+
           (hatProg?'<div id="chev-'+kid+'" style="color:var(--ink3);font-size:11px;flex-shrink:0;transition:transform 0.2s">▾</div>':'')+
         '</div>'+
@@ -1208,15 +1256,16 @@ async function ladenProgramm(){
 
 // ── KALENDER TAB ──────────────────────────────────────────
 async function ladenKalender(){
-  var d=await apiFetch('programm',{sj:_aktSj});
+  var d=await apiFetch('kalender',{sj:_aktSj});
   var el=document.getElementById('kal-inhalt');
   if(!d||!d.data){el.innerHTML='<div class="empty">Keine Daten</div>';return;}
   var alle=[],heute=new Date();heute.setHours(0,0,0,0);
-  Object.keys(d.data).forEach(function(p){
-    (d.data[p]||[]).forEach(function(ev){
-      var dat=parseDatum(ev.datum);
-      if(dat)alle.push({projekt:p,ev:ev,dat:dat});
-    });
+  // kalender-Endpunkt liefert flaches Array aller Events (auch ohne eigenes
+  // Projekt, z.B. Anspielprobe/Aufbau/Abbau/Workshop) — anders als 'programm',
+  // das nur Events zeigt, die einem registrierten Projekt zugeordnet sind.
+  (Array.isArray(d.data)?d.data:Object.values(d.data).flat()).forEach(function(ev){
+    var dat=parseDatum(ev.datum);
+    if(dat)alle.push({ev:ev,dat:dat});
   });
   alle.sort((a,b)=>a.dat-b.dat);
   if(!alle.length){el.innerHTML='<div class="empty">Keine Termine</div>';return;}
@@ -1230,11 +1279,12 @@ async function ladenKalender(){
     html+='<div class="kal-day" style="'+(vergangen?'opacity:0.45':'')+'"><div class="kal-day-h">'+kopf+'</div>';
     tage[datum].forEach(function(item){
       var ev=item.ev;
-      var dot=item.projekt.startsWith('HSO')?'':item.projekt.startsWith('WK')?' green':' gold';
+      var titel=ev._titel||'';
+      var dot=titel.startsWith('HSO')?'':titel.startsWith('WK')?' green':' gold';
       html+='<div class="kal-event"><div class="kal-dot'+dot+'"></div>'+
         '<div class="kal-time">'+esc((ev.uhrzeit||'').replace(' Uhr',''))+'</div>'+
-        '<div class="kal-info"><div class="kal-titel">'+esc(ev._titel||item.projekt)+'</div>'+
-        '<div class="kal-ort">'+esc(item.projekt)+(ev.ort?' · '+esc(ev.ort):'')+'</div></div></div>';
+        '<div class="kal-info"><div class="kal-titel">'+esc(titel)+'</div>'+
+        '<div class="kal-ort">'+esc(ev.ort||'')+'</div></div></div>';
     });
     html+='</div>';
   });
@@ -1540,7 +1590,8 @@ async function terminLoeschen(id,titel){
 
 // ── SJ MODAL ─────────────────────────────────────────────
 function oeffneSjModal(){
-  var sjs=['26_27','27_28','28_29'];
+  var d=new Date(),y=d.getFullYear(),sjs=[];
+  for(var i=-1;i<=2;i++){var y1=y+i,y2=y+i+1;sjs.push(String(y1).slice(2)+'_'+String(y2).slice(2));}
   document.getElementById('sj-optionen').innerHTML=sjs.map(sj=>
     '<div class="sj-opt'+(sj===_aktSj?' active':'')+'" onclick="setSj(\''+sj+'\')">'+
     sjAnzeige(sj)+(sj===sjAusHeute()?'<span style="font-size:11px;color:var(--ink3)">aktuell</span>':'')+'</div>'
@@ -1901,6 +1952,179 @@ document.addEventListener('keydown', function(e) {
   }
 });
 initialLaden();
+
+// ══════════════════════════════════════════════════════════════
+// MEINE LINKS — eigener Generator, schreibt direkt per GitHub API
+// ══════════════════════════════════════════════════════════════
+var ML_REPO = 'hfmt-hso/hfmt-hso.github.io';
+var ML_BRANCH = 'main';
+var ML_PATH = 'intern/meine-links.json';
+var _mlToken = localStorage.getItem('mlGithubToken') || '';
+var _mlSha = null;
+var _mlDaten = { links: [] };
+var _mlGeladen = false;
+
+function mlTokenVorhanden(){ return !!_mlToken; }
+
+function mlOeffneTokenModal(){
+  var t = prompt('GitHub Personal Access Token (mit Schreibrechten für hfmt-hso/hfmt-hso.github.io):', '');
+  if (t === null) return;
+  t = t.trim();
+  if (!t) { zeigToast('Kein Token eingegeben'); return; }
+  _mlToken = t;
+  localStorage.setItem('mlGithubToken', t);
+  mlUpdateTokenStatus();
+  zeigToast('Token gespeichert ✓');
+}
+
+function mlTokenLoeschen(){
+  if (!confirm('Token wirklich aus diesem Browser entfernen?')) return;
+  _mlToken = '';
+  localStorage.removeItem('mlGithubToken');
+  mlUpdateTokenStatus();
+  zeigToast('Token entfernt');
+}
+
+function mlUpdateTokenStatus(){
+  var el = document.getElementById('ml-token-status');
+  if (!el) return;
+  el.innerHTML = mlTokenVorhanden()
+    ? '<span style="color:var(--green);font-weight:600">✓ Verbunden</span> <button onclick="mlTokenLoeschen()" style="margin-left:8px;background:none;border:none;color:var(--ink3);font-size:11px;cursor:pointer;text-decoration:underline;font-family:var(--sans)">entfernen</button>'
+    : '<span style="color:var(--red);font-weight:600">Kein Token hinterlegt</span> <button onclick="mlOeffneTokenModal()" style="margin-left:8px;background:none;border:none;color:var(--blue);font-size:11px;cursor:pointer;text-decoration:underline;font-family:var(--sans)">Token eintragen</button>';
+}
+
+function mlB64Encode(str){ return btoa(unescape(encodeURIComponent(str))); }
+function mlB64Decode(b64){ return decodeURIComponent(escape(atob(b64.replace(/\n/g,'')))); }
+
+async function mlLaden(force){
+  if (_mlGeladen && !force) { mlRender(); return; }
+  var el = document.getElementById('ml-liste');
+  if (el) el.innerHTML = '<div class="spinner"><div class="spin"></div>Lade...</div>';
+  try {
+    var r = await fetch('https://api.github.com/repos/' + ML_REPO + '/contents/' + ML_PATH + '?ref=' + ML_BRANCH, {
+      headers: { 'Accept': 'application/vnd.github+json' }
+    });
+    if (r.status === 404) {
+      _mlDaten = { links: [] };
+      _mlSha = null;
+      _mlGeladen = true;
+      mlRender();
+      return;
+    }
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    var meta = await r.json();
+    _mlSha = meta.sha;
+    _mlDaten = JSON.parse(mlB64Decode(meta.content));
+    if (!_mlDaten.links) _mlDaten.links = [];
+    _mlGeladen = true;
+    mlRender();
+  } catch (e) {
+    if (el) el.innerHTML = '<div class="empty">Fehler beim Laden: ' + esc(e.message) + '</div>';
+  }
+}
+
+function mlRender(){
+  var el = document.getElementById('ml-liste');
+  if (!el) return;
+  var links = _mlDaten.links || [];
+  if (!links.length) { el.innerHTML = '<div class="empty">Noch keine Links gespeichert</div>'; return; }
+  var gruppen = {};
+  links.forEach(function(l){
+    var k = l.kategorie || 'Allgemein';
+    if (!gruppen[k]) gruppen[k] = [];
+    gruppen[k].push(l);
+  });
+  Object.keys(gruppen).forEach(function(k){
+    gruppen[k].sort(function(a,b){ return a.name.localeCompare(b.name,'de'); });
+  });
+  var html = '';
+  Object.keys(gruppen).sort().forEach(function(kat){
+    html += '<div class="link-section"><div class="link-section-h">' + esc(kat) + '</div>';
+    gruppen[kat].forEach(function(l){
+      html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">' +
+        '<a class="qlink" style="flex:1;min-width:0" href="' + esc(l.url) + '" target="_blank">' +
+          '<div class="qlink-icon" style="background:var(--paper2)">' + esc(l.icon || '🔗') + '</div>' +
+          '<div class="qlink-text"><div class="qlink-name">' + esc(l.name) + '</div><div class="qlink-type">' + esc(l.url) + '</div></div>' +
+          '<div class="qlink-arr">↗</div>' +
+        '</a>' +
+        '<button onclick="mlLoeschen(\'' + esc(l.id) + '\')" title="Löschen" style="flex-shrink:0;width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:#fff;color:var(--red);cursor:pointer;font-size:15px;font-family:var(--sans)">×</button>' +
+      '</div>';
+    });
+    html += '</div>';
+  });
+  el.innerHTML = html;
+}
+
+async function mlHinzufuegen(){
+  if (!mlTokenVorhanden()) { zeigToast('Bitte zuerst GitHub-Token eintragen'); mlOeffneTokenModal(); return; }
+  var name = document.getElementById('ml-name').value.trim();
+  var url = document.getElementById('ml-url').value.trim();
+  var icon = document.getElementById('ml-icon').value.trim() || '🔗';
+  var kategorie = document.getElementById('ml-kategorie').value.trim() || 'Allgemein';
+  if (!name || !url) { zeigToast('Name und URL sind Pflichtfelder'); return; }
+  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+  var btn = document.getElementById('ml-add-btn');
+  btn.disabled = true; btn.textContent = 'Speichere…';
+  try {
+    if (!_mlGeladen) await mlLaden(true);
+    var neu = { id: 'l' + Date.now(), name: name, url: url, icon: icon, kategorie: kategorie, erstellt: new Date().toISOString() };
+    _mlDaten.links.push(neu);
+    await mlSpeichern('Link hinzugefügt: ' + name);
+    document.getElementById('ml-name').value = '';
+    document.getElementById('ml-url').value = '';
+    document.getElementById('ml-icon').value = '';
+    document.getElementById('ml-kategorie').value = '';
+    mlRender();
+    zeigToast('✓ Link gespeichert');
+  } catch (e) {
+    zeigToast('Fehler: ' + e.message);
+  }
+  btn.disabled = false; btn.textContent = '+ Hinzufügen';
+}
+
+async function mlLoeschen(id){
+  if (!mlTokenVorhanden()) { zeigToast('Bitte zuerst GitHub-Token eintragen'); mlOeffneTokenModal(); return; }
+  if (!confirm('Link wirklich löschen?')) return;
+  var vorher = _mlDaten.links.slice();
+  _mlDaten.links = _mlDaten.links.filter(function(l){ return l.id !== id; });
+  mlRender();
+  try {
+    await mlSpeichern('Link gelöscht');
+    zeigToast('✓ Gelöscht');
+  } catch (e) {
+    _mlDaten.links = vorher;
+    mlRender();
+    zeigToast('Fehler: ' + e.message);
+  }
+}
+
+async function mlSpeichern(commitMsg){
+  var body = {
+    message: commitMsg + ' [Meine Links]',
+    content: mlB64Encode(JSON.stringify(_mlDaten, null, 2)),
+    branch: ML_BRANCH
+  };
+  if (_mlSha) body.sha = _mlSha;
+  var r = await fetch('https://api.github.com/repos/' + ML_REPO + '/contents/' + ML_PATH, {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/vnd.github+json',
+      'Authorization': 'Bearer ' + _mlToken,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) {
+    var errTxt = '';
+    try { var errJson = await r.json(); errTxt = errJson.message || ''; } catch (e2) {}
+    if (r.status === 401) errTxt = 'Token ungültig oder abgelaufen';
+    if (r.status === 403) errTxt = 'Token hat keine Schreibrechte für dieses Repo';
+    if (r.status === 409) errTxt = 'Datei wurde inzwischen anderweitig geändert – bitte Seite neu laden';
+    throw new Error('HTTP ' + r.status + (errTxt ? ' – ' + errTxt : ''));
+  }
+  var d = await r.json();
+  _mlSha = d.content.sha;
+}
 
 // ══════════════════════════════════════════════════════════════
 // GOOGLE TASKS
