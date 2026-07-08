@@ -266,29 +266,13 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       </a>
     </div>
     <div class="section-h">Studienjahr-Vorschau</div>
-    <div class="grid3">
-      <a class="qlink" href="https://hfmt-hso.github.io/index.html?sj=25_26" target="_blank">
-        <div class="qlink-text"><div class="qlink-name" style="font-size:11px">Portal 25/26</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" href="https://hfmt-hso.github.io/index.html?sj=26_27" target="_blank">
-        <div class="qlink-text"><div class="qlink-name" style="font-size:11px">Portal 26/27</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-      <a class="qlink" href="https://hfmt-hso.github.io/index.html?sj=27_28" target="_blank">
-        <div class="qlink-text"><div class="qlink-name" style="font-size:11px">Portal 27/28</div></div>
-        <div class="qlink-arr">↗</div>
-      </a>
-    </div>
+    <div class="grid3" id="sj-vorschau-grid"></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start">
       <!-- TERMINE -->
       <div>
         <div class="section-h" style="margin-bottom:8px">Nächste Termine</div>
-        <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px">
-          <button class="proj-sj-btn active" id="st-alle" onclick="setSjTermin('alle',this)">Alle</button>
-          <button class="proj-sj-btn" id="st-2526" onclick="setSjTermin('25_26',this)">25/26</button>
-          <button class="proj-sj-btn" id="st-2627" onclick="setSjTermin('26_27',this)">26/27</button>
-          <button class="proj-sj-btn" id="st-2728" onclick="setSjTermin('27_28',this)">27/28</button>
+        <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px" id="start-sj-filter">
+          <button class="proj-sj-btn active" data-sj="alle" onclick="setSjTermin('alle',this)">Alle</button>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">
           <button class="proj-sj-btn active" id="st-typ-alle" onclick="setTypTermin('alle',this)">Alle</button>
@@ -351,9 +335,6 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <div class="tab" id="t-projekte">
     <div class="proj-sj-filter" id="proj-sj-filter">
       <button class="proj-sj-btn active" data-sj="alle" onclick="filterProjSj(this)">Alle</button>
-      <button class="proj-sj-btn" data-sj="25_26" onclick="filterProjSj(this)">25/26</button>
-      <button class="proj-sj-btn" data-sj="26_27" onclick="filterProjSj(this)">26/27</button>
-      <button class="proj-sj-btn" data-sj="27_28" onclick="filterProjSj(this)">27/28</button>
     </div>
     <div class="proj-sj-filter" id="proj-typ-filter">
       <button class="proj-sj-btn active" data-typ="alle" onclick="filterProjTyp(this)">Alle</button>
@@ -606,7 +587,8 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 
 <script>
 var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
-var ALLE_SJ = ['25_26','26_27','27_28'];
+var ALLE_SJ = ['25_26','26_27','27_28']; // Fallback bis ermittleAlleSj() fertig ist
+var _sjBereit = false;
 var WT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
 var FARBEN = {
   'HSO':{bg:'#E6F1FB',color:'#185FA5'},
@@ -633,6 +615,76 @@ function sjAusHeute(){
   return String(y-1).slice(2)+'_'+String(y).slice(2);
 }
 function sjAnzeige(sj){return sj.replace('_','/');}
+
+// ── AUTOMATISCHE STUDIENJAHR-ROTATION ─────────────────────
+// Prüft Kandidaten-Studienjahre (aktuell −2 bis +3) darauf, ob dort
+// noch zukünftige Termine liegen. Nur SJ mit offenen Terminen zählen;
+// Jahre ohne künftige Termine fallen raus, das 3er-Fenster rutscht
+// automatisch weiter (z.B. 25_26,26_27,27_28 → 26_27,27_28,28_29).
+async function ermittleAlleSj(){
+  var basisJahr = parseInt(sjAusHeute().split('_')[0],10);
+  var kandidaten = [];
+  for(var i=-2;i<=3;i++){
+    var y1=basisJahr+i, y2=y1+1;
+    kandidaten.push(String(y1).padStart(2,'0')+'_'+String(y2).padStart(2,'0'));
+  }
+  var heute=new Date(); heute.setHours(0,0,0,0);
+  var ergebnisse=await Promise.all(kandidaten.map(function(sj){
+    return apiFetch('kalender',{sj:sj}).catch(function(){return null;});
+  }));
+  var mitTerminen=[];
+  kandidaten.forEach(function(sj,i){
+    var d=ergebnisse[i];
+    var events=(d&&d.data)?(Array.isArray(d.data)?d.data:Object.values(d.data).flat()):[];
+    var hatZukunft=events.some(function(ev){var dt=parseDatum(ev.datum);return dt&&dt>=heute;});
+    if(hatZukunft)mitTerminen.push(sj);
+  });
+  if(!mitTerminen.length)mitTerminen=kandidaten.slice(2,5); // Fallback: aktuell + 2 Folgejahre
+  var ergebnis=mitTerminen.slice(0,3);
+  while(ergebnis.length<3){
+    var letztes=ergebnis[ergebnis.length-1];
+    var p=letztes.split('_');
+    var ny1=parseInt(p[0],10)+1, ny2=ny1+1;
+    ergebnis.push(String(ny1).padStart(2,'0')+'_'+String(ny2).padStart(2,'0'));
+  }
+  return ergebnis;
+}
+
+function renderSjAbhaengigeUi(){
+  // Studienjahr-Vorschau (Start)
+  var grid=document.getElementById('sj-vorschau-grid');
+  if(grid){
+    grid.innerHTML=ALLE_SJ.map(function(sj){
+      return '<a class="qlink" href="https://hfmt-hso.github.io/index.html?sj='+sj+'" target="_blank">'+
+        '<div class="qlink-text"><div class="qlink-name" style="font-size:11px">Portal '+sjAnzeige(sj)+'</div></div>'+
+        '<div class="qlink-arr">↗</div></a>';
+    }).join('');
+  }
+  // Nächste-Termine Filter (Start)
+  var startFilter=document.getElementById('start-sj-filter');
+  if(startFilter){
+    ALLE_SJ.forEach(function(sj){
+      var b=document.createElement('button');
+      b.className='proj-sj-btn';
+      b.dataset.sj=sj;
+      b.textContent=sjAnzeige(sj);
+      b.onclick=function(){setSjTermin(sj,b);};
+      startFilter.appendChild(b);
+    });
+  }
+  // Projekte SJ-Filter
+  var projFilter=document.getElementById('proj-sj-filter');
+  if(projFilter){
+    ALLE_SJ.forEach(function(sj){
+      var b=document.createElement('button');
+      b.className='proj-sj-btn';
+      b.dataset.sj=sj;
+      b.textContent=sjAnzeige(sj);
+      b.onclick=function(){filterProjSj(b);};
+      projFilter.appendChild(b);
+    });
+  }
+}
 function getFarbe(n){var ks=Object.keys(FARBEN);for(var i=0;i<ks.length;i++)if(n.indexOf(ks[i])!==-1)return FARBEN[ks[i]];return FARBEN['default'];}
 function getKuerzel(n){
   if(n.startsWith('HSO Blattspiel'))return'BS';
@@ -696,12 +748,18 @@ var _startSjFilter='alle';
 var _startTypFilter='alle';
 var _startTermineCache={};
 
-function initialLaden(){ladenStartTermine();tasksLaden();}
+async function initialLaden(){
+  ALLE_SJ=await ermittleAlleSj();
+  _sjBereit=true;
+  renderSjAbhaengigeUi();
+  ladenStartTermine();
+  tasksLaden();
+}
 
 // ── START ─────────────────────────────────────────────────
 function setSjTermin(sj,btn){
   _startSjFilter=sj;
-  document.querySelectorAll('#st-alle,#st-2526,#st-2627,#st-2728').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#start-sj-filter .proj-sj-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderStartTermine();
 }
@@ -816,6 +874,7 @@ function toggleStTerm(id,hatProg){
 // ── PROJEKTE LADEN ────────────────────────────────────────
 async function ladenAlleProj(){
   document.getElementById('proj-liste').innerHTML='<div class="spinner"><div class="spin"></div>Lade Projekte...</div>';
+  while(!_sjBereit)await new Promise(r=>setTimeout(r,100));
   var results=await Promise.all(ALLE_SJ.map(sj=>apiFetch('projekte',{sj:sj})));
   var progResults=await Promise.all(ALLE_SJ.map(sj=>apiFetch('programm',{sj:sj})));
   _alleProj=[];
@@ -1904,7 +1963,7 @@ function zpExportCSV() {
   });
   var csv = zeilen.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
   var a = document.createElement('a');
-  a.href = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csv);
+  a.href = 'data:text/csv;charset=utf-8,﻿' + encodeURIComponent(csv);
   a.download = titel.replace(/\s+/g,'_') + '.csv';
   a.click();
 }
