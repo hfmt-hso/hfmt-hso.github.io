@@ -124,7 +124,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .kal-event-title{font-size:14px;font-weight:500;color:var(--text);line-height:1.2}
 .kal-event-title.bold{font-weight:700}
 .kal-event-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
-.kal-abwesend{font-size:11px;color:var(--text);font-weight:600;margin-top:2px}
 .kal-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);flex-shrink:0}
 .kal-chev{color:var(--text-muted);flex-shrink:0;transition:transform 0.2s}
 .kal-chev svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -299,12 +298,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="link-text"><span>Freikarten bestellen</span><small>Formular · Google Forms</small></div>
       <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </a>
-    <a class="link-item" href="unterricht.html">
+    <a class="link-item" href="unterricht.html" target="_blank" rel="noopener">
       <div class="link-icon" style="background:var(--purple-light);color:var(--purple)"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
       <div class="link-text"><span>Unterrichtstermine</span><small>Anmeldung · Dirigierstudium</small></div>
       <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </a>
-    
+    <a class="link-item" href="intern.html" target="_blank" rel="noopener">
+      <div class="link-icon" style="background:var(--gray-light);color:var(--gray)"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      <div class="link-text"><span>Interner Bereich</span><small>Passwortgeschützt</small></div>
+      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
   </div>
   <div class="section-label">App installieren</div>
   <div class="install-card">
@@ -363,15 +366,9 @@ function getKuerzel(n){
 }
 function aktuellesSj(){
   const d=new Date(),m=d.getMonth(),y=d.getFullYear()%100;
-  return m>=8?y+'_'+(y+1):(y-1)+'_'+y;
+  const berechnet = m>=8?y+'_'+(y+1):(y-1)+'_'+y;
+  return berechnet < '26_27' ? '26_27' : berechnet; // 25_26 ist abgelaufen
 }
-
-function zeitZuMin(s){
-  if(!s) return 0;
-  const m = String(s).match(/(\d{1,2}):(\d{2})/);
-  return m ? parseInt(m[1],10)*60 + parseInt(m[2],10) : 0;
-}
-
 function parseDatum(s){
   if(!s)return null;
   const str=String(s).trim();
@@ -572,7 +569,6 @@ function renderKalListe() {
     <div class="kal-info">
       <div class="kal-event-title${isVorstellung?' bold':''}">${esc(titelText)}</div>
       ${sub?`<div class="kal-event-sub">${esc(sub)}</div>`:''}
-      ${ev.abwesend?`<div class="kal-abwesend">Abwesend: ${esc(ev.abwesend)}</div>`:''}
     </div>
     ${hatDetails?`<div class="kal-chev" id="kchev-${kid}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>`:''}
   </div>`;
@@ -631,11 +627,7 @@ async function ladenKalender(){
       const typ = getKalTyp(p);
       alle.push({projekt:p, ev, dat, typ});
     });
-    alle.sort((a,b)=>{
-      const diff = a.dat - b.dat;
-      if(diff !== 0) return diff;
-      return zeitZuMin(a.ev.uhrzeit) - zeitZuMin(b.ev.uhrzeit);
-    });
+    alle.sort((a,b)=>a.dat-b.dat);
     _kalItems = alle;
 
     if(!alle.length){ el.innerHTML='<div class="loading">Keine Termine gefunden.</div>'; return; }
@@ -897,7 +889,7 @@ document.addEventListener('touchstart',e=>{touchStartY=e.touches[0].clientY;},{p
 document.addEventListener('touchend',e=>{if(e.changedTouches[0].clientY-touchStartY>80&&window.scrollY===0)location.reload();},{passive:true});
 
 // ── START ─────────────────────────────────────────────────────
-const ALLE_SJ = ['25_26','26_27','27_28'];
+const ALLE_SJ = ['26_27','27_28'];
 function oeffneSjModal(){
   const aktSj = getSjTarget();
   document.getElementById('sj-optionen').innerHTML = ALLE_SJ.map(sj =>
