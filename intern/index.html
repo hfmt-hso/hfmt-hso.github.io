@@ -267,6 +267,13 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
     </div>
     <div class="section-h">Studienjahr-Vorschau</div>
     <div class="grid3" id="sj-vorschau-grid"></div>
+    <div class="section-h" style="display:flex;align-items:center;justify-content:space-between">
+      <span>Claude-Sync</span>
+      <span id="claude-sync-status" style="font-size:11px;font-weight:400;color:var(--ink3)"></span>
+    </div>
+    <div style="margin-bottom:16px">
+      <button id="claude-sync-btn" onclick="claudeSyncStarten()" style="padding:9px 16px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">🔄 Aktuellen Stand für Claude holen</button>
+    </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start">
       <!-- TERMINE -->
       <div>
@@ -587,6 +594,20 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 
 <script>
 var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
+var BACKUP_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx2xyv2s3BMGz12EH8LIcHT_iWuVn4JWnxlw-3NVJ5LjkaCrwQbRckOtJsKov0XepoIWw/exec';
+
+async function claudeSyncStarten(){
+  var btn=document.getElementById('claude-sync-btn');
+  var status=document.getElementById('claude-sync-status');
+  btn.disabled=true;btn.textContent='⏳ Aktualisiere…';
+  try{
+    var r=await fetch(BACKUP_WEB_APP_URL,{method:'POST',body:JSON.stringify({action:'claudeOrdnerAktualisieren'})});
+    var d=await r.json();
+    if(d.ok){status.textContent='Zuletzt: '+d.zeit;zeigToast('Claude-Ordner aktualisiert ✓');}
+    else zeigToast('Fehler: '+(d.error||'?'));
+  } catch(e){ zeigToast('Fehler: '+e.message); }
+  btn.disabled=false;btn.textContent='🔄 Aktuellen Stand für Claude holen';
+}
 var ALLE_SJ = ['25_26','26_27','27_28']; // Fallback bis ermittleAlleSj() fertig ist
 var _sjBereit = false;
 var WT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
