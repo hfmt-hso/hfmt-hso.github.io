@@ -1,59 +1,6 @@
 {
-  "generiert": "2026-07-07T11:17:31.088Z",
+  "generiert": "2026-07-09T13:52:35.292Z",
   "events": [
-    {
-      "datum": "07.07.2026",
-      "uhrzeit": "19:00 Uhr",
-      "ort": "Forum",
-      "konzertart": "Konzertante Aufführung",
-      "marker": "Vorstellung",
-      "werke": [
-        {
-          "komponist": "Benjamin Britten",
-          "lebensdaten": "1913–1976",
-          "titel": "The turn of the screw, Opera in a prologue and two acts after a story by Henry James, op. 54 (1954)",
-          "saetze": [
-            "Prologue",
-            "Theme",
-            "Variation I - The Journey",
-            "Variation II - The Welcome",
-            "Variation III - The Letter",
-            "Variation IV - The Tower",
-            "Variation V - The Window",
-            "Variation VI - The Lesson",
-            "Variation VII - The Lake",
-            "Variation VIII - At Night",
-            "Variation IX - The Bells",
-            "Variation X - Miss Jessel",
-            "Variation XI - The Bedroom",
-            "Variation XII - Quint",
-            "Variation XIII - The Piano",
-            "Variation XIV - Flora",
-            "Variation XV - Miles",
-            "Natalia Willot-Förster — Gouvernante | Yeseul Kwon — Miles | Lisa Scheffler — Flora | Rosa Lüttschwager — Mrs. Grose, Haushälterin | Virginia Ferentschik — Miss Jessel | Bingyu He — Prolog | Seumas Aonghas Begg — Peter Quint"
-          ],
-          "dauer": "ca. 105 min",
-          "besetzung": "1.1.1.1-1.0.0.0-Pk-Klav., Cel.-Hrf.-Str. (1.1.1.1.1)",
-          "urauffuehrung": false,
-          "pause": false
-        }
-      ],
-      "solisten": [],
-      "ensemble": "Kammerorchester der HfMT",
-      "leitung": [
-        {
-          "name": "Studierende der Dirigierklasse",
-          "werk": "",
-          "klasse": "Klasse Prof. Ulrich Windfuhr"
-        }
-      ],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "abwesend": null,
-      "_eventId": "5uedbmiguga1k5h40b45adh044@google.com",
-      "_titel": "HSO 4 (3)"
-    },
     {
       "datum": "29.09.2026",
       "uhrzeit": "10:00 Uhr",
@@ -820,7 +767,7 @@
     },
     {
       "datum": "09.11.2026",
-      "uhrzeit": "10:00 Uhr",
+      "uhrzeit": "11:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": null,
@@ -2804,22 +2751,6 @@
       "abwesend": null,
       "_eventId": "27e42nmo0jftavl2m7rk7c9rel@google.com",
       "_titel": "HSO Repertoire"
-    },
-    {
-      "datum": "07.07.2026",
-      "uhrzeit": "17:30 Uhr",
-      "ort": "",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "_eventId": "5eqh1u92cgscmap8pp127l37kk@google.com",
-      "_titel": "HSO 4 Anspielprobe"
     },
     {
       "datum": "02.06.2027",
@@ -5016,7 +4947,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "Thomas Dorsch | Yuan Xin, Philine Lembeck, Chenyu Wan",
+          "name": "Omer Meir Wellber | Yuan Xin, Philine Lembeck, Chenyu Wan",
           "werk": "",
           "klasse": ""
         }
@@ -5236,7 +5167,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "An Hoon Song | Uschik Choi, Doğa Çetin, Sukjong Kim",
+          "name": "Omer Meir Wellber | Uschik Choi, Doğa Çetin, Sukjong Kim",
           "werk": "",
           "klasse": ""
         }
@@ -5673,7 +5604,7 @@
       "_titel": "HSO 4 Anspielprobe"
     },
     {
-      "datum": "08.10.2026",
+      "datum": "09.10.2026",
       "uhrzeit": "17:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -5687,22 +5618,6 @@
       "abwesend": null,
       "_eventId": "6n3keh7bvfsfc64sjdaie9qjnq@google.com",
       "_titel": "HSO 1 Anspielprobe"
-    },
-    {
-      "datum": "23.06.2026",
-      "uhrzeit": "00:00 Uhr",
-      "ort": "",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "_eventId": "u0j5rg7a30lfrqojcao95u2lhg@google.com",
-      "_titel": "Peabody 2026"
     },
     {
       "datum": "06.05.2027",
