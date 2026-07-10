@@ -141,6 +141,7 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .werk-details{font-size:11px;color:var(--ink3);margin-top:3px;line-height:1.5}
 .werk-leitung{font-size:11px;color:var(--ink3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
 .ev-kein{font-size:13px;color:var(--ink3)}
+.werk-pause{font-size:11px;color:var(--ink3);font-style:italic;text-align:center;padding:6px 0;margin:2px 0;border-top:1px dashed var(--border);border-bottom:1px dashed var(--border)}
 
 .prog-event{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:8px;box-shadow:var(--shadow)}
 .prog-titel{font-size:13px;font-weight:700;margin-bottom:6px}
@@ -849,7 +850,7 @@ function renderStartTermine(){
       var tag=String(d2.getDate()).padStart(2,'0');
       var wt=WT[d2.getDay()];
       var sjLabel=item.sj.replace('_','/');
-      var hatProg=(ev.werke&&ev.werke.filter(function(w){return!w.pause;}).length>0)||(ev.leitung&&ev.leitung.length>0);
+      var hatProg=(ev.werke&&ev.werke.length>0)||(ev.leitung&&ev.leitung.length>0);
       var kid='st-'+kalIdx++;
       // Balkenfarbe je Projekttyp
       var balken=item.projekt.startsWith('WK')?'#0F6E56':item.projekt==='13/14'?'#854F0B':/Blattspiel|Repertoire/i.test(item.projekt)?'#534AB7':'#185FA5';
@@ -869,7 +870,8 @@ function renderStartTermine(){
           (hatProg?'<div id="chev-'+kid+'" style="color:var(--ink3);font-size:11px;flex-shrink:0;transition:transform 0.2s">▾</div>':'')+
         '</div>'+
         (hatProg?'<div id="'+kid+'" style="display:none;padding:10px 12px 14px 58px;background:var(--paper)">'+
-          (ev.werke||[]).filter(function(w){return!w.pause;}).map(function(w){
+          (ev.werke||[]).map(function(w){
+            if(w.pause)return'<div style="font-size:11px;color:var(--ink3);font-style:italic;text-align:center;padding:4px 0">— Pause —</div>';
             var ld=w.lebensdaten?' ('+w.lebensdaten+')':'';
             return '<div style="margin-bottom:6px"><div style="font-size:12px;font-weight:600">'+esc((w.komponist||'')+ld)+'</div>'+(w.titel?'<div style="font-size:12px;color:var(--ink3)">'+esc(w.titel)+'</div>':'')+'</div>';
           }).join('')+
@@ -1086,6 +1088,7 @@ async function sammleDaten(abschnitt){
         events.forEach(function(ev){
           text+=ev.kopf+'\n';
           ev.werke.forEach(function(w){
+            if(w.pause){text+='— Pause —\n';return;}
             var ld=w.lebensdaten?' ('+w.lebensdaten+')':'';
             text+=(w.komponist||'')+ld+'\n';
             if(w.titel)text+=w.titel+'\n';
@@ -1194,7 +1197,7 @@ async function ladeUeEvents(projektName,sj){
     var wt=WT[datObj.getDay()];
     var kopf=wt+', '+datAnzeige+(ev.uhrzeit?' '+ev.uhrzeit:'')+'    '+ohnestern(ev._titel||projektName);
     if(ev.ort)kopf+='    |    '+ev.ort;
-    var werke=(ev.werke||[]).filter(w=>!w.pause);
+    var werke=(ev.werke||[]);
     var leitung='';
     if(ev.leitung&&ev.leitung.length)leitung='Leitung: '+ev.leitung.map(l=>typeof l==='object'?l.name:String(l)).filter(Boolean).join(' / ');
     var tp=datAnzeige.split('.');
@@ -1206,9 +1209,11 @@ async function ladeUeEvents(projektName,sj){
 
 function renderEvProgramm(ev){
   var h='<div class="ev-kopf">'+esc(ev.kopf)+'</div>';
-  if(!ev.werke.length){h+='<div class="ev-kein">Noch kein Programm eingetragen.</div>';}
+  var echteWerke=ev.werke.filter(function(w){return!w.pause;});
+  if(!echteWerke.length){h+='<div class="ev-kein">Noch kein Programm eingetragen.</div>';}
   else{
     ev.werke.forEach(function(w){
+      if(w.pause){h+='<div class="werk-pause">— Pause —</div>';return;}
       var ld=w.lebensdaten?' ('+w.lebensdaten+')':'';
       h+='<div class="werk-block"><div class="werk-komp">'+esc((w.komponist||'')+ld)+'</div>';
       if(w.titel)h+='<div class="werk-titel">'+esc(w.titel)+'</div>';
@@ -1313,12 +1318,13 @@ async function ladenProgramm(){
     var events=d.data[p]||[];
     html+='<div class="section-h">'+esc(p)+'</div>';
     events.forEach(function(ev){
-      var werke=(ev.werke||[]).filter(w=>!w.pause);
+      var werke=(ev.werke||[]);
       html+='<div class="prog-event"><div class="prog-titel">'+esc(ev._titel||p)+'</div>';
       html+='<div class="prog-datum">'+esc(ev.datum||'')+(ev.uhrzeit?' · '+esc(ev.uhrzeit):'')+(ev.ort?' · '+esc(ev.ort):'')+'</div>';
       if(werke.length){
         html+='<div style="margin-top:8px">';
         werke.forEach(function(w){
+          if(w.pause){html+='<div style="font-size:11px;color:var(--ink3);font-style:italic;text-align:center;padding:5px 0;border-top:1px dashed var(--border);border-bottom:1px dashed var(--border);margin:3px 0">— Pause —</div>';return;}
           var ld=w.lebensdaten?' ('+esc(w.lebensdaten)+')':'';
           html+='<div class="werk-row"><div class="werk-komp2">'+esc(w.komponist||'')+ld+'</div>';
           if(w.titel)html+='<div class="werk-titel2">'+esc(w.titel)+'</div>';
