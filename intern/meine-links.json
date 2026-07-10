@@ -47,6 +47,14 @@
       "icon": "🔗",
       "kategorie": "HfMT",
       "erstellt": "2026-07-09T16:16:17.934Z"
+    },
+    {
+      "id": "l1783670699910",
+      "name": "Meine Ablage",
+      "url": "https://drive.google.com/drive/u/0/my-drive",
+      "icon": "🔗",
+      "kategorie": "Drive",
+      "erstellt": "2026-07-10T08:04:59.910Z"
     }
   ]
 }
