@@ -63,6 +63,11 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .topbar-end{padding:0 14px;display:flex;align-items:center;gap:8px;border-left:1px solid rgba(255,255,255,0.06);margin-left:auto;flex-shrink:0}
 .sj-badge{font-size:10px;font-weight:700;font-family:var(--mono);padding:3px 8px;border-radius:6px;background:rgba(184,150,46,0.2);color:var(--gold);border:1px solid rgba(184,150,46,0.3);cursor:pointer;white-space:nowrap}
 .sj-badge:hover{background:rgba(184,150,46,0.3)}
+.sync-btn{width:30px;height:30px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s;font-family:var(--sans)}
+.sync-btn:hover{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.35)}
+.sync-btn:disabled{opacity:0.45;cursor:default}
+.sync-btn.spinning{animation:spin 0.9s linear infinite}
+.sync-status{font-size:9px;color:rgba(255,255,255,0.35);font-family:var(--mono);white-space:nowrap;max-width:120px;overflow:hidden;text-overflow:ellipsis}
 
 .tab{display:none;flex:1;overflow-y:auto;padding:20px 16px 40px}
 .tab.active{display:block}
@@ -219,6 +224,10 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       <button class="tnav" data-tab="t-links" onclick="wechselTab(this)"><span class="tnav-icon">⎋</span> Links</button>
       <button class="tnav" data-tab="t-meine-links" onclick="wechselTab(this)"><span class="tnav-icon">🔗</span> Meine Links</button>
     </nav>
+    <div class="topbar-end">
+      <span id="claude-sync-status" class="sync-status"></span>
+      <button id="claude-sync-btn" class="sync-btn" onclick="claudeSyncStarten()" title="Aktuellen Stand für Claude holen">🔄</button>
+    </div>
   </div>
 
   <!-- START -->
@@ -268,13 +277,6 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
     </div>
     <div class="section-h">Studienjahr-Vorschau</div>
     <div class="grid3" id="sj-vorschau-grid"></div>
-    <div class="section-h" style="display:flex;align-items:center;justify-content:space-between">
-      <span>Claude-Sync</span>
-      <span id="claude-sync-status" style="font-size:11px;font-weight:400;color:var(--ink3)"></span>
-    </div>
-    <div style="margin-bottom:16px">
-      <button id="claude-sync-btn" onclick="claudeSyncStarten()" style="padding:9px 16px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">🔄 Aktuellen Stand für Claude holen</button>
-    </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start">
       <!-- TERMINE -->
       <div>
@@ -600,14 +602,14 @@ var BACKUP_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx2xyv2s3BMGz1
 async function claudeSyncStarten(){
   var btn=document.getElementById('claude-sync-btn');
   var status=document.getElementById('claude-sync-status');
-  btn.disabled=true;btn.textContent='⏳ Aktualisiere…';
+  btn.disabled=true;btn.classList.add('spinning');
   try{
     var r=await fetch(BACKUP_WEB_APP_URL,{method:'POST',body:JSON.stringify({action:'claudeOrdnerAktualisieren'})});
     var d=await r.json();
-    if(d.ok){status.textContent='Zuletzt: '+d.zeit;zeigToast('Claude-Ordner aktualisiert ✓');}
+    if(d.ok){status.textContent='✓ '+d.zeit;zeigToast('Claude-Ordner aktualisiert ✓');}
     else zeigToast('Fehler: '+(d.error||'?'));
   } catch(e){ zeigToast('Fehler: '+e.message); }
-  btn.disabled=false;btn.textContent='🔄 Aktuellen Stand für Claude holen';
+  btn.disabled=false;btn.classList.remove('spinning');
 }
 var ALLE_SJ = ['25_26','26_27','27_28']; // Fallback bis ermittleAlleSj() fertig ist
 var _sjBereit = false;
@@ -1585,7 +1587,7 @@ async function ladenTermine(){
     if(!d||!d.data){el.innerHTML='<div class="empty">Keine Termine</div>';return;}
     _alleTermine=d.data.sort(function(a,b){
       var da=parseDatum(a.datum),db=parseDatum(b.datum);
-      if(!da&&!db)return 0;if(!da)return 1;if(!db)return -1;
+      if(!da&&!db)return 0;if(!da)return 1;if(!db)return-1;
       return da-db;
     });
     renderTermine(_alleTermine);
