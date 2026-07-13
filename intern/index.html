@@ -225,6 +225,7 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       <button class="tnav" data-tab="t-meine-links" onclick="wechselTab(this)"><span class="tnav-icon">🔗</span> Meine Links</button>
     </nav>
     <div class="topbar-end">
+      <button id="pdf-naechste-btn" class="sync-btn" onclick="pdfNaechsteProbe()" title="PDF für nächste Probe">📄</button>
       <span id="claude-sync-status" class="sync-status"></span>
       <button id="claude-sync-btn" class="sync-btn" onclick="claudeSyncStarten()" title="Aktuellen Stand für Claude holen">🔄</button>
     </div>
@@ -598,6 +599,19 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 <script>
 var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 var BACKUP_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx2xyv2s3BMGz12EH8LIcHT_iWuVn4JWnxlw-3NVJ5LjkaCrwQbRckOtJsKov0XepoIWw/exec';
+var PDF_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzJm7FzVsFlwmC6plNqsX6zYzJhJJnfgmScpV-g16vAgThSXCBe3ietVQHEthLYCP32tg/exec';
+
+async function pdfNaechsteProbe(){
+  var btn=document.getElementById('pdf-naechste-btn');
+  btn.disabled=true;btn.classList.add('spinning');
+  try{
+    var r=await fetch(PDF_WEB_APP_URL+'?action=pdfNaechste');
+    var d=await r.json();
+    if(d.ok){ window.open(d.url,'_blank'); zeigToast('PDF erstellt ✓'); }
+    else zeigToast('Fehler: '+(d.error||'?'));
+  }catch(e){ zeigToast('Fehler: '+e.message); }
+  btn.disabled=false;btn.classList.remove('spinning');
+}
 
 async function claudeSyncStarten(){
   var btn=document.getElementById('claude-sync-btn');
