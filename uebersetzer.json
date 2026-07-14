@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-07-09T13:52:35.292Z",
+  "generiert": "2026-07-14T08:49:50.261Z",
   "events": [
     {
       "datum": "29.09.2026",
@@ -1040,7 +1040,7 @@
         {
           "komponist": "Paul Hindemith",
           "lebensdaten": "1895–1963",
-          "titel": "Kammermusik Nr. 2, op. 36 Nr. 1 (Cellokonzert)",
+          "titel": "Kammermusik Nr. 3, op. 36 Nr. 2 (Cellokonzert)",
           "saetze": [
             "Sehr lebhafte Viertel",
             "Sehr langsame Achtel ( ♩= 54)",
@@ -1114,7 +1114,7 @@
             },
             {
               "instrument": "Klavier",
-              "name": "Pacheco Portalés",
+              "name": "Sergi Pacheco Portalés",
               "zusatz": "Konzertexamen, Klasse Prof. Stepan Simonyan"
             }
           ]
@@ -1133,7 +1133,7 @@
         },
         {
           "instrument": "Klavier",
-          "name": "Pacheco Portalés",
+          "name": "Sergi Pacheco Portalés",
           "zusatz": "Konzertexamen, Klasse Prof. Stepan Simonyan"
         }
       ],
@@ -1178,7 +1178,7 @@
         {
           "komponist": "Paul Hindemith",
           "lebensdaten": "1895–1963",
-          "titel": "Kammermusik Nr. 2, op. 36 Nr. 1 (Cellokonzert)",
+          "titel": "Kammermusik Nr. 3, op. 36 Nr. 2 (Cellokonzert)",
           "saetze": [
             "Sehr lebhafte Viertel",
             "Sehr langsame Achtel ( ♩= 54)",
@@ -1252,7 +1252,7 @@
             },
             {
               "instrument": "Klavier",
-              "name": "Pacheco Portalés",
+              "name": "Sergi Pacheco Portalés",
               "zusatz": "Konzertexamen, Klasse Prof. Stepan Simonyan"
             }
           ]
@@ -1271,7 +1271,7 @@
         },
         {
           "instrument": "Klavier",
-          "name": "Pacheco Portalés",
+          "name": "Sergi Pacheco Portalés",
           "zusatz": "Konzertexamen, Klasse Prof. Stepan Simonyan"
         }
       ],
