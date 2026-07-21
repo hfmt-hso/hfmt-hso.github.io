@@ -403,6 +403,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
+    <!-- SCREEN 8b: LEHRENDEN-PASSWORT SETZEN -->
+    <div class="screen" id="screen-admin-pw-setzen">
+          <div class="login-hero">
+                  <div class="login-icon">🔑</div>
+                  <div class="login-title">Passwort setzen</div>
+                  <div class="login-sub">Bitte wähle ein persönliches Passwort.</div>
+          </div>
+          <div class="login-card">
+                  <div class="pw-change-info">Erstanmeldung erkannt – bitte setze jetzt dein eigenes Passwort.</div>
+                  <div class="field-gap"></div>
+                  <div class="field-label">Neues Passwort</div>
+                  <input class="field-input" type="password" id="a-pw1" placeholder="Mindestens 6 Zeichen">
+                  <div class="field-gap"></div>
+                  <div class="field-label">Passwort wiederholen</div>
+                  <input class="field-input" type="password" id="a-pw2" placeholder="Bestätigung" onkeydown="if(event.key==='Enter')adminPwSetzen()">
+                  <div class="field-gap"></div>
+                  <div class="error-msg" id="a-pw-error"></div>
+                  <button class="btn btn-blue" onclick="adminPwSetzen()">Passwort setzen</button>
+          </div>
+    </div>
+
 <!-- SCREEN 9: LEHRENDEN-BEREICH -->
 <div class="screen" id="screen-admin">
   <div class="admin-bar">
@@ -910,10 +931,27 @@ async function adminLogin() {
     const json = await webAppGet({ action:'studentLogin', mtknr: nutzer, pwHash });
     if (!json.ok) { errEl.textContent = json.error || 'Anmeldung fehlgeschlagen.'; return; }
     aktuellerAdmin = { nutzer, name: json.student.name || nutzer };
+        if (json.student.erstanmeldung) { zeige('screen-admin-pw-setzen'); return; }
     sessionStorage.setItem('hso_admin_unterricht', JSON.stringify(aktuellerAdmin));
     oeffneAdminBereich();
   } catch(e) { errEl.textContent = 'Verbindungsfehler.'; }
 }
+
+    async function adminPwSetzen() {
+          const pw1 = document.getElementById('a-pw1').value;
+          const pw2 = document.getElementById('a-pw2').value;
+          const err = document.getElementById('a-pw-error');
+          err.textContent = '';
+          if (pw1.length < 6) { err.textContent = 'Mindestens 6 Zeichen.'; return; }
+          if (pw1 !== pw2)    { err.textContent = 'Passwörter stimmen nicht überein.'; return; }
+          try {
+                  const json = await webAppPost({ action:'setPw', mtknr: aktuellerAdmin.nutzer, pwHash: await hashStr(pw1) });
+                  if (!json.ok) { err.textContent = json.error || 'Fehler.'; return; }
+                  sessionStorage.setItem('hso_admin_unterricht', JSON.stringify(aktuellerAdmin));
+                  toast('✅ Passwort gesetzt!');
+                  oeffneAdminBereich();
+          } catch(e) { err.textContent = 'Verbindungsfehler.'; }
+    }
 
 function oeffneAdminBereich() {
   document.getElementById('admin-name-label').textContent = aktuellerAdmin.name || 'Lehrende:r';
