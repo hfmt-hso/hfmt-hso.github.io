@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-07-15T07:01:58.970Z",
+  "generiert": "2026-07-21T14:52:08.930Z",
   "events": [
     {
       "datum": "29.09.2026",
@@ -1367,7 +1367,7 @@
           "lebensdaten": "1813–1883",
           "titel": "Tannhäuser, Ouvertüre",
           "saetze": [],
-          "dauer": "30.12.1899",
+          "dauer": "ca. 10 min",
           "besetzung": "3.2.2.3-4.3.3.1-Pk, Hrf.-Str. (14.12.10.8.6)",
           "urauffuehrung": false,
           "pause": false
@@ -1377,7 +1377,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "An Hoon Song | Jacob Gröper, Uschik Choi, Rémi Geniet",
+          "name": "An Hoon Song | Jacob Gröper, Uschik Choi, Rémi Geniet, Yuan Xin",
           "werk": "",
           "klasse": ""
         }
@@ -2710,7 +2710,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "An Hoon Song | Philine Lembeck, Miquel Bosch Roca, Yuan Xin",
+          "name": "An Hoon Song | Jacob Gröper (Bass), Miquel Bosch Roca, Doğa Çetin (Trompete), Sukjong Kim (Viola)",
           "werk": "",
           "klasse": ""
         }
@@ -2850,7 +2850,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "Song | Jacob Gröper, Rémi Geniet, Sukjong Kim, Uschik Choi",
+          "name": "Song | Doğa Çetin, Miquel Bosch Roca (1-3), Rémi Geniet, Philine Lembeck (4-7)",
           "werk": "",
           "klasse": ""
         }
@@ -4895,7 +4895,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "Thomas Dorsch | Rémi Geniet (Mozart); Chenyu Wan (Rossini); Yuan Xin, Uschik Choi (Haydn)",
+          "name": "Thomas Dorsch | Rémi Geniet (Mozart); Chenyu Wan (Rossini); Yuan Xin (Haydn 1,2), Uschik Choi (Haydn 3,4)",
           "werk": "",
           "klasse": ""
         }
@@ -4936,7 +4936,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "An Hoon Song | Sukjong Kim, Jacob Gröper, Chenyu Wan, Philine Lembeck",
+          "name": "An Hoon Song | Miquel Bosch Roca, Doğa Çetin (1, 2) Jacob Gröper, Chenyu Wan (3, 4)",
           "werk": "",
           "klasse": ""
         }
@@ -4971,7 +4971,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "An Hoon Song | Doğa Çetin, Miquel Bosch Roca, Rémi Geniet, Philine Lembeck",
+          "name": "An Hoon Song | Jacob Gröper, Rémi Geniet (Beginn bis Wissenschaft), Sukjong Kim, Uschik Choi (Genesender bis Ende)",
           "werk": "",
           "klasse": ""
         }
@@ -5066,7 +5066,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "Thomas Dorsch | Doğa Çetin, Miquel Bosch Roca, Yuan Xin, Jacob Gröper",
+          "name": "Thomas Dorsch | Sukjong Kim (Potter), Jacob Gröper, Chenyu Wan (E.T., Star Wars)",
           "werk": "",
           "klasse": ""
         }
@@ -5106,7 +5106,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "Omer Meir Wellber | Yuan Xin, Philine Lembeck, Chenyu Wan",
+          "name": "Omer Meir Wellber | Alle",
           "werk": "",
           "klasse": ""
         }
@@ -5146,7 +5146,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "An Hoon Song | Doğa Çetin, Philine Lembeck, Miquel Bosch Roca, Sukjong Kim",
+          "name": "An Hoon Song | Doğa Çetin, Philine Lembeck (1, 2), Miquel Bosch Roca, Sukjong Kim (3, 4)",
           "werk": "",
           "klasse": ""
         }
@@ -5213,7 +5213,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "An Hoon Song | Chenyu Wan, Uschik Choi, Philine Lembeck, Rémi Geniet",
+          "name": "An Hoon Song | Uschik Choi (Fagott), Philine Lembeck (Horn), Rémi Geniet (Flöte)",
           "werk": "",
           "klasse": ""
         }
@@ -5252,7 +5252,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "An Hoon Song | Sukjong Kim, Doğa Çetin, Chenyu Wan",
+          "name": "An Hoon Song | Sukjong Kim (1, 2), Doğa Çetin (2, 3), Chenyu Wan (1, 3)",
           "werk": "",
           "klasse": ""
         }
@@ -5292,7 +5292,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "An Hoon Song | Miquel Bosch Roca, Yuan Xin, Jacob Gröper, Uschik Choi",
+          "name": "An Hoon Song | Miquel Bosch Roca, Yuan Xin (1, 2), Jacob Gröper, Uschik Choi (3, 4)",
           "werk": "",
           "klasse": ""
         }
@@ -5331,7 +5331,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "Omer Meir Wellber | Uschik Choi, Doğa Çetin, Sukjong Kim",
+          "name": "Omer Meir Wellber | Uschik Choi (1, 2), Doğa Çetin (alles), Sukjong Kim (2, 3)",
           "werk": "",
           "klasse": ""
         }
@@ -5406,7 +5406,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "An Hoon Song | Jacob Gröper, Chenyu Wan, Rémi Geniet, Yuan Xin",
+          "name": "An Hoon Song | Jacob Gröper, Chenyu Wan (1, 2), Rémi Geniet, Sukjong Kim (3, 4)",
           "werk": "",
           "klasse": ""
         }
@@ -5446,7 +5446,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "An Hoon Song | Philine Lembeck, Miquel Bosch Roca, Yuan Xin",
+          "name": "An Hoon Song | Philine Lembeck (1, 2), Miquel Bosch Roca (3, 4), Yuan Xin (alles)",
           "werk": "",
           "klasse": ""
         }
