@@ -8,6 +8,9 @@
 <meta name="apple-mobile-web-app-title" content="HSO Unterricht">
 <title>HSO Unterricht – HfMT Hamburg</title>
 <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+  <link rel="shortcut icon" href="icon-192.png">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -930,7 +933,7 @@ async function adminLogin() {
   try {
     const json = await webAppGet({ action:'studentLogin', mtknr: nutzer, pwHash });
     if (!json.ok) { errEl.textContent = json.error || 'Anmeldung fehlgeschlagen.'; return; }
-    aktuellerAdmin = { nutzer, name: json.student.name || nutzer };
+    aktuellerAdmin = { nutzer, name: json.student.name || nutzer, rolle: json.student.rolle || 'Gastdozent' };
         if (json.student.erstanmeldung) { zeige('screen-admin-pw-setzen'); return; }
     sessionStorage.setItem('hso_admin_unterricht', JSON.stringify(aktuellerAdmin));
     oeffneAdminBereich();
@@ -955,11 +958,16 @@ async function adminLogin() {
 
 function oeffneAdminBereich() {
   document.getElementById('admin-name-label').textContent = aktuellerAdmin.name || 'Lehrende:r';
+  const istGastdozent = aktuellerAdmin.rolle === 'Gastdozent';
+  document.getElementById('ftab-abwesenheiten').style.display = istGastdozent ? 'none' : '';
+  document.getElementById('ftab-alle').style.display = istGastdozent ? 'none' : '';
+  if (istGastdozent) { adminTab('buchungen'); buchungenTab('meine'); }
   zeige('screen-admin');
   ladeAdminBuchungen();
 }
 
 function adminTab(tab) {
+  if (aktuellerAdmin && aktuellerAdmin.rolle === 'Gastdozent' && tab === 'abwesenheiten') return;
   hauptTabAktiv = tab;
   ['buchungen','abwesenheiten'].forEach(t => {
     document.getElementById('adm-' + t).style.display = t === tab ? 'block' : 'none';
@@ -969,6 +977,7 @@ function adminTab(tab) {
 }
 
 function buchungenTab(tab) {
+  if (aktuellerAdmin && aktuellerAdmin.rolle === 'Gastdozent' && tab === 'alle') tab = 'meine';
   adminTabAktiv = tab;
   ['alle','meine'].forEach(t => document.getElementById('ftab-' + t).classList.toggle('active', t === tab));
   renderAdminBuchungen();
