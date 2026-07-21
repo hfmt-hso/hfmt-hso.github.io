@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-07-21T14:52:08.930Z",
+  "generiert": "2026-07-21T15:06:00.928Z",
   "events": [
     {
       "datum": "29.09.2026",
@@ -168,7 +168,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Chenyu Wan (Borodin), Jacob Gröper (Bartok), Doğa Çetin, Uschik Choi, Miquel Bosch Roca (Schubert)",
+          "name": "Chenyu Wan (Borodin), Jacob Gröper (Bartok), Doğa Çetin (Schubert 1), Uschik Choi (Schubert 2, 3), Miquel Bosch Roca (Schubert 4)",
           "werk": "Leitung des Dirigierkurses: Aleksandar Marković",
           "klasse": ""
         }
@@ -491,7 +491,7 @@
       "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "Doğa Çetin (Trojahn), Yuan Xin (Stravinsky), Rémi Geniet, Philine Lembeck, Jacob Gröper (Brahms)  (Kursleitung: Frank Beermann)",
+          "name": "Doğa Çetin (Trojahn), Yuan Xin (Stravinsky), Rémi Geniet (Brahms 1), Philine Lembeck (Brahms 2, 3), Jacob Gröper (Brahms 4)  (Kursleitung: Frank Beermann)",
           "werk": "",
           "klasse": ""
         }
@@ -500,7 +500,7 @@
       "notizen": [],
       "probenplan": [
         "*",
-        "Klavier: Chenyu Wan (Strawinsky); Miquel Bosch Roca, Doğa Çetin, Sukjong Kim, Jacob Gröper (Brahms)"
+        "Klavier: Chenyu Wan (Strawinsky); Miquel Bosch Roca, Doğa Çetin, Jacob Gröper (Brahms)"
       ],
       "abwesend": null,
       "eintritt": [
@@ -694,7 +694,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Philine Lembeck (Mendelssohn), Rémi Geniet (Tchaikovsky), Yuan Xin, Sukjong Kim (Dvořak)  (Kursleitung: Rasmus Baumann)",
+          "name": "Philine Lembeck (Mendelssohn), Rémi Geniet (Tchaikovsky), Yuan Xin (Dvořak 1, 2) , Sukjong Kim (Dvořak 3, 4)  (Kursleitung: Rasmus Baumann)",
           "werk": "",
           "klasse": ""
         }
@@ -902,7 +902,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Philine Lembeck, Miquel Bosch Roca, Chenyu Wan (Brahms), Yuan Xin, Doğa Çetin, Rémi Geniet (Rimsky-Korsakow) (Kursleitung: Mihkel Kütson)",
+          "name": "Philine Lembeck (Brahms 1), Miquel Bosch Roca (Brahms 2), Chenyu Wan (Brahms 3, 4), Yuan Xin (Rimsky-Korsakow 1, 2), Doğa Çetin (Rimsky-Korsakow 3), Rémi Geniet (Rimsky-Korsakow 4) (Kursleitung: Mihkel Kütson)",
           "werk": "",
           "klasse": ""
         }
@@ -1515,7 +1515,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Rémi Geniet (UA), Uschik Choi, Yuan Xin (Brahms), Sukjong Kim, Jacob Gröper, Chenyu Wan, Miquel Bosch Roca (Tchaikovsky) (Kursleitung: Golo Berg)",
+          "name": "Rémi Geniet (UA), Uschik Choi (Brahms 1), Yuan Xin (Brahms 2, 3), Sukjong Kim (Tchaikovsky 1), Jacob Gröper (Tchaikovsky 2), Chenyu Wan (Tchaikovsky 3), Miquel Bosch Roca (Tchaikovsky 4) (Kursleitung: Golo Berg)",
           "werk": "",
           "klasse": ""
         }
@@ -1970,7 +1970,7 @@
       "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "Yuan Xin (Schnittke), Sukjong Kim (Tchaikovsky), Chenyu Wan, Uschik Choi, Miquel Bosch Roca (Bernstein) (Kursleitung: Markus L. Frank)",
+          "name": "Yuan Xin (Schnittke), Sukjong Kim (Tchaikovsky), Chenyu Wan (Prologue, Somewhere, Scherzo), Uschik Choi (Mambo, Cha-Cha, Meeting Scene), Miquel Bosch Roca (Cool Fugue, Rumble, Finale) (Kursleitung: Markus L. Frank)",
           "werk": "",
           "klasse": ""
         }
