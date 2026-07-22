@@ -64,6 +64,15 @@ body{min-height:100vh}
 .success-icon{width:52px;height:52px;border-radius:50%;background:var(--green-bg);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px}
 .success-view h2{font-size:17px;margin-bottom:8px}
 .success-view p{font-size:13px;color:var(--ink3)}
+
+.invoice-section{margin-top:32px}
+.invoice-intro h1{font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-0.01em}
+.invoice-intro p{font-size:13px;color:var(--ink3);line-height:1.6}
+.invoice-item{margin-bottom:16px}
+.invoice-item:last-child{margin-bottom:0}
+.invoice-item h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.invoice-item p{font-size:13px;color:var(--ink3);line-height:1.55}
+.invoice-num{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--gold-bg);color:var(--gold2);font-size:10px;font-weight:700;font-family:var(--mono);margin-right:6px;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -158,6 +167,40 @@ body{min-height:100vh}
 
       <div class="privacy">Deine Angaben werden verschlüsselt übertragen und ausschließlich für die Erstellung deines Werkvertrags an der Hochschule für Musik und Theater Hamburg verwendet.</div>
     </form>
+  </div>
+
+  <div class="invoice-section">
+    <div class="intro invoice-intro">
+      <h1>Anforderungen an eine Rechnung</h1>
+      <p>Nach der erbrachten Leistung schicke bitte eine Rechnung an die HfMT (gerne an die E-Mail-Adresse deiner Ansprechperson – Rechnungsempfänger ist aber die HfMT). Damit die Rechnung ohne Rückfragen bearbeitet werden kann, sollte sie Folgendes enthalten:</p>
+    </div>
+
+    <div class="card">
+      <div class="invoice-item">
+        <h3><span class="invoice-num">1</span>Anschrift der Leistungserbringerin/des Leistungserbringers und der Leistungsempfängerin</h3>
+        <p>Zuerst muss die Adresse des Kunden (Leistungsempfänger, also die HfMT) vollständig angegeben werden. Danach folgt die eigene Adresse.</p>
+      </div>
+      <div class="invoice-item">
+        <h3><span class="invoice-num">2</span>Eindeutige Rechnungsnummer</h3>
+        <p>Es ist zwingend erforderlich, dass jede Rechnung individuell nummeriert wird. Rechnungsnummern dürfen nicht doppelt verwendet werden.</p>
+      </div>
+      <div class="invoice-item">
+        <h3><span class="invoice-num">3</span>Datum der Leistungserbringung</h3>
+        <p>Wie bei dem Aufsetzen eines Geschäftsbriefes ist es auch bei Rechnungen unabdingbar, das Datum der Rechnungstellung mit aufzuführen.</p>
+      </div>
+      <div class="invoice-item">
+        <h3><span class="invoice-num">4</span>Beschreibung der erbrachten Leistung</h3>
+        <p>Bitte kurz beschreiben, welche Leistung im Rahmen des Werkvertrags erbracht wurde.</p>
+      </div>
+      <div class="invoice-item">
+        <h3><span class="invoice-num">5</span>Steuernummer oder Umsatzsteuer-ID</h3>
+        <p>Die Steuernummer oder die Umsatzsteuer-ID dient der Identifikation des Unternehmens bzw. der Person. Die Angabe einer der beiden Kennungen ist zwingend erforderlich.</p>
+      </div>
+      <div class="invoice-item">
+        <h3><span class="invoice-num">6</span>Hinweis auf Steuerbefreiung</h3>
+        <p>Für die korrekte Rechnungsstellung ohne Umsatzsteuer ist die Angabe eines Hinweises zur Umsatzsteuerbefreiung gemäß §19 Abs. 1 Umsatzsteuergesetz notwendig.</p>
+      </div>
+    </div>
   </div>
 </div>
 
