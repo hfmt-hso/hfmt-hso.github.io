@@ -160,6 +160,18 @@ body{min-height:100vh}
         <input id="kreditinstitut" name="kreditinstitut" type="text" required autocomplete="off">
       </div>
 
+      <div class="section-h">Steuerliche Angaben</div>
+
+      <div class="tfield">
+        <label for="steuernummer">Steuernummer</label>
+        <input id="steuernummer" name="steuernummer" type="text" required autocomplete="off">
+      </div>
+
+      <div class="tfield">
+        <label for="finanzamt">Finanzamt</label>
+        <input id="finanzamt" name="finanzamt" type="text" required autocomplete="off">
+      </div>
+
       <button type="submit" class="submit-btn" id="submitBtn">Angaben absenden</button>
 
       <div class="msg" id="msgBox"></div>
@@ -254,11 +266,13 @@ form.addEventListener('submit', function(e){
     telefon: document.getElementById('telefon').value.trim(),
     email: document.getElementById('email').value.trim(),
     iban: document.getElementById('iban').value.trim(),
-    kreditinstitut: document.getElementById('kreditinstitut').value.trim()
+    kreditinstitut: document.getElementById('kreditinstitut').value.trim(),
+    steuernummer: document.getElementById('steuernummer').value.trim(),
+    finanzamt: document.getElementById('finanzamt').value.trim()
   };
 
   var fehlt = [];
-  ['anrede','vorname','nachname','strasse','plz','ort','email','iban','kreditinstitut'].forEach(function(f){
+  ['anrede','vorname','nachname','strasse','plz','ort','email','iban','kreditinstitut','steuernummer','finanzamt'].forEach(function(f){
     if(!data[f]) fehlt.push(f);
   });
   if(fehlt.length){
