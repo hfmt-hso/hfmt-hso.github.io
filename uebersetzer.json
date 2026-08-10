@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-07-21T15:06:00.928Z",
+  "generiert": "2026-08-10T14:34:03.750Z",
   "events": [
     {
       "datum": "29.09.2026",
@@ -4994,20 +4994,10 @@
         {
           "komponist": "John Williams",
           "lebensdaten": "1932*",
-          "titel": "Harry Potter, Hedwig's Theme",
+          "titel": "Harry Potter, Hedwigs Theme | Harrys Wondrous World",
           "saetze": [],
-          "dauer": "ca. 5 min",
-          "besetzung": null,
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "John Williams",
-          "lebensdaten": "1932*",
-          "titel": "Harry Potter, Harry's Wondrous World",
-          "saetze": [],
-          "dauer": "ca. 4 min",
-          "besetzung": null,
+          "dauer": "ca. 10 min",
+          "besetzung": "2.2.2.2-4.3.3.1-Pk+3, Hrf., Cel., Klav.-Str. (10.8.6.4.3)",
           "urauffuehrung": false,
           "pause": false
         },
@@ -5016,54 +5006,24 @@
           "lebensdaten": "1932*",
           "titel": "E.T. (The Extra Terrestrial), Adventures on Earth",
           "saetze": [],
-          "dauer": "ca. 9 min",
-          "besetzung": null,
+          "dauer": "ca. 10 min",
+          "besetzung": "2.2.2.2-4.3.3.1-Pk+3, Hrf., Cel., Klav.-Str. (10.8.6.4.3)",
           "urauffuehrung": false,
           "pause": false
         },
         {
           "komponist": "John Williams",
           "lebensdaten": "1932*",
-          "titel": "Star Wars, Main Theme (Episode IV)",
+          "titel": "Star Wars, Main Title | Princess Leia's Theme | Imperial march | The Throne Room and End Title",
           "saetze": [],
-          "dauer": "ca. 5 min",
-          "besetzung": null,
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "John Williams",
-          "lebensdaten": "1932*",
-          "titel": "Star Wars, The imperial march",
-          "saetze": [],
-          "dauer": "ca. 3 min",
-          "besetzung": null,
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "John Williams",
-          "lebensdaten": "1932*",
-          "titel": "Star Wars, Princess Leia's theme (Episode IV)",
-          "saetze": [],
-          "dauer": "ca. 4 min",
-          "besetzung": null,
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "John Williams",
-          "lebensdaten": "1932*",
-          "titel": "Star Wars, Finale and Throne room",
-          "saetze": [],
-          "dauer": "ca. 8 min",
-          "besetzung": "2.2.2.2-4.3.3.1-Pk+4, Hrf., Klav., Cel.-Str. (8.6.5.4.3)",
+          "dauer": "ca. 15 min",
+          "besetzung": "3.2.3.2-4.3.3.1-Pk+4, Hrf., Klav., Cel.-Str. (10.8.6.4.3)",
           "urauffuehrung": false,
           "pause": false
         }
       ],
       "solisten": [],
-      "ensemble": null,
+      "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
           "name": "Thomas Dorsch | Sukjong Kim (Potter), Jacob Gröper, Chenyu Wan (E.T., Star Wars)",
