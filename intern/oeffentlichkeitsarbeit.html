@@ -134,6 +134,46 @@ function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').
 function istBR(n){return /Blattspiel|Repertoire/i.test(n);}
 function ohnestern(s){return String(s||'').replace(/^\*/,'');}
 
+// ── EINTRITT direkt aus dem Übersetzer-Tab lesen (die API-Aktionen liefern dieses Feld nicht) ──
+const UEBERSETZER_SHEET_ID = '1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU';
+const UEBERSETZER_GID = '1658744252';
+function parseCsvZeile(z){
+  const res=[]; let cur='', inQ=false, i=0;
+  while(i<z.length){
+    const c=z[i];
+    if(inQ){
+      if(c==='"'){ if(i+1<z.length && z[i+1]==='"'){ cur+='"'; i+=2; continue; } else inQ=false; }
+      else cur+=c;
+    } else {
+      if(c==='"') inQ=true;
+      else if(c===','){ res.push(cur); cur=''; }
+      else cur+=c;
+    }
+    i++;
+  }
+  res.push(cur); return res;
+}
+let _eintrittMap = null;
+async function ladeEintrittMap(){
+  if(_eintrittMap) return _eintrittMap;
+  _eintrittMap = {};
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${UEBERSETZER_SHEET_ID}/gviz/tq?tqx=out:csv&gid=${UEBERSETZER_GID}`;
+    const res = await fetch(url);
+    const text = await res.text();
+    text.trim().split('\n').slice(1).forEach(zeile => {
+      const cols = parseCsvZeile(zeile);
+      const eventId = cols[0], jsonStr = cols[4];
+      if(!eventId || !jsonStr) return;
+      try {
+        const obj = JSON.parse(jsonStr);
+        if(obj.eintritt && obj.eintritt.length) _eintrittMap[eventId] = obj.eintritt;
+      } catch(e){}
+    });
+  } catch(e){}
+  return _eintrittMap;
+}
+
 function getSjTarget(){
   const angefragt = new URLSearchParams(window.location.search).get('sj');
   // auch ein manuell übergebenes altes Studienjahr wird auf das aktuelle angehoben
@@ -155,7 +195,7 @@ async function ladeProjekte(sj){
   return (json.ok && json.data) ? json.data : [];
 }
 
-function renderEventProgramm(ev, datAnzeige){
+function renderEventProgramm(ev, datAnzeige, eintritt){
   const wt = ev.dat ? WT[ev.dat.getDay()] : '';
   let kopf = [wt, datAnzeige, ev.uhrzeit||''].filter(Boolean).join(', ');
   if(ev.ort) kopf += '    |    ' + ev.ort;
@@ -193,8 +233,8 @@ function renderEventProgramm(ev, datAnzeige){
       h += row;
     });
   }
-  if(ev.eintritt && ev.eintritt.length){
-    h += '<div class="werk-eintritt">' + ev.eintritt.map(z => esc(z)).join('<br>') + '</div>';
+  if(eintritt && eintritt.length){
+    h += '<div class="werk-eintritt">' + eintritt.map(z => esc(z)).join('<br>') + '</div>';
   }
   return h;
 }
@@ -207,9 +247,10 @@ async function ladeProjekteUndProgramm(){
   el.innerHTML = '<div class="loading">Programme werden geladen…</div>';
 
   try {
-    const [projekte, progData] = await Promise.all([
+    const [projekte, progData, eintrittMap] = await Promise.all([
       ladeProjekte(sj),
-      ladeProgData(sj)
+      ladeProgData(sj),
+      ladeEintrittMap()
     ]);
 
     const heute = new Date(); heute.setHours(0,0,0,0);
@@ -239,7 +280,7 @@ async function ladeProjekteUndProgramm(){
       const f = getFarbe(k.name);
       const kuerzel = getKuerzel(k.name);
       const cId = 'proj-'+i;
-      const body = k.events.map(({ev, dat, datAnzeige}) => renderEventProgramm({...ev, dat}, datAnzeige)).join('');
+      const body = k.events.map(({ev, dat, datAnzeige}) => renderEventProgramm({...ev, dat}, datAnzeige, eintrittMap[ev._eventId])).join('');
       return `<div class="proj-card">
   <div class="proj-header" onclick="toggleProj('${cId}')">
     <div class="proj-icon" style="background:${f.bg};color:${f.color}">${kuerzel}</div>
