@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#185FA5">
+<meta name="robots" content="noindex">
+<title>Öffentlichkeitsarbeit – HSO Termine</title>
+<link rel="icon" href="https://hfmt-hso.github.io/icon-192.png">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#185FA5;--blue-light:#E6F1FB;
+  --green:#3B6D11;--green-light:#EAF3DE;
+  --amber:#854F0B;--amber-light:#FAEEDA;
+  --teal:#0F6E56;--teal-light:#E1F5EE;
+  --purple:#534AB7;--purple-light:#EEEDFE;
+  --gray:#5F5E5A;--gray-light:#F1EFE8;
+  --text:#1a1a1a;--text-muted:#6b6b6b;
+  --border:rgba(0,0,0,0.1);
+  --bg:#f5f5f3;--card-bg:#fff;
+  --header-bg:#fff;
+}
+@media(prefers-color-scheme:dark){:root{
+  --text:#f0f0ee;--text-muted:#999997;
+  --border:rgba(255,255,255,0.1);
+  --bg:#1a1a18;--card-bg:#2a2a28;
+  --header-bg:#222220;
+}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto}
+.header{background:var(--header-bg);padding:12px 16px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:10}
+.header-row{display:flex;align-items:center;justify-content:space-between}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-logo{height:44px;width:auto;flex-shrink:0;border-radius:8px}
+.header-text h1{font-size:15px;font-weight:600;color:var(--text)}
+.header-text p{font-size:11px;color:var(--text-muted);margin-top:1px}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;background:var(--blue-light);color:var(--blue);cursor:pointer;user-select:none}
+.badge:hover{opacity:.8}
+.sj-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:999;align-items:flex-end;justify-content:center}
+.sj-modal-overlay.open{display:flex}
+.sj-modal-box{background:var(--card-bg);border-radius:16px 16px 0 0;padding:20px;width:100%;max-width:480px}
+.sj-modal-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;text-align:center}
+.sj-option{display:block;width:100%;padding:12px;margin-bottom:8px;border:2px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--text);font-size:15px;font-weight:600;cursor:pointer;text-align:center}
+.sj-option.aktiv{border-color:var(--green);color:var(--green);background:var(--green-light)}
+.content{padding:14px;padding-bottom:40px}
+.section-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin:14px 0 8px}
+.section-label:first-child{margin-top:0}
+.loading{text-align:center;padding:24px;color:var(--text-muted);font-size:13px}
+.hint-card{background:var(--blue-light);color:var(--blue);border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.5;margin-bottom:14px}
+
+/* ── KALENDER ── */
+.kal-month-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;padding:4px 0 6px;border-bottom:0.5px solid var(--border);margin-bottom:8px}
+.kal-card{background:var(--card-bg);border-radius:0 12px 12px 0;border:0.5px solid var(--border);border-left:3px solid #ccc;margin-bottom:6px;overflow:hidden}
+.kal-card.typ-hso{border-left-color:#185FA5}
+.kal-card.typ-1314{border-left-color:#854F0B}
+.kal-card.typ-wk{border-left-color:#0F6E56}
+.kal-card.typ-sonder{border-left-color:#5F5E5A}
+.kal-card-header{display:flex;align-items:center;gap:12px;padding:10px 13px;cursor:pointer}
+.kal-date-col{min-width:34px;text-align:center;flex-shrink:0}
+.kal-day-num{font-size:18px;font-weight:600;color:var(--text);line-height:1.1}
+.kal-day-wt{font-size:10px;color:var(--text-muted)}
+.kal-divider{width:1px;height:30px;background:var(--border);flex-shrink:0}
+.kal-info{flex:1;min-width:0}
+.kal-event-title{font-size:14px;font-weight:500;color:var(--text);line-height:1.2}
+.kal-event-title.bold{font-weight:700}
+.kal-event-sub{font-size:11px;color:var(--text-muted);margin-top:2px}
+.kal-chev{color:var(--text-muted);flex-shrink:0;transition:transform 0.2s}
+.kal-chev svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.kal-chev.open{transform:rotate(180deg)}
+.kal-body{display:none;border-top:0.5px solid var(--border);padding:12px 14px}
+.kal-body.open{display:block}
+.kal-werk{margin-bottom:8px}
+.kal-werk-komp{font-size:12px;font-weight:600;color:var(--text)}
+.kal-werk-titel{font-size:12px;color:var(--text-muted);margin-top:1px}
+.kal-solisten{font-size:11px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
+.kal-leitung{font-size:11px;color:var(--text-muted);margin-top:4px}
+.kal-leitung-kurs{font-size:11px;color:var(--text-muted)}
+.kal-pause{font-size:11px;color:var(--text-muted);font-style:italic;text-align:center;padding:6px 0;margin:2px 0;border-top:0.5px dashed var(--border);border-bottom:0.5px dashed var(--border)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-row">
+    <div class="header-left">
+      <img class="header-logo" src="https://hfmt-hso.github.io/icon-192.png" alt="HfMT">
+      <div class="header-text">
+        <h1>Öffentlichkeitsarbeit</h1>
+        <p>HSO Termine · HfMT Hamburg</p>
+      </div>
+    </div>
+    <span class="badge" id="sj-badge" onclick="oeffneSjModal()"></span>
+  </div>
+</div>
+
+<div class="content">
+  <div class="hint-card">Diese Übersicht zeigt alle Termine für die Website – ohne Blattspielorchester und Repertoireproben. Bei Änderungen an Vorstellungen bekommt ihr zusätzlich eine E-Mail.</div>
+  <div class="section-label" id="kal-label">Termine</div>
+  <div id="kal-liste"><div class="loading">Termine werden geladen…</div></div>
+</div>
+
+<script>
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
+const WT  = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+const MON = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+const ueCache = {};
+
+function aktuellesSj(){
+  const d=new Date(), m=d.getMonth(), y=d.getFullYear()%100;
+  return m>=8 ? y+'_'+(y+1) : (y-1)+'_'+y;
+}
+function parseDatum(s){
+  if(!s) return null;
+  const str=String(s).trim();
+  let m=str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if(m) return new Date(parseInt(m[3]),parseInt(m[2])-1,parseInt(m[1]));
+  m=str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(m) return new Date(parseInt(m[1]),parseInt(m[2])-1,parseInt(m[3]));
+  const d=new Date(str); return isNaN(d.getTime())?null:d;
+}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function ohnestern(s){return String(s||'').replace(/^\*/,'');}
+
+function getSjTarget(){
+  return new URLSearchParams(window.location.search).get('sj')||aktuellesSj();
+}
+
+// ── FILTER: ausgeschlossen sind Blattspielorchester & Repertoireproben ──
+function istAusgeschlossen(p){
+  return /Blattspiel|Repertoire/i.test(p);
+}
+function getKalTyp(p){
+  if(p==='13/14') return '1314';
+  if(p.startsWith('WK')) return 'wk';
+  if(p.startsWith('HSO')) return 'hso';
+  return 'sonder';
+}
+
+async function ladeKalenderData(sj){
+  if(ueCache['__kal_'+sj]) return ueCache['__kal_'+sj];
+  const res = await fetch(`${WEBAPP_URL}?action=kalender&sj=${sj}`);
+  const json = await res.json();
+  const data = (json.ok && json.data) ? json.data : {};
+  ueCache['__kal_'+sj] = data;
+  return data;
+}
+
+let _kalItems = [];
+
+function renderKalListe(){
+  const el = document.getElementById('kal-liste');
+  if(!_kalItems.length){ el.innerHTML='<div class="loading">Keine Termine.</div>'; return; }
+
+  const monate = {};
+  _kalItems.forEach(item => {
+    const key = item.dat.getFullYear()+'-'+String(item.dat.getMonth()).padStart(2,'0');
+    if(!monate[key]) monate[key]={label:MON[item.dat.getMonth()]+' '+item.dat.getFullYear(),items:[]};
+    monate[key].items.push(item);
+  });
+
+  let html = '', kalIdx = 0;
+  Object.keys(monate).sort().forEach(key => {
+    const m = monate[key];
+    html += `<div class="kal-month-label">${m.label}</div>`;
+    m.items.forEach(({projekt, ev, dat, typ}) => {
+      const wt  = WT[dat.getDay()];
+      const tag = String(dat.getDate()).padStart(2,'0');
+      const isVorstellung = (ev.marker==='Vorstellung') || (ev.konzertart && ev.konzertart.length>0);
+      const werke = (ev.werke||[]);
+      const hatDetails = werke.length > 0 || (ev.leitung&&ev.leitung.length);
+      const sub = [ev.uhrzeit||'', ev.ort||''].filter(Boolean).join(' · ');
+      const kid = 'kal-'+kalIdx++;
+      const typKlasse = 'typ-'+(typ==='wk'?'wk':typ==='1314'?'1314':typ==='hso'?'hso':'sonder');
+      const titelText = ohnestern(ev._titel||projekt);
+
+      html += `<div class="kal-card ${typKlasse}">
+  <div class="kal-card-header" onclick="${hatDetails?`toggleKal('${kid}')`:'void(0)'}">
+    <div class="kal-date-col">
+      <div class="kal-day-num">${tag}</div>
+      <div class="kal-day-wt">${wt}</div>
+    </div>
+    <div class="kal-divider"></div>
+    <div class="kal-info">
+      <div class="kal-event-title${isVorstellung?' bold':''}">${esc(titelText)}</div>
+      ${sub?`<div class="kal-event-sub">${esc(sub)}</div>`:''}
+    </div>
+    ${hatDetails?`<div class="kal-chev" id="kchev-${kid}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>`:''}
+  </div>`;
+
+      if(hatDetails){
+        html += `<div class="kal-body" id="${kid}">`;
+        werke.forEach(w => {
+          if(w.pause){
+            html += `<div class="kal-pause">— Pause —</div>`;
+            return;
+          }
+          const ld = w.lebensdaten?' ('+w.lebensdaten+')':'';
+          html += `<div class="kal-werk">
+    <div class="kal-werk-komp">${esc((w.komponist||'')+ld)}</div>
+    ${w.titel?`<div class="kal-werk-titel">${esc(w.titel)}</div>`:''}
+  </div>`;
+        });
+        if(ev.solisten&&ev.solisten.length){
+          html += '<div class="kal-solisten">';
+          ev.solisten.forEach(s=>{ html+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'<br>'; });
+          html += '</div>';
+        }
+        if(ev.ensemble) html += `<div class="kal-leitung">${esc(ev.ensemble)}</div>`;
+        if(ev.leitung&&ev.leitung.length){
+          ev.leitung.forEach(l=>{
+            const name = typeof l==='object'?l.name:String(l);
+            const werk = typeof l==='object'&&l.werk?l.werk:'';
+            const klasse = typeof l==='object'&&l.klasse?l.klasse:'';
+            if(!name)return;
+            let row = '<div class="kal-leitung">Leitung: '+esc(name);
+            if(klasse) row += '<br><span class="kal-leitung-kurs">'+esc(klasse)+'</span>';
+            if(werk) row += '<br><span class="kal-leitung-kurs">('+esc(werk)+')</span>';
+            row += '</div>';
+            html += row;
+          });
+        }
+        html += '</div>';
+      }
+      html += '</div>';
+    });
+  });
+
+  el.innerHTML = html;
+}
+
+async function ladenKalender(){
+  const sj = getSjTarget();
+  document.getElementById('kal-label').textContent = 'Termine · ' + sj.replace('_','/');
+  const el = document.getElementById('kal-liste');
+  el.innerHTML = '<div class="loading">Termine werden geladen…</div>';
+  try {
+    const progData = await ladeKalenderData(sj);
+    const heute = new Date(); heute.setHours(0,0,0,0);
+    const alle = [];
+
+    (progData||[]).forEach(ev => {
+      const dat = parseDatum(ev.datum);
+      if(!dat || dat < heute) return;
+      const p = ohnestern(ev._titel||'');
+      if(istAusgeschlossen(p)) return;
+      const typ = getKalTyp(p);
+      alle.push({projekt:p, ev, dat, typ});
+    });
+    alle.sort((a,b)=>a.dat-b.dat);
+    _kalItems = alle;
+
+    if(!alle.length){ el.innerHTML='<div class="loading">Keine kommenden Termine gefunden.</div>'; return; }
+    renderKalListe();
+  } catch(e){
+    el.innerHTML='<div class="loading">Laden fehlgeschlagen.</div>';
+  }
+}
+
+function toggleKal(kid){
+  const body = document.getElementById(kid);
+  const chev = document.getElementById('kchev-'+kid);
+  if(!body) return;
+  const open = body.classList.contains('open');
+  body.classList.toggle('open', !open);
+  if(chev) chev.classList.toggle('open', !open);
+}
+
+// ── STUDIENJAHR ──
+const ALLE_SJ = ['25_26','26_27','27_28'];
+function oeffneSjModal(){
+  const aktSj = getSjTarget();
+  document.getElementById('sj-optionen').innerHTML = ALLE_SJ.map(sj =>
+    `<button class="sj-option${sj===aktSj?' aktiv':''}" onclick="wechsleSj('${sj}')">${sj.replace('_','/')}</button>`
+  ).join('');
+  document.getElementById('sj-modal').classList.add('open');
+}
+function schliesseSjModal(){
+  document.getElementById('sj-modal').classList.remove('open');
+}
+function wechsleSj(sj){
+  const url = new URL(window.location.href);
+  url.searchParams.set('sj', sj);
+  window.location.href = url.toString();
+}
+
+document.getElementById('sj-badge').textContent = getSjTarget().replace('_','/');
+ladenKalender();
+</script>
+
+<div class="sj-modal-overlay" id="sj-modal" onclick="schliesseSjModal()">
+  <div class="sj-modal-box" onclick="event.stopPropagation()">
+    <div class="sj-modal-title">Studienjahr wählen</div>
+    <div id="sj-optionen"></div>
+  </div>
+</div>
+
+</body>
+</html>
