@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-08-10T14:34:03.750Z",
+  "generiert": "2026-08-20T11:55:35.174Z",
   "events": [
     {
       "datum": "29.09.2026",
@@ -114,7 +114,7 @@
             "Allegro"
           ],
           "dauer": "ca. 10 min",
-          "besetzung": "2.2.2.2-4.2.3.1-Pauken, Triangel, Becken, Große Trommel-Str. (10.8.6.5.4)",
+          "besetzung": "2.2.2.2-4.2.3.1-Pauken, Triangel, Becken, Große Trommel-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
           "pause": false
         },
@@ -128,7 +128,7 @@
             "Allegro vivace"
           ],
           "dauer": "ca. 21 min",
-          "besetzung": "3.2.2.2-4.3.3.1-Pk+2-Str. (10.8.6.5.4)",
+          "besetzung": "3.2.2.2-4.3.3.1-Pk+2-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
           "pause": false
         },
@@ -146,7 +146,7 @@
             "Allegro vivace"
           ],
           "dauer": "ca. 48 min",
-          "besetzung": "2.2.2.2-2.2.3.0-Pk-Str. (10.8.6.5.4)",
+          "besetzung": "2.2.2.2-2.2.3.0-Pk-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
           "pause": false,
           "solisten": [
@@ -168,7 +168,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Chenyu Wan (Borodin), Jacob Gröper (Bartok), Doğa Çetin (Schubert 1), Uschik Choi (Schubert 2, 3), Miquel Bosch Roca (Schubert 4)",
+          "name": "Chenyu Wan (Borodin), Jacob Gröper (Bartok), Yuan Xin (Schubert 1), Uschik Choi (Schubert 2, 3), Miquel Bosch Roca (Schubert 4)",
           "werk": "Leitung des Dirigierkurses: Aleksandar Marković",
           "klasse": ""
         }
@@ -491,7 +491,7 @@
       "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "Doğa Çetin (Trojahn), Yuan Xin (Stravinsky), Rémi Geniet (Brahms 1), Philine Lembeck (Brahms 2, 3), Jacob Gröper (Brahms 4)  (Kursleitung: Frank Beermann)",
+          "name": "Miquel Bosch Roca (Trojahn), Yuan Xin (Stravinsky), Rémi Geniet (Brahms 1), Philine Lembeck (Brahms 2, 3), Jacob Gröper (Brahms 4)  (Kursleitung: Frank Beermann)",
           "werk": "",
           "klasse": ""
         }
@@ -902,7 +902,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Philine Lembeck (Brahms 1), Miquel Bosch Roca (Brahms 2), Chenyu Wan (Brahms 3, 4), Yuan Xin (Rimsky-Korsakow 1, 2), Doğa Çetin (Rimsky-Korsakow 3), Rémi Geniet (Rimsky-Korsakow 4) (Kursleitung: Mihkel Kütson)",
+          "name": "Philine Lembeck (Brahms 1), Miquel Bosch Roca (Brahms 2), Chenyu Wan (Brahms 3, 4), Doğa Çetin (Rimsky-Korsakow 1, 2, 3), Rémi Geniet (Rimsky-Korsakow 4) (Kursleitung: Mihkel Kütson)",
           "werk": "",
           "klasse": ""
         }
