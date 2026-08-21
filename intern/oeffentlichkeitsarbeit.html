@@ -372,12 +372,9 @@ function baueInternMitwirkendeText(ev){
       teile.push((s.instrument||'') + ': ' + (s.name||'') + (s.zusatz ? ' (' + s.zusatz + ')' : ''));
     });
   }
-  if(ev.probenplan && ev.probenplan.length){
-    ev.probenplan.forEach(z => {
-      const zeile = String(z||'').replace(/^\*[\s ]*/, '').trim();
-      if(zeile) teile.push(zeile);
-    });
-  }
+  // Der Probenplan (Korrepetitions-/Klavierbegleitungs-Notizen) wird bewusst NICHT einbezogen:
+  // er erscheint nicht im Web-Eintrag-Tab und ist auch nicht für die Website gedacht.
+  // Würde er mitverglichen, entstünden Geister-Abweichungen ("Nur intern"), die keine echten sind.
   return teile.join('\n');
 }
 
