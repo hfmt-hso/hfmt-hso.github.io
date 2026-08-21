@@ -81,6 +81,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .heft-bios{margin-top:14px;padding-top:10px;border-top:0.5px solid var(--border)}
 .bio-name{font-size:13px;font-weight:600;color:var(--text);margin-top:10px}
 .bio-text{font-size:12px;color:var(--text-muted);margin-top:4px;line-height:1.5}
+
+/* ── WEBSITE-ABGLEICH ── */
+.abgleich-banner{font-size:11px;line-height:1.5;border-radius:8px;padding:8px 10px;margin-bottom:10px}
+.abgleich-banner a{color:inherit;text-decoration:underline}
+.abgleich-ok{background:var(--green-light);color:var(--green)}
+.abgleich-diff{background:var(--amber-light);color:var(--amber)}
+.abgleich-warn{background:var(--amber-light);color:var(--amber)}
+.abgleich-neutral{background:var(--gray-light);color:var(--gray)}
+.abgleich-error{background:var(--gray-light);color:var(--gray)}
 </style>
 </head>
 <body>
@@ -253,8 +262,11 @@ function renderEventProgramm(ev, datAnzeige, eintritt, projektName, sj){
   const safeId = eid.replace(/[^a-zA-Z0-9]/g, '_');
   const webBody = renderWebeintragBody(ev, eintritt);
 
+  eventDataMap[safeId] = ev;
+
   let h = '<div class="event-block">';
   h += `<div class="event-kopf">${esc(kopf)}</div>`;
+  h += `<div class="abgleich-banner abgleich-neutral" id="abgleich-${safeId}" data-eid="${esc(safeId)}">Website-Abgleich wird geprüft…</div>`;
   h += `<div class="sub-tabs">
     <button type="button" class="sub-tab active" data-eid="${esc(eid)}" data-proj="${esc(projektName)}" data-sj="${esc(sj)}" onclick="wechsleSubTab(this,'web')">Web-Eintrag</button>
     <button type="button" class="sub-tab" data-eid="${esc(eid)}" data-proj="${esc(projektName)}" data-sj="${esc(sj)}" onclick="wechsleSubTab(this,'heft')">Programmheft</button>
@@ -263,6 +275,199 @@ function renderEventProgramm(ev, datAnzeige, eintritt, projektName, sj){
   h += `<div class="sub-panel" id="panelheft-${safeId}" style="display:none"><div class="loading">Programmheft wird geladen…</div></div>`;
   h += '</div>';
   return h;
+}
+
+// ── WEBSITE-ABGLEICH: hfmt-hamburg.de Terminliste mit internen Daten vergleichen ──
+const eventDataMap = {};
+let wsEventsCache = null;
+const wsDetailCache = {};
+
+async function holeWebsiteEvents(){
+  if(wsEventsCache) return wsEventsCache;
+  try {
+    const zielUrl = 'https://www.hfmt-hamburg.de/hochschule/aktuelles/veranstaltungen';
+    const url = `${WEBAPP_URL}?action=hfmtProxy&url=${encodeURIComponent(zielUrl)}`;
+    const res  = await fetch(url);
+    const json = await res.json();
+    if(!json.ok || !json.html) throw new Error('proxy fehlgeschlagen');
+    const doc  = new DOMParser().parseFromString(json.html, 'text/html');
+    const cols = doc.querySelectorAll('#events .col[data-event]');
+    const list = [...cols].map(c => {
+      const a    = c.querySelector('h5.card-title a');
+      const loc  = c.querySelector('.location');
+      const time = c.querySelector('.time');
+      return {
+        id:       c.getAttribute('data-event'),
+        title:    (c.getAttribute('data-title')||'').trim(),
+        date:     c.getAttribute('data-date') || '',
+        href:     a ? a.getAttribute('href') : null,
+        location: loc ? loc.textContent.trim() : '',
+        time:     time ? time.textContent.trim() : ''
+      };
+    });
+    wsEventsCache = { ok:true, list };
+  } catch(e){
+    wsEventsCache = { ok:false, list:[] };
+  }
+  return wsEventsCache;
+}
+
+async function holeWebsiteDetail(href){
+  if(wsDetailCache.hasOwnProperty(href)) return wsDetailCache[href];
+  try {
+    const zielUrl = 'https://www.hfmt-hamburg.de' + href;
+    const url = `${WEBAPP_URL}?action=hfmtProxy&url=${encodeURIComponent(zielUrl)}`;
+    const res  = await fetch(url);
+    const json = await res.json();
+    if(!json.ok || !json.html) throw new Error('proxy fehlgeschlagen');
+    const doc = new DOMParser().parseFromString(json.html, 'text/html');
+
+    let mitwP = null;
+    doc.querySelectorAll('main p').forEach(p => {
+      const strong = p.querySelector('strong');
+      if(strong && strong.textContent.trim() === 'Mitwirkende') mitwP = p;
+    });
+    if(!mitwP){ wsDetailCache[href] = null; return null; }
+
+    const kinder  = [...mitwP.parentElement.children];
+    const mitwIdx = kinder.indexOf(mitwP);
+    const werke = [];
+    for(let i = 0; i < mitwIdx; i++){
+      const el = kinder[i];
+      if(el.tagName !== 'P') continue;
+      const strong = el.querySelector('strong');
+      if(!strong) continue;
+      const name = strong.textContent.trim();
+      if(name) werke.push({ komponist: name });
+    }
+    const mitwClone = mitwP.cloneNode(true);
+    mitwClone.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
+    const mitwirkendeText = mitwClone.textContent.replace(/^\s*Mitwirkende/, '').trim();
+    wsDetailCache[href] = { werke, mitwirkendeText };
+  } catch(e){
+    wsDetailCache[href] = null;
+  }
+  return wsDetailCache[href];
+}
+
+function extrahiereNamen(text){
+  const re = /\p{Lu}[\p{L}'-]+(?:[ \t]+\p{Lu}[\p{L}'-]+)+/gu;
+  const treffer = String(text||'').match(re) || [];
+  return [...new Set(treffer.map(t => t.trim()))];
+}
+
+function baueInternMitwirkendeText(ev){
+  const teile = [];
+  if(ev.ensemble) teile.push(ev.ensemble);
+  if(ev.leitung && ev.leitung.length){
+    teile.push('Leitung: ' + ev.leitung.map(l => {
+      const name   = typeof l === 'object' ? l.name : String(l);
+      const werk   = (typeof l === 'object' && l.werk)   ? ' (' + l.werk + ')' : '';
+      const klasse = (typeof l === 'object' && l.klasse) ? ' ' + l.klasse      : '';
+      return name + werk + klasse;
+    }).join(' / '));
+  }
+  if(ev.solisten && ev.solisten.length){
+    ev.solisten.forEach(s => {
+      teile.push((s.instrument||'') + ': ' + (s.name||'') + (s.zusatz ? ' (' + s.zusatz + ')' : ''));
+    });
+  }
+  if(ev.probenplan && ev.probenplan.length){
+    ev.probenplan.forEach(z => {
+      const zeile = String(z||'').replace(/^\*[\s ]*/, '').trim();
+      if(zeile) teile.push(zeile);
+    });
+  }
+  return teile.join('\n');
+}
+
+function interneKomponisten(ev){
+  return (ev.werke||[]).filter(w => !w.pause).map(w => (w.komponist||'').trim()).filter(Boolean);
+}
+
+function ortPasst(internOrt, websiteOrt){
+  const norm = s => String(s||'').toLowerCase().replace(/hfmt,?\s*/g, '').trim();
+  const a = norm(internOrt), b = norm(websiteOrt);
+  if(!a || !b) return false;
+  return a === b || a.includes(b) || b.includes(a);
+}
+
+async function vergleicheEvent(ev){
+  const m = String(ev.datum||'').match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if(!m) return { status:'error', msg:'Datum unbekannt' };
+  const isoDatum = m[3] + '-' + m[2].padStart(2,'0') + '-' + m[1].padStart(2,'0');
+
+  const ws = await holeWebsiteEvents();
+  if(!ws.ok) return { status:'error', msg:'Website konnte nicht geladen werden' };
+
+  const treffer = ws.list.filter(e => e.date === isoDatum && ortPasst(ev.ort, e.location));
+
+  if(!treffer.length){
+    const heute  = new Date(); heute.setHours(0,0,0,0);
+    const datObj = parseDatum(ev.datum);
+    const tage   = datObj ? Math.round((datObj - heute) / 86400000) : 9999;
+    if(tage > 95) return { status:'not_published' };
+    return { status:'missing', msg:'Kein passender Website-Eintrag gefunden (Datum/Ort).' };
+  }
+
+  const websiteEvent = treffer[0];
+  const detail = await holeWebsiteDetail(websiteEvent.href);
+  const href = 'https://www.hfmt-hamburg.de' + websiteEvent.href;
+  if(!detail) return { status:'error', msg:'Detailseite konnte nicht gelesen werden', href };
+
+  const internK = new Set(interneKomponisten(ev));
+  const webK    = new Set(detail.werke.map(w => w.komponist));
+  const kNurWeb    = [...webK].filter(k => !internK.has(k));
+  const kNurIntern = [...internK].filter(k => !webK.has(k));
+
+  const internNamen = new Set(extrahiereNamen(baueInternMitwirkendeText(ev)));
+  const webNamen    = new Set(extrahiereNamen(detail.mitwirkendeText));
+  const nNurWeb    = [...webNamen].filter(n => !internNamen.has(n));
+  const nNurIntern = [...internNamen].filter(n => !webNamen.has(n));
+
+  const diffs = [];
+  if(kNurWeb.length)    diffs.push('Komponist nur auf Website: ' + kNurWeb.join(', '));
+  if(kNurIntern.length) diffs.push('Komponist nur intern: ' + kNurIntern.join(', '));
+  if(nNurWeb.length)    diffs.push('Nur auf Website: ' + nNurWeb.join(', '));
+  if(nNurIntern.length) diffs.push('Nur intern: ' + nNurIntern.join(', '));
+
+  if(diffs.length) return { status:'diff', diffs, href };
+  return { status:'ok', href };
+}
+
+function renderAbgleichErgebnis(banner, res){
+  if(res.status === 'ok'){
+    banner.className = 'abgleich-banner abgleich-ok';
+    banner.innerHTML = '✓ Stimmt mit der Website überein' + (res.href ? ` · <a href="${esc(res.href)}" target="_blank" rel="noopener">Website</a>` : '');
+  } else if(res.status === 'diff'){
+    banner.className = 'abgleich-banner abgleich-diff';
+    banner.innerHTML = '⚠ Abweichung zur Website:<br>' + res.diffs.map(d => esc(d)).join('<br>') + (res.href ? `<br><a href="${esc(res.href)}" target="_blank" rel="noopener">Zur Website</a>` : '');
+  } else if(res.status === 'not_published'){
+    banner.className = 'abgleich-banner abgleich-neutral';
+    banner.innerHTML = 'ⓘ Noch nicht veröffentlicht';
+  } else if(res.status === 'missing'){
+    banner.className = 'abgleich-banner abgleich-warn';
+    banner.innerHTML = '⚠ ' + esc(res.msg || 'Nicht auf der Website gefunden');
+  } else {
+    banner.className = 'abgleich-banner abgleich-error';
+    banner.innerHTML = '⚠ Abgleich fehlgeschlagen' + (res.msg ? ': ' + esc(res.msg) : '');
+  }
+}
+
+async function starteAbgleiche(){
+  const banners = [...document.querySelectorAll('.abgleich-banner[data-eid]')];
+  if(!banners.length) return;
+  await holeWebsiteEvents();
+  for(const banner of banners){
+    const ev = eventDataMap[banner.dataset.eid];
+    if(!ev) continue;
+    try {
+      const res = await vergleicheEvent(ev);
+      renderAbgleichErgebnis(banner, res);
+    } catch(e){
+      renderAbgleichErgebnis(banner, { status:'error', msg:String(e && e.message || e) });
+    }
+  }
 }
 
 // ── PROGRAMMHEFT-UNTERTAB: lazy laden + umschalten ──
@@ -383,6 +588,8 @@ async function ladeProjekteUndProgramm(){
   <div class="proj-body" id="${cId}">${body}</div>
 </div>`;
     }).join('');
+
+    starteAbgleiche();
   } catch(e){
     el.innerHTML = '<div class="loading">Laden fehlgeschlagen.</div>';
   }
