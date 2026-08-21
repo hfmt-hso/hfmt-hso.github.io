@@ -356,11 +356,17 @@ function extrahiereNamen(text){
   return [...new Set(treffer.map(t => t.trim()))];
 }
 
-function baueInternMitwirkendeText(ev){
-  const teile = [];
-  if(ev.ensemble) teile.push(ev.ensemble);
+// Baut den Vergleichstext getrennt nach Quelle:
+// - "oeffentlich": Ensemble/Leitung/Solisten – das steht auch im Web-Eintrag-Tab.
+// - "probenplan": die interne Korrepetitions-/Klavierbegleitungs-Notiz – die steht NICHT im
+//   Web-Eintrag-Tab und wird nur manchmal (uneinheitlich) auf der Website mitveröffentlicht.
+// Diese Trennung erlaubt es, im Diff zu erklären, WOHER ein "Nur intern"-Name kommt,
+// statt Probenplan-Namen und echte Programm-Namen in einen Topf zu werfen.
+function baueInternTexte(ev){
+  const oeffentlich = [];
+  if(ev.ensemble) oeffentlich.push(ev.ensemble);
   if(ev.leitung && ev.leitung.length){
-    teile.push('Leitung: ' + ev.leitung.map(l => {
+    oeffentlich.push('Leitung: ' + ev.leitung.map(l => {
       const name   = typeof l === 'object' ? l.name : String(l);
       const werk   = (typeof l === 'object' && l.werk)   ? ' (' + l.werk + ')' : '';
       const klasse = (typeof l === 'object' && l.klasse) ? ' ' + l.klasse      : '';
@@ -369,13 +375,17 @@ function baueInternMitwirkendeText(ev){
   }
   if(ev.solisten && ev.solisten.length){
     ev.solisten.forEach(s => {
-      teile.push((s.instrument||'') + ': ' + (s.name||'') + (s.zusatz ? ' (' + s.zusatz + ')' : ''));
+      oeffentlich.push((s.instrument||'') + ': ' + (s.name||'') + (s.zusatz ? ' (' + s.zusatz + ')' : ''));
     });
   }
-  // Der Probenplan (Korrepetitions-/Klavierbegleitungs-Notizen) wird bewusst NICHT einbezogen:
-  // er erscheint nicht im Web-Eintrag-Tab und ist auch nicht für die Website gedacht.
-  // Würde er mitverglichen, entstünden Geister-Abweichungen ("Nur intern"), die keine echten sind.
-  return teile.join('\n');
+  const probenplan = [];
+  if(ev.probenplan && ev.probenplan.length){
+    ev.probenplan.forEach(z => {
+      const zeile = String(z||'').replace(/^\*[\s ]*/, '').trim();
+      if(zeile) probenplan.push(zeile);
+    });
+  }
+  return { oeffentlich: oeffentlich.join('\n'), probenplan: probenplan.join('\n') };
 }
 
 function interneKomponisten(ev){
@@ -417,16 +427,27 @@ async function vergleicheEvent(ev){
   const kNurWeb    = [...webK].filter(k => !internK.has(k));
   const kNurIntern = [...internK].filter(k => !webK.has(k));
 
-  const internNamen = new Set(extrahiereNamen(baueInternMitwirkendeText(ev)));
-  const webNamen    = new Set(extrahiereNamen(detail.mitwirkendeText));
-  const nNurWeb    = [...webNamen].filter(n => !internNamen.has(n));
-  const nNurIntern = [...internNamen].filter(n => !webNamen.has(n));
+  const { oeffentlich, probenplan } = baueInternTexte(ev);
+  const namenOeffentlich = new Set(extrahiereNamen(oeffentlich));
+  const namenProbenplan  = new Set(extrahiereNamen(probenplan));
+  const internNamenAlle  = new Set([...namenOeffentlich, ...namenProbenplan]);
+  const webNamen         = new Set(extrahiereNamen(detail.mitwirkendeText));
+
+  // "Nur auf Website" wird gegen ALLE internen Namen geprüft (inkl. Probenplan) –
+  // das ist der wichtige Fall: jemand fehlt komplett bei uns intern.
+  const nNurWeb = [...webNamen].filter(n => !internNamenAlle.has(n));
+  // "Nur intern" wird nach Quelle getrennt gemeldet, damit klar ist, woher ein Name kommt:
+  // - aus dem öffentlichen Programmtext (Leitung/Solisten) → sollte vermutlich ergänzt werden
+  // - nur aus dem Probenplan (Korrepetition) → oft bewusst nicht auf der Website, nur zur Info
+  const nNurInternOeffentlich = [...namenOeffentlich].filter(n => !webNamen.has(n));
+  const nNurInternProbenplan  = [...namenProbenplan].filter(n => !webNamen.has(n) && !namenOeffentlich.has(n));
 
   const diffs = [];
   if(kNurWeb.length)    diffs.push('Komponist nur auf Website: ' + kNurWeb.join(', '));
   if(kNurIntern.length) diffs.push('Komponist nur intern: ' + kNurIntern.join(', '));
-  if(nNurWeb.length)    diffs.push('Nur auf Website: ' + nNurWeb.join(', '));
-  if(nNurIntern.length) diffs.push('Nur intern: ' + nNurIntern.join(', '));
+  if(nNurWeb.length)              diffs.push('Nur auf Website (fehlt intern): ' + nNurWeb.join(', '));
+  if(nNurInternOeffentlich.length) diffs.push('Nur intern, im Web-Eintrag: ' + nNurInternOeffentlich.join(', '));
+  if(nNurInternProbenplan.length)  diffs.push('Nur im Probenplan (evtl. bewusst nicht auf der Website): ' + nNurInternProbenplan.join(', '));
 
   if(diffs.length) return { status:'diff', diffs, href };
   return { status:'ok', href };
