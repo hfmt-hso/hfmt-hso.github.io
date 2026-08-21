@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-08-20T11:55:35.174Z",
+  "generiert": "2026-08-21T08:41:10.845Z",
   "events": [
     {
       "datum": "29.09.2026",
@@ -52,9 +52,9 @@
       "_titel": "WK 1 GP"
     },
     {
-      "datum": "02.10.2026",
+      "datum": "01.10.2026",
       "uhrzeit": "16:00 Uhr",
-      "ort": "Forum",
+      "ort": "Ensemblestudio",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -68,9 +68,9 @@
       "_titel": "HSO 1 OA Celli"
     },
     {
-      "datum": "02.10.2026",
-      "uhrzeit": "13:00 Uhr",
-      "ort": "Forum",
+      "datum": "30.09.2026",
+      "uhrzeit": "16:00 Uhr",
+      "ort": "Ort?",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -84,9 +84,9 @@
       "_titel": "HSO 1 OA Violen"
     },
     {
-      "datum": "02.10.2026",
-      "uhrzeit": "19:00 Uhr",
-      "ort": "Forum",
+      "datum": "01.10.2026",
+      "uhrzeit": "15:30 Uhr",
+      "ort": "Fanny Hensel-Saal",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -168,7 +168,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Chenyu Wan (Borodin), Jacob Gröper (Bartok), Yuan Xin (Schubert 1), Uschik Choi (Schubert 2, 3), Miquel Bosch Roca (Schubert 4)",
+          "name": "Chenyu Wan (Borodin), Jacob Gröper (Bartok), Yuan Xin (Schubert 1. Satz), Uschik Choi (Schubert 2. & 3. Satz), Miquel Bosch Roca (Schubert 4. Satz)",
           "werk": "Leitung des Dirigierkurses: Aleksandar Marković",
           "klasse": ""
         }
@@ -491,7 +491,7 @@
       "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "Miquel Bosch Roca (Trojahn), Yuan Xin (Stravinsky), Rémi Geniet (Brahms 1), Philine Lembeck (Brahms 2, 3), Jacob Gröper (Brahms 4)  (Kursleitung: Frank Beermann)",
+          "name": "Miquel Bosch Roca (Trojahn), Yuan Xin (Stravinsky), Rémi Geniet (Brahms 1. Satz), Philine Lembeck (Brahms 2.& 3. Satz), Jacob Gröper (Brahms 4. Satz)  (Kursleitung: Frank Beermann)",
           "werk": "",
           "klasse": ""
         }
@@ -694,7 +694,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Philine Lembeck (Mendelssohn), Rémi Geniet (Tchaikovsky), Yuan Xin (Dvořak 1, 2) , Sukjong Kim (Dvořak 3, 4)  (Kursleitung: Rasmus Baumann)",
+          "name": "Philine Lembeck (Mendelssohn), Rémi Geniet (Tchaikovsky), Yuan Xin (Dvořak 1.& 2. Satz) , Sukjong Kim (Dvořak 3.& 4. Satz)  (Kursleitung: Rasmus Baumann)",
           "werk": "",
           "klasse": ""
         }
@@ -1515,7 +1515,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Rémi Geniet (UA), Uschik Choi (Brahms 1), Yuan Xin (Brahms 2, 3), Sukjong Kim (Tchaikovsky 1), Jacob Gröper (Tchaikovsky 2), Chenyu Wan (Tchaikovsky 3), Miquel Bosch Roca (Tchaikovsky 4) (Kursleitung: Golo Berg)",
+          "name": "Rémi Geniet (UA), Uschik Choi (Brahms 1. Satz), Yuan Xin (Brahms 2.& 3. Satz), Sukjong Kim (Tchaikovsky 1. Satz), Jacob Gröper (Tchaikovsky 2. Satz), Chenyu Wan (Tchaikovsky 3. Satz), Miquel Bosch Roca (Tchaikovsky 4. Satz) (Kursleitung: Golo Berg)",
           "werk": "",
           "klasse": ""
         }
