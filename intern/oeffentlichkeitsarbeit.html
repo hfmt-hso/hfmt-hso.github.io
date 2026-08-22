@@ -68,10 +68,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .werk-komponist{font-size:13px;font-weight:600;color:var(--text)}
 .werk-titel{font-size:13px;color:var(--text);margin-top:1px}
 .werk-pause{font-size:11px;color:var(--text-muted);font-style:italic;text-align:center;padding:6px 0;margin:2px 0;border-top:0.5px dashed var(--border);border-bottom:0.5px dashed var(--border)}
-.werk-solisten{font-size:11px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
-.werk-leitung{font-size:11px;color:var(--text-muted);margin-top:4px}
-.werk-leitung-kurs{font-size:11px;color:var(--text-muted)}
-.werk-eintritt{font-size:11px;color:var(--text-muted);margin-top:10px;padding-top:8px;border-top:0.5px solid var(--border);line-height:1.5}
+.werk-solisten{font-size:13px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
+.werk-leitung{font-size:13px;color:var(--text-muted);margin-top:4px}
+.werk-leitung-kurs{font-size:13px;color:var(--text-muted)}
+.werk-eintritt{font-size:13px;color:var(--text-muted);margin-top:10px;padding-top:8px;border-top:0.5px solid var(--border);line-height:1.5}
 
 /* ── WEB-EINTRAG / PROGRAMMHEFT UNTERTABS ── */
 .sub-tabs{display:flex;gap:6px;margin-bottom:10px}
@@ -220,7 +220,8 @@ function renderWebeintragBody(ev, eintritt){
     h += '<div class="werk-block" style="color:var(--text-muted);font-style:italic">Noch kein Programm eingetragen.</div>';
   } else {
     werke.forEach(w => {
-      if(w.pause){ h += '<div class="werk-pause">— Pause —</div>'; return; }
+      // Web-Eintrag zeigt bewusst KEINE Pause – die Website listet Pausen nicht separat (Pause nur im Programmheft).
+      if(w.pause){ return; }
       // Web-Eintrag zeigt bewusst KEINE Lebensdaten – die Website tut das nie (Lebensdaten nur im Programmheft).
       h += `<div class="werk-block">
     <div class="werk-komponist">${esc(w.komponist||'')}</div>
