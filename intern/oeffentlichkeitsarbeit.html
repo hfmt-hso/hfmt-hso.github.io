@@ -221,9 +221,9 @@ function renderWebeintragBody(ev, eintritt){
   } else {
     werke.forEach(w => {
       if(w.pause){ h += '<div class="werk-pause">— Pause —</div>'; return; }
-      const ld = w.lebensdaten ? ' ('+w.lebensdaten+')' : '';
+      // Web-Eintrag zeigt bewusst KEINE Lebensdaten – die Website tut das nie (Lebensdaten nur im Programmheft).
       h += `<div class="werk-block">
-    <div class="werk-komponist">${esc((w.komponist||'')+ld)}</div>
+    <div class="werk-komponist">${esc(w.komponist||'')}</div>
     ${w.titel?`<div class="werk-titel">${esc(w.titel)}</div>`:''}
   </div>`;
     });
