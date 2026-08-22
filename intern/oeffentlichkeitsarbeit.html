@@ -262,6 +262,8 @@ function renderEventProgramm(ev, datAnzeige, eintritt, projektName, sj){
   const safeId = eid.replace(/[^a-zA-Z0-9]/g, '_');
   const webBody = renderWebeintragBody(ev, eintritt);
 
+  ev._projName  = projektName;
+  ev._sjTarget  = sj;
   eventDataMap[safeId] = ev;
 
   let h = '<div class="event-block">';
@@ -427,39 +429,40 @@ async function vergleicheEvent(ev){
   const kNurWeb    = [...webK].filter(k => !internK.has(k));
   const kNurIntern = [...internK].filter(k => !webK.has(k));
 
+  // Probenplan-Namen (Korrepetition/Klavierbegleitung) fließen bewusst NUR in die interne
+  // Vergleichsmenge ein (damit "Name fehlt bei uns intern" korrekt erkannt wird), tauchen aber
+  // nie als eigener Diff-Punkt auf: das ist reine interne Zusatzinfo, keine Website-Abweichung,
+  // und wird deshalb hier gar nicht kommentiert.
   const { oeffentlich, probenplan } = baueInternTexte(ev);
   const namenOeffentlich = new Set(extrahiereNamen(oeffentlich));
   const namenProbenplan  = new Set(extrahiereNamen(probenplan));
   const internNamenAlle  = new Set([...namenOeffentlich, ...namenProbenplan]);
   const webNamen         = new Set(extrahiereNamen(detail.mitwirkendeText));
 
-  // "Nur auf Website" wird gegen ALLE internen Namen geprüft (inkl. Probenplan) –
-  // das ist der wichtige Fall: jemand fehlt komplett bei uns intern.
-  const nNurWeb = [...webNamen].filter(n => !internNamenAlle.has(n));
-  // "Nur intern" wird nach Quelle getrennt gemeldet, damit klar ist, woher ein Name kommt:
-  // - aus dem öffentlichen Programmtext (Leitung/Solisten) → sollte vermutlich ergänzt werden
-  // - nur aus dem Probenplan (Korrepetition) → oft bewusst nicht auf der Website, nur zur Info
+  const nNurWeb              = [...webNamen].filter(n => !internNamenAlle.has(n));
   const nNurInternOeffentlich = [...namenOeffentlich].filter(n => !webNamen.has(n));
-  const nNurInternProbenplan  = [...namenProbenplan].filter(n => !webNamen.has(n) && !namenOeffentlich.has(n));
 
+  // Unsere internen Angaben sind die verbindliche Quelle ("100 % korrekt") – der Abgleich
+  // prüft nur, ob die Website das korrekt übernommen hat. Diffs benennen ausschließlich die
+  // Abweichung auf der Website, kein Kommentar zu internen Daten/Quellen.
   const diffs = [];
-  if(kNurWeb.length)    diffs.push('Komponist nur auf Website: ' + kNurWeb.join(', '));
-  if(kNurIntern.length) diffs.push('Komponist nur intern: ' + kNurIntern.join(', '));
-  if(nNurWeb.length)              diffs.push('Nur auf Website (fehlt intern): ' + nNurWeb.join(', '));
-  if(nNurInternOeffentlich.length) diffs.push('Nur intern, im Web-Eintrag: ' + nNurInternOeffentlich.join(', '));
-  if(nNurInternProbenplan.length)  diffs.push('Nur im Probenplan (evtl. bewusst nicht auf der Website): ' + nNurInternProbenplan.join(', '));
+  if(kNurIntern.length) diffs.push('Komponist fehlt – bitte ergänzen: ' + kNurIntern.join(', '));
+  if(kNurWeb.length)    diffs.push('Komponist steht zusätzlich auf der Website – bitte prüfen: ' + kNurWeb.join(', '));
+  if(nNurInternOeffentlich.length) diffs.push('Name fehlt – bitte ergänzen: ' + nNurInternOeffentlich.join(', '));
+  if(nNurWeb.length)               diffs.push('Name steht zusätzlich auf der Website – bitte prüfen: ' + nNurWeb.join(', '));
 
   if(diffs.length) return { status:'diff', diffs, href };
   return { status:'ok', href };
 }
 
-function renderAbgleichErgebnis(banner, res){
+function renderAbgleichErgebnis(banner, res, fehlendeBios){
+  const websiteLink = res.href ? `<br><a href="${esc(res.href)}" target="_blank" rel="noopener">Zur Website</a>` : '';
   if(res.status === 'ok'){
     banner.className = 'abgleich-banner abgleich-ok';
     banner.innerHTML = '✓ Stimmt mit der Website überein' + (res.href ? ` · <a href="${esc(res.href)}" target="_blank" rel="noopener">Website</a>` : '');
   } else if(res.status === 'diff'){
     banner.className = 'abgleich-banner abgleich-diff';
-    banner.innerHTML = '⚠ Abweichung zur Website:<br>' + res.diffs.map(d => esc(d)).join('<br>') + (res.href ? `<br><a href="${esc(res.href)}" target="_blank" rel="noopener">Zur Website</a>` : '');
+    banner.innerHTML = '⚠ Abweichung der Website, bitte korrigieren:<br>' + res.diffs.map(d => esc(d)).join('<br>') + websiteLink;
   } else if(res.status === 'not_published'){
     banner.className = 'abgleich-banner abgleich-neutral';
     banner.innerHTML = 'ⓘ Noch nicht veröffentlicht';
@@ -469,6 +472,43 @@ function renderAbgleichErgebnis(banner, res){
   } else {
     banner.className = 'abgleich-banner abgleich-error';
     banner.innerHTML = '⚠ Abgleich fehlgeschlagen' + (res.msg ? ': ' + esc(res.msg) : '');
+  }
+
+  // Biografien-Vollständigkeit ist unabhängig vom Website-Abgleich – gilt für unser Portal selbst.
+  if(fehlendeBios && fehlendeBios.length){
+    banner.innerHTML += '<br>⚠ Biografie noch nicht geliefert: ' + fehlendeBios.map(esc).join(', ');
+    if(banner.className.includes('abgleich-ok') || banner.className.includes('abgleich-neutral')){
+      banner.className = 'abgleich-banner abgleich-warn';
+    }
+  }
+}
+
+// Biografien-Vollständigkeit: prüft Solist:innen (immer lebende, aktuelle Mitwirkende, die
+// zwingend eine Bio brauchen) UND Komponist:innen, deren Werktitel im Kalender als
+// "(Uraufführung)" markiert ist – nur bei denen ist ein interner Bio-Eintrag zu erwarten.
+// Alle übrigen Komponist:innen (der Normalfall, historisch/verstorben) werden bewusst
+// ausgeklammert, sonst würde der Check bei praktisch jedem Konzert unnötig anschlagen.
+// Leitung wird ebenfalls ausgeklammert, da das Feld oft ein längerer Sammel-Hinweistext ist
+// (mehrere Namen + Satzzuordnung in einem String) und kein zuverlässig einzelner Personenname.
+function istUraufführung(titel){
+  return /uraufführung|\(ua\)/i.test(String(titel||''));
+}
+async function pruefeFehlendeBiografien(ev){
+  const namenNoetig = [];
+  (ev.solisten||[]).forEach(s => { if(s.name) namenNoetig.push(s.name); });
+  (ev.werke||[]).forEach(w => { if(!w.pause && w.komponist && istUraufführung(w.titel)) namenNoetig.push(w.komponist); });
+  if(!namenNoetig.length) return [];
+  const eid = ev._eventId, proj = ev._projName, sj = ev._sjTarget;
+  if(!eid || !proj || !sj) return [];
+  try {
+    const url = `${WEBAPP_URL}?action=programmheft&projekt=${encodeURIComponent(proj)}&sj=${encodeURIComponent(sj)}&eventId=${encodeURIComponent(eid)}`;
+    const res  = await fetch(url);
+    const json = await res.json();
+    if(!json.ok || !json.data) return [];
+    const vorhanden = new Set((json.data.bios || []).map(b => b.name));
+    return [...new Set(namenNoetig)].filter(n => !vorhanden.has(n));
+  } catch(e){
+    return [];
   }
 }
 
@@ -480,8 +520,11 @@ async function starteAbgleiche(){
     const ev = eventDataMap[banner.dataset.eid];
     if(!ev) continue;
     try {
-      const res = await vergleicheEvent(ev);
-      renderAbgleichErgebnis(banner, res);
+      const [res, fehlendeBios] = await Promise.all([
+        vergleicheEvent(ev),
+        pruefeFehlendeBiografien(ev)
+      ]);
+      renderAbgleichErgebnis(banner, res, fehlendeBios);
     } catch(e){
       renderAbgleichErgebnis(banner, { status:'error', msg:String(e && e.message || e) });
     }
