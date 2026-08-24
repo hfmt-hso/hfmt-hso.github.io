@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-08-22T08:18:08.917Z",
+  "generiert": "2026-08-24T06:41:26.047Z",
   "events": [
     {
       "datum": "29.09.2026",
@@ -68,8 +68,8 @@
       "_titel": "HSO 1 OA Celli"
     },
     {
-      "datum": "30.09.2026",
-      "uhrzeit": "16:00 Uhr",
+      "datum": "02.10.2026",
+      "uhrzeit": "13:00 Uhr",
       "ort": "Ort?",
       "konzertart": null,
       "marker": null,
@@ -1086,7 +1086,7 @@
             "Finale. Themes with variations"
           ],
           "dauer": "ca. 20 min",
-          "besetzung": "1.1.1.1-1.1.1.0-Str. (1.1.1.1.1)",
+          "besetzung": "1.1.1.1-1.1.1.0-Str. (1.0.0.1.1)",
           "urauffuehrung": false,
           "pause": false
         },
@@ -1231,7 +1231,7 @@
             "Finale. Themes with variations"
           ],
           "dauer": "ca. 20 min",
-          "besetzung": "1.1.1.1-1.1.1.0-Str. (1.1.1.1.1)",
+          "besetzung": "1.1.1.1-1.1.1.0-Str. (1.0.0.1.1)",
           "urauffuehrung": false,
           "pause": false
         },
@@ -1368,7 +1368,7 @@
           "titel": "Tannhäuser, Ouvertüre",
           "saetze": [],
           "dauer": "ca. 10 min",
-          "besetzung": "3.2.2.3-4.3.3.1-Pk, Hrf.-Str. (14.12.10.8.6)",
+          "besetzung": "3.2.2.2-4.3.3.1-Pk, Hrf.-Str. (14.12.10.8.6)",
           "urauffuehrung": false,
           "pause": false
         }
@@ -3828,141 +3828,6 @@
       "_titel": "13/14 (2)"
     },
     {
-      "datum": "22.02.2028",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Laeiszhalle",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "_eventId": "mfq8rgcvcttkopj3kdrlmm5r54@google.com",
-      "_titel": "WK 4 OA"
-    },
-    {
-      "datum": "23.02.2028",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Laeiszhalle",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "_eventId": "34ec83e7cb7r98sitqd7o4qc4c@google.com",
-      "_titel": "WK 4 OA"
-    },
-    {
-      "datum": "24.02.2028",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Laeiszhalle",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "_eventId": "5gon85eq2chheh31i1t6apqe8s@google.com",
-      "_titel": "WK 4 GP"
-    },
-    {
-      "datum": "24.02.2028",
-      "uhrzeit": "19:30 Uhr",
-      "ort": "Laeiszhalle",
-      "konzertart": "Werkstattkonzert",
-      "marker": "Vorstellung",
-      "werke": [
-        {
-          "komponist": "Piotr Illich Tchaikovsky",
-          "lebensdaten": "1840–1893",
-          "titel": "\"Romeo und Julia\" Fantasieouvertüre nach Shakespeare",
-          "saetze": [],
-          "dauer": "ca. 12 min",
-          "besetzung": "3.2.2.2-4.2.3.1-Pk+2, Hrf.-Str. (10.8.6.5.4)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "Aleksandr Glazunov",
-          "lebensdaten": "1865–1936",
-          "titel": "Konzert für Violine und Orchester, op. 82 (1904)",
-          "saetze": [
-            "Moderato",
-            "Andante",
-            "Allegro"
-          ],
-          "dauer": "ca. 25 min",
-          "besetzung": "3.2.2.2-4.2.3.0-Pk+3, Hrf.-Str. (10.8.6.5.4)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "pause": true
-        },
-        {
-          "komponist": "Piotr Illich Tchaikovsky",
-          "lebensdaten": "1840–1893",
-          "titel": "Sinfonie Nr. 5 e-Moll op. 64",
-          "saetze": [
-            "Andante – Allegro con anima",
-            "Andante cantabile",
-            "con alcuna licenza",
-            "Valse: Allegro moderato",
-            "Finale: Andante maestoso – Allegro vivace"
-          ],
-          "dauer": "ca. 50 min",
-          "besetzung": "2.2.2.2-4.2.3.1-Pauken-Str. (10.8.6.5.4)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Violine",
-              "name": "Johanna Röhrig",
-              "zusatz": "Konzertexamen, Klasse Prof. Sebastian Schmidt"
-            }
-          ]
-        }
-      ],
-      "solisten": [
-        {
-          "instrument": "Violine",
-          "name": "Johanna Röhrig",
-          "zusatz": "Konzertexamen, Klasse Prof. Sebastian Schmidt"
-        }
-      ],
-      "ensemble": "Symphoniker Hamburg",
-      "leitung": [
-        {
-          "name": "Studierende der Dirigierklasse der HfMT Hamburg",
-          "werk": "",
-          "klasse": ""
-        }
-      ],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "abwesend": null,
-      "eintritt": [
-        "Eintritt: 16 €, ermäßigt: 8 €",
-        "Ermäßigungen gelten für Schüler:innen und Studierende sowie Berechtigte nach SGB.",
-        "Tickets gibt es bei Eventim (Ticketlink hier einfügen).",
-        "Unsere",
-        "Abendkasse öffnet eine Stunde vor Veranstaltungsbeginn."
-      ],
-      "_eventId": "7sidokg7n9mt07rmth3i7t6pgk@google.com",
-      "_titel": "WK 4"
-    },
-    {
       "datum": "02.02.2028",
       "uhrzeit": "10:00 Uhr",
       "ort": "Forum",
@@ -4927,7 +4792,7 @@
             "Finale: Andante maestoso – Allegro vivace"
           ],
           "dauer": "ca. 50 min",
-          "besetzung": "2.2.2.2-4.2.3.1-Pauken-Str. (10.8.6.5.4)",
+          "besetzung": "3.2.2.2-4.2.3.1-Pauken-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
           "pause": false
         }
