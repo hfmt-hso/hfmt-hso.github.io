@@ -229,11 +229,7 @@ function renderWebeintragBody(ev, eintritt){
   </div>`;
     });
   }
-  if(ev.solisten && ev.solisten.length){
-    h += '<div class="werk-solisten">';
-    ev.solisten.forEach(s => { h += esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':'')) + '<br>'; });
-    h += '</div>';
-  }
+  // Reihenfolge Mitwirkende (Wunsch Tamara van Buiren, 24.08.2026): Orchester -> Leitung -> Solist:innen.
   if(ev.ensemble) h += `<div class="werk-leitung">${esc(ev.ensemble)}</div>`;
   if(ev.leitung && ev.leitung.length){
     ev.leitung.forEach(l => {
@@ -247,6 +243,11 @@ function renderWebeintragBody(ev, eintritt){
       row += '</div>';
       h += row;
     });
+  }
+  if(ev.solisten && ev.solisten.length){
+    h += '<div class="werk-solisten">';
+    ev.solisten.forEach(s => { h += esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':'')) + '<br>'; });
+    h += '</div>';
   }
   if(eintritt && eintritt.length){
     h += '<div class="werk-eintritt">' + eintritt.map(z => esc(z)).join('<br>') + '</div>';
