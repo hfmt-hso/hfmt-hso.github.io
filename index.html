@@ -1028,7 +1028,7 @@ function frkEventLabel(item){
 function populateFreikartenEvents(){
   const sel=document.getElementById('frk-event');
   if(!sel) return;
-  const vorstellungen = _kalItems.filter(it => it.ev && it.ev.marker === 'Vorstellung');
+  const vorstellungen = _kalItems.filter(it => it.ev && it.ev.marker === 'Vorstellung' && it.ev.ort && !/Elbphilharmonie|Laeiszhalle/i.test(it.ev.ort));
   if(!vorstellungen.length){
     sel.innerHTML='<option value="" disabled selected>Keine Termine gefunden</option>';
     return;
