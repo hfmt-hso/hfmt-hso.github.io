@@ -367,6 +367,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="chevron" id="frk-chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
     <div id="frk-body" class="doc-body" style="display:none">
+      <p><strong>Im Rahmen der folgenden Regeln werden Freikarten vergeben:</strong></p>
+      <ul>
+        <li>Solist*innen: 1-5 Freikarten</li>
+        <li>Mitarbeitende und Professor*innen: 1 Freikarte</li>
+        <li>Dirigierende: 1-2 Freikarten</li>
+        <li>Mitwirkende Musiker*innen: Ermäßigte Karten zu je 5.- Euro</li>
+      </ul>
+      <p>Bestellte Karten können an der Abendkasse auf den genannten Namen abgeholt werden. Bestellungen werden nur bis 2 Werktage vor der Veranstaltung entgegengenommen.</p>
+      <p>Studierende der HfMT besuchen Konzerte unter Vorlage ihres Studentenausweises kostenlos.</p>
       <form id="frk-form" action="https://docs.google.com/forms/d/e/1FAIpQLSc9lKBB0H909k3l64aaWkVwU7TUm4dhJ_rZ5i49CM4x1OKpFQ/formResponse" method="POST" target="frk-iframe-target" onsubmit="submitFreikarten(event)">
         <div class="frk-field">
           <label class="frk-label" for="frk-event">Titel der Veranstaltung <span class="req">*</span></label>
@@ -401,7 +410,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <button type="submit" class="frk-submit" id="frk-submit-btn">Freikarten bestellen</button>
         <div class="frk-status" id="frk-status"></div>
       </form>
-      <a class="frk-alt-link" href="https://docs.google.com/forms/d/e/1FAIpQLSc9lKBB0H909k3l64aaWkVwU7TUm4dhJ_rZ5i49CM4x1OKpFQ/viewform" target="_blank" rel="noopener">Formular alternativ direkt bei Google öffnen ↗</a>
       <iframe name="frk-iframe-target" id="frk-iframe" style="display:none" title="Freikarten-Übermittlung"></iframe>
     </div>
     <a class="link-item" href="unterricht.html" target="_blank" rel="noopener">
@@ -1020,11 +1028,12 @@ function frkEventLabel(item){
 function populateFreikartenEvents(){
   const sel=document.getElementById('frk-event');
   if(!sel) return;
-  if(!_kalItems.length){
+  const vorstellungen = _kalItems.filter(it => it.ev && it.ev.marker === 'Vorstellung');
+  if(!vorstellungen.length){
     sel.innerHTML='<option value="" disabled selected>Keine Termine gefunden</option>';
     return;
   }
-  sel.innerHTML='<option value="" disabled selected>Bitte wählen…</option>'+_kalItems.map(it=>{
+  sel.innerHTML='<option value="" disabled selected>Bitte wählen…</option>'+vorstellungen.map(it=>{
     const label=frkEventLabel(it);
     return `<option value="${esc(label)}">${esc(label)}</option>`;
   }).join('');
