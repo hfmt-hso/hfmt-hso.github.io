@@ -369,6 +369,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       </form>
       <iframe name="frk-iframe-target" id="frk-iframe" style="display:none" title="Freikarten-Übermittlung"></iframe>
     </div>
+    <div class="link-item" id="probendisp-oeffnen" style="cursor:pointer" onclick="toggleAkk('probendisp')"><div class="link-icon" style="background:var(--teal-light);color:var(--teal)"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg></div><div class="link-text"><span>Aktuelle Probendispositionen</span><small>Symphoniker-Probenpläne</small></div><div class="chevron" id="probendisp-chev"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></div><div id="probendisp-body" class="doc-body" style="display:none"><div id="probendisp-liste"><div class="loading">Wird geladen…</div></div></div>
     <a class="link-item" href="unterricht.html" target="_blank" rel="noopener">
       <div class="link-icon" style="background:var(--purple-light);color:var(--purple)"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
       <div class="link-text"><span>Unterrichtstermine</span><small>Anmeldung · Dirigierstudium</small></div>
@@ -1044,6 +1045,8 @@ function wechsleSj(sj){
 ladeProjekte();
 ladenKalender().then(populateFreikartenEvents);
 ladeBedarf();
+async function ladeProbendispositionen(){ try { const res = await fetch(`${WEBAPP_URL}?action=probendispositionen`); const json = await res.json(); const liste = document.getElementById('probendisp-liste'); const data = (json.ok && json.data) ? json.data : []; if(!data.length){ liste.innerHTML = '<div class="loading">Keine aktuellen Probendispositionen.</div>'; return; } liste.innerHTML = data.map(function(e){ return '<div style="border-top:0.5px solid var(--border);padding:10px 0;margin-top:10px"><div style="font-size:13px;font-weight:600;color:var(--text)">'+esc(e.anlass)+(e.datum?' &middot; '+esc(e.datum):'')+'</div><div style="font-size:13px;color:var(--text);white-space:pre-wrap;margin-top:4px;line-height:1.5">'+esc(e.text)+'</div></div>'; }).join(''); } catch(e){ document.getElementById('probendisp-liste').innerHTML = '<div class="loading">Laden fehlgeschlagen.</div>'; } }
+ladeProbendispositionen();
 </script>
 <div class="sj-modal-overlay" id="sj-modal" onclick="schliesseSjModal()">
   <div class="sj-modal-box" onclick="event.stopPropagation()">
