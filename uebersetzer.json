@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-08-24T06:41:26.047Z",
+  "generiert": "2026-09-02T18:07:11.589Z",
   "events": [
     {
       "datum": "29.09.2026",
@@ -68,7 +68,7 @@
       "_titel": "HSO 1 OA Celli"
     },
     {
-      "datum": "02.10.2026",
+      "datum": "03.10.2026",
       "uhrzeit": "13:00 Uhr",
       "ort": "Ort?",
       "konzertart": null,
@@ -516,7 +516,7 @@
     {
       "datum": "26.10.2026",
       "uhrzeit": "09:00 Uhr",
-      "ort": "",
+      "ort": "Blau 206",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -550,7 +550,7 @@
     {
       "datum": "27.10.2026",
       "uhrzeit": "09:00 Uhr",
-      "ort": "",
+      "ort": "Blau 206",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -766,7 +766,7 @@
     },
     {
       "datum": "30.10.2026",
-      "uhrzeit": "14:00 Uhr",
+      "uhrzeit": "14:30 Uhr",
       "ort": "Probenraum der Staatskapelle Halle, Große Gosenstraße 12, 06114 Halle (Saale), Deutschland",
       "konzertart": null,
       "marker": null,
@@ -784,15 +784,125 @@
       "datum": "31.10.2026",
       "uhrzeit": "19:30 Uhr",
       "ort": "Ständehaus Merseburg, Oberaltenburg 2, 06217, Merseburg",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
+      "konzertart": "Symphoniekonzert",
+      "marker": "Vorstellung",
+      "werke": [
+        {
+          "komponist": "Giuseppe Verdi",
+          "lebensdaten": "1813–1901",
+          "titel": "La forza del destino, Ouvertüre",
+          "saetze": [],
+          "dauer": "ca. 8 min",
+          "besetzung": "2.2.2.2-4.2.3.1-Pk, Hrf.-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Johann (Sohn) Strauss",
+          "lebensdaten": "1825–1899",
+          "titel": "Die Fledermaus, Ouvertüre",
+          "saetze": [],
+          "dauer": "ca. 10 min",
+          "besetzung": "2.2.2.2-4.2.3.0-Pk-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Antonín Dvořak",
+          "lebensdaten": "1841–1904",
+          "titel": "Konzert für Violoncello und Orchester h-Moll, op. 104",
+          "saetze": [
+            "Allegro",
+            "Adagio ma non troppo",
+            "Finale. Allegro moderato"
+          ],
+          "dauer": "ca. 42 min",
+          "besetzung": null,
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "pause": true
+        },
+        {
+          "komponist": "Carl Maria von Weber",
+          "lebensdaten": "1786–1826",
+          "titel": "Der Freischütz, Ouvertüre",
+          "saetze": [],
+          "dauer": "ca. 4 min",
+          "besetzung": null,
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Richard Strauss",
+          "lebensdaten": "1864–1949",
+          "titel": "Der Rosenkavalier, Vorspiel und Arie Octavian „Wie du warst, wie du bist“",
+          "saetze": [],
+          "dauer": "ca. 3 min",
+          "besetzung": "3.3.3.3-4.3.3.1-Pk+4, Hrf., Cel.-Str. (14.12.10.8.6)",
+          "urauffuehrung": false,
+          "pause": false
+        },
+        {
+          "komponist": "Johannes Brahms",
+          "lebensdaten": "1833–1897",
+          "titel": "Konzert für Violine und Orchester D-Dur, op. 77",
+          "saetze": [
+            "Allegro non troppo",
+            "Adagio",
+            "Allegro giocoso, ma non troppo vivace",
+            "Staatskapelle Halle"
+          ],
+          "dauer": "ca. 36 min",
+          "besetzung": "2.2.2.2-4.2.0.0-Pk-Str. (10.8.6.5.4)",
+          "urauffuehrung": false,
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Violine",
+              "name": "Yunhe Tang",
+              "zusatz": ""
+            },
+            {
+              "instrument": "Violoncello",
+              "name": "Fabian Sturm",
+              "zusatz": ""
+            }
+          ]
+        }
+      ],
+      "solisten": [
+        {
+          "instrument": "Violine",
+          "name": "Yunhe Tang",
+          "zusatz": ""
+        },
+        {
+          "instrument": "Violoncello",
+          "name": "Fabian Sturm",
+          "zusatz": ""
+        }
+      ],
       "ensemble": null,
-      "leitung": [],
+      "leitung": [
+        {
+          "name": "Jacob Burzin, Pablo Devigo, Sophie Hofsommer, Izabela Kociołek, Maximilian Leicher, Quinn Mason, Thorsten Meier, Flora Palyvou, Yuliya Tsaryk, Mica Weiland (Studierende der Dirigierklasse der International Masterclass for Conductors – Hamburg & Halle 2026)",
+          "werk": "",
+          "klasse": ""
+        }
+      ],
       "aufbauplan": null,
       "notizen": [],
+      "probenplan": [],
       "abwesend": null,
+      "eintritt": [
+        "Eintritt: n.n. €, ermäßigt: n.n. €",
+        "Ermäßigungen gelten für Schüler:innen und Studierende sowie Berechtigte nach SGB.",
+        "Tickets gibt es bei Eventim (Ticketlink hier einfügen).",
+        "Unsere",
+        "Abendkasse öffnet eine Stunde vor Veranstaltungsbeginn."
+      ],
       "_eventId": "06dvulhb5dhr41fmlt97d513if@google.com",
       "_titel": "Konzert IMCH Staatskapelle Halle"
     },
