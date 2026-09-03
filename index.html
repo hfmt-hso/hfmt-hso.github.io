@@ -919,7 +919,7 @@ async function ladeBedarf(){
       const pts=dRaw.split(' ')[0].split('.'); if(pts.length<3)return;
       const datum=new Date(parseInt(pts[2]),parseInt(pts[1])-1,parseInt(pts[0]));
       if(datum<sjVon||datum>sjBis)return;
-      termine.push({projekt:t[0],ort:t[1],werke:t[2],datum:dRaw,aufbauplan:t[7],tasten:t[9],stuehle:t[10],basshocker:t[11],klHocker:t[12],pulte:t[13],gesamt:t[14]});
+      termine.push({projekt:t[0],ort:t[1],werke:t[2],datum:dRaw,erstProbe:t[4],aufbauplan:t[7],tasten:t[9],stuehle:t[10],basshocker:t[11],klHocker:t[12],pulte:t[13],gesamt:t[14]});
     });
     const liste=document.getElementById('bedarf-liste');
     if(!termine.length){liste.innerHTML='<div class="loading">Keine kommenden Termine.</div>';return;}
@@ -943,6 +943,7 @@ async function ladeBedarf(){
     <div class="stat-box"><div class="stat-num">${t.basshocker||'–'}</div><div class="stat-label">Basshocker</div></div>
     <div class="stat-box"><div class="stat-num">${t.klHocker||'–'}</div><div class="stat-label">Klavierhocker</div></div>
   </div>`;
+  if(t.erstProbe)h+=`<div class="bedarf-row"><div class="bedarf-label">Erste Probe</div><div class="bedarf-value">${esc(t.erstProbe)}</div></div>`;
       if(t.tasten)h+=`<div class="bedarf-row"><div class="bedarf-label">Tasten/Harfe</div><div class="bedarf-value">${esc(t.tasten)}</div></div>`;
       if(t.gesamt)h+=`<div class="bedarf-row"><div class="bedarf-label">Gesamt</div><div class="bedarf-value">${esc(t.gesamt)}</div></div>`;
       if(t.aufbauplan)h+=`<div class="bedarf-aufbau"><a href="${t.aufbauplan}" target="_blank"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Aufbauplan</a></div>`;
