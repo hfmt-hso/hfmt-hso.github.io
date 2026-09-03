@@ -331,6 +331,14 @@ function autoLayout(){
     BOXES.push({id:nextId(),label:'Schl.',full:'Schlagwerk',group:'pc',x:cx-3+(pi++)*1.4,y:rowY+1.3,players:1});
   }
 
+    /* Blickrichtung drehen: Dirigent:in steht vorn/unten und schaut ins Orchester (nach hinten/oben).
+     Bis hierhin wurde mit "Abstand vom Dirigenten" gerechnet (0 = an der Pultkante, größer = weiter weg).
+          Das wird jetzt an der Tiefe der Hauptbühne gespiegelt, damit die Dirigent:in-Position vorn (nahe Publikum)
+               liegt und die hinteren Gruppen (Blech/Schlagwerk) oben/hinten stehen – Links/Rechts bleibt dabei erhalten,
+                    sodass z.B. die 1. Violinen wie im echten Saal von der Dirigent:in aus gesehen links sitzen. */
+  const HD = parseFloat(document.getElementById('dim-hd').value)||11;
+    BOXES.forEach(b=>{ b.y = HD - b.y; });
+
   renderStage();
 }
 
@@ -375,12 +383,18 @@ function renderStage(){
   for(let gy=0; gy<=HD; gy++){
     svg.appendChild(el('line',{x1:ox,y1:oy+gy*M,x2:ox+W*M,y2:oy+gy*M,stroke:'var(--grid-line)','stroke-width':0.5}));
   }
-  /* Maßstabsbalken */
-  const g=el('g',{});
-  g.appendChild(el('line',{x1:ox,y1:oy-14,x2:ox+M,y2:oy-14,stroke:'var(--text-muted)','stroke-width':1.5}));
-  const t=el('text',{x:ox,y:oy-18,'font-size':10,fill:'var(--text-muted)'}); t.textContent='1,00 m'; g.appendChild(t);
-  svg.appendChild(g);
-
+/* Maß-Beschriftung an den Seiten: jede volle Meterlinie in Breite (oben) und Tiefe (links) */
+    for(let gx=0; gx<=W; gx++){
+        const t=el('text',{x:ox+gx*M,y:oy-6,'text-anchor':'middle','font-size':8.5,fill:'var(--text-muted)'});
+        t.textContent=gx; svg.appendChild(t);
+    }
+    for(let gy=0; gy<=HD; gy++){
+        const t=el('text',{x:ox-6,y:oy+gy*M+3,'text-anchor':'end','font-size':8.5,fill:'var(--text-muted)'});
+        t.textContent=gy; svg.appendChild(t);
+    }
+    const g=el('g',{});
+    const t2=el('text',{x:ox,y:oy-18,'font-size':9,fill:'var(--text-muted)'}); t2.textContent='Maße in m · Dirigent:in vorn (unten)'; g.appendChild(t2);
+    svg.appendChild(g);
   /* Boxen */
   const colors={str:['var(--str-fill)','var(--str-border)'],ww:['var(--ww-fill)','var(--ww-border)'],br:['var(--br-fill)','var(--br-border)'],pc:['var(--pc-fill)','var(--pc-border)'],ky:['var(--ky-fill)','var(--ky-border)'],dir:['#ddd','#555']};
   BOXES.forEach(b=>{
