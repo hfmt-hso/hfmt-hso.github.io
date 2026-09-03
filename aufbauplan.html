@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#185FA5">
+<meta name="robots" content="noindex">
+<title>Aufbauplan – Forum</title>
+<link rel="icon" href="https://hfmt-hso.github.io/icon-192.png">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#185FA5;--blue-light:#E6F1FB;
+  --amber:#854F0B;--amber-light:#FAEEDA;
+  --gray:#5F5E5A;--gray-light:#F1EFE8;
+  --text:#1a1a1a;--text-muted:#6b6b6b;
+  --border:rgba(0,0,0,0.12);
+  --bg:#f5f5f3;--card-bg:#fff;
+  --header-bg:#fff;
+  --grid-line:rgba(0,0,0,0.14);
+  --stage-fill:#fbfaf7;
+  --str-fill:#E6F1FB;--str-border:#185FA5;
+  --ww-fill:#FDEEEA;--ww-border:#B4441E;
+  --br-fill:#EAF6EC;--br-border:#2E7D42;
+  --pc-fill:#F3EAFB;--pc-border:#6B3FA0;
+  --ky-fill:#FAEEDA;--ky-border:#854F0B;
+}
+@media(prefers-color-scheme:dark){:root{
+  --text:#f0f0ee;--text-muted:#999997;
+  --border:rgba(255,255,255,0.14);
+  --bg:#171715;--card-bg:#232320;
+  --header-bg:#1e1e1c;
+  --grid-line:rgba(255,255,255,0.16);
+  --stage-fill:#1c1c19;
+}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.header{background:var(--header-bg);padding:12px 16px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:20}
+.header-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-logo{height:40px;width:auto;flex-shrink:0;border-radius:8px}
+.header-text h1{font-size:16px;font-weight:600}
+.header-text p{font-size:11px;color:var(--text-muted);margin-top:1px}
+.btn{font-size:12px;padding:7px 13px;border-radius:20px;font-weight:600;border:none;cursor:pointer;font-family:inherit;background:var(--blue-light);color:var(--blue)}
+.btn:active{opacity:.7}
+.btn.secondary{background:var(--gray-light);color:var(--gray)}
+.btn.warn{background:var(--amber-light);color:var(--amber)}
+.controls{display:flex;gap:8px;flex-wrap:wrap;padding:10px 16px;background:var(--card-bg);border-bottom:0.5px solid var(--border);align-items:center}
+.controls select,.controls input{font-family:inherit;font-size:13px;padding:7px 10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text)}
+.controls label{font-size:11px;color:var(--text-muted);display:flex;flex-direction:column;gap:3px}
+.dims{display:flex;gap:6px;align-items:center}
+.dims input{width:56px}
+.hint-card{background:var(--blue-light);color:var(--blue);border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.5;margin:12px 16px}
+.stat-strip{display:flex;gap:10px;padding:0 16px 10px;flex-wrap:wrap;font-size:11px;color:var(--text-muted)}
+.stat-strip b{color:var(--text)}
+.stage-wrap{padding:0 8px 24px;overflow:auto}
+svg{display:block;margin:0 auto;touch-action:none}
+.status-line{font-size:11px;color:var(--text-muted);text-align:center;padding:6px}
+.error-card{background:var(--amber-light);color:var(--amber);border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.5;margin:12px 16px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;padding:0 16px 10px;font-size:11px;color:var(--text-muted)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+@media print{
+  .header,.controls,.hint-card,.stat-strip,.legend,.status-line,.no-print{display:none!important}
+  body{background:#fff}
+  .stage-wrap{padding:0}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-row">
+    <div class="header-left">
+      <img class="header-logo" src="https://hfmt-hso.github.io/icon-192.png" alt="HfMT">
+      <div class="header-text"><h1>Aufbauplan – Forum</h1><p>Automatischer Bühnenaufbau aus der Orchesterbesetzung</p></div>
+    </div>
+    <div class="no-print" style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn secondary" onclick="autoLayout()">↻ Neu anordnen</button>
+      <button class="btn" onclick="window.print()">🖨️ Drucken / PDF</button>
+      <button class="btn warn" onclick="kopiereLink()">🔗 Plan-Link kopieren</button>
+    </div>
+  </div>
+</div>
+
+<div class="controls no-print">
+  <label>Termin
+    <select id="event-select" onchange="ladeAusgewaehltesEvent()"><option>wird geladen…</option></select>
+  </label>
+  <label>Bühne
+    <select id="stage-select" onchange="autoLayout()">
+      <option value="hb">nur Hauptbühne</option>
+      <option value="hb+vb">Hauptbühne + Vorbühne</option>
+    </select>
+  </label>
+  <div class="dims">
+    <label>Breite HB (m)<input type="number" id="dim-w" value="20" min="10" max="30" onchange="rebuildStage()"></label>
+    <label>Tiefe HB (m)<input type="number" id="dim-hd" value="11" min="6" max="16" onchange="rebuildStage()"></label>
+    <label>Tiefe VB (m)<input type="number" id="dim-vd" value="4" min="2" max="8" onchange="rebuildStage()"></label>
+  </div>
+</div>
+
+<div class="hint-card">Vorschlag wird automatisch aus der Besetzung des gewählten Termins erzeugt (größte Instrumentierung aller Werke des Konzerts). Kästchen = 1 m² inkl. Notenständer, per Fingerzug/Maus frei verschiebbar (rastet am 1‑m‑Raster ein). Maße oben bei Bedarf an den echten Saal anpassen.</div>
+
+<div id="stat-strip" class="stat-strip"></div>
+<div class="legend">
+  <span><i style="background:var(--str-fill);border:1px solid var(--str-border)"></i>Streicher</span>
+  <span><i style="background:var(--ww-fill);border:1px solid var(--ww-border)"></i>Holzbläser</span>
+  <span><i style="background:var(--br-fill);border:1px solid var(--br-border)"></i>Blechbläser</span>
+  <span><i style="background:var(--pc-fill);border:1px solid var(--pc-border)"></i>Schlagwerk</span>
+  <span><i style="background:var(--ky-fill);border:1px solid var(--ky-border)"></i>Harfe/Tasten</span>
+</div>
+
+<div id="status" class="status-line"></div>
+<div class="stage-wrap"><svg id="stage"></svg></div>
+
+<script>
+/* ───────────────────────── Datenquelle: Übersetzer-Sheet ───────────────────────── */
+const UE_SHEET_ID   = '1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU';
+const UE_SHEET_NAME = 'Übersetzer';
+const UE_CSV_URL = 'https://docs.google.com/spreadsheets/d/' + UE_SHEET_ID + '/gviz/tq?tqx=out:csv&sheet=' + encodeURIComponent(UE_SHEET_NAME);
+
+let EVENTS = []; // {eventId, titel, datum, data}
+let CURRENT = null; // ausgewaehltes event
+let BOXES = [];   // aktuelle Aufbau-Objekte {id,label,full,x,y,group,players}
+const M = 34; // Pixel pro Meter
+
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* Robuster CSV-Parser (Anführungszeichen, Kommas, Zeilenumbrüche in Feldern) */
+function parseCsv(text){
+  const rows=[]; let row=[],field='',inQ=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(inQ){
+      if(c==='"'){ if(text[i+1]==='"'){field+='"';i++;} else inQ=false; }
+      else field+=c;
+    } else {
+      if(c==='"') inQ=true;
+      else if(c===',' ){row.push(field);field='';}
+      else if(c==='\r'){}
+      else if(c==='\n'){row.push(field);rows.push(row);row=[];field='';}
+      else field+=c;
+    }
+  }
+  if(field.length||row.length){row.push(field);rows.push(row);}
+  return rows;
+}
+
+/* ───────────────────────── Besetzungs-Parser (portiert aus Apps-Script "Bedarf") ───────────────────────── */
+function leereBesetzung(){
+  return {fl:0,ob:0,cl:0,fg:0,hr:0,tp:0,tb:0,tu:0,pk:0,percExtra:0,percNamen:[],hrf:0,cel:0,kl:0,org:0,cem:0,vl1:0,vl2:0,va:0,vc:0,kb:0};
+}
+function parseBesetzung(t){
+  const o=leereBesetzung();
+  if(!t) return o;
+  const ww=t.match(/(\d+)[.\-](\d+)[.\-](\d+)[.\-](\d+)\s*[-\s]+\s*(\d+)[.\-](\d+)[.\-](\d+)[.\-](\d+)/);
+  if(ww){ o.fl=+ww[1]; o.ob=+ww[2]; o.cl=+ww[3]; o.fg=+ww[4]; o.hr=+ww[5]; o.tp=+ww[6]; o.tb=+ww[7]; o.tu=+ww[8]; }
+  if(/\bPk\b/i.test(t)) o.pk=1;
+  const mHrf=t.match(/(\d+)\s*Hrf\.?|\bHrf\.?|\bHarfe\b/i);
+  if(mHrf) o.hrf = mHrf[1]?parseInt(mHrf[1]):1;
+  if(/\bCel\.?|\bCelesta\b/i.test(t)) o.cel=1;
+  if(/\bKl\.?|\bPno\b|\bKlavier\b|\bFlügel\b/i.test(t)) o.kl=1;
+  if(/\bOrg\.?|\bOrgel\b/i.test(t)) o.org=1;
+  if(/\bCem\.?|\bCembalo\b/i.test(t)) o.cem=1;
+  const str=t.match(/\(\s*(\d+)\s*[.\/]\s*(\d+)\s*[.\/]\s*(\d+)\s*[.\/]\s*(\d+)\s*[.\/]\s*(\d+)\s*\)/);
+  if(str){ o.vl1=+str[1]; o.vl2=+str[2]; o.va=+str[3]; o.vc=+str[4]; o.kb=+str[5]; }
+  /* zusätzliche Schlagwerk-Instrumente/-Personen als Freitext zwischen Blechbläser-Block und "Str." */
+  const perc = t.match(/-\s*([^-]*?)\s*-\s*Str\./i);
+  if(perc && perc[1]){
+    const plus = perc[1].match(/\+\s*(\d+)/);
+    if(plus) o.percExtra = parseInt(plus[1]);
+    perc[1].replace(/\+\s*\d+/g,'').split(',').map(s=>s.trim())
+      .filter(s=>s && !/^Pk\.?$|^Pauke(n)?$/i.test(s))
+      .forEach(s=>o.percNamen.push(s));
+  }
+  return o;
+}
+function mergeBesetzung(a,b){
+  const r={};
+  for(const k in a){
+    if(k==='percNamen'){ r.percNamen=[...new Set([...a.percNamen,...b.percNamen])]; continue; }
+    r[k]=Math.max(a[k], b[k]||0);
+  }
+  return r;
+}
+function formatBesetzung(o){
+  return o.fl+'.'+o.ob+'.'+o.cl+'.'+o.fg+' - '+o.hr+'.'+o.tp+'.'+o.tb+'.'+o.tu+' - Str. ('+o.vl1+'.'+o.vl2+'.'+o.va+'.'+o.vc+'.'+o.kb+')';
+}
+
+/* ───────────────────────── Laden ───────────────────────── */
+function ladeEvents(){
+  document.getElementById('status').textContent='Termine werden geladen…';
+  fetch(UE_CSV_URL,{cache:'no-store'})
+    .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+    .then(text=>{
+      const table=parseCsv(text).filter(r=>r.length>1);
+      const rows=table.slice(1);
+      EVENTS=[];
+      rows.forEach(r=>{
+        const eventId=(r[0]||'').trim(), titel=(r[1]||'').trim(), datum=(r[2]||'').trim(), json=r[4];
+        if(!eventId||!json) return;
+        let data; try{ data=JSON.parse(json); }catch(e){ return; }
+        const werke=(data.werke||[]).filter(w=>!w.pause && w.besetzung);
+        if(!werke.length) return;
+        EVENTS.push({eventId,titel,datum:data.datum||datum,werke,aufbauplan:data.aufbauplan||null});
+      });
+      EVENTS.sort((a,b)=> parseDatum(a.datum)-parseDatum(b.datum));
+      const heute=new Date(); heute.setHours(0,0,0,0);
+      const sel=document.getElementById('event-select');
+      sel.innerHTML = EVENTS.map((e,i)=>{
+        const d=parseDatum(e.datum);
+        return `<option value="${i}">${esc(e.datum||'')} – ${esc(e.titel)}</option>`;
+      }).join('');
+      /* Ersten zukünftigen Termin vorauswählen */
+      let startIdx=EVENTS.findIndex(e=>{const d=parseDatum(e.datum); return !d||d>=heute;});
+      if(startIdx<0) startIdx=0;
+      sel.value=startIdx;
+      document.getElementById('status').textContent='Zuletzt geladen: '+new Date().toLocaleString('de-DE');
+      ladeAusgewaehltesEvent();
+    })
+    .catch(err=>{
+      document.getElementById('status').innerHTML='';
+      document.querySelector('.stage-wrap').innerHTML='<div class="error-card">Termine konnten nicht geladen werden ('+esc(err.message)+'). Seite neu laden.</div>';
+    });
+}
+function parseDatum(s){
+  const m=String(s||'').match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if(!m) return new Date(9999,0,1);
+  return new Date(+m[3], +m[2]-1, +m[1]);
+}
+
+function ladeAusgewaehltesEvent(){
+  const idx=+document.getElementById('event-select').value;
+  const ev=EVENTS[idx]; if(!ev) return;
+  let total=leereBesetzung();
+  ev.werke.forEach(w=>{ total=mergeBesetzung(total, parseBesetzung(w.besetzung)); });
+  CURRENT={ev, total};
+  const stat=document.getElementById('stat-strip');
+  const bl = total.fl+total.ob+total.cl+total.fg+total.hr+total.tp+total.tb+total.tu+total.pk+total.percNamen.length+total.percExtra;
+  const str = total.vl1+total.vl2+total.va+total.vc+total.kb;
+  stat.innerHTML = `<span><b>${esc(formatBesetzung(total))}</b></span><span>${str} Streicher</span><span>${bl} Bläser/Schlagwerk</span>`;
+  autoLayout();
+}
+
+/* ───────────────────────── Auto-Layout ───────────────────────── */
+function autoLayout(){
+  if(!CURRENT) return;
+  const o=CURRENT.total;
+  BOXES=[];
+  let idc=0;
+  const nextId=()=>'b'+(idc++);
+
+  /* Hilfsfunktion: Reihe von Pulten mittig um xCenter anordnen, mit Zeilenumbruch */
+  function band(label, full, group, count, perDesk, yStart, xCenter, maxCols){
+    const desks=Math.ceil(count/perDesk);
+    let placed=0, row=0;
+    while(placed<desks){
+      const remaining=desks-placed;
+      const cols=Math.min(remaining,maxCols);
+      const startX=xCenter-cols/2;
+      for(let c=0;c<cols;c++){
+        const playersHere=Math.min(perDesk, count-placed*perDesk);
+        BOXES.push({id:nextId(),label,full,group,x:startX+c,y:yStart+row,players:playersHere});
+        placed++;
+      }
+      row++;
+    }
+    return yStart+row;
+  }
+  function single(label, full, group, x, y){
+    BOXES.push({id:nextId(),label,full,group,x,y,players:1});
+  }
+
+  const W = parseFloat(document.getElementById('dim-w').value)||20;
+  const cx = W/2;
+
+  /* Reihe 1-3: Streicher im Halbkreis (vereinfachte Blöcke), Dirigent vorn Mitte */
+  let y = 1.3;
+  const vl1Y = band('Vl.I','1. Violine','str', o.vl1, 2, y, cx-Math.max(3, o.vl1/4), 6);
+  const vl2Y = band('Vl.II','2. Violine','str', o.vl2, 2, y, cx-1, 6);
+  const vaY  = band('Va','Bratsche','str', o.va, 2, y, cx+2.5, 5);
+  const vcY  = band('Vc','Violoncello','str', o.vc, 2, y+0.3, cx+4.5, 4);
+  const kbY  = band('Kb','Kontrabass','str', o.kb, 1, Math.max(vcY,y)+0.3, cx+6, 3);
+
+  /* Dirigent + Flügel/Harfe vorn */
+  single('Dir.','Dirigent:in','dir', cx, 0.2);
+  if(o.hrf>0){ for(let i=0;i<o.hrf;i++) single('Hrf','Harfe','ky', 0.8+i*1.2, 1.3); }
+  if(o.kl>0)  single('Kl./Fl.','Klavier / Flügel','ky', W-1.5, 1.3);
+  if(o.cel>0) single('Cel.','Celesta','ky', W-2.8, 1.3);
+  if(o.org>0) single('Org.','Orgel','ky', W-1.5, 2.6);
+  if(o.cem>0) single('Cem.','Cembalo','ky', 0.8, 2.6);
+
+  let backY = Math.max(vl1Y,vl2Y,vaY,vcY,kbY)+0.8;
+
+  /* Holzbläser: Fl/Ob dann Kl/Fg */
+  let rowY = backY;
+  const flY = band('Fl.','Flöte','ww', o.fl, 1, rowY, cx-3.5, o.fl);
+  const obY = band('Ob.','Oboe','ww', o.ob, 1, rowY, cx-1, o.ob);
+  rowY = Math.max(flY,obY);
+  const clY = band('Kl.','Klarinette','ww', o.cl, 1, rowY, cx+1, o.cl);
+  const fgY = band('Fg.','Fagott','ww', o.fg, 1, rowY, cx+3.5, o.fg);
+  rowY = Math.max(clY,fgY)+0.4;
+
+  /* Blechbläser: Hörner links, Trompeten/Posaunen/Tuba rechts dahinter */
+  const hrY = band('Hr.','Horn','br', o.hr, 1, rowY, cx-4, 4);
+  const tpY = band('Tr.','Trompete','br', o.tp, 1, rowY, cx, 4);
+  rowY = Math.max(hrY,tpY)+0.2;
+  const tbY = band('Pos.','Posaune','br', o.tb, 1, rowY, cx+2.5, 4);
+  const tuY = band('Tb.','Tuba','br', o.tu, 1, rowY, cx+5, 2);
+  rowY = Math.max(tbY,tuY)+0.4;
+
+  /* Schlagwerk ganz hinten */
+  if(o.pk>0) single('Pk.','Pauken','pc', cx, rowY+0.3);
+  let pi=0;
+  o.percNamen.forEach(n=>{
+    BOXES.push({id:nextId(),label:'Schl.',full:n,group:'pc',x:cx-3+(pi++)*1.4,y:rowY+1.3,players:1});
+  });
+  for(let i=0;i<o.percExtra;i++){
+    BOXES.push({id:nextId(),label:'Schl.',full:'Schlagwerk',group:'pc',x:cx-3+(pi++)*1.4,y:rowY+1.3,players:1});
+  }
+
+  renderStage();
+}
+
+/* ───────────────────────── Bühne rendern (SVG + Grid + Drag) ───────────────────────── */
+function rebuildStage(){ renderStage(); }
+
+function renderStage(){
+  const W = parseFloat(document.getElementById('dim-w').value)||20;
+  const HD = parseFloat(document.getElementById('dim-hd').value)||11;
+  const VD = parseFloat(document.getElementById('dim-vd').value)||4;
+  const withVorbuehne = document.getElementById('stage-select').value==='hb+vb';
+  const totalDepth = HD + (withVorbuehne?VD:0);
+  const svg = document.getElementById('stage');
+  const pad = 1.5;
+  const pxW = (W+pad*2)*M, pxH = (totalDepth+pad*2)*M;
+  svg.setAttribute('width', pxW);
+  svg.setAttribute('height', pxH);
+  svg.setAttribute('viewBox','0 0 '+pxW+' '+pxH);
+  svg.innerHTML='';
+
+  const ns='http://www.w3.org/2000/svg';
+  function el(tag,attrs){ const e=document.createElementNS(ns,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); return e; }
+  const ox = pad*M, oy = pad*M;
+
+  /* Hauptbühne Rechteck */
+  svg.appendChild(el('rect',{x:ox,y:oy,width:W*M,height:HD*M,fill:'var(--stage-fill)',stroke:'var(--grid-line)','stroke-width':2}));
+  /* Vorbühne (Trapez) */
+  if(withVorbuehne){
+    const inset = Math.min(2.5, W*0.15);
+    const pts = [
+      [ox, oy+HD*M],
+      [ox+W*M, oy+HD*M],
+      [ox+(W-inset)*M, oy+(HD+VD)*M],
+      [ox+inset*M, oy+(HD+VD)*M]
+    ].map(p=>p.join(',')).join(' ');
+    svg.appendChild(el('polygon',{points:pts, fill:'var(--stage-fill)', stroke:'var(--grid-line)','stroke-width':2}));
+  }
+  /* 1m Rasterlinien, dünn */
+  for(let gx=0; gx<=W; gx++){
+    svg.appendChild(el('line',{x1:ox+gx*M,y1:oy,x2:ox+gx*M,y2:oy+HD*M,stroke:'var(--grid-line)','stroke-width':0.5}));
+  }
+  for(let gy=0; gy<=HD; gy++){
+    svg.appendChild(el('line',{x1:ox,y1:oy+gy*M,x2:ox+W*M,y2:oy+gy*M,stroke:'var(--grid-line)','stroke-width':0.5}));
+  }
+  /* Maßstabsbalken */
+  const g=el('g',{});
+  g.appendChild(el('line',{x1:ox,y1:oy-14,x2:ox+M,y2:oy-14,stroke:'var(--text-muted)','stroke-width':1.5}));
+  const t=el('text',{x:ox,y:oy-18,'font-size':10,fill:'var(--text-muted)'}); t.textContent='1,00 m'; g.appendChild(t);
+  svg.appendChild(g);
+
+  /* Boxen */
+  const colors={str:['var(--str-fill)','var(--str-border)'],ww:['var(--ww-fill)','var(--ww-border)'],br:['var(--br-fill)','var(--br-border)'],pc:['var(--pc-fill)','var(--pc-border)'],ky:['var(--ky-fill)','var(--ky-border)'],dir:['#ddd','#555']};
+  BOXES.forEach(b=>{
+    const [fill,border] = colors[b.group]||colors.dir;
+    const gx = ox + b.x*M, gy = oy + b.y*M;
+    const grp = el('g',{class:'box', 'data-id':b.id, transform:`translate(${gx},${gy})`, style:'cursor:grab'});
+    /* Notenständer (kleiner Strich vor der Box, Richtung Publikum = unten) */
+    if(b.group!=='dir'){
+      grp.appendChild(el('line',{x1:M*0.2,y1:M*0.92,x2:M*0.8,y2:M*0.92,stroke:border,'stroke-width':3}));
+    }
+    const box = el('rect',{x:0,y:0,width:M,height:M*0.82,rx:5,fill,stroke:border,'stroke-width':1.4});
+    grp.appendChild(box);
+    const label = el('text',{x:M/2,y:M*0.82/2+4,'text-anchor':'middle','font-size':10.5,'font-weight':600,fill:border});
+    label.textContent=b.label;
+    grp.appendChild(label);
+    if(b.players>1){
+      const badge=el('text',{x:M-3,y:11,'text-anchor':'end','font-size':8,fill:border,opacity:0.75});
+      badge.textContent='×'+b.players;
+      grp.appendChild(badge);
+    }
+    const ttl=el('title',{}); ttl.textContent=b.full+(b.players>1?(' ('+b.players+' Personen)'):'');
+    grp.appendChild(ttl);
+    makeDraggable(grp,b);
+    svg.appendChild(grp);
+  });
+}
+
+function makeDraggable(node,b){
+  let sx=0,sy=0,startX=0,startY=0,dragging=false;
+  function toLocal(clientX,clientY){
+    const svg=document.getElementById('stage');
+    const r=svg.getBoundingClientRect();
+    const scaleX=svg.viewBox.baseVal.width/r.width;
+    const scaleY=svg.viewBox.baseVal.height/r.height;
+    return {x:(clientX-r.left)*scaleX, y:(clientY-r.top)*scaleY};
+  }
+  function down(e){
+    e.preventDefault();
+    dragging=true; node.style.cursor='grabbing';
+    const p = e.touches? e.touches[0] : e;
+    const loc = toLocal(p.clientX,p.clientY);
+    sx=loc.x; sy=loc.y; startX=b.x; startY=b.y;
+    window.addEventListener('pointermove',move);
+    window.addEventListener('pointerup',up);
+  }
+  function move(e){
+    if(!dragging) return;
+    const p = e.touches? e.touches[0] : e;
+    const loc = toLocal(p.clientX,p.clientY);
+    const dx=(loc.x-sx)/M, dy=(loc.y-sy)/M;
+    b.x = startX+dx; b.y=startY+dy;
+    const pad=1.5;
+    node.setAttribute('transform', `translate(${(pad+b.x)*M},${(pad+b.y)*M})`);
+  }
+  function up(){
+    if(!dragging) return;
+    dragging=false; node.style.cursor='grab';
+    /* Einrasten am 0.5m Raster */
+    b.x = Math.round(b.x*2)/2; b.y = Math.round(b.y*2)/2;
+    const pad=1.5;
+    node.setAttribute('transform', `translate(${(pad+b.x)*M},${(pad+b.y)*M})`);
+    window.removeEventListener('pointermove',move);
+    window.removeEventListener('pointerup',up);
+  }
+  node.addEventListener('pointerdown',down);
+}
+
+/* ───────────────────────── Plan-Link (Zustand in URL, zum Teilen / Einfügen ins Übersetzer-Sheet) ───────────────────────── */
+function kopiereLink(){
+  if(!CURRENT){ return; }
+  const state = { ev: CURRENT.ev.eventId, boxes: BOXES.map(b=>({l:b.label,g:b.group,x:Math.round(b.x*10)/10,y:Math.round(b.y*10)/10,p:b.players})) };
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
+  const url = location.origin + location.pathname + '?plan=' + encoded;
+  navigator.clipboard.writeText(url).then(()=>{
+    alert('Plan-Link kopiert.\n\nZum Einfügen: im Übersetzer-Sheet in der JSON-Spalte dieses Termins den Wert des Feldes "aufbauplan" auf diesen Link setzen (oder vorerst manuell im Aufbauplan-Feld der Bedarfstabelle einfügen). Eine automatische Speicherung direkt aus dieser Seite folgt in einem nächsten Schritt.');
+  }).catch(()=>{ prompt('Link kopieren:', url); });
+}
+
+function ladePlanAusLink(){
+  const params = new URLSearchParams(location.search);
+  const encoded = params.get('plan');
+  if(!encoded) return false;
+  try{
+    const state = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+    document.getElementById('status').textContent='Gespeicherter Plan-Link geladen.';
+    return state;
+  }catch(e){ return false; }
+}
+
+ladeEvents();
+</script>
+</body>
+</html>
