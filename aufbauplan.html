@@ -77,7 +77,8 @@ svg{display:block;margin:0 auto;touch-action:none}
     <div class="no-print" style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn secondary" onclick="autoLayout()">↻ Neu anordnen</button>
       <button class="btn" onclick="window.print()">🖨️ Drucken / PDF</button>
-      <button class="btn warn" onclick="kopiereLink()">🔗 Plan-Link kopieren</button>
+      <button class="btn warn" id="btn-speichern" onclick="speichereAufbauplan()">💾 Plan speichern</button>
+      <button class="btn secondary" onclick="kopiereLink()">🔗 Link kopieren</button>
     </div>
   </div>
 </div>
@@ -118,6 +119,7 @@ svg{display:block;margin:0 auto;touch-action:none}
 const UE_SHEET_ID   = '1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU';
 const UE_SHEET_NAME = 'Übersetzer';
 const UE_CSV_URL = 'https://docs.google.com/spreadsheets/d/' + UE_SHEET_ID + '/gviz/tq?tqx=out:csv&sheet=' + encodeURIComponent(UE_SHEET_NAME);
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 
 let EVENTS = []; // {eventId, titel, datum, data}
 let CURRENT = null; // ausgewaehltes event
@@ -240,6 +242,16 @@ function ladeAusgewaehltesEvent(){
   const str = total.vl1+total.vl2+total.va+total.vc+total.kb;
   stat.innerHTML = `<span><b>${esc(formatBesetzung(total))}</b></span><span>${str} Streicher</span><span>${bl} Bläser/Schlagwerk</span>`;
   autoLayout();
+  zeigeSpeicherStatus();
+}
+
+function zeigeSpeicherStatus(){
+  const el=document.getElementById('status');
+  if(CURRENT && CURRENT.ev.aufbauplan){
+    el.textContent='Für diesen Termin ist bereits ein Aufbauplan gespeichert. „💾 Plan speichern" überschreibt ihn mit dem aktuellen Stand.';
+  } else {
+    el.textContent='Für diesen Termin ist noch kein Aufbauplan gespeichert.';
+  }
 }
 
 /* ───────────────────────── Auto-Layout ───────────────────────── */
@@ -436,15 +448,44 @@ function makeDraggable(node,b){
   node.addEventListener('pointerdown',down);
 }
 
-/* ───────────────────────── Plan-Link (Zustand in URL, zum Teilen / Einfügen ins Übersetzer-Sheet) ───────────────────────── */
-function kopiereLink(){
-  if(!CURRENT){ return; }
+/* ───────────────────────── Plan-Link (Zustand in URL, wird im Übersetzer-Sheet gespeichert) ───────────────────────── */
+function baueplanLink(){
   const state = { ev: CURRENT.ev.eventId, boxes: BOXES.map(b=>({l:b.label,g:b.group,x:Math.round(b.x*10)/10,y:Math.round(b.y*10)/10,p:b.players})) };
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
-  const url = location.origin + location.pathname + '?plan=' + encoded;
+  return location.origin + location.pathname + '?plan=' + encoded;
+}
+
+function kopiereLink(){
+  if(!CURRENT){ return; }
+  const url = baueplanLink();
   navigator.clipboard.writeText(url).then(()=>{
-    alert('Plan-Link kopiert.\n\nZum Einfügen: im Übersetzer-Sheet in der JSON-Spalte dieses Termins den Wert des Feldes "aufbauplan" auf diesen Link setzen (oder vorerst manuell im Aufbauplan-Feld der Bedarfstabelle einfügen). Eine automatische Speicherung direkt aus dieser Seite folgt in einem nächsten Schritt.');
+    alert('Plan-Link kopiert (nur zum manuellen Teilen). Zum dauerhaften Speichern bitte „💾 Plan speichern" verwenden.');
   }).catch(()=>{ prompt('Link kopieren:', url); });
+}
+
+/* ───────────────────────── Automatisches Speichern ins Übersetzer-Sheet ───────────────────────── */
+function speichereAufbauplan(){
+  if(!CURRENT){ return; }
+  const btn=document.getElementById('btn-speichern');
+  const statusEl=document.getElementById('status');
+  const url = baueplanLink();
+  btn.disabled=true; btn.textContent='💾 Speichert…';
+  statusEl.textContent='Plan wird gespeichert…';
+  fetch(WEBAPP_URL, {
+    method:'POST',
+    body: JSON.stringify({action:'aufbauplanSpeichern', eventId: CURRENT.ev.eventId, aufbauplan: url})
+  })
+  .then(r=>r.json())
+  .then(res=>{
+    if(res && res.ok){
+      CURRENT.ev.aufbauplan = url;
+      statusEl.textContent='✓ Plan gespeichert – erscheint automatisch im Bedarf und im Portal (Zuletzt gespeichert: '+new Date().toLocaleString('de-DE')+').';
+    } else {
+      statusEl.textContent='Fehler beim Speichern: '+(res&&res.error?res.error:'unbekannt');
+    }
+  })
+  .catch(err=>{ statusEl.textContent='Fehler beim Speichern: '+err.message; })
+  .finally(()=>{ btn.disabled=false; btn.textContent='💾 Plan speichern'; });
 }
 
 function ladePlanAusLink(){
