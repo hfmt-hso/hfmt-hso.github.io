@@ -87,20 +87,12 @@ svg{display:block;margin:0 auto;touch-action:none}
   <label>Termin
     <select id="event-select" onchange="ladeAusgewaehltesEvent()"><option>wird geladen…</option></select>
   </label>
-  <label>Bühne
-    <select id="stage-select" onchange="autoLayout()">
-      <option value="hb">nur Hauptbühne</option>
-      <option value="hb+vb">Hauptbühne + Vorbühne</option>
-    </select>
+  <label style="flex-direction:row;align-items:center;gap:6px">
+    <input type="checkbox" id="allow-hb" checked onchange="autoLayout()"> Bei Bedarf auch Hauptbühne nutzen
   </label>
-  <div class="dims">
-    <label>Breite HB (m)<input type="number" id="dim-w" value="20" min="10" max="30" onchange="rebuildStage()"></label>
-    <label>Tiefe HB (m)<input type="number" id="dim-hd" value="11" min="6" max="16" onchange="rebuildStage()"></label>
-    <label>Tiefe VB (m)<input type="number" id="dim-vd" value="4" min="2" max="8" onchange="rebuildStage()"></label>
-  </div>
 </div>
 
-<div class="hint-card">Vorschlag wird automatisch aus der Besetzung des gewählten Termins erzeugt (größte Instrumentierung aller Werke des Konzerts). Kästchen = 1 m² inkl. Notenständer, per Fingerzug/Maus frei verschiebbar (rastet am 1‑m‑Raster ein). Maße oben bei Bedarf an den echten Saal anpassen.</div>
+<div class="hint-card">Vorschlag wird automatisch aus der Besetzung des gewählten Termins erzeugt (größte Instrumentierung aller Werke des Konzerts). Das Orchester steht standardmäßig auf der Vorbühne (wie im echten Betrieb) – reicht der Platz nicht, wird automatisch in die Hauptbühne hinein weitergebaut. Kästchen = 1 m² inkl. Notenständer, per Fingerzug/Maus frei verschiebbar (rastet am 0,5‑m‑Raster ein). Wände, Portal und Bühnenzonen sind auf Basis einer realen Vermessung des Forums (HfMT Hamburg) maßstabsgetreu eingezeichnet.</div>
 
 <div id="stat-strip" class="stat-strip"></div>
 <div class="legend">
@@ -125,6 +117,48 @@ let EVENTS = []; // {eventId, titel, datum, data}
 let CURRENT = null; // ausgewaehltes event
 let BOXES = [];   // aktuelle Aufbau-Objekte {id,label,full,x,y,group,players}
 const M = 34; // Pixel pro Meter
+
+/* ───────────────────────── Reale Saal-Geometrie (Forum EG, HfMT Hamburg) ─────────────────────────
+   Eingemessen über das Bühnenplan-Markierungs-Tool (Wände, Portal, Zonen direkt auf dem Grundriss
+   nachgezeichnet und kalibriert). Koordinaten in Metern: x = 0 auf der Saal-Mittelachse (+rechts von
+   der Dirigent:in aus gesehen), y = Tiefe ab der publikumsseitigen Vorbühnenkante (0 = vorn/Publikum,
+   wachsend Richtung Portal/Hauptbühne/Rückwand). Das Orchester spielt auf der Vorbühne (VB) – die
+   Hauptbühne (HB) dahinter wird nur bei sehr großer Besetzung als Erweiterung genutzt. */
+const WALL_POLY = [[-7.15,28.37],[7.12,28.39],[8.9,19.15],[6.45,19.11],[6.41,18.63],[8.92,18.61],
+  [12.24,1.61],[4.17,0],[-4.12,0],[-12.24,1.53],[-9.02,18.54],[-6.42,18.57],[-6.49,19.13],
+  [-8.86,19.19],[-7.2,28.35]];
+const HB_ZONE = [[-7.2,28.34],[7.12,28.41],[8.89,19.16],[-8.89,19.18],[-7.23,28.33]];
+const VB_ZONE = [[-9.06,18.53],[8.93,18.61],[10.48,10.51],[3.83,9.22],[-3.85,9.24],[-10.58,10.58],[-9.09,18.51]];
+const PORTAL = [[-6.45,18.86],[6.43,18.88]];
+const PORTAL_Y = (PORTAL[0][1]+PORTAL[1][1])/2;
+const PORTAL_W = Math.abs(PORTAL[1][0]-PORTAL[0][0]);
+const VB_FRONT_Y = 9.22;   // publikumsseitige Kante der Vorbühne (frei bespielbar)
+const HB_BACK_Y  = 28.4;   // Rückwand Hauptbühne
+const SCENE_MINX = -13, SCENE_MAXX = 13, SCENE_MINY = -0.6, SCENE_MAXY = HB_BACK_Y+0.6;
+
+/* x-Bereich [xMin,xMax] eines Polygons auf Höhe y (lineare Interpolation an den Kanten) */
+function polyBoundsAtY(poly, y){
+  let xs=[];
+  for(let i=0;i<poly.length-1;i++){
+    const [x1,y1]=poly[i], [x2,y2]=poly[i+1];
+    if((y1<=y&&y2>=y)||(y1>=y&&y2<=y)){
+      if(y1===y2){ xs.push(x1,x2); }
+      else { const t=(y-y1)/(y2-y1); xs.push(x1+(x2-x1)*t); }
+    }
+  }
+  if(!xs.length) return null;
+  return {xMin:Math.min(...xs), xMax:Math.max(...xs)};
+}
+/* Verfügbare Breite an der Tiefe y: Vorbühne unterhalb des Portals, sonst Hauptbühne;
+   in der schmalen Portal-Wandnische dazwischen wird auf die Portalbreite zurückgefallen. */
+function bandAt(y){
+  return polyBoundsAtY(VB_ZONE, y) || polyBoundsAtY(HB_ZONE, y) || {xMin:-PORTAL_W/2, xMax:PORTAL_W/2};
+}
+/* Bildschirm-Transformation: reale Meter → SVG-Pixel */
+const PAD = 1.5;
+function SX(x){ return (PAD + (x-SCENE_MINX))*M; }
+function SY(y){ return (PAD + (SCENE_MAXY - y))*M; }
+function polyToScreenPts(poly){ return poly.map(([x,y])=>SX(x)+','+SY(y)).join(' '); }
 
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
@@ -262,8 +296,11 @@ function autoLayout(){
   let idc=0;
   const nextId=()=>'b'+(idc++);
 
-  /* Hilfsfunktion: Reihe von Pulten mittig um xCenter anordnen, mit Zeilenumbruch */
-  function band(label, full, group, count, perDesk, yStart, xCenter, maxCols){
+  /* Alle Positionen werden zunächst relativ zur Dirigent:in gerechnet: d = Abstand von der
+     Dirigent:in-Position (0 = an der Pultkante, wachsend = weiter weg, Richtung Portal/Hauptbühne).
+     x = Meter links(-)/rechts(+) der Mittelachse, aus Sicht der Dirigent:in. Am Ende wird d auf die
+     reale Tiefe der Vorbühne (VB_FRONT_Y aufwärts) abgebildet. */
+  function band(label, full, group, count, perDesk, dStart, xCenter, maxCols){
     const desks=Math.ceil(count/perDesk);
     let placed=0, row=0;
     while(placed<desks){
@@ -272,35 +309,34 @@ function autoLayout(){
       const startX=xCenter-cols/2;
       for(let c=0;c<cols;c++){
         const playersHere=Math.min(perDesk, count-placed*perDesk);
-        BOXES.push({id:nextId(),label,full,group,x:startX+c,y:yStart+row,players:playersHere});
+        BOXES.push({id:nextId(),label,full,group,x:startX+c,y:dStart+row,players:playersHere});
         placed++;
       }
       row++;
     }
-    return yStart+row;
+    return dStart+row;
   }
-  function single(label, full, group, x, y){
-    BOXES.push({id:nextId(),label,full,group,x,y,players:1});
+  function single(label, full, group, x, d){
+    BOXES.push({id:nextId(),label,full,group,x,y:d,players:1});
   }
 
-  const W = parseFloat(document.getElementById('dim-w').value)||20;
-  const cx = W/2;
+  const cx = 0;
 
   /* Reihe 1-3: Streicher im Halbkreis (vereinfachte Blöcke), Dirigent vorn Mitte */
-  let y = 1.3;
-  const vl1Y = band('Vl.I','1. Violine','str', o.vl1, 2, y, cx-Math.max(3, o.vl1/4), 6);
-  const vl2Y = band('Vl.II','2. Violine','str', o.vl2, 2, y, cx-1, 6);
-  const vaY  = band('Va','Bratsche','str', o.va, 2, y, cx+2.5, 5);
-  const vcY  = band('Vc','Violoncello','str', o.vc, 2, y+0.3, cx+4.5, 4);
-  const kbY  = band('Kb','Kontrabass','str', o.kb, 1, Math.max(vcY,y)+0.3, cx+6, 3);
+  let d = 1.3;
+  const vl1Y = band('Vl.I','1. Violine','str', o.vl1, 2, d, cx-Math.max(3, o.vl1/4), 6);
+  const vl2Y = band('Vl.II','2. Violine','str', o.vl2, 2, d, cx-1, 6);
+  const vaY  = band('Va','Bratsche','str', o.va, 2, d, cx+2.5, 5);
+  const vcY  = band('Vc','Violoncello','str', o.vc, 2, d+0.3, cx+4.5, 4);
+  const kbY  = band('Kb','Kontrabass','str', o.kb, 1, Math.max(vcY,d)+0.3, cx+6, 3);
 
   /* Dirigent + Flügel/Harfe vorn */
   single('Dir.','Dirigent:in','dir', cx, 0.2);
   if(o.hrf>0){ for(let i=0;i<o.hrf;i++) single('Hrf','Harfe','ky', 0.8+i*1.2, 1.3); }
-  if(o.kl>0)  single('Kl./Fl.','Klavier / Flügel','ky', W-1.5, 1.3);
-  if(o.cel>0) single('Cel.','Celesta','ky', W-2.8, 1.3);
-  if(o.org>0) single('Org.','Orgel','ky', W-1.5, 2.6);
-  if(o.cem>0) single('Cem.','Cembalo','ky', 0.8, 2.6);
+  if(o.kl>0)  single('Kl./Fl.','Klavier / Flügel','ky', 8, 1.3);
+  if(o.cel>0) single('Cel.','Celesta','ky', 6.7, 1.3);
+  if(o.org>0) single('Org.','Orgel','ky', 8, 2.6);
+  if(o.cem>0) single('Cem.','Cembalo','ky', -8.5, 2.6);
 
   let backY = Math.max(vl1Y,vl2Y,vaY,vcY,kbY)+0.8;
 
@@ -331,13 +367,18 @@ function autoLayout(){
     BOXES.push({id:nextId(),label:'Schl.',full:'Schlagwerk',group:'pc',x:cx-3+(pi++)*1.4,y:rowY+1.3,players:1});
   }
 
-    /* Blickrichtung drehen: Dirigent:in steht vorn/unten und schaut ins Orchester (nach hinten/oben).
-     Bis hierhin wurde mit "Abstand vom Dirigenten" gerechnet (0 = an der Pultkante, größer = weiter weg).
-          Das wird jetzt an der Tiefe der Hauptbühne gespiegelt, damit die Dirigent:in-Position vorn (nahe Publikum)
-               liegt und die hinteren Gruppen (Blech/Schlagwerk) oben/hinten stehen – Links/Rechts bleibt dabei erhalten,
-                    sodass z.B. die 1. Violinen wie im echten Saal von der Dirigent:in aus gesehen links sitzen. */
-  const HD = parseFloat(document.getElementById('dim-hd').value)||11;
-    BOXES.forEach(b=>{ b.y = HD - b.y; });
+  /* Auf reale Bühnengeometrie abbilden: Dirigent:in steht nahe der publikumsseitigen Vorbühnenkante,
+     das Orchester baut sich von dort Richtung Portal/Hauptbühne auf. Reicht die Vorbühne nicht (bzw.
+     ist "Hauptbühne nutzen" abgewählt), wird die Tiefe an der Portallinie gedeckelt. */
+  const allowHB = document.getElementById('allow-hb') ? document.getElementById('allow-hb').checked : true;
+  const conductorY = VB_FRONT_Y + 0.4;
+  const maxY = allowHB ? HB_BACK_Y-0.5 : PORTAL_Y-0.3;
+  BOXES.forEach(b=>{
+    let py = Math.min(conductorY + b.y, maxY);
+    const bounds = bandAt(py);
+    const px = Math.max(bounds.xMin+0.6, Math.min(bounds.xMax-0.6, cx + b.x));
+    b.x = px; b.y = py;
+  });
 
   renderStage();
 }
@@ -346,14 +387,8 @@ function autoLayout(){
 function rebuildStage(){ renderStage(); }
 
 function renderStage(){
-  const W = parseFloat(document.getElementById('dim-w').value)||20;
-  const HD = parseFloat(document.getElementById('dim-hd').value)||11;
-  const VD = parseFloat(document.getElementById('dim-vd').value)||4;
-  const withVorbuehne = document.getElementById('stage-select').value==='hb+vb';
-  const totalDepth = HD + (withVorbuehne?VD:0);
   const svg = document.getElementById('stage');
-  const pad = 1.5;
-  const pxW = (W+pad*2)*M, pxH = (totalDepth+pad*2)*M;
+  const pxW = (SCENE_MAXX-SCENE_MINX+PAD*2)*M, pxH = (SCENE_MAXY-SCENE_MINY+PAD*2)*M;
   svg.setAttribute('width', pxW);
   svg.setAttribute('height', pxH);
   svg.setAttribute('viewBox','0 0 '+pxW+' '+pxH);
@@ -361,62 +396,47 @@ function renderStage(){
 
   const ns='http://www.w3.org/2000/svg';
   function el(tag,attrs){ const e=document.createElementNS(ns,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); return e; }
-  const ox = pad*M, oy = pad*M;
 
-  /* Portal (feste Bühnenöffnung, unabhängig von der Breite der Hauptbühne dahinter) */
-  const PORTAL_W = 11;
-  const portalW = Math.min(PORTAL_W, W);
-  const portalInset = (W-portalW)/2;
+  /* Bühnenzonen (real eingemessen) als gefüllte Flächen */
+  svg.appendChild(el('polygon',{points:polyToScreenPts(HB_ZONE), fill:'var(--stage-fill)', stroke:'none'}));
+  svg.appendChild(el('polygon',{points:polyToScreenPts(VB_ZONE), fill:'var(--stage-fill)', stroke:'none'}));
 
-  /* Hauptbühne Rechteck (Bühnenhaus hinter dem Portal, kann breiter sein als die Öffnung) */
-  svg.appendChild(el('rect',{x:ox,y:oy,width:W*M,height:HD*M,fill:'var(--stage-fill)',stroke:'var(--grid-line)','stroke-width':2}));
-  /* Vorbühne (Trapez) – beginnt an der Portalbreite und öffnet sich Richtung Saal/Publikum */
-  if(withVorbuehne){
-    const vbInset = 0; /* Vorbühne öffnet sich standardmäßig bis zur vollen HB-Breite (an den echten Saal ggf. anpassen) */
-    const pts = [
-      [ox+portalInset*M, oy+HD*M],
-      [ox+(portalInset+portalW)*M, oy+HD*M],
-      [ox+(W-vbInset)*M, oy+(HD+VD)*M],
-      [ox+vbInset*M, oy+(HD+VD)*M]
-    ].map(p=>p.join(',')).join(' ');
-    svg.appendChild(el('polygon',{points:pts, fill:'var(--stage-fill)', stroke:'var(--grid-line)','stroke-width':2}));
+  /* 1m Rasterlinien innerhalb der Saal-Grundfläche */
+  for(let gx=Math.ceil(SCENE_MINX); gx<=Math.floor(SCENE_MAXX); gx++){
+    svg.appendChild(el('line',{x1:SX(gx),y1:SY(SCENE_MAXY-0.2),x2:SX(gx),y2:SY(VB_FRONT_Y),stroke:'var(--grid-line)','stroke-width':0.5}));
   }
-  /* 1m Rasterlinien, dünn */
-  for(let gx=0; gx<=W; gx++){
-    svg.appendChild(el('line',{x1:ox+gx*M,y1:oy,x2:ox+gx*M,y2:oy+HD*M,stroke:'var(--grid-line)','stroke-width':0.5}));
+  for(let gy=Math.ceil(VB_FRONT_Y); gy<=Math.floor(HB_BACK_Y); gy++){
+    const b=bandAt(gy);
+    svg.appendChild(el('line',{x1:SX(b.xMin),y1:SY(gy),x2:SX(b.xMax),y2:SY(gy),stroke:'var(--grid-line)','stroke-width':0.5}));
   }
-  for(let gy=0; gy<=HD; gy++){
-    svg.appendChild(el('line',{x1:ox,y1:oy+gy*M,x2:ox+W*M,y2:oy+gy*M,stroke:'var(--grid-line)','stroke-width':0.5}));
-  }
-  /* Wände: Rückwand + Seitenwände der Hauptbühne, Proszeniumswand mit Portalöffnung */
-  svg.appendChild(el('line',{x1:ox,y1:oy,x2:ox+W*M,y2:oy,stroke:'var(--gray)','stroke-width':3,'stroke-linecap':'round'}));
-  svg.appendChild(el('line',{x1:ox,y1:oy,x2:ox,y2:oy+HD*M,stroke:'var(--gray)','stroke-width':3,'stroke-linecap':'round'}));
-  svg.appendChild(el('line',{x1:ox+W*M,y1:oy,x2:ox+W*M,y2:oy+HD*M,stroke:'var(--gray)','stroke-width':3,'stroke-linecap':'round'}));
-  if(portalInset>0.05){
-    svg.appendChild(el('line',{x1:ox,y1:oy+HD*M,x2:ox+portalInset*M,y2:oy+HD*M,stroke:'var(--gray)','stroke-width':4,'stroke-linecap':'round'}));
-    svg.appendChild(el('line',{x1:ox+(portalInset+portalW)*M,y1:oy+HD*M,x2:ox+W*M,y2:oy+HD*M,stroke:'var(--gray)','stroke-width':4,'stroke-linecap':'round'}));
-  }
+
+  /* Wände: exakt nachgezeichnete Saal-Kontur (Rückwand, tapernde Seitenwände, Portal-Nischen, Vorbühnen-Wangen) */
+  svg.appendChild(el('polyline',{points:polyToScreenPts(WALL_POLY), fill:'none', stroke:'var(--gray)','stroke-width':3,'stroke-linejoin':'round','stroke-linecap':'round'}));
+
   /* Portalöffnung hervorgehoben + beschriftet */
-  svg.appendChild(el('line',{x1:ox+portalInset*M,y1:oy+HD*M,x2:ox+(portalInset+portalW)*M,y2:oy+HD*M,stroke:'var(--amber)','stroke-width':3,'stroke-dasharray':'6,4'}));
-  const portalLabel=el('text',{x:ox+W*M/2,y:oy+HD*M-6,'text-anchor':'middle','font-size':9,'font-weight':600,fill:'var(--amber)'});
-  portalLabel.textContent='Portal '+portalW+' m'; svg.appendChild(portalLabel);
-/* Maß-Beschriftung an den Seiten: jede volle Meterlinie in Breite (oben) und Tiefe – in Blickrichtung ab der Dirigent:in/Portal-Kante gezählt (0 = Portal, wachsend Richtung Rückwand) */
-    for(let gx=0; gx<=W; gx++){
-        const t=el('text',{x:ox+gx*M,y:oy-6,'text-anchor':'middle','font-size':8.5,fill:'var(--text-muted)'});
-        t.textContent=gx; svg.appendChild(t);
-    }
-    for(let gy=0; gy<=HD; gy++){
-        const t=el('text',{x:ox-6,y:oy+gy*M+3,'text-anchor':'end','font-size':8.5,fill:'var(--text-muted)'});
-        t.textContent=(HD-gy); svg.appendChild(t);
-    }
-    const g=el('g',{});
-    const t2=el('text',{x:ox,y:oy-18,'font-size':9,fill:'var(--text-muted)'}); t2.textContent='Maße in m · Tiefe ab Portal/Dirigent:in gezählt (Blickrichtung)'; g.appendChild(t2);
-    svg.appendChild(g);
+  svg.appendChild(el('line',{x1:SX(PORTAL[0][0]),y1:SY(PORTAL[0][1]),x2:SX(PORTAL[1][0]),y2:SY(PORTAL[1][1]),stroke:'var(--amber)','stroke-width':3,'stroke-dasharray':'6,4'}));
+  const portalLabel=el('text',{x:SX(0),y:SY(PORTAL_Y)-6,'text-anchor':'middle','font-size':9,'font-weight':600,fill:'var(--amber)'});
+  portalLabel.textContent='Portal '+PORTAL_W.toFixed(1)+' m'; svg.appendChild(portalLabel);
+  const vbLabel=el('text',{x:SX(0),y:SY((VB_FRONT_Y+PORTAL_Y)/2),'text-anchor':'middle','font-size':10,'font-weight':600,fill:'var(--text-muted)',opacity:0.65});
+  vbLabel.textContent='Vorbühne (bespielt)'; svg.appendChild(vbLabel);
+  const hbLabel=el('text',{x:SX(0),y:SY((PORTAL_Y+HB_BACK_Y)/2),'text-anchor':'middle','font-size':10,'font-weight':600,fill:'var(--text-muted)',opacity:0.5});
+  hbLabel.textContent='Hauptbühne (selten genutzt)'; svg.appendChild(hbLabel);
+
+  /* Maß-Beschriftung: Tiefe ab publikumsseitiger Vorbühnenkante gezählt (0 = vorn/Publikum) */
+  for(let gy=Math.ceil(VB_FRONT_Y); gy<=Math.floor(HB_BACK_Y); gy+=1){
+    const b=bandAt(gy);
+    const t=el('text',{x:SX(b.xMin)-6,y:SY(gy)+3,'text-anchor':'end','font-size':8.5,fill:'var(--text-muted)'});
+    t.textContent=Math.round(gy); svg.appendChild(t);
+  }
+  const t2=el('text',{x:SX(SCENE_MINX),y:SY(SCENE_MAXY)-8,'font-size':9,fill:'var(--text-muted)'});
+  t2.textContent='Maße in m · Tiefe ab publikumsseitiger Vorbühnenkante (0) · reale Vermessung Forum EG';
+  svg.appendChild(t2);
+
   /* Boxen */
   const colors={str:['var(--str-fill)','var(--str-border)'],ww:['var(--ww-fill)','var(--ww-border)'],br:['var(--br-fill)','var(--br-border)'],pc:['var(--pc-fill)','var(--pc-border)'],ky:['var(--ky-fill)','var(--ky-border)'],dir:['#ddd','#555']};
   BOXES.forEach(b=>{
     const [fill,border] = colors[b.group]||colors.dir;
-    const gx = ox + b.x*M, gy = oy + b.y*M;
+    const gx = SX(b.x), gy = SY(b.y);
     const grp = el('g',{class:'box', 'data-id':b.id, transform:`translate(${gx},${gy})`, style:'cursor:grab'});
     /* Notenständer (kleiner Strich vor der Box, Richtung Publikum = unten) */
     if(b.group!=='dir'){
@@ -462,17 +482,15 @@ function makeDraggable(node,b){
     const p = e.touches? e.touches[0] : e;
     const loc = toLocal(p.clientX,p.clientY);
     const dx=(loc.x-sx)/M, dy=(loc.y-sy)/M;
-    b.x = startX+dx; b.y=startY+dy;
-    const pad=1.5;
-    node.setAttribute('transform', `translate(${(pad+b.x)*M},${(pad+b.y)*M})`);
+    b.x = startX+dx; b.y=startY-dy; /* SY invertiert: Bildschirm-y wächst, während py sinkt */
+    node.setAttribute('transform', `translate(${SX(b.x)},${SY(b.y)})`);
   }
   function up(){
     if(!dragging) return;
     dragging=false; node.style.cursor='grab';
     /* Einrasten am 0.5m Raster */
     b.x = Math.round(b.x*2)/2; b.y = Math.round(b.y*2)/2;
-    const pad=1.5;
-    node.setAttribute('transform', `translate(${(pad+b.x)*M},${(pad+b.y)*M})`);
+    node.setAttribute('transform', `translate(${SX(b.x)},${SY(b.y)})`);
     window.removeEventListener('pointermove',move);
     window.removeEventListener('pointerup',up);
   }
