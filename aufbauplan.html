@@ -575,6 +575,15 @@ function renderStage(){
   /* Wände: exakt nachgezeichnete Saal-Kontur (Rückwand, tapernde Seitenwände, Portal-Nischen, Vorbühnen-Wangen) */
   svg.appendChild(el('polyline',{points:polyToScreenPts(WALL_POLY), fill:'none', stroke:'var(--gray)','stroke-width':3,'stroke-linejoin':'round','stroke-linecap':'round'}));
 
+  /* Vertikale Mittelachse der Bühne (x=0): reine Orientierungslinie, damit auf einen Blick sichtbar ist,
+     ob z.B. die Dirigent:in-Position exakt zentriert steht. Dieselbe x=0-Koordinate wird auch als cx in
+     autoLayout() für die Dirigent:in-Voreinstellung verwendet – Linie und Vorgabe stimmen also per
+     Konstruktion immer überein. */
+  svg.appendChild(el('line',{x1:SX(0),y1:SY(HB_BACK_Y),x2:SX(0),y2:SY(VB_FRONT_Y-0.5),stroke:'var(--text-muted)','stroke-width':1,'stroke-dasharray':'3,4',opacity:0.55}));
+  const midLabel=el('text',{x:SX(0)+4,y:SY(VB_FRONT_Y-0.5)+10,'font-size':8.5,fill:'var(--text-muted)',opacity:0.75});
+  midLabel.textContent='Mitte';
+  svg.appendChild(midLabel);
+
   /* Portalöffnung hervorgehoben + beschriftet */
   svg.appendChild(el('line',{x1:SX(PORTAL[0][0]),y1:SY(PORTAL[0][1]),x2:SX(PORTAL[1][0]),y2:SY(PORTAL[1][1]),stroke:'var(--amber)','stroke-width':3,'stroke-dasharray':'6,4'}));
   const portalLabel=el('text',{x:SX(0),y:SY(PORTAL_Y)-6,'text-anchor':'middle','font-size':9,'font-weight':600,fill:'var(--amber)'});
