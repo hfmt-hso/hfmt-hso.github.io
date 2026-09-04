@@ -175,7 +175,10 @@ function bandAt(y){
    und Terminwechsel hinweg erhalten. */
 function initPodestsIfNeeded(){
   if(PODESTS.length) return;
-  let y = 0;
+  const totalDepth = PODEST_DEFAULTS.reduce((s,row)=>s+row.depth,0);
+  /* Podest-Block hinten an den Portal-Bereich anlehnen (nicht vorn beim Dirigent:in-Pult beginnen) –
+     entspricht der vom Nutzer manuell eingerichteten Referenzaufstellung. */
+  let y = Math.max(3, (PORTAL_Y - CONDUCTOR_Y) - totalDepth);
   PODEST_DEFAULTS.forEach((row,i)=>{
     const midY = Math.min(CONDUCTOR_Y + y + row.depth/2, HB_BACK_Y-0.5);
     const bounds = bandAt(midY);
@@ -395,6 +398,29 @@ function autoLayout(){
       }
     });
   }
+  /* Wie podestRowPlace, aber in drei Blöcken (links / zentrum / rechts) mit sichtbarem Zwischenraum
+     dazwischen – Hörner links außen, Holzbläser-Zentrum, Blech rechts außen, jeweils als eigener Block
+     abgesetzt (Referenz: manuell eingerichtete Aufstellung des Nutzers). */
+  function podestRowPlace3(leftItems, centerItems, rightItems, cx0, dRel, gap){
+    const leftCount = leftItems.reduce((s,it)=>s+it.count,0);
+    const centerCount = centerItems.reduce((s,it)=>s+it.count,0);
+    const rightCount = rightItems.reduce((s,it)=>s+it.count,0);
+    const segCount = [leftCount,centerCount,rightCount].filter(c=>c>0).length;
+    const total = leftCount+centerCount+rightCount + gap*Math.max(0,segCount-1);
+    if(total<=0) return;
+    let x = cx0 - total/2;
+    function placeBlock(items){
+      items.forEach(it=>{
+        for(let i=0;i<it.count;i++){
+          BOXES.push({id:nextId(),label:it.label,full:it.full,group:it.group,x,y:dRel,players:1});
+          x += 1;
+        }
+      });
+    }
+    if(leftCount>0){ placeBlock(leftItems); if(centerCount>0||rightCount>0) x += gap; }
+    if(centerCount>0){ placeBlock(centerItems); if(rightCount>0) x += gap; }
+    if(rightCount>0){ placeBlock(rightItems); }
+  }
   /* Eine durchgehende, an cx0 zentrierte Reihe aus mehreren Streicher-Stimmgruppen (je perDesk Personen/Pult) –
      "möglichst in einer Reihe" statt in mehreren gestapelten Zeilen. */
   function stringRowPlace(items, cx0, dRel){
@@ -448,19 +474,19 @@ function autoLayout(){
   const hr1 = o.hr<=2 ? o.hr : Math.ceil(o.hr/2);
   const hr2 = o.hr - hr1;
 
-  podestRowPlace([
-    {label:'Hr.', full:'Horn', group:'br', count:hr1},
-    {label:'Fl.', full:'Flöte', group:'ww', count:o.fl},
-    {label:'Ob.', full:'Oboe', group:'ww', count:o.ob},
-    {label:'Tr.', full:'Trompete', group:'br', count:o.tp}
-  ], P1.xCenter, P1.y + P1.depth/2);
+  podestRowPlace3(
+    [{label:'Hr.', full:'Horn', group:'br', count:hr1}],
+    [{label:'Fl.', full:'Flöte', group:'ww', count:o.fl}, {label:'Ob.', full:'Oboe', group:'ww', count:o.ob}],
+    [{label:'Tr.', full:'Trompete', group:'br', count:o.tp}],
+    P1.xCenter, P1.y + P1.depth/2, 1.2
+  );
 
-  podestRowPlace([
-    {label:'Hr.', full:'Horn', group:'br', count:hr2},
-    {label:'Kl.', full:'Klarinette', group:'ww', count:o.cl},
-    {label:'Fg.', full:'Fagott', group:'ww', count:o.fg},
-    {label:'Pos.', full:'Posaune', group:'br', count:o.tb}
-  ], P2.xCenter, P2.y + P2.depth/2);
+  podestRowPlace3(
+    [{label:'Hr.', full:'Horn', group:'br', count:hr2}],
+    [{label:'Kl.', full:'Klarinette', group:'ww', count:o.cl}, {label:'Fg.', full:'Fagott', group:'ww', count:o.fg}],
+    [{label:'Pos.', full:'Posaune', group:'br', count:o.tb}],
+    P2.xCenter, P2.y + P2.depth/2, 1.2
+  );
 
   const d3 = P3.y + P3.depth/2;
   if(o.pk>0) single('Pk.','Pauken','pc', P3.xCenter, d3);
