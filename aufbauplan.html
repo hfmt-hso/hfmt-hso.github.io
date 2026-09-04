@@ -134,6 +134,7 @@ const PORTAL_Y = (PORTAL[0][1]+PORTAL[1][1])/2;
 const PORTAL_W = Math.abs(PORTAL[1][0]-PORTAL[0][0]);
 const VB_FRONT_Y = 9.22;   // publikumsseitige Kante der Vorbühne (frei bespielbar)
 const HB_BACK_Y  = 28.4;   // Rückwand Hauptbühne
+const CONDUCTOR_Y = VB_FRONT_Y + 0.4; // Standpunkt Dirigent:in (Nullpunkt der Vorbühnen-Skala)
 const SCENE_MINX = -13, SCENE_MAXX = 13, SCENE_MINY = -0.6, SCENE_MAXY = HB_BACK_Y+0.6;
 
 /* x-Bereich [xMin,xMax] eines Polygons auf Höhe y (lineare Interpolation an den Kanten) */
@@ -371,10 +372,9 @@ function autoLayout(){
      das Orchester baut sich von dort Richtung Portal/Hauptbühne auf. Reicht die Vorbühne nicht (bzw.
      ist "Hauptbühne nutzen" abgewählt), wird die Tiefe an der Portallinie gedeckelt. */
   const allowHB = document.getElementById('allow-hb') ? document.getElementById('allow-hb').checked : true;
-  const conductorY = VB_FRONT_Y + 0.4;
   const maxY = allowHB ? HB_BACK_Y-0.5 : PORTAL_Y-0.3;
   BOXES.forEach(b=>{
-    let py = Math.min(conductorY + b.y, maxY);
+    let py = Math.min(CONDUCTOR_Y + b.y, maxY);
     const bounds = bandAt(py);
     const px = Math.max(bounds.xMin+0.6, Math.min(bounds.xMax-0.6, cx + b.x));
     b.x = px; b.y = py;
@@ -422,14 +422,20 @@ function renderStage(){
   const hbLabel=el('text',{x:SX(0),y:SY((PORTAL_Y+HB_BACK_Y)/2),'text-anchor':'middle','font-size':10,'font-weight':600,fill:'var(--text-muted)',opacity:0.5});
   hbLabel.textContent='Hauptbühne (selten genutzt)'; svg.appendChild(hbLabel);
 
-  /* Maß-Beschriftung: Tiefe ab publikumsseitiger Vorbühnenkante gezählt (0 = vorn/Publikum) */
-  for(let gy=Math.ceil(VB_FRONT_Y); gy<=Math.floor(HB_BACK_Y); gy+=1){
+  /* Maß-Beschriftung: zwei separate Skalen, beide von 0 aufwärts gezählt –
+     Vorbühne ab dem Standpunkt der Dirigent:in bis zum Portal, Hauptbühne ab dem Portal bis zur Rückwand. */
+  for(let gy=Math.ceil(CONDUCTOR_Y); gy<=Math.floor(PORTAL_Y); gy+=1){
     const b=bandAt(gy);
     const t=el('text',{x:SX(b.xMin)-6,y:SY(gy)+3,'text-anchor':'end','font-size':8.5,fill:'var(--text-muted)'});
-    t.textContent=Math.round(gy); svg.appendChild(t);
+    t.textContent=Math.round(gy-CONDUCTOR_Y); svg.appendChild(t);
+  }
+  for(let gy=Math.ceil(PORTAL_Y); gy<=Math.floor(HB_BACK_Y); gy+=1){
+    const b=bandAt(gy);
+    const t=el('text',{x:SX(b.xMin)-6,y:SY(gy)+3,'text-anchor':'end','font-size':8.5,fill:'var(--text-muted)'});
+    t.textContent=Math.round(gy-PORTAL_Y); svg.appendChild(t);
   }
   const t2=el('text',{x:SX(SCENE_MINX),y:SY(SCENE_MAXY)-8,'font-size':9,fill:'var(--text-muted)'});
-  t2.textContent='Maße in m · Tiefe ab publikumsseitiger Vorbühnenkante (0) · reale Vermessung Forum EG';
+  t2.textContent='Maße in m · zwei Skalen ab 0: Vorbühne ab Dirigent:in-Standpunkt bis Portal, Hauptbühne ab Portal bis Rückwand · reale Vermessung Forum EG';
   svg.appendChild(t2);
 
   /* Boxen */
