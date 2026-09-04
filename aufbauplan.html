@@ -24,6 +24,7 @@
   --br-fill:#EAF6EC;--br-border:#2E7D42;
   --pc-fill:#F3EAFB;--pc-border:#6B3FA0;
   --ky-fill:#FAEEDA;--ky-border:#854F0B;
+  --podest-fill:#EDE7FB;--podest-border:#6D28D9;
 }
 @media(prefers-color-scheme:dark){:root{
   --text:#f0f0ee;--text-muted:#999997;
@@ -59,8 +60,13 @@ svg{display:block;margin:0 auto;touch-action:none}
 .legend{display:flex;gap:12px;flex-wrap:wrap;padding:0 16px 10px;font-size:11px;color:var(--text-muted)}
 .legend span{display:inline-flex;align-items:center;gap:5px}
 .legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.podest-panel{display:flex;gap:10px;flex-wrap:wrap;padding:0 16px 10px}
+.podest-row{display:flex;align-items:center;gap:8px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:6px 10px}
+.podest-row b{color:var(--podest-border);font-size:11px;min-width:50px}
+.podest-row label{display:flex;flex-direction:column;gap:2px;color:var(--text-muted);font-size:9.5px}
+.podest-row select,.podest-row input{font-family:inherit;font-size:12px;padding:4px 6px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);width:62px}
 @media print{
-  .header,.controls,.hint-card,.stat-strip,.legend,.status-line,.no-print{display:none!important}
+  .header,.controls,.hint-card,.stat-strip,.legend,.podest-panel,.status-line,.no-print{display:none!important}
   body{background:#fff}
   .stage-wrap{padding:0}
 }
@@ -92,7 +98,7 @@ svg{display:block;margin:0 auto;touch-action:none}
   </label>
 </div>
 
-<div class="hint-card">Vorschlag wird automatisch aus der Besetzung des gewählten Termins erzeugt (größte Instrumentierung aller Werke des Konzerts). Das Orchester steht standardmäßig auf der Vorbühne (wie im echten Betrieb) – reicht der Platz nicht, wird automatisch in die Hauptbühne hinein weitergebaut. Kästchen = 1 m² inkl. Notenständer, per Fingerzug/Maus frei verschiebbar (rastet am 0,5‑m‑Raster ein). Wände, Portal und Bühnenzonen sind auf Basis einer realen Vermessung des Forums (HfMT Hamburg) maßstabsgetreu eingezeichnet.</div>
+<div class="hint-card">Vorschlag wird automatisch aus der Besetzung des gewählten Termins erzeugt (größte Instrumentierung aller Werke des Konzerts). Das Orchester steht standardmäßig auf der Vorbühne (wie im echten Betrieb) – reicht der Platz nicht, wird automatisch in die Hauptbühne hinein weitergebaut. Kästchen = 1 m² inkl. Notenständer, per Fingerzug/Maus frei verschiebbar (rastet am 0,5‑m‑Raster ein). Die drei Podest-Reihen (gestrichelt, violett) lassen sich ebenfalls verschieben; Höhe, Breite und Tiefe pro Reihe unten links einstellen. Wände, Portal und Bühnenzonen sind auf Basis einer realen Vermessung des Forums (HfMT Hamburg) maßstabsgetreu eingezeichnet.</div>
 
 <div id="stat-strip" class="stat-strip"></div>
 <div class="legend">
@@ -101,7 +107,9 @@ svg{display:block;margin:0 auto;touch-action:none}
   <span><i style="background:var(--br-fill);border:1px solid var(--br-border)"></i>Blechbläser</span>
   <span><i style="background:var(--pc-fill);border:1px solid var(--pc-border)"></i>Schlagwerk</span>
   <span><i style="background:var(--ky-fill);border:1px solid var(--ky-border)"></i>Harfe/Tasten</span>
+  <span><i style="background:var(--podest-fill);border:1px solid var(--podest-border)"></i>Podest</span>
 </div>
+<div id="podest-panel" class="podest-panel no-print"></div>
 
 <div id="status" class="status-line"></div>
 <div class="stage-wrap"><svg id="stage"></svg></div>
@@ -116,6 +124,12 @@ const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5
 let EVENTS = []; // {eventId, titel, datum, data}
 let CURRENT = null; // ausgewaehltes event
 let BOXES = [];   // aktuelle Aufbau-Objekte {id,label,full,x,y,group,players}
+let PODESTS = []; // Podest-Reihen {id,height,depth,y,xCenter,width} – bleiben über autoLayout()/Terminwechsel hinweg erhalten
+const PODEST_DEFAULTS = [
+  {height:20, depth:1.0},
+  {height:40, depth:1.0},
+  {height:60, depth:2.0}
+];
 const M = 34; // Pixel pro Meter
 
 /* ───────────────────────── Reale Saal-Geometrie (Forum EG, HfMT Hamburg) ─────────────────────────
@@ -154,6 +168,21 @@ function polyBoundsAtY(poly, y){
    in der schmalen Portal-Wandnische dazwischen wird auf die Portalbreite zurückgefallen. */
 function bandAt(y){
   return polyBoundsAtY(VB_ZONE, y) || polyBoundsAtY(HB_ZONE, y) || {xMin:-PORTAL_W/2, xMax:PORTAL_W/2};
+}
+
+/* Podest-Reihen: einmalig mit sinnvollen Default-Maßen befüllen (volle verfügbare Breite an der
+   jeweiligen Tiefe), danach bleiben manuelle Anpassungen (Verschieben/Größe) über autoLayout()-Aufrufe
+   und Terminwechsel hinweg erhalten. */
+function initPodestsIfNeeded(){
+  if(PODESTS.length) return;
+  let y = 0;
+  PODEST_DEFAULTS.forEach((row,i)=>{
+    const midY = Math.min(CONDUCTOR_Y + y + row.depth/2, HB_BACK_Y-0.5);
+    const bounds = bandAt(midY);
+    const width = Math.max(2, (bounds.xMax-bounds.xMin) - 1.2);
+    PODESTS.push({id:'pod'+i, height:row.height, depth:row.depth, y, xCenter:0, width});
+    y += row.depth;
+  });
 }
 /* Bildschirm-Transformation: reale Meter → SVG-Pixel */
 const PAD = 1.5;
@@ -280,6 +309,37 @@ function ladeAusgewaehltesEvent(){
   zeigeSpeicherStatus();
 }
 
+/* ───────────────────────── Podest-Editor (Höhe/Breite/Tiefe pro Reihe) ───────────────────────── */
+function renderPodestPanel(){
+  const wrap = document.getElementById('podest-panel');
+  wrap.innerHTML = PODESTS.map((p,i)=>`
+    <div class="podest-row">
+      <b>Reihe ${i+1}</b>
+      <label>Höhe
+        <select onchange="updatePodest(${i},'height',this.value)">
+          <option value="20" ${p.height===20?'selected':''}>20 cm</option>
+          <option value="40" ${p.height===40?'selected':''}>40 cm</option>
+          <option value="60" ${p.height===60?'selected':''}>60 cm</option>
+        </select>
+      </label>
+      <label>Breite (m)
+        <input type="number" step="0.1" min="1" value="${p.width.toFixed(1)}" onchange="updatePodest(${i},'width',this.value)">
+      </label>
+      <label>Tiefe (m)
+        <input type="number" step="0.1" min="0.5" value="${p.depth.toFixed(1)}" onchange="updatePodest(${i},'depth',this.value)">
+      </label>
+    </div>
+  `).join('');
+}
+function updatePodest(i, field, value){
+  const p = PODESTS[i];
+  if(!p) return;
+  if(field==='height') p.height = parseInt(value,10)||p.height;
+  else p[field] = Math.max(0.2, parseFloat(value)||p[field]);
+  renderPodestPanel();
+  renderStage();
+}
+
 function zeigeSpeicherStatus(){
   const el=document.getElementById('status');
   if(CURRENT && CURRENT.ev.aufbauplan){
@@ -292,6 +352,8 @@ function zeigeSpeicherStatus(){
 /* ───────────────────────── Auto-Layout ───────────────────────── */
 function autoLayout(){
   if(!CURRENT) return;
+  initPodestsIfNeeded();
+  renderPodestPanel();
   const o=CURRENT.total;
   BOXES=[];
   let idc=0;
@@ -438,6 +500,21 @@ function renderStage(){
   t2.textContent='Maße in m · zwei Skalen ab 0: Vorbühne ab Dirigent:in-Standpunkt bis Portal, Hauptbühne ab Portal bis Rückwand · reale Vermessung Forum EG';
   svg.appendChild(t2);
 
+  /* Podeste (Höhenstufen für die Orchesterreihen) – frei verschiebbar, Maße im Panel unten links editierbar */
+  PODESTS.forEach(p=>{
+    const yTop = CONDUCTOR_Y + p.y, yBot = yTop + p.depth;
+    const xL = p.xCenter - p.width/2, xR = p.xCenter + p.width/2;
+    const gx = SX(xL), gy = SY(yBot);
+    const wPx = SX(xR)-SX(xL), hPx = SY(yTop)-SY(yBot);
+    const grp = el('g',{class:'podest','data-id':p.id, transform:`translate(${gx},${gy})`, style:'cursor:grab'});
+    grp.appendChild(el('rect',{x:0,y:0,width:wPx,height:hPx,rx:4,fill:'var(--podest-fill)','fill-opacity':0.22,stroke:'var(--podest-border)','stroke-width':2,'stroke-dasharray':'5,3'}));
+    const lbl = el('text',{x:wPx/2,y:hPx/2+4,'text-anchor':'middle','font-size':11,'font-weight':700,fill:'var(--podest-border)'});
+    lbl.textContent = p.height+' cm';
+    grp.appendChild(lbl);
+    makePodestDraggable(grp,p);
+    svg.appendChild(grp);
+  });
+
   /* Boxen */
   const colors={str:['var(--str-fill)','var(--str-border)'],ww:['var(--ww-fill)','var(--ww-border)'],br:['var(--br-fill)','var(--br-border)'],pc:['var(--pc-fill)','var(--pc-border)'],ky:['var(--ky-fill)','var(--ky-border)'],dir:['#ddd','#555']};
   BOXES.forEach(b=>{
@@ -497,6 +574,49 @@ function makeDraggable(node,b){
     /* Einrasten am 0.5m Raster */
     b.x = Math.round(b.x*2)/2; b.y = Math.round(b.y*2)/2;
     node.setAttribute('transform', `translate(${SX(b.x)},${SY(b.y)})`);
+    window.removeEventListener('pointermove',move);
+    window.removeEventListener('pointerup',up);
+  }
+  node.addEventListener('pointerdown',down);
+}
+
+function makePodestDraggable(node,p){
+  let sx=0,sy=0,startX=0,startY=0,dragging=false;
+  function toLocal(clientX,clientY){
+    const svg=document.getElementById('stage');
+    const r=svg.getBoundingClientRect();
+    const scaleX=svg.viewBox.baseVal.width/r.width;
+    const scaleY=svg.viewBox.baseVal.height/r.height;
+    return {x:(clientX-r.left)*scaleX, y:(clientY-r.top)*scaleY};
+  }
+  function apply(){
+    const yTop = CONDUCTOR_Y + p.y, yBot = yTop + p.depth;
+    const xL = p.xCenter - p.width/2;
+    node.setAttribute('transform', `translate(${SX(xL)},${SY(yBot)})`);
+  }
+  function down(e){
+    e.preventDefault(); e.stopPropagation();
+    dragging=true; node.style.cursor='grabbing';
+    const pt = e.touches? e.touches[0] : e;
+    const loc = toLocal(pt.clientX,pt.clientY);
+    sx=loc.x; sy=loc.y; startX=p.xCenter; startY=p.y;
+    window.addEventListener('pointermove',move);
+    window.addEventListener('pointerup',up);
+  }
+  function move(e){
+    if(!dragging) return;
+    const pt = e.touches? e.touches[0] : e;
+    const loc = toLocal(pt.clientX,pt.clientY);
+    const dx=(loc.x-sx)/M, dy=(loc.y-sy)/M;
+    p.xCenter = startX+dx; p.y = Math.max(0, startY-dy); /* SY invertiert */
+    apply();
+  }
+  function up(){
+    if(!dragging) return;
+    dragging=false; node.style.cursor='grab';
+    /* Einrasten am 0.1m Raster */
+    p.xCenter = Math.round(p.xCenter*10)/10; p.y = Math.max(0, Math.round(p.y*10)/10);
+    apply();
     window.removeEventListener('pointermove',move);
     window.removeEventListener('pointerup',up);
   }
