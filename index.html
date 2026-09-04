@@ -1048,6 +1048,14 @@ ladenKalender().then(populateFreikartenEvents);
 ladeBedarf();
 async function ladeProbendispositionen(){ try { const res = await fetch(`${WEBAPP_URL}?action=probendispositionen`); const json = await res.json(); const liste = document.getElementById('probendisp-liste'); const data = (json.ok && json.data) ? json.data : []; if(!data.length){ liste.innerHTML = '<div class="loading">Keine aktuellen Probendispositionen.</div>'; return; } liste.innerHTML = data.map(function(e){ return '<div style="border-top:0.5px solid var(--border);padding:10px 0;margin-top:10px"><div style="font-size:13px;font-weight:600;color:var(--text)">'+esc(e.anlass)+(e.datum?' &middot; '+esc(e.datum):'')+'</div><div style="font-size:13px;color:var(--text);white-space:pre-wrap;margin-top:4px;line-height:1.5">'+esc(e.text)+'</div></div>'; }).join(''); } catch(e){ document.getElementById('probendisp-liste').innerHTML = '<div class="loading">Laden fehlgeschlagen.</div>'; } }
 ladeProbendispositionen();
+
+// ── Direktsprung zu einem Tab über ?tab=… in der URL (z.B. Rücksprung aus dem Aufbauplan-Tool zum Bedarf-Tab) ──
+(function(){
+  const tab = new URLSearchParams(window.location.search).get('tab');
+  if(!tab) return;
+  const btn = document.querySelector('.nav-btn[onclick*="\''+tab+'\'"]');
+  if(btn) showTab(tab, btn);
+})();
 </script>
 <div class="sj-modal-overlay" id="sj-modal" onclick="schliesseSjModal()">
   <div class="sj-modal-box" onclick="event.stopPropagation()">

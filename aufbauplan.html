@@ -84,7 +84,8 @@ body.readonly .box,body.readonly .podest{cursor:default!important}
 body.readonly svg{touch-action:auto;max-width:100%;height:auto}
 body.readonly .stage-wrap{padding:4px;overflow:visible}
 .readonly-badge{display:none;font-size:11px;color:var(--text-muted);text-align:center;padding:8px 16px 0}
-body.readonly .readonly-badge{display:block}
+body.readonly .readonly-badge{display:flex;flex-direction:column;align-items:center;gap:4px}
+.readonly-back{display:inline-block;font-size:13px;font-weight:600;color:var(--blue);text-decoration:none;padding:6px 4px}
 </style>
 </head>
 <body>
@@ -103,7 +104,10 @@ body.readonly .readonly-badge{display:block}
       <button class="btn secondary no-print" id="btn-sync" onclick="synchronisiereJetzt()">🔄 Sync jetzt auslösen</button>
     </div>
   </div>
-  <div class="readonly-badge">Nur-Ansicht – zum Bearbeiten das interne Werkzeug verwenden</div>
+  <div class="readonly-badge">
+    <a href="https://hfmt-hso.github.io/?tab=bedarf" class="readonly-back">← Zurück zum Portal</a>
+    <span>Nur-Ansicht – zum Bearbeiten das interne Werkzeug verwenden</span>
+  </div>
 </div>
 
 <div class="controls no-print">
