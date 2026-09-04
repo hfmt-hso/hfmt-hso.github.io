@@ -177,13 +177,15 @@ function initPodestsIfNeeded(){
   if(PODESTS.length) return;
   const totalDepth = PODEST_DEFAULTS.reduce((s,row)=>s+row.depth,0);
   /* Podest-Block hinten an den Portal-Bereich anlehnen (nicht vorn beim Dirigent:in-Pult beginnen) –
-     entspricht der vom Nutzer manuell eingerichteten Referenzaufstellung. */
-  let y = Math.max(3, (PORTAL_Y - CONDUCTOR_Y) - totalDepth);
+     entspricht der vom Nutzer manuell eingerichteten Referenzaufstellung. Auf das 0,5‑m‑Raster abrunden
+     (nicht aufrunden, damit der Block nicht über die Portallinie hinausragt), damit die Bläser-Boxen
+     später exakt auf dem Ziehen-Raster landen. */
+  let y = Math.floor(Math.max(3, (PORTAL_Y - CONDUCTOR_Y) - totalDepth) * 2) / 2;
   PODEST_DEFAULTS.forEach((row,i)=>{
     const midY = Math.min(CONDUCTOR_Y + y + row.depth/2, HB_BACK_Y-0.5);
     const bounds = bandAt(midY);
     const width = Math.max(2, Math.min(10, (bounds.xMax-bounds.xMin) - 0.4));
-    PODESTS.push({id:'pod'+i, height:row.height, depth:row.depth, y, xCenter:0, width});
+    PODESTS.push({id:'pod'+i, height:row.height, depth:row.depth, y, xCenter:0, width, visible:true});
     y += row.depth;
   });
 }
@@ -316,8 +318,11 @@ function ladeAusgewaehltesEvent(){
 function renderPodestPanel(){
   const wrap = document.getElementById('podest-panel');
   wrap.innerHTML = PODESTS.map((p,i)=>`
-    <div class="podest-row">
-      <b>Reihe ${i+1}</b>
+    <div class="podest-row" style="${p.visible===false?'opacity:0.5':''}">
+      <label style="display:flex;align-items:center;gap:4px;">
+        <input type="checkbox" ${p.visible===false?'':'checked'} onchange="updatePodest(${i},'visible',this.checked)">
+        <b>Reihe ${i+1}</b>
+      </label>
       <label>Höhe
         <select onchange="updatePodest(${i},'height',this.value)">
           <option value="20" ${p.height===20?'selected':''}>20 cm</option>
@@ -338,6 +343,7 @@ function updatePodest(i, field, value){
   const p = PODESTS[i];
   if(!p) return;
   if(field==='height') p.height = parseInt(value,10)||p.height;
+  else if(field==='visible') p.visible = !!value;
   else p[field] = Math.max(0.2, parseFloat(value)||p[field]);
   renderPodestPanel();
   renderStage();
@@ -454,7 +460,13 @@ function autoLayout(){
   sunRayPlace({label:'Vl.II', full:'2. Violine', group:'str', count:o.vl2, perDesk:2}, -20, cx, r0);
   sunRayPlace({label:'Va', full:'Bratsche', group:'str', count:o.va, perDesk:2}, 20, cx, r0);
   const vcLast = sunRayPlace({label:'Vc', full:'Violoncello', group:'str', count:o.vc, perDesk:2}, 80, cx, r0);
-  band('Kb','Kontrabass','str', o.kb, 1, vcLast.y+1, vcLast.x, 1);
+  /* Kontrabässe als gerader "Turm" direkt hinter dem letzten (äußersten) Cello-Pult. Reicht der gerade
+     Turm bei sehr vielen Bässen bis zu nah an die Bläser-Podeste heran, wird nötigenfalls zweispaltig
+     gestellt, damit die Bässe nicht in die Bläser-Reihe hineinragen. */
+  const P1pre = PODESTS[0] || {y:9e9};
+  let kbCols = 1;
+  if(vcLast.y + 1 + o.kb > P1pre.y - 0.5) kbCols = 2;
+  band('Kb','Kontrabass','str', o.kb, 1, vcLast.y+1, vcLast.x, kbCols);
 
   /* Dirigent + Flügel/Harfe vorn */
   single('Dir.','Dirigent:in','dir', cx, 0.2);
@@ -467,7 +479,11 @@ function autoLayout(){
   /* Bläser & Schlagwerk: feste Positionierung auf den drei Podest-Reihen (vom Nutzer vorgegebenes Layout,
      Reihe 1 = 20cm, Reihe 2 = 40cm, Reihe 3 = 60cm). Hörner links außen, Holzbläser mittig (Fl/Ob Reihe 1,
      Kl/Fg Reihe 2, jeweils in denselben Spalten), Trompeten/Posaunen rechts außen, Tuba ganz außen rechts
-     auf Reihe 3, Pauke mittig auf Reihe 3, Schlagwerk daneben. */
+     auf Reihe 3, Pauke mittig auf Reihe 3, Schlagwerk daneben.
+     Eine Box ist 0,82 m "tief" und wird an ihrer HINTEREN Kante (y) verankert (siehe renderStage/Notenständer).
+     Damit die Box komplett auf dem Podest steht (nicht davor), muss die hintere Kante mit der Podest-
+     Hinterkante (p.y + p.depth) abschließen – das liegt dank des 0,5‑m‑gerundeten p.y immer exakt auf
+     dem 0,5‑m‑Ziehen-Raster. */
   const P1 = PODESTS[0] || {y:0, depth:1, xCenter:0, width:10};
   const P2 = PODESTS[1] || {y:1, depth:1, xCenter:0, width:10};
   const P3 = PODESTS[2] || {y:2, depth:2, xCenter:0, width:10};
@@ -480,7 +496,7 @@ function autoLayout(){
     {label:'Fl.', full:'Flöte', group:'ww', count:o.fl},
     {label:'Ob.', full:'Oboe', group:'ww', count:o.ob},
     {label:'Tr.', full:'Trompete', group:'br', count:o.tp},
-    P1.xCenter, P1.y + P1.depth/2 - 0.5
+    P1.xCenter, P1.y + P1.depth
   );
 
   podestRowCentered(
@@ -488,10 +504,10 @@ function autoLayout(){
     {label:'Kl.', full:'Klarinette', group:'ww', count:o.cl},
     {label:'Fg.', full:'Fagott', group:'ww', count:o.fg},
     {label:'Pos.', full:'Posaune', group:'br', count:o.tb},
-    P2.xCenter, P2.y + P2.depth/2 - 0.5
+    P2.xCenter, P2.y + P2.depth
   );
 
-  const d3 = P3.y + P3.depth/2 - 0.5;
+  const d3 = P3.y + P3.depth;
   if(o.pk>0) single('Pk.','Pauken','pc', P3.xCenter, d3);
   const tubaX = P3.xCenter + P3.width/2 - 0.6;
   if(o.tu>0) single('Tb.','Tuba','br', tubaX, d3);
@@ -577,8 +593,11 @@ function renderStage(){
   t2.textContent='Maße in m · zwei Skalen ab 0: Vorbühne ab Dirigent:in-Standpunkt bis Portal, Hauptbühne ab Portal bis Rückwand · reale Vermessung Forum EG';
   svg.appendChild(t2);
 
-  /* Podeste (Höhenstufen für die Orchesterreihen) – frei verschiebbar, Maße im Panel unten links editierbar */
+  /* Podeste (Höhenstufen für die Orchesterreihen) – frei verschiebbar, Maße im Panel unten links editierbar.
+     Über das Anhakfeld im Panel ausblendbare Reihen (z.B. wenn an einem Termin nur ein Podest genutzt wird)
+     werden hier einfach übersprungen. */
   PODESTS.forEach(p=>{
+    if(p.visible===false) return;
     const yTop = CONDUCTOR_Y + p.y, yBot = yTop + p.depth;
     const xL = p.xCenter - p.width/2, xR = p.xCenter + p.width/2;
     const gx = SX(xL), gy = SY(yBot);
@@ -705,7 +724,7 @@ function baueplanLink(){
   const state = {
     ev: CURRENT.ev.eventId,
     boxes: BOXES.map(b=>({l:b.label,g:b.group,x:Math.round(b.x*10)/10,y:Math.round(b.y*10)/10,p:b.players})),
-    podests: PODESTS.map(p=>({id:p.id,h:p.height,d:Math.round(p.depth*10)/10,y:Math.round(p.y*10)/10,x:Math.round(p.xCenter*10)/10,w:Math.round(p.width*10)/10}))
+    podests: PODESTS.map(p=>({id:p.id,h:p.height,d:Math.round(p.depth*10)/10,y:Math.round(p.y*10)/10,x:Math.round(p.xCenter*10)/10,w:Math.round(p.width*10)/10,v:p.visible!==false}))
   };
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
   return location.origin + location.pathname + '?plan=' + encoded;
