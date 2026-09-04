@@ -99,7 +99,7 @@ svg{display:block;margin:0 auto;touch-action:none}
   </label>
 </div>
 
-<div class="hint-card">Vorschlag wird automatisch aus der Besetzung des gewählten Termins erzeugt (größte Instrumentierung aller Werke des Konzerts). Das Orchester steht standardmäßig auf der Vorbühne (wie im echten Betrieb) – reicht der Platz nicht, wird automatisch in die Hauptbühne hinein weitergebaut. Kästchen = 1 m² inkl. Notenständer, per Fingerzug/Maus frei verschiebbar (ohne Rasterung, exakt an der losgelassenen Position). Die drei Podest-Reihen (gestrichelt, violett) lassen sich ebenfalls verschieben; Höhe, Breite und Tiefe pro Reihe unten links einstellen. Wände, Portal und Bühnenzonen sind auf Basis einer realen Vermessung des Forums (HfMT Hamburg) maßstabsgetreu eingezeichnet.</div>
+<div class="hint-card">Vorschlag wird automatisch aus der Besetzung des gewählten Termins erzeugt (größte Instrumentierung aller Werke des Konzerts). Das Orchester steht standardmäßig auf der Vorbühne (wie im echten Betrieb) – reicht der Platz nicht, wird automatisch in die Hauptbühne hinein weitergebaut. Kästchen = 1 m² inkl. Notenständer, per Fingerzug/Maus frei verschiebbar (ohne Rasterung, exakt an der losgelassenen Position). Mehrfachauswahl: Cmd/Strg-Klick fügt einzelne Kästchen hinzu/entfernt sie, oder ein Rahmen auf freier Fläche aufziehen (Lasso) – markierte Kästchen lassen sich dann gemeinsam verschieben. Die drei Podest-Reihen (gestrichelt, violett) lassen sich ebenfalls verschieben; Höhe, Breite und Tiefe pro Reihe unten links einstellen. Wände, Portal und Bühnenzonen sind auf Basis einer realen Vermessung des Forums (HfMT Hamburg) maßstabsgetreu eingezeichnet.</div>
 
 <div id="stat-strip" class="stat-strip"></div>
 <div class="legend">
@@ -127,6 +127,8 @@ let EVENTS = []; // {eventId, titel, datum, data}
 let CURRENT = null; // ausgewaehltes event
 let BOXES = [];   // aktuelle Aufbau-Objekte {id,label,full,x,y,group,players}
 let PODESTS = []; // Podest-Reihen {id,height,depth,y,xCenter,width} – bleiben über autoLayout()/Terminwechsel hinweg erhalten
+let SELECTED = new Set();  // IDs der aktuell markierten Kästchen (Mehrfachauswahl per Cmd/Strg-Klick oder Lasso)
+let BOX_NODES = {};        // id -> {grp, rect, borderColor} der zuletzt gerenderten Kästchen, für Auswahl-Highlighting ohne kompletten Re-Render
 const PODEST_DEFAULTS = [
   {height:20, depth:1.0},
   {height:40, depth:1.0},
@@ -367,6 +369,7 @@ function autoLayout(){
   renderPodestPanel();
   const o=CURRENT.total;
   BOXES=[];
+  SELECTED.clear(); /* Neuanordnung vergibt neue IDs – eine alte Auswahl würde ins Leere zeigen */
   let idc=0;
   const nextId=()=>'b'+(idc++);
 
@@ -627,23 +630,29 @@ function renderStage(){
     svg.appendChild(grp);
   });
 
-  /* Boxen */
+  /* Boxen. WICHTIG: b.x/b.y sind als MITTE der Box definiert (siehe autoLayout()-Platzierung und die
+     bandAt()-Rand-Klammerung dort, die von einem halben Kästchen als Puffer ausgeht). Das Kästchen wird
+     daher hier horizontal auf den Ankerpunkt (Gruppen-Translate) zentriert gezeichnet (x von -M/2 bis
+     +M/2), nicht mehr mit der linken Kante am Ankerpunkt – sonst steht z.B. die Dirigent:in-Vorgabe
+     (x=0) optisch einen halben Meter zu weit rechts von der eingezeichneten Mittelachse. Vertikal bleibt
+     die Box an ihrer HINTEREN Kante verankert (siehe Kommentar weiter oben bei den Podest-Reihen). */
   const colors={str:['var(--str-fill)','var(--str-border)'],ww:['var(--ww-fill)','var(--ww-border)'],br:['var(--br-fill)','var(--br-border)'],pc:['var(--pc-fill)','var(--pc-border)'],ky:['var(--ky-fill)','var(--ky-border)'],dir:['#ddd','#555']};
+  BOX_NODES = {};
   BOXES.forEach(b=>{
     const [fill,border] = colors[b.group]||colors.dir;
     const gx = SX(b.x), gy = SY(b.y);
     const grp = el('g',{class:'box', 'data-id':b.id, transform:`translate(${gx},${gy})`, style:'cursor:grab'});
     /* Notenständer (kleiner Strich vor der Box, Richtung Publikum = unten) */
     if(b.group!=='dir'){
-      grp.appendChild(el('line',{x1:M*0.2,y1:M*0.92,x2:M*0.8,y2:M*0.92,stroke:border,'stroke-width':3}));
+      grp.appendChild(el('line',{x1:-M*0.3,y1:M*0.92,x2:M*0.3,y2:M*0.92,stroke:border,'stroke-width':3}));
     }
-    const box = el('rect',{x:0,y:0,width:M,height:M*0.82,rx:5,fill,stroke:border,'stroke-width':1.4});
+    const box = el('rect',{x:-M/2,y:0,width:M,height:M*0.82,rx:5,fill,stroke:border,'stroke-width':1.4});
     grp.appendChild(box);
-    const label = el('text',{x:M/2,y:M*0.82/2+4,'text-anchor':'middle','font-size':10.5,'font-weight':600,fill:border});
+    const label = el('text',{x:0,y:M*0.82/2+4,'text-anchor':'middle','font-size':10.5,'font-weight':600,fill:border});
     label.textContent=b.label;
     grp.appendChild(label);
     if(b.players>1){
-      const badge=el('text',{x:M-3,y:11,'text-anchor':'end','font-size':8,fill:border,opacity:0.75});
+      const badge=el('text',{x:M/2-3,y:11,'text-anchor':'end','font-size':8,fill:border,opacity:0.75});
       badge.textContent='×'+b.players;
       grp.appendChild(badge);
     }
@@ -651,11 +660,36 @@ function renderStage(){
     grp.appendChild(ttl);
     makeDraggable(grp,b);
     svg.appendChild(grp);
+    BOX_NODES[b.id] = {grp, rect:box, borderColor:border};
+    paintSelection(b.id);
   });
 }
 
+/* ───────────────────────── Mehrfachauswahl (Cmd/Strg-Klick + Lasso) ───────────────────────── */
+function paintSelection(id){
+  const entry = BOX_NODES[id];
+  if(!entry) return;
+  const on = SELECTED.has(id);
+  entry.rect.setAttribute('stroke', on ? '#2563eb' : entry.borderColor);
+  entry.rect.setAttribute('stroke-width', on ? 3 : 1.4);
+}
+function clearSelection(){
+  const prev = Array.from(SELECTED);
+  SELECTED.clear();
+  prev.forEach(paintSelection);
+}
+function selectOnly(id){
+  clearSelection();
+  SELECTED.add(id);
+  paintSelection(id);
+}
+function toggleSelect(id){
+  if(SELECTED.has(id)) SELECTED.delete(id); else SELECTED.add(id);
+  paintSelection(id);
+}
+
 function makeDraggable(node,b){
-  let sx=0,sy=0,startX=0,startY=0,dragging=false;
+  let sx=0,sy=0,dragging=false,startPositions=null;
   function toLocal(clientX,clientY){
     const svg=document.getElementById('stage');
     const r=svg.getBoundingClientRect();
@@ -665,10 +699,24 @@ function makeDraggable(node,b){
   }
   function down(e){
     e.preventDefault();
-    dragging=true; node.style.cursor='grabbing';
+    e.stopPropagation(); /* verhindert, dass der Lasso-Handler auf der Bühne gleichzeitig anspringt */
     const p = e.touches? e.touches[0] : e;
+    /* Cmd/Strg-Klick: reine Mehrfachauswahl, kein Verschieben in diesem Klick */
+    if(e.ctrlKey || e.metaKey){
+      toggleSelect(b.id);
+      return;
+    }
+    /* Klick auf ein bereits mehrfach markiertes Kästchen: Auswahl bleibt erhalten, ganze Gruppe wird
+       verschoben. Klick auf ein nicht-markiertes Kästchen: Auswahl wird auf dieses eine zurückgesetzt. */
+    if(!SELECTED.has(b.id)) selectOnly(b.id);
+    dragging=true; node.style.cursor='grabbing';
     const loc = toLocal(p.clientX,p.clientY);
-    sx=loc.x; sy=loc.y; startX=b.x; startY=b.y;
+    sx=loc.x; sy=loc.y;
+    startPositions = {};
+    SELECTED.forEach(id=>{
+      const bx = BOXES.find(o=>o.id===id);
+      if(bx) startPositions[id] = {x:bx.x, y:bx.y};
+    });
     window.addEventListener('pointermove',move);
     window.addEventListener('pointerup',up);
   }
@@ -676,23 +724,83 @@ function makeDraggable(node,b){
     if(!dragging) return;
     const p = e.touches? e.touches[0] : e;
     const loc = toLocal(p.clientX,p.clientY);
-    const dx=(loc.x-sx)/M, dy=(loc.y-sy)/M;
-    b.x = startX+dx; b.y=startY-dy; /* SY invertiert: Bildschirm-y wächst, während py sinkt */
-    node.setAttribute('transform', `translate(${SX(b.x)},${SY(b.y)})`);
+    const dx=(loc.x-sx)/M, dy=(loc.y-sy)/M; /* SY invertiert: Bildschirm-y wächst, während py sinkt */
+    Object.keys(startPositions).forEach(id=>{
+      const bx = BOXES.find(o=>o.id===id);
+      const entry = BOX_NODES[id];
+      if(!bx || !entry) return;
+      bx.x = startPositions[id].x+dx; bx.y = startPositions[id].y-dy;
+      entry.grp.setAttribute('transform', `translate(${SX(bx.x)},${SY(bx.y)})`);
+    });
   }
   function up(){
     if(!dragging) return;
     dragging=false; node.style.cursor='grab';
-    /* Kein Einrasten mehr: die Kästchen bleiben exakt an der losgelassenen Position stehen.
-       Vorher wurde hier am 0,5‑m‑Raster gerundet – das ließ jedes Kästchen beim ersten Berühren
-       sichtbar "springen", weil der automatische Vorschlag (autoLayout, u.a. die im Winkel berechneten
-       Streicherpulte) fast nie exakt auf diesem Raster lag. Damit der Vorschlag und die Position nach
-       dem Verschieben immer übereinstimmen, bleibt die Position jetzt frei (kein Raster). */
-    node.setAttribute('transform', `translate(${SX(b.x)},${SY(b.y)})`);
+    /* Kein Einrasten mehr: die Kästchen bleiben exakt an der losgelassenen Position stehen (siehe
+       Session 8 – "Einrasten beim Verschieben entfernt"). Gilt jetzt auch für die ganze Mehrfachauswahl. */
     window.removeEventListener('pointermove',move);
     window.removeEventListener('pointerup',up);
   }
   node.addEventListener('pointerdown',down);
+}
+
+/* Lasso-Auswahl: Ziehen auf leerer Bühnenfläche (nicht auf einem Kästchen/Podest) zieht ein
+   Auswahlrechteck auf; alle Kästchen, deren Mittelpunkt darin liegt, werden danach markiert.
+   Shift/Cmd/Strg beim Aufziehen behält die bisherige Auswahl (Hinzufügen statt Ersetzen). Ein einfacher
+   Klick ohne Ziehen auf leerer Fläche hebt die Auswahl auf. */
+function initLassoSelection(){
+  const svg = document.getElementById('stage');
+  let active=false, start=null, rectEl=null, moved=false;
+  function toLocal(clientX,clientY){
+    const r=svg.getBoundingClientRect();
+    const scaleX=svg.viewBox.baseVal.width/r.width;
+    const scaleY=svg.viewBox.baseVal.height/r.height;
+    return {x:(clientX-r.left)*scaleX, y:(clientY-r.top)*scaleY};
+  }
+  function down(e){
+    if(e.target.closest('.box') || e.target.closest('.podest')) return; /* dafür sind die eigenen Handler zuständig */
+    const keepExisting = e.ctrlKey || e.metaKey || e.shiftKey;
+    if(!keepExisting) clearSelection();
+    const p = e.touches? e.touches[0] : e;
+    start = toLocal(p.clientX,p.clientY);
+    active=true; moved=false;
+    rectEl = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    rectEl.setAttribute('fill','rgba(37,99,235,0.12)');
+    rectEl.setAttribute('stroke','#2563eb');
+    rectEl.setAttribute('stroke-width','1');
+    rectEl.setAttribute('stroke-dasharray','4,3');
+    rectEl.setAttribute('x',start.x); rectEl.setAttribute('y',start.y);
+    rectEl.setAttribute('width',0); rectEl.setAttribute('height',0);
+    svg.appendChild(rectEl);
+    window.addEventListener('pointermove',move);
+    window.addEventListener('pointerup',up);
+  }
+  function move(e){
+    if(!active) return;
+    const p = e.touches? e.touches[0] : e;
+    const loc = toLocal(p.clientX,p.clientY);
+    if(Math.abs(loc.x-start.x)>2 || Math.abs(loc.y-start.y)>2) moved=true;
+    const x=Math.min(loc.x,start.x), y=Math.min(loc.y,start.y);
+    const w=Math.abs(loc.x-start.x), h=Math.abs(loc.y-start.y);
+    rectEl.setAttribute('x',x); rectEl.setAttribute('y',y);
+    rectEl.setAttribute('width',w); rectEl.setAttribute('height',h);
+  }
+  function up(){
+    if(!active) return;
+    active=false;
+    window.removeEventListener('pointermove',move);
+    window.removeEventListener('pointerup',up);
+    const x=parseFloat(rectEl.getAttribute('x')), y=parseFloat(rectEl.getAttribute('y'));
+    const w=parseFloat(rectEl.getAttribute('width')), h=parseFloat(rectEl.getAttribute('height'));
+    rectEl.remove();
+    if(!moved) return; /* reiner Klick auf leere Fläche: Auswahl wurde in down() bereits geleert */
+    BOXES.forEach(bx=>{
+      const cx = SX(bx.x), cy = SY(bx.y) + (M*0.82)/2; /* Box-Mittelpunkt in Bildschirm-Pixeln */
+      if(cx>=x && cx<=x+w && cy>=y && cy<=y+h) SELECTED.add(bx.id);
+    });
+    SELECTED.forEach(paintSelection);
+  }
+  svg.addEventListener('pointerdown',down);
 }
 
 function makePodestDraggable(node,p){
@@ -812,6 +920,7 @@ function ladePlanAusLink(){
 }
 
 ladeEvents();
+initLassoSelection();
 </script>
 </body>
 </html>
