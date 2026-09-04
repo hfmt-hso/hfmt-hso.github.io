@@ -460,13 +460,14 @@ function autoLayout(){
   sunRayPlace({label:'Vl.II', full:'2. Violine', group:'str', count:o.vl2, perDesk:2}, -20, cx, r0);
   sunRayPlace({label:'Va', full:'Bratsche', group:'str', count:o.va, perDesk:2}, 20, cx, r0);
   const vcLast = sunRayPlace({label:'Vc', full:'Violoncello', group:'str', count:o.vc, perDesk:2}, 80, cx, r0);
-  /* Kontrabässe als gerader "Turm" direkt hinter dem letzten (äußersten) Cello-Pult. Reicht der gerade
-     Turm bei sehr vielen Bässen bis zu nah an die Bläser-Podeste heran, wird nötigenfalls zweispaltig
-     gestellt, damit die Bässe nicht in die Bläser-Reihe hineinragen. */
-  const P1pre = PODESTS[0] || {y:9e9};
-  let kbCols = 1;
-  if(vcLast.y + 1 + o.kb > P1pre.y - 0.5) kbCols = 2;
-  band('Kb','Kontrabass','str', o.kb, 1, vcLast.y+1, vcLast.x, kbCols);
+  /* Kontrabässe: gerade Reihe RECHTS neben/hinter dem letzten (äußersten) Cello-Pult (nicht als Turm
+     geradeaus nach hinten – das ließ die Bässe optisch über den Bratschen schweben statt an die Celli
+     anzuschließen). Leicht (0,5 m) tiefer als das letzte Cello-Pult, dann Reihe nach rechts. */
+  let kbX = vcLast.x + 1, kbY = vcLast.y + 0.5;
+  for(let i=0;i<o.kb;i++){
+    BOXES.push({id:nextId(),label:'Kb',full:'Kontrabass',group:'str',x:kbX,y:kbY,players:1});
+    kbX += 1;
+  }
 
   /* Dirigent + Flügel/Harfe vorn */
   single('Dir.','Dirigent:in','dir', cx, 0.2);
@@ -530,6 +531,10 @@ function autoLayout(){
   const maxY = allowHB ? HB_BACK_Y-0.5 : PORTAL_Y-0.3;
   BOXES.forEach(b=>{
     let py = Math.min(CONDUCTOR_Y + b.y, maxY);
+    /* Bläser/Blech/Schlagwerk sind bereits exakt innerhalb ihres Podests und auf dem 0,5‑m‑Raster
+       platziert (podestRowCentered) – der allgemeine Bühnenband-Clamp unten ist für sie nicht nötig und
+       hat vorher gelegentlich einzelne Randboxen leicht vom Raster geschoben. Daher hier überspringen. */
+    if(b.group==='ww' || b.group==='br' || b.group==='pc'){ b.y = py; return; }
     const bounds = bandAt(py);
     const px = Math.max(bounds.xMin+0.6, Math.min(bounds.xMax-0.6, cx + b.x));
     b.x = px; b.y = py;
