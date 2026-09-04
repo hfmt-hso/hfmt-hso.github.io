@@ -102,6 +102,7 @@ body.readonly .readonly-badge{display:flex;flex-direction:column;align-items:cen
       <button class="btn warn no-print" id="btn-speichern" onclick="speichereAufbauplan()">💾 Plan speichern</button>
       <button class="btn secondary no-print" onclick="kopiereLink()">🔗 Link kopieren</button>
       <button class="btn secondary no-print" id="btn-sync" onclick="synchronisiereJetzt()">🔄 Sync jetzt auslösen</button>
+      <button class="btn secondary no-print" id="btn-zuruecksetzen" onclick="setzeAufbauplanZurueck()">🗑 Gespeicherten Plan zurücksetzen</button>
     </div>
   </div>
   <div class="readonly-badge">
@@ -1062,6 +1063,46 @@ function speichereAufbauplan(){
   })
   .catch(err=>{ statusEl.textContent='Fehler beim Speichern: '+err.message; })
   .finally(()=>{ btn.disabled=false; btn.textContent='💾 Plan speichern'; });
+}
+
+/* Setzt einen zuvor per "💾 Plan speichern" gesetzten Link wieder zurück (leerer Wert im Übersetzer-
+   Sheet) – "↻ Neu anordnen" allein tut das NICHT, das ändert nur die lokale Ansicht im Werkzeug.
+   Erst dieser Button entfernt den im Bedarf-Tab/Portal angezeigten "↗ Aufbauplan"-Link wieder. */
+function setzeAufbauplanZurueck(){
+  if(!CURRENT){ return; }
+  if(!CURRENT.ev.aufbauplan){
+    alert('Für diesen Termin ist aktuell kein Plan gespeichert – nichts zurückzusetzen.');
+    return;
+  }
+  if(!confirm('Gespeicherten Aufbauplan für diesen Termin wirklich zurücksetzen? Der Link verschwindet dann aus dem Bedarf-Tab und dem Portal, bis erneut "💾 Plan speichern" gedrückt wird.')) return;
+  const btn=document.getElementById('btn-zuruecksetzen');
+  const statusEl=document.getElementById('status');
+  btn.disabled=true; btn.textContent='🗑 Setzt zurück…';
+  statusEl.textContent='Gespeicherter Plan wird zurückgesetzt…';
+  fetch(WEBAPP_URL, {
+    method:'POST',
+    body: JSON.stringify({action:'aufbauplanSpeichern', eventId: CURRENT.ev.eventId, aufbauplan: ''})
+  })
+  .then(r=>r.json())
+  .then(res=>{
+    if(res && res.ok){
+      CURRENT.ev.aufbauplan = '';
+      statusEl.textContent='✓ Zurückgesetzt – synchronisiert jetzt mit dem Bedarf-Sheet…';
+      /* Sofort mitsynchronisieren, damit der Link nicht erst bis zu einer Stunde später aus dem
+         Bedarf-Tab/Portal verschwindet (gleicher Endpoint wie "🔄 Sync jetzt auslösen"). */
+      return fetch(BEDARF_SYNC_URL).then(r2=>r2.json()).then(res2=>{
+        if(res2 && res2.ok){
+          statusEl.textContent='✓ Zurückgesetzt und synchronisiert – im Bedarf/Portal erscheint jetzt kein Aufbauplan-Link mehr für diesen Termin, bis erneut gespeichert wird.';
+        } else {
+          statusEl.textContent='✓ Zurückgesetzt, aber Sync fehlgeschlagen ('+(res2&&res2.error?res2.error:'unbekannt')+') – bitte zusätzlich „🔄 Sync jetzt auslösen" drücken.';
+        }
+      });
+    } else {
+      statusEl.textContent='Fehler beim Zurücksetzen: '+(res&&res.error?res.error:'unbekannt');
+    }
+  })
+  .catch(err=>{ statusEl.textContent='Fehler beim Zurücksetzen: '+err.message; })
+  .finally(()=>{ btn.disabled=false; btn.textContent='🗑 Gespeicherten Plan zurücksetzen'; });
 }
 
 function synchronisiereJetzt(){
