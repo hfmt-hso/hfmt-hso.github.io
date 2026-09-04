@@ -70,6 +70,21 @@ svg{display:block;margin:0 auto;touch-action:none}
   body{background:#fff}
   .stage-wrap{padding:0}
 }
+/* Nur-Ansicht-Modus (?ansicht=readonly): schlanke, nicht editierbare Ansicht für Technik-Kolleg:innen,
+   v.a. auf dem Handy – blendet alle Bedien-/Editierelemente aus, nur der Plan (und optional der
+   Drucken/PDF-Button) bleiben sichtbar. Interaktionen (Drag/Lasso/Auswahl) werden zusätzlich per
+   JS deaktiviert (siehe READONLY-Konstante). */
+body.readonly .no-print{display:none!important}
+body.readonly .controls,
+body.readonly .hint-card,
+body.readonly .stat-strip,
+body.readonly .legend,
+body.readonly .status-line{display:none!important}
+body.readonly .box,body.readonly .podest{cursor:default!important}
+body.readonly svg{touch-action:auto;max-width:100%;height:auto}
+body.readonly .stage-wrap{padding:4px;overflow:visible}
+.readonly-badge{display:none;font-size:11px;color:var(--text-muted);text-align:center;padding:8px 16px 0}
+body.readonly .readonly-badge{display:block}
 </style>
 </head>
 <body>
@@ -80,14 +95,15 @@ svg{display:block;margin:0 auto;touch-action:none}
       <img class="header-logo" src="https://hfmt-hso.github.io/icon-192.png" alt="HfMT">
       <div class="header-text"><h1>Aufbauplan – Forum</h1><p>Automatischer Bühnenaufbau aus der Orchesterbesetzung</p></div>
     </div>
-    <div class="no-print" style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn secondary" onclick="autoLayout()">↻ Neu anordnen</button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn secondary no-print" onclick="autoLayout()">↻ Neu anordnen</button>
       <button class="btn" onclick="window.print()">🖨️ Drucken / PDF</button>
-      <button class="btn warn" id="btn-speichern" onclick="speichereAufbauplan()">💾 Plan speichern</button>
-      <button class="btn secondary" onclick="kopiereLink()">🔗 Link kopieren</button>
-      <button class="btn secondary" id="btn-sync" onclick="synchronisiereJetzt()">🔄 Sync jetzt auslösen</button>
+      <button class="btn warn no-print" id="btn-speichern" onclick="speichereAufbauplan()">💾 Plan speichern</button>
+      <button class="btn secondary no-print" onclick="kopiereLink()">🔗 Link kopieren</button>
+      <button class="btn secondary no-print" id="btn-sync" onclick="synchronisiereJetzt()">🔄 Sync jetzt auslösen</button>
     </div>
   </div>
+  <div class="readonly-badge">Nur-Ansicht – zum Bearbeiten das interne Werkzeug verwenden</div>
 </div>
 
 <div class="controls no-print">
@@ -133,6 +149,14 @@ const UE_SHEET_NAME = 'Übersetzer';
 const UE_CSV_URL = 'https://docs.google.com/spreadsheets/d/' + UE_SHEET_ID + '/gviz/tq?tqx=out:csv&sheet=' + encodeURIComponent(UE_SHEET_NAME);
 const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 const BEDARF_SYNC_URL = 'https://script.google.com/macros/s/AKfycbyp5rY8nzqkWEh0K7rFEnY_J1FNbZEYGzxS3SAJTloE-9YydEPLhzib5UAOfLCE8l9_/exec?action=syncJetzt';
+
+/* Nur-Ansicht-Modus: über ?ansicht=readonly in der URL aktiviert. Wird automatisch beim "💾 Plan
+   speichern" an den im Übersetzer-Sheet abgelegten (und damit im Portal/Bedarf verlinkten) Plan-Link
+   angehängt (siehe speichereAufbauplan()) – Kolleg:innen, die über den Portal-Link kommen, sehen so
+   nur den fertigen Plan ohne Bedienelemente und können nichts verschieben/löschen. Der explizite
+   "🔗 Link kopieren"-Button bleibt bewusst ein voll editierbarer Link fürs Team. */
+const READONLY = new URLSearchParams(location.search).get('ansicht')==='readonly';
+if(READONLY) document.body.classList.add('readonly');
 
 let EVENTS = []; // {eventId, titel, datum, data}
 let CURRENT = null; // ausgewaehltes event
@@ -735,6 +759,7 @@ function makeDraggable(node,b){
     return {x:(clientX-r.left)*scaleX, y:(clientY-r.top)*scaleY};
   }
   function down(e){
+    if(READONLY) return; /* Nur-Ansicht: keine Auswahl, kein Verschieben */
     e.preventDefault();
     e.stopPropagation(); /* verhindert, dass der Lasso-Handler auf der Bühne gleichzeitig anspringt */
     const p = e.touches? e.touches[0] : e;
@@ -795,6 +820,7 @@ function initLassoSelection(){
     return {x:(clientX-r.left)*scaleX, y:(clientY-r.top)*scaleY};
   }
   function down(e){
+    if(READONLY) return; /* Nur-Ansicht: kein Lasso */
     if(e.target.closest('.box') || e.target.closest('.podest')) return; /* dafür sind die eigenen Handler zuständig */
     const keepExisting = e.ctrlKey || e.metaKey || e.shiftKey;
     if(!keepExisting) clearSelection();
@@ -919,6 +945,7 @@ function makePodestDraggable(node,p){
     node.setAttribute('transform', `translate(${SX(xL)},${SY(yBot)})`);
   }
   function down(e){
+    if(READONLY) return; /* Nur-Ansicht: Podeste nicht verschiebbar */
     e.preventDefault(); e.stopPropagation();
     dragging=true; node.style.cursor='grabbing';
     const pt = e.touches? e.touches[0] : e;
@@ -1009,7 +1036,11 @@ function speichereAufbauplan(){
   if(!CURRENT){ return; }
   const btn=document.getElementById('btn-speichern');
   const statusEl=document.getElementById('status');
-  const url = baueplanLink();
+  /* "&ansicht=readonly" wird angehängt, weil dieser Link derjenige ist, der über den Bedarf-Sync im
+     Portal landet – Technik-Kolleg:innen sollen darüber die schlanke Nur-Ansicht sehen, nicht das volle
+     Editier-Werkzeug (siehe READONLY oben). parseStateFromUrl() liest nur den "plan"-Parameter, das
+     zusätzliche "ansicht"-Feld stört das interne Wiederherstellen des Zustands beim Terminwechsel nicht. */
+  const url = baueplanLink() + '&ansicht=readonly';
   btn.disabled=true; btn.textContent='💾 Speichert…';
   statusEl.textContent='Plan wird gespeichert…';
   fetch(WEBAPP_URL, {
