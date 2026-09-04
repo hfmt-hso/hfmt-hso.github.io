@@ -101,6 +101,17 @@ svg{display:block;margin:0 auto;touch-action:none}
 
 <div class="hint-card">Vorschlag wird automatisch aus der Besetzung des gewählten Termins erzeugt (größte Instrumentierung aller Werke des Konzerts). Das Orchester steht standardmäßig auf der Vorbühne (wie im echten Betrieb) – reicht der Platz nicht, wird automatisch in die Hauptbühne hinein weitergebaut. Kästchen = 1 m² inkl. Notenständer, per Fingerzug/Maus frei verschiebbar (ohne Rasterung, exakt an der losgelassenen Position). Mehrfachauswahl: Cmd/Strg-Klick fügt einzelne Kästchen hinzu/entfernt sie, oder ein Rahmen auf freier Fläche aufziehen (Lasso) – markierte Kästchen lassen sich dann gemeinsam verschieben. Die drei Podest-Reihen (gestrichelt, violett) lassen sich ebenfalls verschieben; Höhe, Breite und Tiefe pro Reihe unten links einstellen. Wände, Portal und Bühnenzonen sind auf Basis einer realen Vermessung des Forums (HfMT Hamburg) maßstabsgetreu eingezeichnet.</div>
 
+<div class="controls no-print">
+  <button class="btn secondary" onclick="loescheAuswahl()">🗑 Auswahl löschen</button>
+  <label>Instrument hinzufügen
+    <select id="add-instrument"></select>
+  </label>
+  <label style="max-width:70px">Spieler
+    <input type="number" id="add-players" value="1" min="1" max="8">
+  </label>
+  <button class="btn secondary" onclick="fuegeBoxHinzu()">+ Hinzufügen</button>
+</div>
+
 <div id="stat-strip" class="stat-strip"></div>
 <div class="legend">
   <span><i style="background:var(--str-fill);border:1px solid var(--str-border)"></i>Streicher</span>
@@ -129,6 +140,16 @@ let BOXES = [];   // aktuelle Aufbau-Objekte {id,label,full,x,y,group,players}
 let PODESTS = []; // Podest-Reihen {id,height,depth,y,xCenter,width} – bleiben über autoLayout()/Terminwechsel hinweg erhalten
 let SELECTED = new Set();  // IDs der aktuell markierten Kästchen (Mehrfachauswahl per Cmd/Strg-Klick oder Lasso)
 let BOX_NODES = {};        // id -> {grp, rect, borderColor} der zuletzt gerenderten Kästchen, für Auswahl-Highlighting ohne kompletten Re-Render
+let __idSeq = 0;           // globaler ID-Zähler für Boxen – gemeinsam genutzt von autoLayout(), applyState() und manuellem Hinzufügen, damit IDs nie kollidieren
+function nextId(){ return 'x'+(__idSeq++); }
+/* Vollständige Bezeichnungen zu den Kurz-Labels, u.a. für ältere gespeicherte Plan-Links ohne "f"-Feld
+   (siehe baueplanLink()/applyState()) und für die Instrumenten-Auswahl beim manuellen Hinzufügen. */
+const FULL_NAMES = {
+  'Vl.I':'1. Violine','Vl.II':'2. Violine','Va':'Bratsche','Vc':'Violoncello','Kb':'Kontrabass',
+  'Dir.':'Dirigent:in','Hrf':'Harfe','Kl./Fl.':'Klavier / Flügel','Cel.':'Celesta','Org.':'Orgel','Cem.':'Cembalo',
+  'Hr.':'Horn','Fl.':'Flöte','Ob.':'Oboe','Kl.':'Klarinette','Fg.':'Fagott','Tr.':'Trompete','Pos.':'Posaune',
+  'Pk.':'Pauken','Tb.':'Tuba','Schl.':'Schlagwerk'
+};
 const PODEST_DEFAULTS = [
   {height:20, depth:1.0},
   {height:40, depth:1.0},
@@ -286,12 +307,20 @@ function ladeEvents(){
         const d=parseDatum(e.datum);
         return `<option value="${i}">${esc(e.datum||'')} – ${esc(e.titel)}</option>`;
       }).join('');
-      /* Ersten zukünftigen Termin vorauswählen */
+      /* Ersten zukünftigen Termin vorauswählen – außer die Seite wurde über einen per "🔗 Link kopieren"
+         geteilten Plan-Link geöffnet (?plan=…): dann den darin referenzierten Termin vorauswählen und
+         direkt dessen gespeicherten Zustand laden, statt den nächsten Termin frisch anzuordnen. */
       let startIdx=EVENTS.findIndex(e=>{const d=parseDatum(e.datum); return !d||d>=heute;});
       if(startIdx<0) startIdx=0;
+      const linkState = parseStateFromUrl(location.href);
+      let vorabState = null;
+      if(linkState){
+        const linkIdx = EVENTS.findIndex(e=>e.eventId===linkState.ev);
+        if(linkIdx>=0){ startIdx=linkIdx; vorabState=linkState; }
+      }
       sel.value=startIdx;
       document.getElementById('status').textContent='Zuletzt geladen: '+new Date().toLocaleString('de-DE');
-      ladeAusgewaehltesEvent();
+      ladeAusgewaehltesEvent(vorabState);
     })
     .catch(err=>{
       document.getElementById('status').innerHTML='';
@@ -304,7 +333,9 @@ function parseDatum(s){
   return new Date(+m[3], +m[2]-1, +m[1]);
 }
 
-function ladeAusgewaehltesEvent(){
+/* vorabState: optional bereits bekannter Zustand (aus einem geöffneten Plan-Link, siehe ladeEvents()) –
+   wird dann direkt übernommen, statt den ansonsten für diesen Termin gespeicherten Plan erneut zu laden. */
+function ladeAusgewaehltesEvent(vorabState){
   const idx=+document.getElementById('event-select').value;
   const ev=EVENTS[idx]; if(!ev) return;
   let total=leereBesetzung();
@@ -314,7 +345,13 @@ function ladeAusgewaehltesEvent(){
   const bl = total.fl+total.ob+total.cl+total.fg+total.hr+total.tp+total.tb+total.tu+total.pk+total.percNamen.length+total.percExtra;
   const str = total.vl1+total.vl2+total.va+total.vc+total.kb;
   stat.innerHTML = `<span><b>${esc(formatBesetzung(total))}</b></span><span>${str} Streicher</span><span>${bl} Bläser/Schlagwerk</span>`;
-  autoLayout();
+  /* Wichtig (Session 10 – vorher toter Code): Ist für diesen Termin bereits ein Aufbauplan gespeichert
+     (ev.aufbauplan, per "💾 Plan speichern" gesetzt), wird genau dieser gespeicherte Zustand geladen
+     (inkl. aller manuellen Verschiebungen sowie manuell hinzugefügter/gelöschter Kästchen) – NICHT mehr
+     automatisch neu angeordnet. Nur ein expliziter Klick auf "↻ Neu anordnen" (ruft autoLayout() direkt
+     auf) verwirft den gespeicherten Stand und baut wieder frisch aus der Besetzung auf. */
+  const state = vorabState || parseStateFromUrl(ev.aufbauplan);
+  if(state){ applyState(state); } else { autoLayout(); }
   zeigeSpeicherStatus();
 }
 
@@ -356,9 +393,9 @@ function updatePodest(i, field, value){
 function zeigeSpeicherStatus(){
   const el=document.getElementById('status');
   if(CURRENT && CURRENT.ev.aufbauplan){
-    el.textContent='Für diesen Termin ist bereits ein Aufbauplan gespeichert. „💾 Plan speichern" überschreibt ihn mit dem aktuellen Stand.';
+    el.textContent='Gespeicherter Aufbauplan für diesen Termin geladen. „💾 Plan speichern" überschreibt ihn mit dem aktuellen Stand.';
   } else {
-    el.textContent='Für diesen Termin ist noch kein Aufbauplan gespeichert.';
+    el.textContent='Für diesen Termin ist noch kein Aufbauplan gespeichert – aktuell wird der automatische Vorschlag angezeigt.';
   }
 }
 
@@ -370,8 +407,8 @@ function autoLayout(){
   const o=CURRENT.total;
   BOXES=[];
   SELECTED.clear(); /* Neuanordnung vergibt neue IDs – eine alte Auswahl würde ins Leere zeigen */
-  let idc=0;
-  const nextId=()=>'b'+(idc++);
+  /* nextId() ist die gemeinsame globale ID-Vergabe (siehe oben) – so kollidieren automatisch erzeugte
+     Boxen nie mit manuell hinzugefügten oder aus einem gespeicherten Plan wiederhergestellten. */
 
   /* Alle Positionen werden zunächst relativ zur Dirigent:in gerechnet: d = Abstand von der
      Dirigent:in-Position (0 = an der Pultkante, wachsend = weiter weg, Richtung Portal/Hauptbühne).
@@ -803,6 +840,70 @@ function initLassoSelection(){
   svg.addEventListener('pointerdown',down);
 }
 
+/* ───────────────────────── Manuelles Löschen/Hinzufügen einzelner Kästchen ─────────────────────────
+   Für Fälle, die der Übersetzer nicht sauber abbilden kann: z.B. zu viele/zu wenige Schlagwerk-Spieler,
+   oder ein Streicher-Doppelpult, das sich in ein Einzelpult mit einer Person auflöst (Doppelpult löschen,
+   Einzelpult mit 1 Spieler neu hinzufügen). */
+function loescheAuswahl(){
+  if(SELECTED.size===0){ alert('Bitte zuerst ein oder mehrere Kästchen auswählen (Cmd/Strg-Klick oder Rahmen aufziehen).'); return; }
+  const anzahl = SELECTED.size;
+  if(!confirm(anzahl===1 ? 'Dieses Kästchen wirklich löschen?' : anzahl+' Kästchen wirklich löschen?')) return;
+  BOXES = BOXES.filter(b=>!SELECTED.has(b.id));
+  SELECTED.clear();
+  renderStage();
+}
+
+/* Auswahl an manuell hinzufügbaren Instrumenten – Dirigent:in bewusst ausgenommen (davon gibt es nur
+   eine). Bei Schlagwerk wird zusätzlich nach einem individuellen Namen gefragt (z.B. "Kleine Trommel"),
+   weil "Schl." allein im Kästchen nicht unterscheidbar wäre. */
+const ADD_OPTIONS = [
+  {label:'Vl.I', group:'str', full:'1. Violine'},
+  {label:'Vl.II', group:'str', full:'2. Violine'},
+  {label:'Va', group:'str', full:'Bratsche'},
+  {label:'Vc', group:'str', full:'Violoncello'},
+  {label:'Kb', group:'str', full:'Kontrabass'},
+  {label:'Fl.', group:'ww', full:'Flöte'},
+  {label:'Ob.', group:'ww', full:'Oboe'},
+  {label:'Kl.', group:'ww', full:'Klarinette'},
+  {label:'Fg.', group:'ww', full:'Fagott'},
+  {label:'Hr.', group:'br', full:'Horn'},
+  {label:'Tr.', group:'br', full:'Trompete'},
+  {label:'Pos.', group:'br', full:'Posaune'},
+  {label:'Tb.', group:'br', full:'Tuba'},
+  {label:'Pk.', group:'pc', full:'Pauken'},
+  {label:'Schl.', group:'pc', full:'Schlagwerk', promptName:true},
+  {label:'Hrf', group:'ky', full:'Harfe'},
+  {label:'Kl./Fl.', group:'ky', full:'Klavier / Flügel'},
+  {label:'Cel.', group:'ky', full:'Celesta'},
+  {label:'Org.', group:'ky', full:'Orgel'},
+  {label:'Cem.', group:'ky', full:'Cembalo'}
+];
+function renderAddSelect(){
+  const sel = document.getElementById('add-instrument');
+  if(!sel) return;
+  sel.innerHTML = ADD_OPTIONS.map((o,i)=>`<option value="${i}">${esc(o.label)} – ${esc(o.full)}</option>`).join('');
+}
+function fuegeBoxHinzu(){
+  if(!CURRENT){ alert('Bitte zuerst einen Termin auswählen.'); return; }
+  const idx = +document.getElementById('add-instrument').value;
+  const opt = ADD_OPTIONS[idx]; if(!opt) return;
+  const players = Math.max(1, Math.min(8, parseInt(document.getElementById('add-players').value,10)||1));
+  let full = opt.full;
+  if(opt.promptName){
+    const name = prompt('Name für dieses Schlagwerk-Instrument (z.B. "Kleine Trommel"):', full);
+    if(name===null) return; /* abgebrochen */
+    full = name.trim() || full;
+  }
+  /* Neues Kästchen erscheint zunächst an einer freien Stelle nahe der Dirigent:in-Position (nicht auf
+     dem Podest, damit es nicht versehentlich mit vorhandenen Boxen überlappt) und wird direkt markiert,
+     damit es sofort per Fingerzug/Maus an die richtige Stelle gezogen werden kann. */
+  const b = {id:nextId(), label:opt.label, full, group:opt.group, x:0, y:CONDUCTOR_Y+0.4, players};
+  BOXES.push(b);
+  renderStage();
+  selectOnly(b.id);
+  document.getElementById('stage').scrollIntoView({block:'center'});
+}
+
 function makePodestDraggable(node,p){
   let sx=0,sy=0,startX=0,startY=0,dragging=false;
   function toLocal(clientX,clientY){
@@ -850,18 +951,56 @@ function makePodestDraggable(node,p){
 function baueplanLink(){
   const state = {
     ev: CURRENT.ev.eventId,
-    boxes: BOXES.map(b=>({l:b.label,g:b.group,x:Math.round(b.x*10)/10,y:Math.round(b.y*10)/10,p:b.players})),
+    /* "f" (voller Instrumentenname) wird mitgespeichert, damit z.B. individuell benannte Schlagwerk-
+       Instrumente beim Wiederherstellen (applyState()) nicht auf den generischen Namen zurückfallen. */
+    boxes: BOXES.map(b=>({l:b.label,g:b.group,x:Math.round(b.x*10)/10,y:Math.round(b.y*10)/10,p:b.players,f:b.full})),
     podests: PODESTS.map(p=>({id:p.id,h:p.height,d:Math.round(p.depth*10)/10,y:Math.round(p.y*10)/10,x:Math.round(p.xCenter*10)/10,w:Math.round(p.width*10)/10,v:p.visible!==false}))
   };
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
   return location.origin + location.pathname + '?plan=' + encoded;
 }
 
+/* Liest einen Plan-Zustand aus einer Plan-URL (absolut, wie in ev.aufbauplan gespeichert, oder relativ/
+   die aktuelle Seiten-URL selbst) – zentrale Gegenstelle zu baueplanLink(). Gibt null zurück, wenn keine
+   gültige "plan"-Query vorhanden oder das Dekodieren fehlschlägt (z.B. beschädigter/älterer Link). */
+function parseStateFromUrl(input){
+  if(!input) return null;
+  try{
+    const u = new URL(input, location.href);
+    const encoded = u.searchParams.get('plan');
+    if(!encoded) return null;
+    return JSON.parse(decodeURIComponent(escape(atob(encoded))));
+  }catch(e){ return null; }
+}
+
+/* Wendet einen zuvor mit baueplanLink()/parseStateFromUrl() gewonnenen Zustand auf BOXES/PODESTS an –
+   Gegenstück zu autoLayout(), nur dass hier nichts neu berechnet, sondern der gespeicherte Stand 1:1
+   wiederhergestellt wird (inkl. manuell verschobener Positionen und manuell hinzugefügter/gelöschter
+   Kästchen). Neue interne IDs werden über die gemeinsame nextId()-Vergabe erzeugt (die im Link
+   gespeicherten Kurz-Werte enthalten keine IDs, siehe baueplanLink()). */
+function applyState(state){
+  initPodestsIfNeeded();
+  if(Array.isArray(state.podests) && state.podests.length){
+    PODESTS = state.podests.map(p=>({id:p.id, height:p.h, depth:p.d, y:p.y, xCenter:p.x, width:p.w, visible:p.v!==false}));
+  }
+  BOXES = (state.boxes||[]).map(b=>({
+    id: nextId(),
+    label: b.l,
+    full: b.f || FULL_NAMES[b.l] || b.l,
+    group: b.g,
+    x: b.x, y: b.y,
+    players: b.p||1
+  }));
+  SELECTED.clear();
+  renderPodestPanel();
+  renderStage();
+}
+
 function kopiereLink(){
   if(!CURRENT){ return; }
   const url = baueplanLink();
   navigator.clipboard.writeText(url).then(()=>{
-    alert('Plan-Link kopiert (enthält Boxen- und Podest-Positionen). Zum dauerhaften Speichern für diesen Termin bitte „💾 Plan speichern" verwenden – oder den Link teilen, damit dieser Aufbau als neuer Standard übernommen werden kann.');
+    alert('Plan-Link kopiert (enthält den kompletten aktuellen Stand). Öffnet man diesen Link, wird genau dieser Aufbau angezeigt – z.B. zum Teilen mit Kolleg:innen, ohne vorher „💾 Plan speichern" zu drücken. Für den dauerhaften Standard dieses Termins (der auch im Portal erscheint) bitte zusätzlich „💾 Plan speichern" verwenden.');
   }).catch(()=>{ prompt('Link kopieren:', url); });
 }
 
@@ -921,6 +1060,7 @@ function ladePlanAusLink(){
 
 ladeEvents();
 initLassoSelection();
+renderAddSelect();
 </script>
 </body>
 </html>
