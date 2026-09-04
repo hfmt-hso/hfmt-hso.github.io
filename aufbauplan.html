@@ -363,16 +363,21 @@ function renderStage(){
   function el(tag,attrs){ const e=document.createElementNS(ns,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); return e; }
   const ox = pad*M, oy = pad*M;
 
-  /* Hauptbühne Rechteck */
+  /* Portal (feste Bühnenöffnung, unabhängig von der Breite der Hauptbühne dahinter) */
+  const PORTAL_W = 11;
+  const portalW = Math.min(PORTAL_W, W);
+  const portalInset = (W-portalW)/2;
+
+  /* Hauptbühne Rechteck (Bühnenhaus hinter dem Portal, kann breiter sein als die Öffnung) */
   svg.appendChild(el('rect',{x:ox,y:oy,width:W*M,height:HD*M,fill:'var(--stage-fill)',stroke:'var(--grid-line)','stroke-width':2}));
-  /* Vorbühne (Trapez) */
+  /* Vorbühne (Trapez) – beginnt an der Portalbreite und öffnet sich Richtung Saal/Publikum */
   if(withVorbuehne){
-    const inset = Math.min(2.5, W*0.15);
+    const vbInset = 0; /* Vorbühne öffnet sich standardmäßig bis zur vollen HB-Breite (an den echten Saal ggf. anpassen) */
     const pts = [
-      [ox, oy+HD*M],
-      [ox+W*M, oy+HD*M],
-      [ox+(W-inset)*M, oy+(HD+VD)*M],
-      [ox+inset*M, oy+(HD+VD)*M]
+      [ox+portalInset*M, oy+HD*M],
+      [ox+(portalInset+portalW)*M, oy+HD*M],
+      [ox+(W-vbInset)*M, oy+(HD+VD)*M],
+      [ox+vbInset*M, oy+(HD+VD)*M]
     ].map(p=>p.join(',')).join(' ');
     svg.appendChild(el('polygon',{points:pts, fill:'var(--stage-fill)', stroke:'var(--grid-line)','stroke-width':2}));
   }
@@ -383,17 +388,29 @@ function renderStage(){
   for(let gy=0; gy<=HD; gy++){
     svg.appendChild(el('line',{x1:ox,y1:oy+gy*M,x2:ox+W*M,y2:oy+gy*M,stroke:'var(--grid-line)','stroke-width':0.5}));
   }
-/* Maß-Beschriftung an den Seiten: jede volle Meterlinie in Breite (oben) und Tiefe (links) */
+  /* Wände: Rückwand + Seitenwände der Hauptbühne, Proszeniumswand mit Portalöffnung */
+  svg.appendChild(el('line',{x1:ox,y1:oy,x2:ox+W*M,y2:oy,stroke:'var(--gray)','stroke-width':3,'stroke-linecap':'round'}));
+  svg.appendChild(el('line',{x1:ox,y1:oy,x2:ox,y2:oy+HD*M,stroke:'var(--gray)','stroke-width':3,'stroke-linecap':'round'}));
+  svg.appendChild(el('line',{x1:ox+W*M,y1:oy,x2:ox+W*M,y2:oy+HD*M,stroke:'var(--gray)','stroke-width':3,'stroke-linecap':'round'}));
+  if(portalInset>0.05){
+    svg.appendChild(el('line',{x1:ox,y1:oy+HD*M,x2:ox+portalInset*M,y2:oy+HD*M,stroke:'var(--gray)','stroke-width':4,'stroke-linecap':'round'}));
+    svg.appendChild(el('line',{x1:ox+(portalInset+portalW)*M,y1:oy+HD*M,x2:ox+W*M,y2:oy+HD*M,stroke:'var(--gray)','stroke-width':4,'stroke-linecap':'round'}));
+  }
+  /* Portalöffnung hervorgehoben + beschriftet */
+  svg.appendChild(el('line',{x1:ox+portalInset*M,y1:oy+HD*M,x2:ox+(portalInset+portalW)*M,y2:oy+HD*M,stroke:'var(--amber)','stroke-width':3,'stroke-dasharray':'6,4'}));
+  const portalLabel=el('text',{x:ox+W*M/2,y:oy+HD*M-6,'text-anchor':'middle','font-size':9,'font-weight':600,fill:'var(--amber)'});
+  portalLabel.textContent='Portal '+portalW+' m'; svg.appendChild(portalLabel);
+/* Maß-Beschriftung an den Seiten: jede volle Meterlinie in Breite (oben) und Tiefe – in Blickrichtung ab der Dirigent:in/Portal-Kante gezählt (0 = Portal, wachsend Richtung Rückwand) */
     for(let gx=0; gx<=W; gx++){
         const t=el('text',{x:ox+gx*M,y:oy-6,'text-anchor':'middle','font-size':8.5,fill:'var(--text-muted)'});
         t.textContent=gx; svg.appendChild(t);
     }
     for(let gy=0; gy<=HD; gy++){
         const t=el('text',{x:ox-6,y:oy+gy*M+3,'text-anchor':'end','font-size':8.5,fill:'var(--text-muted)'});
-        t.textContent=gy; svg.appendChild(t);
+        t.textContent=(HD-gy); svg.appendChild(t);
     }
     const g=el('g',{});
-    const t2=el('text',{x:ox,y:oy-18,'font-size':9,fill:'var(--text-muted)'}); t2.textContent='Maße in m · Dirigent:in vorn (unten)'; g.appendChild(t2);
+    const t2=el('text',{x:ox,y:oy-18,'font-size':9,fill:'var(--text-muted)'}); t2.textContent='Maße in m · Tiefe ab Portal/Dirigent:in gezählt (Blickrichtung)'; g.appendChild(t2);
     svg.appendChild(g);
   /* Boxen */
   const colors={str:['var(--str-fill)','var(--str-border)'],ww:['var(--ww-fill)','var(--ww-border)'],br:['var(--br-fill)','var(--br-border)'],pc:['var(--pc-fill)','var(--pc-border)'],ky:['var(--ky-fill)','var(--ky-border)'],dir:['#ddd','#555']};
