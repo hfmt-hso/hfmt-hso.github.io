@@ -143,7 +143,7 @@ const WALL_POLY = [[-7.15,28.37],[7.12,28.39],[8.9,19.15],[6.45,19.11],[6.41,18.
   [-8.86,19.19],[-7.2,28.35]];
 const HB_ZONE = [[-7.2,28.34],[7.12,28.41],[8.89,19.16],[-8.89,19.18],[-7.23,28.33]];
 const VB_ZONE = [[-9.06,18.53],[8.93,18.61],[10.48,10.51],[3.83,9.22],[-3.85,9.24],[-10.58,10.58],[-9.09,18.51]];
-const PORTAL = [[-6.45,18.86],[6.43,18.88]];
+const PORTAL = [[-5.58,18.87],[5.61,18.88]];
 const PORTAL_Y = (PORTAL[0][1]+PORTAL[1][1])/2;
 const PORTAL_W = Math.abs(PORTAL[1][0]-PORTAL[0][0]);
 const VB_FRONT_Y = 9.22;   // publikumsseitige Kante der Vorbühne (frei bespielbar)
@@ -179,7 +179,7 @@ function initPodestsIfNeeded(){
   PODEST_DEFAULTS.forEach((row,i)=>{
     const midY = Math.min(CONDUCTOR_Y + y + row.depth/2, HB_BACK_Y-0.5);
     const bounds = bandAt(midY);
-    const width = Math.max(2, (bounds.xMax-bounds.xMin) - 1.2);
+    const width = Math.max(2, Math.min(10, (bounds.xMax-bounds.xMin) - 0.4));
     PODESTS.push({id:'pod'+i, height:row.height, depth:row.depth, y, xCenter:0, width});
     y += row.depth;
   });
@@ -382,16 +382,52 @@ function autoLayout(){
   function single(label, full, group, x, d){
     BOXES.push({id:nextId(),label,full,group,x,y:d,players:1});
   }
+  /* Eine durchgehende, an cx0 zentrierte Reihe aus mehreren Instrumentenblöcken (je 1 Pult/Person) –
+     für die Bläser-Reihen auf den Podesten, feste Nutzer-Vorgabe statt Algorithmus-Näherung. */
+  function podestRowPlace(items, cx0, dRel){
+    const total = items.reduce((s,it)=>s+it.count,0);
+    if(total<=0) return;
+    let x = cx0 - total/2;
+    items.forEach(it=>{
+      for(let i=0;i<it.count;i++){
+        BOXES.push({id:nextId(),label:it.label,full:it.full,group:it.group,x,y:dRel,players:1});
+        x += 1;
+      }
+    });
+  }
+  /* Eine durchgehende, an cx0 zentrierte Reihe aus mehreren Streicher-Stimmgruppen (je perDesk Personen/Pult) –
+     "möglichst in einer Reihe" statt in mehreren gestapelten Zeilen. */
+  function stringRowPlace(items, cx0, dRel){
+    const withDesks = items.map(it=>({...it, desks:Math.ceil(it.count/it.perDesk)}));
+    const totalDesks = withDesks.reduce((s,it)=>s+it.desks,0);
+    if(totalDesks<=0) return dRel;
+    let x = cx0 - totalDesks/2;
+    withDesks.forEach(it=>{
+      let remaining = it.count;
+      for(let i=0;i<it.desks;i++){
+        const playersHere = Math.min(it.perDesk, remaining);
+        BOXES.push({id:nextId(),label:it.label,full:it.full,group:it.group,x,y:dRel,players:playersHere});
+        remaining -= playersHere;
+        x += 1;
+      }
+    });
+    return dRel+1;
+  }
 
   const cx = 0;
 
-  /* Reihe 1-3: Streicher im Halbkreis (vereinfachte Blöcke), Dirigent vorn Mitte */
+  /* Streicher: je Stimmgruppe eine durchgehende Reihe (Vl.I, Vl.II, Va, Vc von links nach rechts,
+     aus Dirigent:in-Sicht), Dirigent:in vorn Mitte. Kontrabässe als kompakter Block hinter den Celli. */
   let d = 1.3;
-  const vl1Y = band('Vl.I','1. Violine','str', o.vl1, 2, d, cx-Math.max(3, o.vl1/4), 6);
-  const vl2Y = band('Vl.II','2. Violine','str', o.vl2, 2, d, cx-1, 6);
-  const vaY  = band('Va','Bratsche','str', o.va, 2, d, cx+2.5, 5);
-  const vcY  = band('Vc','Violoncello','str', o.vc, 2, d+0.3, cx+4.5, 4);
-  const kbY  = band('Kb','Kontrabass','str', o.kb, 1, Math.max(vcY,d)+0.3, cx+6, 3);
+  stringRowPlace([
+    {label:'Vl.I', full:'1. Violine', group:'str', count:o.vl1, perDesk:2},
+    {label:'Vl.II', full:'2. Violine', group:'str', count:o.vl2, perDesk:2},
+    {label:'Va', full:'Bratsche', group:'str', count:o.va, perDesk:2},
+    {label:'Vc', full:'Violoncello', group:'str', count:o.vc, perDesk:2}
+  ], cx, d);
+  const strDesks = Math.ceil(o.vl1/2)+Math.ceil(o.vl2/2)+Math.ceil(o.va/2)+Math.ceil(o.vc/2);
+  const kbX = cx + strDesks/2 - 1;
+  band('Kb','Kontrabass','str', o.kb, 1, d+0.5, kbX, 2);
 
   /* Dirigent + Flügel/Harfe vorn */
   single('Dir.','Dirigent:in','dir', cx, 0.2);
@@ -401,33 +437,40 @@ function autoLayout(){
   if(o.org>0) single('Org.','Orgel','ky', 8, 2.6);
   if(o.cem>0) single('Cem.','Cembalo','ky', -8.5, 2.6);
 
-  let backY = Math.max(vl1Y,vl2Y,vaY,vcY,kbY)+0.8;
+  /* Bläser & Schlagwerk: feste Positionierung auf den drei Podest-Reihen (vom Nutzer vorgegebenes Layout,
+     Reihe 1 = 20cm, Reihe 2 = 40cm, Reihe 3 = 60cm). Hörner links außen, Holzbläser mittig (Fl/Ob Reihe 1,
+     Kl/Fg Reihe 2, jeweils in denselben Spalten), Trompeten/Posaunen rechts außen, Tuba ganz außen rechts
+     auf Reihe 3, Pauke mittig auf Reihe 3, Schlagwerk daneben. */
+  const P1 = PODESTS[0] || {y:0, depth:1, xCenter:0, width:10};
+  const P2 = PODESTS[1] || {y:1, depth:1, xCenter:0, width:10};
+  const P3 = PODESTS[2] || {y:2, depth:2, xCenter:0, width:10};
 
-  /* Holzbläser: Fl/Ob dann Kl/Fg */
-  let rowY = backY;
-  const flY = band('Fl.','Flöte','ww', o.fl, 1, rowY, cx-3.5, o.fl);
-  const obY = band('Ob.','Oboe','ww', o.ob, 1, rowY, cx-1, o.ob);
-  rowY = Math.max(flY,obY);
-  const clY = band('Kl.','Klarinette','ww', o.cl, 1, rowY, cx+1, o.cl);
-  const fgY = band('Fg.','Fagott','ww', o.fg, 1, rowY, cx+3.5, o.fg);
-  rowY = Math.max(clY,fgY)+0.4;
+  const hr1 = o.hr<=2 ? o.hr : Math.ceil(o.hr/2);
+  const hr2 = o.hr - hr1;
 
-  /* Blechbläser: Hörner links, Trompeten/Posaunen/Tuba rechts dahinter */
-  const hrY = band('Hr.','Horn','br', o.hr, 1, rowY, cx-4, 4);
-  const tpY = band('Tr.','Trompete','br', o.tp, 1, rowY, cx, 4);
-  rowY = Math.max(hrY,tpY)+0.2;
-  const tbY = band('Pos.','Posaune','br', o.tb, 1, rowY, cx+2.5, 4);
-  const tuY = band('Tb.','Tuba','br', o.tu, 1, rowY, cx+5, 2);
-  rowY = Math.max(tbY,tuY)+0.4;
+  podestRowPlace([
+    {label:'Hr.', full:'Horn', group:'br', count:hr1},
+    {label:'Fl.', full:'Flöte', group:'ww', count:o.fl},
+    {label:'Ob.', full:'Oboe', group:'ww', count:o.ob},
+    {label:'Tr.', full:'Trompete', group:'br', count:o.tp}
+  ], P1.xCenter, P1.y + P1.depth/2);
 
-  /* Schlagwerk ganz hinten */
-  if(o.pk>0) single('Pk.','Pauken','pc', cx, rowY+0.3);
+  podestRowPlace([
+    {label:'Hr.', full:'Horn', group:'br', count:hr2},
+    {label:'Kl.', full:'Klarinette', group:'ww', count:o.cl},
+    {label:'Fg.', full:'Fagott', group:'ww', count:o.fg},
+    {label:'Pos.', full:'Posaune', group:'br', count:o.tb}
+  ], P2.xCenter, P2.y + P2.depth/2);
+
+  const d3 = P3.y + P3.depth/2;
+  if(o.pk>0) single('Pk.','Pauken','pc', P3.xCenter, d3);
+  if(o.tu>0) single('Tb.','Tuba','br', P3.xCenter + P3.width/2 - 0.6, d3);
   let pi=0;
   o.percNamen.forEach(n=>{
-    BOXES.push({id:nextId(),label:'Schl.',full:n,group:'pc',x:cx-3+(pi++)*1.4,y:rowY+1.3,players:1});
+    BOXES.push({id:nextId(),label:'Schl.',full:n,group:'pc',x:P3.xCenter+1.3+(pi++)*1.4,y:d3,players:1});
   });
   for(let i=0;i<o.percExtra;i++){
-    BOXES.push({id:nextId(),label:'Schl.',full:'Schlagwerk',group:'pc',x:cx-3+(pi++)*1.4,y:rowY+1.3,players:1});
+    BOXES.push({id:nextId(),label:'Schl.',full:'Schlagwerk',group:'pc',x:P3.xCenter+1.3+(pi++)*1.4,y:d3,players:1});
   }
 
   /* Auf reale Bühnengeometrie abbilden: Dirigent:in steht nahe der publikumsseitigen Vorbühnenkante,
@@ -625,7 +668,11 @@ function makePodestDraggable(node,p){
 
 /* ───────────────────────── Plan-Link (Zustand in URL, wird im Übersetzer-Sheet gespeichert) ───────────────────────── */
 function baueplanLink(){
-  const state = { ev: CURRENT.ev.eventId, boxes: BOXES.map(b=>({l:b.label,g:b.group,x:Math.round(b.x*10)/10,y:Math.round(b.y*10)/10,p:b.players})) };
+  const state = {
+    ev: CURRENT.ev.eventId,
+    boxes: BOXES.map(b=>({l:b.label,g:b.group,x:Math.round(b.x*10)/10,y:Math.round(b.y*10)/10,p:b.players})),
+    podests: PODESTS.map(p=>({id:p.id,h:p.height,d:Math.round(p.depth*10)/10,y:Math.round(p.y*10)/10,x:Math.round(p.xCenter*10)/10,w:Math.round(p.width*10)/10}))
+  };
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
   return location.origin + location.pathname + '?plan=' + encoded;
 }
@@ -634,7 +681,7 @@ function kopiereLink(){
   if(!CURRENT){ return; }
   const url = baueplanLink();
   navigator.clipboard.writeText(url).then(()=>{
-    alert('Plan-Link kopiert (nur zum manuellen Teilen). Zum dauerhaften Speichern bitte „💾 Plan speichern" verwenden.');
+    alert('Plan-Link kopiert (enthält Boxen- und Podest-Positionen). Zum dauerhaften Speichern für diesen Termin bitte „💾 Plan speichern" verwenden – oder den Link teilen, damit dieser Aufbau als neuer Standard übernommen werden kann.');
   }).catch(()=>{ prompt('Link kopieren:', url); });
 }
 
