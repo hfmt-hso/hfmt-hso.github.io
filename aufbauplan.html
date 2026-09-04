@@ -401,13 +401,23 @@ function autoLayout(){
   /* Wie podestRowPlace, aber in drei Blöcken (links / zentrum / rechts) mit sichtbarem Zwischenraum
      dazwischen – Hörner links außen, Holzbläser-Zentrum, Blech rechts außen, jeweils als eigener Block
      abgesetzt (Referenz: manuell eingerichtete Aufstellung des Nutzers). */
-  function podestRowPlace3(leftItems, centerItems, rightItems, cx0, dRel, gap){
+  function podestRowPlace3(leftItems, centerItems, rightItems, cx0, dRel, gap, maxWidth){
     const leftCount = leftItems.reduce((s,it)=>s+it.count,0);
     const centerCount = centerItems.reduce((s,it)=>s+it.count,0);
     const rightCount = rightItems.reduce((s,it)=>s+it.count,0);
+    const boxUnits = leftCount+centerCount+rightCount;
     const segCount = [leftCount,centerCount,rightCount].filter(c=>c>0).length;
-    const total = leftCount+centerCount+rightCount + gap*Math.max(0,segCount-1);
-    if(total<=0) return;
+    const gapUnits = Math.max(0,segCount-1);
+    if(boxUnits<=0) return;
+    /* Muss innerhalb der tatsächlichen Podestbreite bleiben (dort steht das 1‑m‑Raster) – Lücken
+       zwischen den Blöcken zuerst verkleinern, bei sehr großer Besetzung nötigenfalls ganz weglassen,
+       damit die Bläser nie außerhalb des Podests landen. */
+    let g = gap;
+    let total = boxUnits + g*gapUnits;
+    if(maxWidth && total>maxWidth && gapUnits>0){
+      g = Math.max(0, gap - (total-maxWidth)/gapUnits);
+      total = boxUnits + g*gapUnits;
+    }
     let x = cx0 - total/2;
     function placeBlock(items){
       items.forEach(it=>{
@@ -417,27 +427,32 @@ function autoLayout(){
         }
       });
     }
-    if(leftCount>0){ placeBlock(leftItems); if(centerCount>0||rightCount>0) x += gap; }
-    if(centerCount>0){ placeBlock(centerItems); if(rightCount>0) x += gap; }
+    if(leftCount>0){ placeBlock(leftItems); if(centerCount>0||rightCount>0) x += g; }
+    if(centerCount>0){ placeBlock(centerItems); if(rightCount>0) x += g; }
     if(rightCount>0){ placeBlock(rightItems); }
   }
-  /* Eine durchgehende, an cx0 zentrierte Reihe aus mehreren Streicher-Stimmgruppen (je perDesk Personen/Pult) –
-     "möglichst in einer Reihe" statt in mehreren gestapelten Zeilen. */
-  function stringRowPlace(items, cx0, dRel){
+  /* Streicher-Stimmgruppen als durchgehender Bogen von links nach rechts (Vl.I → Vl.II → Va → Vc), über
+     die Fläche verteilt statt in einer starren geraden Reihe: die Pulte in der Mitte (nahe Dirigent:in)
+     stehen am weitesten vorn, nach außen hin (links wie rechts) fächert die Reihe leicht nach hinten auf –
+     entspricht der vom Nutzer manuell eingerichteten, über die Fläche verteilten Referenzaufstellung. */
+  function stringRowPlace(items, cx0, dRel, curve){
     const withDesks = items.map(it=>({...it, desks:Math.ceil(it.count/it.perDesk)}));
     const totalDesks = withDesks.reduce((s,it)=>s+it.desks,0);
     if(totalDesks<=0) return dRel;
     let x = cx0 - totalDesks/2;
+    let maxY = dRel;
     withDesks.forEach(it=>{
       let remaining = it.count;
       for(let i=0;i<it.desks;i++){
         const playersHere = Math.min(it.perDesk, remaining);
-        BOXES.push({id:nextId(),label:it.label,full:it.full,group:it.group,x,y:dRel,players:playersHere});
+        const y = dRel + curve*x*x;
+        BOXES.push({id:nextId(),label:it.label,full:it.full,group:it.group,x,y,players:playersHere});
+        maxY = Math.max(maxY, y);
         remaining -= playersHere;
         x += 1;
       }
     });
-    return dRel+1;
+    return maxY;
   }
 
   const cx = 0;
@@ -445,15 +460,15 @@ function autoLayout(){
   /* Streicher: je Stimmgruppe eine durchgehende Reihe (Vl.I, Vl.II, Va, Vc von links nach rechts,
      aus Dirigent:in-Sicht), Dirigent:in vorn Mitte. Kontrabässe als kompakter Block hinter den Celli. */
   let d = 1.3;
-  stringRowPlace([
+  const strMaxY = stringRowPlace([
     {label:'Vl.I', full:'1. Violine', group:'str', count:o.vl1, perDesk:2},
     {label:'Vl.II', full:'2. Violine', group:'str', count:o.vl2, perDesk:2},
     {label:'Va', full:'Bratsche', group:'str', count:o.va, perDesk:2},
     {label:'Vc', full:'Violoncello', group:'str', count:o.vc, perDesk:2}
-  ], cx, d);
+  ], cx, d, 0.08);
   const strDesks = Math.ceil(o.vl1/2)+Math.ceil(o.vl2/2)+Math.ceil(o.va/2)+Math.ceil(o.vc/2);
   const kbX = cx + strDesks/2 - 1;
-  band('Kb','Kontrabass','str', o.kb, 1, d+0.5, kbX, 2);
+  band('Kb','Kontrabass','str', o.kb, 1, strMaxY+0.8, kbX, 2);
 
   /* Dirigent + Flügel/Harfe vorn */
   single('Dir.','Dirigent:in','dir', cx, 0.2);
@@ -478,14 +493,14 @@ function autoLayout(){
     [{label:'Hr.', full:'Horn', group:'br', count:hr1}],
     [{label:'Fl.', full:'Flöte', group:'ww', count:o.fl}, {label:'Ob.', full:'Oboe', group:'ww', count:o.ob}],
     [{label:'Tr.', full:'Trompete', group:'br', count:o.tp}],
-    P1.xCenter, P1.y + P1.depth/2, 1.2
+    P1.xCenter, P1.y + P1.depth/2, 1, P1.width - 1
   );
 
   podestRowPlace3(
     [{label:'Hr.', full:'Horn', group:'br', count:hr2}],
     [{label:'Kl.', full:'Klarinette', group:'ww', count:o.cl}, {label:'Fg.', full:'Fagott', group:'ww', count:o.fg}],
     [{label:'Pos.', full:'Posaune', group:'br', count:o.tb}],
-    P2.xCenter, P2.y + P2.depth/2, 1.2
+    P2.xCenter, P2.y + P2.depth/2, 1, P2.width - 1
   );
 
   const d3 = P3.y + P3.depth/2;
