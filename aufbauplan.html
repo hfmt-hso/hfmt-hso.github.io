@@ -692,6 +692,23 @@ function renderStage(){
     const lbl = el('text',{x:wPx/2,y:hPx/2+4,'text-anchor':'middle','font-size':11,'font-weight':700,fill:'var(--podest-border)'});
     lbl.textContent = p.height+' cm';
     grp.appendChild(lbl);
+
+    /* Kleine Maß-Angaben (Höhe/Breite/Tiefe) direkt neben dem Podest, damit man sie nicht erst im
+       Panel unten links nachschlagen muss. Rechts daneben, außer das Podest reicht bis nah an den
+       rechten Bühnenrand – dann links daneben, damit die Beschriftung nicht über die Bühne hinausragt. */
+    const dimText = ['H '+p.height+' cm','B '+p.width.toFixed(1)+' m','T '+p.depth.toFixed(1)+' m'];
+    const placeRight = SX(xR) + 34 < SX(SCENE_MAXX);
+    const dimX = placeRight ? wPx+5 : -5;
+    const dimAnchor = placeRight ? 'start' : 'end';
+    const dims = el('text',{x:dimX,y:hPx/2-9,'text-anchor':dimAnchor,'font-size':7.5,fill:'var(--podest-border)',opacity:0.8});
+    dimText.forEach((line,li)=>{
+      const ts = document.createElementNS(ns,'tspan');
+      ts.setAttribute('x',dimX); ts.setAttribute('dy', li===0?0:9);
+      ts.textContent = line;
+      dims.appendChild(ts);
+    });
+    grp.appendChild(dims);
+
     makePodestDraggable(grp,p);
     svg.appendChild(grp);
   });
