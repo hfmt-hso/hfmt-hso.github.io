@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-09-02T18:14:28.131Z",
+  "generiert": "2026-09-08T09:02:16.871Z",
   "events": [
     {
       "datum": "29.09.2026",
@@ -70,7 +70,7 @@
     {
       "datum": "03.10.2026",
       "uhrzeit": "13:00 Uhr",
-      "ort": "Ort?",
+      "ort": "Forum",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -177,7 +177,8 @@
       "notizen": [],
       "probenplan": [
         "*",
-        "Klavier: Uschik Choi, Miquel Bosch Roca, Doğa Çetin, Yuan Xin, Sukjong Kim (Schubert); Uschik Choi (Bartok)"
+        "Klavier: Uschik Choi, Miquel Bosch Roca, Doğa Çetin, Yuan Xin, Sukjong Kim (Schubert); Uschik Choi (Bartok)",
+        "*Garderobe der Symphoniker: Orchesterstudio"
       ],
       "abwesend": null,
       "eintritt": [
@@ -409,7 +410,7 @@
           "klasse": ""
         }
       ],
-      "aufbauplan": null,
+      "aufbauplan": "https://hfmt-hso.github.io/aufbauplan.html?plan=eyJldiI6IjQ1dHA3c29oZmwzYW5xNXFnaDlzMmNoazV1QGdvb2dsZS5jb20iLCJib3hlcyI6W3sibCI6IlZsLkkiLCJnIjoic3RyIiwieCI6LTEuMywieSI6OS44LCJwIjoyLCJmIjoiMS4gVmlvbGluZSJ9LHsibCI6IlZsLkkiLCJnIjoic3RyIiwieCI6LTIuNiwieSI6MTAuMywicCI6MiwiZiI6IjEuIFZpb2xpbmUifSx7ImwiOiJWbC5JIiwiZyI6InN0ciIsIngiOi0zLjksInkiOjEwLjgsInAiOjIsImYiOiIxLiBWaW9saW5lIn0seyJsIjoiVmwuSSIsImciOiJzdHIiLCJ4IjotNS4yLCJ5IjoxMS40LCJwIjoyLCJmIjoiMS4gVmlvbGluZSJ9LHsibCI6IlZsLkkiLCJnIjoic3RyIiwieCI6LTYuNSwieSI6MTIsInAiOjIsImYiOiIxLiBWaW9saW5lIn0seyJsIjoiVmwuSUkiLCJnIjoic3RyIiwieCI6LTAuNiwieSI6MTEuMSwicCI6MiwiZiI6IjIuIFZpb2xpbmUifSx7ImwiOiJWbC5JSSIsImciOiJzdHIiLCJ4IjotMS43LCJ5IjoxMS45LCJwIjoyLCJmIjoiMi4gVmlvbGluZSJ9LHsibCI6IlZsLklJIiwiZyI6InN0ciIsIngiOi0yLjksInkiOjEyLjcsInAiOjIsImYiOiIyLiBWaW9saW5lIn0seyJsIjoiVmwuSUkiLCJnIjoic3RyIiwieCI6LTQuMiwieSI6MTMuNSwicCI6MiwiZiI6IjIuIFZpb2xpbmUifSx7ImwiOiJWYSIsImciOiJzdHIiLCJ4IjowLjYsInkiOjExLjEsInAiOjIsImYiOiJCcmF0c2NoZSJ9LHsibCI6IlZhIiwiZyI6InN0ciIsIngiOjEuOCwieSI6MTEuOCwicCI6MiwiZiI6IkJyYXRzY2hlIn0seyJsIjoiVmEiLCJnIjoic3RyIiwieCI6MywieSI6MTIuNywicCI6MiwiZiI6IkJyYXRzY2hlIn0seyJsIjoiVmMiLCJnIjoic3RyIiwieCI6MS4zLCJ5Ijo5LjgsInAiOjIsImYiOiJWaW9sb25jZWxsbyJ9LHsibCI6IlZjIiwiZyI6InN0ciIsIngiOjIuNywieSI6MTAuMiwicCI6MiwiZiI6IlZpb2xvbmNlbGxvIn0seyJsIjoiVmMiLCJnIjoic3RyIiwieCI6NCwieSI6MTAuNSwicCI6MSwiZiI6IlZpb2xvbmNlbGxvIn0seyJsIjoiS2IiLCJnIjoic3RyIiwieCI6NS4zLCJ5IjoxMC42LCJwIjoxLCJmIjoiS29udHJhYmFzcyJ9LHsibCI6IktiIiwiZyI6InN0ciIsIngiOjYsInkiOjEyLjcsInAiOjEsImYiOiJLb250cmFiYXNzIn0seyJsIjoiS2IiLCJnIjoic3RyIiwieCI6NC43LCJ5IjoxMS44LCJwIjoxLCJmIjoiS29udHJhYmFzcyJ9LHsibCI6IktiIiwiZyI6InN0ciIsIngiOjYuNiwieSI6MTEuNSwicCI6MSwiZiI6IktvbnRyYWJhc3MifSx7ImwiOiJEaXIuIiwiZyI6ImRpciIsIngiOjAsInkiOjkuOCwicCI6MSwiZiI6IkRpcmlnZW50OmluIn0seyJsIjoiRmwuIiwiZyI6Ind3IiwieCI6LTAuNSwieSI6MTUuNiwicCI6MSwiZiI6IkZsw7Z0ZSJ9LHsibCI6IkZsLiIsImciOiJ3dyIsIngiOi0xLjUsInkiOjE1LjYsInAiOjEsImYiOiJGbMO2dGUifSx7ImwiOiJGbC4iLCJnIjoid3ciLCJ4IjotMi41LCJ5IjoxNS42LCJwIjoxLCJmIjoiRmzDtnRlIn0seyJsIjoiSHIuIiwiZyI6ImJyIiwieCI6LTQuNSwieSI6MTUuNiwicCI6MSwiZiI6Ikhvcm4ifSx7ImwiOiJIci4iLCJnIjoiYnIiLCJ4IjotNS41LCJ5IjoxNS42LCJwIjoxLCJmIjoiSG9ybiJ9LHsibCI6Ik9iLiIsImciOiJ3dyIsIngiOjAuNSwieSI6MTUuNiwicCI6MSwiZiI6Ik9ib2UifSx7ImwiOiJPYi4iLCJnIjoid3ciLCJ4IjoxLjUsInkiOjE1LjYsInAiOjEsImYiOiJPYm9lIn0seyJsIjoiT2IuIiwiZyI6Ind3IiwieCI6Mi41LCJ5IjoxNS42LCJwIjoxLCJmIjoiT2JvZSJ9LHsibCI6IlRyLiIsImciOiJiciIsIngiOjMuNSwieSI6MTUuNiwicCI6MSwiZiI6IlRyb21wZXRlIn0seyJsIjoiVHIuIiwiZyI6ImJyIiwieCI6NC41LCJ5IjoxNS42LCJwIjoxLCJmIjoiVHJvbXBldGUifSx7ImwiOiJUci4iLCJnIjoiYnIiLCJ4Ijo1LjUsInkiOjE1LjYsInAiOjEsImYiOiJUcm9tcGV0ZSJ9LHsibCI6IktsLiIsImciOiJ3dyIsIngiOi0wLjUsInkiOjE2LjYsInAiOjEsImYiOiJLbGFyaW5ldHRlIn0seyJsIjoiS2wuIiwiZyI6Ind3IiwieCI6LTEuNSwieSI6MTYuNiwicCI6MSwiZiI6IktsYXJpbmV0dGUifSx7ImwiOiJLbC4iLCJnIjoid3ciLCJ4IjotMi41LCJ5IjoxNi42LCJwIjoxLCJmIjoiS2xhcmluZXR0ZSJ9LHsibCI6IkhyLiIsImciOiJiciIsIngiOi00LjUsInkiOjE2LjYsInAiOjEsImYiOiJIb3JuIn0seyJsIjoiSHIuIiwiZyI6ImJyIiwieCI6LTUuNSwieSI6MTYuNiwicCI6MSwiZiI6Ikhvcm4ifSx7ImwiOiJGZy4iLCJnIjoid3ciLCJ4IjowLjUsInkiOjE2LjYsInAiOjEsImYiOiJGYWdvdHQifSx7ImwiOiJGZy4iLCJnIjoid3ciLCJ4IjoxLjUsInkiOjE2LjYsInAiOjEsImYiOiJGYWdvdHQifSx7ImwiOiJGZy4iLCJnIjoid3ciLCJ4IjoyLjUsInkiOjE2LjYsInAiOjEsImYiOiJGYWdvdHQifSx7ImwiOiJQb3MuIiwiZyI6ImJyIiwieCI6My41LCJ5IjoxNi42LCJwIjoxLCJmIjoiUG9zYXVuZSJ9LHsibCI6IlBvcy4iLCJnIjoiYnIiLCJ4Ijo0LjUsInkiOjE2LjYsInAiOjEsImYiOiJQb3NhdW5lIn0seyJsIjoiUG9zLiIsImciOiJiciIsIngiOjUuNSwieSI6MTYuNiwicCI6MSwiZiI6IlBvc2F1bmUifSx7ImwiOiJQay4iLCJnIjoicGMiLCJ4IjowLCJ5IjoxOC42LCJwIjoxLCJmIjoiUGF1a2VuIn0seyJsIjoiVGIuIiwiZyI6ImJyIiwieCI6NC40LCJ5IjoxOC42LCJwIjoxLCJmIjoiVHViYSJ9XSwicG9kZXN0cyI6W3siaWQiOiJwb2QwIiwiaCI6MjAsImQiOjEsInkiOjUsIngiOjAsInciOjEyLCJ2Ijp0cnVlfSx7ImlkIjoicG9kMSIsImgiOjQwLCJkIjoxLCJ5Ijo2LCJ4IjowLCJ3IjoxMiwidiI6dHJ1ZX0seyJpZCI6InBvZDIiLCJoIjo2MCwiZCI6MiwieSI6NywieCI6MCwidyI6MTAsInYiOnRydWV9XX0=&ansicht=readonly",
       "notizen": [],
       "probenplan": [],
       "abwesend": null,
@@ -703,7 +704,8 @@
       "notizen": [],
       "probenplan": [
         "*",
-        "Klavier: Miquel Bosch Roca (Tchaikovsky); Uschik Choi, Chenyu Wan (Tchaikovsky); Rémi Geniet, Jacob Gröper (Dvorak)"
+        "Klavier: Miquel Bosch Roca (Tchaikovsky); Uschik Choi, Chenyu Wan (Tchaikovsky); Rémi Geniet, Jacob Gröper (Dvorak)",
+        "*Garderobe der Symphoniker: Orchesterstudio"
       ],
       "abwesend": null,
       "eintritt": [
@@ -1012,7 +1014,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Philine Lembeck (Brahms 1. Satz), Miquel Bosch Roca (Brahms 2. Satz), Chenyu Wan (Brahms 3.& 4. Satz), Doğa Çetin (Rimsky-Korsakow 1.- 3. Satz), Rémi Geniet (Rimsky-Korsakow 4. Satz) (Kursleitung: Mihkel Kütson)",
+          "name": "Philine Lembeck (Brahms 1. Satz), Miquel Bosch Roca (Brahms 2. Satz), Chenyu Wan (Brahms 3.& 4. Satz), Yuan Xin Doğa (Rimsky-Korsakow 1.& 2. Satz) Çetin (Rimsky-Korsakow 3. Satz), Rémi Geniet (Rimsky-Korsakow 4. Satz) (Kursleitung: Mihkel Kütson)",
           "werk": "",
           "klasse": ""
         }
@@ -1021,7 +1023,8 @@
       "notizen": [],
       "probenplan": [
         "*",
-        "Klavier: Sukjong Kim (Brahms); Philine Lembeck, Doğa Çetin, Jacob Gröper, Miquel Bosch Roca, Chenyu Wan, Uschik Choi (Rimsky-Korsakow)"
+        "Klavier: Sukjong Kim (Brahms); Philine Lembeck, Doğa Çetin, Jacob Gröper, Miquel Bosch Roca, Chenyu Wan, Uschik Choi (Rimsky-Korsakow)",
+        "*Garderobe der Symphoniker: Orchesterstudio"
       ],
       "abwesend": null,
       "eintritt": [
