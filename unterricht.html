@@ -239,6 +239,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="btn btn-outline" onclick="zeige('screen-admin-login')">🔑 Lehrende:r</button>
   </div>
   <div class="hint">Erstanmeldung: Passwort = Matrikelnummer.</div>
+
+  <div class="section-label" style="margin-top:22px">Kommende Unterrichtstermine</div>
+  <div id="start-termine-liste"><div class="spinner">Lade Termine…</div></div>
 </div>
 
 <!-- SCREEN 2: STUDIERENDEN-LOGIN -->
@@ -729,6 +732,46 @@ function renderTerminKarte(t) {
       <div class="termin-status">${badge}</div>
     </div>
   </div>`;
+}
+
+// ── OEFFENTLICHE TERMINLISTE (ohne Login, Startbildschirm) ─────
+function renderTerminKartePublic(t) {
+  const d   = parseDate(t.datum);
+  const tag = d ? d.getDate() : '?';
+  const mon = d ? MONATE[d.getMonth()] : '';
+  const wt  = d ? WT[d.getDay()] : '';
+  const istGruppe = t.marker === 'Gruppenunterricht';
+  const badge = istGruppe ? '<div class="badge-gruppe">Gruppe</div>' : '';
+  return `
+  <div class="termin-card">
+    <div class="termin-header">
+      <div class="termin-datum-box">
+        <div class="termin-tag">${tag}</div>
+        <div class="termin-mon">${mon}</div>
+      </div>
+      <div class="termin-info">
+        <div class="termin-titel">${esc(t.projekt || t.marker)}</div>
+        <div class="termin-meta">${wt}${t.dozent ? ' · ' + esc(t.dozent) : ''}${t.ort ? ' · ' + esc(t.ort) : ''}</div>
+      </div>
+      <div class="termin-status">${badge}</div>
+    </div>
+  </div>`;
+}
+
+async function ladeStartTermine() {
+  const el = document.getElementById('start-termine-liste');
+  if (!el) return;
+  try {
+    const json = await webAppGet({ action:'unterrichtTermine' });
+    const daten = json.ok ? json.data : [];
+    if (!daten.length) {
+      el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📅</div>Noch keine Termine eingetragen.</div>';
+      return;
+    }
+    el.innerHTML = daten.map(renderTerminKartePublic).join('');
+  } catch(e) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
+  }
 }
 
 // ── SLOTS ─────────────────────────────────────────────────────
@@ -1252,6 +1295,7 @@ function adminLogout() {
 }
 
 // ── AUTO-LOGIN ────────────────────────────────────────────────
+ladeStartTermine();
 (function() {
   const urlParams   = new URLSearchParams(window.location.search);
   const resetMtknr  = urlParams.get('resetMtknr');
