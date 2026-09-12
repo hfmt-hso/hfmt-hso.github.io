@@ -258,6 +258,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="error-msg" id="s-error"></div>
     <button class="btn btn-blue" onclick="studentLogin()">Anmelden</button>
     <button class="btn btn-outline" onclick="zeige('screen-start')">Zurück</button>
+    <div style="text-align:center;margin-top:10px">
+      <button class="pw-change-link" onclick="pwVergessenOeffnen('s-mtknr')">Passwort vergessen?</button>
+    </div>
   </div>
   <div class="hint">Erstanmeldung: Passwort = Matrikelnummer.</div>
 </div>
@@ -280,6 +283,45 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="field-gap"></div>
     <div class="error-msg" id="pw-error"></div>
     <button class="btn btn-blue" onclick="pwSetzen()">Passwort speichern</button>
+  </div>
+</div>
+
+<!-- SCREEN 3b: PASSWORT VERGESSEN ANFORDERN -->
+<div class="screen" id="screen-pw-vergessen">
+  <div class="login-hero">
+    <div class="login-icon">📧</div>
+    <div class="login-title">Passwort vergessen</div>
+    <div class="login-sub">Matrikelnummer bzw. Benutzername eingeben — wir schicken dir einen Link zum Zurücksetzen.</div>
+  </div>
+  <div class="login-card">
+    <div class="field-label">Matrikelnummer / Benutzername</div>
+    <input class="field-input" type="text" id="pwv-mtknr" placeholder="z. B. 12345678" onkeydown="if(event.key==='Enter')pwVergessenAnfordern()">
+    <div class="field-gap"></div>
+    <div class="error-msg" id="pwv-error"></div>
+    <div class="pw-change-info" id="pwv-info" style="display:none"></div>
+    <div class="field-gap"></div>
+    <button class="btn btn-blue" id="pwv-btn" onclick="pwVergessenAnfordern()">Link anfordern</button>
+    <button class="btn btn-outline" onclick="zeige('screen-start')">Zurück</button>
+  </div>
+  <div class="hint">Falls zu deinem Konto eine E-Mail-Adresse hinterlegt ist, erhältst du einen Link, der 30 Minuten gültig ist.</div>
+</div>
+
+<!-- SCREEN 3c: NEUES PASSWORT PER LINK SETZEN -->
+<div class="screen" id="screen-pw-reset">
+  <div class="login-hero">
+    <div class="login-icon">🔐</div>
+    <div class="login-title">Neues Passwort setzen</div>
+    <div class="login-sub">Bitte wähle ein neues persönliches Passwort.</div>
+  </div>
+  <div class="login-card">
+    <div class="field-label">Neues Passwort</div>
+    <input class="field-input" type="password" id="pwr-pw1" placeholder="Mindestens 6 Zeichen">
+    <div class="field-gap"></div>
+    <div class="field-label">Passwort wiederholen</div>
+    <input class="field-input" type="password" id="pwr-pw2" placeholder="Bestätigung" onkeydown="if(event.key==='Enter')pwZuruecksetzenSpeichern()">
+    <div class="field-gap"></div>
+    <div class="error-msg" id="pwr-error"></div>
+    <button class="btn btn-blue" onclick="pwZuruecksetzenSpeichern()">Passwort speichern</button>
   </div>
 </div>
 
@@ -403,6 +445,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="error-msg" id="a-error"></div>
     <button class="btn btn-blue" onclick="adminLogin()">Anmelden</button>
     <button class="btn btn-outline" onclick="zeige('screen-start')">Zurück</button>
+    <div style="text-align:center;margin-top:10px">
+      <button class="pw-change-link" onclick="pwVergessenOeffnen('a-user')">Passwort vergessen?</button>
+    </div>
   </div>
 </div>
 
@@ -577,6 +622,53 @@ async function pwAendern() {
     if (!json.ok) { err.textContent = json.error || 'Fehler.'; return; }
     toast('✅ Passwort geändert!');
     zeige('screen-student');
+  } catch(e) { err.textContent = 'Verbindungsfehler.'; }
+}
+
+// ── PASSWORT VERGESSEN / ZURÜCKSETZEN ──────────────────────────
+function pwVergessenOeffnen(quelleFeldId) {
+  const quelle = document.getElementById(quelleFeldId);
+  document.getElementById('pwv-mtknr').value = quelle ? quelle.value.trim() : '';
+  document.getElementById('pwv-error').textContent = '';
+  const info = document.getElementById('pwv-info');
+  info.style.display = 'none';
+  info.textContent = '';
+  document.getElementById('pwv-btn').disabled = false;
+  zeige('screen-pw-vergessen');
+}
+
+async function pwVergessenAnfordern() {
+  const mtknr = document.getElementById('pwv-mtknr').value.trim();
+  const err   = document.getElementById('pwv-error');
+  const info  = document.getElementById('pwv-info');
+  err.textContent = '';
+  if (!mtknr) { err.textContent = 'Bitte Matrikelnummer bzw. Benutzername eingeben.'; return; }
+  try {
+    const json = await webAppGet({ action:'passwortVergessenAnfordern', mtknr });
+    info.textContent = json.message || 'Falls die Angabe bei uns hinterlegt ist, wurde eine E-Mail mit einem Link zum Zurücksetzen verschickt.';
+    info.style.display = 'block';
+    document.getElementById('pwv-btn').disabled = true;
+  } catch(e) { err.textContent = 'Verbindungsfehler.'; }
+}
+
+let _pwResetMtknr = null;
+let _pwResetToken = null;
+
+async function pwZuruecksetzenSpeichern() {
+  const pw1 = document.getElementById('pwr-pw1').value;
+  const pw2 = document.getElementById('pwr-pw2').value;
+  const err = document.getElementById('pwr-error');
+  err.textContent = '';
+  if (!_pwResetMtknr || !_pwResetToken) { err.textContent = 'Link ungültig oder abgelaufen. Bitte neuen Link anfordern.'; return; }
+  if (pw1.length < 6) { err.textContent = 'Mindestens 6 Zeichen.'; return; }
+  if (pw1 !== pw2)    { err.textContent = 'Passwörter stimmen nicht überein.'; return; }
+  try {
+    const json = await webAppPost({ action:'passwortZuruecksetzen', mtknr: _pwResetMtknr, token: _pwResetToken, pwHash: await hashStr(pw1) });
+    if (!json.ok) { err.textContent = json.error || 'Fehler.'; return; }
+    toast('✅ Passwort gesetzt! Bitte anmelden.');
+    _pwResetMtknr = null; _pwResetToken = null;
+    document.getElementById('s-mtknr').value = '';
+    zeige('screen-student-login');
   } catch(e) { err.textContent = 'Verbindungsfehler.'; }
 }
 
@@ -1161,6 +1253,16 @@ function adminLogout() {
 
 // ── AUTO-LOGIN ────────────────────────────────────────────────
 (function() {
+  const urlParams   = new URLSearchParams(window.location.search);
+  const resetMtknr  = urlParams.get('resetMtknr');
+  const resetToken  = urlParams.get('resetToken');
+  if (resetMtknr && resetToken) {
+    _pwResetMtknr = resetMtknr;
+    _pwResetToken = resetToken;
+    zeige('screen-pw-reset');
+    history.replaceState(null, '', window.location.pathname);
+    return;
+  }
   const storedStudent = sessionStorage.getItem('hso_student');
   if (storedStudent) {
     try { aktuellerStudent = JSON.parse(storedStudent); oeffneStudentBereich(); return; } catch(e) {}
