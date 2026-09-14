@@ -220,6 +220,12 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 #login-gate button{width:100%;margin-top:18px;padding:11px;border-radius:8px;border:none;background:var(--ink);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);}
 #login-gate button:disabled{opacity:.5;cursor:default;}
 #login-gate .lg-err{margin-top:10px;font-size:12px;color:#c0392b;min-height:16px;}
+#login-gate input.error{border-color:#c0392b}
+#login-gate .lg-info{margin-top:10px;font-size:12px;color:var(--ink3);line-height:1.5}
+#login-gate .lg-link{width:auto;margin-top:14px;padding:0;background:none;color:var(--ink3);font-size:12px;font-weight:600;text-decoration:underline;cursor:pointer;display:block;text-align:center;}
+#login-gate .lg-link:hover{color:var(--ink)}
+#login-gate .lg-screen{display:none}
+#login-gate .lg-screen.active{display:block}
 </style>
 </head>
 <body>
@@ -229,12 +235,47 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       <img src="https://hfmt-hso.github.io/icon-192.png" style="width:26px;height:26px;border-radius:6px;flex-shrink:0" alt="HSO">
       <div class="lg-title">HSO·INTERN</div>
     </div>
-    <label for="lg-user">Matrikelnr. / Nutzername</label>
-    <input id="lg-user" type="text" autocomplete="username">
-    <label for="lg-pw">Passwort</label>
-    <input id="lg-pw" type="password" autocomplete="current-password">
-    <button id="lg-btn" onclick="gateLogin()">Anmelden</button>
-    <div class="lg-err" id="lg-err"></div>
+
+    <div class="lg-screen active" id="lg-screen-login">
+      <label for="lg-user">Matrikelnr. / Nutzername</label>
+      <input id="lg-user" type="text" autocomplete="username">
+      <label for="lg-pw">Passwort</label>
+      <input id="lg-pw" type="password" autocomplete="current-password">
+      <button id="lg-btn" onclick="gateLogin()">Anmelden</button>
+      <div class="lg-err" id="lg-err"></div>
+      <button class="lg-link" onclick="gatePwVergessenOeffnen()">Passwort vergessen?</button>
+    </div>
+
+    <div class="lg-screen" id="lg-screen-pwsetzen">
+      <div class="lg-info">Erstanmeldung erkannt — bitte setze jetzt dein eigenes Passwort.</div>
+      <label for="lg-pw1">Neues Passwort</label>
+      <input id="lg-pw1" type="password" autocomplete="new-password">
+      <label for="lg-pw2">Passwort wiederholen</label>
+      <input id="lg-pw2" type="password" autocomplete="new-password">
+      <button onclick="gatePwSetzen()">Passwort speichern</button>
+      <div class="lg-err" id="lg-pwsetzen-err"></div>
+    </div>
+
+    <div class="lg-screen" id="lg-screen-pwvergessen">
+      <div class="lg-info">Bitte Matrikelnr./Nutzername eingeben. Falls hinterlegt, wird eine E-Mail mit einem Link zum Zurücksetzen verschickt.</div>
+      <label for="lg-pwv-user">Matrikelnr. / Nutzername</label>
+      <input id="lg-pwv-user" type="text" autocomplete="username">
+      <button id="lg-pwv-btn" onclick="gatePwVergessenAnfordern()">Link anfordern</button>
+      <div class="lg-err" id="lg-pwv-err"></div>
+      <div class="lg-info" id="lg-pwv-info" style="display:none"></div>
+      <button class="lg-link" onclick="gateZeigeScreen('lg-screen-login')">Zurück zur Anmeldung</button>
+    </div>
+
+    <div class="lg-screen" id="lg-screen-pwreset">
+      <div class="lg-info">Bitte wähle ein neues persönliches Passwort.</div>
+      <label for="lg-pwr-pw1">Neues Passwort</label>
+      <input id="lg-pwr-pw1" type="password" autocomplete="new-password">
+      <label for="lg-pwr-pw2">Passwort wiederholen</label>
+      <input id="lg-pwr-pw2" type="password" autocomplete="new-password">
+      <button onclick="gatePwZuruecksetzenSpeichern()">Passwort speichern</button>
+      <div class="lg-err" id="lg-pwr-err"></div>
+    </div>
+
   </div>
 </div>
 <div id="app">
@@ -646,6 +687,18 @@ async function hashStr(s){
   var buf=await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
+function gateZeigeScreen(id){
+  document.querySelectorAll('#login-gate .lg-screen').forEach(function(el){el.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+}
+function gateMarkError(ids){
+  ids.forEach(function(id){
+    var el=document.getElementById(id);
+    el.classList.add('error');
+    setTimeout(function(){el.classList.remove('error');},1500);
+  });
+}
+var _gateUser=null;
 async function gateLogin(){
   var user=document.getElementById('lg-user').value.trim();
   var pw=document.getElementById('lg-pw').value;
@@ -660,26 +713,109 @@ async function gateLogin(){
     var r=await fetch(url);
     var d=await r.json();
     if(d&&d.ok){
-      sessionStorage.setItem('hsoIntern_authed','1');
-      document.getElementById('login-gate').style.display='none';
-      document.getElementById('app').style.display='';
-      initialLaden();
+      _gateUser=user;
+      if(d.student&&d.student.erstanmeldung){
+        document.getElementById('lg-pw1').value='';
+        document.getElementById('lg-pw2').value='';
+        document.getElementById('lg-pwsetzen-err').textContent='';
+        gateZeigeScreen('lg-screen-pwsetzen');
+      }else{
+        gateLoginErfolgreich();
+      }
     }else{
-      errEl.textContent='Login fehlgeschlagen. Bitte Zugangsdaten prüfen.';
+      errEl.textContent=(d&&d.error)||'Login fehlgeschlagen. Bitte Zugangsdaten prüfen.';
+      gateMarkError(['lg-user','lg-pw']);
     }
   }catch(e){
     errEl.textContent='Verbindungsfehler. Bitte erneut versuchen.';
   }
   btn.disabled=false;btn.textContent='Anmelden';
 }
+function gateLoginErfolgreich(){
+  localStorage.setItem('hsoIntern_authed','1');
+  document.getElementById('login-gate').style.display='none';
+  document.getElementById('app').style.display='flex';
+  initialLaden();
+}
+async function gatePwSetzen(){
+  var pw1=document.getElementById('lg-pw1').value;
+  var pw2=document.getElementById('lg-pw2').value;
+  var err=document.getElementById('lg-pwsetzen-err');
+  err.textContent='';
+  if(pw1.length<6){err.textContent='Mindestens 6 Zeichen.';return;}
+  if(pw1!==pw2){err.textContent='Passwörter stimmen nicht überein.';return;}
+  try{
+    var r=await fetch(WEB_APP_URL,{method:'POST',body:JSON.stringify({action:'setPw',mtknr:_gateUser,pwHash:await hashStr(pw1)})});
+    var d=await r.json();
+    if(!d||!d.ok){err.textContent=(d&&d.error)||'Fehler.';return;}
+    gateLoginErfolgreich();
+  }catch(e){err.textContent='Verbindungsfehler.';}
+}
+function gatePwVergessenOeffnen(){
+  var vorbelegt=document.getElementById('lg-user').value.trim();
+  document.getElementById('lg-pwv-user').value=vorbelegt;
+  document.getElementById('lg-pwv-err').textContent='';
+  var info=document.getElementById('lg-pwv-info');
+  info.style.display='none';info.textContent='';
+  document.getElementById('lg-pwv-btn').disabled=false;
+  gateZeigeScreen('lg-screen-pwvergessen');
+}
+async function gatePwVergessenAnfordern(){
+  var user=document.getElementById('lg-pwv-user').value.trim();
+  var err=document.getElementById('lg-pwv-err');
+  var info=document.getElementById('lg-pwv-info');
+  err.textContent='';
+  if(!user){err.textContent='Bitte Matrikelnr. bzw. Nutzername eingeben.';return;}
+  try{
+    var url=WEB_APP_URL+'?action=passwortVergessenAnfordern&mtknr='+encodeURIComponent(user);
+    var r=await fetch(url);
+    var d=await r.json();
+    info.textContent=(d&&d.message)||'Falls die Angabe bei uns hinterlegt ist, wurde eine E-Mail mit einem Link zum Zurücksetzen verschickt.';
+    info.style.display='block';
+    document.getElementById('lg-pwv-btn').disabled=true;
+  }catch(e){err.textContent='Verbindungsfehler.';}
+}
+var _gateResetUser=null;
+var _gateResetToken=null;
+async function gatePwZuruecksetzenSpeichern(){
+  var pw1=document.getElementById('lg-pwr-pw1').value;
+  var pw2=document.getElementById('lg-pwr-pw2').value;
+  var err=document.getElementById('lg-pwr-err');
+  err.textContent='';
+  if(!_gateResetUser||!_gateResetToken){err.textContent='Link ungültig oder abgelaufen. Bitte neuen Link anfordern.';return;}
+  if(pw1.length<6){err.textContent='Mindestens 6 Zeichen.';return;}
+  if(pw1!==pw2){err.textContent='Passwörter stimmen nicht überein.';return;}
+  try{
+    var r=await fetch(WEB_APP_URL,{method:'POST',body:JSON.stringify({action:'passwortZuruecksetzen',mtknr:_gateResetUser,token:_gateResetToken,pwHash:await hashStr(pw1)})});
+    var d=await r.json();
+    if(!d||!d.ok){err.textContent=(d&&d.error)||'Fehler.';return;}
+    _gateResetUser=null;_gateResetToken=null;
+    history.replaceState(null,'',location.pathname);
+    document.getElementById('lg-user').value='';
+    gateZeigeScreen('lg-screen-login');
+    document.getElementById('lg-err').textContent='Passwort gesetzt! Bitte anmelden.';
+  }catch(e){err.textContent='Verbindungsfehler.';}
+}
 document.addEventListener('DOMContentLoaded', function(){
-  if(sessionStorage.getItem('hsoIntern_authed')==='1'){
+  document.getElementById('lg-pw').addEventListener('keydown',function(e){if(e.key==='Enter')gateLogin();});
+  document.getElementById('lg-user').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('lg-pw').focus();});
+  document.getElementById('lg-pw1').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('lg-pw2').focus();});
+  document.getElementById('lg-pw2').addEventListener('keydown',function(e){if(e.key==='Enter')gatePwSetzen();});
+  document.getElementById('lg-pwv-user').addEventListener('keydown',function(e){if(e.key==='Enter')gatePwVergessenAnfordern();});
+  document.getElementById('lg-pwr-pw1').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('lg-pwr-pw2').focus();});
+  document.getElementById('lg-pwr-pw2').addEventListener('keydown',function(e){if(e.key==='Enter')gatePwZuruecksetzenSpeichern();});
+
+  var params=new URLSearchParams(location.search);
+  var resetMtknr=params.get('resetMtknr');
+  var resetToken=params.get('resetToken');
+  if(resetMtknr&&resetToken){
+    _gateResetUser=resetMtknr;
+    _gateResetToken=resetToken;
+    gateZeigeScreen('lg-screen-pwreset');
+  }else if(localStorage.getItem('hsoIntern_authed')==='1'){
     document.getElementById('login-gate').style.display='none';
-    document.getElementById('app').style.display='';
+    document.getElementById('app').style.display='flex';
     initialLaden();
-  }else{
-    document.getElementById('lg-pw').addEventListener('keydown',function(e){if(e.key==='Enter')gateLogin();});
-    document.getElementById('lg-user').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('lg-pw').focus();});
   }
 });
 
