@@ -207,9 +207,36 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* ── LOGIN GATE ─────────────────────────────────────────── */
+#app{display:none}
+#login-gate{position:fixed;inset:0;background:var(--paper);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;}
+#login-gate .lg-box{background:#fff;border:1px solid var(--border);border-radius:14px;padding:28px 24px;width:100%;max-width:340px;box-shadow:var(--shadow);}
+#login-gate .lg-logo{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+#login-gate .lg-title{font-size:15px;font-weight:800;letter-spacing:.02em;}
+#login-gate label{display:block;font-size:11px;font-weight:700;color:var(--ink3);margin:12px 0 4px;text-transform:uppercase;letter-spacing:.03em;}
+#login-gate input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border2);font-size:14px;font-family:var(--sans);background:var(--paper);color:var(--ink);box-sizing:border-box;}
+#login-gate input:focus{outline:none;border-color:var(--blue);}
+#login-gate button{width:100%;margin-top:18px;padding:11px;border-radius:8px;border:none;background:var(--ink);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);}
+#login-gate button:disabled{opacity:.5;cursor:default;}
+#login-gate .lg-err{margin-top:10px;font-size:12px;color:#c0392b;min-height:16px;}
 </style>
 </head>
 <body>
+<div id="login-gate">
+  <div class="lg-box">
+    <div class="lg-logo">
+      <img src="https://hfmt-hso.github.io/icon-192.png" style="width:26px;height:26px;border-radius:6px;flex-shrink:0" alt="HSO">
+      <div class="lg-title">HSO·INTERN</div>
+    </div>
+    <label for="lg-user">Matrikelnr. / Nutzername</label>
+    <input id="lg-user" type="text" autocomplete="username">
+    <label for="lg-pw">Passwort</label>
+    <input id="lg-pw" type="password" autocomplete="current-password">
+    <button id="lg-btn" onclick="gateLogin()">Anmelden</button>
+    <div class="lg-err" id="lg-err"></div>
+  </div>
+</div>
 <div id="app">
   <div class="topbar">
     <div class="topbar-logo">
@@ -613,6 +640,49 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 var BACKUP_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx2xyv2s3BMGz12EH8LIcHT_iWuVn4JWnxlw-3NVJ5LjkaCrwQbRckOtJsKov0XepoIWw/exec';
 var PDF_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzJm7FzVsFlwmC6plNqsX6zYzJhJJnfgmScpV-g16vAgThSXCBe3ietVQHEthLYCP32tg/exec';
+
+// ── LOGIN GATE ────────────────────────────────────────────
+async function hashStr(s){
+  var buf=await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+async function gateLogin(){
+  var user=document.getElementById('lg-user').value.trim();
+  var pw=document.getElementById('lg-pw').value;
+  var errEl=document.getElementById('lg-err');
+  var btn=document.getElementById('lg-btn');
+  errEl.textContent='';
+  if(!user||!pw){errEl.textContent='Bitte beides ausfüllen.';return;}
+  btn.disabled=true;btn.textContent='Prüfe…';
+  try{
+    var pwHash=await hashStr(pw);
+    var url=WEB_APP_URL+'?action=studentLogin&mtknr='+encodeURIComponent(user)+'&pwHash='+encodeURIComponent(pwHash);
+    var r=await fetch(url);
+    var d=await r.json();
+    if(d&&d.ok){
+      sessionStorage.setItem('hsoIntern_authed','1');
+      document.getElementById('login-gate').style.display='none';
+      document.getElementById('app').style.display='';
+      initialLaden();
+    }else{
+      errEl.textContent='Login fehlgeschlagen. Bitte Zugangsdaten prüfen.';
+    }
+  }catch(e){
+    errEl.textContent='Verbindungsfehler. Bitte erneut versuchen.';
+  }
+  btn.disabled=false;btn.textContent='Anmelden';
+}
+document.addEventListener('DOMContentLoaded', function(){
+  if(sessionStorage.getItem('hsoIntern_authed')==='1'){
+    document.getElementById('login-gate').style.display='none';
+    document.getElementById('app').style.display='';
+    initialLaden();
+  }else{
+    document.getElementById('lg-pw').addEventListener('keydown',function(e){if(e.key==='Enter')gateLogin();});
+    document.getElementById('lg-user').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('lg-pw').focus();});
+  }
+});
+
 
 async function pdfNaechsteProbe(){
   var btn=document.getElementById('pdf-naechste-btn');
@@ -2066,7 +2136,6 @@ document.addEventListener('keydown', function(e) {
     if (el) el.click();
   }
 });
-initialLaden();
 
 // ══════════════════════════════════════════════════════════════
 // MEINE LINKS — eigener Generator, schreibt direkt per GitHub API
