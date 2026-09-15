@@ -111,6 +111,9 @@
   var _events = null;   // uebersetzer.json → events[]
   var _projekte = null; // projekte.json → projekte[] ({name, docId, sj})
 
+  var _ladenUnterrichtPromise = null;
+  var _unterrichtTermine = null; // unterricht-termine.json → data[]
+
   function ladeJson(datei) {
     var url = BASE + datei + '?t=' + Date.now();
     return fetch(url, { cache: 'no-store' }).then(function (r) {
@@ -133,6 +136,18 @@
       throw e;
     });
     return _ladenPromise;
+  }
+
+  function ladenUnterricht() {
+    if (_ladenUnterrichtPromise) return _ladenUnterrichtPromise;
+    _ladenUnterrichtPromise = ladeJson('unterricht-termine.json').then(function (res) {
+      _unterrichtTermine = (res && res.data) || [];
+    }).catch(function (e) {
+      // Beim nächsten Aufruf erneut versuchen statt dauerhaft zu scheitern.
+      _ladenUnterrichtPromise = null;
+      throw e;
+    });
+    return _ladenUnterrichtPromise;
   }
 
   // ── PORTIERTE PROJEKTIONEN (aus Projectsync.gs) ────────────────
@@ -286,6 +301,13 @@
   // { ok: true, data: ... } bzw. { ok: false, error: '...' }.
 
   function holen(action, sj) {
+    if (action === 'unterrichtTermine') {
+      return ladenUnterricht().then(function () {
+        return { ok: true, data: _unterrichtTermine };
+      }).catch(function (e) {
+        return { ok: false, error: e.message || String(e) };
+      });
+    }
     return laden().then(function () {
       if (action === 'projekte') return { ok: true, data: _getProjekte(sj || null) };
       if (action === 'programm') return { ok: true, data: _getProgramm(sj || null) };
@@ -305,3 +327,4 @@
   };
 
 })(window);
+
