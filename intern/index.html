@@ -677,6 +677,8 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 
 <div class="toast" id="toast"></div>
 
+<script>window.HSO_DATEN_BASE='../';</script>
+<script src="../hso-daten.js"></script>
 <script>
 var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 var BACKUP_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx2xyv2s3BMGz12EH8LIcHT_iWuVn4JWnxlw-3NVJ5LjkaCrwQbRckOtJsKov0XepoIWw/exec';
@@ -990,6 +992,11 @@ function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').
 async function apiFetch(action,params){
   var key=action+JSON.stringify(params||{});
   if(_cache[key])return _cache[key];
+  if(action==='projekte'||action==='programm'||action==='kalender'){
+    var d0=await HsoDaten.holen(action, params && params.sj);
+    if(d0.ok!==false)_cache[key]=d0;
+    return d0;
+  }
   var url=WEB_APP_URL+'?action='+action;
   if(params)Object.keys(params).forEach(k=>url+='&'+k+'='+encodeURIComponent(params[k]));
   // Backend antwortet unter Last manchmal mit Timeout/404 (Google-seitiges
