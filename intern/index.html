@@ -895,9 +895,13 @@ async function ermittleAlleSj(){
     kandidaten.push(String(y1).padStart(2,'0')+'_'+String(y2).padStart(2,'0'));
   }
   var heute=new Date(); heute.setHours(0,0,0,0);
-  var ergebnisse=await Promise.all(kandidaten.map(function(sj){
-    return apiFetch('kalender',{sj:sj}).catch(function(){return null;});
-  }));
+  // Sequentiell statt parallel: vermeidet 6 gleichzeitige Backend-Requests
+  // pro Seitenaufruf (Hauptursache für Timeouts/404 bei gleichzeitigen Nutzern).
+  var ergebnisse=[];
+  for(var _si=0;_si<kandidaten.length;_si++){
+    var _d=await apiFetch('kalender',{sj:kandidaten[_si]}).catch(function(){return null;});
+    ergebnisse.push(_d);
+  }
   var mitTerminen=[];
   kandidaten.forEach(function(sj,i){
     var d=ergebnisse[i];
