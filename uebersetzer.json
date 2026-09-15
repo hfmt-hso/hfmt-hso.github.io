@@ -1,9 +1,10 @@
 {
-  "generiert": "2026-09-11T08:49:53.396Z",
+  "generiert": "2026-09-15T08:50:40.118Z",
   "events": [
     {
       "datum": "29.09.2026",
       "uhrzeit": "10:00 Uhr",
+      "endzeit": "12:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "1. Probe",
@@ -32,6 +33,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "14:30 Uhr",
       "_eventId": "5kh0a90ravg64p9rt6i3t80g0d@google.com",
       "_titel": "WK 1 OA"
     },
@@ -48,6 +50,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "3vvv9u5q6b6hit7ve4k9dq84bd@google.com",
       "_titel": "WK 1 GP"
     },
@@ -64,6 +67,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "3t25rtc4gq28ub20igv8mt9oha@google.com",
       "_titel": "HSO 1 OA Celli"
     },
@@ -80,6 +84,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "16:00 Uhr",
       "_eventId": "2f608j3e8ndgmiou35r6sutp3h@google.com",
       "_titel": "HSO 1 OA Violen"
     },
@@ -96,12 +101,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "18:30 Uhr",
       "_eventId": "7glpqcdq66kjsbia344tjulfns@google.com",
       "_titel": "HSO 1 OA Kontrabässe"
     },
     {
       "datum": "01.10.2026",
       "uhrzeit": "19:30 Uhr",
+      "endzeit": "21:30 Uhr",
       "ort": "Forum",
       "konzertart": "Werkstattkonzert",
       "marker": "Vorstellung",
@@ -194,6 +201,7 @@
     {
       "datum": "02.10.2026",
       "uhrzeit": "10:00 Uhr",
+      "endzeit": "13:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "1. Probe",
@@ -222,6 +230,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "0lqr4o4pr0nv733s2vl204u2n2@google.com",
       "_titel": "HSO 1 OA Streicher"
     },
@@ -238,6 +247,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "2m89poepcgrf3jtgce6gh1ri7i@google.com",
       "_titel": "HSO 1 OA Bläser"
     },
@@ -254,6 +264,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "12:30 Uhr",
       "_eventId": "642k0k5clqausib94d96ibbj9c@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -270,6 +281,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "16:30 Uhr",
       "_eventId": "5fpvfdenqakngf38al0ucu2qf5@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -286,6 +298,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "12:30 Uhr",
       "_eventId": "0ge1ap2vhdvqhsas95gadikfhl@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -302,6 +315,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "16:30 Uhr",
       "_eventId": "1vm2iec3le7e2n4tuh447dfv9k@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -318,6 +332,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "10uk4hb17akhg87s7lms4lnp32@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -334,12 +349,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "7uqpjkomartle5dg0707llndhn@google.com",
       "_titel": "HSO 1 GP"
     },
     {
       "datum": "08.10.2026",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "ort": "Forum",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -427,6 +444,7 @@
     {
       "datum": "09.10.2026",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "ort": "Forum",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -527,12 +545,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "21:00 Uhr",
       "_eventId": "4b2gk7hiq1ld8tfinp6hlse9lb@google.com",
       "_titel": "IMCH Hamburg Vorbereitung"
     },
     {
       "datum": "26.10.2026",
       "uhrzeit": "10:00 Uhr",
+      "endzeit": "12:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "1. Probe",
@@ -561,6 +581,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "21:00 Uhr",
       "_eventId": "0crl55h8ngo9b66npofmui256e@google.com",
       "_titel": "IMCH Hamburg Vorbereitung"
     },
@@ -577,6 +598,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "14:30 Uhr",
       "_eventId": "7s5dq65acmtosi7am8ro8o97fd@google.com",
       "_titel": "WK 2 OA"
     },
@@ -593,6 +615,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "39mac96n4q9s3ft5h21jggpibm@google.com",
       "_titel": "WK 2 GP"
     },
@@ -609,6 +632,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "12:30 Uhr",
       "_eventId": "1d7qsppqq6u7i12nil0iodmuv3@google.com",
       "_titel": "OA IMCH Halle"
     },
@@ -625,12 +649,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "16:30 Uhr",
       "_eventId": "08jqil68i5jjul20u3g832u0av@google.com",
       "_titel": "OA IMCH Halle"
     },
     {
       "datum": "28.10.2026",
       "uhrzeit": "19:30 Uhr",
+      "endzeit": "21:30 Uhr",
       "ort": "Forum",
       "konzertart": "Werkstattkonzert",
       "marker": "Vorstellung",
@@ -731,6 +757,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "12:30 Uhr",
       "_eventId": "03v38s4ma3ct32ft7cnpvfo5fu@google.com",
       "_titel": "OA IMCH Halle"
     },
@@ -747,6 +774,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "16:30 Uhr",
       "_eventId": "2rb3urfg6opjvu8p7f6iigndp0@google.com",
       "_titel": "OA IMCH Halle"
     },
@@ -763,6 +791,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "3ebfas7185aeer6igpfb3oumdg@google.com",
       "_titel": "HP IMCH Halle"
     },
@@ -779,12 +808,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "2tmik4h3r5h7afitmc3ts9s39m@google.com",
       "_titel": "GP IMCH Halle"
     },
     {
       "datum": "31.10.2026",
       "uhrzeit": "19:30 Uhr",
+      "endzeit": "22:00 Uhr",
       "ort": "Ständehaus Merseburg, Oberaltenburg 2, 06217, Merseburg",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -921,6 +952,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:30 Uhr",
       "_eventId": "5k71aj3nkbr3n0c34alo6ls24p@google.com",
       "_titel": "WK 3 OA"
     },
@@ -937,6 +969,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "14:30 Uhr",
       "_eventId": "6hs7q40j47dpcbden61gdf46l6@google.com",
       "_titel": "WK 3 OA"
     },
@@ -953,12 +986,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "7np1gugcirda4af83sm181pveq@google.com",
       "_titel": "WK 3 GP"
     },
     {
       "datum": "11.11.2026",
       "uhrzeit": "19:30 Uhr",
+      "endzeit": "21:30 Uhr",
       "ort": "Forum",
       "konzertart": "Werkstattkonzert",
       "marker": "Vorstellung",
@@ -1050,6 +1085,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "0to28hmpc2773gvjcaua1tu2us@google.com",
       "_titel": "13/14 OA"
     },
@@ -1066,6 +1102,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "0osvh862v7c1pjfotsicvc4hgg@google.com",
       "_titel": "13/14 OA"
     },
@@ -1082,6 +1119,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "37q57vjk490g76vrnb4cjbnt5c@google.com",
       "_titel": "13/14 OA"
     },
@@ -1098,6 +1136,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "20:00 Uhr",
       "_eventId": "6moe5gurcjoasd05h99n9ugjm1@google.com",
       "_titel": "13/14 OA"
     },
@@ -1114,6 +1153,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "1hbk7oud337uhb71lr6ke44bro@google.com",
       "_titel": "13/14 OA"
     },
@@ -1130,6 +1170,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "20:00 Uhr",
       "_eventId": "6o8uajhsg1sbtpn8dkjemo5sdk@google.com",
       "_titel": "13/14 OA"
     },
@@ -1146,6 +1187,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "7lt47r8cae1r3b2rqur2ut7b8n@google.com",
       "_titel": "13/14 OA"
     },
@@ -1162,6 +1204,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "21:00 Uhr",
       "_eventId": "5n4s3lg0ie154b6skv16m33pbj@google.com",
       "_titel": "13/14 OA"
     },
@@ -1178,12 +1221,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "4hhphkctcm5j8rosml40kkjvp2@google.com",
       "_titel": "13/14 GP"
     },
     {
       "datum": "10.12.2026",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "ort": "Forum",
       "konzertart": "Kammerkonzert",
       "marker": "Vorstellung",
@@ -1323,12 +1368,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "18:30 Uhr",
       "_eventId": "7hs8r4ch0qpu58b02np9j1k9o0@google.com",
       "_titel": "13/14 Anspielprobe"
     },
     {
       "datum": "11.12.2026",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "ort": "Forum",
       "konzertart": "Kammerkonzert",
       "marker": "Vorstellung",
@@ -1461,6 +1508,7 @@
     {
       "datum": "25.11.2026",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Blattspiel",
@@ -1516,6 +1564,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "12:30 Uhr",
       "_eventId": "2ha25ibtugq2mvq1hoaall159v@google.com",
       "_titel": "WK 4 OA"
     },
@@ -1532,6 +1581,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "14:30 Uhr",
       "_eventId": "5nmlv77hdrs0pdjlf6md418cb5@google.com",
       "_titel": "WK 4 OA"
     },
@@ -1548,12 +1598,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "2lmgrml71u11jporomff7t07p1@google.com",
       "_titel": "WK 4 GP"
     },
     {
       "datum": "24.01.2027",
       "uhrzeit": "11:00 Uhr",
+      "endzeit": "13:00 Uhr",
       "ort": "Laeiszhalle",
       "konzertart": "Werkstattkonzert",
       "marker": "Vorstellung",
@@ -1663,6 +1715,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "0t9a0gekjaoaq17d1jir6mkf8l@google.com",
       "_titel": "HSO 2 OA Kontrabass"
     },
@@ -1679,6 +1732,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "16:00 Uhr",
       "_eventId": "10cfqhqaeu35s29b6e56culk54@google.com",
       "_titel": "HSO 2 OA Cello"
     },
@@ -1695,6 +1749,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "4efrssembhvokpova4tplsfbga@google.com",
       "_titel": "HSO 2 OA Viola"
     },
@@ -1711,6 +1766,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "663mr2v1dhvr824scd6s1p98rv@google.com",
       "_titel": "HSO 2 OA Violine"
     },
@@ -1727,6 +1783,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:00 Uhr",
       "_eventId": "679oia8e6ig3lscfn7jcvn52tr@google.com",
       "_titel": "HSO 2 OA Bläser"
     },
@@ -1743,6 +1800,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "52vls6a8sr72dq8rak13n67kuv@google.com",
       "_titel": "HSO 2 OA Streicher"
     },
@@ -1759,6 +1817,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:00 Uhr",
       "_eventId": "5unbcbirljcef67duoaba2k2jk@google.com",
       "_titel": "HSO 2 OA Bläser"
     },
@@ -1775,6 +1834,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "21mj4kubp7mhicjkoev7p7e2fe@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -1791,6 +1851,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "02r8an9vcv68ea5n6sprg3q07t@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -1807,6 +1868,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "7a0v9ss2e7hr6sdhqo6phgmelp@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -1823,6 +1885,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "61mchpqdj5kmk4khdgnmcuh1bb@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -1839,6 +1902,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "0ku28tldpb2d07hb2qsg80jjao@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -1855,6 +1919,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "0qafrfp1a6tgfc64vcdlhn13ra@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -1871,12 +1936,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "2ltletd7icbvt5iet13gsoj4m0@google.com",
       "_titel": "HSO 2 GP"
     },
     {
       "datum": "09.02.2027",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "ort": "Forum",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -1985,6 +2052,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "18:00 Uhr",
       "_eventId": "4j5foglrsb9higko97oa4jpk58@google.com",
       "_titel": "Aufbau"
     },
@@ -2001,12 +2069,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "43r6ltlevm05epp16irqdhap12@google.com",
       "_titel": "HSO 2 Anspielprobe "
     },
     {
       "datum": "10.02.2027",
       "uhrzeit": "19:30 Uhr",
+      "endzeit": "21:30 Uhr",
       "ort": "Laeiszhalle",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -2118,6 +2188,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "23:00 Uhr",
       "_eventId": "3ua1i0vhfadsvucvcqp8em2m7h@google.com",
       "_titel": "Abbau"
     },
@@ -2134,6 +2205,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "12:30 Uhr",
       "_eventId": "7s8r3gp9u7ue2hunp482t25geu@google.com",
       "_titel": "WK 5 OA"
     },
@@ -2150,6 +2222,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "14:30 Uhr",
       "_eventId": "0cco6vei8u2ie7u7r1htvecvdg@google.com",
       "_titel": "WK 5 OA"
     },
@@ -2166,12 +2239,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "57kusk5m0ccklhkv98jv1s8n0q@google.com",
       "_titel": "WK 5 GP"
     },
     {
       "datum": "25.02.2027",
       "uhrzeit": "19:30 Uhr",
+      "endzeit": "21:30 Uhr",
       "ort": "Forum",
       "konzertart": "Werkstattkonzert",
       "marker": "Vorstellung",
@@ -2276,6 +2351,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "12:30 Uhr",
       "_eventId": "04jp2lnk3g08co77ibi11879ph@google.com",
       "_titel": "WK 6 OA"
     },
@@ -2292,6 +2368,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "14:30 Uhr",
       "_eventId": "6vd81ucmjq6stoi0sej29gb6jm@google.com",
       "_titel": "WK 6 OA"
     },
@@ -2308,12 +2385,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "55tfcunji1cqp1chi6fh0t65nk@google.com",
       "_titel": "WK 6 GP"
     },
     {
       "datum": "25.03.2027",
       "uhrzeit": "19:30 Uhr",
+      "endzeit": "21:30 Uhr",
       "ort": "Forum",
       "konzertart": "Werkstattkonzert",
       "marker": "Vorstellung",
@@ -2413,6 +2492,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "0o64d8oaioro1qbfcb86e3f49b@google.com",
       "_titel": "HSO 3 OA Violine"
     },
@@ -2429,24 +2509,9 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "16:00 Uhr",
       "_eventId": "2v9bt0726o7egnh39cp0ks5q2c@google.com",
       "_titel": "HSO 3 OA Viola"
-    },
-    {
-      "datum": "01.04.2027",
-      "uhrzeit": "16:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "_eventId": "631vcl334is24os58s26gc0o04@google.com",
-      "_titel": "HSO 3 OA Bläser"
     },
     {
       "datum": "02.04.2027",
@@ -2461,6 +2526,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "7bilg4i7e17h6vqbe36j87k6al@google.com",
       "_titel": "HSO 3 OA Cello"
     },
@@ -2477,11 +2543,12 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "16:00 Uhr",
       "_eventId": "4j6ojjr9f4mnj0qice5a56nua3@google.com",
       "_titel": "HSO 3 OA Kontrabässe"
     },
     {
-      "datum": "02.04.2027",
+      "datum": "01.04.2027",
       "uhrzeit": "16:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -2493,8 +2560,9 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "2o4omaibhhp5p2vmecke0cbapt@google.com",
-      "_titel": "HSO 3 OA Bläser"
+      "_titel": "HSO 3 OA Bläser Register"
     },
     {
       "datum": "03.04.2027",
@@ -2509,6 +2577,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "1jefsp3gog2mnug8agk07f1o1a@google.com",
       "_titel": "HSO 3 OA Streicher"
     },
@@ -2525,6 +2594,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "6h24av8kehqgth87mh18517lqo@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -2541,6 +2611,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "5s53gco18qf6u9285a3ghg452o@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -2557,6 +2628,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "2rmnbuo63kgb8pusk07rml1c4r@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -2573,6 +2645,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "58v4dfvjo6gfak3661kcbk941f@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -2589,6 +2662,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "7mt4k1je36qc3q9moavdo3lp1m@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -2605,6 +2679,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "6qbms97tvprbi0iash9ql953lk@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -2621,12 +2696,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "69m8nhnlsi9qgh35bjs2q2bqkf@google.com",
       "_titel": "HSO 3 GP"
     },
     {
       "datum": "08.04.2027",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "ort": "Forum",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -2695,12 +2772,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "18:30 Uhr",
       "_eventId": "3oujttut38bm5qdiov46ds0tct@google.com",
       "_titel": "HSO 3 Anspielprobe"
     },
     {
       "datum": "09.04.2027",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "ort": "Forum",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -2759,6 +2838,7 @@
     {
       "datum": "24.02.2027",
       "uhrzeit": "15:00 Uhr",
+      "endzeit": "17:45 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Blattspiel",
@@ -2849,6 +2929,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "21:00 Uhr",
       "_eventId": "663trbfg87i80e36jqfertgiaj@google.com",
       "_titel": "HSO 3 Wiederaufnahme GP"
     },
@@ -2865,12 +2946,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "09:30 Uhr",
       "_eventId": "0h2ksmq538jc9jnmqjc9emnjvt@google.com",
       "_titel": "Aufbau Probe"
     },
     {
       "datum": "06.05.2027",
       "uhrzeit": "11:00 Uhr",
+      "endzeit": "14:00 Uhr",
       "ort": "Elbphilharmonie",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -2930,12 +3013,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "15:00 Uhr",
       "_eventId": "6u0qotlpq63bo28okfmevcbuo8@google.com",
       "_titel": "Abbau"
     },
     {
       "datum": "21.10.2026",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Blattspiel",
@@ -2989,12 +3074,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:00 Uhr",
       "_eventId": "33vkntcada6bnbgjkamn6gvbm9@google.com",
       "_titel": "HSO Blattspiel"
     },
     {
       "datum": "01.07.2027",
       "uhrzeit": "17:30 Uhr",
+      "endzeit": "20:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "1. Probe",
@@ -3023,6 +3110,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:00 Uhr",
       "_eventId": "2q4uhnd599i0h85slab5qe7als@google.com",
       "_titel": "HSO 4 OA Bläser"
     },
@@ -3039,6 +3127,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "12:30 Uhr",
       "_eventId": "776at8hrhrubaj736j1uq7bksu@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -3055,6 +3144,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "16:30 Uhr",
       "_eventId": "4ismi4r5k74r3baclqviea5nkf@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -3071,6 +3161,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "12:30 Uhr",
       "_eventId": "0lbluql3ah0gp7u9ds0u9oa8l6@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -3087,6 +3178,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "16:30 Uhr",
       "_eventId": "331h9p60pols9cu1icth8dh8r3@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -3103,6 +3195,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "03k2q94pobauimnsqqdn9mdvpa@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -3119,12 +3212,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:00 Uhr",
       "_eventId": "53un6dj3pdebbt4gs9pg7k9po6@google.com",
       "_titel": "HSO 4 GP"
     },
     {
       "datum": "06.07.2027",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "ort": "Forum",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -3211,6 +3306,7 @@
     {
       "datum": "07.07.2027",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "ort": "Forum",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -3297,6 +3393,7 @@
     {
       "datum": "21.09.2027",
       "uhrzeit": "10:00 Uhr",
+      "endzeit": "12:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "1. Probe",
@@ -3325,6 +3422,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "14:30 Uhr",
       "_eventId": "0lgdiuaafhunl43li4c91t1i2o@google.com",
       "_titel": "WK 1 OA"
     },
@@ -3341,12 +3439,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "2t8ncmhiqvg6nr6r3anika7od4@google.com",
       "_titel": "WK 1 GP"
     },
     {
       "datum": "23.09.2027",
       "uhrzeit": "19:30 Uhr",
+      "endzeit": "21:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -3365,6 +3465,7 @@
     {
       "datum": "01.10.2027",
       "uhrzeit": "10:00 Uhr",
+      "endzeit": "13:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "1. Probe",
@@ -3393,6 +3494,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "16:00 Uhr",
       "_eventId": "gj4o84fpodjklvpse1usrbjpls@google.com",
       "_titel": "HSO 1 OA Violen"
     },
@@ -3409,6 +3511,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "n6t0gpe1pmggitubksv2kmeqs4@google.com",
       "_titel": "HSO 1 OA Celli"
     },
@@ -3425,6 +3528,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "22:00 Uhr",
       "_eventId": "toei690ho7a9j5et1p58aoheng@google.com",
       "_titel": "HSO 1 OA Kontrabässe"
     },
@@ -3441,6 +3545,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "mjqdg06bpjpjuio9a53193ttn8@google.com",
       "_titel": "HSO 1 OA Streicher"
     },
@@ -3457,6 +3562,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "u6m2kchf5jo2duts3anfv0j9l0@google.com",
       "_titel": "HSO 1 OA Bläser"
     },
@@ -3473,6 +3579,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "9b5vbtvbe01vm31jhlghl8jb3k@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -3489,6 +3596,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "6nt0t7l15vr1457jdvh1ktoc5c@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -3505,6 +3613,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "kuv61mjpvqa73tbtodcmkds1v8@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -3521,6 +3630,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "lfdkemon79a4r00ie0nkiolsa4@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -3537,6 +3647,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "efmoi0t2rfo8a62sbclb35sfik@google.com",
       "_titel": "HSO 1 OA tutti"
     },
@@ -3553,12 +3664,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "ihonsu1k45qdrt6pdcd3anhhc4@google.com",
       "_titel": "HSO 1 GP"
     },
     {
       "datum": "07.10.2027",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "22:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -3577,6 +3690,7 @@
     {
       "datum": "08.10.2027",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "22:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -3595,6 +3709,7 @@
     {
       "datum": "19.10.2027",
       "uhrzeit": "10:00 Uhr",
+      "endzeit": "12:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "1. Probe",
@@ -3623,6 +3738,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "14:30 Uhr",
       "_eventId": "f5p3q7uvgva5k9kr4hshvs82m4@google.com",
       "_titel": "WK 2 OA"
     },
@@ -3639,12 +3755,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "6lbrnteovh1gd6098td46a191s@google.com",
       "_titel": "WK 2 GP"
     },
     {
       "datum": "21.10.2027",
       "uhrzeit": "19:30 Uhr",
+      "endzeit": "21:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -3673,6 +3791,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "12:30 Uhr",
       "_eventId": "0h49k02a9tofgig3bjbee8484c@google.com",
       "_titel": "WK 3 OA"
     },
@@ -3689,6 +3808,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "14:30 Uhr",
       "_eventId": "chqo1fdochsp557rvln108v0v0@google.com",
       "_titel": "WK 3 OA"
     },
@@ -3705,12 +3825,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "nn9n81veddhiujmhg688ahcaak@google.com",
       "_titel": "WK 3 GP"
     },
     {
       "datum": "28.01.2028",
       "uhrzeit": "19:30 Uhr",
+      "endzeit": "21:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -3729,6 +3851,7 @@
     {
       "datum": "01.12.2027",
       "uhrzeit": "10:00 Uhr",
+      "endzeit": "13:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "1. Probe",
@@ -3757,6 +3880,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "8fmponjkio9f3vt1cncni6vg28@google.com",
       "_titel": "13/14 OA"
     },
@@ -3773,6 +3897,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "j7bol1c5nehia4si7k85jb9pdo@google.com",
       "_titel": "13/14 OA"
     },
@@ -3789,6 +3914,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "qsa030ghf05j1u8nnf6u2m9t5o@google.com",
       "_titel": "13/14 OA"
     },
@@ -3805,6 +3931,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "20:00 Uhr",
       "_eventId": "qb4is6ic87i1fd6le3gneeku1k@google.com",
       "_titel": "13/14 OA"
     },
@@ -3821,6 +3948,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "i9jq3iptc5b45gid8uhonpd17g@google.com",
       "_titel": "13/14 OA"
     },
@@ -3837,6 +3965,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "20:00 Uhr",
       "_eventId": "aup50dvqkc4u83b3c0k6qii0pk@google.com",
       "_titel": "13/14 OA"
     },
@@ -3853,6 +3982,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "2q8v61jbufic1t3pqkoju8dv94@google.com",
       "_titel": "13/14 OA"
     },
@@ -3869,6 +3999,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "21:00 Uhr",
       "_eventId": "k9g80tb2s2kltfob554smbqfj4@google.com",
       "_titel": "13/14 OA"
     },
@@ -3885,12 +4016,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "cc9hog7lpe9v1h2g6hgfti09rk@google.com",
       "_titel": "13/14 GP"
     },
     {
       "datum": "09.12.2027",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -3919,12 +4052,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "18:30 Uhr",
       "_eventId": "1pbp4896lel6am69tlcor38cvg@google.com",
       "_titel": "13/14 Anspielprobe"
     },
     {
       "datum": "10.12.2027",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -3953,6 +4088,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "mpv2nm76aofirjo1a14cquuvh4@google.com",
       "_titel": "HSO 2 OA Kontrabass"
     },
@@ -3969,6 +4105,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "16:00 Uhr",
       "_eventId": "206v4hrfn940sp30phupp50oek@google.com",
       "_titel": "HSO 2 OA Cello"
     },
@@ -3985,6 +4122,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "4itaflrkv4mjesnraokms2om1k@google.com",
       "_titel": "HSO 2 OA Viola"
     },
@@ -4001,6 +4139,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "ueg25485ei85vv4bi7j464rits@google.com",
       "_titel": "HSO 2 OA Violine"
     },
@@ -4017,6 +4156,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:00 Uhr",
       "_eventId": "odkokkldh1bl31sa0ec0bmrudk@google.com",
       "_titel": "HSO 2 OA Bläser"
     },
@@ -4033,6 +4173,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "sl3qinhtl74eueud7tadhkp9fs@google.com",
       "_titel": "HSO 2 OA Streicher"
     },
@@ -4049,6 +4190,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:00 Uhr",
       "_eventId": "h8hgo8ouikab1p8mnm5n4dglro@google.com",
       "_titel": "HSO 2 OA Bläser"
     },
@@ -4065,6 +4207,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "h2a274c5outcl4t5ijdj9u6ob8@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -4081,6 +4224,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "tts79s19gu2mn29ej3qu63ns28@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -4097,6 +4241,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "hekkm4thjqs7gfndh92r20aecc@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -4113,6 +4258,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "46neg1h8tmjhs0i5kbhasdn7ls@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -4129,6 +4275,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "fnnofgo32cqkh7679bu8tao01k@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -4145,6 +4292,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "4pu3qv1npj4mt09o88ao2uglv8@google.com",
       "_titel": "HSO 2 OA"
     },
@@ -4161,12 +4309,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "jv8eg5584h70oj1hg3m1j3raa4@google.com",
       "_titel": "HSO 2 GP"
     },
     {
       "datum": "08.02.2028",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -4185,6 +4335,7 @@
     {
       "datum": "09.02.2028",
       "uhrzeit": "19:30 Uhr",
+      "endzeit": "21:30 Uhr",
       "ort": "Laeiszhalle",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -4213,6 +4364,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "12:30 Uhr",
       "_eventId": "sqrlporo53i2pc4tavi2ul56ug@google.com",
       "_titel": "WK 5 OA"
     },
@@ -4229,6 +4381,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "14:30 Uhr",
       "_eventId": "i4aifp6lt54gd7mlok9vm78iqk@google.com",
       "_titel": "WK 5 OA"
     },
@@ -4245,12 +4398,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "ahqf8d8jqd8kci23eq8vaf79j4@google.com",
       "_titel": "WK 5 GP"
     },
     {
       "datum": "24.05.2028",
       "uhrzeit": "19:30 Uhr",
+      "endzeit": "21:30 Uhr",
       "ort": "kein Raum",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -4279,6 +4434,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "12:30 Uhr",
       "_eventId": "ljii2bjjg7vvm8id46oecjgdpo@google.com",
       "_titel": "WK 6 OA"
     },
@@ -4295,6 +4451,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "14:30 Uhr",
       "_eventId": "dkutu2s8of3c7l9ucnuk1670b0@google.com",
       "_titel": "WK 6 OA"
     },
@@ -4311,12 +4468,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "q1lrtqva13li7rb2lvmo3eqra8@google.com",
       "_titel": "WK 6 GP"
     },
     {
       "datum": "29.06.2028",
       "uhrzeit": "19:30 Uhr",
+      "endzeit": "21:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -4345,6 +4504,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "oothalgbc2j5pjs58l412mi5hc@google.com",
       "_titel": "HSO 3 OA Violine"
     },
@@ -4361,6 +4521,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "16:00 Uhr",
       "_eventId": "dme7rhu79238r2gvb5spmd68ak@google.com",
       "_titel": "HSO 3 OA Viola"
     },
@@ -4377,6 +4538,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "1gteqe24r9jvbf2lrp0kgiikjk@google.com",
       "_titel": "HSO 3 OA Bläser"
     },
@@ -4393,6 +4555,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "ppn4h3jkftdoem9a804ar2skas@google.com",
       "_titel": "HSO 3 OA Cello"
     },
@@ -4409,6 +4572,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "16:00 Uhr",
       "_eventId": "ca0io1evtrl9bcpdidtmnqlsak@google.com",
       "_titel": "HSO 3 OA Kontrabässe"
     },
@@ -4425,6 +4589,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "7tlaupkr710j6mthken5aatad4@google.com",
       "_titel": "HSO 3 OA Bläser"
     },
@@ -4441,6 +4606,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "g5bn2b95ve1jj979kvoa7ttj64@google.com",
       "_titel": "HSO 3 OA Streicher"
     },
@@ -4457,6 +4623,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "j13rimrlmnnocj00uuo8ujui4g@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -4473,6 +4640,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "36vvv82an0n6l177o5q27k9g5o@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -4489,6 +4657,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "1u335kld05mtcthmr2e55obark@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -4505,6 +4674,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "79osr6m14ra40s0oqtbgh31ccc@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -4521,6 +4691,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "4q45jem2irq1v2r67pdjv38sd8@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -4537,6 +4708,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "6qiuv3hrbf8humnqht4uiaku28@google.com",
       "_titel": "HSO 3 OA"
     },
@@ -4553,12 +4725,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "19:00 Uhr",
       "_eventId": "4nicdo49gurqg4g0867lls42v8@google.com",
       "_titel": "HSO 3 GP"
     },
     {
       "datum": "06.04.2028",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -4577,6 +4751,7 @@
     {
       "datum": "07.04.2028",
       "uhrzeit": "17:30 Uhr",
+      "endzeit": "18:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -4595,6 +4770,7 @@
     {
       "datum": "07.04.2028",
       "uhrzeit": "19:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -4623,12 +4799,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "21:00 Uhr",
       "_eventId": "kn4duarvn4qkjl3iltjr9oks68@google.com",
       "_titel": "HSO 3 Wiederaufnahme GP"
     },
     {
       "datum": "04.05.2028",
       "uhrzeit": "11:00 Uhr",
+      "endzeit": "14:00 Uhr",
       "ort": "Elbphilharmonie Hamburg, Platz d. Deutschen Einheit 4, 20457 Hamburg, Deutschland",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -4647,6 +4825,7 @@
     {
       "datum": "19.06.2028",
       "uhrzeit": "10:00 Uhr",
+      "endzeit": "13:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "1. Probe",
@@ -4675,6 +4854,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "gg3luitfclbstnt74ugk1kod1s@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -4691,6 +4871,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "0gfmh4a5fohr7ndkkrj2jh3pao@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -4707,6 +4888,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "oe488kdvr6qe6f9bfta3g1stl8@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -4723,6 +4905,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "s804s0sj56cu92hnkev5rhnj68@google.com",
       "_titel": "HSO 4 OSP"
     },
@@ -4739,6 +4922,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "20:00 Uhr",
       "_eventId": "f7r0kdnunpp7smdhpfgedks7es@google.com",
       "_titel": "HSO 4 OSP"
     },
@@ -4755,6 +4939,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "13:00 Uhr",
       "_eventId": "0jfei5bkjlo6g7hm98v7jemk9c@google.com",
       "_titel": "HSO 4 OSP"
     },
@@ -4771,6 +4956,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "22:30 Uhr",
       "_eventId": "vbqli4pmkq8s0smk1dg7b15qrg@google.com",
       "_titel": "HSO 4 HP"
     },
@@ -4787,12 +4973,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "15:00 Uhr",
       "_eventId": "p1j1d2bsdte67kqo5a6gs0fvg0@google.com",
       "_titel": "HSO 4 GP"
     },
     {
       "datum": "24.06.2028",
       "uhrzeit": "19:30 Uhr",
+      "endzeit": "22:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -4811,6 +4999,7 @@
     {
       "datum": "25.06.2028",
       "uhrzeit": "19:30 Uhr",
+      "endzeit": "22:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Vorstellung",
@@ -4829,6 +5018,7 @@
     {
       "datum": "14.10.2026",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": "Blattspiel",
@@ -4889,6 +5079,7 @@
     {
       "datum": "28.10.2026",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Blattspiel",
@@ -4930,6 +5121,7 @@
     {
       "datum": "04.11.2026",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Repertoire",
@@ -4965,6 +5157,7 @@
     {
       "datum": "11.11.2026",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Blattspiel",
@@ -5020,6 +5213,7 @@
     {
       "datum": "18.11.2026",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": "Repertoire",
@@ -5060,6 +5254,7 @@
     {
       "datum": "02.12.2026",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Blattspiel",
@@ -5100,6 +5295,7 @@
     {
       "datum": "09.12.2026",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Blattspiel",
@@ -5167,6 +5363,7 @@
     {
       "datum": "16.12.2026",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": "Repertoire",
@@ -5206,6 +5403,7 @@
     {
       "datum": "06.01.2027",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "Blattspiel",
@@ -5246,6 +5444,7 @@
     {
       "datum": "13.01.2027",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": "Repertoire",
@@ -5285,6 +5484,7 @@
     {
       "datum": "20.01.2027",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": "Blattspiel",
@@ -5320,6 +5520,7 @@
     {
       "datum": "27.01.2027",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": "Repertoire",
@@ -5360,6 +5561,7 @@
     {
       "datum": "17.02.2027",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": "Repertoire",
@@ -5400,6 +5602,7 @@
     {
       "datum": "14.04.2027",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": null,
@@ -5424,6 +5627,7 @@
     {
       "datum": "21.04.2027",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": null,
@@ -5448,6 +5652,7 @@
     {
       "datum": "28.04.2027",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": null,
@@ -5472,6 +5677,7 @@
     {
       "datum": "05.05.2027",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": null,
@@ -5496,6 +5702,7 @@
     {
       "datum": "12.05.2027",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": null,
@@ -5520,6 +5727,7 @@
     {
       "datum": "19.05.2027",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": null,
@@ -5544,6 +5752,7 @@
     {
       "datum": "26.05.2027",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": null,
@@ -5578,6 +5787,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:00 Uhr",
       "_eventId": "03smbqm44bq6m3c1ga8scjf4lj@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5594,12 +5804,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:00 Uhr",
       "_eventId": "2gpoptu1f4ph3bua756qhqoscd@google.com",
       "_titel": "HSO Blattspiel"
     },
     {
       "datum": "23.06.2027",
       "uhrzeit": "14:15 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": null,
@@ -5634,6 +5846,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:00 Uhr",
       "_eventId": "22a00tluftjed4cugghohueccd@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5650,6 +5863,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:00 Uhr",
       "_eventId": "2ug097ita11g2453u3e0q4q0k1@google.com",
       "_titel": "HSO Blattspiel"
     },
@@ -5666,6 +5880,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "2ne9b56hevg3vgorjccvpkq7sk@google.com",
       "_titel": "13/14 OA"
     },
@@ -5682,6 +5897,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "17:30 Uhr",
       "_eventId": "7jahtl2q8fmp6fmiq20lecgu7q@google.com",
       "_titel": "13/14 OA"
     },
@@ -5698,6 +5914,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "12:30 Uhr",
       "_eventId": "5eehak4ab7m323dacaa7ho7fsp@google.com",
       "_titel": "HSO 4 OA"
     },
@@ -5714,6 +5931,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "18:30 Uhr",
       "_eventId": "6untkd6u55pmdr6ni4os57usnp@google.com",
       "_titel": "HSO 4 Anspielprobe"
     },
@@ -5730,6 +5948,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "18:30 Uhr",
       "_eventId": "6n3keh7bvfsfc64sjdaie9qjnq@google.com",
       "_titel": "HSO 1 Anspielprobe"
     },
@@ -5746,8 +5965,26 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
+      "endzeit": "10:30 Uhr",
       "_eventId": "6vb9qi511b1ccjimdmgjtcpims@google.com",
       "_titel": "HSO 3 Anspielprobe"
+    },
+    {
+      "datum": "02.04.2027",
+      "uhrzeit": "16:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "abwesend": null,
+      "endzeit": "19:00 Uhr",
+      "_eventId": "38b907db5ek8ke8lg98f2rapjs@google.com",
+      "_titel": "HSO 3 OA Bläser"
     }
   ]
 }
