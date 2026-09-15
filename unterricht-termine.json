@@ -1,0 +1,3368 @@
+{
+  "generiert": "2026-09-15T16:44:19.913Z",
+  "data": [
+    {
+      "id": "UT_20260927_0",
+      "datum": "27.09.2026",
+      "projekt": "Gruppenunterricht Marković",
+      "marker": "Gruppenunterricht",
+      "dozent": "Marković",
+      "uhrzeit": "10:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "10:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_6",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_7",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_8",
+          "uhrzeit": "18:00"
+        },
+        {
+          "slotId": "s_9",
+          "uhrzeit": "19:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20260928_0",
+      "datum": "28.09.2026",
+      "projekt": "Gruppenunterricht Marković",
+      "marker": "Gruppenunterricht",
+      "dozent": "Marković",
+      "uhrzeit": "10:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "10:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_6",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_7",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_8",
+          "uhrzeit": "18:00"
+        },
+        {
+          "slotId": "s_9",
+          "uhrzeit": "19:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20260929_1",
+      "datum": "29.09.2026",
+      "projekt": "Gruppenunterricht Marković",
+      "marker": "Gruppenunterricht",
+      "dozent": "Marković",
+      "uhrzeit": "12:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "12:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "13:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "16:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20260930_2",
+      "datum": "30.09.2026",
+      "projekt": "Gruppenunterricht Marković",
+      "marker": "Gruppenunterricht",
+      "dozent": "Marković",
+      "uhrzeit": "14:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261001_3",
+      "datum": "01.10.2026",
+      "projekt": "Gruppenunterricht Marković",
+      "marker": "Gruppenunterricht",
+      "dozent": "Marković",
+      "uhrzeit": "13:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261005_6",
+      "datum": "05.10.2026",
+      "projekt": "Gruppenunterricht Yang",
+      "marker": "Gruppenunterricht",
+      "dozent": "Yang",
+      "uhrzeit": "16:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261005_0",
+      "datum": "05.10.2026",
+      "projekt": "Gruppenunterricht Yang",
+      "marker": "Gruppenunterricht",
+      "dozent": "Yang",
+      "uhrzeit": "12:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "12:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261006_7",
+      "datum": "06.10.2026",
+      "projekt": "Gruppenunterricht Yang",
+      "marker": "Gruppenunterricht",
+      "dozent": "Yang",
+      "uhrzeit": "16:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261012_8",
+      "datum": "12.10.2026",
+      "projekt": "Gruppenunterricht Dorsch",
+      "marker": "Gruppenunterricht",
+      "dozent": "Dorsch",
+      "uhrzeit": "15:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261014_9",
+      "datum": "14.10.2026",
+      "projekt": "Einzelunterricht Dorsch",
+      "marker": "Einzelunterricht",
+      "dozent": "Dorsch",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261016_10",
+      "datum": "15.10.2026",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261019_11",
+      "datum": "19.10.2026",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261021_12",
+      "datum": "21.10.2026",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261023_13",
+      "datum": "22.10.2026",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261025_14",
+      "datum": "25.10.2026",
+      "projekt": "Gruppenunterricht Baumann",
+      "marker": "Gruppenunterricht",
+      "dozent": "Baumann",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_6",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_7",
+          "uhrzeit": "18:00"
+        },
+        {
+          "slotId": "s_8",
+          "uhrzeit": "19:00"
+        },
+        {
+          "slotId": "s_9",
+          "uhrzeit": "20:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261026_15",
+      "datum": "26.10.2026",
+      "projekt": "Gruppenunterricht Baumann",
+      "marker": "Gruppenunterricht",
+      "dozent": "Baumann",
+      "uhrzeit": "12:30",
+      "ort": "Rot 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "12:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "13:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "16:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261026_16",
+      "datum": "26.10.2026",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "Rot 203",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261027_17",
+      "datum": "27.10.2026",
+      "projekt": "Gruppenunterricht Baumann",
+      "marker": "Gruppenunterricht",
+      "dozent": "Baumann",
+      "uhrzeit": "14:30",
+      "ort": "Rot 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261028_18",
+      "datum": "28.10.2026",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261028_19",
+      "datum": "28.10.2026",
+      "projekt": "Gruppenunterricht Baumann",
+      "marker": "Gruppenunterricht",
+      "dozent": "Baumann",
+      "uhrzeit": "13:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261030_20",
+      "datum": "29.10.2026",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261102_21",
+      "datum": "02.11.2026",
+      "projekt": "Gruppenunterricht Kütson",
+      "marker": "Gruppenunterricht",
+      "dozent": "Kütson",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_6",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_7",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261102_22",
+      "datum": "02.11.2026",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:00",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261103_23",
+      "datum": "03.11.2026",
+      "projekt": "Gruppenunterricht Kütson",
+      "marker": "Gruppenunterricht",
+      "dozent": "Kütson",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_6",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_7",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261104_24",
+      "datum": "04.11.2026",
+      "projekt": "Gruppenunterricht Kütson",
+      "marker": "Gruppenunterricht",
+      "dozent": "Kütson",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261104_0",
+      "datum": "04.11.2026",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "Raum?",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261109_25",
+      "datum": "09.11.2026",
+      "projekt": "Gruppenunterricht Kütson",
+      "marker": "Gruppenunterricht",
+      "dozent": "Kütson",
+      "uhrzeit": "13:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261110_26",
+      "datum": "10.11.2026",
+      "projekt": "Gruppenunterricht Kütson",
+      "marker": "Gruppenunterricht",
+      "dozent": "Kütson",
+      "uhrzeit": "14:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261111_27",
+      "datum": "11.11.2026",
+      "projekt": "Gruppenunterricht Kütson",
+      "marker": "Gruppenunterricht",
+      "dozent": "Kütson",
+      "uhrzeit": "13:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261116_28",
+      "datum": "16.11.2026",
+      "projekt": "Gruppenunterricht Dorsch",
+      "marker": "Gruppenunterricht",
+      "dozent": "Dorsch",
+      "uhrzeit": "15:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261117_0",
+      "datum": "17.11.2026",
+      "projekt": "Gruppenunterricht Wellber",
+      "marker": "Gruppenunterricht",
+      "dozent": "Wellber",
+      "uhrzeit": "15:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261118_29",
+      "datum": "18.11.2026",
+      "projekt": "Einzelunterricht Dorsch",
+      "marker": "Einzelunterricht",
+      "dozent": "Dorsch",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261125_30",
+      "datum": "25.11.2026",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261127_31",
+      "datum": "26.11.2026",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261130_32",
+      "datum": "30.11.2026",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261202_33",
+      "datum": "02.12.2026",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261204_34",
+      "datum": "03.12.2026",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261206_0",
+      "datum": "06.12.2026",
+      "projekt": "Gruppenunterricht Böer",
+      "marker": "Gruppenunterricht",
+      "dozent": "Böer",
+      "uhrzeit": "14:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "19:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261207_35",
+      "datum": "07.12.2026",
+      "projekt": "Gruppenunterricht Böer",
+      "marker": "Gruppenunterricht",
+      "dozent": "Böer",
+      "uhrzeit": "13:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "16:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261208_36",
+      "datum": "08.12.2026",
+      "projekt": "Gruppenunterricht Böer",
+      "marker": "Gruppenunterricht",
+      "dozent": "Böer",
+      "uhrzeit": "13:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "16:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261209_37",
+      "datum": "09.12.2026",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261209_38",
+      "datum": "09.12.2026",
+      "projekt": "Gruppenunterricht Böer",
+      "marker": "Gruppenunterricht",
+      "dozent": "Böer",
+      "uhrzeit": "13:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "17:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261211_40",
+      "datum": "11.12.2026",
+      "projekt": "Gruppenunterricht Böer",
+      "marker": "Gruppenunterricht",
+      "dozent": "Böer",
+      "uhrzeit": "10:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "10:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "12:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261211_41",
+      "datum": "11.12.2026",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "13:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "16:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261214_42",
+      "datum": "14.12.2026",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261216_43",
+      "datum": "16.12.2026",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261218_44",
+      "datum": "17.12.2026",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261221_45",
+      "datum": "21.12.2026",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270105_46",
+      "datum": "05.01.2027",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270106_47",
+      "datum": "06.01.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270112_49",
+      "datum": "12.01.2027",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270113_50",
+      "datum": "13.01.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270119_52",
+      "datum": "19.01.2027",
+      "projekt": "Gruppenunterricht Berg",
+      "marker": "Gruppenunterricht",
+      "dozent": "Berg",
+      "uhrzeit": "09:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "09:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "10:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_6",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_7",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_8",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_9",
+          "uhrzeit": "18:00"
+        },
+        {
+          "slotId": "s_10",
+          "uhrzeit": "19:00"
+        },
+        {
+          "slotId": "s_11",
+          "uhrzeit": "20:00"
+        },
+        {
+          "slotId": "s_12",
+          "uhrzeit": "21:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270119_53",
+      "datum": "19.01.2027",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270120_54",
+      "datum": "20.01.2027",
+      "projekt": "Gruppenunterricht Berg",
+      "marker": "Gruppenunterricht",
+      "dozent": "Berg",
+      "uhrzeit": "09:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "09:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "10:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_6",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_7",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_8",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_9",
+          "uhrzeit": "18:00"
+        },
+        {
+          "slotId": "s_10",
+          "uhrzeit": "19:00"
+        },
+        {
+          "slotId": "s_11",
+          "uhrzeit": "20:00"
+        },
+        {
+          "slotId": "s_12",
+          "uhrzeit": "21:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270121_55",
+      "datum": "21.01.2027",
+      "projekt": "Gruppenunterricht Berg",
+      "marker": "Gruppenunterricht",
+      "dozent": "Berg",
+      "uhrzeit": "13:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270122_57",
+      "datum": "22.01.2027",
+      "projekt": "Gruppenunterricht Berg",
+      "marker": "Gruppenunterricht",
+      "dozent": "Berg",
+      "uhrzeit": "15:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270123_58",
+      "datum": "23.01.2027",
+      "projekt": "Gruppenunterricht Berg",
+      "marker": "Gruppenunterricht",
+      "dozent": "Berg",
+      "uhrzeit": "13:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270126_59",
+      "datum": "26.01.2027",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270127_60",
+      "datum": "27.01.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270202_62",
+      "datum": "02.02.2027",
+      "projekt": "Gruppenunterricht Frank",
+      "marker": "Gruppenunterricht",
+      "dozent": "Frank",
+      "uhrzeit": "10:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "10:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_6",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_7",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_8",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270202_63",
+      "datum": "02.02.2027",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270203_64",
+      "datum": "03.02.2027",
+      "projekt": "Gruppenunterricht Frank",
+      "marker": "Gruppenunterricht",
+      "dozent": "Frank",
+      "uhrzeit": "10:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "10:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_6",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_7",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_8",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270204_65",
+      "datum": "04.02.2027",
+      "projekt": "Gruppenunterricht Frank",
+      "marker": "Gruppenunterricht",
+      "dozent": "Frank",
+      "uhrzeit": "17:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270108_48",
+      "datum": "05.02.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270205_67",
+      "datum": "05.02.2027",
+      "projekt": "Gruppenunterricht Frank",
+      "marker": "Gruppenunterricht",
+      "dozent": "Frank",
+      "uhrzeit": "17:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270211_1",
+      "datum": "11.02.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "02:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "02:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "03:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "04:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "05:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "06:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270217_68",
+      "datum": "17.02.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270222_69",
+      "datum": "22.02.2027",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "10:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "10:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_6",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_7",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_8",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270223_70",
+      "datum": "23.02.2027",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "13:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270224_71",
+      "datum": "24.02.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "18:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "18:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "19:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270225_72",
+      "datum": "25.02.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "13:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270322_73",
+      "datum": "22.03.2027",
+      "projekt": "Gruppenunterricht Cambreling",
+      "marker": "Gruppenunterricht",
+      "dozent": "Cambreling",
+      "uhrzeit": "13:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270323_74",
+      "datum": "23.03.2027",
+      "projekt": "Gruppenunterricht Cambreling",
+      "marker": "Gruppenunterricht",
+      "dozent": "Cambreling",
+      "uhrzeit": "12:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "12:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "13:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270324_75",
+      "datum": "24.03.2027",
+      "projekt": "Gruppenunterricht Cambreling",
+      "marker": "Gruppenunterricht",
+      "dozent": "Cambreling",
+      "uhrzeit": "14:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270325_76",
+      "datum": "25.03.2027",
+      "projekt": "Gruppenunterricht Cambreling",
+      "marker": "Gruppenunterricht",
+      "dozent": "Cambreling",
+      "uhrzeit": "13:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270331_77",
+      "datum": "31.03.2027",
+      "projekt": "Gruppenunterricht Avni",
+      "marker": "Gruppenunterricht",
+      "dozent": "Avni",
+      "uhrzeit": "10:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "10:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_6",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_7",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_8",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270401_78",
+      "datum": "01.04.2027",
+      "projekt": "Gruppenunterricht Avni",
+      "marker": "Gruppenunterricht",
+      "dozent": "Avni",
+      "uhrzeit": "10:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "10:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_6",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_7",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_8",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270402_79",
+      "datum": "02.04.2027",
+      "projekt": "Gruppenunterricht Avni",
+      "marker": "Gruppenunterricht",
+      "dozent": "Avni",
+      "uhrzeit": "10:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "10:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "15:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270403_80",
+      "datum": "03.04.2027",
+      "projekt": "Gruppenunterricht Avni",
+      "marker": "Gruppenunterricht",
+      "dozent": "Avni",
+      "uhrzeit": "13:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270404_81",
+      "datum": "04.04.2027",
+      "projekt": "Gruppenunterricht Avni",
+      "marker": "Gruppenunterricht",
+      "dozent": "Avni",
+      "uhrzeit": "13:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270413_82",
+      "datum": "13.04.2027",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270414_83",
+      "datum": "14.04.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270416_84",
+      "datum": "15.04.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270420_85",
+      "datum": "20.04.2027",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270421_86",
+      "datum": "21.04.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270423_87",
+      "datum": "22.04.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270428_89",
+      "datum": "28.04.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270430_90",
+      "datum": "29.04.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270504_91",
+      "datum": "04.05.2027",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270511_93",
+      "datum": "11.05.2027",
+      "projekt": "Gruppenunterricht",
+      "marker": "Gruppenunterricht",
+      "dozent": "",
+      "uhrzeit": "15:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270512_94",
+      "datum": "12.05.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270514_95",
+      "datum": "13.05.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270518_96",
+      "datum": "18.05.2027",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270519_97",
+      "datum": "19.05.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270521_98",
+      "datum": "20.05.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270525_99",
+      "datum": "25.05.2027",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270526_100",
+      "datum": "26.05.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270528_101",
+      "datum": "27.05.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270601_102",
+      "datum": "01.06.2027",
+      "projekt": "Gruppenunterricht",
+      "marker": "Gruppenunterricht",
+      "dozent": "",
+      "uhrzeit": "15:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270602_103",
+      "datum": "02.06.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270604_104",
+      "datum": "03.06.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270608_105",
+      "datum": "08.06.2027",
+      "projekt": "Gruppenunterricht",
+      "marker": "Gruppenunterricht",
+      "dozent": "",
+      "uhrzeit": "15:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270609_106",
+      "datum": "09.06.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270611_107",
+      "datum": "10.06.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270615_108",
+      "datum": "15.06.2027",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270616_109",
+      "datum": "16.06.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270618_110",
+      "datum": "17.06.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270629_2",
+      "datum": "29.06.2027",
+      "projekt": "Gruppenunterricht Song",
+      "marker": "Gruppenunterricht",
+      "dozent": "Song",
+      "uhrzeit": "15:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270621_111",
+      "datum": "30.06.2027",
+      "projekt": "Gruppenunterricht Brönnimann",
+      "marker": "Gruppenunterricht",
+      "dozent": "Brönnimann",
+      "uhrzeit": "11:00",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "14:00"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "15:00"
+        },
+        {
+          "slotId": "s_5",
+          "uhrzeit": "16:00"
+        },
+        {
+          "slotId": "s_6",
+          "uhrzeit": "17:00"
+        },
+        {
+          "slotId": "s_7",
+          "uhrzeit": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270701_3",
+      "datum": "01.07.2027",
+      "projekt": "Gruppenunterricht Brönnimann",
+      "marker": "Gruppenunterricht",
+      "dozent": "Brönnimann",
+      "uhrzeit": "11:00",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270701_4",
+      "datum": "01.07.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "14:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "17:30"
+        },
+        {
+          "slotId": "s_4",
+          "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270702_5",
+      "datum": "02.07.2027",
+      "projekt": "Gruppenunterricht Brönnimann",
+      "marker": "Gruppenunterricht",
+      "dozent": "Brönnimann",
+      "uhrzeit": "16:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270703_6",
+      "datum": "03.07.2027",
+      "projekt": "Gruppenunterricht Brönnimann",
+      "marker": "Gruppenunterricht",
+      "dozent": "Brönnimann",
+      "uhrzeit": "16:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "16:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "17:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270704_7",
+      "datum": "04.07.2027",
+      "projekt": "Gruppenunterricht Brönnimann",
+      "marker": "Gruppenunterricht",
+      "dozent": "Brönnimann",
+      "uhrzeit": "12:30",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "12:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "13:30"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "14:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270707_8",
+      "datum": "07.07.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20270714_9",
+      "datum": "14.07.2027",
+      "projekt": "Einzelunterricht Song",
+      "marker": "Einzelunterricht",
+      "dozent": "Song",
+      "uhrzeit": "11:00",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "13:00"
+        }
+      ]
+    }
+  ]
+}
