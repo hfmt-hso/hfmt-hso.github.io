@@ -406,7 +406,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="info-card"><h3>HSO Portal</h3><p>Wird täglich automatisch aktualisiert. Bei Fragen: Orchesterbüro.</p></div>
 </div>
 
-<script>
+<script>window.HSO_DATEN_BASE='./';</script>
+<script src="hso-daten.js"></script>
+<script></script>
 const WEBAPP_URL    = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 
 // ── FETCH MIT AUTOMATISCHEM RETRY ──────────────────────────────
@@ -507,8 +509,7 @@ function showTab(name,btn){
 let _progData = null;
 async function ladeProgData(sj){
   if(ueCache['__prog_'+sj])return ueCache['__prog_'+sj];
-  const res = await fetchMitRetry(`${WEBAPP_URL}?action=programm&sj=${sj}`);
-  const json = await res.json();
+  const json = await HsoDaten.holen('programm', sj);
   const data = (json.ok && json.data) ? json.data : {};
   ueCache['__prog_'+sj] = data;
   return data;
@@ -521,7 +522,7 @@ async function ladeProjekte(){
 
   try {
     const [projRes, progData] = await Promise.all([
-      fetchMitRetry(`${WEBAPP_URL}?action=projekte&sj=${sj}`).then(r=>r.json()),
+      HsoDaten.holen('projekte', sj),
       ladeProgData(sj)
     ]);
 
@@ -592,8 +593,7 @@ async function ladeProjekte(){
 // ── KALENDER-DATEN LADEN (alle Events, gecacht) ───────────────
 async function ladeKalenderData(sj){
   if(ueCache['__kal_'+sj])return ueCache['__kal_'+sj];
-  const res = await fetchMitRetry(`${WEBAPP_URL}?action=kalender&sj=${sj}`);
-  const json = await res.json();
+  const json = await HsoDaten.holen('kalender', sj);
   const data = (json.ok && json.data) ? json.data : {};
   ueCache['__kal_'+sj] = data;
   return data;
