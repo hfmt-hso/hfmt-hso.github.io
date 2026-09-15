@@ -408,6 +408,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <script>
 const WEBAPP_URL    = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
+
+// ── FETCH MIT AUTOMATISCHEM RETRY ──────────────────────────────
+// Das Apps-Script-Backend antwortet unter Last manchmal mit Timeout/404
+// (Google-seitiges Limit für gleichzeitige Ausführungen). Ein einzelner
+// automatischer Wiederholungsversuch nach kurzer Pause reicht in der
+// Praxis, um transiente Fehler unsichtbar zu machen.
+async function fetchMitRetry(url, versuche = 2, timeoutMs = 20000) {
+  let letzterFehler;
+  for (let i = 0; i < versuche; i++) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, { signal: ctrl.signal });
+      clearTimeout(timer);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res;
+    } catch (e) {
+      clearTimeout(timer);
+      letzterFehler = e;
+      if (i < versuche - 1) await new Promise(r => setTimeout(r, 1000));
+    }
+  }
+  throw letzterFehler;
+}
+
 const BEDARF_SHEET  = '1tUfGP4VERPbkaMfblA18xjKo-6535_rw29Gz67Tc7aQ';
 const BEDARF_GID    = '1642432141';
 const CUTOFF_TAGE   = 14;
@@ -482,7 +507,7 @@ function showTab(name,btn){
 let _progData = null;
 async function ladeProgData(sj){
   if(ueCache['__prog_'+sj])return ueCache['__prog_'+sj];
-  const res = await fetch(`${WEBAPP_URL}?action=programm&sj=${sj}`);
+  const res = await fetchMitRetry(`${WEBAPP_URL}?action=programm&sj=${sj}`);
   const json = await res.json();
   const data = (json.ok && json.data) ? json.data : {};
   ueCache['__prog_'+sj] = data;
@@ -496,7 +521,7 @@ async function ladeProjekte(){
 
   try {
     const [projRes, progData] = await Promise.all([
-      fetch(`${WEBAPP_URL}?action=projekte&sj=${sj}`).then(r=>r.json()),
+      fetchMitRetry(`${WEBAPP_URL}?action=projekte&sj=${sj}`).then(r=>r.json()),
       ladeProgData(sj)
     ]);
 
@@ -567,7 +592,7 @@ async function ladeProjekte(){
 // ── KALENDER-DATEN LADEN (alle Events, gecacht) ───────────────
 async function ladeKalenderData(sj){
   if(ueCache['__kal_'+sj])return ueCache['__kal_'+sj];
-  const res = await fetch(`${WEBAPP_URL}?action=kalender&sj=${sj}`);
+  const res = await fetchMitRetry(`${WEBAPP_URL}?action=kalender&sj=${sj}`);
   const json = await res.json();
   const data = (json.ok && json.data) ? json.data : {};
   ueCache['__kal_'+sj] = data;
@@ -1046,7 +1071,7 @@ function wechsleSj(sj){
 ladeProjekte();
 ladenKalender().then(populateFreikartenEvents);
 ladeBedarf();
-async function ladeProbendispositionen(){ try { const res = await fetch(`${WEBAPP_URL}?action=probendispositionen`); const json = await res.json(); const liste = document.getElementById('probendisp-liste'); const data = (json.ok && json.data) ? json.data : []; if(!data.length){ liste.innerHTML = '<div class="loading">Keine aktuellen Probendispositionen.</div>'; return; } liste.innerHTML = data.map(function(e){ return '<div style="border-top:0.5px solid var(--border);padding:10px 0;margin-top:10px"><div style="font-size:13px;font-weight:600;color:var(--text)">'+esc(e.anlass)+(e.datum?' &middot; '+esc(e.datum):'')+'</div><div style="font-size:13px;color:var(--text);white-space:pre-wrap;margin-top:4px;line-height:1.5">'+esc(e.text)+'</div></div>'; }).join(''); } catch(e){ document.getElementById('probendisp-liste').innerHTML = '<div class="loading">Laden fehlgeschlagen.</div>'; } }
+async function ladeProbendispositionen(){ try { const res = await fetchMitRetry(`${WEBAPP_URL}?action=probendispositionen`); const json = await res.json(); const liste = document.getElementById('probendisp-liste'); const data = (json.ok && json.data) ? json.data : []; if(!data.length){ liste.innerHTML = '<div class="loading">Keine aktuellen Probendispositionen.</div>'; return; } liste.innerHTML = data.map(function(e){ return '<div style="border-top:0.5px solid var(--border);padding:10px 0;margin-top:10px"><div style="font-size:13px;font-weight:600;color:var(--text)">'+esc(e.anlass)+(e.datum?' &middot; '+esc(e.datum):'')+'</div><div style="font-size:13px;color:var(--text);white-space:pre-wrap;margin-top:4px;line-height:1.5">'+esc(e.text)+'</div></div>'; }).join(''); } catch(e){ document.getElementById('probendisp-liste').innerHTML = '<div class="loading">Laden fehlgeschlagen.</div>'; } }
 ladeProbendispositionen();
 
 // ── Direktsprung zu einem Tab über ?tab=… in der URL (z.B. Rücksprung aus dem Aufbauplan-Tool zum Bedarf-Tab) ──
