@@ -113,6 +113,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div id="projekte-liste"><div class="loading">Programme werden geladen…</div></div>
 </div>
 
+<script>window.HSO_DATEN_BASE='../';</script>
+<script src="../hso-daten.js"></script>
 <script>
 const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 const WT  = ['So','Mo','Di','Mi','Do','Fr','Sa'];
@@ -201,15 +203,13 @@ function getSjTarget(){
 
 async function ladeProgData(sj){
   if(ueCache['__prog_'+sj]) return ueCache['__prog_'+sj];
-  const res = await fetch(`${WEBAPP_URL}?action=programm&sj=${sj}`);
-  const json = await res.json();
+  const json = await HsoDaten.holen('programm', sj);
   const data = (json.ok && json.data) ? json.data : {};
   ueCache['__prog_'+sj] = data;
   return data;
 }
 async function ladeProjekte(sj){
-  const res = await fetch(`${WEBAPP_URL}?action=projekte&sj=${sj}`);
-  const json = await res.json();
+  const json = await HsoDaten.holen('projekte', sj);
   return (json.ok && json.data) ? json.data : [];
 }
 
