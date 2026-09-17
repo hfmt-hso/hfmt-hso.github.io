@@ -562,6 +562,23 @@ function parseDate(s) {
   const d = new Date(str);
   return isNaN(d.getTime()) ? null : d;
 }
+function addStunde(zeit) {
+  var teile = String(zeit||'').split(':');
+  if (teile.length < 2) return '';
+  var h = (parseInt(teile[0],10) + 1) % 24;
+  var hh = h < 10 ? '0'+h : ''+h;
+  return hh + ':' + teile[1];
+}
+function zeitspanne(t) {
+  if (!t.uhrzeit) return '';
+  var slots = t.slots || [];
+  if (slots.length > 1) {
+    var letzteUhrzeit = slots[slots.length - 1].uhrzeit;
+    var ende = addStunde(letzteUhrzeit);
+    return ende ? (t.uhrzeit + '–' + ende + ' Uhr') : (t.uhrzeit + ' Uhr');
+  }
+  return t.uhrzeit + ' Uhr';
+}
 let toastTimer = null;
 function toast(msg) {
   const el = document.getElementById('toast');
@@ -729,7 +746,7 @@ function renderTerminKarte(t) {
       </div>
       <div class="termin-info">
         <div class="termin-titel">${esc(t.projekt || t.marker)}</div>
-        <div class="termin-meta">${wt}${t.dozent ? ' · ' + esc(t.dozent) : ''}${t.ort ? ' · ' + esc(t.ort) : ''}</div>
+        <div class="termin-meta">${wt}${zeitspanne(t) ? ' · ' + esc(zeitspanne(t)) : ''}${t.dozent ? ' · ' + esc(t.dozent) : ''}${t.ort ? ' · ' + esc(t.ort) : ''}</div>
       </div>
       <div class="termin-status">${badge}</div>
     </div>
@@ -753,7 +770,7 @@ function renderTerminKartePublic(t) {
       </div>
       <div class="termin-info">
         <div class="termin-titel">${esc(t.projekt || t.marker)}</div>
-        <div class="termin-meta">${wt}${t.dozent ? ' · ' + esc(t.dozent) : ''}${t.ort ? ' · ' + esc(t.ort) : ''}</div>
+        <div class="termin-meta">${wt}${zeitspanne(t) ? ' · ' + esc(zeitspanne(t)) : ''}${t.dozent ? ' · ' + esc(t.dozent) : ''}${t.ort ? ' · ' + esc(t.ort) : ''}</div>
       </div>
       <div class="termin-status">${badge}</div>
     </div>
