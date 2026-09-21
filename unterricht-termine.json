@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-09-21T02:06:57.927Z",
+  "generiert": "2026-09-21T17:37:18.707Z",
   "data": [
     {
       "id": "UT_20260927_0",
@@ -361,34 +361,29 @@
         {
           "slotId": "s_2",
           "uhrzeit": "13:00"
-        },
+        }
+      ]
+    },
+    {
+      "id": "UT_20261024_0",
+      "datum": "24.10.2026",
+      "projekt": "Gruppenunterricht Baumann",
+      "marker": "Gruppenunterricht",
+      "dozent": "Baumann",
+      "uhrzeit": "15:00",
+      "ort": "Blau 206",
+      "slots": [
         {
-          "slotId": "s_3",
-          "uhrzeit": "14:00"
-        },
-        {
-          "slotId": "s_4",
+          "slotId": "s_0",
           "uhrzeit": "15:00"
         },
         {
-          "slotId": "s_5",
+          "slotId": "s_1",
           "uhrzeit": "16:00"
         },
         {
-          "slotId": "s_6",
+          "slotId": "s_2",
           "uhrzeit": "17:00"
-        },
-        {
-          "slotId": "s_7",
-          "uhrzeit": "18:00"
-        },
-        {
-          "slotId": "s_8",
-          "uhrzeit": "19:00"
-        },
-        {
-          "slotId": "s_9",
-          "uhrzeit": "20:00"
         }
       ]
     },
@@ -398,28 +393,24 @@
       "projekt": "Gruppenunterricht Baumann",
       "marker": "Gruppenunterricht",
       "dozent": "Baumann",
-      "uhrzeit": "12:30",
+      "uhrzeit": "14:00",
       "ort": "Rot 206",
       "slots": [
         {
           "slotId": "s_0",
-          "uhrzeit": "12:30"
+          "uhrzeit": "14:00"
         },
         {
           "slotId": "s_1",
-          "uhrzeit": "13:30"
+          "uhrzeit": "15:00"
         },
         {
           "slotId": "s_2",
-          "uhrzeit": "14:30"
+          "uhrzeit": "16:00"
         },
         {
           "slotId": "s_3",
-          "uhrzeit": "15:30"
-        },
-        {
-          "slotId": "s_4",
-          "uhrzeit": "16:30"
+          "uhrzeit": "17:00"
         }
       ]
     },
@@ -452,24 +443,20 @@
       "projekt": "Gruppenunterricht Baumann",
       "marker": "Gruppenunterricht",
       "dozent": "Baumann",
-      "uhrzeit": "14:30",
+      "uhrzeit": "16:00",
       "ort": "Rot 206",
       "slots": [
         {
           "slotId": "s_0",
-          "uhrzeit": "14:30"
+          "uhrzeit": "16:00"
         },
         {
           "slotId": "s_1",
-          "uhrzeit": "15:30"
+          "uhrzeit": "17:00"
         },
         {
           "slotId": "s_2",
-          "uhrzeit": "16:30"
-        },
-        {
-          "slotId": "s_3",
-          "uhrzeit": "17:30"
+          "uhrzeit": "18:00"
         }
       ]
     },
@@ -508,22 +495,6 @@
         {
           "slotId": "s_1",
           "uhrzeit": "14:00"
-        },
-        {
-          "slotId": "s_2",
-          "uhrzeit": "15:00"
-        },
-        {
-          "slotId": "s_3",
-          "uhrzeit": "16:00"
-        },
-        {
-          "slotId": "s_4",
-          "uhrzeit": "17:00"
-        },
-        {
-          "slotId": "s_5",
-          "uhrzeit": "18:00"
         }
       ]
     },
