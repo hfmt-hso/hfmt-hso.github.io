@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-09-21T02:06:55.248Z",
+  "generiert": "2026-09-21T17:37:15.674Z",
   "events": [
     {
       "datum": "29.09.2026",
@@ -91,7 +91,7 @@
     {
       "datum": "01.10.2026",
       "uhrzeit": "15:30 Uhr",
-      "ort": "Fanny Hensel-Saal",
+      "ort": "Fanny Hensel- Saal",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -721,7 +721,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Philine Lembeck (Mendelssohn), Rémi Geniet (Tchaikovsky), Yuan Xin (Dvořak 1.& 2. Satz) , Sukjong Kim (Dvořak 3.& 4. Satz)  (Kursleitung: Rasmus Baumann)",
+          "name": "Philine Lembeck (Mendelssohn), Rémi Geniet (Tchaikovsky), Yuan Xin (Dvořak 1.& 2. Satz) , Sukjong Kim (Dvořak 3.& 4. Satz)  (Kursleitung: Prof. Rasmus Baumann)",
           "werk": "",
           "klasse": ""
         }
@@ -814,8 +814,8 @@
     },
     {
       "datum": "31.10.2026",
-      "uhrzeit": "19:30 Uhr",
-      "endzeit": "22:00 Uhr",
+      "uhrzeit": "19:00 Uhr",
+      "endzeit": "21:30 Uhr",
       "ort": "Ständehaus Merseburg, Oberaltenburg 2, 06217, Merseburg",
       "konzertart": "Symphoniekonzert",
       "marker": "Vorstellung",
@@ -4354,7 +4354,7 @@
     {
       "datum": "22.05.2028",
       "uhrzeit": "10:00 Uhr",
-      "ort": "kein Raum",
+      "ort": "Laeiszhalle",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -4371,7 +4371,7 @@
     {
       "datum": "23.05.2028",
       "uhrzeit": "10:00 Uhr",
-      "ort": "kein Raum",
+      "ort": "Laeiszhalle",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -4388,7 +4388,7 @@
     {
       "datum": "24.05.2028",
       "uhrzeit": "10:00 Uhr",
-      "ort": "kein Raum",
+      "ort": "Laeiszhalle nicht bestätigt!",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -4406,7 +4406,7 @@
       "datum": "24.05.2028",
       "uhrzeit": "19:30 Uhr",
       "endzeit": "21:30 Uhr",
-      "ort": "kein Raum",
+      "ort": "Laeiszhalle",
       "konzertart": null,
       "marker": "Vorstellung",
       "werke": [],
