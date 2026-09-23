@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-09-23T02:07:08.828Z",
+  "generiert": "2026-09-23T17:09:03.712Z",
   "events": [
     {
       "datum": "29.09.2026",
@@ -137,7 +137,14 @@
           "dauer": "ca. 21 min",
           "besetzung": "3.2.2.2-4.3.3.1-Pk+2-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Viola",
+              "name": "Yitong Guo",
+              "zusatz": "Konzertexamen, Klasse Prof. Anna Kreetta Gribajcevic"
+            }
+          ]
         },
         {
           "pause": true
@@ -155,14 +162,7 @@
           "dauer": "ca. 48 min",
           "besetzung": "2.2.2.2-2.2.3.0-Pk-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Viola",
-              "name": "Yitong Guo",
-              "zusatz": "Konzertexamen, Klasse Prof. Anna Kreetta Gribajcevic"
-            }
-          ]
+          "pause": false
         }
       ],
       "solisten": [
@@ -384,7 +384,14 @@
           "dauer": "ca. 22 min",
           "besetzung": "3.3.3.3-4.3.3.1-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Violine",
+              "name": "Chuanru He",
+              "zusatz": "Konzertexamen, Klasse Prof. Christoph Schickedanz"
+            }
+          ]
         },
         {
           "pause": true
@@ -402,14 +409,7 @@
           "dauer": "ca. 45 min",
           "besetzung": "2.2.2.3-4.2.3.0-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Violine",
-              "name": "Chuanru He",
-              "zusatz": "Konzertexamen, Klasse Prof. Christoph Schickedanz"
-            }
-          ]
+          "pause": false
         }
       ],
       "solisten": [
@@ -472,7 +472,14 @@
           "dauer": "ca. 22 min",
           "besetzung": "3.3.3.3-4.3.3.1-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Violine",
+              "name": "Chuanru He",
+              "zusatz": "Konzertexamen, Klasse Prof. Christoph Schickedanz"
+            }
+          ]
         },
         {
           "pause": true
@@ -490,14 +497,7 @@
           "dauer": "ca. 45 min",
           "besetzung": "2.2.2.3-4.2.3.0-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Violine",
-              "name": "Chuanru He",
-              "zusatz": "Konzertexamen, Klasse Prof. Christoph Schickedanz"
-            }
-          ]
+          "pause": false
         }
       ],
       "solisten": [
@@ -683,7 +683,14 @@
           "dauer": "ca. 35 min",
           "besetzung": "2.2.2.2-4.2.0.0-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Violine",
+              "name": "Jie Pei",
+              "zusatz": "Konzertexamen, Klasse Prof. Christoph Schickedanz"
+            }
+          ]
         },
         {
           "pause": true
@@ -701,14 +708,7 @@
           "dauer": "ca. 40 min",
           "besetzung": "2.2.2.2-4.2.3.0-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Violine",
-              "name": "Jie Pei",
-              "zusatz": "Konzertexamen, Klasse Prof. Christoph Schickedanz"
-            }
-          ]
+          "pause": false
         }
       ],
       "solisten": [
@@ -852,7 +852,14 @@
           "dauer": "ca. 42 min",
           "besetzung": null,
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Violoncello",
+              "name": "Fabian Sturm",
+              "zusatz": ""
+            }
+          ]
         },
         {
           "pause": true
@@ -895,11 +902,6 @@
             {
               "instrument": "Violine",
               "name": "Yunhe Tang",
-              "zusatz": ""
-            },
-            {
-              "instrument": "Violoncello",
-              "name": "Fabian Sturm",
               "zusatz": ""
             }
           ]
@@ -1011,7 +1013,14 @@
           "dauer": "ca. 49 min",
           "besetzung": "2.2.2.2-4.2.0.0-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Klavier",
+              "name": "Maria Narodytska",
+              "zusatz": "Konzertexamen, Klasse Prof. Stepan Simonyan"
+            }
+          ]
         },
         {
           "pause": true
@@ -1029,14 +1038,7 @@
           "dauer": "ca. 41 min",
           "besetzung": "3.2.2.2-4.2.3.1-Pk+4, Hrf.-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Klavier",
-              "name": "Maria Narodytska",
-              "zusatz": "Konzertexamen, Klasse Prof. Stepan Simonyan"
-            }
-          ]
+          "pause": false
         }
       ],
       "solisten": [
@@ -1272,7 +1274,19 @@
           "dauer": "ca. 16 min",
           "besetzung": "1.1.2.1-1.1.1.0-Hrf.-Str. (1.1.1.1.1)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Violoncello",
+              "name": "Oliwia Meiser",
+              "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
+            },
+            {
+              "instrument": "Violoncello",
+              "name": "Clara Eglhuber",
+              "zusatz": "Klasse Prof. Sebastian Klinger"
+            }
+          ]
         },
         {
           "komponist": "Sebastian Zaczek",
@@ -1298,16 +1312,6 @@
           "urauffuehrung": false,
           "pause": false,
           "solisten": [
-            {
-              "instrument": "Violoncello",
-              "name": "Oliwia Meiser",
-              "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
-            },
-            {
-              "instrument": "Violoncello",
-              "name": "Clara Eglhuber",
-              "zusatz": "Klasse Prof. Sebastian Klinger"
-            },
             {
               "instrument": "Klavier",
               "name": "Sergi Pacheco Portalés",
@@ -1419,7 +1423,19 @@
           "dauer": "ca. 16 min",
           "besetzung": "1.1.2.1-1.1.1.0-Hrf.-Str. (1.1.1.1.1)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Violoncello",
+              "name": "Oliwia Meiser",
+              "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
+            },
+            {
+              "instrument": "Violoncello",
+              "name": "Clara Eglhuber",
+              "zusatz": "Klasse Prof. Sebastian Klinger"
+            }
+          ]
         },
         {
           "komponist": "Sebastian Zaczek",
@@ -1445,16 +1461,6 @@
           "urauffuehrung": false,
           "pause": false,
           "solisten": [
-            {
-              "instrument": "Violoncello",
-              "name": "Oliwia Meiser",
-              "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
-            },
-            {
-              "instrument": "Violoncello",
-              "name": "Clara Eglhuber",
-              "zusatz": "Klasse Prof. Sebastian Klinger"
-            },
             {
               "instrument": "Klavier",
               "name": "Sergi Pacheco Portalés",
@@ -1632,7 +1638,19 @@
           "dauer": "ca. 32 min",
           "besetzung": "2.2.2.2-4.2.0.0-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Violoncello",
+              "name": "Yoon Gyeong-on",
+              "zusatz": "Konzertexamen, Klasse Prof. Niklas Schmidt"
+            },
+            {
+              "instrument": "Violine",
+              "name": "Onyou Kim",
+              "zusatz": "als Gast"
+            }
+          ]
         },
         {
           "pause": true
@@ -1650,25 +1668,13 @@
           "dauer": "ca. 44 min",
           "besetzung": "3.2.2.2-4.2.3.1-Pk+3-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Violoncello",
-              "name": "Kyungon Yoon",
-              "zusatz": "Konzertexamen, Klasse Prof. Niklas Schmidt"
-            },
-            {
-              "instrument": "Violine",
-              "name": "Onyou Kim",
-              "zusatz": "als Gast"
-            }
-          ]
+          "pause": false
         }
       ],
       "solisten": [
         {
           "instrument": "Violoncello",
-          "name": "Kyungon Yoon",
+          "name": "Yoon Gyeong-on",
           "zusatz": "Konzertexamen, Klasse Prof. Niklas Schmidt"
         },
         {
@@ -1960,7 +1966,14 @@
           "dauer": "ca. 22 min",
           "besetzung": "3.3.3.3-4.3.3.1-Pk+3, Hrf., Klav., Cel.-Str. (0.0.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Viola",
+              "name": "Daekyu Han",
+              "zusatz": "Konzertexamen, Klasse Prof. Anna Kreetta Gribajcevic"
+            }
+          ]
         },
         {
           "pause": true
@@ -2000,14 +2013,7 @@
           "dauer": "ca. 23 min",
           "besetzung": "3.3.4.3-4.3.3.1-Pk+5, Hrf., Klav., Cel.-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Viola",
-              "name": "Daekyu Han",
-              "zusatz": "Konzertexamen, Klasse Prof. Anna Kreetta Gribajcevic"
-            }
-          ]
+          "pause": false
         }
       ],
       "solisten": [
@@ -2093,7 +2099,14 @@
           "dauer": "ca. 22 min",
           "besetzung": "3.3.3.3-4.3.3.1-Pk+3, Hrf., Klav., Cel.-Str. (0.0.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Viola",
+              "name": "Daekyu Han",
+              "zusatz": "Konzertexamen, Klasse Prof. Anna Kreetta Gribajcevic"
+            }
+          ]
         },
         {
           "pause": true
@@ -2133,14 +2146,7 @@
           "dauer": "ca. 23 min",
           "besetzung": "3.3.4.3-4.3.3.1-Pk+5, Hrf., Klav., Cel.-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Viola",
-              "name": "Daekyu Han",
-              "zusatz": "Konzertexamen, Klasse Prof. Anna Kreetta Gribajcevic"
-            }
-          ]
+          "pause": false
         }
       ],
       "solisten": [
@@ -2278,7 +2284,14 @@
           "dauer": "ca. 30 min",
           "besetzung": "1.1.0.1-2.0.0.0-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Klavier",
+              "name": "Yi-Teng Huang",
+              "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya"
+            }
+          ]
         },
         {
           "pause": true
@@ -2296,14 +2309,7 @@
           "dauer": "ca. 18 min",
           "besetzung": "2.2.2.2-2.2.0.0-Pk-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Klavier",
-              "name": "Yi-Teng Huang",
-              "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya"
-            }
-          ]
+          "pause": false
         }
       ],
       "solisten": [
@@ -2419,7 +2425,14 @@
           "dauer": "ca. 31 min",
           "besetzung": "2.2.2.2-4.2.3.0-Pk-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Klavier",
+              "name": "N.N",
+              "zusatz": ""
+            }
+          ]
         },
         {
           "pause": true
@@ -2437,14 +2450,7 @@
           "dauer": "ca. 32 min",
           "besetzung": "1.2.2.2-2.2.0.0-Pk-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Klavier",
-              "name": "N.N",
-              "zusatz": ""
-            }
-          ]
+          "pause": false
         }
       ],
       "solisten": [
@@ -2855,7 +2861,14 @@
           "dauer": "ca. 15 min",
           "besetzung": "2.0.0.0-2.0.0.0-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Kontrabass",
+              "name": "Yi Wei",
+              "zusatz": ""
+            }
+          ]
         },
         {
           "komponist": "Franz Anton Hoffmeister",
@@ -2883,14 +2896,7 @@
           "dauer": "ca. 15 min",
           "besetzung": "2.2.0.2-2.2.0.0-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Kontrabass",
-              "name": "Yi Wei",
-              "zusatz": ""
-            }
-          ]
+          "pause": false
         }
       ],
       "solisten": [
@@ -3246,7 +3252,14 @@
           "dauer": "ca. 20 min",
           "besetzung": "2.2.2.2-2.2.1.0-Str. (6.4.4.3.2)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Klavier",
+              "name": "Chengcheng Zhang",
+              "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya, Prof. Caroline Weichert"
+            }
+          ]
         },
         {
           "pause": true
@@ -3264,14 +3277,7 @@
           "dauer": "ca. 33 min",
           "besetzung": "2.2.2.2-2.0.0.0-Pauken-Str. (6.4.4.3.2)",
           "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Klavier",
-              "name": "Chengcheng Zhang",
-              "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya, Prof. Caroline Weichert"
-            }
-          ]
+          "pause": false
         }
       ],
       "solisten": [
@@ -3333,7 +3339,14 @@
           "dauer": "ca. 20 min",
           "besetzung": "2.2.2.2-2.2.1.0-Str. (6.4.4.3.2)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Klavier",
+              "name": "Chengcheng Zhang",
+              "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya, Prof. Caroline Weichert"
+            }
+          ]
         },
         {
           "pause": true
@@ -3351,14 +3364,7 @@
           "dauer": "ca. 33 min",
           "besetzung": "2.2.2.2-2.0.0.0-Pauken-Str. (6.4.4.3.2)",
           "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Klavier",
-              "name": "Chengcheng Zhang",
-              "zusatz": "Konzertexamen, Klasse Prof. Anna Vinnitskaya, Prof. Caroline Weichert"
-            }
-          ]
+          "pause": false
         }
       ],
       "solisten": [
