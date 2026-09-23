@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-09-22T02:07:06.734Z",
+  "generiert": "2026-09-23T02:07:12.922Z",
   "data": [
     {
       "id": "UT_20260927_0",
@@ -188,6 +188,60 @@
         {
           "slotId": "s_2",
           "uhrzeit": "18:30"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261008_0",
+      "datum": "08.10.2026",
+      "projekt": "Gruppenunterricht Yang",
+      "marker": "Gruppenunterricht",
+      "dozent": "Yang",
+      "uhrzeit": "10:00",
+      "ort": "Rot 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "10:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "13:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20261009_1",
+      "datum": "09.10.2026",
+      "projekt": "Gruppenunterricht Yang",
+      "marker": "Gruppenunterricht",
+      "dozent": "Yang",
+      "uhrzeit": "10:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "10:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "11:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_3",
+          "uhrzeit": "13:00"
         }
       ]
     },
