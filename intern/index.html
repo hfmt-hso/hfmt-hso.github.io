@@ -1491,7 +1491,7 @@ async function ladeUeEvents(projektName,sj){
     if(ev.leitung&&ev.leitung.length)leitung='Leitung: '+ev.leitung.map(l=>typeof l==='object'?l.name:String(l)).filter(Boolean).join(' / ');
     var tp=datAnzeige.split('.');
     var tabLabel=wt+' '+String(tp[0]||'?').padStart(2,'0')+'.'+String(tp[1]||'?').padStart(2,'0')+'.';
-    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:ev.probenplan||[]};
+    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,leitungListe:Array.isArray(ev.leitung)?ev.leitung:(ev.leitung?[ev.leitung]:[]),solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:ev.probenplan||[]};
   }).filter(Boolean).sort((a,b)=>a.datObj-b.datObj);
   _ueCache[key]=events;return events;
 }
@@ -1518,7 +1518,18 @@ function renderEvProgramm(ev){
     h+='</div>';
   }
   if(ev.ensemble)h+='<div class="werk-leitung">'+esc(ev.ensemble)+'</div>';
-  if(ev.leitung)h+='<div class="werk-leitung">'+esc(ev.leitung)+'</div>';
+  if(ev.leitungListe&&ev.leitungListe.length){
+    ev.leitungListe.forEach(function(l){
+      var name=typeof l==='object'?l.name:String(l);
+      var werk=typeof l==='object'&&l.werk?l.werk:'';
+      var klasse=typeof l==='object'&&l.klasse?l.klasse:'';
+      if(!name)return;
+      h+='<div class="werk-leitung">Leitung: '+esc(name);
+      if(klasse)h+='<br>'+esc(klasse);
+      if(werk)h+='<br>('+esc(werk)+')';
+      h+='</div>';
+    });
+  }else if(ev.leitung)h+='<div class="werk-leitung">'+esc(ev.leitung)+'</div>';
   return h;
 }
 
