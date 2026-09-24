@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-09-23T17:09:03.712Z",
+  "generiert": "2026-09-24T02:07:16.681Z",
   "events": [
     {
       "datum": "29.09.2026",
@@ -1248,7 +1248,14 @@
           "dauer": "ca. 20 min",
           "besetzung": "1.1.1.1-1.1.1.0-Str. (1.0.0.1.1)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Violoncello",
+              "name": "Oliwia Meiser",
+              "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
+            }
+          ]
         },
         {
           "komponist": "Niko Yin",
@@ -1276,11 +1283,6 @@
           "urauffuehrung": false,
           "pause": false,
           "solisten": [
-            {
-              "instrument": "Violoncello",
-              "name": "Oliwia Meiser",
-              "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
-            },
             {
               "instrument": "Violoncello",
               "name": "Clara Eglhuber",
@@ -1397,7 +1399,14 @@
           "dauer": "ca. 20 min",
           "besetzung": "1.1.1.1-1.1.1.0-Str. (1.0.0.1.1)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Violoncello",
+              "name": "Oliwia Meiser",
+              "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
+            }
+          ]
         },
         {
           "komponist": "Niko Yin",
@@ -1425,11 +1434,6 @@
           "urauffuehrung": false,
           "pause": false,
           "solisten": [
-            {
-              "instrument": "Violoncello",
-              "name": "Oliwia Meiser",
-              "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
-            },
             {
               "instrument": "Violoncello",
               "name": "Clara Eglhuber",
