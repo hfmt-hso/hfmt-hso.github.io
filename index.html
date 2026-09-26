@@ -272,7 +272,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </div>
 
 <div class="content" id="tab-noten">
-  <div class="section-label">Notenmaterial</div>  <div class="card" id="noten-liste">    <div class="loading">Wird geladen&hellip;</div>  </div>
+  <div class="section-label">Notenmaterial</div>  <div class="card">    <a class="link-item" href="https://e.pcloud.link/publink/show?code=kZ7CYaZAflKztKjOLjS8CTLtljFNYQokuXk" target="_blank">      <div class="link-icon" style="background:var(--green-light);color:var(--green)"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>      <div class="link-text"><span>Notenmaterial</span><small>pCloud</small></div>      <div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>    </a>  </div>
   <div class="section-label">Mediathek</div>
   <div class="card">
     <a class="link-item" href="https://www.youtube.com/@HfMT-Hamburg/streams" target="_blank">
@@ -1063,8 +1063,6 @@ ladenKalender().then(populateFreikartenEvents);
 ladeBedarf();
 async function ladeProbendispositionen(){ try { const res = await fetchMitRetry(`${WEBAPP_URL}?action=probendispositionen`); const json = await res.json(); const liste = document.getElementById('probendisp-liste'); const data = (json.ok && json.data) ? json.data : []; if(!data.length){ liste.innerHTML = '<div class="loading">Keine aktuellen Probendispositionen.</div>'; return; } liste.innerHTML = data.map(function(e){ return '<div style="border-top:0.5px solid var(--border);padding:10px 0;margin-top:10px"><div style="font-size:13px;font-weight:600;color:var(--text)">'+esc(e.anlass)+(e.datum?' &middot; '+esc(e.datum):'')+'</div><div style="font-size:13px;color:var(--text);white-space:pre-wrap;margin-top:4px;line-height:1.5">'+esc(e.text)+'</div></div>'; }).join(''); } catch(e){ document.getElementById('probendisp-liste').innerHTML = '<div class="loading">Laden fehlgeschlagen.</div>'; } }
 ladeProbendispositionen();
-async function ladeNotenmaterial(){ try { const res = await fetchMitRetry(`${WEBAPP_URL}?action=notenmaterial`); const json = await res.json(); const liste = document.getElementById('noten-liste'); const data = (json.ok && json.data) ? json.data : []; if(!data.length){ liste.innerHTML = '<div class="loading">Aktuell keine Notenmaterialien freigegeben.</div>'; return; } liste.innerHTML = data.map(function(e){ return '<a class="link-item" href="'+esc(e.link)+'" target="_blank"><div class="link-icon" style="background:var(--green-light);color:var(--green)"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><div class="link-text"><span>'+esc(e.name)+'</span><small>pCloud</small></div><div class="chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div></a>'; }).join(''); } catch(e){ document.getElementById('noten-liste').innerHTML = '<div class="loading">Laden fehlgeschlagen.</div>'; } }
-ladeNotenmaterial();
 
 // ── Direktsprung zu einem Tab über ?tab=… in der URL (z.B. Rücksprung aus dem Aufbauplan-Tool zum Bedarf-Tab) ──
 (function(){
