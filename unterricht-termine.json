@@ -1,25 +1,6 @@
 {
-  "generiert": "2026-09-26T08:25:56.006Z",
+  "generiert": "2026-09-26T10:59:26.355Z",
   "data": [
-    {
-      "id": "UT_20260927_0",
-      "datum": "27.09.2026",
-      "projekt": "Gruppenunterricht Marković",
-      "marker": "Gruppenunterricht",
-      "dozent": "Marković",
-      "uhrzeit": "14:30",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "14:30"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "15:30"
-        }
-      ]
-    },
     {
       "id": "UT_20260927_0",
       "datum": "27.09.2026",
@@ -36,6 +17,25 @@
         {
           "slotId": "s_1",
           "uhrzeit": "12:00"
+        }
+      ]
+    },
+    {
+      "id": "UT_20260927_0",
+      "datum": "27.09.2026",
+      "projekt": "Gruppenunterricht Marković",
+      "marker": "Gruppenunterricht",
+      "dozent": "Marković",
+      "uhrzeit": "14:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "14:30"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "15:30"
         }
       ]
     },
@@ -131,6 +131,21 @@
       ]
     },
     {
+      "id": "UT_20261005_0",
+      "datum": "05.10.2026",
+      "projekt": "Gruppenunterricht Yang",
+      "marker": "Gruppenunterricht",
+      "dozent": "Yang",
+      "uhrzeit": "12:30",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "12:30"
+        }
+      ]
+    },
+    {
       "id": "UT_20261005_6",
       "datum": "05.10.2026",
       "projekt": "Gruppenunterricht Yang",
@@ -150,21 +165,6 @@
         {
           "slotId": "s_2",
           "uhrzeit": "18:30"
-        }
-      ]
-    },
-    {
-      "id": "UT_20261005_0",
-      "datum": "05.10.2026",
-      "projekt": "Gruppenunterricht Yang",
-      "marker": "Gruppenunterricht",
-      "dozent": "Yang",
-      "uhrzeit": "12:30",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "12:30"
         }
       ]
     },
