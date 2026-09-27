@@ -91,6 +91,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .termin-chevron svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .badge-gebucht{font-size:10px;font-weight:700;padding:3px 8px;border-radius:12px;background:var(--green-light);color:var(--green)}
 .badge-gruppe{font-size:10px;font-weight:700;padding:3px 8px;border-radius:12px;background:var(--blue-light);color:var(--blue-dark)}
+.termin-notizen{padding:0 14px 12px 14px;font-size:12px;color:var(--text);line-height:1.45;white-space:pre-wrap}
+.termin-notizen-label{font-weight:700;color:var(--text-muted);font-size:10px;text-transform:uppercase;letter-spacing:0.04em;margin-right:4px}
 
 /* SLOT-SCREEN */
 .slot-termin-info{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);padding:14px 16px}
@@ -757,6 +759,7 @@ function renderTerminKarte(t) {
       </div>
       <div class="termin-status">${badge}</div>
     </div>
+    ${t.notizen ? `<div class="termin-notizen"><span class="termin-notizen-label">📝 Inhalt</span>${esc(t.notizen)}</div>` : ''}
   </div>`;
 }
 
@@ -781,6 +784,7 @@ function renderTerminKartePublic(t) {
       </div>
       <div class="termin-status">${badge}</div>
     </div>
+    ${t.notizen ? `<div class="termin-notizen"><span class="termin-notizen-label">📝 Inhalt</span>${esc(t.notizen)}</div>` : ''}
   </div>`;
 }
 
