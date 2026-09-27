@@ -488,6 +488,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="filter-tabs">
     <button class="filter-tab active" id="ftab-buchungen" onclick="adminTab('buchungen')">Buchungen</button>
     <button class="filter-tab" id="ftab-abwesenheiten" onclick="adminTab('abwesenheiten')">Abwesenheiten</button>
+    <button class="filter-tab" id="ftab-termine" onclick="adminTab('termine')">Termine</button>
   </div>
 
   <!-- Buchungen -->
@@ -508,6 +509,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <button class="aw-filter-btn" onclick="awAdminFilter('ruecksprache',this)">Rücksprache</button>
     </div>
     <div id="aw-adm-liste"><div class="spinner">Lade…</div></div>
+  </div>
+
+  <!-- Termine / Notizen -->
+  <div id="adm-termine" style="display:none">
+    <div id="adm-termine-liste"><div class="spinner">Lade Termine…</div></div>
   </div>
 </div>
 
@@ -530,6 +536,7 @@ let _awEditId        = null;
 let _awDaten         = [];
 let _awAdminDaten    = null;
 let _awAdminFilter   = 'alle';
+let _adminTermine    = null;
 
 // ── HELFER ────────────────────────────────────────────────────
 function zeige(screenId) {
@@ -1123,11 +1130,12 @@ function oeffneAdminBereich() {
 function adminTab(tab) {
   if (aktuellerAdmin && aktuellerAdmin.rolle === 'Gastdozent' && tab === 'abwesenheiten') return;
   hauptTabAktiv = tab;
-  ['buchungen','abwesenheiten'].forEach(t => {
+  ['buchungen','abwesenheiten','termine'].forEach(t => {
     document.getElementById('adm-' + t).style.display = t === tab ? 'block' : 'none';
     document.getElementById('ftab-' + t).classList.toggle('active', t === tab);
   });
   if (tab === 'abwesenheiten') ladeAbwesenheitenAdmin();
+  if (tab === 'termine') ladeAdminTermine();
 }
 
 function buchungenTab(tab) {
@@ -1305,11 +1313,68 @@ async function awGesehenZurueck(id) {
   } catch(e) { toast('❌ Verbindungsfehler.'); }
 }
 
+// ── TERMINE / NOTIZEN – ADMIN-SEITE ─────────────────────────────
+async function ladeAdminTermine() {
+  const el = document.getElementById('adm-termine-liste');
+  if (!el) return;
+  if (_adminTermine) { renderAdminTermine(); return; }
+  el.innerHTML = '<div class="spinner">Lade Termine…</div>';
+  try {
+    const json = await webAppGet({ action:'alleTermine' });
+    _adminTermine = json.ok ? json.data : [];
+    renderAdminTermine();
+  } catch(e) { el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>'; }
+}
+
+function renderAdminTermine() {
+  const el = document.getElementById('adm-termine-liste');
+  if (!el || !_adminTermine) return;
+  if (!_adminTermine.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Keine Termine vorhanden.</div>';
+    return;
+  }
+  const liste = _adminTermine.slice().sort((a, b) => {
+    const da = parseDate(a.datum), db = parseDate(b.datum);
+    return (da ? da.getTime() : 0) - (db ? db.getTime() : 0);
+  });
+  el.innerHTML = liste.map(t => {
+    const d = parseDate(t.datum), wt = d ? WT[d.getDay()] : '';
+    return `<div class="aw-adm-row">
+      <div class="aw-adm-info" style="width:100%">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px">
+          <div class="aw-adm-zeit">${wt}, ${esc(t.datum)}${t.uhrzeit ? ' · ' + esc(t.uhrzeit) : ''}</div>
+        </div>
+        <div class="aw-adm-grund">${esc(t.projekt || t.marker)}${t.marker && t.projekt ? ' · ' + esc(t.marker) : ''}${t.dozent ? ' · ' + esc(t.dozent) : ''}${t.ort ? ' · ' + esc(t.ort) : ''}</div>
+        <textarea class="aw-komm-input" style="width:100%;min-height:60px;margin-top:6px;resize:vertical" placeholder="Unterrichtsinhalte / Notizen…" id="notiz-${esc(t.id)}">${esc(t.notizen || '')}</textarea>
+        <button class="aw-seen-btn" style="margin-top:6px" onclick="terminNotizSpeichern('${esc(t.id)}')">💾 Speichern</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function terminNotizSpeichern(terminId) {
+  const inp = document.getElementById('notiz-' + terminId);
+  const notizen = inp ? inp.value.trim() : '';
+  const btn = event.target;
+  if (btn) btn.disabled = true;
+  try {
+    const json = await webAppPost({ action:'terminNotizSpeichern', terminId, notizen });
+    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
+    toast('✅ Notiz gespeichert.');
+    if (_adminTermine) {
+      const t = _adminTermine.find(x => x.id === terminId);
+      if (t) t.notizen = notizen;
+    }
+  } catch(e) { toast('❌ Verbindungsfehler.'); }
+  finally { if (btn) btn.disabled = false; }
+}
+
 function adminLogout() {
   sessionStorage.removeItem('hso_admin_unterricht');
   aktuellerAdmin = null;
   adminBuchungen = null;
   _awAdminDaten  = null;
+  _adminTermine  = null;
   zeige('screen-start');
 }
 
