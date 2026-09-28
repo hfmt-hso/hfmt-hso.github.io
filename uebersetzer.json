@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-09-28T12:55:54.624Z",
+  "generiert": "2026-09-28T14:35:40.382Z",
   "events": [
     {
       "datum": "29.09.2026",
@@ -2349,7 +2349,7 @@
       "_titel": "WK 5"
     },
     {
-      "datum": "23.03.2027",
+      "datum": "29.06.2027",
       "uhrzeit": "10:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -2366,7 +2366,7 @@
       "_titel": "WK 6 OA"
     },
     {
-      "datum": "24.03.2027",
+      "datum": "30.06.2027",
       "uhrzeit": "10:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -2383,7 +2383,7 @@
       "_titel": "WK 6 OA"
     },
     {
-      "datum": "25.03.2027",
+      "datum": "01.07.2027",
       "uhrzeit": "10:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -2400,7 +2400,7 @@
       "_titel": "WK 6 GP"
     },
     {
-      "datum": "25.03.2027",
+      "datum": "01.07.2027",
       "uhrzeit": "19:30 Uhr",
       "endzeit": "21:30 Uhr",
       "ort": "Forum",
@@ -3089,9 +3089,9 @@
       "_titel": "HSO Blattspiel"
     },
     {
-      "datum": "01.07.2027",
-      "uhrzeit": "17:30 Uhr",
-      "endzeit": "20:00 Uhr",
+      "datum": "30.06.2027",
+      "uhrzeit": "15:00 Uhr",
+      "endzeit": "17:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "1. Probe",
@@ -5842,23 +5842,6 @@
       "eintritt": [],
       "_eventId": "2ueh70ao1iu6t1uc0jijhej8l1@google.com",
       "_titel": "HSO Repertoire"
-    },
-    {
-      "datum": "30.06.2027",
-      "uhrzeit": "14:15 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "endzeit": "17:00 Uhr",
-      "_eventId": "22a00tluftjed4cugghohueccd@google.com",
-      "_titel": "HSO Blattspiel"
     },
     {
       "datum": "14.07.2027",
