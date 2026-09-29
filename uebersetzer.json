@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-09-28T14:35:40.382Z",
+  "generiert": "2026-09-29T05:59:32.209Z",
   "events": [
     {
       "datum": "29.09.2026",
@@ -263,10 +263,13 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
-      "abwesend": null,
+      "abwesend": "Xueying Zhou (Vl. 1)",
       "endzeit": "12:30 Uhr",
       "_eventId": "642k0k5clqausib94d96ibbj9c@google.com",
-      "_titel": "HSO 1 OA tutti"
+      "_titel": "HSO 1 OA tutti",
+      "abwesendNamen": [
+        "Xueying Zhou (Vl. 1)"
+      ]
     },
     {
       "datum": "05.10.2026",
@@ -280,10 +283,13 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
-      "abwesend": null,
+      "abwesend": "Xueying Zhou (Vl. 1)",
       "endzeit": "16:30 Uhr",
       "_eventId": "5fpvfdenqakngf38al0ucu2qf5@google.com",
-      "_titel": "HSO 1 OA tutti"
+      "_titel": "HSO 1 OA tutti",
+      "abwesendNamen": [
+        "Xueying Zhou (Vl. 1)"
+      ]
     },
     {
       "datum": "06.10.2026",
