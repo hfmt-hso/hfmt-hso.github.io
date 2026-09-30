@@ -1,25 +1,6 @@
 {
-  "generiert": "2026-09-29T05:59:32.209Z",
+  "generiert": "2026-09-30T02:07:06.636Z",
   "events": [
-    {
-      "datum": "29.09.2026",
-      "uhrzeit": "10:00 Uhr",
-      "endzeit": "12:30 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": "1. Probe",
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "abwesend": null,
-      "eintritt": [],
-      "_eventId": "57ce9pppm3i8nfebbr8sdu23bp@google.com",
-      "_titel": "WK 1 OA"
-    },
     {
       "datum": "30.09.2026",
       "uhrzeit": "10:00 Uhr",
