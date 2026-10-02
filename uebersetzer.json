@@ -1,40 +1,6 @@
 {
-  "generiert": "2026-10-01T13:14:49.215Z",
+  "generiert": "2026-10-02T07:16:44.076Z",
   "events": [
-    {
-      "datum": "01.10.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "endzeit": "13:00 Uhr",
-      "_eventId": "3vvv9u5q6b6hit7ve4k9dq84bd@google.com",
-      "_titel": "WK 1 GP"
-    },
-    {
-      "datum": "01.10.2026",
-      "uhrzeit": "16:00 Uhr",
-      "ort": "Ensemblestudio",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "endzeit": "19:00 Uhr",
-      "_eventId": "3t25rtc4gq28ub20igv8mt9oha@google.com",
-      "_titel": "HSO 1 OA Celli"
-    },
     {
       "datum": "03.10.2026",
       "uhrzeit": "13:00 Uhr",
@@ -53,116 +19,6 @@
       "_titel": "HSO 1 OA Violen"
     },
     {
-      "datum": "01.10.2026",
-      "uhrzeit": "16:00 Uhr",
-      "ort": "Fanny Hensel- Saal",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "endzeit": "19:00 Uhr",
-      "_eventId": "7glpqcdq66kjsbia344tjulfns@google.com",
-      "_titel": "HSO 1 OA Kontrabässe"
-    },
-    {
-      "datum": "01.10.2026",
-      "uhrzeit": "19:30 Uhr",
-      "endzeit": "21:30 Uhr",
-      "ort": "Forum",
-      "konzertart": "Werkstattkonzert",
-      "marker": "Vorstellung",
-      "werke": [
-        {
-          "komponist": "Alexander Borodin",
-          "lebensdaten": "1833–1887",
-          "titel": "Ouvertüre zu „Fürst Igor“",
-          "saetze": [
-            "Allegro"
-          ],
-          "dauer": "ca. 10 min",
-          "besetzung": "2.2.2.2-4.2.3.1-Pauken, Triangel, Becken, Große Trommel-Str. (8.6.5.4.3)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "Béla Bartók",
-          "lebensdaten": "1881–1945",
-          "titel": "Konzert für Viola und Orchester op.posth (ed.Serly) op. BB128 (1945)",
-          "saetze": [
-            "Moderato",
-            "Adagio religioso",
-            "Allegro vivace"
-          ],
-          "dauer": "ca. 21 min",
-          "besetzung": "3.2.2.2-4.3.3.1-Pk+2-Str. (8.6.5.4.3)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Viola",
-              "name": "Yitong Guo",
-              "zusatz": "Konzertexamen, Klasse Prof. Anna Kreetta Gribajcevic"
-            }
-          ]
-        },
-        {
-          "pause": true
-        },
-        {
-          "komponist": "Franz Schubert",
-          "lebensdaten": "1797–1828",
-          "titel": "Sinfonie Nr. 9 C-Dur D 944 „Die Große“",
-          "saetze": [
-            "Andante – Allegro ma non troppo",
-            "Andante con moto",
-            "Scherzo. Allegro vivace – Trio",
-            "Allegro vivace"
-          ],
-          "dauer": "ca. 48 min",
-          "besetzung": "2.2.2.2-2.2.3.0-Pk-Str. (8.6.5.4.3)",
-          "urauffuehrung": false,
-          "pause": false
-        }
-      ],
-      "solisten": [
-        {
-          "instrument": "Viola",
-          "name": "Yitong Guo",
-          "zusatz": "Konzertexamen, Klasse Prof. Anna Kreetta Gribajcevic"
-        }
-      ],
-      "ensemble": "Symphoniker Hamburg",
-      "leitung": [
-        {
-          "name": "Chenyu Wan (Borodin), Jacob Gröper (Bartok), Philine Lembeck (Schubert 1. Satz), Uschik Choi (Schubert 2.& 3. Satz), Miquel Bosch Roca (Schubert 4. Satz)",
-          "werk": "Leitung des Dirigierkurses: Aleksandar Marković",
-          "klasse": ""
-        }
-      ],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [
-        "*",
-        "Klavier: Uschik Choi, Miquel Bosch Roca, Doğa Çetin, Yuan Xin, Sukjong Kim (Schubert); Uschik Choi (Bartok)",
-        "*Garderobe der Symphoniker: Orchesterstudio"
-      ],
-      "abwesend": null,
-      "eintritt": [
-        "Eintritt: 18 €, ermäßigt: 9 €",
-        "Ermäßigungen gelten für Schüler:innen und Studierende sowie Berechtigte nach SGB.",
-        "Tickets gibt es bei Eventim (Ticketlink hier einfügen).",
-        "Unsere",
-        "Abendkasse öffnet eine Stunde vor Veranstaltungsbeginn."
-      ],
-      "_eventId": "2e09o1l03uthgf5319iig1879m@google.com",
-      "_titel": "WK 1"
-    },
-    {
       "datum": "02.10.2026",
       "uhrzeit": "10:00 Uhr",
       "endzeit": "13:00 Uhr",
@@ -176,10 +32,13 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [],
-      "abwesend": null,
+      "abwesend": "Katharina Lisette Heinrich (Vl. 2)",
       "eintritt": [],
       "_eventId": "1k1o5f1jqr326hbehces4i5evp@google.com",
-      "_titel": "HSO 1 OA Violinen"
+      "_titel": "HSO 1 OA Violinen",
+      "abwesendNamen": [
+        "Katharina Lisette Heinrich (Vl. 2)"
+      ]
     },
     {
       "datum": "04.10.2026",
@@ -227,10 +86,13 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
-      "abwesend": null,
+      "abwesend": "Xueying Zhou (Vl. 1)",
       "endzeit": "12:30 Uhr",
       "_eventId": "642k0k5clqausib94d96ibbj9c@google.com",
-      "_titel": "HSO 1 OA tutti"
+      "_titel": "HSO 1 OA tutti",
+      "abwesendNamen": [
+        "Xueying Zhou (Vl. 1)"
+      ]
     },
     {
       "datum": "05.10.2026",
@@ -244,10 +106,13 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
-      "abwesend": null,
+      "abwesend": "Xueying Zhou (Vl. 1)",
       "endzeit": "16:30 Uhr",
       "_eventId": "5fpvfdenqakngf38al0ucu2qf5@google.com",
-      "_titel": "HSO 1 OA tutti"
+      "_titel": "HSO 1 OA tutti",
+      "abwesendNamen": [
+        "Xueying Zhou (Vl. 1)"
+      ]
     },
     {
       "datum": "06.10.2026",
