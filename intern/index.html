@@ -2553,6 +2553,19 @@ var _tasksData = [];
 var _tasksAktiveListe = null;
 var _tasksErledigtAusblenden = true;
 var _tasksEditId = null;
+var TASKS_ALLE = '__alle__';
+
+// Liste, zu der eine Aufgabe gehört (in der Ansicht "Alle Listen" über alle Listen gesucht)
+function tasksListeFuerTask(taskId) {
+  if (_tasksAktiveListe !== TASKS_ALLE) return _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
+  return _tasksData.find(function(l) { return l.tasks.some(function(t) { return t.id === taskId; }); });
+}
+// Ziel-Liste für neue Aufgaben (in "Alle Listen": die HfMT-Liste bzw. die erste)
+function tasksZielListe() {
+  if (_tasksAktiveListe !== TASKS_ALLE) return _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
+  var h = _tasksData.find(function(l) { return l.title && l.title.toLowerCase().includes('hfmt'); });
+  return h || _tasksData[0];
+}
 
 async function tasksLaden() {
   document.getElementById('tasks-list').innerHTML = '<div class="spinner"><div class="spin"></div>Lade...</div>';
@@ -2565,7 +2578,7 @@ async function tasksLaden() {
   var tabsEl = document.getElementById('tasks-lists-tabs');
   tabsEl.innerHTML = _tasksData.map(function(l, i) {
     return '<button class="proj-sj-btn' + (i === 0 ? ' active' : '') + '" onclick="tasksZeigeListe(\'' + l.id + '\',this)">' + esc(l.title) + '</button>';
-  }).join('');
+  }).join('') + (_tasksData.length > 1 ? '<button class="proj-sj-btn" onclick="tasksZeigeListe(\'' + TASKS_ALLE + '\',this)">Alle Listen</button>' : '');
   if (_tasksData.length > 0) {
     var hfmtListe = _tasksData.find(function(l){ return l.title && l.title.toLowerCase().includes('hfmt'); });
     _tasksAktiveListe = (hfmtListe || _tasksData[0]).id;
@@ -2593,10 +2606,23 @@ function tasksToggleErledigt(btn) {
 }
 
 function tasksRenderListe() {
-  var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
   var el = document.getElementById('tasks-list');
-  if (!liste) { el.innerHTML = ''; return; }
+  var html = '';
+  if (_tasksAktiveListe === TASKS_ALLE) {
+    html = _tasksData.map(function(l) {
+      var h = tasksListeHtml(l);
+      if (!h.trim()) return '';
+      return '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink3);background:var(--paper);padding:6px 10px;border-bottom:1px solid var(--border)">' + esc(l.title) + '</div>' + h;
+    }).join('');
+  } else {
+    var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
+    if (!liste) { el.innerHTML = ''; return; }
+    html = tasksListeHtml(liste);
+  }
+  el.innerHTML = html.trim() ? html : '<div style="padding:12px;font-size:12px;color:var(--ink3)">Keine Aufgaben.</div>';
+}
 
+function tasksListeHtml(liste) {
   var suche = (document.getElementById('tasks-search').value || '').toLowerCase().trim();
   var dueFilter = document.getElementById('tasks-due-filter').value;
   var heute = new Date(); heute.setHours(0,0,0,0);
@@ -2671,26 +2697,21 @@ function tasksRenderListe() {
   }
 
   var gefiltert = sortTasks(topLevel);
-  var html = gefiltert.map(function(t) { return renderTask(t, 0); }).join('');
-  if (!html.trim()) {
-    el.innerHTML = '<div style="padding:12px;font-size:12px;color:var(--ink3)">Keine Aufgaben.</div>';
-  } else {
-    el.innerHTML = html;
-  }
+  return gefiltert.map(function(t) { return renderTask(t, 0); }).join('');
 }
 
 async function tasksToggle(taskId, completed) {
-  var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
+  var liste = tasksListeFuerTask(taskId);
   if (!liste) return;
   var task = liste.tasks.find(function(t) { return t.id === taskId; });
   if (!task) return;
   task.completed = completed;
   tasksRenderListe();
-  await apiPost({ action: 'taskComplete', listId: _tasksAktiveListe, taskId: taskId, completed: completed });
+  await apiPost({ action: 'taskComplete', listId: liste.id, taskId: taskId, completed: completed });
 }
 
 async function tasksDelete(taskId) {
-  var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
+  var liste = tasksListeFuerTask(taskId);
   if (!liste) return;
   // Auch Unteraufgaben entfernen
   var toDelete = new Set([taskId]);
@@ -2698,18 +2719,18 @@ async function tasksDelete(taskId) {
   liste.tasks = liste.tasks.filter(function(t) { return !toDelete.has(t.id); });
   tasksRenderListe();
   toDelete.forEach(function(id) {
-    apiPost({ action: 'taskDelete', listId: _tasksAktiveListe, taskId: id });
+    apiPost({ action: 'taskDelete', listId: liste.id, taskId: id });
   });
 }
 
 async function tasksAdd() {
   var inp = document.getElementById('tasks-new-input');
   var title = inp.value.trim();
-  if (!title || !_tasksAktiveListe) return;
+  var liste = tasksZielListe();
+  if (!title || !liste) return;
   inp.value = '';
-  var r = await apiPost({ action: 'taskAdd', listId: _tasksAktiveListe, title: title });
+  var r = await apiPost({ action: 'taskAdd', listId: liste.id, title: title });
   if (r && r.ok) {
-    var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
     if (liste) {
       liste.tasks.unshift({ id: r.id || ('tmp-' + Date.now()), title: title, notes: '', due: null, completed: false, parent: null });
       tasksRenderListe();
@@ -2719,7 +2740,7 @@ async function tasksAdd() {
 
 // ── EDIT ─────────────────────────────────────────────────
 function tasksEditOpen(taskId) {
-  var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
+  var liste = tasksListeFuerTask(taskId);
   if (!liste) return;
   var task = liste.tasks.find(function(t) { return t.id === taskId; });
   if (!task) return;
@@ -2744,13 +2765,13 @@ async function tasksEditSave() {
   var due = dueVal ? dueVal + 'T00:00:00.000Z' : null;
   if (!title) return;
 
-  var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
+  var liste = tasksListeFuerTask(_tasksEditId);
   var task = liste ? liste.tasks.find(function(t) { return t.id === _tasksEditId; }) : null;
   if (task) { task.title = title; task.notes = notes; task.due = due; }
   var savedEditId = _tasksEditId;
   tasksEditClose();
   tasksRenderListe();
-  var res = await apiPost({ action: 'taskUpdate', listId: _tasksAktiveListe, taskId: savedEditId, title: title, notes: notes, due: dueVal || null });
+  var res = await apiPost({ action: 'taskUpdate', listId: liste ? liste.id : _tasksAktiveListe, taskId: savedEditId, title: title, notes: notes, due: dueVal || null });
   if (res && !res.ok) zeigToast('Fehler: ' + res.error);
   else if (!res) zeigToast('Keine Antwort vom Server');
 }
@@ -2777,9 +2798,10 @@ async function tasksSubSave() {
   var savedParentId = _tasksSubParentId;
   tasksSubClose();
   delete _cache['tasks' + JSON.stringify({})];
-  var r = await apiPost({ action: 'taskAdd', listId: _tasksAktiveListe, title: title, parentId: savedParentId });
+  var liste = tasksListeFuerTask(savedParentId);
+  if (!liste) return;
+  var r = await apiPost({ action: 'taskAdd', listId: liste.id, title: title, parentId: savedParentId });
   if (r && r.ok) {
-    var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
     if (liste) {
       liste.tasks.push({ id: r.id || ('tmp-' + Date.now()), title: title, notes: '', due: null, completed: false, parent: savedParentId });
       tasksRenderListe();
