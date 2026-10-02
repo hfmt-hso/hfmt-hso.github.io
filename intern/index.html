@@ -2609,17 +2609,61 @@ function tasksRenderListe() {
   var el = document.getElementById('tasks-list');
   var html = '';
   if (_tasksAktiveListe === TASKS_ALLE) {
-    html = _tasksData.map(function(l) {
-      var h = tasksListeHtml(l);
-      if (!h.trim()) return '';
-      return '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink3);background:var(--paper);padding:6px 10px;border-bottom:1px solid var(--border)">' + esc(l.title) + '</div>' + h;
-    }).join('');
+    html = tasksAlleHtml();
   } else {
     var liste = _tasksData.find(function(l) { return l.id === _tasksAktiveListe; });
     if (!liste) { el.innerHTML = ''; return; }
     html = tasksListeHtml(liste);
   }
   el.innerHTML = html.trim() ? html : '<div style="padding:12px;font-size:12px;color:var(--ink3)">Keine Aufgaben.</div>';
+}
+
+// Ansicht "Alle Listen": alle Aufgaben aller Listen in einer Liste, nach Fälligkeit sortiert
+function tasksAlleHtml() {
+  var suche = (document.getElementById('tasks-search').value || '').toLowerCase().trim();
+  var dueFilter = document.getElementById('tasks-due-filter').value;
+  var heute = new Date(); heute.setHours(0,0,0,0);
+  var wocheEnde = new Date(heute); wocheEnde.setDate(wocheEnde.getDate() + 7);
+  var alle = [];
+  _tasksData.forEach(function(l) {
+    var titelMap = {};
+    l.tasks.forEach(function(t) { titelMap[t.id] = t.title; });
+    l.tasks.forEach(function(t) {
+      if (_tasksErledigtAusblenden && t.completed) return;
+      if (suche && (t.title || '').toLowerCase().indexOf(suche) === -1) return;
+      var due = t.due ? new Date(t.due) : null;
+      if (dueFilter === 'heute') { if (!due || due.toDateString() !== heute.toDateString()) return; }
+      else if (dueFilter === 'woche') { if (!due || due < heute || due > wocheEnde) return; }
+      else if (dueFilter === 'faellig') { if (!due || due >= heute) return; }
+      else if (dueFilter === 'kein') { if (due) return; }
+      alle.push({ t: t, due: due, liste: l.title, parentTitel: t.parent ? (titelMap[t.parent] || '') : '' });
+    });
+  });
+  alle.sort(function(a, b) {
+    if (!!a.t.completed !== !!b.t.completed) return a.t.completed ? 1 : -1;
+    if (a.due && b.due && a.due - b.due !== 0) return a.due - b.due;
+    if (a.due && !b.due) return -1;
+    if (!a.due && b.due) return 1;
+    return (a.t.title || '').localeCompare(b.t.title || '', 'de');
+  });
+  return alle.map(function(x) {
+    var t = x.t, due = x.due;
+    var dueStr = due ? String(due.getDate()).padStart(2,'0') + '.' + String(due.getMonth()+1).padStart(2,'0') + '.' + due.getFullYear() : '';
+    var faellig = due && due < heute && !t.completed;
+    var dueHtml = dueStr ? ' <span style="font-size:10px;color:' + (faellig ? 'var(--red)' : 'var(--ink3)') + '">' + (faellig ? '⚠ ' : '') + dueStr + '</span>' : '';
+    var meta = esc(x.liste) + (x.parentTitel ? ' · ⤷ ' + esc(x.parentTitel) : '');
+    return '<div style="border-bottom:1px solid var(--border2)' + (t.completed ? ';opacity:0.4' : '') + '" id="task-row-' + t.id + '">' +
+      '<div style="display:flex;align-items:center;gap:6px;padding:7px 10px">' +
+      '<div onclick="tasksToggle(\'' + t.id + '\',' + !t.completed + ')" style="width:16px;height:16px;border-radius:50%;border:2px solid ' + (t.completed ? 'var(--gold)' : 'var(--border2)') + ';background:' + (t.completed ? 'var(--gold)' : '#fff') + ';flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer">' +
+      (t.completed ? '<svg width="8" height="8" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>' : '') +
+      '</div>' +
+      '<div style="flex:1;min-width:0;cursor:pointer" onclick="event.stopPropagation();tasksEditOpen(\'' + t.id + '\')">' +
+      '<span style="font-size:12px;' + (t.completed ? 'text-decoration:line-through' : '') + '">' + esc(t.title) + '</span>' + dueHtml +
+      '<div style="font-size:10px;color:var(--ink3);margin-top:1px">' + meta + '</div>' +
+      '</div>' +
+      '<button onclick="tasksDelete(\'' + t.id + '\')" style="border:none;background:none;color:var(--ink3);font-size:14px;cursor:pointer;padding:0 2px;opacity:0.4">×</button>' +
+      '</div></div>';
+  }).join('');
 }
 
 function tasksListeHtml(liste) {
