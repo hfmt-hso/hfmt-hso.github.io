@@ -298,6 +298,8 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       </a>
       <button id="pdf-naechste-btn" class="sync-btn" onclick="pdfNaechsteProbe()" title="PDF für nächste Probe">📄</button>
       <button id="json-sync-btn" class="sync-btn" onclick="jsonSyncStarten()" title="Jetzt synchronisieren (Projekte/Programm/Kalender)">🔃</button>
+      <button id="probenplan-sync-btn" class="sync-btn" onclick="probenplanSyncStarten()" title="Probenplan sync (alle Projekt-Docs)">🗓</button>
+      <button id="probenplan-publish-btn" class="sync-btn" style="width:auto;padding:0 8px" onclick="probenplanKomplettStarten()" title="Probenplan sync, aktualisieren &amp; veröffentlichen, Probenplan sync">🗓→🔃→🗓</button>
       <span id="claude-sync-status" class="sync-status"></span>
       <button id="claude-sync-btn" class="sync-btn" onclick="claudeSyncStarten()" title="Aktuellen Stand für Claude holen">🔄</button>
     </div>
@@ -858,6 +860,38 @@ if(d.ok){ zeigToast('Synchronisiert ✓'); }
 else zeigToast('Fehler: '+(d.error||'?'));
 } catch(e){ zeigToast('Fehler: '+e.message); }
 btn.disabled=false;btn.classList.remove('spinning');
+}
+
+async function probenplanSyncStarten(){
+  var btn=document.getElementById('probenplan-sync-btn');
+  btn.disabled=true;btn.classList.add('spinning');
+  zeigToast('Probenplan-Sync läuft … (ca. 2 Min.)');
+  try{
+    var r=await fetch(WEB_APP_URL+'?action=probenplanSyncJetzt');
+    var d=await r.json();
+    if(d.ok){ zeigToast(d.fertig?'Probenplan synchronisiert ✓':'Probenplan läuft in Etappen weiter …'); }
+    else zeigToast('Fehler: '+(d.error||'?'));
+  }catch(e){ zeigToast('Fehler: '+e.message); }
+  btn.disabled=false;btn.classList.remove('spinning');
+}
+
+async function probenplanKomplettStarten(){
+  var btn=document.getElementById('probenplan-publish-btn');
+  btn.disabled=true;btn.classList.add('spinning');
+  try{
+    zeigToast('1/3 Probenplan-Sync läuft … (ca. 2 Min.)');
+    var d1=await (await fetch(WEB_APP_URL+'?action=probenplanSyncJetzt')).json();
+    if(!d1.ok){ zeigToast('Fehler Probenplan (1/3): '+(d1.error||'?')); return; }
+    if(!d1.fertig){ zeigToast('Probenplan läuft in Etappen weiter – bitte später erneut starten'); return; }
+    zeigToast('2/3 Aktualisieren & Veröffentlichen …');
+    var d2=await (await fetch(WEB_APP_URL+'?action=jsonSyncJetzt')).json();
+    if(!d2.ok){ zeigToast('Fehler Veröffentlichen (2/3): '+(d2.error||'?')); return; }
+    zeigToast('3/3 Probenplan-Sync läuft … (ca. 2 Min.)');
+    var d3=await (await fetch(WEB_APP_URL+'?action=probenplanSyncJetzt')).json();
+    if(!d3.ok){ zeigToast('Fehler Probenplan (3/3): '+(d3.error||'?')); return; }
+    zeigToast(d3.fertig?'Alles fertig ✓':'Fertig – Probenplan läuft in Etappen noch weiter');
+  }catch(e){ zeigToast('Fehler: '+e.message); }
+  finally{ btn.disabled=false;btn.classList.remove('spinning'); }
 }
 
 var ALLE_SJ = ['25_26','26_27','27_28']; // Fallback bis ermittleAlleSj() fertig ist
