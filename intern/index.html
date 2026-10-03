@@ -1130,7 +1130,7 @@ async function ladenStartTermine(){
   var el=document.getElementById('start-termine');
   el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
   var sjListe=_startSjFilter==='alle'?ALLE_SJ:[_startSjFilter];
-  for(var sj of sjListe){
+  await ladeAbwLive(); for(var sj of sjListe){
     if(!_startTermineCache[sj]){
       var d=await apiFetch('kalender',{sj:sj});
       _startTermineCache[sj]=d;
@@ -1139,7 +1139,7 @@ async function ladenStartTermine(){
   renderStartTermine();
 }
 
-function renderStartTermine(){
+var _abwLive=null; async function ladeAbwLive(){ try{ var r=await fetch(WEB_APP_URL+'?action=abwesenheiten'); var j=await r.json(); _abwLive=(j&&j.ok&&j.data)?j.data:null; }catch(e){ _abwLive=null; } } function abwText(ev){ var n=[]; var b=ev.abwesendNamen||(ev.abwesend?String(ev.abwesend).split(', '):[]); b.forEach(function(x){ if(x&&n.indexOf(x)<0)n.push(x); }); var id=ev._eventId||ev.eventId||ev.id; var l=(_abwLive&&id)?_abwLive[id]:null; if(l)l.forEach(function(x){ if(x&&n.indexOf(x)<0)n.push(x); }); return n.join(', '); } function renderStartTermine(){
   var el=document.getElementById('start-termine');
   var sjListe=_startSjFilter==='alle'?ALLE_SJ:[_startSjFilter];
   var alle=[],heute=new Date();heute.setHours(0,0,0,0);
@@ -1188,7 +1188,7 @@ function renderStartTermine(){
           '<div style="flex:1;min-width:0">'+
             '<div style="font-size:13px;font-weight:'+(isVorstellung?'700':'500')+';color:var(--ink)">'+esc(ev._titel||item.projekt)+'</div>'+
             '<div style="font-size:11px;color:var(--ink3);margin-top:2px">'+esc(ev.uhrzeit||'')+(ev.ort?' · '+esc(ev.ort):'')+'</div>'+
-            (ev.abwesend?'<div style="font-size:11px;color:var(--red);font-weight:600;margin-top:2px">Abwesend: '+esc(ev.abwesend)+'</div>':'')+
+            (abwText(ev)?'<div style="font-size:11px;color:var(--red);font-weight:600;margin-top:2px">Abwesend: '+esc(abwText(ev))+'</div>':'')+
           '</div>'+
           (hatProg?'<div id="chev-'+kid+'" style="color:var(--ink3);font-size:11px;flex-shrink:0;transition:transform 0.2s">▾</div>':'')+
         '</div>'+
