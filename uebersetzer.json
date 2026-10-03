@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-03T02:07:02.190Z",
+  "generiert": "2026-10-03T07:48:34.029Z",
   "events": [
     {
       "datum": "03.10.2026",
@@ -13,10 +13,13 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
-      "abwesend": null,
+      "abwesend": "Milena Stoiljkovic (Vla.)",
       "endzeit": "16:00 Uhr",
       "_eventId": "2f608j3e8ndgmiou35r6sutp3h@google.com",
-      "_titel": "HSO 1 OA Violen"
+      "_titel": "HSO 1 OA Violen",
+      "abwesendNamen": [
+        "Milena Stoiljkovic (Vla.)"
+      ]
     },
     {
       "datum": "04.10.2026",
