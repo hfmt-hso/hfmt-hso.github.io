@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-02T07:16:44.076Z",
+  "generiert": "2026-10-03T02:07:02.190Z",
   "events": [
     {
       "datum": "03.10.2026",
@@ -17,28 +17,6 @@
       "endzeit": "16:00 Uhr",
       "_eventId": "2f608j3e8ndgmiou35r6sutp3h@google.com",
       "_titel": "HSO 1 OA Violen"
-    },
-    {
-      "datum": "02.10.2026",
-      "uhrzeit": "10:00 Uhr",
-      "endzeit": "13:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": "1. Probe",
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "abwesend": "Katharina Lisette Heinrich (Vl. 2)",
-      "eintritt": [],
-      "_eventId": "1k1o5f1jqr326hbehces4i5evp@google.com",
-      "_titel": "HSO 1 OA Violinen",
-      "abwesendNamen": [
-        "Katharina Lisette Heinrich (Vl. 2)"
-      ]
     },
     {
       "datum": "04.10.2026",
