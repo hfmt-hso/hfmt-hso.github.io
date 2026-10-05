@@ -532,6 +532,8 @@ let aktuellerStudent = null;
 let aktuellerAdmin   = null;
 let alleTermine      = [];
 let adminBuchungen   = null;
+let _adminPwHash     = null;
+let _studierendenListe = null;
 let adminTabAktiv    = 'alle';
 let hauptTabAktiv    = 'buchungen';
 let _awEditId        = null;
@@ -811,7 +813,7 @@ async function oeffneSlots(terminId) {
   document.getElementById('slot-termin-name').textContent = '';
   document.getElementById('slot-termin-meta').textContent = '';
   try {
-    const json = await webAppGet({ action:'unterrichtSlots', terminId });
+    const json = await webAppGet({ action:'unterrichtSlots', terminId, mtknr: aktuellerStudent ? aktuellerStudent.mtknr : '' });
     if (!json.ok) throw new Error(json.error);
     const { termin, slots } = json.data;
     document.getElementById('slot-termin-name').textContent = termin.projekt || termin.marker;
@@ -827,7 +829,7 @@ async function oeffneSlots(terminId) {
 }
 
 function renderSlot(s, terminId, termin) {
-  const istMeinSlot = s.mtknr === (aktuellerStudent ? aktuellerStudent.mtknr : null);
+  const istMeinSlot = s.mein === true || (s.mein === undefined && s.mtknr === (aktuellerStudent ? aktuellerStudent.mtknr : null));
   if (s.frei) return `
     <div class="slot-kachel frei">
       <div class="slot-zeit">${esc(s.uhrzeit)}</div>
@@ -1099,6 +1101,7 @@ async function adminLogin() {
     const json = await webAppGet({ action:'studentLogin', mtknr: nutzer, pwHash });
     if (!json.ok) { errEl.textContent = json.error || 'Anmeldung fehlgeschlagen.'; return; }
     aktuellerAdmin = { nutzer, name: json.student.name || nutzer, rolle: json.student.rolle || 'Gastdozent' };
+    _adminPwHash = pwHash;
         if (json.student.erstanmeldung) { zeige('screen-admin-pw-setzen'); return; }
     sessionStorage.setItem('hso_admin_unterricht', JSON.stringify(aktuellerAdmin));
     oeffneAdminBereich();
@@ -1113,7 +1116,8 @@ async function adminLogin() {
           if (pw1.length < 6) { err.textContent = 'Mindestens 6 Zeichen.'; return; }
           if (pw1 !== pw2)    { err.textContent = 'Passwörter stimmen nicht überein.'; return; }
           try {
-                  const json = await webAppPost({ action:'setPw', mtknr: aktuellerAdmin.nutzer, pwHash: await hashStr(pw1) });
+                  _adminPwHash = await hashStr(pw1);
+                  const json = await webAppPost({ action:'setPw', mtknr: aktuellerAdmin.nutzer, pwHash: _adminPwHash });
                   if (!json.ok) { err.textContent = json.error || 'Fehler.'; return; }
                   sessionStorage.setItem('hso_admin_unterricht', JSON.stringify(aktuellerAdmin));
                   toast('✅ Passwort gesetzt!');
@@ -1326,7 +1330,9 @@ async function ladeAdminTermine() {
   try {
     const json = await webAppGet({ action:'alleTermine' });
     _adminTermine = json.ok ? json.data : [];
+    try { const bj = await webAppGet({ action:'adminBuchungen' }); adminBuchungen = bj.ok ? bj.data : (adminBuchungen || []); } catch(e) {}
     renderAdminTermine();
+    if (aktuellerAdmin && aktuellerAdmin.rolle === 'Hauptdozent' && _adminPwHash && !_studierendenListe) ladeStudierendenListe();
   } catch(e) { el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>'; }
 }
 
@@ -1337,10 +1343,12 @@ function renderAdminTermine() {
     el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Keine Termine vorhanden.</div>';
     return;
   }
-  const liste = _adminTermine.slice().sort((a, b) => {
+  const heute = new Date(); heute.setHours(0, 0, 0, 0);
+  const liste = _adminTermine.filter(t => { const d = parseDate(t.datum); return !d || d >= heute; }).sort((a, b) => {
     const da = parseDate(a.datum), db = parseDate(b.datum);
     return (da ? da.getTime() : 0) - (db ? db.getTime() : 0);
   });
+  if (!liste.length) { el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Keine kommenden Termine.</div>'; return; }
   el.innerHTML = liste.map(t => {
     const d = parseDate(t.datum), wt = d ? WT[d.getDay()] : '';
     return `<div class="aw-adm-row">
@@ -1351,9 +1359,83 @@ function renderAdminTermine() {
         <div class="aw-adm-grund">${esc(t.projekt || t.marker)}${t.marker && t.projekt ? ' · ' + esc(t.marker) : ''}${t.dozent ? ' · ' + esc(t.dozent) : ''}${t.ort ? ' · ' + esc(t.ort) : ''}</div>
         <textarea class="aw-komm-input" style="width:100%;min-height:60px;margin-top:6px;resize:vertical" placeholder="Unterrichtsinhalte / Notizen…" id="notiz-${esc(t.id)}">${esc(t.notizen || '')}</textarea>
         <button class="aw-seen-btn" style="margin-top:6px" onclick="terminNotizSpeichern('${esc(t.id)}')">💾 Speichern</button>
+        ${renderSlotZuweisung(t)}
       </div>
     </div>`;
   }).join('');
+}
+
+// ── EINZELUNTERRICHT: STUDIERENDE AN SLOTS ZUWEISEN ───────────
+function renderSlotZuweisung(t) {
+  if (t.marker !== 'Einzelunterricht' || !aktuellerAdmin || aktuellerAdmin.rolle !== 'Hauptdozent') return '';
+  const slots = t.slots || [];
+  if (!slots.length) return '';
+  const buchungen = (adminBuchungen || []).filter(b => b.terminId === t.id);
+  const opts = (_studierendenListe || []).map(st =>
+    `<option value="${esc(st.mtknr)}">${esc(st.name)}${st.instrument ? ' · ' + esc(st.instrument) : ''}</option>`).join('');
+  const zeilen = slots.map(sl => {
+    const b = buchungen.find(x => x.slotStart === sl.uhrzeit);
+    const tid = esc(t.id), su = esc(sl.uhrzeit);
+    if (b) {
+      return `<div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <strong style="min-width:48px">${su}</strong>
+        <span style="flex:1">${esc(b.name || b.mtknr)}</span>
+        <button class="aw-seen-btn" onclick="slotZuweisungEntfernen('${esc(b.buchungId)}')">✕ Entfernen</button>
+      </div>`;
+    }
+    return `<div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+      <strong style="min-width:48px">${su}</strong>
+      <select id="zw-${tid}-${su.replace(':','')}" class="field-input" style="flex:1;padding:6px"
+              onfocus="ladeStudierendenListe()">
+        <option value="">Studierende:n wählen…</option>${opts}
+      </select>
+      <button class="aw-seen-btn" onclick="slotZuweisen('${tid}','${su}')">Zuweisen</button>
+    </div>`;
+  }).join('');
+  return `<div style="margin-top:12px;padding-top:8px;border-top:1px dashed #ddd">
+    <div class="aw-adm-zeit" style="font-size:13px">Slots (Einzelunterricht)</div>${zeilen}</div>`;
+}
+
+async function ladeStudierendenListe() {
+  if (_studierendenListe) return true;
+  if (!_adminPwHash) {
+    const pw = prompt('Zum Laden der Studierendenliste bitte dein Passwort eingeben:');
+    if (!pw) return false;
+    _adminPwHash = await hashStr(pw);
+  }
+  try {
+    const json = await webAppGet({ action:'studierendenListe', nutzer: aktuellerAdmin.nutzer, pwHash: _adminPwHash });
+    if (!json.ok) { toast('❌ ' + (json.error || 'Liste nicht verfügbar')); _adminPwHash = null; return false; }
+    _studierendenListe = json.data;
+    renderAdminTermine();
+    return true;
+  } catch(e) { toast('❌ Verbindungsfehler.'); return false; }
+}
+
+async function slotZuweisen(terminId, slotStart) {
+  const sel = document.getElementById('zw-' + terminId + '-' + slotStart.replace(':',''));
+  const mtknr = sel ? sel.value : '';
+  if (!mtknr) { toast('Bitte zuerst eine:n Studierende:n wählen.'); return; }
+  const st = (_studierendenListe || []).find(x => x.mtknr === mtknr);
+  try {
+    const json = await webAppPost({ action:'buchungErstellen', mtknr, name: st ? st.name : mtknr, terminId, slotStart, werk: '' });
+    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
+    toast('✅ ' + (st ? st.name : mtknr) + ' um ' + slotStart + ' eingetragen.');
+    const bj = await webAppGet({ action:'adminBuchungen' });
+    adminBuchungen = bj.ok ? bj.data : adminBuchungen;
+    renderAdminTermine();
+  } catch(e) { toast('❌ Verbindungsfehler.'); }
+}
+
+async function slotZuweisungEntfernen(buchungId) {
+  if (!confirm('Diese Zuweisung wirklich entfernen?')) return;
+  try {
+    const json = await webAppPost({ action:'buchungStornieren', buchungId });
+    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
+    adminBuchungen = (adminBuchungen || []).filter(b => b.buchungId !== buchungId);
+    toast('✅ Zuweisung entfernt.');
+    renderAdminTermine();
+  } catch(e) { toast('❌ Verbindungsfehler.'); }
 }
 
 async function terminNotizSpeichern(terminId) {
@@ -1379,6 +1461,7 @@ function adminLogout() {
   adminBuchungen = null;
   _awAdminDaten  = null;
   _adminTermine  = null;
+  _adminPwHash = null; _studierendenListe = null;
   zeige('screen-start');
 }
 
