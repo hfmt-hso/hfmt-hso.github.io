@@ -1,40 +1,6 @@
 {
-  "generiert": "2026-10-04T02:07:08.208Z",
+  "generiert": "2026-10-05T02:07:35.019Z",
   "events": [
-    {
-      "datum": "04.10.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "endzeit": "13:00 Uhr",
-      "_eventId": "0lqr4o4pr0nv733s2vl204u2n2@google.com",
-      "_titel": "HSO 1 OA Streicher"
-    },
-    {
-      "datum": "04.10.2026",
-      "uhrzeit": "14:30 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "endzeit": "17:30 Uhr",
-      "_eventId": "2m89poepcgrf3jtgce6gh1ri7i@google.com",
-      "_titel": "HSO 1 OA Bläser"
-    },
     {
       "datum": "05.10.2026",
       "uhrzeit": "10:00 Uhr",
