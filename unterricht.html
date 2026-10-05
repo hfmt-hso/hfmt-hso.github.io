@@ -798,7 +798,7 @@ async function ladeStartTermine() {
       el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📅</div>Noch keine Termine eingetragen.</div>';
       return;
     }
-    el.innerHTML = daten.map(renderTerminKartePublic).join('');
+    el.innerHTML = daten.filter(t => { const d = parseDate(t.datum); const h = new Date(); h.setHours(0,0,0,0); return !d || d >= h; }).map(renderTerminKartePublic).join('');
   } catch(e) {
     el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
   }
