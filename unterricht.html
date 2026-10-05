@@ -1102,6 +1102,7 @@ async function adminLogin() {
     if (!json.ok) { errEl.textContent = json.error || 'Anmeldung fehlgeschlagen.'; return; }
     aktuellerAdmin = { nutzer, name: json.student.name || nutzer, rolle: json.student.rolle || 'Gastdozent' };
     _adminPwHash = pwHash;
+    try { sessionStorage.setItem('hso_admin_hash', pwHash); } catch(e) {}
         if (json.student.erstanmeldung) { zeige('screen-admin-pw-setzen'); return; }
     sessionStorage.setItem('hso_admin_unterricht', JSON.stringify(aktuellerAdmin));
     oeffneAdminBereich();
@@ -1117,6 +1118,7 @@ async function adminLogin() {
           if (pw1 !== pw2)    { err.textContent = 'Passwörter stimmen nicht überein.'; return; }
           try {
                   _adminPwHash = await hashStr(pw1);
+                  try { sessionStorage.setItem('hso_admin_hash', _adminPwHash); } catch(e) {}
                   const json = await webAppPost({ action:'setPw', mtknr: aktuellerAdmin.nutzer, pwHash: _adminPwHash });
                   if (!json.ok) { err.textContent = json.error || 'Fehler.'; return; }
                   sessionStorage.setItem('hso_admin_unterricht', JSON.stringify(aktuellerAdmin));
@@ -1399,10 +1401,9 @@ function renderSlotZuweisung(t) {
 async function ladeStudierendenListe() {
   if (_studierendenListe) return true;
   if (!_adminPwHash) {
-    const pw = prompt('Zum Laden der Studierendenliste bitte dein Passwort eingeben:');
-    if (!pw) return false;
-    _adminPwHash = await hashStr(pw);
+    try { _adminPwHash = sessionStorage.getItem('hso_admin_hash') || null; } catch(e) {}
   }
+  if (!_adminPwHash) { toast('Bitte einmal abmelden und neu anmelden, um die Studierendenliste zu laden.'); return false; }
   try {
     const json = await webAppGet({ action:'studierendenListe', nutzer: aktuellerAdmin.nutzer, pwHash: _adminPwHash });
     if (!json.ok) { toast('❌ ' + (json.error || 'Liste nicht verfügbar')); _adminPwHash = null; return false; }
@@ -1462,6 +1463,7 @@ function adminLogout() {
   _awAdminDaten  = null;
   _adminTermine  = null;
   _adminPwHash = null; _studierendenListe = null;
+  try { sessionStorage.removeItem('hso_admin_hash'); } catch(e) {}
   zeige('screen-start');
 }
 
