@@ -533,6 +533,7 @@ let aktuellerAdmin   = null;
 let alleTermine      = [];
 let adminBuchungen   = null;
 let _adminPwHash     = null;
+let _studentPwHash   = null;   // Passwort-Hash der angemeldeten Studierenden (nur sessionStorage), geht mit jedem Aufruf ans Backend
 let _studierendenListe = null;
 let adminTabAktiv    = 'alle';
 let hauptTabAktiv    = 'buchungen';
@@ -559,11 +560,12 @@ async function hashStr(s) {
 // langsame Antwort nicht doppelt ausgeführt wird. POST wird bewusst NICHT wiederholt (Doppelbuchungen).
 async function webAppGet(params, versuche) {
   versuche = versuche || 2;
+  params = Object.assign({}, credFelder(params.action), params);
   let letzterFehler;
   for (let i = 0; i < versuche; i++) {
     try {
       const res = await fetch(WEBAPP_URL + '?' + new URLSearchParams(params));
-      return await res.json();
+      return authPruefen(await res.json(), params.action);
     } catch(e) {
       letzterFehler = e;
       if (i < versuche - 1) await new Promise(r => setTimeout(r, 800));
@@ -572,9 +574,27 @@ async function webAppGet(params, versuche) {
   throw letzterFehler;
 }
 async function webAppPost(data) {
+  data = Object.assign({}, credFelder(data.action), data);
   const res = await fetch(WEBAPP_URL, { method:'POST', body: JSON.stringify(data) });
-  return res.json();
+  return authPruefen(await res.json(), data.action);
 }
+// Zugangsdaten für das Backend (Zugriffsschutz): Lehrende haben Vorrang, sonst die angemeldeten Studierenden.
+const OHNE_CRED = ['studentLogin','setPw','changePw','passwortZuruecksetzen','passwortVergessenAnfordern','vorschauLogin','unterrichtTermine','warmup'];
+function credFelder(action) {
+  if (OHNE_CRED.indexOf(action) !== -1) return {};
+  if (aktuellerAdmin && _adminPwHash) return { nutzer: aktuellerAdmin.nutzer, pwHash: _adminPwHash };
+  if (aktuellerStudent && _studentPwHash) return { nutzer: aktuellerStudent.mtknr, pwHash: _studentPwHash };
+  return {};
+}
+// Meldet das Backend "nicht berechtigt" (auth), ist die Sitzung ungültig (z. B. Passwort geändert): neu anmelden.
+function authPruefen(json, action) {
+  if (json && json.auth && OHNE_CRED.indexOf(action) === -1) {
+    toast('Bitte neu anmelden.');
+    setTimeout(() => { if (aktuellerAdmin) adminLogout(); else logout(); }, 600);
+  }
+  return json;
+}
+function studentHashMerken(h) { _studentPwHash = h; try { if (h) sessionStorage.setItem('hso_student_hash', h); else sessionStorage.removeItem('hso_student_hash'); } catch(e) {} }
 
 // ── CACHE: Stale-while-revalidate ─────────────────────────────
 // Zuletzt geladene Daten werden sofort angezeigt, frische kommen im Hintergrund nach.
@@ -709,6 +729,7 @@ async function studentLogin() {
       return;
     }
     aktuellerStudent = json.student;
+    studentHashMerken(pwHash);
     if (json.student.erstanmeldung) { zeige('screen-pw-setzen'); return; }
     sessionStorage.setItem('hso_student', JSON.stringify(aktuellerStudent));
     oeffneStudentBereich();
@@ -723,8 +744,10 @@ async function pwSetzen() {
   if (pw1.length < 6) { err.textContent = 'Mindestens 6 Zeichen.'; return; }
   if (pw1 !== pw2)    { err.textContent = 'Passwörter stimmen nicht überein.'; return; }
   try {
-    const json = await webAppPost({ action:'setPw', mtknr: aktuellerStudent.mtknr, pwHash: await hashStr(pw1) });
+    const neuHash = await hashStr(pw1);
+    const json = await webAppPost({ action:'setPw', mtknr: aktuellerStudent.mtknr, pwHash: neuHash });
     if (!json.ok) { err.textContent = json.error || 'Fehler.'; return; }
+    studentHashMerken(neuHash);
     aktuellerStudent.erstanmeldung = false;
     sessionStorage.setItem('hso_student', JSON.stringify(aktuellerStudent));
     toast('✅ Passwort gesetzt!');
@@ -742,8 +765,10 @@ async function pwAendern() {
   if (neu1.length < 6)    { err.textContent = 'Mindestens 6 Zeichen.'; return; }
   if (neu1 !== neu2)      { err.textContent = 'Passwörter stimmen nicht überein.'; return; }
   try {
-    const json = await webAppPost({ action:'changePw', mtknr: aktuellerStudent.mtknr, altHash: await hashStr(alt), neuHash: await hashStr(neu1) });
+    const neuHash = await hashStr(neu1);
+    const json = await webAppPost({ action:'changePw', mtknr: aktuellerStudent.mtknr, altHash: await hashStr(alt), neuHash });
     if (!json.ok) { err.textContent = json.error || 'Fehler.'; return; }
+    studentHashMerken(neuHash);
     toast('✅ Passwort geändert!');
     zeige('screen-student');
   } catch(e) { err.textContent = 'Verbindungsfehler.'; }
@@ -799,6 +824,7 @@ async function pwZuruecksetzenSpeichern() {
 function logout() {
   sessionStorage.removeItem('hso_student');
   aktuellerStudent = null;
+  studentHashMerken(null);
   _meineBuchungen = []; _awDaten = []; _slotsAnsicht = null;
   swrLeeren();
   zeige('screen-start');
@@ -1768,11 +1794,19 @@ ladeStartTermine();
   }
   const storedStudent = sessionStorage.getItem('hso_student');
   if (storedStudent) {
-    try { aktuellerStudent = JSON.parse(storedStudent); oeffneStudentBereich(); return; } catch(e) {}
+    try {
+      _studentPwHash = sessionStorage.getItem('hso_student_hash') || null;
+      if (_studentPwHash) { aktuellerStudent = JSON.parse(storedStudent); oeffneStudentBereich(); return; }
+      sessionStorage.removeItem('hso_student');   // ältere Sitzung ohne gespeicherten Hash: einmal neu anmelden
+    } catch(e) {}
   }
   const storedAdmin = sessionStorage.getItem('hso_admin_unterricht');
   if (storedAdmin) {
-    try { aktuellerAdmin = JSON.parse(storedAdmin); oeffneAdminBereich(); } catch(e) {}
+    try {
+      _adminPwHash = sessionStorage.getItem('hso_admin_hash') || null;
+      if (_adminPwHash) { aktuellerAdmin = JSON.parse(storedAdmin); oeffneAdminBereich(); }
+      else sessionStorage.removeItem('hso_admin_unterricht');   // ältere Sitzung ohne gespeicherten Hash: einmal neu anmelden
+    } catch(e) {}
   }
 })();
 </script>
