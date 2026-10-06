@@ -704,6 +704,16 @@ function gateMarkError(ids){
   });
 }
 var _gateUser=null;
+// Zugangsdaten (Nutzer + Passwort-Hash) für den Zugriffsschutz des Unterricht-Backends
+function internCred(){try{return JSON.parse(localStorage.getItem('hsoIntern_cred')||'null')||{};}catch(e){return {};}}
+function internCredSetzen(nutzer,pwHash){try{localStorage.setItem('hsoIntern_cred',JSON.stringify({nutzer:nutzer,pwHash:pwHash}));}catch(e){}}
+function internCredQ(){var c=internCred();return c.nutzer?'&nutzer='+encodeURIComponent(c.nutzer)+'&pwHash='+encodeURIComponent(c.pwHash):'';}
+function internCredBody(o){return JSON.stringify(Object.assign({},internCred(),o));}
+// Meldet das Backend "nicht berechtigt" (auth), ist die gespeicherte Anmeldung ungültig: neu anmelden.
+function internAuthPruefen(d){
+  if(d&&d.auth){localStorage.removeItem('hsoIntern_authed');localStorage.removeItem('hsoIntern_cred');zeigToast('Bitte neu anmelden.');setTimeout(function(){location.reload();},900);}
+  return d;
+}
 async function gateLogin(){
   var user=document.getElementById('lg-user').value.trim();
   var pw=document.getElementById('lg-pw').value;
@@ -719,6 +729,7 @@ async function gateLogin(){
     var d=await r.json();
     if(d&&d.ok){
       _gateUser=user;
+      internCredSetzen(user,pwHash);
       if(d.student&&d.student.erstanmeldung){
         document.getElementById('lg-pw1').value='';
         document.getElementById('lg-pw2').value='';
@@ -750,9 +761,11 @@ async function gatePwSetzen(){
   if(pw1.length<6){err.textContent='Mindestens 6 Zeichen.';return;}
   if(pw1!==pw2){err.textContent='Passwörter stimmen nicht überein.';return;}
   try{
-    var r=await fetch(WEB_APP_URL,{method:'POST',body:JSON.stringify({action:'setPw',mtknr:_gateUser,pwHash:await hashStr(pw1)})});
+    var neuHash=await hashStr(pw1);
+    var r=await fetch(WEB_APP_URL,{method:'POST',body:JSON.stringify({action:'setPw',mtknr:_gateUser,pwHash:neuHash})});
     var d=await r.json();
     if(!d||!d.ok){err.textContent=(d&&d.error)||'Fehler.';return;}
+    internCredSetzen(_gateUser,neuHash);
     gateLoginErfolgreich();
   }catch(e){err.textContent='Verbindungsfehler.';}
 }
@@ -817,7 +830,7 @@ document.addEventListener('DOMContentLoaded', function(){
     _gateResetUser=resetMtknr;
     _gateResetToken=resetToken;
     gateZeigeScreen('lg-screen-pwreset');
-  }else if(localStorage.getItem('hsoIntern_authed')==='1'){
+  }else if(localStorage.getItem('hsoIntern_authed')==='1'&&internCred().pwHash){
     document.getElementById('login-gate').style.display='none';
     document.getElementById('app').style.display='flex';
     initialLaden();
@@ -1047,6 +1060,7 @@ async function apiFetch(action,params){
   }
   var url=WEB_APP_URL+'?action='+action;
   if(params)Object.keys(params).forEach(k=>url+='&'+k+'='+encodeURIComponent(params[k]));
+  if(action==='adminStats')url+=internCredQ();   // Zugriffsschutz Unterricht-Backend
   // Backend antwortet unter Last manchmal mit Timeout/404 (Google-seitiges
   // Limit für gleichzeitige Ausführungen) — ein automatischer Retry macht
   // das für die Nutzer:innen meist unsichtbar.
@@ -1740,8 +1754,8 @@ async function ladeUntAw(force){
   if(_untAwDaten){renderUntAw();return;}
   el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
   try{
-    var r=await fetch(WEB_APP_URL+'?action=alleAbwesenheiten');
-    var d=await r.json();
+    var r=await fetch(WEB_APP_URL+'?action=alleAbwesenheiten'+internCredQ());
+    var d=internAuthPruefen(await r.json());
     _untAwDaten=d.ok?d.data:[];
     renderUntAw();
   }catch(e){el.innerHTML='<div class="empty">Laden fehlgeschlagen</div>';}
@@ -1799,8 +1813,8 @@ async function untAwGesehen(id){
   var inp=document.getElementById('aw-komm-'+id);
   var komm=inp?inp.value.trim():'';
   try{
-    var r=await fetch(WEB_APP_URL,{method:'POST',body:JSON.stringify({action:'abwesenheitGesehen',id,gesehenVon:'Thomas Dorsch',kommentar:komm})});
-    var d=await r.json();
+    var r=await fetch(WEB_APP_URL,{method:'POST',body:internCredBody({action:'abwesenheitGesehen',id,gesehenVon:'Thomas Dorsch',kommentar:komm})});
+    var d=internAuthPruefen(await r.json());
     if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
     zeigToast('✓ Als gesehen markiert');
     _untAwDaten=null;ladeUntAw(false);
@@ -1809,8 +1823,8 @@ async function untAwGesehen(id){
 
 async function untAwZurueck(id){
   try{
-    var r=await fetch(WEB_APP_URL,{method:'POST',body:JSON.stringify({action:'abwesenheitGesehenZurueck',id})});
-    var d=await r.json();
+    var r=await fetch(WEB_APP_URL,{method:'POST',body:internCredBody({action:'abwesenheitGesehenZurueck',id})});
+    var d=internAuthPruefen(await r.json());
     if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
     zeigToast('✓ Zurückgesetzt');
     _untAwDaten=null;ladeUntAw(false);
@@ -1823,8 +1837,8 @@ async function ladeUntBuchungen(force){
   if(_untBuchDaten){renderUntBuchungen();return;}
   el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
   try{
-    var r=await fetch(WEB_APP_URL+'?action=adminBuchungen');
-    var d=await r.json();
+    var r=await fetch(WEB_APP_URL+'?action=adminBuchungen'+internCredQ());
+    var d=internAuthPruefen(await r.json());
     _untBuchDaten=d.ok?d.data:[];
     renderUntBuchungen();
   }catch(e){el.innerHTML='<div class="empty">Laden fehlgeschlagen</div>';}
@@ -1867,8 +1881,8 @@ function renderUntBuchungen(){
 async function untBuchungStornieren(buchungId,name){
   if(!confirm('Buchung von '+name+' stornieren?'))return;
   try{
-    var r=await fetch(WEB_APP_URL,{method:'POST',body:JSON.stringify({action:'buchungStornieren',buchungId})});
-    var d=await r.json();
+    var r=await fetch(WEB_APP_URL,{method:'POST',body:internCredBody({action:'buchungStornieren',buchungId})});
+    var d=internAuthPruefen(await r.json());
     if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
     zeigToast('✓ Buchung storniert');
     _untBuchDaten=null;ladeUntBuchungen(false);
@@ -1914,8 +1928,8 @@ async function ladenTermine(){
   var el=document.getElementById('term-liste');
   el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
   try{
-    var r=await fetch(WEB_APP_URL+'?action=alleTermine');
-    var d=await r.json();
+    var r=await fetch(WEB_APP_URL+'?action=alleTermine'+internCredQ());
+    var d=internAuthPruefen(await r.json());
     if(!d||!d.data){el.innerHTML='<div class="empty">Keine Termine</div>';return;}
     _alleTermine=d.data.sort(function(a,b){
       var da=parseDatum(a.datum),db=parseDatum(b.datum);
@@ -1990,8 +2004,8 @@ async function speichernTermin(){
     var payload=_editId
       ?{action:'terminAendern',id:_editId,termin:{datum,projekt,uhrzeit,ort}}
       :{action:'terminSpeichern',termin:{datum,projekt,uhrzeit,ort}};
-    var r=await fetch(WEB_APP_URL,{method:'POST',body:JSON.stringify(payload)});
-    var d=await r.json();
+    var r=await fetch(WEB_APP_URL,{method:'POST',body:internCredBody(payload)});
+    var d=internAuthPruefen(await r.json());
     if(d.ok){zeigToast(_editId?'Gespeichert ✓':'Termin angelegt ✓');closeTerminModal();ladenTermineNeu();}
     else zeigToast('Fehler: '+(d.error||'?'));
   }catch(e){zeigToast('Netzwerkfehler: '+e.message);}
