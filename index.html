@@ -1061,7 +1061,28 @@ function wechsleSj(sj){
 ladeProjekte();
 ladenKalender().then(populateFreikartenEvents);
 ladeBedarf();
-async function ladeProbendispositionen(){ try { const res = await fetchMitRetry(`${WEBAPP_URL}?action=probendispositionen`); const json = await res.json(); const liste = document.getElementById('probendisp-liste'); const data = (json.ok && json.data) ? json.data : []; if(!data.length){ liste.innerHTML = '<div class="loading">Keine aktuellen Probendispositionen.</div>'; return; } liste.innerHTML = data.map(function(e){ return '<div style="border-top:0.5px solid var(--border);padding:10px 0;margin-top:10px"><div style="font-size:13px;font-weight:600;color:var(--text)">'+esc(e.anlass)+(e.datum?' &middot; '+esc(e.datum):'')+'</div><div style="font-size:13px;color:var(--text);white-space:pre-wrap;margin-top:4px;line-height:1.5">'+esc(e.text)+'</div></div>'; }).join(''); } catch(e){ document.getElementById('probendisp-liste').innerHTML = '<div class="loading">Laden fehlgeschlagen.</div>'; } }
+async function ladeProbendispositionen(){
+  const liste = document.getElementById('probendisp-liste');
+  function sortKey(d){ const m = String(d||'').trim().match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})/); if(!m) return null; let j = parseInt(m[3],10); if(j<100) j+=2000; return new Date(j, parseInt(m[2],10)-1, parseInt(m[1],10)); }
+  function istVergangen(d){ const k = sortKey(d); if(!k) return false; k.setHours(23,59,59); return k.getTime() < Date.now(); }
+  let data = null;
+  // 1. Schnell: statische JSON von GitHub Pages (wird beim Speichern der Disposition und nachts neu gepusht)
+  try {
+    const r = await fetch('probendispositionen.json?t=' + Date.now(), { cache: 'no-store' });
+    if (r.ok) { const j = await r.json(); data = Array.isArray(j.data) ? j.data : []; }
+  } catch(e) {}
+  // 2. Fallback: Apps-Script-Backend (langsamer), falls die JSON noch nicht existiert
+  if (data === null) {
+    try {
+      const res = await fetchMitRetry(`${WEBAPP_URL}?action=probendispositionen`);
+      const json = await res.json();
+      data = (json.ok && json.data) ? json.data : [];
+    } catch(e) { liste.innerHTML = '<div class="loading">Laden fehlgeschlagen.</div>'; return; }
+  }
+  data = data.filter(function(e){ return !istVergangen(e.datum); }).sort(function(a,b){ const ta = sortKey(a.datum), tb = sortKey(b.datum); if(!ta && !tb) return 0; if(!ta) return 1; if(!tb) return -1; return ta - tb; });
+  if(!data.length){ liste.innerHTML = '<div class="loading">Keine aktuellen Probendispositionen.</div>'; return; }
+  liste.innerHTML = data.map(function(e){ return '<div style="border-top:0.5px solid var(--border);padding:10px 0;margin-top:10px"><div style="font-size:13px;font-weight:600;color:var(--text)">'+esc(e.anlass)+(e.datum?' &middot; '+esc(e.datum):'')+'</div><div style="font-size:13px;color:var(--text);white-space:pre-wrap;margin-top:4px;line-height:1.5">'+esc(e.text)+'</div></div>'; }).join('');
+}
 ladeProbendispositionen();
 
 // ── Direktsprung zu einem Tab über ?tab=… in der URL (z.B. Rücksprung aus dem Aufbauplan-Tool zum Bedarf-Tab) ──
