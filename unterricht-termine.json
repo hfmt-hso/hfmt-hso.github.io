@@ -1,50 +1,6 @@
 {
-  "generiert": "2026-10-05T09:12:10.307Z",
+  "generiert": "2026-10-06T02:07:38.922Z",
   "data": [
-    {
-      "id": "UT_20260928_0",
-      "datum": "28.09.2026",
-      "projekt": "Gruppenunterricht Marković",
-      "marker": "Gruppenunterricht",
-      "dozent": "Marković",
-      "uhrzeit": "11:00",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "11:00"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "12:00"
-        }
-      ],
-      "notizen": "11 Borodin / Chenyu dann Schubert 3./1./2./4."
-    },
-    {
-      "id": "UT_20260928_1",
-      "datum": "28.09.2026",
-      "projekt": "Einzelunterricht Marković",
-      "marker": "Einzelunterricht",
-      "dozent": "Marković",
-      "uhrzeit": "14:30",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "14:30"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "15:30"
-        },
-        {
-          "slotId": "s_2",
-          "uhrzeit": "16:30"
-        }
-      ],
-      "notizen": "14:30 Bartok, danach Stravinsky und Rémi's Wettbewerbsrepertoire"
-    },
     {
       "id": "UT_20260929_1",
       "datum": "29.09.2026",
@@ -161,6 +117,22 @@
         {
           "slotId": "s_2",
           "uhrzeit": "18:30"
+        }
+      ],
+      "notizen": ""
+    },
+    {
+      "id": "UT_20261007_0",
+      "datum": "07.10.2026",
+      "projekt": "Einzelunterricht Dorsch",
+      "marker": "Einzelunterricht",
+      "dozent": "Dorsch",
+      "uhrzeit": "13:00",
+      "ort": "",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "13:00"
         }
       ],
       "notizen": ""
