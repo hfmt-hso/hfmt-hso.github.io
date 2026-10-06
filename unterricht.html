@@ -541,6 +541,8 @@ let _awDaten         = [];
 let _awAdminDaten    = null;
 let _awAdminFilter   = 'alle';
 let _adminTermine    = null;
+let _meineBuchungen  = [];
+let _slotsAnsicht    = null;   // { terminId, termin, slots } der gerade geöffneten Slot-Ansicht
 
 // ── HELFER ────────────────────────────────────────────────────
 function zeige(screenId) {
@@ -552,13 +554,102 @@ async function hashStr(s) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
-async function webAppGet(params) {
-  const res = await fetch(WEBAPP_URL + '?' + new URLSearchParams(params));
-  return res.json();
+// GET: ein automatischer Wiederholungsversuch bei Netzwerkfehler bzw. 404/HTML-Antwort
+// (Apps-Script-Web-Apps liefern bei Last gelegentlich 404). Kein Timeout-Abbruch, damit eine
+// langsame Antwort nicht doppelt ausgeführt wird. POST wird bewusst NICHT wiederholt (Doppelbuchungen).
+async function webAppGet(params, versuche) {
+  versuche = versuche || 2;
+  let letzterFehler;
+  for (let i = 0; i < versuche; i++) {
+    try {
+      const res = await fetch(WEBAPP_URL + '?' + new URLSearchParams(params));
+      return await res.json();
+    } catch(e) {
+      letzterFehler = e;
+      if (i < versuche - 1) await new Promise(r => setTimeout(r, 800));
+    }
+  }
+  throw letzterFehler;
 }
 async function webAppPost(data) {
   const res = await fetch(WEBAPP_URL, { method:'POST', body: JSON.stringify(data) });
   return res.json();
+}
+
+// ── CACHE: Stale-while-revalidate ─────────────────────────────
+// Zuletzt geladene Daten werden sofort angezeigt, frische kommen im Hintergrund nach.
+// Speicher ist sessionStorage (nur dieser Tab, weg beim Schließen) – bewusst nicht localStorage,
+// weil die Daten Namen enthalten können. Beim Abmelden wird alles geleert (swrLeeren).
+const SWR_PREFIX = 'hso_swr:';
+const _swrVersion = {};  // zählt lokale Änderungen je Schlüssel: eine ältere Serverantwort überschreibt sie nicht
+const _inflight   = {};  // gleichzeitige Abfragen desselben Schlüssels teilen sich ein Promise
+const _syncTimer  = {};
+function swrLesen(key) {
+  try { const s = sessionStorage.getItem(SWR_PREFIX + key); return s ? JSON.parse(s) : null; } catch(e) { return null; }
+}
+function swrSchreiben(key, daten) {
+  try { sessionStorage.setItem(SWR_PREFIX + key, JSON.stringify({ t: Date.now(), d: daten })); } catch(e) {}
+}
+function swrAenderung(key) { _swrVersion[key] = (_swrVersion[key] || 0) + 1; }
+function swrVerwerfenPraefix(praefix) {
+  try { Object.keys(sessionStorage).filter(k => k.startsWith(SWR_PREFIX + praefix)).forEach(k => sessionStorage.removeItem(k)); } catch(e) {}
+}
+function swrLeeren() { swrVerwerfenPraefix(''); }
+function geteilt(key, fn) {
+  if (_inflight[key]) return _inflight[key];
+  const p = fn().finally(() => { delete _inflight[key]; });
+  _inflight[key] = p;
+  return p;
+}
+// anzeigen(daten, ausCache) wird zuerst mit dem Cache, danach mit den frischen Daten aufgerufen.
+// frischMs: ist der Cache jünger, wird gar nicht erst neu abgefragt.
+async function swrLaden(key, holen, anzeigen, frischMs) {
+  const cached = swrLesen(key);
+  if (cached) {
+    anzeigen(cached.d, true);
+    if (frischMs && Date.now() - cached.t < frischMs) return cached.d;
+  }
+  const v = _swrVersion[key] || 0;
+  try {
+    const frisch = await geteilt(key, holen);
+    if ((_swrVersion[key] || 0) === v) { swrSchreiben(key, frisch); anzeigen(frisch, false); }
+    return frisch;
+  } catch(e) {
+    if (!cached) throw e;
+    return cached.d;
+  }
+}
+// Gleicht nach einer lokalen Änderung still mit dem Server ab (entprellt).
+function planeSync(key, fn, ms) {
+  clearTimeout(_syncTimer[key]);
+  _syncTimer[key] = setTimeout(() => { Promise.resolve().then(fn).catch(() => {}); }, ms || 1500);
+}
+// Setzt innerHTML, erhält dabei aber ungespeicherte Eingaben, Auswahl und Fokus
+// (wichtig, weil Hintergrund-Aktualisierungen sonst eine halb getippte Notiz überschreiben würden).
+function setHtml(el, html) {
+  const zustand = {};
+  el.querySelectorAll('input[id],textarea[id],select[id]').forEach(f => {
+    const orig = f.dataset.orig;
+    if (orig === undefined ? f.value !== '' : f.value !== orig) zustand[f.id] = f.value;
+  });
+  const aktiv = document.activeElement;
+  const aktivId = aktiv && el.contains(aktiv) ? aktiv.id : '';
+  let selA = null, selE = null;
+  try { if (aktivId) { selA = aktiv.selectionStart; selE = aktiv.selectionEnd; } } catch(e) {}
+  el.innerHTML = html;
+  Object.keys(zustand).forEach(id => { const f = el.querySelector('#' + CSS.escape(id)); if (f) f.value = zustand[id]; });
+  if (aktivId) {
+    const f = el.querySelector('#' + CSS.escape(aktivId));
+    if (f) { f.focus(); try { if (selA !== null) f.setSelectionRange(selA, selE); } catch(e) {} }
+  }
+}
+function istTmp(id) { return String(id || '').startsWith('tmp-'); }
+function fehlerText(e) { return (e && e.message && e.message !== 'Failed to fetch') ? e.message : 'Verbindungsfehler'; }
+// Wärmt die Apps-Script-Instanz an, sobald jemand mit der Anmeldung beginnt (Kaltstart dauert sonst 5–10 s).
+let _warm = false;
+function warmUp() {
+  if (_warm) return; _warm = true;
+  webAppGet({ action:'warmup' }, 1).catch(() => {});
 }
 function esc(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -708,6 +799,8 @@ async function pwZuruecksetzenSpeichern() {
 function logout() {
   sessionStorage.removeItem('hso_student');
   aktuellerStudent = null;
+  _meineBuchungen = []; _awDaten = []; _slotsAnsicht = null;
+  swrLeeren();
   zeige('screen-start');
 }
 
@@ -716,9 +809,8 @@ async function oeffneStudentBereich() {
   document.getElementById('welcome-name').textContent = 'Hallo, ' + (aktuellerStudent.name || aktuellerStudent.mtknr) + '!';
   document.getElementById('welcome-sub').textContent  = 'Mtknr: ' + aktuellerStudent.mtknr + (aktuellerStudent.instrument ? ' · ' + aktuellerStudent.instrument : '');
   zeige('screen-student');
-  await ladeTermine();
-  await ladeMeineBuchungen();
-  await ladeAbwesenheiten();
+  // Parallel statt nacheinander: die Wartezeiten addieren sich nicht mehr.
+  await Promise.all([ladeTermine(), ladeMeineBuchungen(), ladeAbwesenheiten()]);
 }
 
 async function ladeTermine() {
@@ -807,25 +899,48 @@ async function ladeStartTermine() {
 }
 
 // ── SLOTS ─────────────────────────────────────────────────────
+function slotsKey(terminId) { return 'slots:' + terminId + ':' + (aktuellerStudent ? aktuellerStudent.mtknr : ''); }
+function holeSlots(terminId) {
+  return webAppGet({ action:'unterrichtSlots', terminId, mtknr: aktuellerStudent ? aktuellerStudent.mtknr : '' })
+    .then(j => { if (!j.ok) throw new Error(j.error || 'Fehler'); return j.data; });
+}
+function renderSlotsAnsicht() {
+  if (!_slotsAnsicht) return;
+  const { terminId, termin, slots } = _slotsAnsicht;
+  const grid = document.getElementById('slots-grid');
+  document.getElementById('slot-termin-name').textContent = termin.projekt || termin.marker;
+  document.getElementById('slot-termin-meta').textContent = termin.datum + (termin.dozent ? ' · ' + termin.dozent : '') + (termin.ort ? ' · ' + termin.ort : '');
+  if (!slots.length) {
+    grid.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⏰</div>Keine Slots für diesen Termin.</div>';
+    return;
+  }
+  setHtml(grid, slots.map(s => renderSlot(s, terminId, termin)).join(''));
+}
+async function ladeSlots(terminId) {
+  const grid = document.getElementById('slots-grid');
+  try {
+    await swrLaden(slotsKey(terminId), () => holeSlots(terminId), daten => {
+      // nur anzeigen, solange diese Slot-Ansicht noch offen ist
+      if (_slotsAnsicht && _slotsAnsicht.terminId !== terminId) return;
+      _slotsAnsicht = { terminId, termin: daten.termin, slots: daten.slots };
+      if (document.getElementById('screen-slots').classList.contains('active')) renderSlotsAnsicht();
+    });
+  } catch(e) {
+    if (!_slotsAnsicht || _slotsAnsicht.terminId !== terminId)
+      grid.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
+  }
+}
 async function oeffneSlots(terminId) {
   zeige('screen-slots');
-  document.getElementById('slots-grid').innerHTML = '<div class="spinner">Lade Slots…</div>';
-  document.getElementById('slot-termin-name').textContent = '';
-  document.getElementById('slot-termin-meta').textContent = '';
-  try {
-    const json = await webAppGet({ action:'unterrichtSlots', terminId, mtknr: aktuellerStudent ? aktuellerStudent.mtknr : '' });
-    if (!json.ok) throw new Error(json.error);
-    const { termin, slots } = json.data;
-    document.getElementById('slot-termin-name').textContent = termin.projekt || termin.marker;
-    document.getElementById('slot-termin-meta').textContent = termin.datum + (termin.dozent ? ' · ' + termin.dozent : '') + (termin.ort ? ' · ' + termin.ort : '');
-    if (!slots.length) {
-      document.getElementById('slots-grid').innerHTML = '<div class="empty-state"><div class="empty-state-icon">⏰</div>Keine Slots für diesen Termin.</div>';
-      return;
-    }
-    document.getElementById('slots-grid').innerHTML = slots.map(s => renderSlot(s, terminId, termin)).join('');
-  } catch(e) {
-    document.getElementById('slots-grid').innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
+  if (!_slotsAnsicht || _slotsAnsicht.terminId !== terminId) _slotsAnsicht = null;
+  if (!swrLesen(slotsKey(terminId))) {
+    document.getElementById('slots-grid').innerHTML = '<div class="spinner">Lade Slots…</div>';
+    document.getElementById('slot-termin-name').textContent = '';
+    document.getElementById('slot-termin-meta').textContent = '';
+  } else {
+    _slotsAnsicht = { terminId, termin: swrLesen(slotsKey(terminId)).d.termin, slots: swrLesen(slotsKey(terminId)).d.slots };
   }
+  await ladeSlots(terminId);
 }
 
 function renderSlot(s, terminId, termin) {
@@ -862,61 +977,132 @@ async function buchungErstellen(terminId, slotStart) {
   const werkInput = document.getElementById('werk-' + terminId + '-' + slotStart);
   const werk = werkInput ? werkInput.value.trim() : '';
   if (!confirm('Slot ' + slotStart + ' Uhr buchen?')) return;
+  const mtknr = aktuellerStudent.mtknr, bKey = 'meineBuchungen:' + mtknr, sKey = slotsKey(terminId);
+  const a    = (_slotsAnsicht && _slotsAnsicht.terminId === terminId) ? _slotsAnsicht : null;
+  const slot = a ? a.slots.find(s => s.uhrzeit === slotStart) : null;
+  const slotAlt = slot ? Object.assign({}, slot) : null;
+  const tmpId = 'tmp-' + Date.now();
+  // Optimistisch: Slot sofort als "Dein Slot" zeigen und in "Meine gebuchten Slots" eintragen.
+  if (slot) {
+    Object.assign(slot, { frei:false, mein:true, name: aktuellerStudent.name, werk, buchungId: tmpId });
+    swrAenderung(sKey); swrSchreiben(sKey, { termin: a.termin, slots: a.slots });
+    renderSlotsAnsicht();
+  }
+  const neu = { buchungId: tmpId, terminId, slotStart, werk,
+    datum: a ? a.termin.datum : '', dozent: a ? (a.termin.dozent || '') : '', ort: a ? (a.termin.ort || '') : '' };
+  _meineBuchungen.push(neu);
+  swrAenderung(bKey); swrSchreiben(bKey, _meineBuchungen);
+  renderMeineBuchungen();
+  toast('✅ Slot gebucht!');
   try {
-    const json = await webAppPost({ action:'buchungErstellen', mtknr: aktuellerStudent.mtknr, name: aktuellerStudent.name, terminId, slotStart, werk });
-    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
-    toast('✅ Slot gebucht!');
-    await oeffneSlots(terminId);
-    await ladeMeineBuchungen();
-  } catch(e) { toast('❌ Verbindungsfehler.'); }
+    const json = await webAppPost({ action:'buchungErstellen', mtknr, name: aktuellerStudent.name, terminId, slotStart, werk });
+    if (!json.ok) throw new Error(json.error || 'Fehler');
+  } catch(e) {
+    if (slot && slotAlt) { Object.keys(slot).forEach(k => delete slot[k]); Object.assign(slot, slotAlt); swrAenderung(sKey); swrSchreiben(sKey, { termin: a.termin, slots: a.slots }); renderSlotsAnsicht(); }
+    _meineBuchungen = _meineBuchungen.filter(b => b !== neu);
+    swrAenderung(bKey); swrSchreiben(bKey, _meineBuchungen); renderMeineBuchungen();
+    toast('❌ Nicht gebucht: ' + fehlerText(e));
+  }
+  // Echte Buchungs-IDs und ggf. Konflikte vom Server nachziehen (im Hintergrund)
+  planeSync(sKey, () => ladeSlots(terminId));
+  planeSync(bKey, ladeMeineBuchungen);
 }
 
 async function eigeneBuchungStornieren(buchungId, terminId) {
+  if (istTmp(buchungId)) { toast('Wird noch gespeichert – bitte kurz warten.'); return; }
   if (!confirm('Deinen Slot stornieren?')) return;
+  const mtknr = aktuellerStudent.mtknr, bKey = 'meineBuchungen:' + mtknr, sKey = slotsKey(terminId);
+  const a    = (_slotsAnsicht && _slotsAnsicht.terminId === terminId) ? _slotsAnsicht : null;
+  const slot = a ? a.slots.find(s => s.buchungId === buchungId) : null;
+  const slotAlt = slot ? Object.assign({}, slot) : null;
+  const buchAlt = _meineBuchungen.find(b => b.buchungId === buchungId);
+  if (slot) {
+    Object.assign(slot, { frei:true, mein:false, name:'', werk:'', buchungId:'' });
+    swrAenderung(sKey); swrSchreiben(sKey, { termin: a.termin, slots: a.slots });
+    renderSlotsAnsicht();
+  }
+  _meineBuchungen = _meineBuchungen.filter(b => b.buchungId !== buchungId);
+  swrAenderung(bKey); swrSchreiben(bKey, _meineBuchungen); renderMeineBuchungen();
+  toast('✅ Slot storniert.');
   try {
     const json = await webAppPost({ action:'buchungStornieren', buchungId });
-    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
-    toast('✅ Slot storniert.');
-    await oeffneSlots(terminId);
-    await ladeMeineBuchungen();
-  } catch(e) { toast('❌ Verbindungsfehler.'); }
+    if (!json.ok) throw new Error(json.error || 'Fehler');
+  } catch(e) {
+    if (slot && slotAlt) { Object.keys(slot).forEach(k => delete slot[k]); Object.assign(slot, slotAlt); swrAenderung(sKey); swrSchreiben(sKey, { termin: a.termin, slots: a.slots }); renderSlotsAnsicht(); }
+    if (buchAlt) { _meineBuchungen.push(buchAlt); swrAenderung(bKey); swrSchreiben(bKey, _meineBuchungen); renderMeineBuchungen(); }
+    toast('❌ Nicht storniert: ' + fehlerText(e));
+  }
+  planeSync(sKey, () => ladeSlots(terminId));
+  planeSync(bKey, ladeMeineBuchungen);
 }
 
 // Stornieren direkt aus der Liste "Meine gebuchten Slots" heraus,
 // ohne erst über den Termin navigieren zu müssen.
 async function meineBuchungStornieren(buchungId) {
+  if (istTmp(buchungId)) { toast('Wird noch gespeichert – bitte kurz warten.'); return; }
   if (!confirm('Diesen Slot wirklich stornieren?')) return;
+  const bKey = 'meineBuchungen:' + aktuellerStudent.mtknr;
+  const alt = _meineBuchungen.find(b => b.buchungId === buchungId);
+  _meineBuchungen = _meineBuchungen.filter(b => b.buchungId !== buchungId);
+  swrAenderung(bKey); swrSchreiben(bKey, _meineBuchungen); renderMeineBuchungen();
+  swrVerwerfenPraefix('slots:');   // gecachte Slot-Ansichten würden den Slot sonst kurz noch als "Dein Slot" zeigen
+  toast('✅ Slot storniert.');
   try {
     const json = await webAppPost({ action:'buchungStornieren', buchungId });
-    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
-    toast('✅ Slot storniert.');
-    await ladeMeineBuchungen();
-    await ladeTermine();
-  } catch(e) { toast('❌ Verbindungsfehler.'); }
+    if (!json.ok) throw new Error(json.error || 'Fehler');
+  } catch(e) {
+    if (alt) { _meineBuchungen.push(alt); swrAenderung(bKey); swrSchreiben(bKey, _meineBuchungen); renderMeineBuchungen(); }
+    toast('❌ Nicht storniert: ' + fehlerText(e));
+  }
+  planeSync(bKey, ladeMeineBuchungen);
 }
 
 // Werk einer bestehenden Buchung direkt in der Liste "Meine gebuchten Slots" bearbeiten.
 async function meineBuchungWerkSpeichern(buchungId) {
+  if (istTmp(buchungId)) { toast('Wird noch gespeichert – bitte kurz warten.'); return; }
   const inp  = document.getElementById('werk-edit-' + buchungId);
   const werk = inp ? inp.value.trim() : '';
+  const bKey = 'meineBuchungen:' + aktuellerStudent.mtknr;
+  const b = _meineBuchungen.find(x => x.buchungId === buchungId);
+  const alt = b ? b.werk : '';
+  if (b) { b.werk = werk; swrAenderung(bKey); swrSchreiben(bKey, _meineBuchungen); }
+  if (inp) inp.dataset.orig = werk;
+  toast('✅ Werk gespeichert.');
   try {
     const json = await webAppPost({ action:'buchungWerkAendern', buchungId, mtknr: aktuellerStudent.mtknr, werk });
-    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
-    toast('✅ Werk gespeichert.');
-  } catch(e) { toast('❌ Verbindungsfehler.'); }
+    if (!json.ok) throw new Error(json.error || 'Fehler');
+  } catch(e) {
+    if (b) { b.werk = alt; swrAenderung(bKey); swrSchreiben(bKey, _meineBuchungen); }
+    if (inp) { inp.value = alt; inp.dataset.orig = alt; }
+    toast('❌ Werk nicht gespeichert: ' + fehlerText(e));
+  }
 }
 
+function holeMeineBuchungen() {
+  return webAppGet({ action:'meineBuchungen', mtknr: aktuellerStudent.mtknr })
+    .then(j => { if (!j.ok) throw new Error(j.error || 'Fehler'); return j.data; });
+}
 async function ladeMeineBuchungen() {
   const el = document.getElementById('meine-buchungen-liste');
-  el.innerHTML = '<div class="spinner">Lade Buchungen…</div>';
+  if (!el || !aktuellerStudent) return;
+  const key = 'meineBuchungen:' + aktuellerStudent.mtknr;
+  if (!swrLesen(key) && !_meineBuchungen.length) el.innerHTML = '<div class="spinner">Lade Buchungen…</div>';
   try {
-    const json = await webAppGet({ action:'meineBuchungen', mtknr: aktuellerStudent.mtknr });
-    const buchungen = json.ok ? json.data : [];
+    await swrLaden(key, holeMeineBuchungen, daten => { _meineBuchungen = daten; renderMeineBuchungen(); });
+  } catch(e) {
+    if (!_meineBuchungen.length) el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
+  }
+}
+function renderMeineBuchungen() {
+  const el = document.getElementById('meine-buchungen-liste');
+  if (!el) return;
+  const buchungen = _meineBuchungen;
+  {
     if (!buchungen.length) {
       el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Noch keine Buchungen.</div>';
       return;
     }
-    el.innerHTML = '<div class="buchung-card">' + buchungen.map(b => {
+    setHtml(el, '<div class="buchung-card">' + buchungen.map(b => {
       const d = parseDate(b.datum), tag = d ? d.getDate() : '?', mon = d ? MONATE[d.getMonth()] : '';
       return `<div class="buchung-row" style="flex-wrap:wrap">
         <div class="buchung-datum-box"><div class="buchung-tag">${tag}</div><div class="buchung-mon">${mon}</div></div>
@@ -926,13 +1112,11 @@ async function ladeMeineBuchungen() {
           <button class="buchung-storno-btn" onclick="meineBuchungStornieren('${esc(b.buchungId)}')">Stornieren</button>
         </div>
         <div style="flex-basis:100%;display:flex;gap:6px;align-items:center;margin-top:2px">
-          <input class="aw-komm-input" style="margin-top:0;flex:1" type="text" placeholder="Werk…" value="${esc(b.werk||'')}" id="werk-edit-${esc(b.buchungId)}">
+          <input class="aw-komm-input" style="margin-top:0;flex:1" type="text" placeholder="Werk…" value="${esc(b.werk||'')}" data-orig="${esc(b.werk||'')}" id="werk-edit-${esc(b.buchungId)}">
           <button class="buchung-storno-btn" style="background:var(--blue-light);color:var(--blue-dark);white-space:nowrap" onclick="meineBuchungWerkSpeichern('${esc(b.buchungId)}')">Speichern</button>
         </div>
       </div>`;
-    }).join('') + '</div>';
-  } catch(e) {
-    el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
+    }).join('') + '</div>');
   }
 }
 
@@ -964,6 +1148,7 @@ function awDatumAnzeige(s) {
 }
 
 function awFormularOeffnen(eintrag) {
+  if (eintrag && istTmp(eintrag.id)) { toast('Wird noch gespeichert – bitte kurz warten.'); return; }
   awFuelleUhrzeitDropdowns();
   _awEditId = eintrag ? eintrag.id : null;
   document.getElementById('aw-form-titel').textContent = eintrag ? 'Abwesenheit bearbeiten' : 'Abwesenheit melden';
@@ -1000,37 +1185,61 @@ async function awSpeichern() {
   if (datumVon > datumBis || (datumVon === datumBis && uhrzeitVon >= uhrzeitBis)) {
     err.textContent = 'Enddatum/-zeit muss nach dem Beginn liegen.'; return;
   }
-  const btn = document.getElementById('aw-save-btn');
-  btn.disabled = true; btn.textContent = 'Speichere…';
+  const editId = _awEditId;
+  const key    = 'meineAbwesenheiten:' + aktuellerStudent.mtknr;
+  const felder = {
+    datumVon:   awDatumAnzeige(datumVon),
+    uhrzeitVon,
+    datumBis:   awDatumAnzeige(datumBis),
+    uhrzeitBis,
+    grund
+  };
+  // Optimistisch: Eintrag sofort in die Liste, Formular schließen, Speichern läuft im Hintergrund.
+  const alt     = editId ? _awDaten.find(a => a.id === editId) : null;
+  const altKopie = alt ? Object.assign({}, alt) : null;
+  const neu = alt ? null : Object.assign({ id: 'tmp-' + Date.now(), mtknr: aktuellerStudent.mtknr,
+                       name: aktuellerStudent.name || aktuellerStudent.mtknr, status: 'offen' }, felder);
+  if (alt) Object.assign(alt, felder); else _awDaten.unshift(neu);
+  swrAenderung(key); swrSchreiben(key, _awDaten);
+  renderAbwesenheiten();
+  zeige('screen-student');
+  toast('✅ Abwesenheit gespeichert!');
   try {
-    const json = await webAppPost({
+    const json = await webAppPost(Object.assign({
       action: 'abwesenheitSpeichern',
-      id:         _awEditId || '',
-      mtknr:      aktuellerStudent.mtknr,
-      name:       aktuellerStudent.name || aktuellerStudent.mtknr,
-      datumVon:   awDatumAnzeige(datumVon),
-      uhrzeitVon,
-      datumBis:   awDatumAnzeige(datumBis),
-      uhrzeitBis,
-      grund
-    });
-    if (!json.ok) { err.textContent = json.error || 'Fehler.'; btn.disabled = false; btn.textContent = 'Speichern'; return; }
-    toast('✅ Abwesenheit gespeichert!');
-    zeige('screen-student');
-    await ladeAbwesenheiten();
-  } catch(e) { err.textContent = 'Verbindungsfehler.'; }
-  btn.disabled = false; btn.textContent = 'Speichern';
+      id:     editId || '',
+      mtknr:  aktuellerStudent.mtknr,
+      name:   aktuellerStudent.name || aktuellerStudent.mtknr
+    }, felder));
+    if (!json.ok) throw new Error(json.error || 'Fehler');
+    const neueId = json.id || (json.data && json.data.id);
+    if (neu && neueId) { neu.id = neueId; swrSchreiben(key, _awDaten); renderAbwesenheiten(); }
+  } catch(e) {
+    // Zurücknehmen und Formular mit den eingegebenen Werten wieder öffnen
+    if (alt && altKopie) { Object.keys(alt).forEach(k => delete alt[k]); Object.assign(alt, altKopie); }
+    else _awDaten = _awDaten.filter(a => a !== neu);
+    swrAenderung(key); swrSchreiben(key, _awDaten);
+    renderAbwesenheiten();
+    awFormularOeffnen(Object.assign({ id: editId || null }, felder));
+    document.getElementById('aw-err').textContent = 'Nicht gespeichert: ' + fehlerText(e);
+  }
+  planeSync(key, ladeAbwesenheiten);
 }
 
+function holeMeineAbwesenheiten() {
+  return webAppGet({ action:'meineAbwesenheiten', mtknr: aktuellerStudent.mtknr })
+    .then(j => { if (!j.ok) throw new Error(j.error || 'Fehler'); return j.data; });
+}
 async function ladeAbwesenheiten() {
   const el = document.getElementById('aw-student-liste');
-  if (!el) return;
-  el.innerHTML = '<div class="spinner">Lade…</div>';
+  if (!el || !aktuellerStudent) return;
+  const key = 'meineAbwesenheiten:' + aktuellerStudent.mtknr;
+  if (!swrLesen(key) && !_awDaten.length) el.innerHTML = '<div class="spinner">Lade…</div>';
   try {
-    const json = await webAppGet({ action:'meineAbwesenheiten', mtknr: aktuellerStudent.mtknr });
-    _awDaten = json.ok ? json.data : [];
-    renderAbwesenheiten();
-  } catch(e) { el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>'; }
+    await swrLaden(key, holeMeineAbwesenheiten, daten => { _awDaten = daten; renderAbwesenheiten(); });
+  } catch(e) {
+    if (!_awDaten.length) el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
+  }
 }
 
 function renderAbwesenheiten() {
@@ -1080,13 +1289,21 @@ function renderAbwesenheiten() {
 }
 
 async function awLoeschen(id) {
+  if (istTmp(id)) { toast('Wird noch gespeichert – bitte kurz warten.'); return; }
   if (!confirm('Abwesenheit wirklich löschen?')) return;
+  const key = 'meineAbwesenheiten:' + aktuellerStudent.mtknr;
+  const idx = _awDaten.findIndex(a => a.id === id);
+  const alt = idx >= 0 ? _awDaten[idx] : null;
+  if (alt) { _awDaten.splice(idx, 1); swrAenderung(key); swrSchreiben(key, _awDaten); renderAbwesenheiten(); }
+  toast('✅ Gelöscht.');
   try {
     const json = await webAppPost({ action:'abwesenheitLoeschen', id, mtknr: aktuellerStudent.mtknr });
-    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
-    toast('✅ Gelöscht.');
-    await ladeAbwesenheiten();
-  } catch(e) { toast('❌ Verbindungsfehler.'); }
+    if (!json.ok) throw new Error(json.error || 'Fehler');
+  } catch(e) {
+    if (alt) { _awDaten.splice(Math.min(idx, _awDaten.length), 0, alt); swrAenderung(key); swrSchreiben(key, _awDaten); renderAbwesenheiten(); }
+    toast('❌ Nicht gelöscht: ' + fehlerText(e));
+  }
+  planeSync(key, ladeAbwesenheiten);
 }
 
 // ── LEHRENDEN-LOGIN ───────────────────────────────────────────
@@ -1135,6 +1352,11 @@ function oeffneAdminBereich() {
   if (istGastdozent) { adminTab('buchungen'); buchungenTab('meine'); }
   zeige('screen-admin');
   ladeAdminBuchungen();
+  // Termine gleich mit anfordern (parallel), damit der Tab "Termine" beim Öffnen schon gefüllt ist.
+  swrLaden('alleTermine', holeAlleTermine, daten => {
+    _adminTermine = daten;
+    if (hauptTabAktiv === 'termine') renderAdminTermine();
+  }).catch(() => {});
 }
 
 function adminTab(tab) {
@@ -1144,8 +1366,8 @@ function adminTab(tab) {
     document.getElementById('adm-' + t).style.display = t === tab ? 'block' : 'none';
     document.getElementById('ftab-' + t).classList.toggle('active', t === tab);
   });
-  if (tab === 'abwesenheiten') ladeAbwesenheitenAdmin();
-  if (tab === 'termine') ladeAdminTermine();
+  if (tab === 'abwesenheiten') ladeAbwesenheitenAdmin(30000);
+  if (tab === 'termine') ladeAdminTermine(30000);
 }
 
 function buchungenTab(tab) {
@@ -1155,15 +1377,36 @@ function buchungenTab(tab) {
   renderAdminBuchungen();
 }
 
-async function ladeAdminBuchungen() {
+function holeAdminBuchungen() {
+  return webAppGet({ action:'adminBuchungen' })
+    .then(j => { if (!j.ok) throw new Error(j.error || 'Fehler'); return j.data; });
+}
+function holeAlleTermine() {
+  return webAppGet({ action:'alleTermine' })
+    .then(j => { if (!j.ok) throw new Error(j.error || 'Fehler'); return j.data; });
+}
+function holeAlleAbwesenheiten() {
+  return webAppGet({ action:'alleAbwesenheiten' })
+    .then(j => { if (!j.ok) throw new Error(j.error || 'Fehler'); return j.data; });
+}
+// Nach lokaler Änderung an adminBuchungen: Cache aktualisieren und betroffene Ansichten neu zeichnen.
+function adminBuchungenGeaendert() {
+  swrAenderung('adminBuchungen'); swrSchreiben('adminBuchungen', adminBuchungen);
+  renderAdminBuchungen();
+  if (_adminTermine && hauptTabAktiv === 'termine') renderAdminTermine();
+}
+// frischMs: z. B. beim Tab-Wechsel nicht erneut abfragen, wenn die Daten gerade erst geladen wurden.
+async function ladeAdminBuchungen(frischMs) {
   const el = document.getElementById('admin-buchungen-container');
-  el.innerHTML = '<div class="spinner">Lade Buchungen…</div>';
+  if (!swrLesen('adminBuchungen') && !adminBuchungen) el.innerHTML = '<div class="spinner">Lade Buchungen…</div>';
   try {
-    const json = await webAppGet({ action:'adminBuchungen' });
-    adminBuchungen = json.ok ? json.data : [];
-    renderAdminBuchungen();
+    await swrLaden('adminBuchungen', holeAdminBuchungen, daten => {
+      adminBuchungen = daten;
+      renderAdminBuchungen();
+      if (_adminTermine && hauptTabAktiv === 'termine') renderAdminTermine();
+    }, frischMs);
   } catch(e) {
-    el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
+    if (!adminBuchungen) el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
   }
 }
 
@@ -1202,27 +1445,33 @@ function renderAdminBuchungen() {
 }
 
 async function buchungStornieren(buchungId, name) {
+  if (istTmp(buchungId)) { toast('Wird noch gespeichert – bitte kurz warten.'); return; }
   if (!confirm('Buchung von ' + name + ' stornieren?')) return;
+  const idx = (adminBuchungen || []).findIndex(b => b.buchungId === buchungId);
+  const alt = idx >= 0 ? adminBuchungen[idx] : null;
+  if (alt) { adminBuchungen.splice(idx, 1); adminBuchungenGeaendert(); }
+  toast('✅ Buchung storniert.');
   try {
     const json = await webAppPost({ action:'buchungStornieren', buchungId });
-    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
-    toast('✅ Buchung storniert.');
-    adminBuchungen = null;
-    await ladeAdminBuchungen();
-  } catch(e) { toast('❌ Verbindungsfehler.'); }
+    if (!json.ok) throw new Error(json.error || 'Fehler');
+  } catch(e) {
+    if (alt) { adminBuchungen.splice(Math.min(idx, adminBuchungen.length), 0, alt); adminBuchungenGeaendert(); }
+    toast('❌ Nicht storniert: ' + fehlerText(e));
+  }
+  planeSync('adminBuchungen', () => ladeAdminBuchungen());
 }
 
 // ── ABWESENHEITEN – ADMIN-SEITE ───────────────────────────────
-async function ladeAbwesenheitenAdmin() {
+// frischMs: beim Tab-Wechsel nicht erneut abfragen, wenn die Daten gerade erst geladen wurden.
+async function ladeAbwesenheitenAdmin(frischMs) {
   const el = document.getElementById('aw-adm-liste');
   if (!el) return;
-  if (_awAdminDaten) { renderAbwesenheitenAdmin(); return; }
-  el.innerHTML = '<div class="spinner">Lade…</div>';
+  if (!swrLesen('alleAbwesenheiten') && !_awAdminDaten) el.innerHTML = '<div class="spinner">Lade…</div>';
   try {
-    const json = await webAppGet({ action:'alleAbwesenheiten' });
-    _awAdminDaten = json.ok ? json.data : [];
-    renderAbwesenheitenAdmin();
-  } catch(e) { el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>'; }
+    await swrLaden('alleAbwesenheiten', holeAlleAbwesenheiten, daten => { _awAdminDaten = daten; renderAbwesenheitenAdmin(); }, frischMs);
+  } catch(e) {
+    if (!_awAdminDaten) el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
+  }
 }
 
 function awAdminFilter(filter, btn) {
@@ -1245,7 +1494,7 @@ function renderAbwesenheitenAdmin() {
   }
   const gruppen = {};
   liste.forEach(aw => { const k = aw.name || aw.mtknr; if (!gruppen[k]) gruppen[k] = []; gruppen[k].push(aw); });
-  el.innerHTML = Object.entries(gruppen).map(([name, eintraege]) => {
+  setHtml(el, Object.entries(gruppen).map(([name, eintraege]) => {
     const rows = eintraege.map(aw => {
       const status = aw.status || 'offen';
       let badgeHtml, kommBlock, aktBtn;
@@ -1283,59 +1532,71 @@ function renderAbwesenheitenAdmin() {
       <div class="aw-adm-name-head">${esc(name)}<span>${eintraege.length} Eintrag${eintraege.length!==1?'einträge':''}</span></div>
       ${rows}
     </div>`;
-  }).join('');
+  }).join(''));
 }
 
-async function awAlsGesehen(id) {
-  const btn = event.target;
-  if (btn.disabled) return;
-  btn.disabled = true;
-  const inp  = document.getElementById('aw-komm-' + id);
-  const komm = inp ? inp.value.trim() : '';
+// Gemeinsamer Ablauf für Gesehen / Rücksprache / Zurück: Anzeige sofort ändern, Server im Hintergrund,
+// bei Fehler zurücknehmen. Danach still mit dem Server abgleichen.
+async function awAdminStatusAendern(id, action, neu, okText, extra) {
+  const eintrag = (_awAdminDaten || []).find(a => String(a.id) === String(id));
+  if (!eintrag) return;
+  const alt = {};
+  Object.keys(neu).forEach(k => { alt[k] = eintrag[k]; });
+  Object.assign(eintrag, neu);
+  swrAenderung('alleAbwesenheiten'); swrSchreiben('alleAbwesenheiten', _awAdminDaten);
+  renderAbwesenheitenAdmin();
+  toast(okText);
   try {
-    const json = await webAppPost({ action:'abwesenheitGesehen', id, gesehenVon: aktuellerAdmin.name || aktuellerAdmin.nutzer, kommentar: komm });
-    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
-    toast('✅ Als gesehen markiert.');
-    _awAdminDaten = null;
-    await ladeAbwesenheitenAdmin();
-  } catch(e) { toast('❌ Verbindungsfehler.'); btn.disabled = false; }
+    const json = await webAppPost(Object.assign({ action, id }, extra || {}));
+    if (!json.ok) throw new Error(json.error || 'Fehler');
+  } catch(e) {
+    Object.assign(eintrag, alt);
+    swrAenderung('alleAbwesenheiten'); swrSchreiben('alleAbwesenheiten', _awAdminDaten);
+    renderAbwesenheitenAdmin();
+    toast('❌ Nicht gespeichert, zurückgenommen: ' + fehlerText(e));
+  }
+  planeSync('alleAbwesenheiten', () => ladeAbwesenheitenAdmin(), 2000);
+}
+function awAdminName() { return aktuellerAdmin.name || aktuellerAdmin.nutzer; }
+function awAdminKommentar(id) {
+  const inp = document.getElementById('aw-komm-' + id);
+  return inp ? inp.value.trim() : '';
 }
 
-async function awAlsRuecksprache(id) {
-  const inp  = document.getElementById('aw-komm-' + id);
-  const komm = inp ? inp.value.trim() : '';
-  try {
-    const json = await webAppPost({ action:'abwesenheitRuecksprache', id, gesehenVon: aktuellerAdmin.name || aktuellerAdmin.nutzer, kommentar: komm });
-    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
-    toast('💬 Rücksprache angefordert.');
-    _awAdminDaten = null;
-    await ladeAbwesenheitenAdmin();
-  } catch(e) { toast('❌ Verbindungsfehler.'); }
+function awAlsGesehen(id) {
+  const komm = awAdminKommentar(id);
+  return awAdminStatusAendern(id, 'abwesenheitGesehen',
+    { status:'gesehen', gesehenVon: awAdminName(), gesehenKommentar: komm },
+    '✅ Als gesehen markiert.', { gesehenVon: awAdminName(), kommentar: komm });
 }
 
-async function awGesehenZurueck(id) {
-  try {
-    const json = await webAppPost({ action:'abwesenheitGesehenZurueck', id });
-    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
-    toast('✅ Zurückgesetzt.');
-    _awAdminDaten = null;
-    await ladeAbwesenheitenAdmin();
-  } catch(e) { toast('❌ Verbindungsfehler.'); }
+function awAlsRuecksprache(id) {
+  const komm = awAdminKommentar(id);
+  return awAdminStatusAendern(id, 'abwesenheitRuecksprache',
+    { status:'ruecksprache', gesehenVon: awAdminName(), gesehenKommentar: komm },
+    '💬 Rücksprache angefordert.', { gesehenVon: awAdminName(), kommentar: komm });
+}
+
+function awGesehenZurueck(id) {
+  return awAdminStatusAendern(id, 'abwesenheitGesehenZurueck',
+    { status:'offen', gesehenVon:'', gesehenKommentar:'' }, '✅ Zurückgesetzt.');
 }
 
 // ── TERMINE / NOTIZEN – ADMIN-SEITE ─────────────────────────────
-async function ladeAdminTermine() {
+async function ladeAdminTermine(frischMs) {
   const el = document.getElementById('adm-termine-liste');
   if (!el) return;
-  if (_adminTermine) { renderAdminTermine(); return; }
-  el.innerHTML = '<div class="spinner">Lade Termine…</div>';
+  if (!swrLesen('alleTermine') && !_adminTermine) el.innerHTML = '<div class="spinner">Lade Termine…</div>';
   try {
-    const json = await webAppGet({ action:'alleTermine' });
-    _adminTermine = json.ok ? json.data : [];
-    try { const bj = await webAppGet({ action:'adminBuchungen' }); adminBuchungen = bj.ok ? bj.data : (adminBuchungen || []); } catch(e) {}
-    renderAdminTermine();
+    // Termine und Buchungen gleichzeitig statt nacheinander; ein bereits laufender Abruf wird mitgenutzt.
+    await Promise.all([
+      swrLaden('alleTermine', holeAlleTermine, daten => { _adminTermine = daten; renderAdminTermine(); }, frischMs),
+      ladeAdminBuchungen(frischMs)
+    ]);
     if (aktuellerAdmin && aktuellerAdmin.rolle === 'Hauptdozent' && _adminPwHash && !_studierendenListe) ladeStudierendenListe();
-  } catch(e) { el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>'; }
+  } catch(e) {
+    if (!_adminTermine) el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
+  }
 }
 
 function renderAdminTermine() {
@@ -1351,7 +1612,7 @@ function renderAdminTermine() {
     return (da ? da.getTime() : 0) - (db ? db.getTime() : 0);
   });
   if (!liste.length) { el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Keine kommenden Termine.</div>'; return; }
-  el.innerHTML = liste.map(t => {
+  setHtml(el, liste.map(t => {
     const d = parseDate(t.datum), wt = d ? WT[d.getDay()] : '';
     return `<div class="aw-adm-row">
       <div class="aw-adm-info" style="width:100%">
@@ -1359,12 +1620,12 @@ function renderAdminTermine() {
           <div class="aw-adm-zeit">${wt}, ${esc(t.datum)}${t.uhrzeit ? ' · ' + esc(t.uhrzeit) : ''}</div>
         </div>
         <div class="aw-adm-grund">${esc(t.projekt || t.marker)}${t.marker && t.projekt ? ' · ' + esc(t.marker) : ''}${t.dozent ? ' · ' + esc(t.dozent) : ''}${t.ort ? ' · ' + esc(t.ort) : ''}</div>
-        <textarea class="aw-komm-input" style="width:100%;min-height:60px;margin-top:6px;resize:vertical" placeholder="Unterrichtsinhalte / Notizen…" id="notiz-${esc(t.id)}">${esc(t.notizen || '')}</textarea>
+        <textarea class="aw-komm-input" style="width:100%;min-height:60px;margin-top:6px;resize:vertical" placeholder="Unterrichtsinhalte / Notizen…" data-orig="${esc(t.notizen || '')}" id="notiz-${esc(t.id)}">${esc(t.notizen || '')}</textarea>
         <button class="aw-seen-btn" style="margin-top:6px" onclick="terminNotizSpeichern('${esc(t.id)}')">💾 Speichern</button>
         ${renderSlotZuweisung(t)}
       </div>
     </div>`;
-  }).join('');
+  }).join(''));
 }
 
 // ── EINZELUNTERRICHT: STUDIERENDE AN SLOTS ZUWEISEN ───────────
@@ -1418,42 +1679,61 @@ async function slotZuweisen(terminId, slotStart) {
   const mtknr = sel ? sel.value : '';
   if (!mtknr) { toast('Bitte zuerst eine:n Studierende:n wählen.'); return; }
   const st = (_studierendenListe || []).find(x => x.mtknr === mtknr);
+  const name = st ? st.name : mtknr;
+  const t = (_adminTermine || []).find(x => x.id === terminId) || {};
+  // Optimistisch: Zuweisung sofort anzeigen, Server im Hintergrund.
+  const neu = { buchungId: 'tmp-' + Date.now(), terminId, slotStart, name, mtknr, werk: '',
+                datum: t.datum || '', marker: t.marker || '', dozent: t.dozent || '', ort: t.ort || '' };
+  adminBuchungen = adminBuchungen || [];
+  adminBuchungen.push(neu);
+  adminBuchungenGeaendert();
+  toast('✅ ' + name + ' um ' + slotStart + ' eingetragen.');
   try {
-    const json = await webAppPost({ action:'buchungErstellen', mtknr, name: st ? st.name : mtknr, terminId, slotStart, werk: '' });
-    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
-    toast('✅ ' + (st ? st.name : mtknr) + ' um ' + slotStart + ' eingetragen.');
-    const bj = await webAppGet({ action:'adminBuchungen' });
-    adminBuchungen = bj.ok ? bj.data : adminBuchungen;
-    renderAdminTermine();
-  } catch(e) { toast('❌ Verbindungsfehler.'); }
+    const json = await webAppPost({ action:'buchungErstellen', mtknr, name, terminId, slotStart, werk: '' });
+    if (!json.ok) throw new Error(json.error || 'Fehler');
+  } catch(e) {
+    adminBuchungen = adminBuchungen.filter(b => b !== neu);
+    adminBuchungenGeaendert();
+    toast('❌ Nicht eingetragen: ' + fehlerText(e));
+  }
+  // Echte Buchungs-ID vom Server holen (im Hintergrund), damit "Entfernen" danach funktioniert
+  planeSync('adminBuchungen', () => ladeAdminBuchungen(), 800);
 }
 
 async function slotZuweisungEntfernen(buchungId) {
+  if (istTmp(buchungId)) { toast('Wird noch gespeichert – bitte kurz warten.'); return; }
   if (!confirm('Diese Zuweisung wirklich entfernen?')) return;
+  const idx = (adminBuchungen || []).findIndex(b => b.buchungId === buchungId);
+  const alt = idx >= 0 ? adminBuchungen[idx] : null;
+  if (alt) { adminBuchungen.splice(idx, 1); adminBuchungenGeaendert(); }
+  toast('✅ Zuweisung entfernt.');
   try {
     const json = await webAppPost({ action:'buchungStornieren', buchungId });
-    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
-    adminBuchungen = (adminBuchungen || []).filter(b => b.buchungId !== buchungId);
-    toast('✅ Zuweisung entfernt.');
-    renderAdminTermine();
-  } catch(e) { toast('❌ Verbindungsfehler.'); }
+    if (!json.ok) throw new Error(json.error || 'Fehler');
+  } catch(e) {
+    if (alt) { adminBuchungen.splice(Math.min(idx, adminBuchungen.length), 0, alt); adminBuchungenGeaendert(); }
+    toast('❌ Nicht entfernt: ' + fehlerText(e));
+  }
+  planeSync('adminBuchungen', () => ladeAdminBuchungen());
 }
 
 async function terminNotizSpeichern(terminId) {
   const inp = document.getElementById('notiz-' + terminId);
   const notizen = inp ? inp.value.trim() : '';
-  const btn = event.target;
-  if (btn) btn.disabled = true;
+  const t = (_adminTermine || []).find(x => x.id === terminId);
+  const alt = t ? t.notizen : '';
+  if (t) { t.notizen = notizen; swrAenderung('alleTermine'); swrSchreiben('alleTermine', _adminTermine); }
+  if (inp) inp.dataset.orig = notizen;
+  toast('✅ Notiz gespeichert.');
   try {
     const json = await webAppPost({ action:'terminNotizSpeichern', terminId, notizen });
-    if (!json.ok) { toast('❌ ' + (json.error || 'Fehler')); return; }
-    toast('✅ Notiz gespeichert.');
-    if (_adminTermine) {
-      const t = _adminTermine.find(x => x.id === terminId);
-      if (t) t.notizen = notizen;
-    }
-  } catch(e) { toast('❌ Verbindungsfehler.'); }
-  finally { if (btn) btn.disabled = false; }
+    if (!json.ok) throw new Error(json.error || 'Fehler');
+  } catch(e) {
+    // Eingabe im Feld bleibt stehen, damit nichts verloren geht und erneut gespeichert werden kann
+    if (t) { t.notizen = alt; swrAenderung('alleTermine'); swrSchreiben('alleTermine', _adminTermine); }
+    if (inp) inp.dataset.orig = alt || '';
+    toast('❌ Notiz NICHT gespeichert: ' + fehlerText(e));
+  }
 }
 
 function adminLogout() {
@@ -1464,11 +1744,17 @@ function adminLogout() {
   _adminTermine  = null;
   _adminPwHash = null; _studierendenListe = null;
   try { sessionStorage.removeItem('hso_admin_hash'); } catch(e) {}
+  swrLeeren();
   zeige('screen-start');
 }
 
 // ── AUTO-LOGIN ────────────────────────────────────────────────
 ladeStartTermine();
+// Backend anwärmen, sobald jemand ein Login-Feld anklickt: bis das Passwort getippt ist, läuft die Instanz schon.
+['s-mtknr','s-pw','a-user','a-pw'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('focus', warmUp, { once: true });
+});
 (function() {
   const urlParams   = new URLSearchParams(window.location.search);
   const resetMtknr  = urlParams.get('resetMtknr');
