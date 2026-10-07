@@ -1,43 +1,6 @@
 {
-  "generiert": "2026-10-06T17:55:45.841Z",
+  "generiert": "2026-10-07T02:07:26.732Z",
   "events": [
-    {
-      "datum": "06.10.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": "Arnau Morell (Pos.)",
-      "endzeit": "12:30 Uhr",
-      "_eventId": "0ge1ap2vhdvqhsas95gadikfhl@google.com",
-      "_titel": "HSO 1 OA tutti",
-      "abwesendNamen": [
-        "Arnau Morell (Pos.)"
-      ]
-    },
-    {
-      "datum": "06.10.2026",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "endzeit": "16:30 Uhr",
-      "_eventId": "1vm2iec3le7e2n4tuh447dfv9k@google.com",
-      "_titel": "HSO 1 OA tutti"
-    },
     {
       "datum": "07.10.2026",
       "uhrzeit": "10:00 Uhr",
