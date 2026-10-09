@@ -495,7 +495,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
   <!-- Buchungen -->
   <div id="adm-buchungen">
-    <div class="filter-tabs" style="margin-bottom:0">
+    <div class="filter-tabs" id="ftabs-buchungen" style="margin-bottom:0">
       <button class="filter-tab active" id="ftab-alle" onclick="buchungenTab('alle')">Alle</button>
       <button class="filter-tab" id="ftab-meine" onclick="buchungenTab('meine')">Meine</button>
     </div>
@@ -1375,6 +1375,8 @@ function oeffneAdminBereich() {
   const istGastdozent = aktuellerAdmin.rolle === 'Gastdozent';
   document.getElementById('ftab-abwesenheiten').style.display = istGastdozent ? 'none' : '';
   document.getElementById('ftab-alle').style.display = istGastdozent ? 'none' : '';
+  // Gastdozenten sehen ohnehin nur ihre eigenen Buchungen: die Umschaltzeile "Alle | Meine" entfällt
+  document.getElementById('ftabs-buchungen').style.display = istGastdozent ? 'none' : '';
   if (istGastdozent) { adminTab('buchungen'); buchungenTab('meine'); }
   zeige('screen-admin');
   ladeAdminBuchungen();
@@ -1436,13 +1438,18 @@ async function ladeAdminBuchungen(frischMs) {
   }
 }
 
+// Passt der Dozent-Eintrag eines Termins ("Dorsch", "Thomas Dorsch") zu dieser Person? Vor- ODER Nachname genügt.
+function dozentPasst(dozentFeld, name) {
+  const d = String(dozentFeld || '').toLowerCase();
+  if (!d) return false;
+  return String(name || '').toLowerCase().split(/\s+/).some(t => t.length >= 3 && d.includes(t));
+}
 function renderAdminBuchungen() {
   const el = document.getElementById('admin-buchungen-container');
   if (!adminBuchungen) return;
   let liste = adminBuchungen;
   if (adminTabAktiv === 'meine' && aktuellerAdmin) {
-    const meinName = (aktuellerAdmin.name || '').split(' ')[0].toLowerCase();
-    liste = adminBuchungen.filter(b => (b.dozent || '').toLowerCase().includes(meinName));
+    liste = adminBuchungen.filter(b => dozentPasst(b.dozent, aktuellerAdmin.name));
   }
   if (!liste.length) {
     el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Keine Buchungen vorhanden.</div>';
