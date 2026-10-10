@@ -1,97 +1,6 @@
 {
-  "generiert": "2026-10-09T02:06:50.594Z",
+  "generiert": "2026-10-10T02:08:12.453Z",
   "events": [
-    {
-      "datum": "09.10.2026",
-      "uhrzeit": "19:00 Uhr",
-      "endzeit": "21:00 Uhr",
-      "ort": "Forum",
-      "konzertart": "Symphoniekonzert",
-      "marker": "Vorstellung",
-      "werke": [
-        {
-          "komponist": "Manfred Trojahn",
-          "lebensdaten": "1949*",
-          "titel": "„... mit durchscheinender Melancholie“ Ein Brahms-Portrait für Orchester (1995)",
-          "saetze": [],
-          "dauer": "ca. 8 min",
-          "besetzung": "2.2.2.2-4.2.2.0-Pk-Str. (10.8.6.5.4)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "Igor Stravinsky",
-          "lebensdaten": "1882–1971",
-          "titel": "Concerto en ré (1931) pour violon et orchestre",
-          "saetze": [
-            "Toccata",
-            "Aria I",
-            "Aria II",
-            "Capriccio"
-          ],
-          "dauer": "ca. 22 min",
-          "besetzung": "3.3.3.3-4.3.3.1-Pk-Str. (10.8.6.5.4)",
-          "urauffuehrung": false,
-          "pause": false,
-          "solisten": [
-            {
-              "instrument": "Violine",
-              "name": "Chuanru He",
-              "zusatz": "Konzertexamen, Klasse Prof. Christoph Schickedanz"
-            }
-          ]
-        },
-        {
-          "pause": true
-        },
-        {
-          "komponist": "Johannes Brahms",
-          "lebensdaten": "1833–1897",
-          "titel": "Sinfonie Nr. 4 e-Moll, op. 98",
-          "saetze": [
-            "Allegro non troppo",
-            "Andante moderato",
-            "Allegro giocoso",
-            "Allegro energico e passionato"
-          ],
-          "dauer": "ca. 45 min",
-          "besetzung": "2.2.2.3-4.2.3.0-Pk-Str. (10.8.6.5.4)",
-          "urauffuehrung": false,
-          "pause": false
-        }
-      ],
-      "solisten": [
-        {
-          "instrument": "Violine",
-          "name": "Chuanru He",
-          "zusatz": "Konzertexamen, Klasse Prof. Christoph Schickedanz"
-        }
-      ],
-      "ensemble": "Symphonieorchester der HfMT",
-      "leitung": [
-        {
-          "name": "Miquel Bosch Roca (Trojahn), Yuan Xin (Stravinsky), Rémi Geniet (Brahms 1. Satz), Philine Lembeck (Brahms 2.& 3. Satz), Jacob Gröper (Brahms 4. Satz)  (Kursleitung: Yura Yang)",
-          "werk": "",
-          "klasse": ""
-        }
-      ],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [
-        "*",
-        "Klavier: Chenyu Wan (Strawinsky); Miquel Bosch Roca, Doğa Çetin, Jacob Gröper (Brahms)"
-      ],
-      "abwesend": null,
-      "eintritt": [
-        "Eintritt: 14 €, ermäßigt: 8 €",
-        "Ermäßigungen gelten für Schüler:innen und Studierende sowie Berechtigte nach SGB.",
-        "Tickets gibt es bei Eventim (Ticketlink hier einfügen).",
-        "Unsere",
-        "Abendkasse öffnet eine Stunde vor Veranstaltungsbeginn."
-      ],
-      "_eventId": "14vcu75be9in7sdlrpbgm4r66p@google.com",
-      "_titel": "HSO 1 (2)"
-    },
     {
       "datum": "26.10.2026",
       "uhrzeit": "09:00 Uhr",
@@ -5487,23 +5396,6 @@
       "endzeit": "18:30 Uhr",
       "_eventId": "6untkd6u55pmdr6ni4os57usnp@google.com",
       "_titel": "HSO 4 Anspielprobe"
-    },
-    {
-      "datum": "09.10.2026",
-      "uhrzeit": "17:30 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "endzeit": "18:30 Uhr",
-      "_eventId": "6n3keh7bvfsfc64sjdaie9qjnq@google.com",
-      "_titel": "HSO 1 Anspielprobe"
     },
     {
       "datum": "06.05.2027",
