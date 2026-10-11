@@ -2765,7 +2765,8 @@ async function tasksToggle(taskId, completed) {
   if (!task) return;
   task.completed = completed;
   tasksRenderListe();
-  await apiPost({ action: 'taskComplete', listId: liste.id, taskId: taskId, completed: completed });
+  var rc = await apiPost({ action: 'taskComplete', listId: liste.id, taskId: taskId, completed: completed });
+  if (!rc || rc.ok === false) zeigToast('Status nicht gespeichert: ' + ((rc && rc.error) || 'Keine Antwort vom Server'));
 }
 
 async function tasksDelete(taskId) {
@@ -2786,13 +2787,17 @@ async function tasksAdd() {
   var title = inp.value.trim();
   var liste = tasksZielListe();
   if (!title || !liste) return;
-  inp.value = '';
+  if (inp.dataset.busy) return;
+  inp.dataset.busy = '1';
   var r = await apiPost({ action: 'taskAdd', listId: liste.id, title: title });
+  delete inp.dataset.busy;
   if (r && r.ok) {
-    if (liste) {
-      liste.tasks.unshift({ id: r.id || ('tmp-' + Date.now()), title: title, notes: '', due: null, completed: false, parent: null });
-      tasksRenderListe();
-    }
+    inp.value = '';
+    liste.tasks.unshift({ id: r.id || ('tmp-' + Date.now()), title: title, notes: '', due: null, completed: false, parent: null });
+    tasksRenderListe();
+  } else {
+    // Text bleibt im Feld stehen, damit nichts verloren geht
+    zeigToast('Aufgabe nicht gespeichert: ' + ((r && r.error) || 'Keine Antwort vom Server') + ' – bitte erneut versuchen');
   }
 }
 
@@ -2860,20 +2865,35 @@ async function tasksSubSave() {
   if (!liste) return;
   var r = await apiPost({ action: 'taskAdd', listId: liste.id, title: title, parentId: savedParentId });
   if (r && r.ok) {
-    if (liste) {
-      liste.tasks.push({ id: r.id || ('tmp-' + Date.now()), title: title, notes: '', due: null, completed: false, parent: savedParentId });
-      tasksRenderListe();
-    }
+    liste.tasks.push({ id: r.id || ('tmp-' + Date.now()), title: title, notes: '', due: null, completed: false, parent: savedParentId });
+    tasksRenderListe();
+  } else {
+    zeigToast('Unteraufgabe nicht gespeichert: ' + ((r && r.error) || 'Keine Antwort vom Server') + ' – Text: ' + title);
   }
 }
 
 async function apiPost(data) {
-  try {
-    var r = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(data) });
-    return await r.json();
-  } catch(e) { return null; }
+  // Google-Apps-Script antwortet unter Last manchmal mit 404/Timeout (siehe apiFetch).
+  // Bei HTTP-Fehlern (Anfrage wurde nicht verarbeitet) einmal wiederholen;
+  // bei Timeout NICHT wiederholen, damit nichts doppelt angelegt wird.
+  var letzterFehler = 'Keine Antwort vom Server';
+  for (var versuch = 0; versuch < 2; versuch++) {
+    var ctrl = new AbortController();
+    var timer = setTimeout(function() { ctrl.abort(); }, 25000);
+    try {
+      var r = await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(data), signal: ctrl.signal });
+      clearTimeout(timer);
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return await r.json();
+    } catch(e) {
+      clearTimeout(timer);
+      letzterFehler = (e && e.name === 'AbortError') ? 'Zeitüberschreitung' : (e && e.message) || letzterFehler;
+      if (e && e.name === 'AbortError') break;
+      if (versuch === 0) await new Promise(function(res) { setTimeout(res, 1000); });
+    }
+  }
+  return { ok: false, error: letzterFehler };
 }
-
 
 </script>
 <div id="tmodal-bg" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;align-items:flex-end;justify-content:center;">
