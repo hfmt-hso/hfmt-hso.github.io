@@ -1426,6 +1426,8 @@ function oeffneAdminBereich() {
   if (istGastdozent) { adminTab('buchungen'); buchungenTab('meine'); }
   zeige('screen-admin');
   ladeAdminBuchungen();
+  // Studierendenliste für die Slot-Zuweisung sofort im Hintergrund holen (statt erst beim Anklicken des Dropdowns).
+  if (aktuellerAdmin.rolle === 'Hauptdozent') ladeStudierendenListe();
   // Termine gleich mit anfordern (parallel), damit der Tab "Termine" beim Öffnen schon gefüllt ist.
   swrLaden('alleTermine', holeAlleTermine, daten => {
     _adminTermine = daten;
@@ -1713,8 +1715,7 @@ function renderSlotZuweisung(t) {
   const slots = t.slots || [];
   if (!slots.length) return '';
   const buchungen = (adminBuchungen || []).filter(b => b.terminId === t.id);
-  const opts = (_studierendenListe || []).map(st =>
-    `<option value="${esc(st.mtknr)}">${esc(st.name)}${st.instrument ? ' · ' + esc(st.instrument) : ''}</option>`).join('');
+  const opts = studierendenOptionen();
   const zeilen = slots.map(sl => {
     const b = buchungen.find(x => x.slotStart === sl.uhrzeit);
     const tid = esc(t.id), su = esc(sl.uhrzeit);
@@ -1728,8 +1729,8 @@ function renderSlotZuweisung(t) {
     return `<div style="display:flex;align-items:center;gap:8px;margin-top:6px">
       <strong style="min-width:48px">${su}</strong>
       <select id="zw-${tid}-${su.replace(':','')}" class="field-input" style="flex:1;padding:6px"
-              onfocus="ladeStudierendenListe()">
-        <option value="">Studierende:n wählen…</option>${opts}
+              onfocus="if(!_studierendenListe)ladeStudierendenListe()">
+        <option value="">${_studierendenListe ? 'Studierende:n wählen…' : 'Studierendenliste wird geladen …'}</option>${opts}
       </select>
       <button class="aw-seen-btn" onclick="slotZuweisen('${tid}','${su}')">Zuweisen</button>
     </div>`;
@@ -1738,19 +1739,47 @@ function renderSlotZuweisung(t) {
     <div class="aw-adm-zeit" style="font-size:13px">Slots (Einzelunterricht)</div>${zeilen}</div>`;
 }
 
+// Optionen der Studierenden-Auswahl (einmal als Text gebaut, für alle Felder gleich)
+function studierendenOptionen() {
+  return (_studierendenListe || []).map(st =>
+    `<option value="${esc(st.mtknr)}">${esc(st.name)}${st.instrument ? ' · ' + esc(st.instrument) : ''}</option>`).join('');
+}
+// Füllt die vorhandenen Auswahlfelder, ohne die ganze Terminliste neu zu zeichnen
+// (ein Neuzeichnen würde ein gerade geöffnetes Dropdown wieder schließen).
+function befuelleSlotSelects() {
+  const opts = studierendenOptionen();
+  const platzhalter = '<option value="">Studierende:n wählen…</option>';
+  document.querySelectorAll('#adm-termine-liste select[id^="zw-"]').forEach(sel => {
+    const gewaehlt = sel.value;
+    sel.innerHTML = platzhalter + opts;
+    if (gewaehlt) sel.value = gewaehlt;
+  });
+}
+let _studierendenSig = '';
+async function holeStudierendenListe() {
+  const json = await webAppGet({ action:'studierendenListe', nutzer: aktuellerAdmin.nutzer, pwHash: _adminPwHash });
+  if (!json.ok) { const e = new Error(json.error || 'Liste nicht verfügbar'); e.listeFehler = true; throw e; }
+  return json.data;
+}
 async function ladeStudierendenListe() {
-  if (_studierendenListe) return true;
+  if (!aktuellerAdmin || aktuellerAdmin.rolle !== 'Hauptdozent') return false;
   if (!_adminPwHash) {
     try { _adminPwHash = sessionStorage.getItem('hso_admin_hash') || null; } catch(e) {}
   }
   if (!_adminPwHash) { toast('Bitte einmal abmelden und neu anmelden, um die Studierendenliste zu laden.'); return false; }
   try {
-    const json = await webAppGet({ action:'studierendenListe', nutzer: aktuellerAdmin.nutzer, pwHash: _adminPwHash });
-    if (!json.ok) { toast('❌ ' + (json.error || 'Liste nicht verfügbar')); _adminPwHash = null; return false; }
-    _studierendenListe = json.data;
-    renderAdminTermine();
+    // Zwischengespeicherte Liste sofort nutzen, frische kommt im Hintergrund; bis 10 Min. alt wird gar nicht neu geholt.
+    await swrLaden('studierendenListe', holeStudierendenListe, daten => {
+      const sig = JSON.stringify(daten);
+      const warLeer = !_studierendenListe;
+      _studierendenListe = daten;
+      if (warLeer || sig !== _studierendenSig) { _studierendenSig = sig; befuelleSlotSelects(); }
+    }, 10 * 60 * 1000);
     return true;
-  } catch(e) { toast('❌ Verbindungsfehler.'); return false; }
+  } catch(e) {
+    if (e && e.listeFehler) toast('❌ ' + e.message); else toast('❌ Verbindungsfehler.');
+    return false;
+  }
 }
 
 async function slotZuweisen(terminId, slotStart) {
