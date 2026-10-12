@@ -207,8 +207,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .empty-state{text-align:center;padding:28px 20px;color:var(--text-muted);font-size:13px}
 .empty-state-icon{font-size:2rem;margin-bottom:8px}
 .spinner{text-align:center;padding:28px;color:var(--text-muted);font-size:13px}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1a1a;color:#fff;padding:11px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:100;transition:transform 0.3s;white-space:nowrap;pointer-events:none}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1a1a;color:#fff;padding:11px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:100;transition:transform 0.3s;white-space:normal;text-align:center;max-width:calc(100vw - 32px);pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0)}
+#speicher-overlay{position:fixed;inset:0;z-index:90;background:rgba(255,255,255,0.82);display:none;align-items:center;justify-content:center;flex-direction:column;gap:10px;touch-action:none;overscroll-behavior:none;font-size:15px;font-weight:600;color:var(--text);text-align:center;padding:24px}
+#speicher-overlay.show{display:flex}
+@media(prefers-color-scheme:dark){#speicher-overlay{background:rgba(26,26,24,0.85)}}
+#speicher-overlay small{font-weight:400;font-size:12px;color:var(--text-muted)}
 @media(prefers-color-scheme:dark){.toast{background:#fff;color:#1a1a1a}}
 </style>
 </head>
@@ -519,6 +523,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
+<div id="speicher-overlay"><div>⏳ Wird gespeichert …</div><small>Bitte die Seite nicht neu laden oder schließen.</small></div>
 <div class="toast" id="toast"></div>
 
 <script>window.HSO_DATEN_BASE='./';</script>
@@ -702,11 +707,39 @@ function zeitspanne(t) {
   return t.uhrzeit + ' Uhr';
 }
 let toastTimer = null;
-function toast(msg) {
+function toast(msg, ms) {
   const el = document.getElementById('toast');
   el.textContent = msg; el.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+  toastTimer = setTimeout(() => el.classList.remove('show'), ms || 2800);
+}
+// Offene Buchungen, die noch nicht vom Server bestätigt sind. Beim Neuladen/Schließen warnen wir,
+// sonst geht eine noch laufende Buchung verloren (der Server braucht gut 4–10 s).
+let _offeneBuchungen = 0;
+const PENDING_KEY = 'hso_pending_buchung';
+let _overlayTimer = null;
+function speicherAn() {
+  const o = document.getElementById('speicher-overlay'); if (!o) return;
+  o.classList.add('show');
+  clearTimeout(_overlayTimer);
+  _overlayTimer = setTimeout(speicherAus, 25000);   // Notbremse: nie dauerhaft sperren
+}
+function speicherAus() {
+  const o = document.getElementById('speicher-overlay'); if (o) o.classList.remove('show');
+  clearTimeout(_overlayTimer);
+}
+let _entlaedt = false;   // true, sobald die Seite wirklich verlassen/neu geladen wird (dann bricht der Browser laufende Anfragen ab)
+window.addEventListener('beforeunload', e => { if (_offeneBuchungen > 0) { e.preventDefault(); e.returnValue = ''; } });
+window.addEventListener('pagehide', () => { _entlaedt = true; });
+function pendingMerken(p) { try { if (p) sessionStorage.setItem(PENDING_KEY, JSON.stringify(p)); else sessionStorage.removeItem(PENDING_KEY); } catch(e) {} }
+function pendingLesen() { try { return JSON.parse(sessionStorage.getItem(PENDING_KEY) || 'null'); } catch(e) { return null; } }
+// Nach einem Neuladen: war eine Buchung noch unterwegs und steht nicht auf dem Server, deutlich melden.
+function pendingPruefen() {
+  const p = pendingLesen();
+  if (!p) return;
+  pendingMerken(null);
+  const da = _meineBuchungen.some(b => !istTmp(b.buchungId) && b.terminId === p.terminId && b.slotStart === p.slotStart);
+  if (!da) toast('⚠️ Deine Buchung (' + (p.datum ? p.datum + ', ' : '') + p.slotStart + ' Uhr) konnte nach dem Neuladen nicht bestätigt werden. Bitte prüfe „Meine gebuchten Slots“ und buche den Slot bei Bedarf erneut.', 9000);
 }
 
 // ── LOGIN ─────────────────────────────────────────────────────
@@ -837,6 +870,7 @@ async function oeffneStudentBereich() {
   zeige('screen-student');
   // Parallel statt nacheinander: die Wartezeiten addieren sich nicht mehr.
   await Promise.all([ladeTermine(), ladeMeineBuchungen(), ladeAbwesenheiten()]);
+  pendingPruefen();
 }
 
 async function ladeTermine() {
@@ -845,11 +879,14 @@ async function ladeTermine() {
   try {
     const json = await HsoDaten.holen('unterrichtTermine');
     alleTermine = json.ok ? json.data : [];
-    if (!alleTermine.length) {
-      el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📅</div>Noch keine Termine eingetragen.</div>';
+    // Nur heutige und zukünftige Termine anzeigen (vergangene werden ausgeblendet)
+    const heute = new Date(); heute.setHours(0,0,0,0);
+    const kommende = alleTermine.filter(t => { const d = parseDate(t.datum); return !d || d >= heute; });
+    if (!kommende.length) {
+      el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📅</div>Keine kommenden Termine eingetragen.</div>';
       return;
     }
-    el.innerHTML = alleTermine.map(renderTerminKarte).join('');
+    el.innerHTML = kommende.map(renderTerminKarte).join('');
   } catch(e) {
     el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">⚠️</div>Laden fehlgeschlagen.</div>';
   }
@@ -985,7 +1022,7 @@ function renderSlot(s, terminId, termin) {
     <div class="slot-kachel meine-buchung">
       <div class="slot-zeit">${esc(s.uhrzeit)}</div>
       <div class="slot-info">
-        <div class="slot-status">✓ Dein Slot</div>
+        <div class="slot-status">${istTmp(s.buchungId) ? '⏳ Wird gespeichert …' : '✓ Dein Slot'}</div>
         <div class="slot-name">60 Minuten${termin&&termin.ort?' · '+esc(termin.ort):''}</div>
         ${s.werk ? `<div class="slot-name">🎵 ${esc(s.werk)}</div>` : ''}
       </div>
@@ -1019,15 +1056,24 @@ async function buchungErstellen(terminId, slotStart) {
   _meineBuchungen.push(neu);
   swrAenderung(bKey); swrSchreiben(bKey, _meineBuchungen);
   renderMeineBuchungen();
-  toast('✅ Slot gebucht!');
+  toast('⏳ Wird gespeichert … bitte Seite nicht neu laden', 6000);
+  _offeneBuchungen++;
+  speicherAn();
+  pendingMerken({ terminId, slotStart, datum: neu.datum });
   try {
     const json = await webAppPost({ action:'buchungErstellen', mtknr, name: aktuellerStudent.name, terminId, slotStart, werk });
     if (!json.ok) throw new Error(json.error || 'Fehler');
+    toast('✅ Slot ' + slotStart + ' Uhr gebucht und gespeichert!', 4000);
   } catch(e) {
     if (slot && slotAlt) { Object.keys(slot).forEach(k => delete slot[k]); Object.assign(slot, slotAlt); swrAenderung(sKey); swrSchreiben(sKey, { termin: a.termin, slots: a.slots }); renderSlotsAnsicht(); }
     _meineBuchungen = _meineBuchungen.filter(b => b !== neu);
     swrAenderung(bKey); swrSchreiben(bKey, _meineBuchungen); renderMeineBuchungen();
-    toast('❌ Nicht gebucht: ' + fehlerText(e));
+    toast('❌ Nicht gebucht: ' + fehlerText(e), 6000);
+  } finally {
+    _offeneBuchungen = Math.max(0, _offeneBuchungen - 1);
+    if (_offeneBuchungen === 0) speicherAus();
+    // Wurde die Seite währenddessen verlassen, bleibt der Merker erhalten, damit die neu geladene Seite warnen kann.
+    if (!_entlaedt) pendingMerken(null);
   }
   // Echte Buchungs-IDs und ggf. Konflikte vom Server nachziehen (im Hintergrund)
   planeSync(sKey, () => ladeSlots(terminId));
@@ -1135,7 +1181,7 @@ function renderMeineBuchungen() {
         <div class="buchung-info"><div class="buchung-titel">${esc(b.dozent||'Unterricht')}</div><div class="buchung-meta">${esc(b.datum)}${b.ort?' · '+esc(b.ort):''}</div></div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
           <div class="buchung-zeit">${esc(b.slotStart)}</div>
-          <button class="buchung-storno-btn" onclick="meineBuchungStornieren('${esc(b.buchungId)}')">Stornieren</button>
+          ${istTmp(b.buchungId) ? '<span class="buchung-meta">⏳ wird gespeichert …</span>' : `<button class="buchung-storno-btn" onclick="meineBuchungStornieren('${esc(b.buchungId)}')">Stornieren</button>`}
         </div>
         <div style="flex-basis:100%;display:flex;gap:6px;align-items:center;margin-top:2px">
           <input class="aw-komm-input" style="margin-top:0;flex:1" type="text" placeholder="Werk…" value="${esc(b.werk||'')}" data-orig="${esc(b.werk||'')}" id="werk-edit-${esc(b.buchungId)}">
