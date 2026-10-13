@@ -1732,6 +1732,7 @@ async function ladenKalender(){
 // Termine (nur kommende, Notizen, Slot-Zuweisung). Probezeiten werden aus den Buchungen berechnet.
 var _untAwDaten=null,_untAwFilter='alle',_untBuchDaten=null,_untBuchFilter='alle',_untTabGeladen={};
 var _untTermine=null,_untTermineAlt=false,_untStudierende=null,_untBuchPromise=null;
+var _untProbeAnsicht='studierende',_untZF={typ:'alle',doz:'alle',zeit:'alle'};
 var UNT_SLOT_MIN=60;          // Dauer eines Slots in Minuten
 var UNT_ME='Thomas Dorsch';   // für "Meine" und "gesehen von"
 
@@ -1976,15 +1977,21 @@ function untBefuelleSelects(){
 }
 
 // ── Termine ───────────────────────────────────────────────
+function untHoleTermine(force){
+  if(force)_untTermine=null;
+  if(_untTermine)return Promise.resolve(_untTermine);
+  return untGet('alleTermine').then(function(d){
+    if(!d||!d.data)throw new Error(d&&d.error||'Keine Termine');
+    _untTermine=d.data;return _untTermine;
+  });
+}
 async function ladeUntTermine(force){
   var el=document.getElementById('term-liste');
   if(force)_untTermine=null;
   if(_untTermine){renderUntTermine();return;}
   el.innerHTML=untSpinner();
   try{
-    var res=await Promise.all([untGet('alleTermine'),untHoleBuchungen(force)]);
-    if(!res[0]||!res[0].data){el.innerHTML='<div class="empty">Keine Termine</div>';return;}
-    _untTermine=res[0].data;
+    await Promise.all([untHoleTermine(force),untHoleBuchungen(force)]);
     renderUntTermine();
     untLadeStudierende();
   }catch(e){el.innerHTML='<div class="empty" style="color:var(--red)">Fehler: '+esc(e.message)+'</div>';}
@@ -2099,19 +2106,92 @@ async function untNotizSpeichern(terminId){
 // Jede Buchung = ein Slot von UNT_SLOT_MIN Minuten.
 async function ladeUntProbezeiten(force){
   var el=document.getElementById('unt-probe-inhalt');
-  if(force)_untBuchDaten=null;
-  if(!_untBuchDaten)el.innerHTML=untSpinner();
+  if(force){_untBuchDaten=null;_untTermine=null;}
+  if(!_untBuchDaten||!_untTermine)el.innerHTML=untSpinner();
   try{
-    await untHoleBuchungen(false);
+    await Promise.all([untHoleBuchungen(false),untHoleTermine(false)]);
     renderUntProbe();
     untLadeStudierende();
   }catch(e){el.innerHTML='<div class="empty">Laden fehlgeschlagen</div>';}
 }
 
+function untProbeAnsicht(k){_untProbeAnsicht=k;renderUntProbe();}
+function untProbeBar(){
+  var b=function(k,l){return '<button class="proj-sj-btn'+(_untProbeAnsicht===k?' active':'')+'" onclick="untProbeAnsicht(\''+k+'\')">'+l+'</button>';};
+  return '<div style="display:flex;gap:6px;margin-bottom:12px;align-items:center;flex-wrap:wrap">'+b('studierende','Je Studierender')+b('zeiten','Unterrichtszeiten (alle)')+
+    '<button onclick="ladeUntProbezeiten(true)" style="margin-left:auto;padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:var(--sans)">↻</button></div>';
+}
+
+// ── Unterrichtszeiten aller Dozent:innen (Einzel- und Gruppenunterricht) ──
+function untZeitFilter(feld,wert){_untZF[feld]=wert;renderUntProbe();}
+function renderUntZeiten(){
+  var el=document.getElementById('unt-probe-inhalt');
+  var jetzt=new Date();
+  var chip=function(feld,wert,label){return '<button class="proj-sj-btn'+(_untZF[feld]===wert?' active':'')+'" onclick="untZeitFilter(\''+feld+'\',\''+wert+'\')">'+label+'</button>';};
+  var items=(_untTermine||[]).map(function(t){
+    var slots=t.slots||[];
+    var letzter=slots.length?slots[slots.length-1].uhrzeit:t.uhrzeit;
+    var ende=untSlotEnde(t.datum,letzter);
+    var tn=[].concat.apply([],(t.teilnehmer||[]).map(function(x){return x;})).filter(function(x){return x&&!/^\d+$/.test(String(x));});
+    var buch=(_untBuchDaten||[]).filter(function(b){return b.terminId===t.id;});
+    return {t:t,n:Math.max(1,slots.length),buch:buch,tn:tn,vorbei:!!(ende&&ende<=jetzt),doz:(t.dozent||'').trim()||'(ohne Dozent)',typ:t.marker||''};
+  });
+  var istHaupt=function(d){return /dorsch|song/i.test(d);};
+  var dozenten=[];items.forEach(function(i){if(dozenten.indexOf(i.doz)<0)dozenten.push(i.doz);});
+  dozenten.sort(function(a,b){return(istHaupt(b)-istHaupt(a))||a.localeCompare(b);});
+  var dozOpt='<option value="alle">Alle Dozent:innen</option><option value="__gast">Nur Gastdozent:innen</option>'+
+    dozenten.map(function(d){return '<option value="'+esc(d)+'"'+(_untZF.doz===d?' selected':'')+'>'+esc(d)+'</option>';}).join('');
+  var sichtbar=items.filter(function(i){
+    if(_untZF.typ!=='alle'&&i.typ!==_untZF.typ)return false;
+    if(_untZF.doz==='__gast'){if(istHaupt(i.doz))return false;}
+    else if(_untZF.doz!=='alle'&&i.doz!==_untZF.doz)return false;
+    if(_untZF.zeit==='kommend'&&i.vorbei)return false;
+    if(_untZF.zeit==='vorbei'&&!i.vorbei)return false;
+    return true;
+  });
+  var sum=function(a,f){return a.reduce(function(x,i){return x+f(i);},0);};
+  var kachel=function(w,l){return '<div style="flex:1;min-width:100px;text-align:center"><div style="font-size:18px;font-weight:800;font-family:var(--mono);color:var(--blue)">'+w+'</div><div style="font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.04em;font-weight:700">'+l+'</div></div>';};
+  var html=untProbeBar()+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px">'+chip('typ','alle','Alle Arten')+chip('typ','Einzelunterricht','Einzelunterricht')+chip('typ','Gruppenunterricht','Gruppenunterricht')+'</div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center">'+chip('zeit','alle','Alle Zeiten')+chip('zeit','kommend','Kommend')+chip('zeit','vorbei','Stattgefunden')+
+      '<select onchange="untZeitFilter(\'doz\',this.value)" style="margin-left:auto;padding:6px 8px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff">'+dozOpt+'</select></div>'+
+    '<div class="card card-pad" style="margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap">'+
+      kachel(sichtbar.length,'Termine')+kachel(untFmt(sum(sichtbar,function(i){return i.n*UNT_SLOT_MIN;})),'Unterrichtszeit')+
+      kachel(sum(sichtbar,function(i){return i.buch.length;})+' / '+sum(sichtbar,function(i){return i.n;}),'Slots belegt')+
+      kachel(new Set(sichtbar.map(function(i){return i.doz;})).size,'Dozent:innen')+'</div>';
+  if(!sichtbar.length){el.innerHTML=html+'<div class="empty">Keine Termine für diesen Filter</div>';return;}
+  var gr={};sichtbar.forEach(function(i){(gr[i.doz]=gr[i.doz]||[]).push(i);});
+  Object.keys(gr).sort(function(a,b){return(istHaupt(b)-istHaupt(a))||a.localeCompare(b);}).forEach(function(d){
+    var l=gr[d].sort(function(a,b){
+      var da=parseDatum(a.t.datum),db=parseDatum(b.t.datum);
+      return(da?da.getTime():0)-(db?db.getTime():0)||String(a.t.uhrzeit).localeCompare(String(b.t.uhrzeit));});
+    var ein=l.filter(function(i){return i.typ==='Einzelunterricht';}),grp=l.filter(function(i){return i.typ==='Gruppenunterricht';});
+    html+='<div class="card card-pad" style="margin-bottom:10px">'+
+      '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px"><div style="font-size:13px;font-weight:700">'+esc(d)+
+        '<span style="font-size:10px;font-weight:700;margin-left:6px;padding:2px 6px;border-radius:4px;background:'+(istHaupt(d)?'var(--blue-bg);color:var(--blue)':'var(--gold-bg);color:var(--gold2)')+'">'+(istHaupt(d)?'Hauptdozent':'Gastdozent')+'</span></div>'+
+        '<div style="font-size:13px;font-weight:700;font-family:var(--mono);color:var(--blue)">'+untFmt(sum(l,function(i){return i.n*UNT_SLOT_MIN;}))+'</div></div>'+
+      '<div style="font-size:11px;color:var(--ink3);margin-bottom:4px">'+l.length+' Termin'+(l.length!==1?'e':'')+' · Einzel: '+ein.length+' ('+untFmt(sum(ein,function(i){return i.n*UNT_SLOT_MIN;}))+') · Gruppe: '+grp.length+' ('+untFmt(sum(grp,function(i){return i.n*UNT_SLOT_MIN;}))+')</div>'+
+      l.map(function(i){
+        var t=i.t,dd=parseDatum(t.datum),wt=dd?WT[dd.getDay()]:'';
+        var slots=t.slots||[],von=slots.length?slots[0].uhrzeit:t.uhrzeit,bis=untUhrPlus(slots.length?slots[slots.length-1].uhrzeit:t.uhrzeit,UNT_SLOT_MIN);
+        var namen=i.buch.map(function(b){return b.name;});
+        i.tn.forEach(function(x){if(namen.indexOf(x)<0)namen.push(x);});
+        return '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-top:1px solid var(--paper3)">'+
+          '<div style="font-size:11px;font-weight:700;color:'+(i.vorbei?'var(--green)':'var(--gold2)')+';width:14px;flex-shrink:0">'+(i.vorbei?'✓':'○')+'</div>'+
+          '<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:600">'+wt+', '+esc(t.datum)+' · '+esc(von)+(bis?'–'+bis:'')+'</div>'+
+          '<div style="font-size:11px;color:var(--ink3)">'+esc(i.typ)+(t.projekt&&t.projekt!==(i.typ+' '+t.dozent)?' · '+esc(t.projekt):'')+(t.ort?' · '+esc(t.ort):'')+'</div>'+
+          (namen.length?'<div style="font-size:11px;color:var(--ink3)">👤 '+namen.map(esc).join(', ')+'</div>':'')+'</div>'+
+          '<div style="font-size:11px;font-family:var(--mono);color:var(--ink3);flex-shrink:0;text-align:right">'+untFmt(i.n*UNT_SLOT_MIN)+'<br>'+i.buch.length+'/'+i.n+' belegt</div></div>';
+      }).join('')+'</div>';
+  });
+  el.innerHTML=html;
+}
+
 function renderUntProbe(){
   var el=document.getElementById('unt-probe-inhalt');
+  if(_untProbeAnsicht==='zeiten'){if(_untTermine)renderUntZeiten();return;}
   if(!_untBuchDaten)return;
-  if(!_untBuchDaten.length){el.innerHTML='<div class="empty">Noch keine Einträge</div>';return;}
+  if(!_untBuchDaten.length){el.innerHTML=untProbeBar()+'<div class="empty">Noch keine Einträge</div>';return;}
   var jetzt=new Date();
   var instr={};
   (_untStudierende||[]).forEach(function(s){instr[s.name]=s.instrument||'';});
@@ -2139,7 +2219,7 @@ function renderUntProbe(){
     return '<div style="flex:1;min-width:110px;text-align:center"><div style="font-size:18px;font-weight:800;font-family:var(--mono);color:var(--blue)">'+wert+'</div>'+
       '<div style="font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.04em;font-weight:700">'+label+'</div></div>';
   };
-  var html='<div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button onclick="ladeUntProbezeiten(true)" style="padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:var(--sans)">↻</button></div>'+
+  var html=untProbeBar()+
     '<div class="section-h">Gesamt</div><div class="card card-pad" style="margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap">'+
       kachel(untFmt(gesamtMin),'Probezeit gebucht')+
       kachel(untFmt(vorbeiMin),'davon stattgefunden')+
