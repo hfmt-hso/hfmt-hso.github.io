@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-13T10:10:43.191Z",
+  "generiert": "2026-10-13T10:10:46.862Z",
   "data": [
     {
       "anlass": "HSO Blattspiel",
@@ -20,6 +20,11 @@
       "anlass": "WK 2 – GP 28.10.",
       "datum": "28.10.2026",
       "text": "GP / 28. Okt\ngleiche Reihenfolge wie in den Proben, ohne Zeiten"
+    },
+    {
+      "anlass": "WK 2 – Konzert 28.10.",
+      "datum": "28.10.2026, 19:30 Uhr",
+      "text": "Konzert / 28. Okt\nMendelssohn / Tchaikovsky PAUSE Dvořak"
     }
   ]
 }
