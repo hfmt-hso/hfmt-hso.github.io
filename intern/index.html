@@ -1733,11 +1733,13 @@ async function ladenKalender(){
 var _untAwDaten=null,_untAwFilter='alle',_untBuchDaten=null,_untBuchFilter='alle',_untTabGeladen={};
 var _untTermine=null,_untTermineAlt=false,_untStudierende=null,_untBuchPromise=null;
 var _untProbeAnsicht='studierende',_untZF={typ:'alle',doz:'alle',zeit:'alle'};
-var UNT_SLOT_MIN=60;          // Dauer eines Slots in Minuten
+var UNT_SLOT_MIN=60;
+var UNT_ZEITEN_AB='2026-09-01';   // Beginn des Zeitraums für "Unterrichtszeiten (alle)"
+var _untTermineAlle=null;          // Dauer eines Slots in Minuten
 var UNT_ME='Thomas Dorsch';   // für "Meine" und "gesehen von"
 
-function untGet(action){
-  return fetch(WEB_APP_URL+'?action='+action+internCredQ()).then(function(r){return r.json();}).then(internAuthPruefen);
+function untGet(action,extra){
+  return fetch(WEB_APP_URL+'?action='+action+internCredQ()+(extra||'')).then(function(r){return r.json();}).then(internAuthPruefen);
 }
 function untPost(payload){
   return fetch(WEB_APP_URL,{method:'POST',body:internCredBody(payload)}).then(function(r){return r.json();}).then(internAuthPruefen);
@@ -1977,6 +1979,15 @@ function untBefuelleSelects(){
 }
 
 // ── Termine ───────────────────────────────────────────────
+// Alle Termine ab UNT_ZEITEN_AB (das Backend liefert ältere nur, wenn es den Parameter "ab" kennt)
+function untHoleTermineAlle(force){
+  if(force)_untTermineAlle=null;
+  if(_untTermineAlle)return Promise.resolve(_untTermineAlle);
+  return untGet('alleTermine','&ab='+UNT_ZEITEN_AB).then(function(d){
+    if(!d||!d.data)throw new Error(d&&d.error||'Keine Termine');
+    _untTermineAlle=d.data;return _untTermineAlle;
+  });
+}
 function untHoleTermine(force){
   if(force)_untTermine=null;
   if(_untTermine)return Promise.resolve(_untTermine);
@@ -2106,10 +2117,10 @@ async function untNotizSpeichern(terminId){
 // Jede Buchung = ein Slot von UNT_SLOT_MIN Minuten.
 async function ladeUntProbezeiten(force){
   var el=document.getElementById('unt-probe-inhalt');
-  if(force){_untBuchDaten=null;_untTermine=null;}
-  if(!_untBuchDaten||!_untTermine)el.innerHTML=untSpinner();
+  if(force){_untBuchDaten=null;_untTermineAlle=null;}
+  if(!_untBuchDaten||!_untTermineAlle)el.innerHTML=untSpinner();
   try{
-    await Promise.all([untHoleBuchungen(false),untHoleTermine(false)]);
+    await Promise.all([untHoleBuchungen(false),untHoleTermineAlle(false)]);
     renderUntProbe();
     untLadeStudierende();
   }catch(e){el.innerHTML='<div class="empty">Laden fehlgeschlagen</div>';}
@@ -2128,7 +2139,7 @@ function renderUntZeiten(){
   var el=document.getElementById('unt-probe-inhalt');
   var jetzt=new Date();
   var chip=function(feld,wert,label){return '<button class="proj-sj-btn'+(_untZF[feld]===wert?' active':'')+'" onclick="untZeitFilter(\''+feld+'\',\''+wert+'\')">'+label+'</button>';};
-  var items=(_untTermine||[]).map(function(t){
+  var items=(_untTermineAlle||[]).map(function(t){
     var slots=t.slots||[];
     var letzter=slots.length?slots[slots.length-1].uhrzeit:t.uhrzeit;
     var ende=untSlotEnde(t.datum,letzter);
@@ -2150,6 +2161,8 @@ function renderUntZeiten(){
     return true;
   });
   var sum=function(a,f){return a.reduce(function(x,i){return x+f(i);},0);};
+  var einz=sichtbar.filter(function(i){return i.typ==='Einzelunterricht';});
+  var fruehest=(_untTermineAlle||[]).map(function(t){return parseDatum(t.datum);}).filter(Boolean).sort(function(a,b){return a-b;})[0];
   var kachel=function(w,l){return '<div style="flex:1;min-width:100px;text-align:center"><div style="font-size:18px;font-weight:800;font-family:var(--mono);color:var(--blue)">'+w+'</div><div style="font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.04em;font-weight:700">'+l+'</div></div>';};
   var html=untProbeBar()+
     '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px">'+chip('typ','alle','Alle Arten')+chip('typ','Einzelunterricht','Einzelunterricht')+chip('typ','Gruppenunterricht','Gruppenunterricht')+'</div>'+
@@ -2157,8 +2170,9 @@ function renderUntZeiten(){
       '<select onchange="untZeitFilter(\'doz\',this.value)" style="margin-left:auto;padding:6px 8px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff">'+dozOpt+'</select></div>'+
     '<div class="card card-pad" style="margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap">'+
       kachel(sichtbar.length,'Termine')+kachel(untFmt(sum(sichtbar,function(i){return i.n*UNT_SLOT_MIN;})),'Unterrichtszeit')+
-      kachel(sum(sichtbar,function(i){return i.buch.length;})+' / '+sum(sichtbar,function(i){return i.n;}),'Slots belegt')+
+      kachel(sum(einz,function(i){return i.buch.length;})+' / '+sum(einz,function(i){return i.n;}),'Einzel-Slots belegt')+
       kachel(new Set(sichtbar.map(function(i){return i.doz;})).size,'Dozent:innen')+'</div>';
+  html+='<div style="font-size:11px;color:var(--ink3);margin:-6px 0 12px">Termine im System ab '+(fruehest?ddmmyyyy(fruehest):'–')+'</div>';
   if(!sichtbar.length){el.innerHTML=html+'<div class="empty">Keine Termine für diesen Filter</div>';return;}
   var gr={};sichtbar.forEach(function(i){(gr[i.doz]=gr[i.doz]||[]).push(i);});
   Object.keys(gr).sort(function(a,b){return(istHaupt(b)-istHaupt(a))||a.localeCompare(b);}).forEach(function(d){
@@ -2181,7 +2195,7 @@ function renderUntZeiten(){
           '<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:600">'+wt+', '+esc(t.datum)+' · '+esc(von)+(bis?'–'+bis:'')+'</div>'+
           '<div style="font-size:11px;color:var(--ink3)">'+esc(i.typ)+(t.projekt&&t.projekt!==(i.typ+' '+t.dozent)?' · '+esc(t.projekt):'')+(t.ort?' · '+esc(t.ort):'')+'</div>'+
           (namen.length?'<div style="font-size:11px;color:var(--ink3)">👤 '+namen.map(esc).join(', ')+'</div>':'')+'</div>'+
-          '<div style="font-size:11px;font-family:var(--mono);color:var(--ink3);flex-shrink:0;text-align:right">'+untFmt(i.n*UNT_SLOT_MIN)+'<br>'+i.buch.length+'/'+i.n+' belegt</div></div>';
+          '<div style="font-size:11px;font-family:var(--mono);color:var(--ink3);flex-shrink:0;text-align:right">'+untFmt(i.n*UNT_SLOT_MIN)+(i.typ==='Einzelunterricht'?'<br>'+i.buch.length+'/'+i.n+' belegt':'')+'</div></div>';
       }).join('')+'</div>';
   });
   el.innerHTML=html;
@@ -2189,7 +2203,7 @@ function renderUntZeiten(){
 
 function renderUntProbe(){
   var el=document.getElementById('unt-probe-inhalt');
-  if(_untProbeAnsicht==='zeiten'){if(_untTermine)renderUntZeiten();return;}
+  if(_untProbeAnsicht==='zeiten'){if(_untTermineAlle)renderUntZeiten();return;}
   if(!_untBuchDaten)return;
   if(!_untBuchDaten.length){el.innerHTML=untProbeBar()+'<div class="empty">Noch keine Einträge</div>';return;}
   var jetzt=new Date();
