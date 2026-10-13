@@ -1,46 +1,6 @@
 {
-  "generiert": "2026-10-12T02:07:04.908Z",
+  "generiert": "2026-10-13T02:08:10.466Z",
   "data": [
-    {
-      "id": "UT_20261005_0",
-      "datum": "05.10.2026",
-      "projekt": "Gruppenunterricht Yang",
-      "marker": "Gruppenunterricht",
-      "dozent": "Yang",
-      "uhrzeit": "12:30",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "12:30"
-        }
-      ],
-      "notizen": ""
-    },
-    {
-      "id": "UT_20261005_6",
-      "datum": "05.10.2026",
-      "projekt": "Gruppenunterricht Yang",
-      "marker": "Gruppenunterricht",
-      "dozent": "Yang",
-      "uhrzeit": "16:30",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "16:30"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "17:30"
-        },
-        {
-          "slotId": "s_2",
-          "uhrzeit": "18:30"
-        }
-      ],
-      "notizen": ""
-    },
     {
       "id": "UT_20261006_7",
       "datum": "06.10.2026",
