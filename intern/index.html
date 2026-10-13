@@ -465,6 +465,7 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
         <button class="proj-sj-btn active" id="awf-alle" onclick="untAwFilter('alle',this)">Alle</button>
         <button class="proj-sj-btn" id="awf-offen" onclick="untAwFilter('offen',this)">Offen</button>
         <button class="proj-sj-btn" id="awf-gesehen" onclick="untAwFilter('gesehen',this)">Gesehen</button>
+        <button class="proj-sj-btn" id="awf-ruecksprache" onclick="untAwFilter('ruecksprache',this)">Rücksprache</button>
         <button style="margin-left:auto;padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:var(--sans)" onclick="ladeUntAw(true)">↻</button>
       </div>
       <div id="unt-aw-liste"><div class="spinner"><div class="spin"></div>Lade...</div></div>
@@ -479,8 +480,8 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
     </div>
     <div id="ut-termine" class="ut-pane">
       <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
-        <input id="term-suche" type="search" placeholder="Suche Datum, Projekt, Ort…" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--sans);background:#fff;" oninput="filterTermine()">
-        <button onclick="openTerminModal(null)" style="padding:8px 14px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans);">+ Neu</button>
+        <input id="term-suche" type="search" placeholder="Suche Datum, Projekt, Dozent, Ort…" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--sans);background:#fff;" oninput="filterTermine()">
+        <label style="font-size:12px;color:var(--ink3);display:flex;align-items:center;gap:5px;cursor:pointer;white-space:nowrap"><input type="checkbox" onchange="untTermineAltToggle(this)"> Vergangene</label>
         <button onclick="ladenTermineNeu()" style="padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:13px;cursor:pointer;">↻</button>
       </div>
       <div id="term-liste"><div class="spinner"><div class="spin"></div>Lade Termine...</div></div>
@@ -1726,7 +1727,42 @@ async function ladenKalender(){
 }
 
 // ── UNTERRICHT TAB ────────────────────────────────────────
+// Funktionsgleich mit dem Lehrenden-Bereich (Hauptdozent) in unterricht.html:
+// Abwesenheiten (Gesehen / Rücksprache / Zurück), Buchungen (Alle | Meine, Werk, Stornieren),
+// Termine (nur kommende, Notizen, Slot-Zuweisung). Probezeiten werden aus den Buchungen berechnet.
 var _untAwDaten=null,_untAwFilter='alle',_untBuchDaten=null,_untBuchFilter='alle',_untTabGeladen={};
+var _untTermine=null,_untTermineAlt=false,_untStudierende=null,_untBuchPromise=null;
+var UNT_SLOT_MIN=60;          // Dauer eines Slots in Minuten
+var UNT_ME='Thomas Dorsch';   // für "Meine" und "gesehen von"
+
+function untGet(action){
+  return fetch(WEB_APP_URL+'?action='+action+internCredQ()).then(function(r){return r.json();}).then(internAuthPruefen);
+}
+function untPost(payload){
+  return fetch(WEB_APP_URL,{method:'POST',body:internCredBody(payload)}).then(function(r){return r.json();}).then(internAuthPruefen);
+}
+function untFmt(m){return Math.floor(m/60)+'h '+String(m%60).padStart(2,'0')+'m';}
+function untSpinner(){return '<div class="spinner"><div class="spin"></div>Lade...</div>';}
+function untDozentPasst(dozentFeld,name){
+  var d=String(dozentFeld||'').toLowerCase();
+  if(!d)return false;
+  return String(name||'').toLowerCase().split(/\s+/).some(function(t){return t.length>=3&&d.includes(t);});
+}
+function untUhrPlus(hhmm,min){
+  var m=String(hhmm||'').match(/(\d{1,2}):(\d{2})/);
+  if(!m)return '';
+  var t=parseInt(m[1],10)*60+parseInt(m[2],10)+min;
+  return String(Math.floor(t/60)%24).padStart(2,'0')+':'+String(t%60).padStart(2,'0');
+}
+// Beginn/Ende eines Slots als Date (für "hat schon stattgefunden")
+function untSlotEnde(datum,slotStart){
+  var d=parseDatum(datum);
+  if(!d)return null;
+  var m=String(slotStart||'').match(/(\d{1,2}):(\d{2})/);
+  var e=new Date(d.getTime());
+  e.setHours(m?parseInt(m[1],10):0,(m?parseInt(m[2],10):0)+UNT_SLOT_MIN,0,0);
+  return e;
+}
 
 function wechselUntTab(btn){
   document.querySelectorAll('.unt-stab').forEach(b=>b.classList.remove('active'));
@@ -1738,8 +1774,8 @@ function wechselUntTab(btn){
     _untTabGeladen[tab]=true;
     if(tab==='ut-abwesenheiten')ladeUntAw(false);
     if(tab==='ut-buchungen')ladeUntBuchungen(false);
-    if(tab==='ut-termine'&&!_termineGeladen)ladenTermine();
-    if(tab==='ut-probezeiten')ladeUntProbezeiten();
+    if(tab==='ut-termine')ladeUntTermine(false);
+    if(tab==='ut-probezeiten')ladeUntProbezeiten(false);
   }
 }
 
@@ -1748,14 +1784,14 @@ async function ladenUnterricht(){
   ladeUntAw(false);
 }
 
+// ── Abwesenheiten ─────────────────────────────────────────
 async function ladeUntAw(force){
   if(force)_untAwDaten=null;
   var el=document.getElementById('unt-aw-liste');
   if(_untAwDaten){renderUntAw();return;}
-  el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
+  el.innerHTML=untSpinner();
   try{
-    var r=await fetch(WEB_APP_URL+'?action=alleAbwesenheiten'+internCredQ());
-    var d=internAuthPruefen(await r.json());
+    var d=await untGet('alleAbwesenheiten');
     _untAwDaten=d.ok?d.data:[];
     renderUntAw();
   }catch(e){el.innerHTML='<div class="empty">Laden fehlgeschlagen</div>';}
@@ -1768,28 +1804,37 @@ function untAwFilter(filter,btn){
   renderUntAw();
 }
 
+function untAwStatus(aw){return aw.status||(aw.gesehenVon?'gesehen':'offen');}
+
 function renderUntAw(){
   var el=document.getElementById('unt-aw-liste');
   if(!_untAwDaten)return;
   var liste=_untAwDaten;
-  if(_untAwFilter==='offen')liste=liste.filter(a=>!a.gesehenVon);
-  if(_untAwFilter==='gesehen')liste=liste.filter(a=>a.gesehenVon);
+  if(_untAwFilter!=='alle')liste=liste.filter(a=>untAwStatus(a)===_untAwFilter);
   if(!liste.length){el.innerHTML='<div class="empty">Keine Abwesenheiten</div>';return;}
+  var btnBase='padding:6px 12px;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:var(--sans);';
   var gruppen={};
   liste.forEach(function(aw){var k=aw.name||aw.mtknr;if(!gruppen[k])gruppen[k]=[];gruppen[k].push(aw);});
   el.innerHTML=Object.entries(gruppen).map(function(entry){
     var name=entry[0],eintraege=entry[1];
     var rows=eintraege.map(function(aw){
-      var gesehen=!!aw.gesehenVon;
-      var badge=gesehen
-        ?'<span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;background:var(--green-bg);color:var(--green);flex-shrink:0">✓ '+esc(aw.gesehenVon)+'</span>'
-        :'<span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;background:var(--gold-bg);color:var(--gold2);border:1px solid #e8e0cc;flex-shrink:0">Offen</span>';
-      var komm=gesehen&&aw.gesehenKommentar
-        ?'<div style="font-size:11px;color:var(--green);margin-top:5px;font-style:italic">💬 '+esc(aw.gesehenKommentar)+'</div>'
-        :(!gesehen?'<input type="text" placeholder="Kommentar (optional)…" id="aw-komm-'+esc(aw.id)+'" style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);margin-top:7px;background:#fff">':'');
-      var aktBtn=!gesehen
-        ?'<button onclick="untAwGesehen(\''+esc(aw.id)+'\')" style="padding:6px 12px;background:var(--green-bg);color:var(--green);border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:var(--sans)">✓ Gesehen</button>'
-        :'<button onclick="untAwZurueck(\''+esc(aw.id)+'\')" style="padding:6px 10px;background:var(--paper2);color:var(--ink3);border:1px solid var(--border);border-radius:8px;font-size:11px;cursor:pointer;font-family:var(--sans)">↩ Zurück</button>';
+      var status=untAwStatus(aw),badge,komm,aktBtn;
+      var zurueck='<button onclick="untAwZurueck(\''+esc(aw.id)+'\')" style="padding:6px 10px;background:var(--paper2);color:var(--ink3);border:1px solid var(--border);border-radius:8px;font-size:11px;cursor:pointer;font-family:var(--sans)">↩ Zurück</button>';
+      if(status==='offen'){
+        badge='<span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;background:var(--gold-bg);color:var(--gold2);border:1px solid #e8e0cc;flex-shrink:0">Offen</span>';
+        komm='<input type="text" placeholder="Kommentar (optional)…" id="aw-komm-'+esc(aw.id)+'" style="width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);margin-top:7px;background:#fff">';
+        aktBtn='<div style="display:flex;flex-direction:column;gap:5px">'+
+          '<button onclick="untAwStatusAendern(\''+esc(aw.id)+'\',\'abwesenheitGesehen\')" style="'+btnBase+'background:var(--green-bg);color:var(--green)">✓ Gesehen</button>'+
+          '<button onclick="untAwStatusAendern(\''+esc(aw.id)+'\',\'abwesenheitRuecksprache\')" style="'+btnBase+'background:var(--blue-bg);color:var(--blue)">💬 Rücksprache</button></div>';
+      }else if(status==='ruecksprache'){
+        badge='<span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;background:var(--blue-bg);color:var(--blue);flex-shrink:0">💬 Rücksprache</span>';
+        komm=aw.gesehenKommentar?'<div style="font-size:11px;color:var(--blue);margin-top:5px;font-style:italic">💬 '+esc(aw.gesehenKommentar)+'</div>':'';
+        aktBtn=zurueck;
+      }else{
+        badge='<span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;background:var(--green-bg);color:var(--green);flex-shrink:0">✓ '+esc(aw.gesehenVon)+'</span>';
+        komm=aw.gesehenKommentar?'<div style="font-size:11px;color:var(--green);margin-top:5px;font-style:italic">💬 '+esc(aw.gesehenKommentar)+'</div>':'';
+        aktBtn=zurueck;
+      }
       return '<div style="padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px">'+
         '<div style="flex:1;min-width:0">'+
           '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px">'+
@@ -1809,39 +1854,49 @@ function renderUntAw(){
   }).join('');
 }
 
-async function untAwGesehen(id){
+// action: abwesenheitGesehen | abwesenheitRuecksprache | abwesenheitGesehenZurueck
+async function untAwStatusAendern(id,action){
   var inp=document.getElementById('aw-komm-'+id);
   var komm=inp?inp.value.trim():'';
+  var payload={action:action,id:id};
+  if(action!=='abwesenheitGesehenZurueck'){payload.gesehenVon=UNT_ME;payload.kommentar=komm;}
   try{
-    var r=await fetch(WEB_APP_URL,{method:'POST',body:internCredBody({action:'abwesenheitGesehen',id,gesehenVon:'Thomas Dorsch',kommentar:komm})});
-    var d=internAuthPruefen(await r.json());
+    var d=await untPost(payload);
     if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
-    zeigToast('✓ Als gesehen markiert');
+    zeigToast(action==='abwesenheitGesehen'?'✓ Als gesehen markiert':action==='abwesenheitRuecksprache'?'💬 Rücksprache angefordert':'✓ Zurückgesetzt');
     _untAwDaten=null;ladeUntAw(false);
   }catch(e){zeigToast('Verbindungsfehler');}
 }
+function untAwZurueck(id){return untAwStatusAendern(id,'abwesenheitGesehenZurueck');}
 
-async function untAwZurueck(id){
-  try{
-    var r=await fetch(WEB_APP_URL,{method:'POST',body:internCredBody({action:'abwesenheitGesehenZurueck',id})});
-    var d=internAuthPruefen(await r.json());
-    if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
-    zeigToast('✓ Zurückgesetzt');
-    _untAwDaten=null;ladeUntAw(false);
-  }catch(e){zeigToast('Verbindungsfehler');}
+// ── Buchungen (gemeinsame Datenbasis für Buchungen, Termine, Probezeiten) ──
+function untHoleBuchungen(force){
+  if(force)_untBuchDaten=null;
+  if(_untBuchDaten)return Promise.resolve(_untBuchDaten);
+  if(!_untBuchPromise){
+    _untBuchPromise=untGet('adminBuchungen').then(function(d){
+      if(!d.ok)throw new Error(d.error||'Fehler');
+      _untBuchDaten=d.data||[];
+      return _untBuchDaten;
+    }).finally(function(){_untBuchPromise=null;});
+  }
+  return _untBuchPromise;
+}
+// Nach Änderung (Stornieren, Zuweisen, Entfernen): neu holen und alle schon geöffneten Ansichten auffrischen
+async function untBuchNeu(){
+  try{await untHoleBuchungen(true);}catch(e){return;}
+  if(_untTabGeladen['ut-buchungen'])renderUntBuchungen();
+  if(_untTabGeladen['ut-termine'])renderUntTermine();
+  if(_untTabGeladen['ut-probezeiten'])renderUntProbe();
 }
 
 async function ladeUntBuchungen(force){
-  if(force)_untBuchDaten=null;
   var el=document.getElementById('unt-buch-liste');
+  if(force)_untBuchDaten=null;
   if(_untBuchDaten){renderUntBuchungen();return;}
-  el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
-  try{
-    var r=await fetch(WEB_APP_URL+'?action=adminBuchungen'+internCredQ());
-    var d=internAuthPruefen(await r.json());
-    _untBuchDaten=d.ok?d.data:[];
-    renderUntBuchungen();
-  }catch(e){el.innerHTML='<div class="empty">Laden fehlgeschlagen</div>';}
+  el.innerHTML=untSpinner();
+  try{await untHoleBuchungen(false);renderUntBuchungen();}
+  catch(e){el.innerHTML='<div class="empty">Laden fehlgeschlagen</div>';}
 }
 
 function untBuchFilter(filter,btn){
@@ -1855,12 +1910,15 @@ function renderUntBuchungen(){
   var el=document.getElementById('unt-buch-liste');
   if(!_untBuchDaten)return;
   var liste=_untBuchDaten;
-  if(_untBuchFilter==='meine')liste=liste.filter(function(b){return(b.dozent||'').toLowerCase().includes('dorsch');});
+  if(_untBuchFilter==='meine')liste=liste.filter(function(b){return untDozentPasst(b.dozent,UNT_ME);});
   if(!liste.length){el.innerHTML='<div class="empty">Keine Buchungen</div>';return;}
   var gruppen={};
   liste.forEach(function(b){if(!gruppen[b.datum])gruppen[b.datum]=[];gruppen[b.datum].push(b);});
-  el.innerHTML=Object.entries(gruppen).sort(function(a,b){return a[0]<b[0]?-1:1;}).map(function(entry){
-    var datum=entry[0],buchungen=entry[1];
+  el.innerHTML=Object.entries(gruppen).sort(function(a,b){
+    var da=parseDatum(a[0]),db=parseDatum(b[0]);
+    return(da?da.getTime():0)-(db?db.getTime():0);
+  }).map(function(entry){
+    var datum=entry[0],buchungen=entry[1].slice().sort(function(a,b){return String(a.slotStart)<String(b.slotStart)?-1:1;});
     var d=parseDatum(datum),wt=d?WT[d.getDay()]:'';
     return '<div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:8px">'+
       '<div style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;font-weight:700;display:flex;justify-content:space-between">'+
@@ -1870,157 +1928,255 @@ function renderUntBuchungen(){
         return '<div style="padding:11px 14px;border-bottom:1px solid var(--paper3);display:flex;align-items:center;gap:10px">'+
           '<div style="font-size:14px;font-weight:800;color:var(--blue);min-width:44px">'+esc(b.slotStart)+'</div>'+
           '<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600">'+esc(b.name)+'</div>'+
-          '<div style="font-size:11px;color:var(--ink3)">'+esc(b.marker)+' · '+esc(b.dozent)+(b.ort?' · '+esc(b.ort):'')+'</div></div>'+
-          '<button onclick="untBuchungStornieren(\''+esc(b.buchungId)+'\',\''+esc(b.name)+'\')" style="padding:5px 10px;background:var(--red-bg);color:var(--red);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">Stornieren</button>'+
+          '<div style="font-size:11px;color:var(--ink3)">'+esc(b.marker)+' · '+esc(b.dozent)+(b.ort?' · '+esc(b.ort):'')+'</div>'+
+          (b.werk?'<div style="font-size:11px;color:var(--ink3)">🎵 '+esc(b.werk)+'</div>':'')+'</div>'+
+          '<button onclick="untBuchungStornieren(\''+esc(b.buchungId)+'\')" style="padding:5px 10px;background:var(--red-bg);color:var(--red);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">Stornieren</button>'+
         '</div>';
       }).join('')+
     '</div>';
   }).join('');
 }
 
-async function untBuchungStornieren(buchungId,name){
-  if(!confirm('Buchung von '+name+' stornieren?'))return;
+async function untBuchungStornieren(buchungId){
+  var b=(_untBuchDaten||[]).find(function(x){return x.buchungId===buchungId;});
+  if(!confirm('Buchung von '+(b?b.name:'?')+' stornieren?'))return;
   try{
-    var r=await fetch(WEB_APP_URL,{method:'POST',body:internCredBody({action:'buchungStornieren',buchungId})});
-    var d=internAuthPruefen(await r.json());
+    var d=await untPost({action:'buchungStornieren',buchungId:buchungId});
     if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
     zeigToast('✓ Buchung storniert');
-    _untBuchDaten=null;ladeUntBuchungen(false);
+    untBuchNeu();
   }catch(e){zeigToast('Verbindungsfehler');}
 }
 
-async function ladeUntProbezeiten(){
-  var el=document.getElementById('unt-probe-inhalt');
-  var d=await apiFetch('adminStats');
-  if(!d||!d.data){el.innerHTML='<div class="empty">Keine Daten</div>';return;}
-  var personen=(d.data.personen||[]).sort((a,b)=>b.minuten-a.minuten);
-  var werke=(d.data.werke||[]).sort((a,b)=>b.minuten-a.minuten);
-  var maxMin=personen.length?personen[0].minuten:1;
-  function fmt(m){return Math.floor(m/60)+'h '+String(m%60).padStart(2,'0')+'m';}
-  var html='<div class="section-h">Probezeiten je Studierender</div><div class="card card-pad" style="margin-bottom:16px">';
-  if(!personen.length){html+='<div class="empty" style="padding:12px">Noch keine Einträge</div>';}
-  else{personen.forEach(function(p){
-    var pct=Math.round(p.minuten/maxMin*100);
-    html+='<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">'+
-      '<div style="font-size:13px;font-weight:600">'+esc(p.name)+'<span style="font-size:11px;color:var(--ink3);margin-left:6px">'+esc(p.instrument||'')+'</span></div>'+
-      '<div style="font-size:13px;font-weight:700;font-family:var(--mono);color:var(--blue)">'+fmt(p.minuten)+'</div></div>'+
-      '<div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:var(--blue);border-radius:2px"></div></div></div>';
-  });}
-  html+='</div>';
-  if(werke.length){
-    html+='<div class="section-h">Werke</div><div class="card card-pad">';
-    werke.slice(0,10).forEach(function(w){
-      html+='<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--paper3)">'+
-        '<div style="font-size:12px;font-weight:500;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(w.titel)+'</div>'+
-        '<div style="font-size:12px;font-weight:700;font-family:var(--mono);color:var(--gold2);flex-shrink:0;margin-left:8px">'+fmt(w.minuten)+'</div></div>';
-    });
-    html+='</div>';
-  }
-  el.innerHTML=html;
+// ── Studierendenliste (für Slot-Zuweisung und Instrument in den Probezeiten) ──
+async function untLadeStudierende(){
+  if(_untStudierende)return _untStudierende;
+  try{
+    var d=await untGet('studierendenListe');
+    if(!d.ok)throw new Error(d.error||'Liste nicht verfügbar');
+    _untStudierende=d.data||[];
+    untBefuelleSelects();
+    if(_untTabGeladen['ut-probezeiten'])renderUntProbe();
+  }catch(e){zeigToast('Studierendenliste: '+e.message);}
+  return _untStudierende;
+}
+function untStudierendenOptionen(){
+  return (_untStudierende||[]).map(function(st){
+    return '<option value="'+esc(st.mtknr)+'">'+esc(st.name)+(st.instrument?' · '+esc(st.instrument):'')+'</option>';
+  }).join('');
+}
+// Füllt vorhandene Auswahlfelder, ohne die Liste neu zu zeichnen (ein offenes Dropdown bliebe sonst nicht offen)
+function untBefuelleSelects(){
+  var opts=untStudierendenOptionen();
+  document.querySelectorAll('#term-liste select[id^="zw-"]').forEach(function(sel){
+    var gewaehlt=sel.value;
+    sel.innerHTML='<option value="">Studierende:n wählen…</option>'+opts;
+    if(gewaehlt)sel.value=gewaehlt;
+  });
 }
 
-var _termineGeladen=false;
-var _alleTermine=[];
-var _MONATE=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
-
-async function ladenTermine(){
-  _termineGeladen=true;
+// ── Termine ───────────────────────────────────────────────
+async function ladeUntTermine(force){
   var el=document.getElementById('term-liste');
-  el.innerHTML='<div class="spinner"><div class="spin"></div>Lade...</div>';
+  if(force)_untTermine=null;
+  if(_untTermine){renderUntTermine();return;}
+  el.innerHTML=untSpinner();
   try{
-    var r=await fetch(WEB_APP_URL+'?action=alleTermine'+internCredQ());
-    var d=internAuthPruefen(await r.json());
-    if(!d||!d.data){el.innerHTML='<div class="empty">Keine Termine</div>';return;}
-    _alleTermine=d.data.sort(function(a,b){
-      var da=parseDatum(a.datum),db=parseDatum(b.datum);
-      if(!da&&!db)return 0;if(!da)return 1;if(!db)return-1;
-      return da-db;
-    });
-    renderTermine(_alleTermine);
+    var res=await Promise.all([untGet('alleTermine'),untHoleBuchungen(force)]);
+    if(!res[0]||!res[0].data){el.innerHTML='<div class="empty">Keine Termine</div>';return;}
+    _untTermine=res[0].data;
+    renderUntTermine();
+    untLadeStudierende();
   }catch(e){el.innerHTML='<div class="empty" style="color:var(--red)">Fehler: '+esc(e.message)+'</div>';}
 }
+function ladenTermineNeu(){_untTabGeladen['ut-termine']=true;ladeUntTermine(true);}
+function filterTermine(){renderUntTermine();}
+function untTermineAltToggle(cb){_untTermineAlt=cb.checked;renderUntTermine();}
 
-async function ladenTermineNeu(){_termineGeladen=false;ladenTermine();}
-
-function filterTermine(){
-  var q=document.getElementById('term-suche').value.toLowerCase();
-  renderTermine(q?_alleTermine.filter(function(t){
-    return(t.datum+t.projekt+t.ort+t.uhrzeit).toLowerCase().includes(q);
-  }):_alleTermine);
-}
-
-function renderTermine(liste){
+function renderUntTermine(){
   var el=document.getElementById('term-liste');
-  if(!liste.length){el.innerHTML='<div class="empty">Keine Termine</div>';return;}
+  if(!_untTermine)return;
+  // Noch nicht gespeicherte Notiz-Eingaben beim Neuzeichnen (Suche, Zuweisung) nicht verlieren
+  var entw={};
+  el.querySelectorAll('textarea[id^="notiz-"]').forEach(function(ta){if(ta.value!==ta.dataset.orig)entw[ta.id]=ta.value;});
+  var q=(document.getElementById('term-suche').value||'').toLowerCase();
+  var heute=new Date();heute.setHours(0,0,0,0);
+  var liste=_untTermine.filter(function(t){
+    var d=parseDatum(t.datum);
+    if(!_untTermineAlt&&d&&d<heute)return false;
+    return !q||[t.datum,t.projekt,t.marker,t.dozent,t.ort,t.uhrzeit].join(' ').toLowerCase().includes(q);
+  }).sort(function(a,b){
+    var da=parseDatum(a.datum),db=parseDatum(b.datum);
+    return(da?da.getTime():0)-(db?db.getTime():0)||String(a.uhrzeit).localeCompare(String(b.uhrzeit));
+  });
+  if(!liste.length){el.innerHTML='<div class="empty">'+(_untTermineAlt||q?'Keine Termine':'Keine kommenden Termine')+'</div>';return;}
+  var opts=untStudierendenOptionen();
   el.innerHTML=liste.map(function(t){
+    var d=parseDatum(t.datum),wt=d?WT[d.getDay()]:'';
     var p=(t.datum||'').split('.');
     var day=p[0]||'?',mon=_MONATE[parseInt(p[1]||'0',10)-1]||'';
-    var vergangen=new Date((p[2]||'2000')+'-'+(p[1]||'01')+'-'+(p[0]||'01'))<new Date();
-    return '<div class="tcard" style="'+(vergangen?'opacity:0.55;':'')+'">'+
+    var vergangen=d&&d<heute;
+    var notiz=entw.hasOwnProperty('notiz-'+t.id)?entw['notiz-'+t.id]:(t.notizen||'');
+    return '<div class="tcard" style="flex-wrap:wrap;'+(vergangen?'opacity:0.55;':'')+'">'+
       '<div class="tcard-date"><div class="tcard-day">'+esc(day)+'</div><div class="tcard-mon">'+esc(mon)+'</div></div>'+
       '<div class="tcard-body">'+
-        '<div class="tcard-title">'+esc(t.projekt)+
-          '<span class="tcard-badge '+(t.quelle==='kalender'?'kal':'man')+'">'+(t.quelle==='kalender'?'📅 Kalender':'✏ Manuell')+'</span>'+
-        '</div>'+
-        '<div class="tcard-meta">'+esc(t.uhrzeit||'')+(t.ort?' · '+esc(t.ort):'')+'</div>'+
+        '<div class="tcard-title">'+esc(t.projekt||t.marker)+(t.marker&&t.projekt?'<span class="tcard-badge kal">'+esc(t.marker)+'</span>':'')+'</div>'+
+        '<div class="tcard-meta">'+wt+', '+esc(t.datum)+(t.uhrzeit?' · '+esc(t.uhrzeit):'')+(t.dozent?' · '+esc(t.dozent):'')+(t.ort?' · '+esc(t.ort):'')+'</div>'+
       '</div>'+
-      '<div class="tcard-acts">'+
-        '<button class="tact" onclick="openTerminModalById(\''+esc(t.id)+'\')">Bearbeiten</button>'+
-        (t.quelle==='manuell'?'<button class="tact del" onclick="terminLoeschen(\''+esc(t.id)+'\',\''+esc(t.projekt)+'\')">Löschen</button>':'')+
+      '<div style="width:100%">'+
+        '<textarea id="notiz-'+esc(t.id)+'" data-orig="'+esc(t.notizen||'')+'" placeholder="Unterrichtsinhalte / Notizen…" style="width:100%;min-height:56px;margin-top:4px;padding:7px 10px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);resize:vertical;background:#fff">'+esc(notiz)+'</textarea>'+
+        '<button onclick="untNotizSpeichern(\''+esc(t.id)+'\')" style="margin-top:6px;padding:6px 12px;background:var(--green-bg);color:var(--green);border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">💾 Speichern</button>'+
+        untSlotZuweisungHtml(t,opts)+
       '</div>'+
     '</div>';
   }).join('');
 }
 
-var _editId=null,_editQuelle=null;
-function openTerminModalById(id){
-  var t=_alleTermine.find(function(x){return x.id===id;});
-  if(t)openTerminModal(t);
-}
-function openTerminModal(t){
-  _editId=t?t.id:null;
-  _editQuelle=t?t.quelle:'manuell';
-  var istKal=_editQuelle==='kalender';
-  document.getElementById('tf-datum').value=t?t.datum:'';
-  document.getElementById('tf-projekt').value=t?t.projekt:'';
-  document.getElementById('tf-uhrzeit').value=t?t.uhrzeit:'';
-  document.getElementById('tf-ort').value=t?t.ort:'';
-  document.getElementById('tf-datum-row').style.display=istKal?'none':'block';
-  document.getElementById('tf-projekt-row').style.display=istKal?'none':'block';
-  document.getElementById('tmodal-title').textContent=_editId?(istKal?'Kalender-Termin anpassen':'Termin bearbeiten'):'Neuen Termin anlegen';
-  document.getElementById('tmodal-bg').style.display='flex';
-}
-function closeTerminModal(){document.getElementById('tmodal-bg').style.display='none';}
-
-async function speichernTermin(){
-  var datum=document.getElementById('tf-datum').value.trim();
-  var projekt=document.getElementById('tf-projekt').value.trim();
-  var uhrzeit=document.getElementById('tf-uhrzeit').value.trim();
-  var ort=document.getElementById('tf-ort').value.trim();
-  var btn=document.getElementById('tmodal-save-btn');
-  if(!_editId&&(!datum||!projekt)){zeigToast('Datum und Projekt sind Pflichtfelder.');return;}
-  btn.textContent='Speichere…';btn.disabled=true;
-  try{
-    var payload=_editId
-      ?{action:'terminAendern',id:_editId,termin:{datum,projekt,uhrzeit,ort}}
-      :{action:'terminSpeichern',termin:{datum,projekt,uhrzeit,ort}};
-    var r=await fetch(WEB_APP_URL,{method:'POST',body:internCredBody(payload)});
-    var d=internAuthPruefen(await r.json());
-    if(d.ok){zeigToast(_editId?'Gespeichert ✓':'Termin angelegt ✓');closeTerminModal();ladenTermineNeu();}
-    else zeigToast('Fehler: '+(d.error||'?'));
-  }catch(e){zeigToast('Netzwerkfehler: '+e.message);}
-  btn.textContent='Speichern';btn.disabled=false;
+function untSlotZuweisungHtml(t,opts){
+  if(t.marker!=='Einzelunterricht')return '';
+  var slots=t.slots||[];
+  if(!slots.length)return '';
+  var buchungen=(_untBuchDaten||[]).filter(function(b){return b.terminId===t.id;});
+  var zeilen=slots.map(function(sl){
+    var b=buchungen.find(function(x){return x.slotStart===sl.uhrzeit;});
+    var tid=esc(t.id),su=esc(sl.uhrzeit);
+    if(b){
+      return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px">'+
+        '<strong style="min-width:48px;font-size:12px">'+su+'</strong>'+
+        '<span style="flex:1;font-size:12px">'+esc(b.name||b.mtknr)+'</span>'+
+        '<button onclick="untSlotEntfernen(\''+esc(b.buchungId)+'\')" style="padding:5px 10px;background:var(--red-bg);color:var(--red);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">✕ Entfernen</button>'+
+      '</div>';
+    }
+    return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px">'+
+      '<strong style="min-width:48px;font-size:12px">'+su+'</strong>'+
+      '<select id="zw-'+tid+'-'+su.replace(':','')+'" style="flex:1;padding:6px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff" onfocus="if(!_untStudierende)untLadeStudierende()">'+
+        '<option value="">'+(_untStudierende?'Studierende:n wählen…':'Studierendenliste wird geladen …')+'</option>'+opts+'</select>'+
+      '<button onclick="untSlotZuweisen(\''+tid+'\',\''+su+'\')" style="padding:5px 10px;background:var(--green-bg);color:var(--green);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">Zuweisen</button>'+
+    '</div>';
+  }).join('');
+  return '<div style="margin-top:12px;padding-top:8px;border-top:1px dashed var(--border)"><div style="font-size:12px;font-weight:700;color:var(--blue)">Slots (Einzelunterricht)</div>'+zeilen+'</div>';
 }
 
-async function terminLoeschen(id,titel){
-  if(!confirm('Termin "'+titel+'" wirklich löschen?'))return;
+async function untSlotZuweisen(terminId,slotStart){
+  var sel=document.getElementById('zw-'+terminId+'-'+slotStart.replace(':',''));
+  var mtknr=sel?sel.value:'';
+  if(!mtknr){zeigToast('Bitte zuerst eine:n Studierende:n wählen.');return;}
+  var st=(_untStudierende||[]).find(function(x){return x.mtknr===mtknr;});
+  var name=st?st.name:mtknr;
   try{
-    var r=await fetch(WEB_APP_URL,{method:'POST',body:JSON.stringify({action:'terminLoeschen',id:id})});
-    var d=await r.json();
-    if(d.ok){zeigToast('Gelöscht ✓');ladenTermineNeu();}
-    else zeigToast('Fehler: '+(d.error||'?'));
-  }catch(e){zeigToast('Netzwerkfehler: '+e.message);}
+    var d=await untPost({action:'buchungErstellen',mtknr:mtknr,name:name,terminId:terminId,slotStart:slotStart,werk:''});
+    if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
+    zeigToast('✓ '+name+' um '+slotStart+' eingetragen');
+    untBuchNeu();
+  }catch(e){zeigToast('Verbindungsfehler');}
 }
+
+async function untSlotEntfernen(buchungId){
+  if(!confirm('Diese Zuweisung wirklich entfernen?'))return;
+  try{
+    var d=await untPost({action:'buchungStornieren',buchungId:buchungId});
+    if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
+    zeigToast('✓ Zuweisung entfernt');
+    untBuchNeu();
+  }catch(e){zeigToast('Verbindungsfehler');}
+}
+
+async function untNotizSpeichern(terminId){
+  var inp=document.getElementById('notiz-'+terminId);
+  var notizen=inp?inp.value.trim():'';
+  try{
+    var d=await untPost({action:'terminNotizSpeichern',terminId:terminId,notizen:notizen});
+    if(!d.ok){zeigToast('Notiz NICHT gespeichert: '+(d.error||'?'));return;}
+    var t=(_untTermine||[]).find(function(x){return x.id===terminId;});
+    if(t)t.notizen=notizen;
+    if(inp)inp.dataset.orig=notizen;
+    zeigToast('✓ Notiz gespeichert');
+  }catch(e){zeigToast('Notiz NICHT gespeichert: Verbindungsfehler');}
+}
+
+// ── Probezeiten: aus den Buchungen berechnet ──────────────
+// (Das Backend-Statistik-Endpoint "adminStats" liefert aktuell nur leere Listen.)
+// Jede Buchung = ein Slot von UNT_SLOT_MIN Minuten.
+async function ladeUntProbezeiten(force){
+  var el=document.getElementById('unt-probe-inhalt');
+  if(force)_untBuchDaten=null;
+  if(!_untBuchDaten)el.innerHTML=untSpinner();
+  try{
+    await untHoleBuchungen(false);
+    renderUntProbe();
+    untLadeStudierende();
+  }catch(e){el.innerHTML='<div class="empty">Laden fehlgeschlagen</div>';}
+}
+
+function renderUntProbe(){
+  var el=document.getElementById('unt-probe-inhalt');
+  if(!_untBuchDaten)return;
+  if(!_untBuchDaten.length){el.innerHTML='<div class="empty">Noch keine Einträge</div>';return;}
+  var jetzt=new Date();
+  var instr={};
+  (_untStudierende||[]).forEach(function(s){instr[s.name]=s.instrument||'';});
+  var personen={},werke={},gesamtMin=0,vorbeiMin=0;
+  _untBuchDaten.forEach(function(b){
+    var key=b.name||b.mtknr||'?';
+    var ende=untSlotEnde(b.datum,b.slotStart);
+    var vorbei=!!(ende&&ende<=jetzt);
+    var p=personen[key]||(personen[key]={name:key,instrument:instr[key]||'',min:0,vorbei:0,stunden:[]});
+    p.min+=UNT_SLOT_MIN;gesamtMin+=UNT_SLOT_MIN;
+    if(vorbei){p.vorbei+=UNT_SLOT_MIN;vorbeiMin+=UNT_SLOT_MIN;}
+    p.stunden.push({b:b,vorbei:vorbei,ende:ende});
+    var wk=(b.werk||'').trim()||'(ohne Werk-Angabe)';
+    var w=werke[wk]||(werke[wk]={titel:wk,min:0});
+    w.min+=UNT_SLOT_MIN;
+  });
+  var plist=Object.values(personen).sort(function(a,b){return b.min-a.min||a.name.localeCompare(b.name);});
+  var wlist=Object.values(werke).sort(function(a,b){
+    if(a.titel.charAt(0)==='('&&b.titel.charAt(0)!=='(')return 1;
+    if(b.titel.charAt(0)==='('&&a.titel.charAt(0)!=='(')return-1;
+    return b.min-a.min||a.titel.localeCompare(b.titel);
+  });
+  var maxMin=plist[0].min||1;
+  var kachel=function(wert,label){
+    return '<div style="flex:1;min-width:110px;text-align:center"><div style="font-size:18px;font-weight:800;font-family:var(--mono);color:var(--blue)">'+wert+'</div>'+
+      '<div style="font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.04em;font-weight:700">'+label+'</div></div>';
+  };
+  var html='<div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button onclick="ladeUntProbezeiten(true)" style="padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:var(--sans)">↻</button></div>'+
+    '<div class="section-h">Gesamt</div><div class="card card-pad" style="margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap">'+
+      kachel(untFmt(gesamtMin),'Probezeit gebucht')+
+      kachel(untFmt(vorbeiMin),'davon stattgefunden')+
+      kachel(_untBuchDaten.length,'Stunden')+
+      kachel(plist.length,'Studierende')+
+    '</div>'+
+    '<div class="section-h">Probezeiten je Studierender</div>';
+  html+=plist.map(function(p){
+    var pct=Math.round(p.min/maxMin*100);
+    var stunden=p.stunden.slice().sort(function(a,b){return(a.ende?a.ende.getTime():0)-(b.ende?b.ende.getTime():0);}).map(function(s){
+      var b=s.b,d=parseDatum(b.datum),wt=d?WT[d.getDay()]:'';
+      return '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-top:1px solid var(--paper3);'+(s.vorbei?'':'')+'">'+
+        '<div style="font-size:11px;font-weight:700;color:'+(s.vorbei?'var(--green)':'var(--gold2)')+';width:14px;flex-shrink:0">'+(s.vorbei?'✓':'○')+'</div>'+
+        '<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:600">'+wt+', '+esc(b.datum)+' · '+esc(b.slotStart)+'–'+untUhrPlus(b.slotStart,UNT_SLOT_MIN)+'</div>'+
+        '<div style="font-size:11px;color:var(--ink3)">'+esc(b.marker)+(b.dozent?' · '+esc(b.dozent):'')+(b.ort?' · '+esc(b.ort):'')+(b.werk?' · 🎵 '+esc(b.werk):'')+'</div></div>'+
+        '<div style="font-size:11px;font-family:var(--mono);color:var(--ink3);flex-shrink:0">'+UNT_SLOT_MIN+' min</div>'+
+      '</div>';
+    }).join('');
+    return '<div class="card card-pad" style="margin-bottom:10px">'+
+      '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">'+
+        '<div style="font-size:13px;font-weight:700">'+esc(p.name)+'<span style="font-size:11px;font-weight:400;color:var(--ink3);margin-left:6px">'+esc(p.instrument)+'</span></div>'+
+        '<div style="font-size:13px;font-weight:700;font-family:var(--mono);color:var(--blue)">'+untFmt(p.min)+'</div></div>'+
+      '<div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:6px"><div style="height:100%;width:'+pct+'%;background:var(--blue);border-radius:2px"></div></div>'+
+      '<div style="font-size:11px;color:var(--ink3);margin-bottom:4px">'+p.stunden.length+' Stunde'+(p.stunden.length!==1?'n':'')+' · davon stattgefunden: '+untFmt(p.vorbei)+'</div>'+
+      stunden+
+    '</div>';
+  }).join('');
+  html+='<div class="section-h" style="margin-top:16px">Werke</div><div class="card card-pad">'+
+    wlist.map(function(w){
+      return '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--paper3)">'+
+        '<div style="font-size:12px;font-weight:500;flex:1;min-width:0">'+esc(w.titel)+'</div>'+
+        '<div style="font-size:12px;font-weight:700;font-family:var(--mono);color:var(--gold2);flex-shrink:0;margin-left:8px">'+untFmt(w.min)+'</div></div>';
+    }).join('')+'</div>';
+  el.innerHTML=html;
+}
+
+var _MONATE=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
 
 // ── SJ MODAL ─────────────────────────────────────────────
 function oeffneSjModal(){
@@ -2896,37 +3052,5 @@ async function apiPost(data) {
 }
 
 </script>
-<div id="tmodal-bg" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;align-items:flex-end;justify-content:center;">
-  <div style="background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:540px;padding:20px 20px 32px;max-height:90vh;overflow-y:auto;">
-    <div id="tmodal-title" style="font-size:15px;font-weight:800;margin-bottom:16px;">Termin</div>
-    <div id="tf-datum-row" class="tfield">
-      <label>Datum (TT.MM.JJJJ)</label>
-      <input id="tf-datum" type="text" placeholder="z.B. 15.09.2026">
-    </div>
-    <div id="tf-projekt-row" class="tfield">
-      <label>Projekt</label>
-      <input id="tf-projekt" type="text" placeholder="z.B. HSO 2">
-    </div>
-    <div class="tfield">
-      <label>Uhrzeit</label>
-      <input id="tf-uhrzeit" type="text" placeholder="z.B. 10:00 Uhr">
-      <div class="hint">Kalender-Termin: überschreibt Anzeige im Portal</div>
-    </div>
-    <div class="tfield">
-      <label>Ort</label>
-      <input id="tf-ort" type="text" placeholder="z.B. Orchesterstudio">
-    </div>
-    <div style="display:flex;gap:8px;margin-top:16px;">
-      <button id="tmodal-save-btn" onclick="speichernTermin()"
-        style="flex:1;padding:10px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);">
-        Speichern
-      </button>
-      <button onclick="closeTerminModal()"
-        style="flex:1;padding:10px;border-radius:8px;border:none;background:var(--paper2);color:var(--ink);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);">
-        Abbrechen
-      </button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
