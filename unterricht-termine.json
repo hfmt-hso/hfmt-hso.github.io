@@ -1,30 +1,6 @@
 {
-  "generiert": "2026-10-13T02:08:10.466Z",
+  "generiert": "2026-10-14T02:07:00.900Z",
   "data": [
-    {
-      "id": "UT_20261006_7",
-      "datum": "06.10.2026",
-      "projekt": "Gruppenunterricht Yang",
-      "marker": "Gruppenunterricht",
-      "dozent": "Yang",
-      "uhrzeit": "16:30",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "16:30"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "17:30"
-        },
-        {
-          "slotId": "s_2",
-          "uhrzeit": "18:30"
-        }
-      ],
-      "notizen": ""
-    },
     {
       "id": "UT_20261007_0",
       "datum": "07.10.2026",
@@ -446,50 +422,6 @@
       "notizen": ""
     },
     {
-      "id": "UT_20261102_21",
-      "datum": "02.11.2026",
-      "projekt": "Gruppenunterricht Kütson",
-      "marker": "Gruppenunterricht",
-      "dozent": "Kütson",
-      "uhrzeit": "11:00",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "11:00"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "12:00"
-        },
-        {
-          "slotId": "s_2",
-          "uhrzeit": "13:00"
-        },
-        {
-          "slotId": "s_3",
-          "uhrzeit": "14:00"
-        },
-        {
-          "slotId": "s_4",
-          "uhrzeit": "15:00"
-        },
-        {
-          "slotId": "s_5",
-          "uhrzeit": "16:00"
-        },
-        {
-          "slotId": "s_6",
-          "uhrzeit": "17:00"
-        },
-        {
-          "slotId": "s_7",
-          "uhrzeit": "18:00"
-        }
-      ],
-      "notizen": ""
-    },
-    {
       "id": "UT_20261102_22",
       "datum": "02.11.2026",
       "projekt": "Gruppenunterricht Song",
@@ -523,40 +455,44 @@
       "projekt": "Gruppenunterricht Kütson",
       "marker": "Gruppenunterricht",
       "dozent": "Kütson",
-      "uhrzeit": "11:00",
+      "uhrzeit": "13:00",
       "ort": "Blau 206",
       "slots": [
         {
           "slotId": "s_0",
-          "uhrzeit": "11:00"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "12:00"
-        },
-        {
-          "slotId": "s_2",
           "uhrzeit": "13:00"
         },
         {
-          "slotId": "s_3",
+          "slotId": "s_1",
           "uhrzeit": "14:00"
         },
         {
-          "slotId": "s_4",
+          "slotId": "s_2",
           "uhrzeit": "15:00"
-        },
+        }
+      ],
+      "notizen": ""
+    },
+    {
+      "id": "UT_20261103_0",
+      "datum": "03.11.2026",
+      "projekt": "Gruppenunterricht Kütson",
+      "marker": "Gruppenunterricht",
+      "dozent": "Kütson",
+      "uhrzeit": "17:00",
+      "ort": "Blau 206",
+      "slots": [
         {
-          "slotId": "s_5",
-          "uhrzeit": "16:00"
-        },
-        {
-          "slotId": "s_6",
+          "slotId": "s_0",
           "uhrzeit": "17:00"
         },
         {
-          "slotId": "s_7",
+          "slotId": "s_1",
           "uhrzeit": "18:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "19:00"
         }
       ],
       "notizen": ""
@@ -567,19 +503,23 @@
       "projekt": "Gruppenunterricht Kütson",
       "marker": "Gruppenunterricht",
       "dozent": "Kütson",
-      "uhrzeit": "11:00",
+      "uhrzeit": "10:00",
       "ort": "Blau 206",
       "slots": [
         {
           "slotId": "s_0",
-          "uhrzeit": "11:00"
+          "uhrzeit": "10:00"
         },
         {
           "slotId": "s_1",
-          "uhrzeit": "12:00"
+          "uhrzeit": "11:00"
         },
         {
           "slotId": "s_2",
+          "uhrzeit": "12:00"
+        },
+        {
+          "slotId": "s_3",
           "uhrzeit": "13:00"
         }
       ],
