@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-14T02:06:57.722Z",
+  "generiert": "2026-10-15T02:09:23.752Z",
   "events": [
     {
       "datum": "26.10.2026",
@@ -4493,67 +4493,6 @@
       "eintritt": [],
       "_eventId": "9abj4n89vkv9p2qsdoe0ls5nmc@google.com",
       "_titel": "HSO 4"
-    },
-    {
-      "datum": "14.10.2026",
-      "uhrzeit": "14:15 Uhr",
-      "endzeit": "17:00 Uhr",
-      "ort": "Orchesterstudio",
-      "konzertart": null,
-      "marker": "Blattspiel",
-      "werke": [
-        {
-          "komponist": "Wolfgang Amadeus Mozart",
-          "lebensdaten": "1756–1791",
-          "titel": "Le nozze di Figaro, Ouvertüre",
-          "saetze": [],
-          "dauer": "ca. 5 min",
-          "besetzung": "2.2.2.2-2.2.0.0-Pk-Str. (8.6.5.4.3)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "Gioacchino Rossini",
-          "lebensdaten": "1792–1868",
-          "titel": "Il barbiere di Siviglia, Ouvertüre",
-          "saetze": [],
-          "dauer": "ca. 7 min",
-          "besetzung": "2.2.2.2-2.2.0.0-Pk+2-Str. (8.6.5.4.3)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "Joseph Haydn",
-          "lebensdaten": "1732–1809",
-          "titel": "Sinfonie Nr. 86 D-Dur",
-          "saetze": [
-            "Adagio – Allegro spiritoso",
-            "Capriccio: Largo",
-            "Menuet: Allegretto",
-            "Finale: Allegro con spirito"
-          ],
-          "dauer": "ca. 28 min",
-          "besetzung": "1.2.0.2-2.2.0.0-Pauken-Str. (8.6.5.4.3)",
-          "urauffuehrung": false,
-          "pause": false
-        }
-      ],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [
-        {
-          "name": "Thomas Dorsch | Rémi Geniet (Mozart); Chenyu Wan (Rossini); Yuan Xin (Haydn 1,2), Uschik Choi (Haydn 3,4)",
-          "werk": "",
-          "klasse": ""
-        }
-      ],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "abwesend": null,
-      "eintritt": [],
-      "_eventId": "0hsn0t9p5qd3t73muvflj1nc1c@google.com",
-      "_titel": "HSO Blattspiel"
     },
     {
       "datum": "28.10.2026",
