@@ -1,22 +1,6 @@
 {
-  "generiert": "2026-10-14T02:07:00.900Z",
+  "generiert": "2026-10-15T02:09:31.753Z",
   "data": [
-    {
-      "id": "UT_20261007_0",
-      "datum": "07.10.2026",
-      "projekt": "Einzelunterricht Dorsch",
-      "marker": "Einzelunterricht",
-      "dozent": "Dorsch",
-      "uhrzeit": "13:00",
-      "ort": "",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "13:00"
-        }
-      ],
-      "notizen": ""
-    },
     {
       "id": "UT_20261008_0",
       "datum": "08.10.2026",
