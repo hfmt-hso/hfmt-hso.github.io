@@ -932,6 +932,8 @@ async function ladeBedarf(){
   const url=`https://docs.google.com/spreadsheets/d/${BEDARF_SHEET}/gviz/tq?tqx=out:csv&gid=${BEDARF_GID}`;
   try{
     const res=await fetch(url); const text=await res.text();
+    // Endzeiten kommen aus den Kalenderdaten (Tabelle "Bedarf" enthält nur den Beginn)
+    let kalEvents=[]; try{ kalEvents=await ladeKalenderData(sj)||[]; }catch(e){}
     const p=sj.split('_');
     const sjVon=new Date(2000+parseInt(p[0]),8,1);
     const sjBis=new Date(2000+parseInt(p[1]),7,31,23,59,59);
@@ -942,7 +944,7 @@ async function ladeBedarf(){
       const pts=dRaw.split(' ')[0].split('.'); if(pts.length<3)return;
       const datum=new Date(parseInt(pts[2]),parseInt(pts[1])-1,parseInt(pts[0]));
       if(datum<sjVon||datum>sjBis)return;
-      termine.push({projekt:t[0],ort:t[1],werke:t[2],datum:dRaw,erstProbe:t[4],aufbauplan:t[7],tasten:t[9],stuehle:t[10],basshocker:t[11],klHocker:t[12],pulte:t[13],gesamt:t[14]});
+      termine.push({projekt:t[0],ort:t[1],werke:t[2],datum:bedarfDatumMitEnde(dRaw,t[0],kalEvents),erstProbe:t[4],aufbauplan:t[7],tasten:t[9],stuehle:t[10],basshocker:t[11],klHocker:t[12],pulte:t[13],gesamt:t[14]});
     });
     const liste=document.getElementById('bedarf-liste');
     if(!termine.length){liste.innerHTML='<div class="loading">Keine kommenden Termine.</div>';return;}
@@ -974,6 +976,23 @@ async function ladeBedarf(){
       return h;
     }).join('');
   }catch(e){document.getElementById('bedarf-liste').innerHTML='<div class="loading">Laden fehlgeschlagen.</div>';}
+}
+// "21.10.2026 14:15" -> "21.10.2026 14:15–17:00 Uhr" (Endzeit aus Kalenderdaten; sonst unverändert)
+function bedarfDatumMitEnde(dRaw,projekt,events){
+  const m=String(dRaw).trim().match(/^(\d{1,2}\.\d{1,2}\.\d{4})\s+(\d{1,2}):(\d{2})/);
+  if(!m||!Array.isArray(events))return dRaw;
+  const norm=x=>{const k=String(x||'').match(/(\d{1,2}):(\d{2})/);return k?parseInt(k[1])*60+parseInt(k[2]):null;};
+  const start=parseInt(m[2])*60+parseInt(m[3]);
+  const gleich=events.filter(ev=>{
+    const d=String(ev.datum||'').trim().split(' ')[0].replace(/^0/,'').replace(/\.0(\d)\./,'.$1.');
+    const dm=m[1].replace(/^0/,'').replace(/\.0(\d)\./,'.$1.');
+    return d===dm && norm(ev.uhrzeit)===start && ev.endzeit;
+  });
+  if(!gleich.length)return dRaw;
+  const pn=String(projekt||'').trim().toLowerCase();
+  const ev=gleich.find(e=>pn&&String(e._titel||'').toLowerCase().indexOf(pn)===0)||gleich[0];
+  const z=zeitText(ev);
+  return z? m[1]+' '+z : dRaw;
 }
 function toggleBedarf(did){
   document.getElementById(did).classList.toggle('open');
