@@ -589,6 +589,14 @@ async function ladeKalenderData(sj){
   return data;
 }
 
+// Zeitangabe mit Endzeit: "14:15–16:00 Uhr" (ohne Endzeit: "14:15 Uhr")
+function zeitText(ev){
+  var a=String((ev&&ev.uhrzeit)||'').replace(/\s*Uhr\s*$/,'').trim();
+  var b=String((ev&&ev.endzeit)||'').replace(/\s*Uhr\s*$/,'').trim();
+  if(!a) return '';
+  return (b&&b!==a)? a+'\u2013'+b+' Uhr' : a+' Uhr';
+}
+
 // ── KALENDER ──────────────────────────────────────────────────
 let _kalFilter = 'alle';
 let _kalItems = [];
@@ -641,7 +649,7 @@ function renderKalListe() {
       const isVorstellung = (ev.marker==='Vorstellung') || (ev.konzertart && ev.konzertart.length>0);
       const werke = (ev.werke||[]);
       const hatDetails = werke.length > 0 || (ev.leitung&&ev.leitung.length);
-      const sub = [ev.uhrzeit||'', ev.ort||''].filter(Boolean).join(' · ');
+      const sub = [zeitText(ev), ev.ort||''].filter(Boolean).join(' · ');
       const kid = 'kal-'+kalIdx++;
       const typKlasse = 'typ-'+(typ==='blattspiel'?'blattspiel':typ==='repertoire'?'repertoire':typ==='wk'?'wk':typ==='hso'?'hso':'sonder');
       const titelText = ohnestern(ev._titel||projekt);
@@ -747,7 +755,7 @@ async function ladeUeEvents(projektName, sj){
     const datObj = parseDatum(ev.datum); if(!datObj) return null;
     const datAnzeige = ev.datum || ddmmyyyy(datObj);
     const wt = WT[datObj.getDay()];
-    let kopf = wt+', '+datAnzeige+(ev.uhrzeit?' '+ev.uhrzeit:'')+'    '+ohnestern(ev._titel||projektName);
+    let kopf = wt+', '+datAnzeige+(ev.uhrzeit?' '+zeitText(ev):'')+'    '+ohnestern(ev._titel||projektName);
     if(ev.ort) kopf += '    |    '+ev.ort;
     const werke = (ev.werke||[]);
     const leitung = ev.leitung||[];
