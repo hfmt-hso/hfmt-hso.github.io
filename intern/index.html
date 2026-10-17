@@ -160,7 +160,7 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 .kal-day{margin-bottom:16px}
 .kal-day-h{font-size:11px;font-weight:700;font-family:var(--mono);color:var(--ink3);text-transform:uppercase;letter-spacing:0.08em;padding:4px 0;border-bottom:1px solid var(--border);margin-bottom:8px}
 .kal-event{display:flex;gap:10px;padding:9px 12px;background:#fff;border:1px solid var(--border);border-radius:8px;margin-bottom:5px;box-shadow:var(--shadow)}
-.kal-time{font-size:11px;font-family:var(--mono);color:var(--ink3);width:36px;flex-shrink:0;padding-top:1px}
+.kal-time{font-size:11px;font-family:var(--mono);color:var(--ink3);width:78px;flex-shrink:0;padding-top:1px}
 .kal-info{flex:1;min-width:0}
 .kal-titel{font-size:13px;font-weight:600;line-height:1.2}
 .kal-ort{font-size:11px;color:var(--ink3);margin-top:2px}
@@ -1032,6 +1032,13 @@ function getKuerzel(n){
 }
 function istBR(n){return /Blattspiel|Repertoire/i.test(n);}
 function ohnestern(s){return String(s||'').replace(/^\*/,'');}
+// Zeitangabe mit Endzeit: "14:15–16:00 Uhr" (ohne Endzeit: "14:15 Uhr")
+function zeitText(ev){
+  var a=String((ev&&ev.uhrzeit)||'').replace(/\s*Uhr\s*$/,'').trim();
+  var b=String((ev&&ev.endzeit)||'').replace(/\s*Uhr\s*$/,'').trim();
+  if(!a) return '';
+  return (b&&b!==a)? a+'\u2013'+b+' Uhr' : a+' Uhr';
+}
 function parseDatum(s){
   if(!s)return null;
   var str=String(s).trim();
@@ -1202,7 +1209,7 @@ var _abwLive=null; async function ladeAbwLive(){ try{ var r=await fetch(WEB_APP_
           '<div style="width:1px;height:28px;background:var(--border);flex-shrink:0"></div>'+
           '<div style="flex:1;min-width:0">'+
             '<div style="font-size:13px;font-weight:'+(isVorstellung?'700':'500')+';color:var(--ink)">'+esc(ev._titel||item.projekt)+'</div>'+
-            '<div style="font-size:11px;color:var(--ink3);margin-top:2px">'+esc(ev.uhrzeit||'')+(ev.ort?' · '+esc(ev.ort):'')+'</div>'+
+            '<div style="font-size:11px;color:var(--ink3);margin-top:2px">'+esc(zeitText(ev))+(ev.ort?' · '+esc(ev.ort):'')+'</div>'+
             (abwText(ev)?'<div style="font-size:11px;color:var(--red);font-weight:600;margin-top:2px">Abwesend: '+esc(abwText(ev))+'</div>':'')+
           '</div>'+
           (hatProg?'<div id="chev-'+kid+'" style="color:var(--ink3);font-size:11px;flex-shrink:0;transition:transform 0.2s">▾</div>':'')+
@@ -1533,7 +1540,7 @@ async function ladeUeEvents(projektName,sj){
     var datObj=parseDatum(ev.datum);if(!datObj)return null;
     var datAnzeige=ev.datum||ddmmyyyy(datObj);
     var wt=WT[datObj.getDay()];
-    var kopf=wt+', '+datAnzeige+(ev.uhrzeit?' '+ev.uhrzeit:'')+'    '+ohnestern(ev._titel||projektName);
+    var kopf=wt+', '+datAnzeige+(ev.uhrzeit?' '+zeitText(ev):'')+'    '+ohnestern(ev._titel||projektName);
     if(ev.ort)kopf+='    |    '+ev.ort;
     var werke=(ev.werke||[]);
     var leitung='';
@@ -1669,7 +1676,7 @@ async function ladenProgramm(){
     events.forEach(function(ev){
       var werke=(ev.werke||[]);
       html+='<div class="prog-event"><div class="prog-titel">'+esc(ev._titel||p)+'</div>';
-      html+='<div class="prog-datum">'+esc(ev.datum||'')+(ev.uhrzeit?' · '+esc(ev.uhrzeit):'')+(ev.ort?' · '+esc(ev.ort):'')+'</div>';
+      html+='<div class="prog-datum">'+esc(ev.datum||'')+(ev.uhrzeit?' · '+esc(zeitText(ev)):'')+(ev.ort?' · '+esc(ev.ort):'')+'</div>';
       if(werke.length){
         html+='<div style="margin-top:8px">';
         werke.forEach(function(w){
@@ -1717,7 +1724,7 @@ async function ladenKalender(){
       var titel=ev._titel||'';
       var dot=titel.startsWith('HSO')?'':titel.startsWith('WK')?' green':' gold';
       html+='<div class="kal-event"><div class="kal-dot'+dot+'"></div>'+
-        '<div class="kal-time">'+esc((ev.uhrzeit||'').replace(' Uhr',''))+'</div>'+
+        '<div class="kal-time">'+esc(zeitText(ev).replace(' Uhr',''))+'</div>'+
         '<div class="kal-info"><div class="kal-titel">'+esc(titel)+'</div>'+
         '<div class="kal-ort">'+esc(ev.ort||'')+'</div></div></div>';
     });
