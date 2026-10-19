@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-19T02:06:54.437Z",
+  "generiert": "2026-10-19T15:19:48.243Z",
   "events": [
     {
       "datum": "26.10.2026",
@@ -1200,7 +1200,7 @@
     },
     {
       "datum": "03.02.2027",
-      "uhrzeit": "13:00 Uhr",
+      "uhrzeit": "18:00 Uhr",
       "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": null,
@@ -1211,7 +1211,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
-      "endzeit": "16:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "_eventId": "10cfqhqaeu35s29b6e56culk54@google.com",
       "_titel": "HSO 2 OA Cello"
     },
