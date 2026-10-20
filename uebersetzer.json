@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-20T02:07:13.287Z",
+  "generiert": "2026-10-20T10:58:45.216Z",
   "events": [
     {
       "datum": "26.10.2026",
@@ -1183,8 +1183,8 @@
     },
     {
       "datum": "03.02.2027",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Forum",
+      "uhrzeit": "18:00 Uhr",
+      "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -1194,14 +1194,14 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
-      "endzeit": "13:00 Uhr",
+      "endzeit": "21:00 Uhr",
       "_eventId": "0t9a0gekjaoaq17d1jir6mkf8l@google.com",
       "_titel": "HSO 2 OA Kontrabass"
     },
     {
       "datum": "03.02.2027",
       "uhrzeit": "18:00 Uhr",
-      "ort": "Orchesterstudio",
+      "ort": "Ensemblestudio",
       "konzertart": null,
       "marker": null,
       "werke": [],
