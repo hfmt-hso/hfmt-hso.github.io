@@ -466,7 +466,8 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
         <button class="proj-sj-btn" id="awf-offen" onclick="untAwFilter('offen',this)">Offen</button>
         <button class="proj-sj-btn" id="awf-gesehen" onclick="untAwFilter('gesehen',this)">Gesehen</button>
         <button class="proj-sj-btn" id="awf-ruecksprache" onclick="untAwFilter('ruecksprache',this)">Rücksprache</button>
-        <button style="margin-left:auto;padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:var(--sans)" onclick="ladeUntAw(true)">↻</button>
+        <button class="proj-sj-btn unt-verg-btn" style="margin-left:auto" onclick="untVergToggle()">Vergangene anzeigen</button>
+        <button style="margin-left:0;padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:var(--sans)" onclick="ladeUntAw(true)">↻</button>
       </div>
       <div id="unt-aw-liste"><div class="spinner"><div class="spin"></div>Lade...</div></div>
     </div>
@@ -474,7 +475,8 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       <div style="display:flex;gap:6px;margin-bottom:10px;align-items:center">
         <button class="proj-sj-btn active" id="buch-alle" onclick="untBuchFilter('alle',this)">Alle</button>
         <button class="proj-sj-btn" id="buch-meine" onclick="untBuchFilter('meine',this)">Meine</button>
-        <button style="margin-left:auto;padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:var(--sans)" onclick="ladeUntBuchungen(true)">↻</button>
+        <button class="proj-sj-btn unt-verg-btn" style="margin-left:auto" onclick="untVergToggle()">Vergangene anzeigen</button>
+        <button style="margin-left:0;padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:var(--sans)" onclick="ladeUntBuchungen(true)">↻</button>
       </div>
       <div id="unt-buch-liste"><div class="spinner"><div class="spin"></div>Lade...</div></div>
     </div>
@@ -1819,7 +1821,7 @@ function untAwStatus(aw){return aw.status||(aw.gesehenVon?'gesehen':'offen');}
 function renderUntAw(){
   var el=document.getElementById('unt-aw-liste');
   if(!_untAwDaten)return;
-  var liste=_untAwDaten;
+  var liste=_untVergZeigen?_untAwDaten:_untAwDaten.filter(function(a){return !untVergangen(a.datumBis||a.datumVon);});
   if(_untAwFilter!=='alle')liste=liste.filter(a=>untAwStatus(a)===_untAwFilter);
   if(!liste.length){el.innerHTML='<div class="empty">Keine Abwesenheiten</div>';return;}
   var btnBase='padding:6px 12px;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:var(--sans);';
@@ -1916,10 +1918,14 @@ function untBuchFilter(filter,btn){
   renderUntBuchungen();
 }
 
+var _untVergZeigen=false;
+function untVergangen(datum){var d=parseDatum(datum);if(!d)return false;var h=new Date();h.setHours(0,0,0,0);return d<h;}
+function untVergToggle(){_untVergZeigen=!_untVergZeigen;document.querySelectorAll('.unt-verg-btn').forEach(function(b){b.classList.toggle('active',_untVergZeigen);b.textContent=_untVergZeigen?'Vergangene ausblenden':'Vergangene anzeigen';});if(_untBuchDaten)renderUntBuchungen();if(_untAwDaten)renderUntAw();}
+
 function renderUntBuchungen(){
   var el=document.getElementById('unt-buch-liste');
   if(!_untBuchDaten)return;
-  var liste=_untBuchDaten;
+  var liste=_untVergZeigen?_untBuchDaten:_untBuchDaten.filter(function(b){return !untVergangen(b.datum);});
   if(_untBuchFilter==='meine')liste=liste.filter(function(b){return untDozentPasst(b.dozent,UNT_ME);});
   if(!liste.length){el.innerHTML='<div class="empty">Keine Buchungen</div>';return;}
   var gruppen={};
