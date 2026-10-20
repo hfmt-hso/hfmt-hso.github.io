@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-20T02:07:17.146Z",
+  "generiert": "2026-10-20T10:58:50.552Z",
   "data": [
     {
       "id": "UT_20261014_9",
@@ -249,30 +249,6 @@
         {
           "slotId": "s_3",
           "uhrzeit": "17:00"
-        }
-      ],
-      "notizen": ""
-    },
-    {
-      "id": "UT_20261026_16",
-      "datum": "26.10.2026",
-      "projekt": "Gruppenunterricht Song",
-      "marker": "Gruppenunterricht",
-      "dozent": "Song",
-      "uhrzeit": "15:30",
-      "ort": "Rot 203",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "15:30"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "16:30"
-        },
-        {
-          "slotId": "s_2",
-          "uhrzeit": "17:30"
         }
       ],
       "notizen": ""
