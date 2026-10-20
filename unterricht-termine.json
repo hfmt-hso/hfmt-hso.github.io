@@ -1,26 +1,6 @@
 {
-  "generiert": "2026-10-19T19:10:05.407Z",
+  "generiert": "2026-10-20T02:07:17.146Z",
   "data": [
-    {
-      "id": "UT_20261012_8",
-      "datum": "12.10.2026",
-      "projekt": "Gruppenunterricht Dorsch",
-      "marker": "Gruppenunterricht",
-      "dozent": "Dorsch",
-      "uhrzeit": "11:00",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "11:00"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "12:00"
-        }
-      ],
-      "notizen": "Le nozze di Figaro, Ouvertüre | Il barbiere di Siviglia, Ouvertüre |\nSinfonie Nr. 86 D-Dur"
-    },
     {
       "id": "UT_20261014_9",
       "datum": "14.10.2026",
