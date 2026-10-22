@@ -227,6 +227,7 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 #login-gate .lg-screen{display:none}
 #login-gate .lg-screen.active{display:block}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 <div id="login-gate">
@@ -494,13 +495,70 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       <div id="unt-probe-inhalt"><div class="spinner"><div class="spin"></div>Lade...</div></div>
     </div>
     <div id="ut-icom" class="ut-pane">
-      <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
-        <span style="font-size:12px;color:var(--ink3);flex:1;min-width:160px">International College of Music · 3 × 45 Min. Einzel + 45 Min. Gruppe je Block<br><a href="https://hfmt-hso.github.io/icom.html" target="_blank" style="color:var(--blue);font-weight:600;text-decoration:none">🎼 Portal für die Studierenden: hfmt-hso.github.io/icom.html ↗</a></span>
-        <label style="font-size:12px;color:var(--ink3);display:flex;align-items:center;gap:5px;cursor:pointer;white-space:nowrap"><input type="checkbox" onchange="untIcomAltToggle(this)"> Vergangene</label>
-        <button onclick="untIcomSync()" style="padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:12px;cursor:pointer;font-family:var(--sans)">Kalender abgleichen</button>
-        <button onclick="ladeUntIcom(true)" style="padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:13px;cursor:pointer;">↻</button>
+      <div style="display:flex;gap:6px;margin-bottom:12px">
+        <button class="proj-sj-btn icom-sub active" data-sub="icom-p-termine" onclick="icomSub(this)">Termine</button>
+        <button class="proj-sj-btn icom-sub" data-sub="icom-p-aw" onclick="icomSub(this)">Abwesenheiten</button>
+        <button class="proj-sj-btn icom-sub" data-sub="icom-p-abr" onclick="icomSub(this)">Abrechnung</button>
       </div>
-      <div id="unt-icom-liste"><div class="spinner"><div class="spin"></div>Lade...</div></div>
+      <div id="icom-p-termine" class="icom-subpane">
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+          <span style="font-size:12px;color:var(--ink3);flex:1;min-width:160px">International College of Music · 3 × 45 Min. Einzel + 45 Min. Gruppe je Block<br><a href="https://hfmt-hso.github.io/icom.html" target="_blank" style="color:var(--blue);font-weight:600;text-decoration:none">🎼 Portal für die Studierenden: hfmt-hso.github.io/icom.html ↗</a></span>
+          <label style="font-size:12px;color:var(--ink3);display:flex;align-items:center;gap:5px;cursor:pointer;white-space:nowrap"><input type="checkbox" onchange="untIcomAltToggle(this)"> Vergangene</label>
+          <button onclick="untIcomSync()" style="padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:12px;cursor:pointer;font-family:var(--sans)">Kalender abgleichen</button>
+          <button onclick="ladeUntIcom(true)" style="padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:13px;cursor:pointer;">↻</button>
+        </div>
+        <div id="unt-icom-liste"><div class="spinner"><div class="spin"></div>Lade...</div></div>
+      </div>
+      <div id="icom-p-aw" class="icom-subpane" style="display:none">
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px">
+          <span style="font-size:12px;color:var(--ink3);flex:1">Abwesenheiten der ICoM-Studierenden – nur hier sichtbar, getrennt von den HfMT-Meldungen.</span>
+          <button onclick="ladeIcomAw(true)" style="padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:13px;cursor:pointer;">↻</button>
+        </div>
+        <div id="icom-aw-liste"></div>
+      </div>
+      <div id="icom-p-abr" class="icom-subpane" style="display:none">
+        <div style="background:var(--gold-bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.55;margin-bottom:12px">
+          <strong>Abrechnungsinformationen ICoM</strong><br>
+          • Freie Mitarbeit; Vergütung nach vereinbartem Stundensatz und den im Monat erteilten Stunden, nach Monatsende.<br>
+          • Aufstellung der erteilten Stunden <strong>monatlich am Anfang des Folgemonats</strong> in der Geschäftsstelle abgeben (office@icom-hamburg.de, Helene-Lange-Straße 1, 20144 Hamburg).<br>
+          • Einheiten: 1 Einheit Gesang = 45 Min./37,50 €; 1 Einheit übrige = 60 Min./<strong>60,00 €</strong>. Der Unterricht wird stundenweise abgerechnet (ein 3-Stunden-Block = 3 Einheiten).<br>
+          • Keine Umsatzsteuer (befreite Unterrichtsleistung gem. § 4 Nr. 21 a) bb) UStG); Steuernummer nur nötig, wenn umsatzsteuerpflichtig.<br>
+          • Kundenschutz zugunsten des ICoM für 12 Monate nach Studienabschluss. Kontingent der Studierenden im Blick behalten.<br>
+          • Kontakt: Office (Frau Wang) Mo–Fr 9–14 Uhr, Tel. 040 35714753; Geschäftsführerin Yuchun Lu, Tel. 015906783595.
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+          <label style="font-size:11px;color:var(--ink3)">Monat<br><input type="month" id="abr-monat" onchange="icomAbrNrSetzen()" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:7px;font-family:var(--sans)"></label>
+          <label style="font-size:11px;color:var(--ink3)">Abrechnung Nr.<br><input id="abr-nr" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:7px;font-family:var(--sans)"></label>
+          <label style="font-size:11px;color:var(--ink3)">Fach<br><input id="abr-fach" value="Dirigieren" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:7px;font-family:var(--sans)"></label>
+          <label style="font-size:11px;color:var(--ink3)">€ je Einheit<br><input id="abr-preis" value="60" onchange="renderIcomAbr()" style="width:100%;padding:7px;border:1px solid var(--border);border-radius:7px;font-family:var(--sans)"></label>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--ink3);margin:8px 0 4px">Absender (wird nur in diesem Browser gespeichert)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+          <input id="abr-name" placeholder="Name" style="padding:7px;border:1px solid var(--border);border-radius:7px;font-family:var(--sans)">
+          <input id="abr-anschrift" placeholder="Anschrift" style="padding:7px;border:1px solid var(--border);border-radius:7px;font-family:var(--sans)">
+          <input id="abr-tel" placeholder="Tel." style="padding:7px;border:1px solid var(--border);border-radius:7px;font-family:var(--sans)">
+          <input id="abr-mail" placeholder="E-Mail" style="padding:7px;border:1px solid var(--border);border-radius:7px;font-family:var(--sans)">
+          <input id="abr-bank" placeholder="Bank" style="padding:7px;border:1px solid var(--border);border-radius:7px;font-family:var(--sans)">
+          <input id="abr-iban" placeholder="IBAN" style="padding:7px;border:1px solid var(--border);border-radius:7px;font-family:var(--sans)">
+          <input id="abr-bic" placeholder="BIC" style="padding:7px;border:1px solid var(--border);border-radius:7px;font-family:var(--sans)">
+          <input id="abr-steuernr" placeholder="Steuernummer" style="padding:7px;border:1px solid var(--border);border-radius:7px;font-family:var(--sans)">
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--ink3);margin:0 0 4px">Unterschrift (einmal als Bild hochladen, nur in diesem Browser gespeichert)</div>
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px">
+          <input type="file" accept="image/*" onchange="icomSigLaden(this)" style="font-size:12px;max-width:230px">
+          <img id="abr-sig-vorschau" style="display:none;height:40px;border:1px solid var(--border);border-radius:6px;background:#fff">
+          <button id="abr-sig-weg" onclick="icomSigEntfernen()" style="display:none;border:none;background:none;color:var(--red);cursor:pointer;font-size:12px">entfernen</button>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px">
+          <button onclick="icomAbrLaden()" style="padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:12px;cursor:pointer;font-family:var(--sans)">Aus Buchungen laden</button>
+          <button onclick="icomAbrZeileNeu()" style="padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:12px;cursor:pointer;font-family:var(--sans)">+ Zeile</button>
+        </div>
+        <div id="icom-abr-zeilen"></div>
+        <div id="icom-abr-summe" style="margin-top:10px;font-weight:700;font-size:13px;text-align:right">Summe: 0,00 €</div>
+        <button onclick="icomAbrPdfErzeugen()" style="margin-top:10px;width:100%;padding:12px;border:none;border-radius:10px;background:var(--blue);color:#fff;font-weight:700;font-size:14px;cursor:pointer;font-family:var(--sans)">📄 PDF herunterladen</button>
+        <button onclick="icomAbrMailEntwurf()" style="margin-top:8px;width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:#fff;font-weight:600;font-size:13px;cursor:pointer;font-family:var(--sans)">✉️ E-Mail-Entwurf an office@icom-hamburg.de</button>
+        <div style="font-size:11px;color:var(--ink3);margin-top:4px">Das PDF bitte nach dem Download selbst an den Entwurf anhängen (ein Mail-Link kann keine Anhänge mitgeben).</div>
+      </div>
     </div>
   </div>
 
@@ -1814,6 +1872,7 @@ function wechselUntTab(btn){
 }
 
 async function ladenUnterricht(){
+  var _ic=document.querySelector('[data-utab="ut-icom"]');if(_ic&&internCred().nutzer!=='thomas.dorsch')_ic.style.display='none';
   _untTabGeladen['ut-abwesenheiten']=true;
   ladeUntAw(false);
 }
@@ -2252,6 +2311,260 @@ async function untIcomSync(){
     ladeUntIcom(true);
   }catch(e){zeigToast('Verbindungsfehler');}
 }
+
+// ── ICoM: Untermenü, Abwesenheiten, Abrechnung ─────────────────────────────
+function icomSub(btn){
+  document.querySelectorAll('.icom-sub').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.icom-subpane').forEach(function(p){p.style.display='none';});
+  btn.classList.add('active');
+  document.getElementById(btn.dataset.sub).style.display='block';
+  if(btn.dataset.sub==='icom-p-aw'&&!_icomAw)ladeIcomAw(false);
+  if(btn.dataset.sub==='icom-p-abr')icomAbrInit();
+}
+
+// Abwesenheiten
+var _icomAw=null;
+async function ladeIcomAw(force){
+  var el=document.getElementById('icom-aw-liste');
+  if(force)_icomAw=null;
+  if(_icomAw){renderIcomAw();return;}
+  el.innerHTML=untSpinner();
+  try{
+    var d=await untGet('icomAwAlle');
+    if(!d||!d.ok)throw new Error(d&&d.error||'Fehler');
+    _icomAw=d.data||[];renderIcomAw();
+  }catch(e){el.innerHTML='<div class="empty" style="color:var(--red)">Fehler: '+esc(e.message)+'</div>';}
+}
+function renderIcomAw(){
+  var el=document.getElementById('icom-aw-liste');
+  if(!_icomAw)return;
+  if(!_icomAw.length){el.innerHTML='<div class="empty">Keine ICoM-Abwesenheiten gemeldet.</div>';return;}
+  var entw={};
+  el.querySelectorAll('input[id^="icaw-k-"]').forEach(function(i){if(i.value)entw[i.id]=i.value;});
+  el.innerHTML=_icomAw.map(function(a){
+    var badge=a.status==='gesehen'?'<span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;background:var(--green-bg);color:var(--green)">✓ Bestätigt</span>':
+      a.status==='ruecksprache'?'<span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;background:var(--gold-bg);color:var(--gold2)">💬 Rücksprache</span>':
+      '<span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;background:var(--gold-bg);color:var(--gold2)">Offen</span>';
+    var id=esc(a.id),kv=entw.hasOwnProperty('icaw-k-'+a.id)?entw['icaw-k-'+a.id]:'';
+    var knopf='padding:6px 10px;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans);';
+    var akt=a.status==='offen'?
+      '<input id="icaw-k-'+id+'" placeholder="Kommentar (optional)…" value="'+esc(kv)+'" style="width:100%;margin-top:8px;padding:7px 10px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff">'+
+      '<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button style="'+knopf+'background:var(--green-bg);color:var(--green)" onclick="icomAwAktion(\''+id+'\',\'icomAwGesehen\')">✓ Gesehen</button>'+
+      '<button style="'+knopf+'background:var(--gold-bg);color:var(--gold2)" onclick="icomAwAktion(\''+id+'\',\'icomAwRuecksprache\')">💬 Rücksprache</button>'+
+      '<button style="'+knopf+'background:var(--red-bg);color:var(--red)" onclick="icomAwLoesch(\''+id+'\')">🗑</button></div>':
+      '<div style="display:flex;gap:6px;margin-top:8px"><button style="'+knopf+'background:#fff;border:1px solid var(--border);color:var(--ink3)" onclick="icomAwAktion(\''+id+'\',\'icomAwZurueck\')">↩ Zurücksetzen</button>'+
+      '<button style="'+knopf+'background:var(--red-bg);color:var(--red)" onclick="icomAwLoesch(\''+id+'\')">🗑</button></div>';
+    return '<div class="tcard" style="flex-wrap:wrap"><div style="width:100%"><div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start">'+
+      '<div><div style="font-size:13px;font-weight:700">'+esc(a.name)+'</div><div style="font-size:12px;margin-top:2px">'+esc(a.datumVon)+' '+esc(a.uhrzeitVon)+' – '+esc(a.datumBis)+' '+esc(a.uhrzeitBis)+' Uhr</div>'+
+      '<div style="font-size:12px;color:var(--ink3);margin-top:3px">'+esc(a.grund)+'</div>'+(a.gesehenKommentar?'<div style="font-size:11px;color:var(--green);margin-top:3px;font-style:italic">💬 '+esc(a.gesehenKommentar)+'</div>':'')+'</div>'+badge+'</div>'+akt+'</div></div>';
+  }).join('');
+}
+async function icomAwAktion(id,action){
+  var k=document.getElementById('icaw-k-'+id);
+  try{
+    var d=await untPost({action:action,id:id,gesehenVon:UNT_ME,kommentar:k?k.value.trim():''});
+    if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
+    zeigToast('✓ Gespeichert');ladeIcomAw(true);
+  }catch(e){zeigToast('Verbindungsfehler');}
+}
+async function icomAwLoesch(id){
+  if(!confirm('Abwesenheit wirklich löschen?'))return;
+  try{
+    var d=await untPost({action:'icomAwLoeschen',id:id});
+    if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
+    zeigToast('✓ Gelöscht');ladeIcomAw(true);
+  }catch(e){zeigToast('Verbindungsfehler');}
+}
+
+// Abrechnung (PDF im Formular des ICoM)
+var ICOM_ABR_KEY='hsoIntern_icomAbr';
+var _icomAbrZeilen=[];
+var ICOM_ABR_FELDER=['name','anschrift','tel','mail','bank','iban','bic','steuernr'];
+function icomAbrFelder(){
+  var s={};try{s=JSON.parse(localStorage.getItem(ICOM_ABR_KEY)||'{}')||{};}catch(e){}
+  var std={name:'Thomas Dorsch',anschrift:'Schulstraße 28, 23899 Gudow',tel:'+49 163 1630 623',mail:'t.dorsch@gmail.com',bank:'',iban:'',bic:'',steuernr:''};
+  ICOM_ABR_FELDER.forEach(function(k){var el=document.getElementById('abr-'+k);if(el)el.value=(s[k]!==undefined?s[k]:std[k]);});
+}
+function icomAbrFelderSpeichern(){
+  var s={};ICOM_ABR_FELDER.forEach(function(k){s[k]=document.getElementById('abr-'+k).value.trim();});
+  try{localStorage.setItem(ICOM_ABR_KEY,JSON.stringify(s));}catch(e){}
+}
+var ICOM_SIG_KEY='hsoIntern_icomSig';
+var ICOM_ABR_MAIL='office@icom-hamburg.de';
+function icomSigHolen(){try{return localStorage.getItem(ICOM_SIG_KEY)||'';}catch(e){return '';}}
+function icomSigAnzeigen(){
+  var s=icomSigHolen(),im=document.getElementById('abr-sig-vorschau'),b=document.getElementById('abr-sig-weg');
+  if(!im)return;
+  im.style.display=s?'':'none';b.style.display=s?'':'none';if(s)im.src=s;
+}
+function icomSigLaden(inp){
+  var f=inp.files&&inp.files[0];if(!f)return;
+  var fr=new FileReader();
+  fr.onload=function(){
+    var img=new Image();
+    img.onload=function(){
+      var mw=600,sc=Math.min(1,mw/img.width),c=document.createElement('canvas');
+      c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);
+      var x=c.getContext('2d');x.drawImage(img,0,0,c.width,c.height);
+      // helle Pixel transparent machen, damit die Unterschrift sauber auf dem Formular liegt
+      var id=x.getImageData(0,0,c.width,c.height),p=id.data;
+      for(var i=0;i<p.length;i+=4){var l=(p[i]+p[i+1]+p[i+2])/3;if(l>225)p[i+3]=0;}
+      x.putImageData(id,0,0);
+      try{localStorage.setItem(ICOM_SIG_KEY,c.toDataURL('image/png'));}catch(e){zeigToast('Unterschrift konnte nicht gespeichert werden.');}
+      icomSigAnzeigen();zeigToast('Unterschrift gespeichert.');
+    };
+    img.src=fr.result;
+  };
+  fr.readAsDataURL(f);
+}
+function icomSigEntfernen(){try{localStorage.removeItem(ICOM_SIG_KEY);}catch(e){}icomSigAnzeigen();}
+function icomAbrMailEntwurf(){
+  var mon=document.getElementById('abr-monat').value||'';
+  var mm=mon?mon.slice(5,7)+'/'+mon.slice(0,4):'';
+  var betreff='Unterrichtsabrechnung '+mm+' – Thomas Dorsch';
+  var text='Sehr geehrte Damen und Herren,\n\nanbei meine Unterrichtsabrechnung für '+mm+' (Dirigieren).\n\nMit freundlichen Grüßen\nThomas Dorsch';
+  window.location.href='mailto:'+ICOM_ABR_MAIL+'?subject='+encodeURIComponent(betreff)+'&body='+encodeURIComponent(text);
+}
+function icomAbrInit(){
+  icomSigAnzeigen();
+  if(document.getElementById('abr-name').dataset.init)return;
+  document.getElementById('abr-name').dataset.init='1';
+  icomAbrFelder();
+  var h=new Date();
+  document.getElementById('abr-monat').value=h.getFullYear()+'-'+String(h.getMonth()+1).padStart(2,'0');
+  icomAbrNrSetzen();
+}
+function icomAbrNrSetzen(){document.getElementById('abr-nr').value=document.getElementById('abr-monat').value||'';}
+async function icomAbrLaden(){
+  var mon=document.getElementById('abr-monat').value;
+  if(!mon){zeigToast('Bitte Monat wählen.');return;}
+  icomAbrNrSetzen();
+  var y=parseInt(mon.slice(0,4),10),m=parseInt(mon.slice(5,7),10);
+  try{
+    var d=await untGet('icomTermine','&ab='+mon+'-01');
+    if(!d||!d.ok)throw new Error(d&&d.error||'Fehler');
+    var z=[];
+    d.data.forEach(function(t){
+      var dt=parseDatum(t.datum);
+      if(!dt||dt.getFullYear()!==y||dt.getMonth()+1!==m)return;
+      t.slots.forEach(function(s){
+        if(s.typ==='einzel'&&s.buchungId)z.push({datum:t.datum,text:s.name,einheiten:1,an:true,ts:dt.getTime()+parseInt(s.uhrzeit,10)*60000});
+      });
+    });
+    z.sort(function(a,b){return a.ts-b.ts;});
+    _icomAbrZeilen=z;
+    renderIcomAbr();
+    if(!z.length)zeigToast('Keine gebuchten Slots in diesem Monat – Zeilen lassen sich von Hand ergänzen.',4500);
+  }catch(e){zeigToast('Fehler: '+e.message);}
+}
+function icomAbrPreis(){var p=parseFloat(String(document.getElementById('abr-preis').value).replace(',','.'));return isNaN(p)?60:p;}
+function renderIcomAbr(){
+  var el=document.getElementById('icom-abr-zeilen'),preis=icomAbrPreis(),sum=0;
+  var inp='padding:5px 7px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:var(--sans);background:#fff;';
+  el.innerHTML=_icomAbrZeilen.map(function(z,i){
+    var b=z.an?z.einheiten*preis:0;sum+=b;
+    return '<div style="display:flex;gap:6px;align-items:center;margin-top:6px;'+(z.an?'':'opacity:0.45')+'">'+
+      '<input type="checkbox" '+(z.an?'checked':'')+' onchange="_icomAbrZeilen['+i+'].an=this.checked;renderIcomAbr()">'+
+      '<input style="'+inp+'width:86px" value="'+esc(z.datum)+'" onchange="_icomAbrZeilen['+i+'].datum=this.value;renderIcomAbr()">'+
+      '<input style="'+inp+'flex:1;min-width:90px" value="'+esc(z.text)+'" onchange="_icomAbrZeilen['+i+'].text=this.value">'+
+      '<input style="'+inp+'width:48px;text-align:right" value="'+String(z.einheiten).replace('.',',')+'" onchange="var v=parseFloat(this.value.replace(\',\',\'.\'));_icomAbrZeilen['+i+'].einheiten=isNaN(v)?1:v;renderIcomAbr()">'+
+      '<span style="width:64px;text-align:right;font-size:12px">'+b.toFixed(2).replace('.',',')+' €</span>'+
+      '<button onclick="_icomAbrZeilen.splice('+i+',1);renderIcomAbr()" style="border:none;background:none;color:var(--red);cursor:pointer;font-size:14px">✕</button></div>';
+  }).join('')||'<div class="empty">Noch keine Zeilen. „Aus Buchungen laden“ oder „+ Zeile“.</div>';
+  document.getElementById('icom-abr-summe').textContent='Summe: '+sum.toFixed(2).replace('.',',')+' €';
+}
+function icomAbrZeileNeu(){
+  var mon=document.getElementById('abr-monat').value||'';
+  _icomAbrZeilen.push({datum:mon?'01.'+mon.slice(5,7)+'.'+mon.slice(0,4):'',text:'',einheiten:1,an:true,ts:0});
+  renderIcomAbr();
+}
+function icomAbrPdfErzeugen(){
+  var mon=document.getElementById('abr-monat').value;
+  if(!mon){zeigToast('Bitte Monat wählen.');return;}
+  if(!window.jspdf){zeigToast('PDF-Bibliothek nicht geladen (Internet?).');return;}
+  icomAbrFelderSpeichern();
+  var y=parseInt(mon.slice(0,4),10),m=parseInt(mon.slice(5,7),10),letzter=new Date(y,m,0).getDate();
+  var pad=function(n){return String(n).padStart(2,'0');},preis=icomAbrPreis(),h=new Date();
+  var A={};ICOM_ABR_FELDER.forEach(function(k){A[k]=document.getElementById('abr-'+k).value.trim();});
+  var zeilen=_icomAbrZeilen.filter(function(z){return z.an;}).map(function(z){return {datum:z.datum,text:z.text,einheiten:z.einheiten,betrag:z.einheiten*preis};});
+  var r=icomAbrPdf({nr:document.getElementById('abr-nr').value.trim(),zeitraum:'01.'+pad(m)+'.'+y+' – '+pad(letzter)+'.'+pad(m)+'.'+y,fach:document.getElementById('abr-fach').value.trim(),preis:preis,absender:A,signatur:icomSigHolen(),datum:pad(h.getDate())+'.'+pad(h.getMonth()+1)+'.'+h.getFullYear(),zeilen:zeilen});
+  r.doc.save('ICoM_Abrechnung_'+mon+'_Dorsch.pdf');
+}
+// Erzeugt die ICoM-Unterrichtsabrechnung als PDF (jsPDF). d: {nr, zeitraum, fach, preis, absender{name,anschrift,tel,mail,bank,iban,bic,steuernr}, datum, zeilen[{datum,text,einheiten,betrag}]}
+function icomAbrPdf(d) {
+  var J = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+  var doc = new J({ unit: 'mm', format: 'a4' });
+  var L = 25, R = 185, A = d.absender || {};
+  function eur(n) { return n.toFixed(2).replace('.', ',') + ' €'; }
+  function zahl(n) { return String(Math.round(n * 100) / 100).replace('.', ','); }
+  doc.setFont('helvetica', 'normal'); doc.setTextColor(0);
+
+  // Empfänger
+  doc.setFont('times', 'normal'); doc.setFontSize(11);
+  doc.text(['International College of Music', 'Hamburg GmbH', 'Helene-Lange-Straße 1', '', '20144   Hamburg'], L, 57);
+
+  // Absender rechts
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+  var X = 131, rows = [['Name', A.name, 34], ['Anschrift', A.anschrift, 41.5], ['Tel.', A.tel, 55], ['mail', A.mail, 66.5], ['Bank', A.bank, 73.5], ['IBAN', A.iban, 81.5], ['BIC', A.bic, 89.5], ['Steuernummer', A.steuernr, 102], ['Datum', d.datum, 109]];
+  rows.forEach(function(r) {
+    doc.text(r[0] + ':', X, r[2]);
+    if (r[1]) {
+      var w = doc.getTextWidth(r[0] + ': ');
+      var t = doc.splitTextToSize(String(r[1]), 185 - X - w);
+      doc.setFontSize(9); doc.text(t[0], X + w + 0.5, r[2]); doc.setFontSize(8);
+    }
+  });
+  doc.setLineWidth(0.2);
+  [61.5, 96.5, 111].forEach(function(y) { doc.line(X, y, R, y); });
+
+  // Titel
+  doc.setFont('times', 'bold'); doc.setFontSize(11);
+  doc.text('U N T E R R I C H T S – A B R E C H N U N G   Nr. ' + (d.nr || ''), L, 124);
+  doc.text('Zeitraum:', L, 133.5); doc.setFont('times', 'normal'); doc.text(d.zeitraum || '', L + 22, 133.5);
+  doc.line(L, 137.5, R, 137.5);
+  doc.setFont('times', 'normal');
+  doc.text('Für erteilten Unterricht (Fach: ' + (d.fach || '_______________') + ' ) am ICoM berechne ich Ihnen wie folgt:', L, 145.5);
+
+  // Tabelle
+  var cD = L, cU = 48, cE = 120, cP = 137, cB = R;
+  function kopf(y) {
+    doc.setFontSize(10.5);
+    doc.text('Daten', cD, y); doc.text('Unterricht (Student)', cU, y); doc.text('Einheiten*', cE, y, { align: 'right' });
+    doc.text('à ' + zahl(d.preis) + ' €', cP, y); doc.text('Betrag  EUR', cB, y, { align: 'right' });
+    var w = [['Daten', cD], ['Unterricht (Student)', cU], ['à ' + zahl(d.preis) + ' €', cP]];
+    w.forEach(function(x) { doc.line(x[1], y + 0.7, x[1] + doc.getTextWidth(x[0]), y + 0.7); });
+    doc.line(cE - doc.getTextWidth('Einheiten*'), y + 0.7, cE, y + 0.7);
+    doc.line(cB - doc.getTextWidth('Betrag  EUR'), y + 0.7, cB, y + 0.7);
+  }
+  kopf(155);
+  var y = 163, summe = 0;
+  doc.setFontSize(10.5);
+  (d.zeilen || []).forEach(function(z) {
+    if (y > 250) { doc.addPage(); kopf(30); y = 38; doc.setFontSize(10.5); }
+    doc.text(z.datum, cD, y);
+    doc.text(doc.splitTextToSize(z.text, cE - cU - 18)[0], cU, y);
+    doc.text(zahl(z.einheiten), cE, y, { align: 'right' });
+    doc.text(eur(z.betrag), cB, y, { align: 'right' });
+    summe += z.betrag; y += 6;
+  });
+  var ys = Math.max(218, y + 3);
+  if (ys > 245) { doc.addPage(); ys = 40; }
+  doc.line(L, ys, R, ys);
+  doc.text('Summe brutto für netto:', L, ys + 6);
+  doc.setFont('times', 'bold'); doc.text(eur(summe), cB, ys + 6, { align: 'right' }); doc.setFont('times', 'normal');
+  var yu = ys + 17;
+  var sig = d.signatur || '';
+  if (sig) { try { var ip = doc.getImageProperties(sig), sh = 14, sw = Math.min(55, sh * ip.width / ip.height); sh = sw * ip.height / ip.width; doc.addImage(sig, 'PNG', L + 2, yu - sh - 0.5, sw, sh); } catch (e) {} }
+  doc.line(L, yu, R, yu);
+  doc.setFontSize(7.5); doc.setFont('helvetica', 'normal'); doc.text('Unterschrift', L, yu + 3.5);
+  doc.setFont('times', 'normal'); doc.setFontSize(10.5);
+  var tx = doc.splitTextToSize('Im Rechnungsbetrag ist keine gesetzliche Umsatzsteuer enthalten (befreite Unterrichtsleistung gemäß § 4 Nr. 21 a) bb) UStG).', R - L);
+  doc.text(tx, L, yu + 11);
+  doc.setFont('helvetica', 'italic'); doc.setFontSize(8);
+  doc.text('*  1 Einheit Gesang = 45 Min./37,5 €  /  1 Einheit übrige = 60 Min./60,00 €', L, yu + 26);
+  return { doc: doc, summe: summe };
+}
+if (typeof module !== 'undefined') module.exports = icomAbrPdf;
 
 // ── Probezeiten: aus den Buchungen berechnet ──────────────
 // (Das Backend-Statistik-Endpoint "adminStats" liefert aktuell nur leere Listen.)
