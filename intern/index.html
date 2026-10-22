@@ -556,8 +556,9 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
         <div id="icom-abr-zeilen"></div>
         <div id="icom-abr-summe" style="margin-top:10px;font-weight:700;font-size:13px;text-align:right">Summe: 0,00 €</div>
         <button onclick="icomAbrPdfErzeugen()" style="margin-top:10px;width:100%;padding:12px;border:none;border-radius:10px;background:var(--blue);color:#fff;font-weight:700;font-size:14px;cursor:pointer;font-family:var(--sans)">📄 PDF herunterladen</button>
-        <button onclick="icomAbrMailEntwurf()" style="margin-top:8px;width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:#fff;font-weight:600;font-size:13px;cursor:pointer;font-family:var(--sans)">✉️ E-Mail-Entwurf an office@icom-hamburg.de</button>
-        <div style="font-size:11px;color:var(--ink3);margin-top:4px">Das PDF bitte nach dem Download selbst an den Entwurf anhängen (ein Mail-Link kann keine Anhänge mitgeben).</div>
+        <button onclick="icomAbrEntwurf()" style="margin-top:8px;width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;background:#fff;font-weight:600;font-size:13px;cursor:pointer;font-family:var(--sans)">✉️ PDF als Gmail-Entwurf an office@icom-hamburg.de speichern</button>
+        <div style="font-size:11px;color:var(--ink3);margin-top:4px">Das PDF wird als Anhang an einen Entwurf in deinem Gmail gehängt. Gesendet wird nichts – du prüfst und schickst selbst ab.</div>
+      </div>
       </div>
     </div>
   </div>
@@ -2452,7 +2453,7 @@ async function icomAbrLaden(){
       });
     });
     // Einmaliger Nachtrag: Unterricht vom 21.10.2026 (vor Start der Buchungen), Studierende von Hand eintragen
-    if(mon==='2026-10')for(var k=0;k<3;k++)z.push({datum:'21.10.2026',text:'',einheiten:1,an:true,ts:new Date(2026,9,21,10,30+k*45).getTime()});
+    if(mon==='2026-10')['Yuxuan Li','Xinyue Liang','Junwei Zhang'].forEach(function(nm,k){z.push({datum:'21.10.2026',text:nm,einheiten:1,an:true,ts:new Date(2026,9,21,10,30+k*45).getTime()});});
     z.sort(function(a,b){return a.ts-b.ts;});
     _icomAbrZeilen=z;
     renderIcomAbr();
@@ -2481,17 +2482,33 @@ function icomAbrZeileNeu(){
   _icomAbrZeilen.push({datum:lz||(mon?'01.'+mon.slice(5,7)+'.'+mon.slice(0,4):''),text:'',einheiten:1,an:true,ts:0});
   renderIcomAbr();
 }
-function icomAbrPdfErzeugen(){
+function icomAbrBauen(){
   var mon=document.getElementById('abr-monat').value;
-  if(!mon){zeigToast('Bitte Monat wählen.');return;}
-  if(!window.jspdf){zeigToast('PDF-Bibliothek nicht geladen (Internet?).');return;}
+  if(!mon){zeigToast('Bitte Monat wählen.');return null;}
+  if(!window.jspdf){zeigToast('PDF-Bibliothek nicht geladen (Internet?).');return null;}
   icomAbrFelderSpeichern();
   var y=parseInt(mon.slice(0,4),10),m=parseInt(mon.slice(5,7),10),letzter=new Date(y,m,0).getDate();
   var pad=function(n){return String(n).padStart(2,'0');},preis=icomAbrPreis(),h=new Date();
   var A={};ICOM_ABR_FELDER.forEach(function(k){A[k]=document.getElementById('abr-'+k).value.trim();});
   var zeilen=_icomAbrZeilen.filter(function(z){return z.an;}).map(function(z){return {datum:z.datum,text:z.text,einheiten:z.einheiten,betrag:z.einheiten*preis};});
   var r=icomAbrPdf({nr:document.getElementById('abr-nr').value.trim(),zeitraum:'01.'+pad(m)+'.'+y+' – '+pad(letzter)+'.'+pad(m)+'.'+y,fach:document.getElementById('abr-fach').value.trim(),preis:preis,absender:A,signatur:icomSigHolen(),datum:pad(h.getDate())+'.'+pad(h.getMonth()+1)+'.'+h.getFullYear(),zeilen:zeilen});
-  r.doc.save('ICoM_Abrechnung_'+mon+'_Dorsch.pdf');
+  return {doc:r.doc,mon:mon,datei:'ICoM_Abrechnung_'+mon+'_Dorsch.pdf'};
+}
+function icomAbrPdfErzeugen(){
+  var b=icomAbrBauen();if(!b)return;
+  b.doc.save(b.datei);
+}
+async function icomAbrEntwurf(){
+  var b=icomAbrBauen();if(!b)return;
+  var mm=b.mon.slice(5,7)+'/'+b.mon.slice(0,4);
+  var pdf=b.doc.output('datauristring').split(',')[1];
+  try{
+    var d=await untPost({action:'icomAbrEntwurf',pdf:pdf,dateiname:b.datei,
+      betreff:'Unterrichtsabrechnung '+mm+' – Thomas Dorsch',
+      text:'Sehr geehrte Damen und Herren,\n\nanbei meine Unterrichtsabrechnung für '+mm+' (Dirigieren).\n\nMit freundlichen Grüßen\nThomas Dorsch'});
+    if(!d||!d.ok)throw new Error(d&&d.error||'Fehler');
+    zeigToast('Entwurf mit PDF liegt in Gmail (an '+ICOM_ABR_MAIL+').',5000);
+  }catch(e){zeigToast('Entwurf fehlgeschlagen: '+e.message,5000);}
 }
 // Erzeugt die ICoM-Unterrichtsabrechnung als PDF (jsPDF). d: {nr, zeitraum, fach, preis, absender{name,anschrift,tel,mail,bank,iban,bic,steuernr}, datum, zeilen[{datum,text,einheiten,betrag}]}
 function icomAbrPdf(d) {
