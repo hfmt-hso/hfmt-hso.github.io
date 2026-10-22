@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-22T02:07:38.378Z",
+  "generiert": "2026-10-22T18:30:47.971Z",
   "events": [
     {
       "datum": "26.10.2026",
@@ -1437,7 +1437,7 @@
             "Largo"
           ],
           "dauer": "ca. 22 min",
-          "besetzung": "3.3.3.3-4.4.4.1-Pk+6, Hrf., Klav., Cel., Cemb.-Str. (0.0.8.8.6)",
+          "besetzung": "3.3.3.3-4.4.4.1-Pk+6, Hrf., Klav., Cel., Cemb.-Str. (0.0.6.5.4)",
           "urauffuehrung": false,
           "pause": false,
           "solisten": [
@@ -2188,7 +2188,7 @@
       "marker": "Vorstellung",
       "werke": [
         {
-          "komponist": "Frederik Schwenk",
+          "komponist": "Fredrik Schwenk",
           "lebensdaten": "1960*",
           "titel": "Non confundar, AT (Uraufführung)",
           "saetze": [],
@@ -2267,7 +2267,7 @@
       "marker": "Vorstellung",
       "werke": [
         {
-          "komponist": "Frederik Schwenk",
+          "komponist": "Fredrik Schwenk",
           "lebensdaten": "1960*",
           "titel": "Non confundar, AT (Uraufführung)",
           "saetze": [],
@@ -4528,7 +4528,9 @@
       ],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
+      "probenplan": [
+        "* ABGESAGT Zarathustra wird im Sommersemester nachgeholt"
+      ],
       "abwesend": null,
       "eintritt": [],
       "_eventId": "5ulndvlfgv1ite0pspau9a84rg@google.com",
