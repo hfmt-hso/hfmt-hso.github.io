@@ -835,6 +835,7 @@ function gateLoginErfolgreich(){
   document.getElementById('login-gate').style.display='none';
   document.getElementById('app').style.display='flex';
   initialLaden();
+  icomAbrDeepLink();
 }
 async function gatePwSetzen(){
   var pw1=document.getElementById('lg-pw1').value;
@@ -917,6 +918,7 @@ document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('login-gate').style.display='none';
     document.getElementById('app').style.display='flex';
     initialLaden();
+    icomAbrDeepLink();
   }
 });
 
@@ -2434,6 +2436,20 @@ function icomAbrInit(){
   var h=new Date();
   document.getElementById('abr-monat').value=h.getFullYear()+'-'+String(h.getMonth()+1).padStart(2,'0');
   icomAbrNrSetzen();
+}
+// Direktlink aus der monatlichen Erinnerungsmail: ?icomAbr=JJJJ-MM öffnet ICoM → Abrechnung für diesen Monat
+function icomAbrDeepLink(){
+  var m=new URLSearchParams(location.search).get('icomAbr');
+  if(!m||!/^\d{4}-\d{2}$/.test(m)||internCred().nutzer!=='thomas.dorsch')return;
+  try{
+    wechselTab(document.querySelector('[data-tab="t-unterricht"]'));
+    wechselUntTab(document.querySelector('[data-utab="ut-icom"]'));
+    icomSub(document.querySelector('[data-sub="icom-p-abr"]'));
+    document.getElementById('abr-monat').value=m;
+    icomAbrNrSetzen();
+    icomAbrLaden();
+    history.replaceState(null,'',location.pathname);
+  }catch(e){}
 }
 function icomAbrNrSetzen(){document.getElementById('abr-nr').value=document.getElementById('abr-monat').value||'';}
 async function icomAbrLaden(){
