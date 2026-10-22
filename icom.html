@@ -783,7 +783,7 @@ async function awSpeichern() {
   if (sperre) return; sperre = true; speicherAn();
   try {
     const json = await webAppPost({
-      action: 'abwesenheitSpeichern', id: awEditId || '', mtknr: student.name, name: student.name + ' (ICoM)',
+      action: 'icomAwSpeichern', id: awEditId || '',
       datumVon: awDatumAnzeige(dv), uhrzeitVon: uv, datumBis: awDatumAnzeige(db), uhrzeitBis: ub, grund
     });
     if (!json.ok) throw new Error(json.error || 'Fehler');
@@ -796,7 +796,7 @@ async function awSpeichern() {
 async function ladeAbwesenheiten() {
   const el = $('aw-liste');
   try {
-    const json = await webAppGet({ action:'meineAbwesenheiten', mtknr: student.name });
+    const json = await webAppGet({ action:'icomAwMeine' });
     if (!json.ok) throw new Error(json.error || 'Fehler');
     awDaten = json.data || [];
     renderAbwesenheiten();
@@ -826,7 +826,7 @@ async function awLoeschen(id) {
   if (!confirm('Abwesenheit wirklich löschen?')) return;
   if (sperre) return; sperre = true; speicherAn();
   try {
-    const json = await webAppPost({ action:'abwesenheitLoeschen', id, mtknr: student.name });
+    const json = await webAppPost({ action:'icomAwLoeschen', id });
     if (!json.ok) throw new Error(json.error || 'Fehler');
     toast('✅ Gelöscht.');
   } catch(e) { toast('❌ Nicht gelöscht: ' + fehlerText(e), 4500); }
