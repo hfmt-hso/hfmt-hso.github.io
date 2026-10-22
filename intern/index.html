@@ -2451,6 +2451,8 @@ async function icomAbrLaden(){
         if(s.typ==='einzel'&&s.buchungId)z.push({datum:t.datum,text:s.name,einheiten:1,an:true,ts:dt.getTime()+parseInt(s.uhrzeit,10)*60000});
       });
     });
+    // Einmaliger Nachtrag: Unterricht vom 21.10.2026 (vor Start der Buchungen), Studierende von Hand eintragen
+    if(mon==='2026-10')for(var k=0;k<3;k++)z.push({datum:'21.10.2026',text:'',einheiten:1,an:true,ts:new Date(2026,9,21,10,30+k*45).getTime()});
     z.sort(function(a,b){return a.ts-b.ts;});
     _icomAbrZeilen=z;
     renderIcomAbr();
@@ -2475,7 +2477,8 @@ function renderIcomAbr(){
 }
 function icomAbrZeileNeu(){
   var mon=document.getElementById('abr-monat').value||'';
-  _icomAbrZeilen.push({datum:mon?'01.'+mon.slice(5,7)+'.'+mon.slice(0,4):'',text:'',einheiten:1,an:true,ts:0});
+  var lz=_icomAbrZeilen.length?_icomAbrZeilen[_icomAbrZeilen.length-1].datum:'';
+  _icomAbrZeilen.push({datum:lz||(mon?'01.'+mon.slice(5,7)+'.'+mon.slice(0,4):''),text:'',einheiten:1,an:true,ts:0});
   renderIcomAbr();
 }
 function icomAbrPdfErzeugen(){
