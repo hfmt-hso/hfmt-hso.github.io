@@ -2530,8 +2530,15 @@ function icomAbrPdf(d) {
     doc.text(r[0] + ':', X, r[2]);
     if (r[1]) {
       var w = doc.getTextWidth(r[0] + ': ');
-      var t = doc.splitTextToSize(String(r[1]), 185 - X - w);
-      doc.setFontSize(9); doc.text(t[0], X + w + 0.5, r[2]); doc.setFontSize(8);
+      var zl = [String(r[1])];
+      if (r[0] === 'Anschrift') {
+        // Straße und PLZ/Ort auf zwei Zeilen verteilen (auch ohne Komma, PLZ mit Leerzeichen wird zusammengezogen)
+        var mm = String(r[1]).match(/^(.*?)[,\s]+(\d{2}\s?\d{3})\s+(\S.*)$/);
+        if (mm) zl = [mm[1].trim(), mm[2].replace(/\s/g, '') + ' ' + mm[3].trim()];
+      }
+      doc.setFontSize(9);
+      zl.forEach(function(l, k) { doc.text(doc.splitTextToSize(l, 185 - X - w)[0], X + w + 0.5, r[2] + k * 4.2); });
+      doc.setFontSize(8);
     }
   });
   doc.setLineWidth(0.2);
@@ -2574,7 +2581,7 @@ function icomAbrPdf(d) {
   doc.setFont('times', 'bold'); doc.text(eur(summe), cB, ys + 6, { align: 'right' }); doc.setFont('times', 'normal');
   var yu = ys + 17;
   var sig = d.signatur || '';
-  if (sig) { try { var ip = doc.getImageProperties(sig), sh = 14, sw = Math.min(55, sh * ip.width / ip.height); sh = sw * ip.height / ip.width; doc.addImage(sig, 'PNG', L + 2, yu - sh - 0.5, sw, sh); } catch (e) {} }
+  if (sig) { try { var ip = doc.getImageProperties(sig), sh = 14, sw = Math.min(55, sh * ip.width / ip.height); sh = sw * ip.height / ip.width; doc.addImage(sig, 'PNG', L + 2, yu - sh + 1.5, sw, sh); } catch (e) {} }
   doc.line(L, yu, R, yu);
   doc.setFontSize(7.5); doc.setFont('helvetica', 'normal'); doc.text('Unterschrift', L, yu + 3.5);
   doc.setFont('times', 'normal'); doc.setFontSize(10.5);
