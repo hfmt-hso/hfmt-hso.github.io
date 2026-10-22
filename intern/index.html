@@ -309,13 +309,15 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 
   <!-- START -->
   <div class="tab active" id="t-start">
-    <div class="section-h">Hinweis auf dem Studierendenportal</div>
-<div class="card card-pad" style="margin-bottom:16px">
-  <div class="tfield"><label>Überschrift</label><input id="hw-titel" type="text" placeholder="Achtung"></div>
-  <div class="tfield"><label>Text</label><textarea id="hw-text" rows="3" placeholder="z.B. Die Probe am … fällt aus." style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--sans);background:#fff;resize:vertical"></textarea></div>
-  <label style="display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:12px;cursor:pointer"><input type="checkbox" id="hw-aktiv" style="width:auto"> Hinweis auf der Startseite anzeigen (roter Kasten)</label>
-  <button id="hw-btn" onclick="hinweisSpeichern()" style="padding:9px 18px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans)">Speichern</button>
-</div>
+    <details id="hw-details" style="margin:12px 0 4px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)">
+  <summary style="cursor:pointer;padding:9px 14px;font-size:12px;font-weight:700;color:var(--ink3);display:flex;align-items:center;gap:8px">📢 Hinweis auf dem Studierendenportal <span id="hw-status" style="font-weight:700;font-size:11px"></span><span style="margin-left:auto;font-weight:400">▾</span></summary>
+  <div style="padding:12px 16px 14px;border-top:1px solid var(--border)">
+    <div class="tfield"><label>Überschrift</label><input id="hw-titel" type="text" placeholder="Achtung"></div>
+    <div class="tfield"><label>Text</label><textarea id="hw-text" rows="2" placeholder="z.B. Die Probe am … fällt aus." style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--sans);background:#fff;resize:vertical"></textarea></div>
+    <label style="display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:12px;cursor:pointer"><input type="checkbox" id="hw-aktiv" style="width:auto"> Hinweis auf der Startseite anzeigen (roter Kasten)</label>
+    <button id="hw-btn" onclick="hinweisSpeichern()" style="padding:9px 18px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans)">Speichern</button>
+  </div>
+</details>
 <div class="section-h">Schnellzugriff</div>
     <div class="grid2">
       <a class="qlink" id="ql1" href="https://docs.google.com/spreadsheets/d/1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU/edit" target="_blank">
@@ -1036,6 +1038,7 @@ async function hinweisLaden(){
     if(!r.ok)return;
     var j=await r.json();
     document.getElementById('hw-aktiv').checked=!!j.aktiv;
+    var st=document.getElementById('hw-status');if(st){st.textContent=j.aktiv?'● aktiv':'○ aus';st.style.color=j.aktiv?'var(--red)':'var(--ink3)';}
     document.getElementById('hw-titel').value=j.titel||'Achtung';
     document.getElementById('hw-text').value=j.text||'';
   }catch(e){}
