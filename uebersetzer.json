@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-21T02:06:50.990Z",
+  "generiert": "2026-10-22T02:07:38.378Z",
   "events": [
     {
       "datum": "26.10.2026",
@@ -2226,7 +2226,10 @@
       ],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
+      "probenplan": [
+        "*",
+        "Schlagwerk: 4 Pauken, große Trommel, Vibraphon, Marimbaphon"
+      ],
       "abwesend": null,
       "eintritt": [
         "Eintritt: 14 €, ermäßigt: 8 €",
@@ -2302,7 +2305,10 @@
       ],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
+      "probenplan": [
+        "*",
+        "Schlagwerk: 4 Pauken, große Trommel, Vibraphon, Marimbaphon"
+      ],
       "abwesend": null,
       "eintritt": [
         "Eintritt: 14 €, ermäßigt: 8 €",
@@ -2495,50 +2501,6 @@
       "endzeit": "15:00 Uhr",
       "_eventId": "6u0qotlpq63bo28okfmevcbuo8@google.com",
       "_titel": "Abbau"
-    },
-    {
-      "datum": "21.10.2026",
-      "uhrzeit": "14:15 Uhr",
-      "endzeit": "17:00 Uhr",
-      "ort": "Orchesterstudio",
-      "konzertart": null,
-      "marker": "Blattspiel",
-      "werke": [
-        {
-          "komponist": "Gustav Holst",
-          "lebensdaten": "1874–1934",
-          "titel": "The Planets op.32",
-          "saetze": [
-            "Mars, the Bringer of War",
-            "Venus, the Bringer of Peace",
-            "Mercury, the Winged Messenger",
-            "Jupiter, the Bringer of Jollity",
-            "Saturn, the Bringer of Old Age",
-            "Uranus, the Magician",
-            "Neptune, the Mystic"
-          ],
-          "dauer": "ca. 50 min",
-          "besetzung": "4.3.3.3-6.4.3.1-Pauken, Glockenspiel, Xylophon, Triangel, Becken, Tamtam, Trommel, Snare Drum, Hrf., Orgel, Celesta-Str. (14.12.10.8.6)",
-          "urauffuehrung": false,
-          "pause": false
-        }
-      ],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [
-        {
-          "name": "Song | Doğa Çetin, Miquel Bosch Roca (1-3), Rémi Geniet, Philine Lembeck (4-7)",
-          "werk": "",
-          "klasse": ""
-        }
-      ],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "abwesend": null,
-      "eintritt": [],
-      "_eventId": "27e42nmo0jftavl2m7rk7c9rel@google.com",
-      "_titel": "HSO Repertoire"
     },
     {
       "datum": "02.06.2027",
