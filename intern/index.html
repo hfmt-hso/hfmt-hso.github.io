@@ -309,7 +309,14 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
 
   <!-- START -->
   <div class="tab active" id="t-start">
-    <div class="section-h">Schnellzugriff</div>
+    <div class="section-h">Hinweis auf dem Studierendenportal</div>
+<div class="card card-pad" style="margin-bottom:16px">
+  <div class="tfield"><label>Überschrift</label><input id="hw-titel" type="text" placeholder="Achtung"></div>
+  <div class="tfield"><label>Text</label><textarea id="hw-text" rows="3" placeholder="z.B. Die Probe am … fällt aus." style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--sans);background:#fff;resize:vertical"></textarea></div>
+  <label style="display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:12px;cursor:pointer"><input type="checkbox" id="hw-aktiv" style="width:auto"> Hinweis auf der Startseite anzeigen (roter Kasten)</label>
+  <button id="hw-btn" onclick="hinweisSpeichern()" style="padding:9px 18px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans)">Speichern</button>
+</div>
+<div class="section-h">Schnellzugriff</div>
     <div class="grid2">
       <a class="qlink" id="ql1" href="https://docs.google.com/spreadsheets/d/1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU/edit" target="_blank">
         <div class="qlink-icon" style="background:#e8f3ff">📊</div>
@@ -1020,6 +1027,40 @@ function sjAusHeute(){
   return String(y-1).slice(2)+'_'+String(y).slice(2);
 }
 function sjAnzeige(sj){return sj.replace('_','/');}
+
+// ── HINWEIS-BANNER (hinweis.json im Repo) ─────────────────
+function hinweisB64(s){return btoa(unescape(encodeURIComponent(s)));}
+async function hinweisLaden(){
+  try{
+    var r=await fetch('../hinweis.json?t='+Date.now(),{cache:'no-store'});
+    if(!r.ok)return;
+    var j=await r.json();
+    document.getElementById('hw-aktiv').checked=!!j.aktiv;
+    document.getElementById('hw-titel').value=j.titel||'Achtung';
+    document.getElementById('hw-text').value=j.text||'';
+  }catch(e){}
+}
+async function hinweisSpeichern(){
+  var tok=localStorage.getItem('mlGithubToken');
+  if(!tok){zeigToast('Bitte zuerst unter „Meine Links“ den GitHub-Token hinterlegen.');return;}
+  var btn=document.getElementById('hw-btn');
+  var obj={aktiv:document.getElementById('hw-aktiv').checked,titel:document.getElementById('hw-titel').value.trim()||'Achtung',text:document.getElementById('hw-text').value.trim()};
+  if(obj.aktiv&&!obj.text){zeigToast('Bitte einen Text eingeben.');return;}
+  var api='https://api.github.com/repos/hfmt-hso/hfmt-hso.github.io/contents/hinweis.json';
+  var h={'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json'};
+  btn.disabled=true;
+  try{
+    var g=await fetch(api+'?ref=main&t='+Date.now(),{headers:h});
+    var sha=g.ok?(await g.json()).sha:undefined;
+    var body={message:'Hinweis '+(obj.aktiv?'aktiviert':'ausgeblendet'),content:hinweisB64(JSON.stringify(obj,null,2)+'\n'),branch:'main'};
+    if(sha)body.sha=sha;
+    var p=await fetch(api,{method:'PUT',headers:h,body:JSON.stringify(body)});
+    if(!p.ok)throw new Error('HTTP '+p.status);
+    zeigToast('Hinweis gespeichert ✓ (nach 1–2 Min. im Portal)');
+  }catch(e){zeigToast('Fehler: '+e.message);}
+  btn.disabled=false;
+}
+document.addEventListener('DOMContentLoaded',function(){hinweisLaden();});
 
 // ── AUTOMATISCHE STUDIENJAHR-ROTATION ─────────────────────
 // Prüft Kandidaten-Studienjahre (aktuell −2 bis +3) darauf, ob dort
