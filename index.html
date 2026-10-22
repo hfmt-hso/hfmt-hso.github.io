@@ -210,6 +210,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .frk-status.ok{color:var(--green)}
 .frk-status.err{color:#c0392b}
 .frk-alt-link{display:block;text-align:center;font-size:11px;color:var(--text-muted);margin-top:10px}
+.hinweis{background:#fdecea;border:1.5px solid #c0392b;color:#a32116;margin:14px 14px 0;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.5}
+@media(prefers-color-scheme:dark){.hinweis{background:#5a1d17;border-color:#e0584a;color:#ffd9d4}}
 </style>
 </head>
 <body>
@@ -248,6 +250,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </button>
 </nav>
 
+<div id="hinweis-box"></div>
 <div class="content active" id="tab-projekte">
   <div class="section-label">Aktuelle Projekte</div>
   <div id="projekte-liste"><div class="loading">Projekte werden geladen…</div></div>
@@ -1085,6 +1088,17 @@ function wechsleSj(sj){
   window.location.href = url.toString();
 }
 
+async function ladeHinweis(){
+  try{
+    const r=await fetch('hinweis.json?t='+Date.now(),{cache:'no-store'});
+    if(!r.ok)return;
+    const j=await r.json();
+    const box=document.getElementById('hinweis-box');
+    if(!box||!j||!j.aktiv||!j.text)return;
+    box.innerHTML='<div class="hinweis"><strong>'+esc(j.titel||'Achtung')+'</strong><br>'+esc(j.text)+'</div>';
+  }catch(e){}
+}
+ladeHinweis();
 ladeProjekte();
 ladenKalender().then(populateFreikartenEvents);
 ladeBedarf();
