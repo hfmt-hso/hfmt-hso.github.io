@@ -1,38 +1,6 @@
 {
-  "generiert": "2026-10-22T18:30:54.148Z",
+  "generiert": "2026-10-23T02:07:49.357Z",
   "data": [
-    {
-      "id": "UT_20261016_10",
-      "datum": "15.10.2026",
-      "projekt": "Einzelunterricht Song",
-      "marker": "Einzelunterricht",
-      "dozent": "Song",
-      "uhrzeit": "14:30",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "14:30"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "15:30"
-        },
-        {
-          "slotId": "s_2",
-          "uhrzeit": "16:30"
-        },
-        {
-          "slotId": "s_3",
-          "uhrzeit": "17:30"
-        },
-        {
-          "slotId": "s_4",
-          "uhrzeit": "18:30"
-        }
-      ],
-      "notizen": ""
-    },
     {
       "id": "UT_20261019_11",
       "datum": "19.10.2026",
