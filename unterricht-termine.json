@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-24T07:29:42.241Z",
+  "generiert": "2026-10-24T13:27:33.820Z",
   "data": [
     {
       "id": "UT_20261019_11",
@@ -136,7 +136,7 @@
       "marker": "Einzelunterricht",
       "dozent": "Dorsch",
       "uhrzeit": "14:00",
-      "ort": "Blau 206",
+      "ort": "Rot 205",
       "slots": [
         {
           "slotId": "s_0",
