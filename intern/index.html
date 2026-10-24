@@ -473,6 +473,18 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       <button class="unt-stab" data-utab="ut-icom" onclick="wechselUntTab(this)">ICoM</button>
     </div>
     <div id="ut-abwesenheiten" class="ut-pane active">
+      <details id="kr-details" ontoggle="untKrankOeffnen(this)" style="margin:0 0 12px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)">
+        <summary style="cursor:pointer;padding:9px 14px;font-size:12px;font-weight:700;color:var(--ink3);display:flex;align-items:center;gap:8px">🤒 Krankmeldung eintragen <span style="margin-left:auto;font-weight:400">▾</span></summary>
+        <div style="padding:12px 16px 14px;border-top:1px solid var(--border)">
+          <div class="tfield"><label>Person</label><select id="kr-person" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--sans);background:#fff"><option value="">Studierendenliste wird geladen …</option></select></div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div class="tfield" style="flex:1;min-width:210px"><label>Von</label><div style="display:flex;gap:6px"><input id="kr-von" type="date"><input id="kr-vonzeit" type="time" value="08:00"></div></div>
+            <div class="tfield" style="flex:1;min-width:210px"><label>Bis</label><div style="display:flex;gap:6px"><input id="kr-bis" type="date"><input id="kr-biszeit" type="time" value="22:00"></div></div>
+          </div>
+          <div class="tfield"><label>Notiz (optional, keine Diagnose)</label><input id="kr-notiz" type="text" placeholder="z.B. per Mail gemeldet"></div>
+          <button id="kr-btn" onclick="untKrankSpeichern()" style="padding:9px 18px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans)">Eintragen</button>
+        </div>
+      </details>
       <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
         <button class="proj-sj-btn active" id="awf-alle" onclick="untAwFilter('alle',this)">Alle</button>
         <button class="proj-sj-btn" id="awf-offen" onclick="untAwFilter('offen',this)">Offen</button>
@@ -1953,6 +1965,38 @@ function untAwSort(modus,btn){
   document.querySelectorAll('#ut-abwesenheiten .aw-sort-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderUntAw();
+}
+// ── Krankmeldung eintragen (Hauptdozent, ohne Mailversand) ──
+function untKrankDatum(iso){var p=(iso||'').split('-');return p.length===3?p[2]+'.'+p[1]+'.'+p[0]:'';}
+async function untKrankOeffnen(det){
+  if(!det.open)return;
+  var f=function(id){return document.getElementById(id);};
+  if(!f('kr-von').value){
+    var d=new Date(),iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    f('kr-von').value=iso;f('kr-bis').value=iso;
+  }
+  await untLadeStudierende();
+  var sel=f('kr-person');
+  if(sel&&_untStudierende)sel.innerHTML='<option value="">Person wählen…</option>'+untStudierendenOptionen();
+}
+async function untKrankSpeichern(){
+  var f=function(id){return document.getElementById(id);};
+  var st=(_untStudierende||[]).find(function(x){return String(x.mtknr)===f('kr-person').value;});
+  if(!st){zeigToast('Bitte eine Person wählen');return;}
+  if(!f('kr-von').value||!f('kr-bis').value){zeigToast('Bitte Datum angeben');return;}
+  if(f('kr-bis').value<f('kr-von').value){zeigToast('„Bis" liegt vor „Von"');return;}
+  var btn=f('kr-btn');btn.disabled=true;
+  try{
+    var d=await untPost({action:'krankmeldungSpeichern',mtknr:st.mtknr,name:st.name,
+      datumVon:untKrankDatum(f('kr-von').value),uhrzeitVon:f('kr-vonzeit').value||'08:00',
+      datumBis:untKrankDatum(f('kr-bis').value),uhrzeitBis:f('kr-biszeit').value||'22:00',
+      notiz:f('kr-notiz').value.trim()});
+    if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
+    zeigToast('✓ Krankmeldung eingetragen');
+    f('kr-notiz').value='';f('kr-person').value='';
+    ladeUntAw(true);
+  }catch(e){zeigToast('Fehler: '+e.message);}
+  finally{btn.disabled=false;}
 }
 function untAwStatus(aw){return aw.status||(aw.gesehenVon?'gesehen':'offen');}
 
