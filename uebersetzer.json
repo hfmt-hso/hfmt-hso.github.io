@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-24T13:27:30.315Z",
+  "generiert": "2026-10-24T17:38:12.373Z",
   "events": [
     {
       "datum": "26.10.2026",
@@ -4529,10 +4529,11 @@
       "aufbauplan": null,
       "notizen": [],
       "probenplan": [
-        "* ABGESAGT Zarathustra wird im Sommersemester nachgeholt"
+        "* Abgesagt: Zarathustra wird im Sommersemester nachgeholt"
       ],
       "abwesend": null,
       "eintritt": [],
+      "abgesagt": true,
       "_eventId": "5ulndvlfgv1ite0pspau9a84rg@google.com",
       "_titel": "HSO Repertoire"
     },
