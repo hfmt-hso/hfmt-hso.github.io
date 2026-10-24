@@ -1998,6 +1998,15 @@ async function untKrankSpeichern(){
   }catch(e){zeigToast('Fehler: '+e.message);}
   finally{btn.disabled=false;}
 }
+async function untAwLoeschen(id,mtknr){
+  if(!confirm('Diesen Eintrag wirklich löschen?'))return;
+  try{
+    var d=await untPost({action:'abwesenheitLoeschen',id:id,mtknr:mtknr});
+    if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
+    zeigToast('Eintrag gelöscht');
+    _untAwDaten=null;ladeUntAw(false);
+  }catch(e){zeigToast('Fehler: '+e.message);}
+}
 function untAwStatus(aw){return aw.status||(aw.gesehenVon?'gesehen':'offen');}
 
 function renderUntAw(){
@@ -2039,7 +2048,7 @@ function renderUntAw(){
           '<div style="font-size:12px;color:var(--ink3);line-height:1.4">'+esc(aw.grund)+'</div>'+
           komm+
         '</div>'+
-        '<div style="flex-shrink:0;margin-left:6px">'+aktBtn+'</div>'+
+        '<div style="flex-shrink:0;margin-left:6px">'+aktBtn+((aw.grund||'').indexOf('🤒')===0?'<button onclick="untAwLoeschen(\''+esc(aw.id)+'\',\''+esc(aw.mtknr)+'\')" title="Eintrag löschen" style="margin-top:5px;width:100%;padding:6px 10px;background:#fff;color:var(--red);border:1px solid var(--border);border-radius:8px;font-size:11px;cursor:pointer;font-family:var(--sans)">🗑 Löschen</button>':'')+'</div>'+
       '</div>';
     }).join('');
     return '<div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:8px">'+
