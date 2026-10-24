@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-24T07:29:38.883Z",
+  "generiert": "2026-10-24T13:27:30.315Z",
   "events": [
     {
       "datum": "26.10.2026",
@@ -5333,6 +5333,40 @@
       "endzeit": "19:00 Uhr",
       "_eventId": "38b907db5ek8ke8lg98f2rapjs@google.com",
       "_titel": "HSO 3 OA Bläser"
+    },
+    {
+      "datum": "31.10.2026",
+      "uhrzeit": "17:00 Uhr",
+      "ort": "Ständehaus Merseburg, Oberaltenburg 2, 06217, Merseburg",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "abwesend": null,
+      "endzeit": "17:30 Uhr",
+      "_eventId": "5p05fj3mkgp6fnvd5uji754epp@google.com",
+      "_titel": "Abfahrt nach Merseburg IMCH Halle"
+    },
+    {
+      "datum": "31.10.2026",
+      "uhrzeit": "18:00 Uhr",
+      "ort": "Ständehaus Merseburg, Oberaltenburg 2, 06217, Merseburg",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "abwesend": null,
+      "endzeit": "18:45 Uhr",
+      "_eventId": "4sh5pbtn48e0hmi372k2kkdl1h@google.com",
+      "_titel": "Anspielprobe IMCH Halle"
     }
   ]
 }
