@@ -478,6 +478,9 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
         <button class="proj-sj-btn" id="awf-offen" onclick="untAwFilter('offen',this)">Offen</button>
         <button class="proj-sj-btn" id="awf-gesehen" onclick="untAwFilter('gesehen',this)">Gesehen</button>
         <button class="proj-sj-btn" id="awf-ruecksprache" onclick="untAwFilter('ruecksprache',this)">Rücksprache</button>
+        <span style="width:1px;align-self:stretch;background:var(--border);margin:0 4px"></span>
+        <button class="proj-sj-btn aw-sort-btn active" id="aws-person" onclick="untAwSort('person',this)">Nach Person</button>
+        <button class="proj-sj-btn aw-sort-btn" id="aws-datum" onclick="untAwSort('datum',this)">Nach Datum</button>
         <button class="proj-sj-btn unt-verg-btn" style="margin-left:auto" onclick="untVergToggle()">Vergangene anzeigen</button>
         <button style="margin-left:0;padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:var(--sans)" onclick="ladeUntAw(true)">↻</button>
       </div>
@@ -1938,11 +1941,19 @@ async function ladeUntAw(force){
 
 function untAwFilter(filter,btn){
   _untAwFilter=filter;
-  document.querySelectorAll('#ut-abwesenheiten .proj-sj-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#ut-abwesenheiten .proj-sj-btn:not(.aw-sort-btn)').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderUntAw();
 }
 
+var _untAwSort='person';
+function untAwSortKey(a){var d=(a.datumVon||'').split('.'),h=(a.uhrzeitVon||'00:00').split(':');var x=new Date(+d[2],(+d[1])-1,+d[0],+h[0]||0,+h[1]||0).getTime();return isNaN(x)?0:x;}
+function untAwSort(modus,btn){
+  _untAwSort=modus;
+  document.querySelectorAll('#ut-abwesenheiten .aw-sort-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderUntAw();
+}
 function untAwStatus(aw){return aw.status||(aw.gesehenVon?'gesehen':'offen');}
 
 function renderUntAw(){
@@ -1953,7 +1964,8 @@ function renderUntAw(){
   if(!liste.length){el.innerHTML='<div class="empty">Keine Abwesenheiten</div>';return;}
   var btnBase='padding:6px 12px;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:var(--sans);';
   var gruppen={};
-  liste.forEach(function(aw){var k=aw.name||aw.mtknr;if(!gruppen[k])gruppen[k]=[];gruppen[k].push(aw);});
+  if(_untAwSort==='datum'){liste=liste.slice().sort(function(a,b){return untAwSortKey(a)-untAwSortKey(b);});gruppen['Nach Datum sortiert']=liste;}
+  else liste.forEach(function(aw){var k=aw.name||aw.mtknr;if(!gruppen[k])gruppen[k]=[];gruppen[k].push(aw);});
   el.innerHTML=Object.entries(gruppen).map(function(entry){
     var name=entry[0],eintraege=entry[1];
     var rows=eintraege.map(function(aw){
@@ -1977,7 +1989,7 @@ function renderUntAw(){
       return '<div style="padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px">'+
         '<div style="flex:1;min-width:0">'+
           '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px">'+
-            '<div style="font-size:12px;font-weight:700;color:var(--blue)">'+esc(aw.datumVon)+' '+esc(aw.uhrzeitVon)+' – '+esc(aw.datumBis)+' '+esc(aw.uhrzeitBis)+' Uhr</div>'+
+            '<div style="font-size:12px;font-weight:700;color:var(--blue)">'+(_untAwSort==='datum'?'<span style="color:var(--ink)">'+esc(aw.name||aw.mtknr)+'</span> · ':'')+esc(aw.datumVon)+' '+esc(aw.uhrzeitVon)+' – '+esc(aw.datumBis)+' '+esc(aw.uhrzeitBis)+' Uhr</div>'+
             badge+
           '</div>'+
           '<div style="font-size:12px;color:var(--ink3);line-height:1.4">'+esc(aw.grund)+'</div>'+
