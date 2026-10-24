@@ -212,6 +212,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .frk-alt-link{display:block;text-align:center;font-size:11px;color:var(--text-muted);margin-top:10px}
 .hinweis{background:#fdecea;border:1.5px solid #c0392b;color:#a32116;margin:14px 14px 0;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.5}
 @media(prefers-color-scheme:dark){.hinweis{background:#5a1d17;border-color:#e0584a;color:#ffd9d4}}
+.ev-abgesagt .werk-block,.ev-abgesagt .werk-pause,.ev-abgesagt .event-kopf,.ev-abgesagt .werk-leitung:not(.ev-notiz){opacity:.45;filter:grayscale(1)}
+.ev-abgesagt .werk-komponist,.ev-abgesagt .werk-titel,.ev-abgesagt .event-kopf{text-decoration:line-through}
+.ev-abgesagt .ev-notiz{font-weight:600}
+.abgesagt-badge{display:inline-block;background:#9b2335;color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;padding:3px 9px;border-radius:6px;margin-bottom:8px}
+.event-tab.abgesagt{text-decoration:line-through;opacity:.6}
 </style>
 </head>
 <body>
@@ -790,7 +795,8 @@ async function ladeUeEvents(projektName, sj){
       });
       if(notizTeile.length>0) _notiz = notizTeile.join(' ');
     }
-    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:pp,_notiz:_notiz};
+    var abgesagt=!!ev.abgesagt||(ev.probenplan||[]).some(function(z){return /^\*\s*abgesagt\b/i.test(String(z).trim());});
+    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:pp,_notiz:_notiz,abgesagt:abgesagt};
   }).filter(Boolean).sort((a,b)=>a.datObj-b.datObj);
   ueCache[key] = events;
   return events;
@@ -834,7 +840,8 @@ function renderEventProgramm(ev){
       h += '</div>';
     });
   }
-  if(ev._notiz) h += '<div class="werk-leitung" style="margin-top:8px">'+esc(ev._notiz)+'</div>';
+  if(ev._notiz) h += '<div class="werk-leitung ev-notiz" style="margin-top:8px">'+esc(ev._notiz)+'</div>';
+  if(ev.abgesagt) h='<div class="ev-abgesagt"><div class="abgesagt-badge">ABGESAGT</div>'+h+'</div>';
   return h;
 }
 
@@ -873,7 +880,7 @@ async function toggleStd(cId,docId,projektName,sj){
       if(elProg){
         if(!events||!events.length){elProg.innerHTML='<p class="proj-text-muted">(Noch kein Programm)</p>';}
         else{
-          const tabs=events.map((ev,i)=>`<button class="event-tab ${i===0?'active':''}" onclick="showEvTabIn(event,'${cId}-programm',${i})">${esc(ev.tabLabel)}</button>`).join('');
+          const tabs=events.map((ev,i)=>`<button class="event-tab ${i===0?'active':''}${ev.abgesagt?' abgesagt':''}" onclick="showEvTabIn(event,'${cId}-programm',${i})">${esc(ev.tabLabel)}</button>`).join('');
           const secs=events.map((ev,i)=>`<div class="event-section ${i===0?'active':''}" id="${cId}-programm-ev-${i}">${renderEventProgramm(ev)}</div>`).join('');
           elProg.innerHTML=`<div class="event-tabs-wrap"><div class="event-tabs">${tabs}</div></div><div class="event-sections">${secs}</div>`;
         }
@@ -899,9 +906,10 @@ async function toggleBR(cId,docId,projektName,sj){
       const alleEvents=await ladeUeEvents(projektName,sj);
       const events=alleEvents.filter(ev=>istInSpieljahr(ev.datObj,sj));
       if(!events||!events.length){body.innerHTML=`<div style="padding:14px"><p class="proj-text-muted">Keine Termine für ${esc(sj.replace('_','/'))} gefunden.</p></div>`;return;}
-      const tabs=events.map((ev,i)=>`<button class="event-tab ${i===0?'active':''}" onclick="showEvTab(event,'${cId}',${i})">${esc(ev.tabLabel)}</button>`).join('');
+      const tabs=events.map((ev,i)=>`<button class="event-tab ${i===0?'active':''}${ev.abgesagt?' abgesagt':''}" onclick="showEvTab(event,'${cId}',${i})">${esc(ev.tabLabel)}</button>`).join('');
       const secs=events.map((ev,i)=>{
-        const pp=(ev.probenplan&&ev.probenplan.length)?'<div class="proj-text" style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border)">'+ev.probenplan.map(z=>esc(z)).join('<br>')+'</div>':'';
+        const ppAll=ev.probenplan||[];const ppStern=ppAll.findIndex(function(z){return /^\*/.test(String(z).trim());});const ppL=(ev.abgesagt&&ppStern>=0)?ppAll.slice(0,ppStern):ppAll;
+        const pp=ppL.length?'<div class="proj-text" style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border)">'+ppL.map(z=>esc(z)).join('<br>')+'</div>':'';
         return`<div class="event-section ${i===0?'active':''}" id="${cId}-ev-${i}">${renderEventProgramm(ev)}${pp}</div>`;
       }).join('');
       body.innerHTML=`<div class="event-tabs-wrap"><div class="event-tabs">${tabs}</div></div><div class="event-sections">${secs}</div>`;
