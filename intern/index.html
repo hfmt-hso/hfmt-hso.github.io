@@ -1987,7 +1987,7 @@ async function untKrankSpeichern(){
   if(f('kr-bis').value<f('kr-von').value){zeigToast('„Bis" liegt vor „Von"');return;}
   var btn=f('kr-btn');btn.disabled=true;
   try{
-    var d=await untPost({action:'krankmeldungSpeichern',mtknr:st.mtknr,name:st.name,
+    var d=await untPost({action:'krankmeldungSpeichern',mtknr:st.mtknr,name:st.name,gesehenVon:UNT_ME,
       datumVon:untKrankDatum(f('kr-von').value),uhrzeitVon:f('kr-vonzeit').value||'08:00',
       datumBis:untKrankDatum(f('kr-bis').value),uhrzeitBis:f('kr-biszeit').value||'22:00',
       notiz:f('kr-notiz').value.trim()});
