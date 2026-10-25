@@ -696,7 +696,7 @@ function renderKalListe() {
         });
         if(ev.solisten&&ev.solisten.length){
           html += '<div class="kal-solisten">';
-          ev.solisten.forEach(s=>{ html+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'<br>'; });
+          ev.solisten.forEach(s=>{ const gleich=ev.solisten.filter(x=>x.instrument===s.instrument).length>1; const sw=gleich?werke.find(w=>w.solisten&&w.solisten.some(x=>x.name===s.name)):null; const wTag=(sw&&sw.komponist)?' ('+sw.komponist.trim().split(/\s+/).pop()+')':''; html+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':'')+wTag)+'<br>'; });
           html += '</div>';
         }
         if(ev.ensemble) html += `<div class="kal-leitung">${esc(ev.ensemble)}</div>`;
