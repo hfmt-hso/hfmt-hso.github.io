@@ -823,7 +823,7 @@ function renderEventProgramm(ev){
   }
   if(ev.solisten&&ev.solisten.length){
     h += '<div class="werk-solisten">';
-    ev.solisten.forEach(s=>{ h+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':''))+'<br>'; });
+    ev.solisten.forEach(s=>{ h+=esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':'')+(function(){var g=ev.solisten.filter(function(x){return x.instrument===s.instrument;}).length>1;var sw=g?ev.werke.find(function(w){return w.solisten&&w.solisten.some(function(x){return x.name===s.name;});}):null;return (sw&&sw.komponist)?' ('+sw.komponist.trim().split(/\s+/).pop()+')':'';})())+'<br>'; });
     h += '</div>';
   }
   if(ev.ensemble) h += '<div class="werk-leitung">'+esc(ev.ensemble)+'</div>';
