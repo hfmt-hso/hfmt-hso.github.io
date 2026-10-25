@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-25T03:06:50.678Z",
+  "generiert": "2026-10-25T08:43:30.572Z",
   "events": [
     {
       "datum": "26.10.2026",
@@ -729,7 +729,7 @@
         {
           "komponist": "Niko Yin",
           "lebensdaten": "2002*",
-          "titel": "Arbeitstitel (Uraufführung)",
+          "titel": "„Gotcha“ (Uraufführung)",
           "saetze": [],
           "dauer": "ca. 10 min",
           "besetzung": "1.1.2.1-1.1.1.0-Perk., Hrf.-Str. (1.1.1.1.1)",
@@ -762,7 +762,7 @@
         {
           "komponist": "Sebastian Zaczek",
           "lebensdaten": "2002*",
-          "titel": "Arbeitstitel (Uraufführung)",
+          "titel": "„bitte lächeln!“ (Uraufführung)",
           "saetze": [],
           "dauer": "ca. 10 min",
           "besetzung": "1.1.2.1-1.1.1.0-Perk., Hrf.-Str. (1.1.1.1.1)",
@@ -880,7 +880,7 @@
         {
           "komponist": "Niko Yin",
           "lebensdaten": "2002*",
-          "titel": "Arbeitstitel UA",
+          "titel": "„Gotcha“ (Uraufführung)",
           "saetze": [],
           "dauer": "ca. 10 min",
           "besetzung": "1.1.2.1-1.1.1.0-Perk., Hrf.-Str. (1.1.1.1.1)",
@@ -913,7 +913,7 @@
         {
           "komponist": "Sebastian Zaczek",
           "lebensdaten": "2002*",
-          "titel": "Arbeitstitel UA",
+          "titel": "„bitte lächeln!“ (Uraufführung)",
           "saetze": [],
           "dauer": "ca. 10 min",
           "besetzung": "1.1.2.1-1.1.1.0-Perk., Hrf.-Str. (1.1.1.1.1)",
@@ -4533,7 +4533,6 @@
       ],
       "abwesend": null,
       "eintritt": [],
-      "abgesagt": true,
       "_eventId": "5ulndvlfgv1ite0pspau9a84rg@google.com",
       "_titel": "HSO Repertoire"
     },
