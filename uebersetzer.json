@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-25T08:43:30.572Z",
+  "generiert": "2026-10-26T03:06:55.387Z",
   "events": [
     {
       "datum": "26.10.2026",
@@ -4533,6 +4533,7 @@
       ],
       "abwesend": null,
       "eintritt": [],
+      "abgesagt": true,
       "_eventId": "5ulndvlfgv1ite0pspau9a84rg@google.com",
       "_titel": "HSO Repertoire"
     },
