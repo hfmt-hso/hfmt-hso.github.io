@@ -1,30 +1,6 @@
 {
-  "generiert": "2026-10-26T03:06:59.092Z",
+  "generiert": "2026-10-27T03:07:46.792Z",
   "data": [
-    {
-      "id": "UT_20261019_11",
-      "datum": "19.10.2026",
-      "projekt": "Gruppenunterricht Song",
-      "marker": "Gruppenunterricht",
-      "dozent": "Song",
-      "uhrzeit": "15:30",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "15:30"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "16:30"
-        },
-        {
-          "slotId": "s_2",
-          "uhrzeit": "17:30"
-        }
-      ],
-      "notizen": ""
-    },
     {
       "id": "UT_20261021_12",
       "datum": "21.10.2026",
