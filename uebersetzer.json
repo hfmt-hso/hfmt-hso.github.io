@@ -1,40 +1,6 @@
 {
-  "generiert": "2026-10-27T03:07:42.562Z",
+  "generiert": "2026-10-28T03:06:58.054Z",
   "events": [
-    {
-      "datum": "27.10.2026",
-      "uhrzeit": "09:00 Uhr",
-      "ort": "Blau 206",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "endzeit": "21:00 Uhr",
-      "_eventId": "0crl55h8ngo9b66npofmui256e@google.com",
-      "_titel": "IMCH Hamburg Vorbereitung"
-    },
-    {
-      "datum": "27.10.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "endzeit": "14:30 Uhr",
-      "_eventId": "7s5dq65acmtosi7am8ro8o97fd@google.com",
-      "_titel": "WK 2 OA"
-    },
     {
       "datum": "28.10.2026",
       "uhrzeit": "10:00 Uhr",
