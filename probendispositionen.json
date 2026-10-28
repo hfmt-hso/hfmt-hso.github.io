@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-28T23:35:04.483Z",
+  "generiert": "2026-10-28T23:35:08.639Z",
   "data": [
     {
       "anlass": "WK 3 – OA",
@@ -15,6 +15,11 @@
       "anlass": "WK 3 – GP 11.11.",
       "datum": "11.11.2026",
       "text": "GP / 11. Nov\ngleiche Reihenfolge wie in den Proben, ohne Zeiten"
+    },
+    {
+      "anlass": "WK 3 – Konzert 11.11.",
+      "datum": "11.11.2026, 19:30 Uhr",
+      "text": "Konzert / 11. Nov\nBrahms PAUSE Rimsky"
     }
   ]
 }
