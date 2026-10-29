@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-29T03:06:52.713Z",
+  "generiert": "2026-10-29T14:01:11.225Z",
   "events": [
     {
       "datum": "29.10.2026",
@@ -776,27 +776,17 @@
       "datum": "25.11.2026",
       "uhrzeit": "14:15 Uhr",
       "endzeit": "17:00 Uhr",
-      "ort": "Forum",
+      "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": "Blattspiel",
       "werke": [
         {
-          "komponist": "Richard Wagner",
-          "lebensdaten": "1813–1883",
-          "titel": "Tristan und Isolde, Vorspiel und Liebestod",
+          "komponist": "Ludwig van Beethoven",
+          "lebensdaten": "1770–1827",
+          "titel": "Sinfonie Nr. 7 A-Dur, op. 92",
           "saetze": [],
-          "dauer": "ca. 19 min",
-          "besetzung": "3.3.3.3-4.3.3.1-Pk, Hrf.-Str. (10.8.6.5.4)",
-          "urauffuehrung": false,
-          "pause": false
-        },
-        {
-          "komponist": "Richard Wagner",
-          "lebensdaten": "1813–1883",
-          "titel": "Tannhäuser, Ouvertüre",
-          "saetze": [],
-          "dauer": "ca. 10 min",
-          "besetzung": "3.2.2.2-4.3.3.1-Pk, Hrf.-Str. (14.12.10.8.6)",
+          "dauer": "ca. 36 min",
+          "besetzung": "2.2.2.2-2.2.0.0-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
           "pause": false
         }
@@ -4279,7 +4269,6 @@
       ],
       "abwesend": null,
       "eintritt": [],
-      "abgesagt": true,
       "_eventId": "5ulndvlfgv1ite0pspau9a84rg@google.com",
       "_titel": "HSO Repertoire"
     },
