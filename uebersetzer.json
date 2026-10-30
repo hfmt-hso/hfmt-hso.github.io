@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-10-30T03:06:55.739Z",
+  "generiert": "2026-10-30T10:10:35.051Z",
   "events": [
     {
       "datum": "30.10.2026",
@@ -274,7 +274,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Philine Lembeck (Brahms 1. Satz), Miquel Bosch Roca (Brahms 2. Satz), Chenyu Wan (Brahms 3.& 4. Satz), Yuan Xin (Rimsky-Korsakow 1.& 2. Satz) Doğa Çetin (Rimsky-Korsakow 3. Satz), Rémi Geniet (Rimsky-Korsakow 4. Satz) (Kursleitung: Mihkel Kütson)",
+          "name": "Philine Lembeck (Brahms 1. Satz), Miquel Bosch Roca (Brahms 2. Satz), Chenyu Wan (Brahms 3.& 4. Satz), Xin Yuan (Rimsky-Korsakow 1.& 2. Satz) Doğa Çetin (Rimsky-Korsakow 3. Satz), Rémi Geniet (Rimsky-Korsakow 4. Satz) (Kursleitung: Mihkel Kütson)",
           "werk": "",
           "klasse": ""
         }
@@ -761,7 +761,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "An Hoon Song | Jacob Gröper, Uschik Choi, Rémi Geniet, Yuan Xin",
+          "name": "An Hoon Song | Jacob Gröper, Uschik Choi, Rémi Geniet, Xin Yuan",
           "werk": "",
           "klasse": ""
         }
@@ -903,7 +903,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Rémi Geniet (UA), Uschik Choi (Brahms 1. Satz), Yuan Xin (Brahms 2.& 3. Satz), Sukjong Kim (Tchaikovsky 1. Satz), Jacob Gröper (Tchaikovsky 2. Satz), Chenyu Wan (Tchaikovsky 3. Satz), Miquel Bosch Roca (Tchaikovsky 4. Satz) (Kursleitung: Golo Berg)",
+          "name": "Rémi Geniet (UA), Uschik Choi (Brahms 1. Satz), Xin Yuan (Brahms 2.& 3. Satz), Sukjong Kim (Tchaikovsky 1. Satz), Jacob Gröper (Tchaikovsky 2. Satz), Chenyu Wan (Tchaikovsky 3. Satz), Miquel Bosch Roca (Tchaikovsky 4. Satz) (Kursleitung: Golo Berg)",
           "werk": "",
           "klasse": ""
         }
@@ -1376,7 +1376,7 @@
       "ensemble": "Symphonieorchester der HfMT",
       "leitung": [
         {
-          "name": "Yuan Xin (Schnittke), Sukjong Kim (Tchaikovsky), Chenyu Wan (Prologue, Somewhere, Scherzo), Uschik Choi (Mambo, Cha-Cha, Meeting Scene), Miquel Bosch Roca (Cool Fugue, Rumble, Finale) (Kursleitung: Markus L. Frank)",
+          "name": "Xin Yuan (Schnittke), Sukjong Kim (Tchaikovsky), Chenyu Wan (Prologue, Somewhere, Scherzo), Uschik Choi (Mambo, Cha-Cha, Meeting Scene), Miquel Bosch Roca (Cool Fugue, Rumble, Finale) (Kursleitung: Markus L. Frank)",
           "werk": "",
           "klasse": ""
         }
@@ -4235,7 +4235,6 @@
       ],
       "abwesend": null,
       "eintritt": [],
-      "abgesagt": true,
       "_eventId": "5ulndvlfgv1ite0pspau9a84rg@google.com",
       "_titel": "HSO Repertoire"
     },
@@ -4513,7 +4512,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "An Hoon Song | Miquel Bosch Roca, Yuan Xin (1, 2), Jacob Gröper, Uschik Choi (3, 4)",
+          "name": "An Hoon Song | Miquel Bosch Roca, Xin Yuan (1, 2), Jacob Gröper, Uschik Choi (3, 4)",
           "werk": "",
           "klasse": ""
         }
@@ -4671,7 +4670,7 @@
       "ensemble": null,
       "leitung": [
         {
-          "name": "An Hoon Song | Philine Lembeck (1, 2), Miquel Bosch Roca (3, 4), Yuan Xin (alles)",
+          "name": "An Hoon Song | Philine Lembeck (1, 2), Miquel Bosch Roca (3, 4), Xin Yuan (alles)",
           "werk": "",
           "klasse": ""
         }
