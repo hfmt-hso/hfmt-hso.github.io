@@ -1,40 +1,6 @@
 {
-  "generiert": "2026-10-29T14:01:11.225Z",
+  "generiert": "2026-10-30T03:06:55.739Z",
   "events": [
-    {
-      "datum": "29.10.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Probenraum der Staatskapelle Halle, Große Gosenstraße 12, 06114 Halle (Saale), Deutschland",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "endzeit": "12:30 Uhr",
-      "_eventId": "03v38s4ma3ct32ft7cnpvfo5fu@google.com",
-      "_titel": "OA IMCH Halle"
-    },
-    {
-      "datum": "29.10.2026",
-      "uhrzeit": "14:00 Uhr",
-      "ort": "Probenraum der Staatskapelle Halle, Große Gosenstraße 12, 06114 Halle (Saale), Deutschland",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "endzeit": "16:30 Uhr",
-      "_eventId": "2rb3urfg6opjvu8p7f6iigndp0@google.com",
-      "_titel": "OA IMCH Halle"
-    },
     {
       "datum": "30.10.2026",
       "uhrzeit": "10:00 Uhr",
@@ -4269,6 +4235,7 @@
       ],
       "abwesend": null,
       "eintritt": [],
+      "abgesagt": true,
       "_eventId": "5ulndvlfgv1ite0pspau9a84rg@google.com",
       "_titel": "HSO Repertoire"
     },
