@@ -1,40 +1,6 @@
 {
-  "generiert": "2026-10-30T11:45:35.218Z",
+  "generiert": "2026-10-31T03:07:22.205Z",
   "events": [
-    {
-      "datum": "30.10.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Probenraum der Staatskapelle Halle, Große Gosenstraße 12, 06114 Halle (Saale), Deutschland",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "endzeit": "13:00 Uhr",
-      "_eventId": "3ebfas7185aeer6igpfb3oumdg@google.com",
-      "_titel": "HP IMCH Halle"
-    },
-    {
-      "datum": "30.10.2026",
-      "uhrzeit": "14:30 Uhr",
-      "ort": "Probenraum der Staatskapelle Halle, Große Gosenstraße 12, 06114 Halle (Saale), Deutschland",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "endzeit": "17:30 Uhr",
-      "_eventId": "2tmik4h3r5h7afitmc3ts9s39m@google.com",
-      "_titel": "GP IMCH Halle"
-    },
     {
       "datum": "31.10.2026",
       "uhrzeit": "19:00 Uhr",
@@ -4235,6 +4201,7 @@
       ],
       "abwesend": null,
       "eintritt": [],
+      "abgesagt": true,
       "_eventId": "5ulndvlfgv1ite0pspau9a84rg@google.com",
       "_titel": "HSO Repertoire"
     },
