@@ -448,7 +448,36 @@ function transportZeilen(){
   z.push({l:'Dirigierpodest', w:'1', an:false});
   return z;
 }
+let UEB_EVENTS=null;
+function ladeUebEvents(cb){
+  if(UEB_EVENTS){ cb(); return; }
+  fetch('uebersetzer.json').then(r=>r.json()).then(j=>{ UEB_EVENTS=j.events||[]; cb(); }).catch(()=>{ UEB_EVENTS=[]; cb(); });
+}
+function dmy(str){ const m=/(\d+)\.(\d+)\.(\d+)/.exec(str||''); return m?new Date(+m[3],+m[2]-1,+m[1]):null; }
+function fmtD(d){ return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear(); }
+/* Verladetag = Morgen nach der Generalprobe (GP-Termin im Kalender "HfMT Lehre"), Standardzeit 10:00 */
+function transportVorschlag(){
+  const ev=CURRENT.ev, konz=dmy(ev.datum), out={verlDat:ev.datum||'', zeiten:''};
+  if(!konz||!UEB_EVENTS) return out;
+  const tag=d=>fmtD(d), kt=tag(konz), L=[];
+  const gps=UEB_EVENTS.filter(e=>/\bGP\b/.test(e._titel||'') && dmy(e.datum) && dmy(e.datum)<=konz && (konz-dmy(e.datum))<5*864e5)
+    .sort((a,b)=>dmy(b.datum)-dmy(a.datum));
+  if(gps.length){ const g=dmy(gps[0].datum); const v=new Date(g.getFullYear(),g.getMonth(),g.getDate()+1); out.verlDat=tag(v<=konz?v:g); }
+  const tg=UEB_EVENTS.filter(e=>e.datum===kt);
+  const z=(re)=>tg.filter(e=>re.test(e._titel||'')).sort((a,b)=>(a.uhrzeit||'').localeCompare(b.uhrzeit||''))[0];
+  const a=z(/^Aufbau\s*$/i), an=z(/Anspielprobe/i), ab=z(/^Abbau/i);
+  const k=tg.find(e=>e.werke&&e.werke.length);
+  const bis=e=>e&&e.endzeit?(' – '+e.endzeit):'';
+  if(a) L.push('Aufbau vor Ort: '+kt+', '+a.uhrzeit+bis(a)+(a.ort?' ('+a.ort+')':''));
+  if(an) L.push('Anspielprobe: '+an.uhrzeit+bis(an));
+  if(k) L.push('Konzert: '+k.uhrzeit+bis(k));
+  if(ab) L.push('Abbau: '+kt+', '+ab.uhrzeit+bis(ab));
+  L.push('Rücktransport: direkt nach dem Konzert');
+  out.zeiten=L.join('\n');
+  return out;
+}
 function renderTransportUi(){
+  if(!UEB_EVENTS){ ladeUebEvents(()=>{ if(CURRENT) renderTransportUi(); }); return; }
   const box=document.getElementById('transport-panel');
   if(!box || !CURRENT) return;
   TR_ZEILEN=transportZeilen();
@@ -469,21 +498,27 @@ function renderTransportUi(){
     ? 'Aufbau 1: '+werkeFuer(1).map(w=>w.titel).join(', ')+'\nAufbau 2 (nach dem Pausenumbau): '+werkeFuer(2).map(w=>w.titel).join(', ')
     : '';
   const fld='font-family:inherit;font-size:12px;padding:4px 6px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text)';
+  const vs=transportVorschlag();
   box.innerHTML=`<details ${TRANSPORT_OPEN?'open':''} ontoggle="TRANSPORT_OPEN=this.open">
     <summary>🚚 Transportliste an Rainer Ziemski</summary>
-    <div class="hinweis">Stufe 1: Anfrage mit dem Instrumentarium (aus der Besetzung aller Werke dieses Termins). Stufe 2: Aufbauplan nachliefern – erst möglich, wenn der Plan mit „💾 Plan speichern“ gesichert ist. Der Empfänger ist im Backend fest hinterlegt, eine Kopie geht an dich.</div>
+    <div class="hinweis">Stufe 1: Anfrage mit dem Instrumentarium (aus der Besetzung aller Werke dieses Termins). Stufe 2: Aufbauplan nachliefern – erst möglich, wenn der Plan mit „💾 Plan speichern“ gesichert ist. Es wird nur ein Entwurf in deinem Gmail angelegt (nichts wird automatisch versendet); der Empfänger ist im Backend hinterlegt.</div>
     <div class="aufbau-werk">
       <label style="display:flex;align-items:center;gap:6px">Aufführungsort <select id="tr-ort" style="${fld}"><option value="">– bitte wählen –</option>${orte}</select></label>
       <label style="display:flex;align-items:center;gap:6px;flex:1">Hinweis <input id="tr-hinweis" type="text" placeholder="z.B. Anlieferzeit, Ladezone" style="flex:1;${fld}"></label>
     </div>
     ${rows}
     ${hatListe ? '' : freiBlock('Weitere Angaben (hier hineinkopieren):')}
+    <div class="aufbau-werk">
+      <label style="display:flex;align-items:center;gap:6px">Verladen am <input id="tr-vdat" type="text" value="${esc(vs.verlDat)}" style="width:100px;${fld}"></label>
+      <label style="display:flex;align-items:center;gap:6px">um <input id="tr-vzeit" type="time" value="10:00" style="${fld}"> Uhr (Morgen nach der Generalprobe)</label>
+    </div>
+    <div class="hinweis">Zeiten vor Ort / Rücktransport (aus Kalender „HfMT Lehre“, änderbar):</div>
+    <textarea id="tr-zeiten" rows="5" style="width:100%;${fld}">${esc(vs.zeiten)}</textarea>
     <div class="hinweis">Anmerkung zum Aufbauplan (Stufe 2, optional):</div>
     <textarea id="tr-frei2" rows="2" style="width:100%;${fld}">${esc(plan2)}</textarea>
     <div class="aufbau-werk" style="border-top:none">
-      <button class="btn warn" id="tr-b1" onclick="sendeTransport('anfrage')">✉ Anfrage senden</button>
-      <button class="btn" id="tr-b2" onclick="sendeTransport('plan')">✉ Aufbauplan nachliefern</button>
-      <label style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="tr-test"> nur Testmail an mich</label>
+      <button class="btn warn" id="tr-b1" onclick="sendeTransport('anfrage')">✉ Entwurf anlegen: Anfrage</button>
+      <button class="btn" id="tr-b2" onclick="sendeTransport('plan')">✉ Entwurf anlegen: Aufbauplan</button>
     </div>
     <div id="tr-status" class="hinweis"></div>
   </details>`;
@@ -493,8 +528,8 @@ function zeigeTransportStatus(){
   const el=document.getElementById('tr-status');
   if(!el || !CURRENT) return;
   const s=TRANSPORT_STATUS[CURRENT.ev.eventId]||{};
-  const a = s.anfrage ? '✓ Anfrage gesendet am '+s.anfrage.zeit+' ('+s.anfrage.ort+')' : 'Anfrage noch nicht gesendet';
-  const p = s.plan ? '✓ Aufbauplan nachgeliefert am '+s.plan.zeit : (CURRENT.ev.aufbauplan ? 'Aufbauplan gespeichert, noch nicht nachgeliefert' : 'Aufbauplan noch nicht gespeichert');
+  const a = s.anfrage ? '✓ Entwurf (Anfrage) angelegt am '+s.anfrage.zeit+' ('+s.anfrage.ort+')' : 'Anfrage-Entwurf noch nicht angelegt';
+  const p = s.plan ? '✓ Entwurf (Aufbauplan) angelegt am '+s.plan.zeit : (CURRENT.ev.aufbauplan ? 'Aufbauplan gespeichert, Entwurf noch nicht angelegt' : 'Aufbauplan noch nicht gespeichert');
   el.textContent = a+' · '+p;
   const sel=document.getElementById('tr-ort');
   if(sel && !sel.value && s.anfrage && TRANSPORT_ORTE.indexOf(s.anfrage.ort)>=0) sel.value=s.anfrage.ort;
@@ -510,7 +545,7 @@ function sendeTransport(stufe){
   const ev=CURRENT.ev;
   const ort=document.getElementById('tr-ort').value;
   if(!ort){ alert('Bitte zuerst den Aufführungsort wählen.'); return; }
-  const test=document.getElementById('tr-test').checked;
+  const test=false;
   let plan='';
   if(stufe==='plan'){
     plan=ev.aufbauplan||'';
@@ -529,29 +564,31 @@ function sendeTransport(stufe){
   const schon = !test && s[stufe] ? '\n\nAchtung: Diese Stufe wurde bereits am '+s[stufe].zeit+' gesendet.' : '';
   const frage = test
     ? 'Testmail nur an dich selbst senden?'
-    : 'Mail an Rainer Ziemski (rainerziemski@wtnet.de) senden?\n\n'+(stufe==='plan'?'Nachtrag Aufbauplan':'Transportanfrage')+'\n'+ev.titel+' – '+ev.datum+' – '+ort+'\n\nEine Kopie geht an t.dorsch@gmail.com.'+schon;
+    : 'Entwurf in Gmail anlegen (Empfänger Rainer Ziemski, rainerziemski@wtnet.de – wird NICHT automatisch gesendet)?\n\n'+(stufe==='plan'?'Nachtrag Aufbauplan':'Transportanfrage')+'\n'+ev.titel+' – '+ev.datum+' – '+ort+schon;
   if(!confirm(frage)) return;
   const btn=document.getElementById(stufe==='plan'?'tr-b2':'tr-b1');
   const statusEl=document.getElementById('status');
   const label=btn.textContent;
-  btn.disabled=true; btn.textContent='✉ Sendet…';
-  statusEl.textContent='Transportmail wird gesendet…';
+  btn.disabled=true; btn.textContent='✉ Legt an…';
+  statusEl.textContent='Entwurf wird angelegt…';
   fetch(TRANSPORT_URL,{method:'POST', body:JSON.stringify({
     action:'transportSenden', stufe, eventId:ev.eventId, projekt:ev.titel, datum:ev.datum, ort,
     hinweis:document.getElementById('tr-hinweis').value.trim(), zeilen,
+    verladenDatum:document.getElementById('tr-vdat').value.trim(), verladenZeit:document.getElementById('tr-vzeit').value||'10:00',
+    zeiten:document.getElementById('tr-zeiten').value.trim(),
     freitext:document.getElementById(stufe==='plan'?'tr-frei2':'tr-frei').value,
     aufbauplan:plan, test
   })})
   .then(r=>r.json())
   .then(res=>{
     if(res && res.ok){
-      statusEl.textContent='✓ Gesendet: '+res.gesendetAn+' ('+new Date().toLocaleString('de-DE')+').';
+      statusEl.textContent='✓ Entwurf in Gmail angelegt (An: '+res.gesendetAn+', '+new Date().toLocaleString('de-DE')+').';
       if(!test) ladeTransportStatus();
     } else {
-      statusEl.textContent='Fehler beim Senden: '+(res&&res.error?res.error:'unbekannt');
+      statusEl.textContent='Fehler beim Anlegen des Entwurfs: '+(res&&res.error?res.error:'unbekannt');
     }
   })
-  .catch(err=>{ statusEl.textContent='Fehler beim Senden: '+err.message; })
+  .catch(err=>{ statusEl.textContent='Fehler beim Anlegen des Entwurfs: '+err.message; })
   .finally(()=>{ btn.disabled=false; btn.textContent=label; });
 }
 
