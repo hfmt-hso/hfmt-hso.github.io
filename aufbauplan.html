@@ -177,7 +177,7 @@ const FULL_NAMES = {
   'Vl.I':'1. Violine','Vl.II':'2. Violine','Va':'Bratsche','Vc':'Violoncello','Kb':'Kontrabass',
   'Dir.':'Dirigent:in','Hrf':'Harfe','Kl./Fl.':'Klavier / Flügel','Cel.':'Celesta','Org.':'Orgel','Cem.':'Cembalo',
   'Hr.':'Horn','Fl.':'Flöte','Ob.':'Oboe','Kl.':'Klarinette','Fg.':'Fagott','Tr.':'Trompete','Pos.':'Posaune',
-  'Pk.':'Pauken','Tb.':'Tuba','Schl.':'Schlagwerk'
+  'Pk.':'Pauken','Tb.':'Tuba','Schl.':'Schlagwerk','Sax.':'Saxophon'
 };
 const PODEST_DEFAULTS = [
   {height:20, depth:1.0},
@@ -924,7 +924,8 @@ const ADD_OPTIONS = [
   {label:'Kl./Fl.', group:'ky', full:'Klavier / Flügel'},
   {label:'Cel.', group:'ky', full:'Celesta'},
   {label:'Org.', group:'ky', full:'Orgel'},
-  {label:'Cem.', group:'ky', full:'Cembalo'}
+  {label:'Cem.', group:'ky', full:'Cembalo'},
+  {label:'Sax.', group:'ww', full:'Saxophon'}
 ];
 function renderAddSelect(){
   const sel = document.getElementById('add-instrument');
