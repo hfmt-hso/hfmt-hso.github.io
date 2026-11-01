@@ -348,7 +348,10 @@ function ladeEvents(){
         const eventId=(r[0]||'').trim(), titel=(r[1]||'').trim(), datum=(r[2]||'').trim(), json=r[4];
         if(!eventId||!json) return;
         let data; try{ data=JSON.parse(json); }catch(e){ return; }
-        const werke=(data.werke||[]).filter(w=>!w.pause && w.besetzung);
+        /* Pause-Eintrag im Sheet merken: Werke dahinter werden unten als Vorschlag Aufbau 2 vorbelegt. */
+        let nachPause=false;
+        const werke=[];
+        (data.werke||[]).forEach(w=>{ if(w.pause){ nachPause=true; return; } if(w.besetzung) werke.push(Object.assign({}, w, {nachPause})); });
         if(!werke.length) return;
         EVENTS.push({eventId,titel,datum:data.datum||datum,werke,aufbauplan:data.aufbauplan||null});
       });
@@ -400,7 +403,13 @@ function ladeAusgewaehltesEvent(vorabState){
      automatisch neu angeordnet. Nur ein expliziter Klick auf "↻ Neu anordnen" (ruft autoLayout() direkt
      auf) verwirft den gespeicherten Stand und baut wieder frisch aus der Besetzung auf. */
   const state = vorabState || parseStateFromUrl(ev.aufbauplan);
-  if(state){ applyState(state); } else { autoLayout(); }
+  if(state){ applyState(state); } else {
+    /* Ohne gespeicherten Plan: Werke nach der Pause als Vorschlag dem zweiten Aufbau zuordnen
+       (jederzeit per Auswahl änderbar). Gespeicherte Pläne behalten ihre eigene Zuordnung. */
+    ev.werke.forEach(w=>{ if(w.nachPause) WERK_AUFBAU[werkKey(w)]=2; });
+    CURRENT.total=totalFuer(1); zeigeStat();
+    autoLayout();
+  }
   renderAufbauUi();
   zeigeSpeicherStatus();
 }
@@ -481,7 +490,7 @@ function renderAufbauUi(){
     </div>`).join('');
   panel.innerHTML = `<details ${PANEL_OPEN?'open':''} ontoggle="PANEL_OPEN=this.open">
     <summary>Aufbauten / Pausenumbau – Werke zuordnen</summary>
-    <div class="hinweis">Jedes Werk gehört zu Aufbau 1 oder Aufbau 2. Sobald mindestens ein Werk Aufbau 2 zugeordnet ist, erscheinen zwei Reiter mit je eigenem Plan (eigene Kästchen und Podeste).</div>${rows}</details>`;
+    <div class="hinweis">Jedes Werk gehört zu Aufbau 1 oder Aufbau 2 (Vorschlag: Werke nach der Pause = Aufbau 2, solange noch kein Plan gespeichert ist). Sobald mindestens ein Werk Aufbau 2 zugeordnet ist, erscheinen zwei Reiter mit je eigenem Plan (eigene Kästchen und Podeste).</div>${rows}</details>`;
   const tabs=document.getElementById('aufbau-tabs');
   const info=document.getElementById('aufbau-info');
   if(hatAufbau2()){
