@@ -155,6 +155,10 @@ body.readonly .readonly-badge{display:flex;flex-direction:column;align-items:cen
   <label>Termin
     <select id="event-select" onchange="ladeAusgewaehltesEvent()"><option>wird geladen…</option></select>
   </label>
+  <label>Als Vorlage übernehmen von
+    <select id="uebernahme-select"><option value="">–</option></select>
+  </label>
+  <button class="btn secondary" id="btn-uebernehmen" onclick="uebernehmeVonTermin()" title="Übernimmt Aufbauplan und Transportangaben des gewählten Termins in den oben gewählten Termin">📋 Übernehmen</button>
   <label style="flex-direction:row;align-items:center;gap:6px">
     <input type="checkbox" id="allow-hb" checked onchange="autoLayout()"> Bei Bedarf auch Hauptbühne nutzen
   </label>
@@ -454,6 +458,63 @@ function ladeAusgewaehltesEvent(vorabState){
   renderAufbauUi();
   renderTransportUi();
   zeigeSpeicherStatus();
+  fuelleUebernahmeSelect();
+}
+
+/* ───────────────────────── Plan + Transportangaben von einem anderen Termin als Vorlage übernehmen ─────────────────────────
+   Quelle = Termin mit gespeichertem Plan (ev.aufbauplan). Übernommen werden Kästchen, Podeste, Werkzuordnung zu
+   Aufbau 1/2, Solisten/Besetzungsänderungen sowie alle Felder des Transportformulars (Ort, Hinweis, Schlagwerk-Liste,
+   Anzahlen, Häkchen, Anmerkung …). NICHT übernommen werden "Verladen am" und "Zeiten vor Ort", weil sie aus dem
+   Kalender des jeweiligen Termins stammen. Gespeichert wird erst mit "💾 Plan speichern". */
+function titelBasis(t){ return String(t||'').replace(/\s*\(\d+\)\s*$/,'').trim(); }
+function fuelleUebernahmeSelect(){
+  const sel=document.getElementById('uebernahme-select');
+  if(!sel || !CURRENT) return;
+  const cur=CURRENT.ev, cd=parseDatum(cur.datum);
+  const quellen=EVENTS.map((e,i)=>({e,i})).filter(x=>x.e!==cur && x.e.aufbauplan);
+  if(!quellen.length){ sel.innerHTML='<option value="">– kein anderer Termin mit gespeichertem Plan –</option>'; return; }
+  sel.innerHTML=quellen.map(x=>`<option value="${x.i}">${esc(x.e.datum||'')} – ${esc(x.e.titel)}</option>`).join('');
+  /* Vorauswahl: Termin mit gleichem Titel (ohne "(1)"/"(2)"), sonst zeitlich nächster */
+  const gleich=quellen.filter(x=>titelBasis(x.e.titel)===titelBasis(cur.titel));
+  const pool=gleich.length?gleich:quellen;
+  pool.sort((a,b)=>Math.abs(parseDatum(a.e.datum)-cd)-Math.abs(parseDatum(b.e.datum)-cd));
+  sel.value=String(pool[0].i);
+}
+/* jüngster Transport-Entwurf eines beliebigen Termins (lokal vs. im gespeicherten Plan-Link) */
+function trEntwurfVon(ev){
+  let l=null;
+  try{ const d=JSON.parse(localStorage.getItem('aufbauplan-transport:'+ev.eventId)||'null'); if(d&&d.v) l=d; }catch(e){}
+  const s=trTfAusUrl(ev.aufbauplan);
+  if(l && s) return (l.t||0)>(s.t||0) ? l : s;
+  return l||s||null;
+}
+function uebernehmeVonTermin(){
+  if(!CURRENT || READONLY) return;
+  const sel=document.getElementById('uebernahme-select');
+  const src=sel && sel.value!=='' ? EVENTS[+sel.value] : null;
+  if(!src || src===CURRENT.ev || !src.aufbauplan){ alert('Bitte einen anderen Termin mit gespeichertem Plan wählen.'); return; }
+  const state=parseStateFromUrl(src.aufbauplan);
+  if(!state){ alert('Der gespeicherte Plan von „'+src.titel+'“ konnte nicht gelesen werden.'); return; }
+  const ziel=CURRENT.ev;
+  const keysZiel=ziel.werke.map(werkKey).sort().join('\n'), keysQuelle=src.werke.map(werkKey).sort().join('\n');
+  const abw = keysZiel!==keysQuelle
+    ? '\n\nAchtung: Die Werke der beiden Termine sind nicht identisch – Kästchen und Werkzuordnung passen dann evtl. nicht. Bitte danach genau prüfen.' : '';
+  if(!confirm('Plan und Transportangaben von\n'+src.datum+' – '+src.titel+'\nin\n'+ziel.datum+' – '+ziel.titel+'\nübernehmen?\n\nDer aktuelle Stand dieses Termins (Kästchen, Podeste, Transportangaben) wird dabei ersetzt. „Verladen am“ und „Zeiten vor Ort“ bleiben terminbezogen unverändert. Gespeichert wird erst mit „💾 Plan speichern“.'+abw)) return;
+  /* 1) Aufbauplan */
+  const zielKeys=ziel.werke.map(werkKey);
+  state.ev=ziel.eventId;
+  state.wa=(Array.isArray(state.wa)?state.wa:[]).filter(k=>zielKeys.indexOf(k)>=0);
+  applyState(state);
+  /* 2) Transportformular: alle Felder außer den terminbezogenen Kalenderangaben */
+  const dq=trEntwurfVon(src);
+  if(dq){
+    const alt=trBesterEntwurf();
+    const v=Object.assign({}, dq.v);
+    ['tr-vdat','tr-zeiten'].forEach(k=>{ delete v[k]; if(alt && alt.v[k]!==undefined) v[k]=alt.v[k]; });
+    trSchreibeLokal({t:Date.now(), v});
+  }
+  renderTransportUi();
+  document.getElementById('status').textContent='✓ Plan'+(dq?' und Transportangaben':'')+' von „'+src.datum+' – '+src.titel+'“ übernommen – noch NICHT gespeichert. Bitte prüfen, bei Bedarf anpassen und dann „💾 Plan speichern“ drücken.';
 }
 
 /* ───────────────────────── Transportliste an den Transporteur ─────────────────────────
@@ -642,12 +703,23 @@ function trStelleEntwurfWiederHer(box){
   if(d){
     trSchreibeLokal(d);
     TR_FELD_IDS.forEach(id=>{ const e=document.getElementById(id); if(e && d.v[id]!==undefined) e.value=d.v[id]; });
+    /* Positionszeilen (Häkchen + Anzahl) – pro Bezeichnung abgelegt, damit sie auch bei geändertem Programm richtig zugeordnet werden */
+    TR_ZEILEN.forEach((z,i)=>{
+      const we=box.querySelector('.tr-w[data-i="'+i+'"]'), ae=box.querySelector('.tr-an[data-i="'+i+'"]');
+      if(we && !we.id && d.v['tr-w:'+z.l]!==undefined) we.value=d.v['tr-w:'+z.l];
+      if(ae && d.v['tr-an:'+z.l]!==undefined) ae.checked=d.v['tr-an:'+z.l]==='1';
+    });
   }
   box.oninput=box.onchange=function(ev){
     const t=ev.target;
-    if(!t || TR_FELD_IDS.indexOf(t.id)<0) return;
+    if(!t) return;
+    let key=null, val=null;
+    if(TR_FELD_IDS.indexOf(t.id)>=0){ key=t.id; val=t.value; }
+    else if(t.classList && t.classList.contains('tr-an') && TR_ZEILEN[+t.dataset.i]){ key='tr-an:'+TR_ZEILEN[+t.dataset.i].l; val=t.checked?'1':'0'; }
+    else if(t.classList && t.classList.contains('tr-w') && TR_ZEILEN[+t.dataset.i]){ key='tr-w:'+TR_ZEILEN[+t.dataset.i].l; val=t.value; }
+    if(key===null) return;
     const cur=trLeseLokal()||{t:0,v:{}};
-    cur.v[t.id]=t.value; cur.t=Date.now(); trSchreibeLokal(cur);
+    cur.v[key]=val; cur.t=Date.now(); trSchreibeLokal(cur);
     clearTimeout(TR_SYNC_TIMER); TR_SYNC_TIMER=setTimeout(trSpeichereServer, 1500);
   };
 }
