@@ -549,31 +549,75 @@ function renderTransportUi(){
       <button class="btn" id="tr-b2" onclick="sendeTransport('plan')">✉ Entwurf anlegen: Aufbauplan</button>
     </div>
     <div id="tr-status" class="hinweis"></div>
+    <div id="tr-sync" class="hinweis"></div>
   </details>`;
   trStelleEntwurfWiederHer(box);
   zeigeTransportStatus();
 }
-/* Eingaben im Transportformular (z.B. hineinkopierte Schlagwerk-Liste) pro Termin zwischenspeichern,
-   damit sie ein Neuaufbau der Seite (Termin neu laden, Plan speichern, Sync …) nicht löscht.
-   Gespeichert werden nur Felder, die der Nutzer selbst bearbeitet hat – unbearbeitete Felder
-   bekommen weiterhin frische Vorschläge (Kalender, Werke). */
+/* Eingaben im Transportformular (z.B. hineinkopierte Schlagwerk-Liste) bleiben erhalten – auch geräteübergreifend:
+   - lokal pro Termin im Browser (sofort, übersteht Neuaufbau/Neuladen)
+   - zusätzlich als Parameter "tf" an den gespeicherten Plan-Link des Termins gehängt (dasselbe Übersetzer-Sheet-Feld,
+     das "💾 Plan speichern" befüllt) – dadurch sieht jedes Gerät denselben Stand. Das passiert automatisch kurz nach
+     dem Tippen, aber nur, wenn für den Termin bereits ein Plan gespeichert ist; der gespeicherte Plan selbst bleibt dabei
+     unverändert (nur "tf" wird ausgetauscht). Ohne gespeicherten Plan wird der Text beim ersten "💾 Plan speichern" mit abgelegt.
+   Es gilt immer der jüngere Stand (lokal vs. gespeichert). Nur vom Nutzer bearbeitete Felder werden abgelegt –
+   unbearbeitete Felder bekommen weiterhin frische Vorschläge (Kalender, Werke). */
 const TR_FELD_IDS=['tr-ort','tr-hinweis','tr-frei','tr-vdat','tr-vzeit','tr-zeiten','tr-frei2'];
+let TR_SYNC_TIMER=null;
 function trEntwurfKey(){ return CURRENT&&CURRENT.ev ? 'aufbauplan-transport:'+CURRENT.ev.eventId : null; }
-function trLeseEntwurf(){
-  const k=trEntwurfKey(); if(!k) return {};
-  try{ return JSON.parse(localStorage.getItem(k)||'{}')||{}; }catch(e){ return {}; }
+function trLeseLokal(){
+  const k=trEntwurfKey(); if(!k) return null;
+  try{ const d=JSON.parse(localStorage.getItem(k)||'null'); return d&&d.v?d:null; }catch(e){ return null; }
 }
-function trSchreibeEntwurf(d){
+function trSchreibeLokal(d){
   const k=trEntwurfKey(); if(!k) return;
   try{ localStorage.setItem(k, JSON.stringify(d)); }catch(e){}
 }
+function trTfAusUrl(url){
+  if(!url) return null;
+  const m=/[&?]tf=([^&#]*)/.exec(url); if(!m) return null;
+  try{ const d=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); return d&&d.v?d:null; }catch(e){ return null; }
+}
+function trTfParam(d){
+  if(!d||!d.v||!Object.keys(d.v).length) return '';
+  return '&tf='+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(d)))));
+}
+function trUrlOhneTf(url){ return (url||'').replace(/&tf=[^&#]*/,''); }
+/* jüngster Stand aus lokalem und im Plan-Link gespeichertem Entwurf */
+function trBesterEntwurf(){
+  const l=trLeseLokal(), s=CURRENT&&CURRENT.ev ? trTfAusUrl(CURRENT.ev.aufbauplan) : null;
+  if(l && s) return (l.t||0)>(s.t||0) ? l : s;
+  return l||s||null;
+}
+function trSyncInfo(txt){ const e=document.getElementById('tr-sync'); if(e) e.textContent=txt||''; }
+function trSpeichereServer(){
+  if(!CURRENT||!CURRENT.ev) return;
+  const ev=CURRENT.ev, d=trLeseLokal();
+  if(!d) return;
+  if(!ev.aufbauplan){ trSyncInfo('Eingaben nur auf diesem Gerät gesichert – sie werden beim ersten „💾 Plan speichern" geräteübergreifend abgelegt.'); return; }
+  const neu=trUrlOhneTf(ev.aufbauplan)+trTfParam(d);
+  if(neu.length>45000){ trSyncInfo('Eingaben nur auf diesem Gerät gesichert (zu lang für die geräteübergreifende Ablage).'); return; }
+  trSyncInfo('Eingaben werden geräteübergreifend gesichert …');
+  fetch(WEBAPP_URL,{method:'POST', body:JSON.stringify({action:'aufbauplanSpeichern', eventId:ev.eventId, aufbauplan:neu})})
+    .then(r=>r.json())
+    .then(res=>{
+      if(res && res.ok){ ev.aufbauplan=neu; trSyncInfo('✓ Eingaben geräteübergreifend gesichert ('+new Date().toLocaleTimeString('de-DE')+').'); }
+      else trSyncInfo('Eingaben nur auf diesem Gerät gesichert (Fehler: '+(res&&res.error?res.error:'unbekannt')+').');
+    })
+    .catch(err=>trSyncInfo('Eingaben nur auf diesem Gerät gesichert ('+err.message+').'));
+}
 function trStelleEntwurfWiederHer(box){
-  const d=trLeseEntwurf();
-  TR_FELD_IDS.forEach(id=>{ const e=document.getElementById(id); if(e && d[id]!==undefined) e.value=d[id]; });
+  const d=trBesterEntwurf();
+  if(d){
+    trSchreibeLokal(d);
+    TR_FELD_IDS.forEach(id=>{ const e=document.getElementById(id); if(e && d.v[id]!==undefined) e.value=d.v[id]; });
+  }
   box.oninput=box.onchange=function(ev){
     const t=ev.target;
     if(!t || TR_FELD_IDS.indexOf(t.id)<0) return;
-    const cur=trLeseEntwurf(); cur[t.id]=t.value; trSchreibeEntwurf(cur);
+    const cur=trLeseLokal()||{t:0,v:{}};
+    cur.v[t.id]=t.value; cur.t=Date.now(); trSchreibeLokal(cur);
+    clearTimeout(TR_SYNC_TIMER); TR_SYNC_TIMER=setTimeout(trSpeichereServer, 1500);
   };
 }
 function zeigeTransportStatus(){
@@ -1631,7 +1675,7 @@ function speichereAufbauplan(){
      Portal landet – Technik-Kolleg:innen sollen darüber die schlanke Nur-Ansicht sehen, nicht das volle
      Editier-Werkzeug (siehe READONLY oben). parseStateFromUrl() liest nur den "plan"-Parameter, das
      zusätzliche "ansicht"-Feld stört das interne Wiederherstellen des Zustands beim Terminwechsel nicht. */
-  const url = baueplanLink() + '&ansicht=readonly';
+  const url = baueplanLink() + '&ansicht=readonly' + trTfParam(trBesterEntwurf());
   btn.disabled=true; btn.textContent='💾 Speichert…';
   statusEl.textContent='Plan wird gespeichert…';
   fetch(WEBAPP_URL, {
