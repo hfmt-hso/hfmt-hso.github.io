@@ -65,8 +65,19 @@ svg{display:block;margin:0 auto;touch-action:none}
 .podest-row b{color:var(--podest-border);font-size:11px;min-width:50px}
 .podest-row label{display:flex;flex-direction:column;gap:2px;color:var(--text-muted);font-size:9.5px}
 .podest-row select,.podest-row input{font-family:inherit;font-size:12px;padding:4px 6px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);width:62px}
+.aufbau-panel{margin:0 16px 10px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:12px}
+.aufbau-panel summary{cursor:pointer;font-weight:600;color:var(--text)}
+.aufbau-panel .hinweis{color:var(--text-muted);font-size:11px;margin:6px 0}
+.aufbau-werk{display:flex;align-items:center;gap:8px;padding:4px 0;border-top:0.5px solid var(--border)}
+.aufbau-werk span{flex:1;min-width:0}
+.aufbau-werk select{font-family:inherit;font-size:12px;padding:4px 6px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text)}
+.aufbau-tabs{display:flex;gap:8px;padding:0 16px 10px}
+.aufbau-tabs button{font-family:inherit;font-size:13px;font-weight:600;padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:var(--card-bg);color:var(--text-muted);cursor:pointer}
+.aufbau-tabs button.aktiv{background:var(--blue-light);color:var(--blue);border-color:var(--blue)}
+.aufbau-info{padding:0 16px 8px;font-size:12px;font-weight:600;color:var(--text)}
+.aufbau-info:empty{display:none}
 @media print{
-  .header,.controls,.hint-card,.stat-strip,.legend,.podest-panel,.status-line,.no-print{display:none!important}
+  .header,.controls,.hint-card,.stat-strip,.legend,.podest-panel,.status-line,.aufbau-tabs,.no-print{display:none!important}
   body{background:#fff}
   .stage-wrap{padding:0}
 }
@@ -133,6 +144,9 @@ body.readonly .readonly-badge{display:flex;flex-direction:column;align-items:cen
   <button class="btn secondary" onclick="fuegeBoxHinzu()">+ Hinzufügen</button>
 </div>
 
+<div id="aufbau-panel" class="aufbau-panel no-print"></div>
+<div id="aufbau-tabs" class="aufbau-tabs"></div>
+<div id="aufbau-info" class="aufbau-info"></div>
 <div id="stat-strip" class="stat-strip"></div>
 <div class="legend">
   <span><i style="background:var(--str-fill);border:1px solid var(--str-border)"></i>Streicher</span>
@@ -167,6 +181,15 @@ let EVENTS = []; // {eventId, titel, datum, data}
 let CURRENT = null; // ausgewaehltes event
 let BOXES = [];   // aktuelle Aufbau-Objekte {id,label,full,x,y,group,players}
 let PODESTS = []; // Podest-Reihen {id,height,depth,y,xCenter,width} – bleiben über autoLayout()/Terminwechsel hinweg erhalten
+/* Zwei Aufbauten pro Termin (z.B. großer Pausenumbau): jedes Werk ist per Auswahl Aufbau 1 oder 2
+   zugeordnet (WERK_AUFBAU: Werk-Schlüssel → 2; fehlt ein Werk, gilt Aufbau 1). BOXES/PODESTS enthalten
+   immer den gerade angezeigten Aufbau (AUFBAU), der andere liegt in STASH. AUTO_SIG merkt sich je Aufbau
+   die Signatur des automatischen Vorschlags, um manuelle Änderungen zu erkennen (siehe bearbeitet()). */
+let AUFBAU = 1;
+let STASH = {};
+let WERK_AUFBAU = {};
+let AUTO_SIG = {};
+let PANEL_OPEN = true;
 let SELECTED = new Set();  // IDs der aktuell markierten Kästchen (Mehrfachauswahl per Cmd/Strg-Klick oder Lasso)
 let BOX_NODES = {};        // id -> {grp, rect, borderColor} der zuletzt gerenderten Kästchen, für Auswahl-Highlighting ohne kompletten Re-Render
 let __idSeq = 0;           // globaler ID-Zähler für Boxen – gemeinsam genutzt von autoLayout(), applyState() und manuellem Hinzufügen, damit IDs nie kollidieren
@@ -367,13 +390,10 @@ function parseDatum(s){
 function ladeAusgewaehltesEvent(vorabState){
   const idx=+document.getElementById('event-select').value;
   const ev=EVENTS[idx]; if(!ev) return;
-  let total=leereBesetzung();
-  ev.werke.forEach(w=>{ total=mergeBesetzung(total, parseBesetzung(w.besetzung)); });
-  CURRENT={ev, total};
-  const stat=document.getElementById('stat-strip');
-  const bl = total.fl+total.ob+total.cl+total.fg+total.hr+total.tp+total.tb+total.tu+total.pk+total.percNamen.length+total.percExtra;
-  const str = total.vl1+total.vl2+total.va+total.vc+total.kb;
-  stat.innerHTML = `<span><b>${esc(formatBesetzung(total))}</b></span><span>${str} Streicher</span><span>${bl} Bläser/Schlagwerk</span>`;
+  CURRENT={ev, total:leereBesetzung()};
+  AUFBAU=1; STASH={}; AUTO_SIG={}; WERK_AUFBAU={};
+  CURRENT.total=totalFuer(1);
+  zeigeStat();
   /* Wichtig (Session 10 – vorher toter Code): Ist für diesen Termin bereits ein Aufbauplan gespeichert
      (ev.aufbauplan, per "💾 Plan speichern" gesetzt), wird genau dieser gespeicherte Zustand geladen
      (inkl. aller manuellen Verschiebungen sowie manuell hinzugefügter/gelöschter Kästchen) – NICHT mehr
@@ -381,7 +401,93 @@ function ladeAusgewaehltesEvent(vorabState){
      auf) verwirft den gespeicherten Stand und baut wieder frisch aus der Besetzung auf. */
   const state = vorabState || parseStateFromUrl(ev.aufbauplan);
   if(state){ applyState(state); } else { autoLayout(); }
+  renderAufbauUi();
   zeigeSpeicherStatus();
+}
+
+/* ───────────────────────── Zwei Aufbauten (Werkzuordnung) ───────────────────────── */
+function werkKey(w){ return (w.komponist||'')+' | '+(w.titel||''); }
+function werkAufbau(w){ return WERK_AUFBAU[werkKey(w)]===2 ? 2 : 1; }
+function werkeFuer(a){ return CURRENT ? CURRENT.ev.werke.filter(w=>werkAufbau(w)===a) : []; }
+function totalFuer(a){
+  let t=leereBesetzung();
+  werkeFuer(a).forEach(w=>{ t=mergeBesetzung(t, parseBesetzung(w.besetzung)); });
+  return t;
+}
+function hatAufbau2(){ return werkeFuer(2).length>0; }
+function planSig(boxes, podests){
+  return JSON.stringify([
+    boxes.map(b=>[b.label,b.full,b.x,b.y,b.players]),
+    podests.map(p=>[p.height,p.depth,p.y,p.xCenter,p.width,p.visible!==false])
+  ]);
+}
+/* true, wenn der Aufbau a seit dem automatischen Vorschlag manuell verändert (oder aus einem gespeicherten
+   Plan geladen) wurde – dann geht beim Neuberechnen etwas verloren und es wird vorher nachgefragt. */
+function bearbeitet(a){
+  const sv = a===AUFBAU ? {boxes:BOXES, podests:PODESTS} : STASH[a];
+  if(!sv) return false;
+  return AUTO_SIG[a]!==planSig(sv.boxes, sv.podests);
+}
+function zeigeStat(){
+  const total=CURRENT.total;
+  const bl = total.fl+total.ob+total.cl+total.fg+total.hr+total.tp+total.tb+total.tu+total.pk+total.percNamen.length+total.percExtra;
+  const str = total.vl1+total.vl2+total.va+total.vc+total.kb;
+  const pre = hatAufbau2() ? `<span><b>Aufbau ${AUFBAU}</b></span>` : '';
+  document.getElementById('stat-strip').innerHTML = pre+`<span><b>${esc(formatBesetzung(total))}</b></span><span>${str} Streicher</span><span>${bl} Bläser/Schlagwerk</span>`;
+}
+function wechsleAufbau(n){
+  if(!CURRENT || n===AUFBAU || (n===2 && !hatAufbau2())){ renderAufbauUi(); return; }
+  STASH[AUFBAU]={boxes:BOXES, podests:PODESTS};
+  AUFBAU=n; SELECTED.clear();
+  CURRENT.total=totalFuer(n);
+  const sv=STASH[n];
+  if(sv){ BOXES=sv.boxes; PODESTS=sv.podests; renderPodestPanel(); renderStage(); }
+  else { PODESTS=PODESTS.map(p=>Object.assign({},p)); autoLayout(); }
+  zeigeStat(); renderAufbauUi();
+}
+/* Stellt sicher, dass beide Aufbauten berechnet sind (z.B. vor dem Speichern), ohne die Ansicht zu ändern. */
+function alleAufbautenBereit(){
+  if(!hatAufbau2()) return;
+  const start=AUFBAU, other=start===1?2:1;
+  if(!STASH[other]){ wechsleAufbau(other); wechsleAufbau(start); }
+  STASH[start]={boxes:BOXES, podests:PODESTS};
+}
+function setzeWerkAufbau(i, a){
+  if(!CURRENT) return;
+  const w=CURRENT.ev.werke[i]; if(!w) return;
+  if(werkAufbau(w)===a) return;
+  if([1,2].some(x=>bearbeitet(x)) &&
+     !confirm('Die Zuordnung ändert die Besetzung der Aufbauten. Beide Aufbauten werden neu angeordnet – manuelle Verschiebungen gehen verloren. Fortfahren?')){
+    renderAufbauUi(); return;
+  }
+  const key=werkKey(w);
+  if(a===2) WERK_AUFBAU[key]=2; else delete WERK_AUFBAU[key];
+  STASH={}; AUTO_SIG={};
+  if(AUFBAU===2 && !hatAufbau2()) AUFBAU=1;
+  CURRENT.total=totalFuer(AUFBAU);
+  autoLayout();
+  zeigeStat(); renderAufbauUi();
+}
+function renderAufbauUi(){
+  if(!CURRENT) return;
+  const panel=document.getElementById('aufbau-panel');
+  const rows=CURRENT.ev.werke.map((w,i)=>`
+    <div class="aufbau-werk">
+      <span>${esc(w.komponist?w.komponist+' – ':'')}${esc(w.titel||'')}</span>
+      <select onchange="setzeWerkAufbau(${i}, +this.value)">
+        <option value="1" ${werkAufbau(w)===1?'selected':''}>Aufbau 1</option>
+        <option value="2" ${werkAufbau(w)===2?'selected':''}>Aufbau 2</option>
+      </select>
+    </div>`).join('');
+  panel.innerHTML = `<details ${PANEL_OPEN?'open':''} ontoggle="PANEL_OPEN=this.open">
+    <summary>Aufbauten / Pausenumbau – Werke zuordnen</summary>
+    <div class="hinweis">Jedes Werk gehört zu Aufbau 1 oder Aufbau 2. Sobald mindestens ein Werk Aufbau 2 zugeordnet ist, erscheinen zwei Reiter mit je eigenem Plan (eigene Kästchen und Podeste).</div>${rows}</details>`;
+  const tabs=document.getElementById('aufbau-tabs');
+  const info=document.getElementById('aufbau-info');
+  if(hatAufbau2()){
+    tabs.innerHTML=[1,2].map(n=>`<button class="${n===AUFBAU?'aktiv':''}" onclick="wechsleAufbau(${n})">Aufbau ${n} (${werkeFuer(n).length} ${werkeFuer(n).length===1?'Werk':'Werke'})</button>`).join('');
+    info.textContent=`Aufbau ${AUFBAU} – Werke: `+werkeFuer(AUFBAU).map(w=>(w.komponist?w.komponist+': ':'')+(w.titel||'')).join(' · ');
+  } else { tabs.innerHTML=''; info.textContent=''; }
 }
 
 /* ───────────────────────── Podest-Editor (Höhe/Breite/Tiefe pro Reihe) ───────────────────────── */
@@ -611,6 +717,7 @@ function autoLayout(){
     b.x = px; b.y = py;
   });
 
+  AUTO_SIG[AUFBAU]=planSig(BOXES, PODESTS);
   renderStage();
 }
 
@@ -998,14 +1105,25 @@ function makePodestDraggable(node,p){
 }
 
 /* ───────────────────────── Plan-Link (Zustand in URL, wird im Übersetzer-Sheet gespeichert) ───────────────────────── */
+/* "f" (voller Instrumentenname) wird mitgespeichert, damit z.B. individuell benannte Schlagwerk-
+   Instrumente beim Wiederherstellen (applyState()) nicht auf den generischen Namen zurückfallen. */
+function serBoxes(arr){ return arr.map(b=>({l:b.label,g:b.group,x:Math.round(b.x*10)/10,y:Math.round(b.y*10)/10,p:b.players,f:b.full})); }
+function serPodests(arr){ return arr.map(p=>({id:p.id,h:p.height,d:Math.round(p.depth*10)/10,y:Math.round(p.y*10)/10,x:Math.round(p.xCenter*10)/10,w:Math.round(p.width*10)/10,v:p.visible!==false})); }
 function baueplanLink(){
+  alleAufbautenBereit();
+  const a1 = AUFBAU===1 ? {boxes:BOXES, podests:PODESTS} : STASH[1];
+  const a2 = hatAufbau2() ? (AUFBAU===2 ? {boxes:BOXES, podests:PODESTS} : STASH[2]) : null;
+  /* Abwärtskompatibel: boxes/podests = Aufbau 1 (wie bisher). Nur bei zwei Aufbauten kommen "a2"
+     (Aufbau 2) und "wa" (Schlüssel der Werke, die zu Aufbau 2 gehören) hinzu. */
   const state = {
     ev: CURRENT.ev.eventId,
-    /* "f" (voller Instrumentenname) wird mitgespeichert, damit z.B. individuell benannte Schlagwerk-
-       Instrumente beim Wiederherstellen (applyState()) nicht auf den generischen Namen zurückfallen. */
-    boxes: BOXES.map(b=>({l:b.label,g:b.group,x:Math.round(b.x*10)/10,y:Math.round(b.y*10)/10,p:b.players,f:b.full})),
-    podests: PODESTS.map(p=>({id:p.id,h:p.height,d:Math.round(p.depth*10)/10,y:Math.round(p.y*10)/10,x:Math.round(p.xCenter*10)/10,w:Math.round(p.width*10)/10,v:p.visible!==false}))
+    boxes: serBoxes(a1.boxes),
+    podests: serPodests(a1.podests)
   };
+  if(a2){
+    state.a2 = {boxes:serBoxes(a2.boxes), podests:serPodests(a2.podests)};
+    state.wa = werkeFuer(2).map(werkKey);
+  }
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
   return location.origin + location.pathname + '?plan=' + encoded;
 }
@@ -1028,12 +1146,8 @@ function parseStateFromUrl(input){
    wiederhergestellt wird (inkl. manuell verschobener Positionen und manuell hinzugefügter/gelöschter
    Kästchen). Neue interne IDs werden über die gemeinsame nextId()-Vergabe erzeugt (die im Link
    gespeicherten Kurz-Werte enthalten keine IDs, siehe baueplanLink()). */
-function applyState(state){
-  initPodestsIfNeeded();
-  if(Array.isArray(state.podests) && state.podests.length){
-    PODESTS = state.podests.map(p=>({id:p.id, height:p.h, depth:p.d, y:p.y, xCenter:p.x, width:p.w, visible:p.v!==false}));
-  }
-  BOXES = (state.boxes||[]).map(b=>({
+function boxesFromState(arr){
+  return (arr||[]).map(b=>({
     id: nextId(),
     label: b.l,
     full: b.f || FULL_NAMES[b.l] || b.l,
@@ -1041,9 +1155,26 @@ function applyState(state){
     x: b.x, y: b.y,
     players: b.p||1
   }));
+}
+function podestsFromState(arr){
+  return (Array.isArray(arr)?arr:[]).map(p=>({id:p.id, height:p.h, depth:p.d, y:p.y, xCenter:p.x, width:p.w, visible:p.v!==false}));
+}
+function applyState(state){
+  initPodestsIfNeeded();
+  AUFBAU=1; STASH={}; AUTO_SIG={}; WERK_AUFBAU={};
+  (Array.isArray(state.wa)?state.wa:[]).forEach(k=>{ WERK_AUFBAU[k]=2; });
+  const pods = podestsFromState(state.podests);
+  if(pods.length) PODESTS = pods;
+  BOXES = boxesFromState(state.boxes);
+  if(state.a2){
+    const pods2 = podestsFromState(state.a2.podests);
+    STASH[2] = {boxes:boxesFromState(state.a2.boxes), podests: pods2.length?pods2:PODESTS.map(p=>Object.assign({},p))};
+  }
+  if(CURRENT){ CURRENT.total=totalFuer(1); zeigeStat(); }
   SELECTED.clear();
   renderPodestPanel();
   renderStage();
+  renderAufbauUi();
 }
 
 function kopiereLink(){
