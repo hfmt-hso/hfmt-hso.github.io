@@ -471,16 +471,33 @@ function totalAlle(){
   if(hatAufbau2()) t=mergeBesetzung(t, totalFuer(2));
   return t;
 }
+/* Schlagwerk-Angaben aus der Programmgestaltung (Spalten "Schlagwerk Spieler" / "Schlagwerkaufstellung"):
+   Das Backend legt sie – sobald vorhanden – pro Werk als w.schlagwerkAnzahl (Zahl) und w.schlagwerkListe (Text) ab.
+   Fehlen sie, gilt weiter die Besetzung aus dem Kalender (parseBesetzung). */
+function schlagwerkAusWerken(){
+  const werke=(CURRENT&&CURRENT.ev&&CURRENT.ev.werke)||[];
+  let anzahl=null; const listen=[];
+  werke.forEach(w=>{
+    const n=parseInt(w.schlagwerkAnzahl,10);
+    if(!isNaN(n)) anzahl=Math.max(anzahl===null?0:anzahl, n);
+    const l=(w.schlagwerkListe||'').trim();
+    if(l) listen.push({titel:((w.komponist?w.komponist+': ':'')+(w.titel||'')).trim(), l});
+  });
+  const liste = listen.length>1 ? listen.map(x=>x.titel+'\n'+x.l).join('\n\n') : (listen[0]?listen[0].l:'');
+  return {anzahl, liste};
+}
 function transportZeilen(){
   const t=totalAlle();
-  const perc=t.percNamen.length+t.percExtra;
+  const sw=schlagwerkAusWerken();
+  const percKalender=t.percNamen.length+t.percExtra;
+  const perc = sw.anzahl!==null ? sw.anzahl : percKalender;
   const blas=t.fl+t.ob+t.cl+t.fg+t.hr+t.tp+t.tb+t.tu+t.pk+perc;
   const stuehle=blas+t.vl1+t.vl2+t.va+t.vc;
   const z=[];
   if(t.kb>0) z.push({l:'Kontrabässe (in Hüllen)', w:String(t.kb), an:true});
   if(t.hrf>0) z.push({l:t.hrf>1?'Harfen':'Harfe', w:String(t.hrf), an:true});
   if(t.pk>0) z.push({l:'Pauken (in Cases)', w:'4', an:true});
-  if(perc>0) z.push({l:'Schlagwerk', w:'', an:true, liste:true});
+  if(perc>0 || sw.liste) z.push({l:'Schlagwerk', w:perc>0?String(perc):'', an:true, liste:true});
   if(t.cel>0) z.push({l:'Celesta', w:'1', an:true});
   if(t.org>0) z.push({l:'Orgel', w:'1', an:true});
   if(t.cem>0) z.push({l:'Cembalo', w:'1', an:true});
@@ -523,13 +540,14 @@ function renderTransportUi(){
   if(!box || !CURRENT) return;
   TR_ZEILEN=transportZeilen();
   const fldL='font-family:inherit;font-size:12px;padding:4px 6px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text)';
-  const freiBlock=(hl)=>`<div class="hinweis">${hl}</div><textarea id="tr-frei" rows="5" style="width:100%;${fldL}"></textarea>`;
+  const swListe=schlagwerkAusWerken().liste;
+  const freiBlock=(hl,vor)=>`<div class="hinweis">${hl}</div><textarea id="tr-frei" rows="5" style="width:100%;${fldL}">${esc(vor||'')}</textarea>`;
   const hatListe=TR_ZEILEN.some(z=>z.liste);
   const rows=TR_ZEILEN.map((z,i)=> z.liste ? `
     <div class="aufbau-werk">
       <label style="display:flex;align-items:center;gap:6px;flex:1"><input type="checkbox" class="tr-an" data-i="${i}" ${z.an?'checked':''}> ${esc(z.l)}</label>
-      <input type="hidden" class="tr-w" data-i="${i}" value="">
-    </div>${freiBlock('Schlagwerk-Liste / weitere Angaben (hier hineinkopieren):')}` : `
+      <input type="text" inputmode="numeric" id="tr-schl-w" class="tr-w" data-i="${i}" value="${esc(z.w)}" placeholder="Anzahl" style="width:210px;${fldL}">
+    </div>${freiBlock('Schlagwerk-Liste / weitere Angaben (aus der Programmgestaltung vorbefüllt, änderbar):', swListe)}` : `
     <div class="aufbau-werk">
       <label style="display:flex;align-items:center;gap:6px;flex:1"><input type="checkbox" class="tr-an" data-i="${i}" ${z.an?'checked':''}> ${esc(z.l)}</label>
       <input type="text" class="tr-w" data-i="${i}" value="${esc(z.w)}" style="width:210px;font-family:inherit;font-size:12px;padding:4px 6px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text)">
@@ -575,7 +593,7 @@ function renderTransportUi(){
      unverändert (nur "tf" wird ausgetauscht). Ohne gespeicherten Plan wird der Text beim ersten "💾 Plan speichern" mit abgelegt.
    Es gilt immer der jüngere Stand (lokal vs. gespeichert). Nur vom Nutzer bearbeitete Felder werden abgelegt –
    unbearbeitete Felder bekommen weiterhin frische Vorschläge (Kalender, Werke). */
-const TR_FELD_IDS=['tr-ort','tr-hinweis','tr-frei','tr-vdat','tr-vzeit','tr-zeiten','tr-frei2'];
+const TR_FELD_IDS=['tr-ort','tr-hinweis','tr-frei','tr-vdat','tr-vzeit','tr-zeiten','tr-frei2','tr-schl-w'];
 let TR_SYNC_TIMER=null;
 function trEntwurfKey(){ return CURRENT&&CURRENT.ev ? 'aufbauplan-transport:'+CURRENT.ev.eventId : null; }
 function trLeseLokal(){
