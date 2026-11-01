@@ -438,9 +438,8 @@ function transportZeilen(){
   const z=[];
   if(t.kb>0) z.push({l:'Kontrabässe (in Hüllen)', w:String(t.kb), an:true});
   if(t.hrf>0) z.push({l:t.hrf>1?'Harfen':'Harfe', w:String(t.hrf), an:true});
-  if(t.pk>0) z.push({l:'Pauken', w:'1', an:true});
-  if(perc>0) z.push({l:'Schlagwerk', w:perc+' Spieler (Liste siehe unten)', an:true});
-  if(t.kl>0) z.push({l:'Klavier / Flügel', w:'1', an:true});
+  if(t.pk>0) z.push({l:'Pauken (in Cases)', w:'4', an:true});
+  if(perc>0) z.push({l:'Schlagwerk', w:'', an:true, liste:true});
   if(t.cel>0) z.push({l:'Celesta', w:'1', an:true});
   if(t.org>0) z.push({l:'Orgel', w:'1', an:true});
   if(t.cem>0) z.push({l:'Cembalo', w:'1', an:true});
@@ -453,7 +452,14 @@ function renderTransportUi(){
   const box=document.getElementById('transport-panel');
   if(!box || !CURRENT) return;
   TR_ZEILEN=transportZeilen();
-  const rows=TR_ZEILEN.map((z,i)=>`
+  const fldL='font-family:inherit;font-size:12px;padding:4px 6px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text)';
+  const freiBlock=(hl)=>`<div class="hinweis">${hl}</div><textarea id="tr-frei" rows="5" style="width:100%;${fldL}"></textarea>`;
+  const hatListe=TR_ZEILEN.some(z=>z.liste);
+  const rows=TR_ZEILEN.map((z,i)=> z.liste ? `
+    <div class="aufbau-werk">
+      <label style="display:flex;align-items:center;gap:6px;flex:1"><input type="checkbox" class="tr-an" data-i="${i}" ${z.an?'checked':''}> ${esc(z.l)}</label>
+      <input type="hidden" class="tr-w" data-i="${i}" value="">
+    </div>${freiBlock('Schlagwerk-Liste / weitere Angaben (hier hineinkopieren):')}` : `
     <div class="aufbau-werk">
       <label style="display:flex;align-items:center;gap:6px;flex:1"><input type="checkbox" class="tr-an" data-i="${i}" ${z.an?'checked':''}> ${esc(z.l)}</label>
       <input type="text" class="tr-w" data-i="${i}" value="${esc(z.w)}" style="width:210px;font-family:inherit;font-size:12px;padding:4px 6px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text)">
@@ -471,8 +477,7 @@ function renderTransportUi(){
       <label style="display:flex;align-items:center;gap:6px;flex:1">Hinweis <input id="tr-hinweis" type="text" placeholder="z.B. Anlieferzeit, Ladezone" style="flex:1;${fld}"></label>
     </div>
     ${rows}
-    <div class="hinweis">Schlagwerk-Liste / weitere Angaben (hier hineinkopieren):</div>
-    <textarea id="tr-frei" rows="5" style="width:100%;${fld}"></textarea>
+    ${hatListe ? '' : freiBlock('Weitere Angaben (hier hineinkopieren):')}
     <div class="hinweis">Anmerkung zum Aufbauplan (Stufe 2, optional):</div>
     <textarea id="tr-frei2" rows="2" style="width:100%;${fld}">${esc(plan2)}</textarea>
     <div class="aufbau-werk" style="border-top:none">
