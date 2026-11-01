@@ -25,6 +25,7 @@
   --pc-fill:#F3EAFB;--pc-border:#6B3FA0;
   --ky-fill:#FAEEDA;--ky-border:#854F0B;
   --podest-fill:#EDE7FB;--podest-border:#6D28D9;
+  --solo-fill:#FCE7F3;--solo-border:#BE185D;
 }
 @media(prefers-color-scheme:dark){:root{
   --text:#f0f0ee;--text-muted:#999997;
@@ -76,6 +77,21 @@ svg{display:block;margin:0 auto;touch-action:none}
 .aufbau-tabs button.aktiv{background:var(--blue-light);color:var(--blue);border-color:var(--blue)}
 .aufbau-info{padding:0 16px 8px;font-size:12px;font-weight:600;color:var(--text)}
 .aufbau-info:empty{display:none}
+/* Solist:in + manuelle Besetzung (Panel unter den Aufbau-Reitern) */
+.bes-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.bes-row label.bes-solo{display:flex;align-items:center;gap:6px;font-weight:600;cursor:pointer}
+.bes-info{color:var(--text-muted);font-size:11px;flex:1;min-width:140px}
+.bes-badge{font-size:10px;background:var(--amber-light);color:var(--amber);border-radius:10px;padding:2px 8px;font-weight:600}
+.bes-edit{margin-top:8px;border-top:0.5px solid var(--border);padding-top:8px}
+.bes-grp{margin-bottom:8px}
+.bes-grp h4{font-size:10.5px;color:var(--text-muted);font-weight:600;margin-bottom:4px}
+.bes-grid{display:flex;flex-wrap:wrap;gap:8px}
+.bes-grid label{display:flex;flex-direction:column;gap:2px;font-size:9.5px;color:var(--text-muted)}
+.bes-grid input,.bes-solorow input{font-family:inherit;font-size:12px;padding:4px 6px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text)}
+.bes-grid input{width:62px}
+.bes-solorow{display:flex;gap:6px;align-items:center;margin-bottom:4px}
+.bes-solorow input{min-width:0}
+.bes-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
 @media print{
   .header,.controls,.hint-card,.stat-strip,.legend,.podest-panel,.status-line,.aufbau-tabs,.no-print{display:none!important}
   body{background:#fff}
@@ -148,6 +164,7 @@ body.readonly .readonly-badge{display:flex;flex-direction:column;align-items:cen
 <div id="transport-panel" class="aufbau-panel no-print"></div>
 <div id="aufbau-tabs" class="aufbau-tabs"></div>
 <div id="aufbau-info" class="aufbau-info"></div>
+<div id="besetzung-panel" class="aufbau-panel no-print"></div>
 <div id="stat-strip" class="stat-strip"></div>
 <div class="legend">
   <span><i style="background:var(--str-fill);border:1px solid var(--str-border)"></i>Streicher</span>
@@ -155,6 +172,7 @@ body.readonly .readonly-badge{display:flex;flex-direction:column;align-items:cen
   <span><i style="background:var(--br-fill);border:1px solid var(--br-border)"></i>Blechbläser</span>
   <span><i style="background:var(--pc-fill);border:1px solid var(--pc-border)"></i>Schlagwerk</span>
   <span><i style="background:var(--ky-fill);border:1px solid var(--ky-border)"></i>Harfe/Tasten</span>
+  <span><i style="background:var(--solo-fill);border:1px solid var(--solo-border)"></i>Solist:in</span>
   <span><i style="background:var(--podest-fill);border:1px solid var(--podest-border)"></i>Podest</span>
 </div>
 <div id="podest-panel" class="podest-panel no-print"></div>
@@ -191,6 +209,13 @@ let STASH = {};
 let WERK_AUFBAU = {};
 let AUTO_SIG = {};
 let PANEL_OPEN = true;
+/* Pro Aufbau (1/2): manuell überschriebene Besetzung (komplettes Besetzungs-Objekt), Solist:in-Kästchen an/aus
+   und manuell bearbeitete Solist:innen-Liste. Ohne Eintrag gelten die aus den Werken/Termin-Daten
+   abgeleiteten Werte. Alles wird mit dem Plan gespeichert (Feld "cfg" im Plan-Link, siehe serCfg()). */
+let BESETZUNG_EDIT = {};
+let SOLO_ON = {};
+let SOLO_EDIT = {};
+let BES_OPEN = false;
 let SELECTED = new Set();  // IDs der aktuell markierten Kästchen (Mehrfachauswahl per Cmd/Strg-Klick oder Lasso)
 let BOX_NODES = {};        // id -> {grp, rect, borderColor} der zuletzt gerenderten Kästchen, für Auswahl-Highlighting ohne kompletten Re-Render
 let __idSeq = 0;           // globaler ID-Zähler für Boxen – gemeinsam genutzt von autoLayout(), applyState() und manuellem Hinzufügen, damit IDs nie kollidieren
@@ -319,7 +344,8 @@ function parseBesetzung(t){
     const plus = perc[1].match(/\+\s*(\d+)/);
     if(plus) o.percExtra = parseInt(plus[1]);
     perc[1].replace(/\+\s*\d+/g,'').split(',').map(s=>s.trim())
-      .filter(s=>s && !/^Pk\.?$|^Pauke(n)?$/i.test(s))
+      /* Harfe/Tasten stehen im selben Block, sind aber keine Schlagwerker – werden oben separat erkannt */
+      .filter(s=>s && !/^Pk\.?$|^Pauke(n)?$|^(Hrf|Harfe|Kl|Klav|Klavier|Pno|Flügel|Cel|Celesta|Org|Orgel|Cem|Cemb|Cembalo)\.?$/i.test(s))
       .forEach(s=>o.percNamen.push(s));
   }
   return o;
@@ -395,7 +421,7 @@ function ladeAusgewaehltesEvent(vorabState){
   const idx=+document.getElementById('event-select').value;
   const ev=EVENTS[idx]; if(!ev) return;
   CURRENT={ev, total:leereBesetzung()};
-  AUFBAU=1; STASH={}; AUTO_SIG={}; WERK_AUFBAU={};
+  AUFBAU=1; STASH={}; AUTO_SIG={}; WERK_AUFBAU={}; BESETZUNG_EDIT={}; SOLO_EDIT={}; SOLO_ON={};
   CURRENT.total=totalFuer(1);
   zeigeStat();
   /* Wichtig (Session 10 – vorher toter Code): Ist für diesen Termin bereits ein Aufbauplan gespeichert
@@ -408,6 +434,7 @@ function ladeAusgewaehltesEvent(vorabState){
     /* Ohne gespeicherten Plan: Werke nach der Pause als Vorschlag dem zweiten Aufbau zuordnen
        (jederzeit per Auswahl änderbar). Gespeicherte Pläne behalten ihre eigene Zuordnung. */
     ev.werke.forEach(w=>{ if(w.nachPause) WERK_AUFBAU[werkKey(w)]=2; });
+    initSoloDefaults();
     CURRENT.total=totalFuer(1); zeigeStat();
     autoLayout();
   }
@@ -426,8 +453,9 @@ let TRANSPORT_STATUS = {};
 let TRANSPORT_OPEN = true;
 let TR_ZEILEN = [];
 function totalAlle(){
-  let t=leereBesetzung();
-  CURRENT.ev.werke.forEach(w=>{ t=mergeBesetzung(t, parseBesetzung(w.besetzung)); });
+  /* Maximum über beide Aufbauten – berücksichtigt damit auch manuell geänderte Besetzungen */
+  let t=mergeBesetzung(leereBesetzung(), totalFuer(1));
+  if(hatAufbau2()) t=mergeBesetzung(t, totalFuer(2));
   return t;
 }
 function transportZeilen(){
@@ -596,15 +624,19 @@ function sendeTransport(stufe){
 function werkKey(w){ return (w.komponist||'')+' | '+(w.titel||''); }
 function werkAufbau(w){ return WERK_AUFBAU[werkKey(w)]===2 ? 2 : 1; }
 function werkeFuer(a){ return CURRENT ? CURRENT.ev.werke.filter(w=>werkAufbau(w)===a) : []; }
-function totalFuer(a){
+/* Besetzung aus den Werken (größte Instrumentierung) – ohne manuelle Überschreibung */
+function werkTotalFuer(a){
   let t=leereBesetzung();
   werkeFuer(a).forEach(w=>{ t=mergeBesetzung(t, parseBesetzung(w.besetzung)); });
   return t;
 }
+/* Wirksame Besetzung: manuell geänderte (BESETZUNG_EDIT) hat Vorrang vor der aus den Werken berechneten */
+function totalFuer(a){ return BESETZUNG_EDIT[a] || werkTotalFuer(a); }
 function hatAufbau2(){ return werkeFuer(2).length>0; }
 function planSig(boxes, podests){
+  /* Solist:in-Kästchen zählen nicht als manuelle Änderung (sie werden unabhängig vom Vorschlag per Haken zu-/abgeschaltet) */
   return JSON.stringify([
-    boxes.map(b=>[b.label,b.full,b.x,b.y,b.players]),
+    boxes.filter(b=>b.group!=='solo').map(b=>[b.label,b.full,b.x,b.y,b.players]),
     podests.map(p=>[p.height,p.depth,p.y,p.xCenter,p.width,p.visible!==false])
   ]);
 }
@@ -620,7 +652,163 @@ function zeigeStat(){
   const bl = total.fl+total.ob+total.cl+total.fg+total.hr+total.tp+total.tb+total.tu+total.pk+total.percNamen.length+total.percExtra;
   const str = total.vl1+total.vl2+total.va+total.vc+total.kb;
   const pre = hatAufbau2() ? `<span><b>Aufbau ${AUFBAU}</b></span>` : '';
-  document.getElementById('stat-strip').innerHTML = pre+`<span><b>${esc(formatBesetzung(total))}</b></span><span>${str} Streicher</span><span>${bl} Bläser/Schlagwerk</span>`;
+  const ex = besetzungExtras(total);
+  const man = BESETZUNG_EDIT[AUFBAU] ? ' <i>(manuell angepasst)</i>' : '';
+  const solos = SOLO_ON[AUFBAU] ? soloDaten(AUFBAU) : [];
+  const soloHtml = solos.map(s=>`<span>Solo: <b>${esc(s.instrument||'–')}</b>${soloNameOk(s.name)?' – '+esc(String(s.name).trim()):''}</span>`).join('');
+  document.getElementById('stat-strip').innerHTML = pre+`<span><b>${esc(formatBesetzung(total))}</b>${man}</span>`+(ex?`<span>${esc(ex)}</span>`:'')+soloHtml+`<span>${str} Streicher</span><span>${bl} Bläser/Schlagwerk</span>`;
+}
+
+/* ───────────────────────── Solist:in + manuelle Besetzung ───────────────────────── */
+/* Pauken, Schlagwerk, Harfe und Tasteninstrumente stehen nicht in der Kurznotation "3.3.4.3 - 4.3.3.1 - Str." –
+   deshalb als eigene Angabe daneben. */
+function besetzungExtras(o){
+  const p=[];
+  if(o.pk) p.push('Pk.');
+  const perc=o.percNamen.length+o.percExtra; if(perc) p.push(perc+' Schl.');
+  if(o.hrf) p.push(o.hrf>1?o.hrf+' Hrf.':'Hrf.');
+  if(o.kl) p.push('Kl./Fl.'); if(o.cel) p.push('Cel.'); if(o.org) p.push('Org.'); if(o.cem) p.push('Cem.');
+  return p.join(', ');
+}
+const SOLO_ABK = {'Violine':'Vl.','Geige':'Vl.','Viola':'Va','Bratsche':'Va','Violoncello':'Vc','Cello':'Vc','Kontrabass':'Kb',
+  'Klavier':'Kl.','Flügel':'Kl.','Flöte':'Fl.','Oboe':'Ob.','Klarinette':'Kl.','Fagott':'Fg.','Horn':'Hr.','Trompete':'Tr.',
+  'Posaune':'Pos.','Tuba':'Tb.','Harfe':'Hrf','Orgel':'Org.','Cembalo':'Cem.','Saxophon':'Sax.','Gitarre':'Git.',
+  'Schlagzeug':'Schl.','Schlagwerk':'Schl.','Marimba':'Mar.','Gesang':'Ges.'};
+const SOLO_INSTRUMENTE = ['Violine','Viola','Violoncello','Kontrabass','Klavier','Flöte','Oboe','Klarinette','Fagott','Horn',
+  'Trompete','Posaune','Tuba','Harfe','Orgel','Saxophon','Gitarre','Schlagzeug','Gesang'];
+function soloAbk(inst){
+  const k=String(inst||'').trim();
+  if(!k) return '–';
+  return SOLO_ABK[k] || (k.slice(0,3)+'.');
+}
+function soloNameOk(n){ n=String(n||'').trim(); return !!n && !/^N\.?\s*N\.?$/i.test(n); }
+function soloText(s){ return (s.instrument||'Solo')+(soloNameOk(s.name)?' – '+String(s.name).trim():''); }
+/* Solist:innen des Aufbaus a: manuell bearbeitete Liste, sonst aus den Werk-Daten (Feld "solisten") der Werke des Aufbaus */
+function soloDaten(a){
+  if(SOLO_EDIT[a]) return SOLO_EDIT[a];
+  const seen=new Set(), out=[];
+  werkeFuer(a).forEach(w=>(w.solisten||[]).forEach(s=>{
+    const k=(s.instrument||'')+'|'+(s.name||'');
+    if(seen.has(k)) return;
+    seen.add(k); out.push({instrument:s.instrument||'', name:s.name||''});
+  }));
+  return out;
+}
+/* Standard: Solist:in-Kästchen ist an, sobald für den Aufbau Solist:innen in den Daten stehen */
+function initSoloDefaults(){ [1,2].forEach(a=>{ SOLO_ON[a]=soloDaten(a).length>0; }); }
+/* Standardposition (relativ zur Dirigent:in-Position, y<0 = Richtung Publikum): vor dem Orchester, rechts neben dem Pult –
+   per Fingerzug/Maus frei verschiebbar. Mehrere Solist:innen nebeneinander. */
+function soloDefaultPos(i){ return {x:1.0+1.3*i, y:-0.7}; }
+function soloBox(s,pos){ return {id:nextId(), label:soloAbk(s.instrument), full:'Solo: '+soloText(s), group:'solo', x:pos.x, y:pos.y, players:1}; }
+/* Schaltet die Solist:in-Kästchen des aktuellen Aufbaus an/aus bzw. gleicht sie mit der Liste ab, ohne den übrigen
+   Plan neu anzuordnen (manuelle Verschiebungen bleiben erhalten; bereits platzierte Solo-Kästchen behalten ihre Position). */
+function syncSoloBoxes(){
+  const alt = BOXES.filter(b=>b.group==='solo');
+  BOXES = BOXES.filter(b=>b.group!=='solo');
+  if(SOLO_ON[AUFBAU]){
+    soloDaten(AUFBAU).forEach((s,i)=>{
+      const o=alt[i], p=soloDefaultPos(i);
+      BOXES.push(soloBox(s, o?{x:o.x,y:o.y}:{x:p.x,y:CONDUCTOR_Y+p.y}));
+    });
+  }
+  SELECTED.clear();
+  renderStage();
+}
+function toggleSolo(on){
+  SOLO_ON[AUFBAU]=!!on;
+  syncSoloBoxes(); zeigeStat(); renderBesetzungUi();
+}
+function soloEditable(){
+  if(!SOLO_EDIT[AUFBAU]) SOLO_EDIT[AUFBAU]=soloDaten(AUFBAU).map(s=>({instrument:s.instrument,name:s.name}));
+  return SOLO_EDIT[AUFBAU];
+}
+function soloUpdate(rerender){ syncSoloBoxes(); zeigeStat(); if(rerender) renderBesetzungUi(); }
+function aendereSolo(i,f,v){ const L=soloEditable(); if(!L[i]) return; L[i][f]=String(v||'').trim(); soloUpdate(false); }
+function entferneSolo(i){ const L=soloEditable(); L.splice(i,1); soloUpdate(true); }
+function fuegeSoloHinzu(){ const L=soloEditable(); L.push({instrument:'',name:''}); SOLO_ON[AUFBAU]=true; soloUpdate(true); }
+
+const BES_FELDER = [
+  ['Holzbläser',[['fl','Flöte'],['ob','Oboe'],['cl','Klarinette'],['fg','Fagott']]],
+  ['Blechbläser',[['hr','Horn'],['tp','Trompete'],['tb','Posaune'],['tu','Tuba']]],
+  ['Pauken / Schlagwerk / Harfe / Tasten',[['pk','Pauken'],['perc','Schlagwerk'],['hrf','Harfe'],['kl','Klavier'],['cel','Celesta'],['org','Orgel'],['cem','Cembalo']]],
+  ['Streicher (Anzahl Spieler:innen)',[['vl1','1. Vl.'],['vl2','2. Vl.'],['va','Va'],['vc','Vc'],['kb','Kb']]]
+];
+const BES_MAX = {pk:1,kl:1,cel:1,org:1,cem:1,hrf:2};
+function toggleBesEdit(){ BES_OPEN=!BES_OPEN; renderBesetzungUi(); }
+function renderBesetzungUi(){
+  const box=document.getElementById('besetzung-panel');
+  if(!box) return;
+  if(!CURRENT){ box.innerHTML=''; return; }
+  const a=AUFBAU, solos=soloDaten(a), on=!!SOLO_ON[a];
+  const edited=!!BESETZUNG_EDIT[a] || !!SOLO_EDIT[a];
+  const info = solos.length ? solos.map(s=>esc(soloText(s))).join(' · ')
+    : 'Keine Solist:innen in den Termin-Daten – unter „Besetzung ändern“ ergänzbar';
+  let h=`<div class="bes-row">
+    <label class="bes-solo"><input type="checkbox" ${on?'checked':''} ${solos.length?'':'disabled'} onchange="toggleSolo(this.checked)"> Solist:in hinzufügen</label>
+    <span class="bes-info">${info}</span>
+    ${edited?'<span class="bes-badge">manuell angepasst</span>':''}
+    <button class="btn secondary" onclick="toggleBesEdit()">${BES_OPEN?'▲ Besetzung schließen':'✎ Besetzung ändern'}</button>
+  </div>`;
+  if(BES_OPEN){
+    const o=totalFuer(a);
+    const val=k=> k==='perc' ? o.percNamen.length+o.percExtra : o[k];
+    const grp=BES_FELDER.map(([t,fs])=>`<div class="bes-grp"><h4>${t}</h4><div class="bes-grid">${
+      fs.map(([k,l])=>`<label>${l}<input type="number" class="bes-in" data-k="${k}" min="0" max="${BES_MAX[k]||40}" value="${val(k)}"></label>`).join('')
+    }</div></div>`).join('');
+    const sr=solos.map((s,i)=>`<div class="bes-solorow">
+      <input list="solo-instr" placeholder="Instrument" value="${esc(s.instrument)}" onchange="aendereSolo(${i},'instrument',this.value)" style="width:150px">
+      <input placeholder="Name (optional)" value="${esc(s.name)}" onchange="aendereSolo(${i},'name',this.value)" style="flex:1">
+      <button class="btn secondary" onclick="entferneSolo(${i})" title="Solist:in entfernen">×</button></div>`).join('');
+    h+=`<div class="bes-edit">
+      <div class="hinweis">Die Besetzung gilt für <b>Aufbau ${a}</b>. „Übernehmen“ ordnet diesen Aufbau neu an (manuelle Verschiebungen gehen dabei verloren); Solist:innen werden sofort übernommen.</div>
+      ${grp}
+      <div class="bes-grp"><h4>Solist:in</h4>${sr||'<div class="hinweis">Noch keine Solist:in.</div>'}
+        <button class="btn secondary" onclick="fuegeSoloHinzu()">+ Solist:in</button></div>
+      <datalist id="solo-instr">${SOLO_INSTRUMENTE.map(i=>`<option value="${esc(i)}">`).join('')}</datalist>
+      <div class="bes-actions">
+        <button class="btn warn" onclick="uebernehmeBesetzung()">Besetzung übernehmen &amp; neu anordnen</button>
+        <button class="btn secondary" onclick="setzeBesetzungZurueck()">Auf Vorschlag aus den Werken zurücksetzen</button>
+      </div></div>`;
+  }
+  box.innerHTML=h;
+}
+/* Transportliste neu berechnen (sie speist sich aus der Besetzung), ohne bereits eingetippte Felder zu verlieren */
+function aktualisiereTransportUi(){
+  const ids=['tr-ort','tr-hinweis','tr-frei','tr-vdat','tr-vzeit','tr-zeiten','tr-frei2'], keep={};
+  ids.forEach(id=>{ const e=document.getElementById(id); if(e) keep[id]=e.value; });
+  renderTransportUi();
+  ids.forEach(id=>{ const e=document.getElementById(id); if(e && keep[id]!==undefined) e.value=keep[id]; });
+}
+function wendeBesetzungAn(){
+  CURRENT.total=totalFuer(AUFBAU);
+  autoLayout();
+  zeigeStat(); renderAufbauUi();
+  aktualisiereTransportUi();
+}
+function uebernehmeBesetzung(){
+  if(!CURRENT) return;
+  const a=AUFBAU, base=totalFuer(a);
+  const o=Object.assign({}, base, {percNamen:base.percNamen.slice()});
+  document.querySelectorAll('#besetzung-panel .bes-in').forEach(inp=>{
+    const k=inp.dataset.k, v=Math.max(0, Math.min(BES_MAX[k]||99, parseInt(inp.value,10)||0));
+    if(k==='perc'){ const n=base.percNamen.slice(0,v); o.percNamen=n; o.percExtra=v-n.length; }
+    else o[k]=v;
+  });
+  if(JSON.stringify(o)===JSON.stringify(base)){
+    document.getElementById('status').textContent='Besetzung unverändert.'; return;
+  }
+  if(bearbeitet(a) && !confirm('Die geänderte Besetzung ordnet Aufbau '+a+' neu an – manuelle Verschiebungen gehen verloren. Fortfahren?')) return;
+  if(JSON.stringify(o)===JSON.stringify(werkTotalFuer(a))) delete BESETZUNG_EDIT[a]; else BESETZUNG_EDIT[a]=o;
+  wendeBesetzungAn();
+}
+function setzeBesetzungZurueck(){
+  if(!CURRENT) return;
+  const a=AUFBAU;
+  if(!BESETZUNG_EDIT[a] && !SOLO_EDIT[a]){ document.getElementById('status').textContent='Keine manuelle Anpassung vorhanden.'; return; }
+  if(bearbeitet(a) && !confirm('Zurücksetzen ordnet Aufbau '+a+' neu an – manuelle Verschiebungen gehen verloren. Fortfahren?')) return;
+  delete BESETZUNG_EDIT[a]; delete SOLO_EDIT[a];
+  SOLO_ON[a]=soloDaten(a).length>0;
+  wendeBesetzungAn();
 }
 function wechsleAufbau(n){
   if(!CURRENT || n===AUFBAU || (n===2 && !hatAufbau2())){ renderAufbauUi(); return; }
@@ -643,13 +831,13 @@ function setzeWerkAufbau(i, a){
   if(!CURRENT) return;
   const w=CURRENT.ev.werke[i]; if(!w) return;
   if(werkAufbau(w)===a) return;
-  if([1,2].some(x=>bearbeitet(x)) &&
-     !confirm('Die Zuordnung ändert die Besetzung der Aufbauten. Beide Aufbauten werden neu angeordnet – manuelle Verschiebungen gehen verloren. Fortfahren?')){
+  if(([1,2].some(x=>bearbeitet(x)) || Object.keys(BESETZUNG_EDIT).length || Object.keys(SOLO_EDIT).length) &&
+     !confirm('Die Zuordnung ändert die Besetzung der Aufbauten. Beide Aufbauten werden neu angeordnet – manuelle Verschiebungen und manuell geänderte Besetzungen/Solist:innen gehen verloren. Fortfahren?')){
     renderAufbauUi(); return;
   }
   const key=werkKey(w);
   if(a===2) WERK_AUFBAU[key]=2; else delete WERK_AUFBAU[key];
-  STASH={}; AUTO_SIG={};
+  STASH={}; AUTO_SIG={}; BESETZUNG_EDIT={}; SOLO_EDIT={}; initSoloDefaults();
   if(AUFBAU===2 && !hatAufbau2()) AUFBAU=1;
   CURRENT.total=totalFuer(AUFBAU);
   autoLayout();
@@ -675,6 +863,7 @@ function renderAufbauUi(){
     tabs.innerHTML=[1,2].map(n=>`<button class="${n===AUFBAU?'aktiv':''}" onclick="wechsleAufbau(${n})">Aufbau ${n} (${werkeFuer(n).length} ${werkeFuer(n).length===1?'Werk':'Werke'})</button>`).join('');
     info.textContent=`Aufbau ${AUFBAU} – Werke: `+werkeFuer(AUFBAU).map(w=>(w.komponist?w.komponist+': ':'')+(w.titel||'')).join(' · ');
   } else { tabs.innerHTML=''; info.textContent=''; }
+  renderBesetzungUi();
 }
 
 /* ───────────────────────── Podest-Editor (Höhe/Breite/Tiefe pro Reihe) ───────────────────────── */
@@ -888,6 +1077,11 @@ function autoLayout(){
   o.percNamen.forEach(n=>placeSchl(n));
   for(let i=0;i<o.percExtra;i++) placeSchl('Schlagwerk');
 
+  /* Solist:in(nen): vor dem Orchester neben dem Dirigent:in-Pult (nur wenn der Haken gesetzt ist) */
+  if(SOLO_ON[AUFBAU]){
+    soloDaten(AUFBAU).forEach((s,i)=>{ BOXES.push(soloBox(s, soloDefaultPos(i))); });
+  }
+
   /* Auf reale Bühnengeometrie abbilden: Dirigent:in steht nahe der publikumsseitigen Vorbühnenkante,
      das Orchester baut sich von dort Richtung Portal/Hauptbühne auf. Reicht die Vorbühne nicht (bzw.
      ist "Hauptbühne nutzen" abgewählt), wird die Tiefe an der Portallinie gedeckelt. */
@@ -1013,7 +1207,7 @@ function renderStage(){
      +M/2), nicht mehr mit der linken Kante am Ankerpunkt – sonst steht z.B. die Dirigent:in-Vorgabe
      (x=0) optisch einen halben Meter zu weit rechts von der eingezeichneten Mittelachse. Vertikal bleibt
      die Box an ihrer HINTEREN Kante verankert (siehe Kommentar weiter oben bei den Podest-Reihen). */
-  const colors={str:['var(--str-fill)','var(--str-border)'],ww:['var(--ww-fill)','var(--ww-border)'],br:['var(--br-fill)','var(--br-border)'],pc:['var(--pc-fill)','var(--pc-border)'],ky:['var(--ky-fill)','var(--ky-border)'],dir:['#ddd','#555']};
+  const colors={str:['var(--str-fill)','var(--str-border)'],ww:['var(--ww-fill)','var(--ww-border)'],br:['var(--br-fill)','var(--br-border)'],pc:['var(--pc-fill)','var(--pc-border)'],ky:['var(--ky-fill)','var(--ky-border)'],solo:['var(--solo-fill)','var(--solo-border)'],dir:['#ddd','#555']};
   BOX_NODES = {};
   BOXES.forEach(b=>{
     const [fill,border] = colors[b.group]||colors.dir;
@@ -1027,6 +1221,13 @@ function renderStage(){
     grp.appendChild(box);
     const label = el('text',{x:0,y:M*0.82/2+4,'text-anchor':'middle','font-size':10.5,'font-weight':600,fill:border});
     label.textContent=b.label;
+    if(b.group==='solo'){
+      /* Solist:in: kleine Kopfzeile "SOLO" über dem Instrumentenkürzel */
+      label.setAttribute('y', M*0.82/2+11);
+      const sl = el('text',{x:0,y:M*0.82/2-2,'text-anchor':'middle','font-size':8,'font-weight':700,fill:border});
+      sl.textContent='SOLO';
+      grp.appendChild(sl);
+    }
     grp.appendChild(label);
     if(b.players>1){
       const badge=el('text',{x:M/2-3,y:11,'text-anchor':'end','font-size':8,fill:border,opacity:0.75});
@@ -1296,6 +1497,20 @@ function makePodestDraggable(node,p){
    Instrumente beim Wiederherstellen (applyState()) nicht auf den generischen Namen zurückfallen. */
 function serBoxes(arr){ return arr.map(b=>({l:b.label,g:b.group,x:Math.round(b.x*10)/10,y:Math.round(b.y*10)/10,p:b.players,f:b.full})); }
 function serPodests(arr){ return arr.map(p=>({id:p.id,h:p.height,d:Math.round(p.depth*10)/10,y:Math.round(p.y*10)/10,x:Math.round(p.xCenter*10)/10,w:Math.round(p.width*10)/10,v:p.visible!==false})); }
+/* Solist:in-Haken, bearbeitete Solist:innen und manuell geänderte Besetzung je Aufbau ("cfg" im Plan-Link).
+   Ältere Links ohne "cfg" laden unverändert (Solist:in aus, Besetzung aus den Werken). */
+function serCfg(){
+  const c={}, s={}, so={}, bo={};
+  (hatAufbau2()?[1,2]:[1]).forEach(a=>{
+    if(SOLO_ON[a]) s[a]=1;
+    if(SOLO_EDIT[a]) so[a]=SOLO_EDIT[a].map(x=>({i:x.instrument,n:x.name}));
+    if(BESETZUNG_EDIT[a]) bo[a]=BESETZUNG_EDIT[a];
+  });
+  if(Object.keys(s).length) c.s=s;
+  if(Object.keys(so).length) c.so=so;
+  if(Object.keys(bo).length) c.bo=bo;
+  return Object.keys(c).length ? c : null;
+}
 function baueplanLink(){
   alleAufbautenBereit();
   const a1 = AUFBAU===1 ? {boxes:BOXES, podests:PODESTS} : STASH[1];
@@ -1311,6 +1526,8 @@ function baueplanLink(){
     state.a2 = {boxes:serBoxes(a2.boxes), podests:serPodests(a2.podests)};
     state.wa = werkeFuer(2).map(werkKey);
   }
+  const cfg = serCfg();
+  if(cfg) state.cfg = cfg;
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
   return location.origin + location.pathname + '?plan=' + encoded;
 }
@@ -1348,8 +1565,17 @@ function podestsFromState(arr){
 }
 function applyState(state){
   initPodestsIfNeeded();
-  AUFBAU=1; STASH={}; AUTO_SIG={}; WERK_AUFBAU={};
+  AUFBAU=1; STASH={}; AUTO_SIG={}; WERK_AUFBAU={}; BESETZUNG_EDIT={}; SOLO_EDIT={}; SOLO_ON={};
   (Array.isArray(state.wa)?state.wa:[]).forEach(k=>{ WERK_AUFBAU[k]=2; });
+  const cfg = state.cfg || {};
+  Object.keys(cfg.s||{}).forEach(a=>{ SOLO_ON[a]=true; });
+  Object.keys(cfg.so||{}).forEach(a=>{
+    if(Array.isArray(cfg.so[a])) SOLO_EDIT[a]=cfg.so[a].map(x=>({instrument:String(x.i||''), name:String(x.n||'')}));
+  });
+  Object.keys(cfg.bo||{}).forEach(a=>{
+    const b=cfg.bo[a]||{};
+    BESETZUNG_EDIT[a]=Object.assign(leereBesetzung(), b, {percNamen:Array.isArray(b.percNamen)?b.percNamen.slice():[]});
+  });
   const pods = podestsFromState(state.podests);
   if(pods.length) PODESTS = pods;
   BOXES = boxesFromState(state.boxes);
