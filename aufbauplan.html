@@ -149,6 +149,8 @@ body.readonly .readonly-badge{display:flex;flex-direction:column;align-items:cen
 
 <div class="hint-card">Vorschlag wird automatisch aus der Besetzung des gewählten Termins erzeugt (größte Instrumentierung aller Werke des Konzerts). Das Orchester steht standardmäßig auf der Vorbühne (wie im echten Betrieb) – reicht der Platz nicht, wird automatisch in die Hauptbühne hinein weitergebaut. Kästchen = 1 m² inkl. Notenständer, per Fingerzug/Maus frei verschiebbar (ohne Rasterung, exakt an der losgelassenen Position). Mehrfachauswahl: Cmd/Strg-Klick fügt einzelne Kästchen hinzu/entfernt sie, oder ein Rahmen auf freier Fläche aufziehen (Lasso) – markierte Kästchen lassen sich dann gemeinsam verschieben. Die drei Podest-Reihen (gestrichelt, violett) lassen sich ebenfalls verschieben; Höhe, Breite und Tiefe pro Reihe unten links einstellen. Wände, Portal und Bühnenzonen sind auf Basis einer realen Vermessung des Forums (HfMT Hamburg) maßstabsgetreu eingezeichnet.</div>
 
+<div id="aufbau-panel" class="aufbau-panel no-print"></div>
+<div id="transport-panel" class="aufbau-panel no-print"></div>
 <div class="controls no-print">
   <button class="btn secondary" onclick="loescheAuswahl()">🗑 Auswahl löschen</button>
   <label>Instrument hinzufügen
@@ -159,9 +161,6 @@ body.readonly .readonly-badge{display:flex;flex-direction:column;align-items:cen
   </label>
   <button class="btn secondary" onclick="fuegeBoxHinzu()">+ Hinzufügen</button>
 </div>
-
-<div id="aufbau-panel" class="aufbau-panel no-print"></div>
-<div id="transport-panel" class="aufbau-panel no-print"></div>
 <div id="aufbau-tabs" class="aufbau-tabs"></div>
 <div id="aufbau-info" class="aufbau-info"></div>
 <div id="besetzung-panel" class="aufbau-panel no-print"></div>
