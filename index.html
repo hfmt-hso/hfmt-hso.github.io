@@ -210,7 +210,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .frk-status.ok{color:var(--green)}
 .frk-status.err{color:#c0392b}
 .frk-alt-link{display:block;text-align:center;font-size:11px;color:var(--text-muted);margin-top:10px}
-.hinweis{background:#fdecea;border:1.5px solid #c0392b;color:#a32116;margin:14px 14px 0;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.5}
+.hinweis+.hinweis{margin-top:8px}
+.hinweis{white-space:pre-line;background:#fdecea;border:1.5px solid #c0392b;color:#a32116;margin:14px 14px 0;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.5}
 @media(prefers-color-scheme:dark){.hinweis{background:#5a1d17;border-color:#e0584a;color:#ffd9d4}}
 .ev-abgesagt .werk-block,.ev-abgesagt .werk-pause,.ev-abgesagt .event-kopf,.ev-abgesagt .werk-leitung:not(.ev-notiz){opacity:.45;filter:grayscale(1)}
 .ev-abgesagt .werk-komponist,.ev-abgesagt .werk-titel,.ev-abgesagt .event-kopf{text-decoration:line-through}
@@ -1144,8 +1145,12 @@ async function ladeHinweis(){
     if(!r.ok)return;
     const j=await r.json();
     const box=document.getElementById('hinweis-box');
-    if(!box||!j||!j.aktiv||!j.text)return;
-    box.innerHTML='<div class="hinweis"><strong>'+esc(j.titel||'Achtung')+'</strong><br>'+esc(j.text)+'</div>';
+    if(!box||!j)return;
+    const liste=Array.isArray(j.hinweise)?j.hinweise:[j]; // altes Einzelformat bleibt lesbar
+    const d=new Date(),heute=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    const sicht=liste.filter(h=>h&&h.aktiv&&h.text&&(!h.bis||h.bis>=heute))
+      .sort((a,b)=>(a.bis||'9999-99-99').localeCompare(b.bis||'9999-99-99'));
+    box.innerHTML=sicht.map(h=>'<div class="hinweis"><strong>'+esc(h.titel||'Achtung')+'</strong><br>'+esc(h.text)+'</div>').join('');
   }catch(e){}
 }
 ladeHinweis();

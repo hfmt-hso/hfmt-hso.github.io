@@ -310,11 +310,11 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
   <!-- START -->
   <div class="tab active" id="t-start">
     <details id="hw-details" style="margin:12px 0 4px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)">
-  <summary style="cursor:pointer;padding:9px 14px;font-size:12px;font-weight:700;color:var(--ink3);display:flex;align-items:center;gap:8px">📢 Hinweis auf dem Studierendenportal <span id="hw-status" style="font-weight:700;font-size:11px"></span><span style="margin-left:auto;font-weight:400">▾</span></summary>
+  <summary style="cursor:pointer;padding:9px 14px;font-size:12px;font-weight:700;color:var(--ink3);display:flex;align-items:center;gap:8px">📢 Hinweise auf dem Studierendenportal <span id="hw-status" style="font-weight:700;font-size:11px"></span><span style="margin-left:auto;font-weight:400">▾</span></summary>
   <div style="padding:12px 16px 14px;border-top:1px solid var(--border)">
-    <div class="tfield"><label>Überschrift</label><input id="hw-titel" type="text" placeholder="Achtung"></div>
-    <div class="tfield"><label>Text</label><textarea id="hw-text" rows="2" placeholder="z.B. Die Probe am … fällt aus." style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--sans);background:#fff;resize:vertical"></textarea></div>
-    <label style="display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:12px;cursor:pointer"><input type="checkbox" id="hw-aktiv" style="width:auto"> Hinweis auf der Startseite anzeigen (roter Kasten)</label>
+    <div id="hw-liste"></div>
+    <div style="font-size:11px;color:var(--ink3);margin:2px 0 12px">Zeilenumbrüche und Leerzeilen im Text werden übernommen. Nach dem Datum „gültig bis“ verschwindet ein Hinweis automatisch; im Portal erscheinen die Hinweise nach diesem Datum sortiert (ohne Datum: zuletzt, bleibt stehen).</div>
+    <button onclick="hinweisNeu()" style="padding:9px 18px;border-radius:8px;border:1px solid var(--border);background:#fff;color:var(--ink);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);margin-right:8px">+ Hinweis</button>
     <button id="hw-btn" onclick="hinweisSpeichern()" style="padding:9px 18px;border-radius:8px;border:none;background:var(--blue);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans)">Speichern</button>
   </div>
 </details>
@@ -1044,36 +1044,66 @@ function sjAusHeute(){
 }
 function sjAnzeige(sj){return sj.replace('_','/');}
 
-// ── HINWEIS-BANNER (hinweis.json im Repo) ─────────────────
+// ── HINWEIS-BANNER (hinweis.json im Repo, mehrere Hinweise mit Ablaufdatum) ──
 function hinweisB64(s){return btoa(unescape(encodeURIComponent(s)));}
+function hwHeute(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+var hwDaten=[];
+function hwSortiert(l){return l.slice().sort(function(a,b){return (a.bis||'9999-99-99').localeCompare(b.bis||'9999-99-99');});}
+function hwLesen(){ // Formularstand -> hwDaten
+  var out=[];
+  document.querySelectorAll('#hw-liste .hw-item').forEach(function(el){
+    out.push({aktiv:el.querySelector('.hw-aktiv').checked,titel:el.querySelector('.hw-titel').value.trim()||'Achtung',text:el.querySelector('.hw-text').value.trim(),bis:el.querySelector('.hw-bis').value});
+  });
+  return out;
+}
+function hwZeichnen(){
+  var heute=hwHeute(),box=document.getElementById('hw-liste');
+  if(!hwDaten.length){box.innerHTML='<div style="font-size:13px;color:var(--ink3);margin-bottom:12px">Keine Hinweise. Mit „+ Hinweis“ einen anlegen.</div>';}
+  else box.innerHTML=hwDaten.map(function(h,i){
+    var abg=h.bis&&h.bis<heute;
+    return '<div class="hw-item" style="border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:10px;'+(abg?'opacity:.55':'')+'">'
+     +'<div class="tfield"><label>Überschrift</label><input class="hw-titel" type="text" placeholder="Achtung" value="'+esc(h.titel||'Achtung')+'"></div>'
+     +'<div class="tfield"><label>Text</label><textarea class="hw-text" rows="3" placeholder="z.B. Die Probe am … fällt aus." style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--sans);background:#fff;resize:vertical">'+esc(h.text||'')+'</textarea></div>'
+     +'<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">'
+     +'<label style="font-size:12px;display:flex;align-items:center;gap:6px">Gültig bis <input class="hw-bis" type="date" value="'+esc(h.bis||'')+'" style="width:auto;padding:6px 8px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--sans)"></label>'
+     +'<label style="font-size:13px;display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" class="hw-aktiv" style="width:auto"'+(h.aktiv?' checked':'')+'> anzeigen</label>'
+     +(abg?'<span style="font-size:11px;font-weight:700;color:var(--ink3)">abgelaufen – wird nicht mehr angezeigt</span>':'')
+     +'<button onclick="hinweisLoeschen('+i+')" style="margin-left:auto;padding:5px 10px;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:12px;cursor:pointer;font-family:var(--sans)">Löschen</button>'
+     +'</div></div>';
+  }).join('');
+  var n=hwDaten.filter(function(h){return h.aktiv&&h.text&&(!h.bis||h.bis>=heute);}).length;
+  var st=document.getElementById('hw-status');if(st){st.textContent=n?('● '+n+' aktiv'):'○ aus';st.style.color=n?'var(--red)':'var(--ink3)';}
+}
+function hinweisNeu(){hwDaten=hwLesen();hwDaten.push({aktiv:true,titel:'Achtung',text:'',bis:''});hwZeichnen();}
+function hinweisLoeschen(i){hwDaten=hwLesen();hwDaten.splice(i,1);hwZeichnen();}
 async function hinweisLaden(){
   try{
     var r=await fetch('../hinweis.json?t='+Date.now(),{cache:'no-store'});
     if(!r.ok)return;
     var j=await r.json();
-    document.getElementById('hw-aktiv').checked=!!j.aktiv;
-    var st=document.getElementById('hw-status');if(st){st.textContent=j.aktiv?'● aktiv':'○ aus';st.style.color=j.aktiv?'var(--red)':'var(--ink3)';}
-    document.getElementById('hw-titel').value=j.titel||'Achtung';
-    document.getElementById('hw-text').value=j.text||'';
+    hwDaten=hwSortiert(Array.isArray(j.hinweise)?j.hinweise:(j&&j.text?[j]:[]));
+    hwZeichnen();
   }catch(e){}
 }
 async function hinweisSpeichern(){
   var tok=localStorage.getItem('mlGithubToken');
   if(!tok){zeigToast('Bitte zuerst unter „Meine Links“ den GitHub-Token hinterlegen.');return;}
   var btn=document.getElementById('hw-btn');
-  var obj={aktiv:document.getElementById('hw-aktiv').checked,titel:document.getElementById('hw-titel').value.trim()||'Achtung',text:document.getElementById('hw-text').value.trim()};
-  if(obj.aktiv&&!obj.text){zeigToast('Bitte einen Text eingeben.');return;}
+  var liste=hwLesen();
+  if(liste.some(function(h){return h.aktiv&&!h.text;})){zeigToast('Bitte bei jedem angezeigten Hinweis einen Text eingeben.');return;}
+  hwDaten=hwSortiert(liste);hwZeichnen();
+  var obj={hinweise:hwDaten};
   var api='https://api.github.com/repos/hfmt-hso/hfmt-hso.github.io/contents/hinweis.json';
   var h={'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json'};
   btn.disabled=true;
   try{
     var g=await fetch(api+'?ref=main&t='+Date.now(),{headers:h});
     var sha=g.ok?(await g.json()).sha:undefined;
-    var body={message:'Hinweis '+(obj.aktiv?'aktiviert':'ausgeblendet'),content:hinweisB64(JSON.stringify(obj,null,2)+'\n'),branch:'main'};
+    var body={message:'Hinweise aktualisiert ('+hwDaten.length+')',content:hinweisB64(JSON.stringify(obj,null,2)+'\n'),branch:'main'};
     if(sha)body.sha=sha;
     var p=await fetch(api,{method:'PUT',headers:h,body:JSON.stringify(body)});
     if(!p.ok)throw new Error('HTTP '+p.status);
-    zeigToast('Hinweis gespeichert ✓ (nach 1–2 Min. im Portal)');
+    zeigToast('Hinweise gespeichert ✓ (nach 1–2 Min. im Portal)');
   }catch(e){zeigToast('Fehler: '+e.message);}
   btn.disabled=false;
 }
