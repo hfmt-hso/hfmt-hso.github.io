@@ -550,7 +550,31 @@ function renderTransportUi(){
     </div>
     <div id="tr-status" class="hinweis"></div>
   </details>`;
+  trStelleEntwurfWiederHer(box);
   zeigeTransportStatus();
+}
+/* Eingaben im Transportformular (z.B. hineinkopierte Schlagwerk-Liste) pro Termin zwischenspeichern,
+   damit sie ein Neuaufbau der Seite (Termin neu laden, Plan speichern, Sync …) nicht löscht.
+   Gespeichert werden nur Felder, die der Nutzer selbst bearbeitet hat – unbearbeitete Felder
+   bekommen weiterhin frische Vorschläge (Kalender, Werke). */
+const TR_FELD_IDS=['tr-ort','tr-hinweis','tr-frei','tr-vdat','tr-vzeit','tr-zeiten','tr-frei2'];
+function trEntwurfKey(){ return CURRENT&&CURRENT.ev ? 'aufbauplan-transport:'+CURRENT.ev.eventId : null; }
+function trLeseEntwurf(){
+  const k=trEntwurfKey(); if(!k) return {};
+  try{ return JSON.parse(localStorage.getItem(k)||'{}')||{}; }catch(e){ return {}; }
+}
+function trSchreibeEntwurf(d){
+  const k=trEntwurfKey(); if(!k) return;
+  try{ localStorage.setItem(k, JSON.stringify(d)); }catch(e){}
+}
+function trStelleEntwurfWiederHer(box){
+  const d=trLeseEntwurf();
+  TR_FELD_IDS.forEach(id=>{ const e=document.getElementById(id); if(e && d[id]!==undefined) e.value=d[id]; });
+  box.oninput=box.onchange=function(ev){
+    const t=ev.target;
+    if(!t || TR_FELD_IDS.indexOf(t.id)<0) return;
+    const cur=trLeseEntwurf(); cur[t.id]=t.value; trSchreibeEntwurf(cur);
+  };
 }
 function zeigeTransportStatus(){
   const el=document.getElementById('tr-status');
