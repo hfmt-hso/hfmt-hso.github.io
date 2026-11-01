@@ -145,6 +145,7 @@ body.readonly .readonly-badge{display:flex;flex-direction:column;align-items:cen
 </div>
 
 <div id="aufbau-panel" class="aufbau-panel no-print"></div>
+<div id="transport-panel" class="aufbau-panel no-print"></div>
 <div id="aufbau-tabs" class="aufbau-tabs"></div>
 <div id="aufbau-info" class="aufbau-info"></div>
 <div id="stat-strip" class="stat-strip"></div>
@@ -411,7 +412,142 @@ function ladeAusgewaehltesEvent(vorabState){
     autoLayout();
   }
   renderAufbauUi();
+  renderTransportUi();
   zeigeSpeicherStatus();
+}
+
+/* ───────────────────────── Transportliste an den Transporteur ─────────────────────────
+   Stufe 1 "anfrage": Instrumentarium (aus der Besetzung ALLER Werke des Termins). Stufe 2 "plan": Aufbauplan
+   nachliefern (erst nach "💾 Plan speichern"). Versand über das Apps-Script-Backend (Transport.gs im Projekt
+   "Bedarf"); Empfänger, Antwortadresse und erlaubte Orte sind dort fest hinterlegt. */
+const TRANSPORT_ORTE = ['Elbphilharmonie','Laeiszhalle','Halle 424','Jugendmusikschule','Gut Wienebüttel'];
+const TRANSPORT_URL = BEDARF_SYNC_URL.split('?')[0];
+let TRANSPORT_STATUS = {};
+let TRANSPORT_OPEN = true;
+let TR_ZEILEN = [];
+function totalAlle(){
+  let t=leereBesetzung();
+  CURRENT.ev.werke.forEach(w=>{ t=mergeBesetzung(t, parseBesetzung(w.besetzung)); });
+  return t;
+}
+function transportZeilen(){
+  const t=totalAlle();
+  const perc=t.percNamen.length+t.percExtra;
+  const blas=t.fl+t.ob+t.cl+t.fg+t.hr+t.tp+t.tb+t.tu+t.pk+perc;
+  const stuehle=blas+t.vl1+t.vl2+t.va+t.vc;
+  const z=[];
+  if(t.kb>0) z.push({l:'Kontrabässe (in Hüllen)', w:String(t.kb), an:true});
+  if(t.hrf>0) z.push({l:t.hrf>1?'Harfen':'Harfe', w:String(t.hrf), an:true});
+  if(t.pk>0) z.push({l:'Pauken', w:'1', an:true});
+  if(perc>0) z.push({l:'Schlagwerk', w:perc+' Spieler (Liste siehe unten)', an:true});
+  if(t.kl>0) z.push({l:'Klavier / Flügel', w:'1', an:true});
+  if(t.cel>0) z.push({l:'Celesta', w:'1', an:true});
+  if(t.org>0) z.push({l:'Orgel', w:'1', an:true});
+  if(t.cem>0) z.push({l:'Cembalo', w:'1', an:true});
+  z.push({l:'Orchesterstühle', w:String(stuehle), an:false});
+  if(t.kb>0) z.push({l:'Basshocker', w:String(t.kb), an:false});
+  z.push({l:'Dirigierpodest', w:'1', an:false});
+  return z;
+}
+function renderTransportUi(){
+  const box=document.getElementById('transport-panel');
+  if(!box || !CURRENT) return;
+  TR_ZEILEN=transportZeilen();
+  const rows=TR_ZEILEN.map((z,i)=>`
+    <div class="aufbau-werk">
+      <label style="display:flex;align-items:center;gap:6px;flex:1"><input type="checkbox" class="tr-an" data-i="${i}" ${z.an?'checked':''}> ${esc(z.l)}</label>
+      <input type="text" class="tr-w" data-i="${i}" value="${esc(z.w)}" style="width:210px;font-family:inherit;font-size:12px;padding:4px 6px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text)">
+    </div>`).join('');
+  const orte=TRANSPORT_ORTE.map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join('');
+  const plan2 = hatAufbau2()
+    ? 'Aufbau 1: '+werkeFuer(1).map(w=>w.titel).join(', ')+'\nAufbau 2 (nach dem Pausenumbau): '+werkeFuer(2).map(w=>w.titel).join(', ')
+    : '';
+  const fld='font-family:inherit;font-size:12px;padding:4px 6px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text)';
+  box.innerHTML=`<details ${TRANSPORT_OPEN?'open':''} ontoggle="TRANSPORT_OPEN=this.open">
+    <summary>🚚 Transportliste an Rainer Ziemski</summary>
+    <div class="hinweis">Stufe 1: Anfrage mit dem Instrumentarium (aus der Besetzung aller Werke dieses Termins). Stufe 2: Aufbauplan nachliefern – erst möglich, wenn der Plan mit „💾 Plan speichern“ gesichert ist. Der Empfänger ist im Backend fest hinterlegt, eine Kopie geht an dich.</div>
+    <div class="aufbau-werk">
+      <label style="display:flex;align-items:center;gap:6px">Aufführungsort <select id="tr-ort" style="${fld}"><option value="">– bitte wählen –</option>${orte}</select></label>
+      <label style="display:flex;align-items:center;gap:6px;flex:1">Hinweis <input id="tr-hinweis" type="text" placeholder="z.B. Anlieferzeit, Ladezone" style="flex:1;${fld}"></label>
+    </div>
+    ${rows}
+    <div class="hinweis">Schlagwerk-Liste / weitere Angaben (hier hineinkopieren):</div>
+    <textarea id="tr-frei" rows="5" style="width:100%;${fld}"></textarea>
+    <div class="hinweis">Anmerkung zum Aufbauplan (Stufe 2, optional):</div>
+    <textarea id="tr-frei2" rows="2" style="width:100%;${fld}">${esc(plan2)}</textarea>
+    <div class="aufbau-werk" style="border-top:none">
+      <button class="btn warn" id="tr-b1" onclick="sendeTransport('anfrage')">✉ Anfrage senden</button>
+      <button class="btn" id="tr-b2" onclick="sendeTransport('plan')">✉ Aufbauplan nachliefern</button>
+      <label style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="tr-test"> nur Testmail an mich</label>
+    </div>
+    <div id="tr-status" class="hinweis"></div>
+  </details>`;
+  zeigeTransportStatus();
+}
+function zeigeTransportStatus(){
+  const el=document.getElementById('tr-status');
+  if(!el || !CURRENT) return;
+  const s=TRANSPORT_STATUS[CURRENT.ev.eventId]||{};
+  const a = s.anfrage ? '✓ Anfrage gesendet am '+s.anfrage.zeit+' ('+s.anfrage.ort+')' : 'Anfrage noch nicht gesendet';
+  const p = s.plan ? '✓ Aufbauplan nachgeliefert am '+s.plan.zeit : (CURRENT.ev.aufbauplan ? 'Aufbauplan gespeichert, noch nicht nachgeliefert' : 'Aufbauplan noch nicht gespeichert');
+  el.textContent = a+' · '+p;
+  const sel=document.getElementById('tr-ort');
+  if(sel && !sel.value && s.anfrage && TRANSPORT_ORTE.indexOf(s.anfrage.ort)>=0) sel.value=s.anfrage.ort;
+}
+function ladeTransportStatus(){
+  fetch(TRANSPORT_URL,{method:'POST', body:JSON.stringify({action:'transportStatus'})})
+    .then(r=>r.json())
+    .then(r=>{ if(r && r.ok){ TRANSPORT_STATUS=r.status||{}; zeigeTransportStatus(); } })
+    .catch(()=>{});
+}
+function sendeTransport(stufe){
+  if(!CURRENT) return;
+  const ev=CURRENT.ev;
+  const ort=document.getElementById('tr-ort').value;
+  if(!ort){ alert('Bitte zuerst den Aufführungsort wählen.'); return; }
+  const test=document.getElementById('tr-test').checked;
+  let plan='';
+  if(stufe==='plan'){
+    plan=ev.aufbauplan||'';
+    if(!plan){ alert('Für diesen Termin ist noch kein Aufbauplan gespeichert. Bitte zuerst „💾 Plan speichern“ drücken.'); return; }
+  }
+  const zeilen=[];
+  document.querySelectorAll('#transport-panel .tr-an').forEach(cb=>{
+    if(!cb.checked) return;
+    const i=+cb.dataset.i;
+    zeilen.push({l:TR_ZEILEN[i].l, w:document.querySelector('#transport-panel .tr-w[data-i="'+i+'"]').value.trim()});
+  });
+  if(stufe==='anfrage' && !zeilen.length && !document.getElementById('tr-frei').value.trim()){
+    alert('Die Liste ist leer – bitte mindestens eine Position anhaken oder Text eingeben.'); return;
+  }
+  const s=TRANSPORT_STATUS[ev.eventId]||{};
+  const schon = !test && s[stufe] ? '\n\nAchtung: Diese Stufe wurde bereits am '+s[stufe].zeit+' gesendet.' : '';
+  const frage = test
+    ? 'Testmail nur an dich selbst senden?'
+    : 'Mail an Rainer Ziemski (rainerziemski@wtnet.de) senden?\n\n'+(stufe==='plan'?'Nachtrag Aufbauplan':'Transportanfrage')+'\n'+ev.titel+' – '+ev.datum+' – '+ort+'\n\nEine Kopie geht an t.dorsch@gmail.com.'+schon;
+  if(!confirm(frage)) return;
+  const btn=document.getElementById(stufe==='plan'?'tr-b2':'tr-b1');
+  const statusEl=document.getElementById('status');
+  const label=btn.textContent;
+  btn.disabled=true; btn.textContent='✉ Sendet…';
+  statusEl.textContent='Transportmail wird gesendet…';
+  fetch(TRANSPORT_URL,{method:'POST', body:JSON.stringify({
+    action:'transportSenden', stufe, eventId:ev.eventId, projekt:ev.titel, datum:ev.datum, ort,
+    hinweis:document.getElementById('tr-hinweis').value.trim(), zeilen,
+    freitext:document.getElementById(stufe==='plan'?'tr-frei2':'tr-frei').value,
+    aufbauplan:plan, test
+  })})
+  .then(r=>r.json())
+  .then(res=>{
+    if(res && res.ok){
+      statusEl.textContent='✓ Gesendet: '+res.gesendetAn+' ('+new Date().toLocaleString('de-DE')+').';
+      if(!test) ladeTransportStatus();
+    } else {
+      statusEl.textContent='Fehler beim Senden: '+(res&&res.error?res.error:'unbekannt');
+    }
+  })
+  .catch(err=>{ statusEl.textContent='Fehler beim Senden: '+err.message; })
+  .finally(()=>{ btn.disabled=false; btn.textContent=label; });
 }
 
 /* ───────────────────────── Zwei Aufbauten (Werkzuordnung) ───────────────────────── */
@@ -1293,6 +1429,7 @@ function ladePlanAusLink(){
 }
 
 ladeEvents();
+ladeTransportStatus();
 initLassoSelection();
 renderAddSelect();
 </script>
