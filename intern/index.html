@@ -379,7 +379,6 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
           <button class="proj-sj-btn" id="st-typ-unt" onclick="setTypTermin('Unterricht',this)">Unterricht</button>
           <button class="proj-sj-btn" id="st-typ-andere" onclick="setTypTermin('Andere Unterrichte',this)">Andere Unterrichte</button>
           <button class="proj-sj-btn" id="st-typ-kal" onclick="setTypTermin('Kalender',this)">Kalender</button>
-          <button class="proj-sj-btn" id="st-typ-sonst" onclick="setTypTermin('Sonstiges',this)">Sonstiges</button>
         </div>
         <div id="start-termine" style="max-height:500px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius);background:#fff"><div class="spinner"><div class="spin"></div>Lade...</div></div>
       </div>
@@ -1308,13 +1307,13 @@ function setSjTermin(sj,btn){
 
 function setTypTermin(typ,btn){
   _startTypFilter=typ;
-  document.querySelectorAll('#st-typ-alle,#st-typ-hso,#st-typ-wk,#st-typ-blatt,#st-typ-rep,#st-typ-unt,#st-typ-andere,#st-typ-kal,#st-typ-sonst').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#st-typ-alle,#st-typ-hso,#st-typ-wk,#st-typ-blatt,#st-typ-rep,#st-typ-unt,#st-typ-andere,#st-typ-kal').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderStartTermine();
 }
 
 function getTerminTyp(projektName){
-  if(!projektName)return'Sonstiges';
+  if(!projektName)return'HSO';
   if(projektName==='Unterricht')return'Unterricht';
   if(projektName==='Andere Unterrichte')return'Andere Unterrichte';
   if(projektName==='Kalender')return'Kalender';
@@ -1322,8 +1321,7 @@ function getTerminTyp(projektName){
   if(/Repertoire/i.test(projektName))return'Repertoire';
   if(projektName.startsWith('HSO'))return'HSO';
   if(projektName.startsWith('WK'))return'WK';
-  if(projektName==='13/14')return'HSO';
-  return'Sonstiges';
+  return'HSO';
 }
 
 async function ladenStartTermine(){
