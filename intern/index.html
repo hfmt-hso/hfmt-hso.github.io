@@ -376,6 +376,7 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
           <button class="proj-sj-btn" id="st-typ-wk" onclick="setTypTermin('WK',this)">WK</button>
           <button class="proj-sj-btn" id="st-typ-blatt" onclick="setTypTermin('Blattspiel',this)">Blattspiel</button>
           <button class="proj-sj-btn" id="st-typ-rep" onclick="setTypTermin('Repertoire',this)">Repertoire</button>
+          <button class="proj-sj-btn" id="st-typ-unt" onclick="setTypTermin('Unterricht',this)">Unterricht</button>
           <button class="proj-sj-btn" id="st-typ-sonst" onclick="setTypTermin('Sonstiges',this)">Sonstiges</button>
         </div>
         <div id="start-termine" style="max-height:500px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius);background:#fff"><div class="spinner"><div class="spin"></div>Lade...</div></div>
@@ -1305,13 +1306,14 @@ function setSjTermin(sj,btn){
 
 function setTypTermin(typ,btn){
   _startTypFilter=typ;
-  document.querySelectorAll('#st-typ-alle,#st-typ-hso,#st-typ-wk,#st-typ-blatt,#st-typ-rep,#st-typ-sonst').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#st-typ-alle,#st-typ-hso,#st-typ-wk,#st-typ-blatt,#st-typ-rep,#st-typ-unt,#st-typ-sonst').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderStartTermine();
 }
 
 function getTerminTyp(projektName){
   if(!projektName)return'Sonstiges';
+  if(projektName==='Unterricht')return'Unterricht';
   if(/Blattspiel/i.test(projektName))return'Blattspiel';
   if(/Repertoire/i.test(projektName))return'Repertoire';
   if(projektName.startsWith('HSO'))return'HSO';
@@ -1330,7 +1332,44 @@ async function ladenStartTermine(){
       _startTermineCache[sj]=d;
     }
   }
+  await ladeStartUnterricht();
   renderStartTermine();
+}
+
+// Eigener Unterricht (Dozent = UNT_ME) und ICoM-Termine für „Nächste Termine“.
+// Fehler (z. B. Backend nicht erreichbar) lassen die übrigen Termine unberührt.
+var _startUnt=[];
+async function ladeStartUnterricht(){
+  var neu=[];
+  try{
+    var r=await Promise.all([
+      untHoleTermine(false).catch(function(){return [];}),
+      untGet('icomTermine').catch(function(){return null;}),
+      untHoleBuchungen(false).catch(function(){return [];})
+    ]);
+    var buch=r[2]||[];
+    (r[0]||[]).forEach(function(t){
+      if(!untDozentPasst(t.dozent,UNT_ME))return;
+      // gebuchte Studierende je Slot (nur Einzelunterricht)
+      t._belegung=(t.marker==='Einzelunterricht')?(t.slots||[]).map(function(sl){
+        var b=buch.find(function(x){return x.terminId===t.id&&x.slotStart===sl.uhrzeit;});
+        return {zeit:sl.uhrzeit,name:b?b.name:'',werk:b?(b.werk||''):''};
+      }):null;
+      neu.push({art:'unt',t:t});
+    });
+    if(r[1]&&r[1].ok)(r[1].data||[]).forEach(function(t){
+      t._belegung=(t.slots||[]).filter(function(sl){return sl.typ!=='gruppe';}).map(function(sl){
+        return {zeit:sl.uhrzeit,name:sl.buchungId?(sl.name||''):'',werk:sl.buchungId?(sl.werk||''):''};
+      });
+      neu.push({art:'icom',t:t});
+    });
+  }catch(e){}
+  _startUnt=neu;
+}
+// Studienjahr-Schlüssel ('26_27') zu einem Datum; Studienjahr beginnt im September
+function sjVonDatum(d){
+  var y=d.getFullYear()+(d.getMonth()>=8?0:-1);
+  return String(y%100).padStart(2,'0')+'_'+String((y+1)%100).padStart(2,'0');
 }
 
 var _abwLive=null; async function ladeAbwLive(){ try{ var r=await fetch(WEB_APP_URL+'?action=abwesenheiten'); var j=await r.json(); _abwLive=(j&&j.ok&&j.data)?j.data:null; }catch(e){ _abwLive=null; } } function abwText(ev){ var n=[]; var b=ev.abwesendNamen||(ev.abwesend?String(ev.abwesend).split(', '):[]); b.forEach(function(x){ if(x&&n.indexOf(x)<0)n.push(x); }); var id=ev._eventId||ev.eventId||ev.id; var l=(_abwLive&&id)?_abwLive[id]:null; if(l)l.forEach(function(x){ if(x&&n.indexOf(x)<0)n.push(x); }); return n.join(', '); } function renderStartTermine(){
@@ -1346,7 +1385,22 @@ var _abwLive=null; async function ladeAbwLive(){ try{ var r=await fetch(WEB_APP_
       if(dat&&dat>=heute)alle.push({projekt:ev.projekt||ev._titel||'',ev:ev,dat:dat,sj:sj});
     });
   });
-  alle.sort((a,b)=>a.dat-b.dat);
+  // Eigener Unterricht + ICoM
+  _startUnt.forEach(function(u){
+    var t=u.t,dat=parseDatum(t.datum);
+    if(!dat||dat<heute)return;
+    var sj=sjVonDatum(dat);
+    if(_startSjFilter!=='alle'&&sj!==_startSjFilter)return;
+    var ende=t.ende||'';
+    if(!ende&&t.slots&&t.slots.length)ende=untUhrPlus(t.slots[t.slots.length-1].uhrzeit,UNT_SLOT_MIN);
+    var ev={datum:t.datum,uhrzeit:t.uhrzeit,endzeit:ende,ort:t.ort,marker:'Unterricht',_belegung:t._belegung,
+            _titel:u.art==='icom'?(t.titel||'ICoM Unterricht'):(t.marker||t.projekt||'Unterricht')};
+    alle.push({projekt:'Unterricht',ev:ev,dat:dat,sj:sj});
+  });
+  if(_startTypFilter!=='alle')alle=alle.filter(function(it){return getTerminTyp(it.projekt)===_startTypFilter;});
+  // nach Datum, am selben Tag nach Uhrzeit
+  var uhr=function(it){var m=String(it.ev.uhrzeit||'').match(/(\d{1,2}):(\d{2})/);return m?parseInt(m[1],10)*60+parseInt(m[2],10):0;};
+  alle.sort((a,b)=>(a.dat-b.dat)||(uhr(a)-uhr(b)));
   if(!alle.length){el.innerHTML='<div class="empty">Keine bevorstehenden Termine</div>';return;}
 
   // Nach Monat gruppieren
@@ -1370,7 +1424,7 @@ var _abwLive=null; async function ladeAbwLive(){ try{ var r=await fetch(WEB_APP_
       var hatProg=(ev.werke&&ev.werke.length>0)||(ev.leitung&&ev.leitung.length>0);
       var kid='st-'+kalIdx++;
       // Balkenfarbe je Projekttyp
-      var balken=item.projekt.startsWith('WK')?'#0F6E56':item.projekt==='13/14'?'#854F0B':/Blattspiel|Repertoire/i.test(item.projekt)?'#534AB7':'#185FA5';
+      var balken=item.projekt==='Unterricht'?'#C2410C':item.projekt.startsWith('WK')?'#0F6E56':item.projekt==='13/14'?'#854F0B':/Blattspiel|Repertoire/i.test(item.projekt)?'#534AB7':'#185FA5';
       var isVorstellung=(ev.marker==='Vorstellung')||(ev.konzertart&&ev.konzertart.length>0);
       html+='<div style="border-left:3px solid '+balken+';background:#fff;border-bottom:1px solid var(--border);margin-left:0">'+
         '<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;cursor:'+(hatProg?'pointer':'default')+'" onclick="toggleStTerm(\''+kid+'\','+hatProg+')">'+
@@ -1382,6 +1436,10 @@ var _abwLive=null; async function ladeAbwLive(){ try{ var r=await fetch(WEB_APP_
           '<div style="flex:1;min-width:0">'+
             '<div style="font-size:13px;font-weight:'+(isVorstellung?'700':'500')+';color:var(--ink)">'+esc(ev._titel||item.projekt)+'</div>'+
             '<div style="font-size:11px;color:var(--ink3);margin-top:2px">'+esc(zeitText(ev))+(ev.ort?' · '+esc(ev.ort):'')+'</div>'+
+            (ev._belegung&&ev._belegung.length?'<div style="font-size:11px;margin-top:3px;line-height:1.5">'+ev._belegung.map(function(b){
+              return b.name?'<div><span style="color:var(--ink3)">'+esc(b.zeit)+'</span> <strong style="font-weight:600">'+esc(b.name)+'</strong>'+(b.werk?' <span style="color:var(--ink3)">· '+esc(b.werk)+'</span>':'')+'</div>'
+                          :'<div style="color:var(--ink3);opacity:0.6">'+esc(b.zeit)+' frei</div>';
+            }).join('')+'</div>':'')+
             (abwText(ev)?'<div style="font-size:11px;color:var(--red);font-weight:600;margin-top:2px">Abwesend: '+esc(abwText(ev))+'</div>':'')+
           '</div>'+
           (hatProg?'<div id="chev-'+kid+'" style="color:var(--ink3);font-size:11px;flex-shrink:0;transition:transform 0.2s">▾</div>':'')+
