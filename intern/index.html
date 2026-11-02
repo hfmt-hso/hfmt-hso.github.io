@@ -378,6 +378,7 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
           <button class="proj-sj-btn" id="st-typ-rep" onclick="setTypTermin('Repertoire',this)">Repertoire</button>
           <button class="proj-sj-btn" id="st-typ-unt" onclick="setTypTermin('Unterricht',this)">Unterricht</button>
           <button class="proj-sj-btn" id="st-typ-andere" onclick="setTypTermin('Andere Unterrichte',this)">Andere Unterrichte</button>
+          <button class="proj-sj-btn" id="st-typ-kal" onclick="setTypTermin('Kalender',this)">Kalender</button>
           <button class="proj-sj-btn" id="st-typ-sonst" onclick="setTypTermin('Sonstiges',this)">Sonstiges</button>
         </div>
         <div id="start-termine" style="max-height:500px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius);background:#fff"><div class="spinner"><div class="spin"></div>Lade...</div></div>
@@ -1307,7 +1308,7 @@ function setSjTermin(sj,btn){
 
 function setTypTermin(typ,btn){
   _startTypFilter=typ;
-  document.querySelectorAll('#st-typ-alle,#st-typ-hso,#st-typ-wk,#st-typ-blatt,#st-typ-rep,#st-typ-unt,#st-typ-andere,#st-typ-sonst').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('#st-typ-alle,#st-typ-hso,#st-typ-wk,#st-typ-blatt,#st-typ-rep,#st-typ-unt,#st-typ-andere,#st-typ-kal,#st-typ-sonst').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderStartTermine();
 }
@@ -1316,6 +1317,7 @@ function getTerminTyp(projektName){
   if(!projektName)return'Sonstiges';
   if(projektName==='Unterricht')return'Unterricht';
   if(projektName==='Andere Unterrichte')return'Andere Unterrichte';
+  if(projektName==='Kalender')return'Kalender';
   if(/Blattspiel/i.test(projektName))return'Blattspiel';
   if(/Repertoire/i.test(projektName))return'Repertoire';
   if(projektName.startsWith('HSO'))return'HSO';
@@ -1341,8 +1343,14 @@ async function ladenStartTermine(){
 // Eigener Unterricht (Dozent = UNT_ME) und ICoM-Termine für „Nächste Termine“.
 // Fehler (z. B. Backend nicht erreichbar) lassen die übrigen Termine unberührt.
 var _startUnt=[];
+var _startKal=[];
+async function ladeStartKalender(){
+  // Hauptkalender (Backend-Action meinKalender, nur mit Dozenten-Login); Fehler bleiben still.
+  try{var d=await untGet('meinKalender');_startKal=(d&&d.ok&&Array.isArray(d.data))?d.data:[];}catch(e){_startKal=[];}
+}
 async function ladeStartUnterricht(){
   var neu=[];
+  ladeStartKalender().then(function(){if(typeof renderStartTermine==='function')renderStartTermine();});
   try{
     var r=await Promise.all([
       untHoleTermine(false).catch(function(){return [];}),
@@ -1405,6 +1413,15 @@ var _abwLive=null; async function ladeAbwLive(){ try{ var r=await fetch(WEB_APP_
     }
     alle.push({projekt:'Unterricht',ev:ev,dat:dat,sj:sj});
   });
+  // Hauptkalender
+  _startKal.forEach(function(k){
+    var dat=parseDatum(k.datum);
+    if(!dat||dat<heute)return;
+    var sj=sjVonDatum(dat);
+    if(_startSjFilter!=='alle'&&sj!==_startSjFilter)return;
+    var ort=[k.ganztag?'ganztägig':'',(k.datumEnde&&k.datumEnde!==k.datum)?'bis '+k.datumEnde.slice(0,6):'',k.ort||''].filter(Boolean).join(' · ');
+    alle.push({projekt:'Kalender',ev:{datum:k.datum,uhrzeit:k.uhrzeit,endzeit:k.endzeit,ort:ort,marker:'Kalender',_titel:k.titel||'(ohne Titel)'},dat:dat,sj:sj});
+  });
   if(_startTypFilter==='Andere Unterrichte')alle=alle.filter(function(it){return it.projekt==='Andere Unterrichte';});
   else if(_startTypFilter!=='alle')alle=alle.filter(function(it){return getTerminTyp(it.projekt)===_startTypFilter;});
   // nach Datum, am selben Tag nach Uhrzeit
@@ -1433,7 +1450,7 @@ var _abwLive=null; async function ladeAbwLive(){ try{ var r=await fetch(WEB_APP_
       var hatProg=(ev.werke&&ev.werke.length>0)||(ev.leitung&&ev.leitung.length>0);
       var kid='st-'+kalIdx++;
       // Balkenfarbe je Projekttyp
-      var balken=(item.projekt==='Unterricht'||item.projekt==='Andere Unterrichte')?'#C2410C':item.projekt.startsWith('WK')?'#0F6E56':item.projekt==='13/14'?'#854F0B':/Blattspiel|Repertoire/i.test(item.projekt)?'#534AB7':'#185FA5';
+      var balken=item.projekt==='Kalender'?'#5F6B7A':(item.projekt==='Unterricht'||item.projekt==='Andere Unterrichte')?'#C2410C':item.projekt.startsWith('WK')?'#0F6E56':item.projekt==='13/14'?'#854F0B':/Blattspiel|Repertoire/i.test(item.projekt)?'#534AB7':'#185FA5';
       var isVorstellung=(ev.marker==='Vorstellung')||(ev.konzertart&&ev.konzertart.length>0);
       var abg=!!ev.abgesagt;
       var abgNotiz='';
