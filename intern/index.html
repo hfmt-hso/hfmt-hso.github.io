@@ -1406,7 +1406,6 @@ var _abwLive=null; async function ladeAbwLive(){ try{ var r=await fetch(WEB_APP_
     var ev={datum:t.datum,uhrzeit:t.uhrzeit,endzeit:ende,ort:t.ort,marker:'Unterricht',_belegung:t._belegung,
             _titel:u.art==='icom'?(t.titel||'ICoM Unterricht'):(t.marker||t.projekt||'Unterricht')};
     if(u.art==='andere'){
-      if(_startTypFilter!=='Andere Unterrichte')return;
       ev._titel=(t.marker||'Unterricht')+(t.dozent?' · '+t.dozent:'');
       ev._belegung=null;
       alle.push({projekt:'Andere Unterrichte',ev:ev,dat:dat,sj:sj});return;
@@ -1422,8 +1421,7 @@ var _abwLive=null; async function ladeAbwLive(){ try{ var r=await fetch(WEB_APP_
     var ort=[k.ganztag?'ganztägig':'',(k.datumEnde&&k.datumEnde!==k.datum)?'bis '+k.datumEnde.slice(0,6):'',k.ort||''].filter(Boolean).join(' · ');
     alle.push({projekt:'Kalender',ev:{datum:k.datum,uhrzeit:k.uhrzeit,endzeit:k.endzeit,ort:ort,marker:'Kalender',_titel:k.titel||'(ohne Titel)'},dat:dat,sj:sj});
   });
-  if(_startTypFilter==='Andere Unterrichte')alle=alle.filter(function(it){return it.projekt==='Andere Unterrichte';});
-  else if(_startTypFilter!=='alle')alle=alle.filter(function(it){return getTerminTyp(it.projekt)===_startTypFilter;});
+  if(_startTypFilter!=='alle')alle=alle.filter(function(it){return getTerminTyp(it.projekt)===_startTypFilter;});
   // nach Datum, am selben Tag nach Uhrzeit
   var uhr=function(it){var m=String(it.ev.uhrzeit||'').match(/(\d{1,2}):(\d{2})/);return m?parseInt(m[1],10)*60+parseInt(m[2],10):0;};
   alle.sort((a,b)=>(a.dat-b.dat)||(uhr(a)-uhr(b)));
