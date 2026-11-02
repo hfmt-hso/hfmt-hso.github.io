@@ -473,7 +473,6 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
       <button class="unt-stab" data-utab="ut-termine" onclick="wechselUntTab(this)">Termine</button>
       <button class="unt-stab" data-utab="ut-probezeiten" onclick="wechselUntTab(this)">Probezeiten</button>
       <button class="unt-stab" data-utab="ut-icom" onclick="wechselUntTab(this)">ICoM</button>
-      <button class="unt-stab" data-utab="ut-kalender" onclick="wechselUntTab(this)">Kalender</button>
     </div>
     <div id="ut-abwesenheiten" class="ut-pane active">
       <details id="kr-details" ontoggle="untKrankOeffnen(this)" style="margin:0 0 12px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)">
@@ -520,10 +519,6 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
     </div>
     <div id="ut-probezeiten" class="ut-pane">
       <div id="unt-probe-inhalt"><div class="spinner"><div class="spin"></div>Lade...</div></div>
-    </div>
-    <div id="ut-kalender" class="ut-pane">
-      <iframe id="ut-kal-frame" title="Hauptkalender" style="width:100%;height:78vh;min-height:520px;border:1px solid var(--border);border-radius:var(--radius);background:#fff" frameborder="0"></iframe>
-      <div style="font-size:11px;color:var(--ink3);margin-top:6px">Falls leer: in Google angemeldet sein bzw. Kalender-Freigabe prüfen.</div>
     </div>
     <div id="ut-icom" class="ut-pane">
       <div style="display:flex;gap:6px;margin-bottom:12px">
@@ -2035,7 +2030,6 @@ function wechselUntTab(btn){
     if(tab==='ut-termine')ladeUntTermine(false);
     if(tab==='ut-probezeiten')ladeUntProbezeiten(false);
     if(tab==='ut-icom')ladeUntIcom(false);
-    if(tab==='ut-kalender')document.getElementById('ut-kal-frame').src='https://calendar.google.com/calendar/embed?src=t.dorsch%40gmail.com&ctz=Europe%2FBerlin&mode=WEEK&showTitle=0';
   }
 }
 
