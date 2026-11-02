@@ -292,7 +292,11 @@
         solisten: ev.solisten || [],
         leitung: ev.leitung || [],
         ensemble: ev.ensemble || null,
-        abwesend: ev.abwesend || null
+        abwesend: ev.abwesend || null,
+        probenplan: ev.probenplan || [],
+        abgesagt: !!ev.abgesagt || (ev.probenplan || []).some(function (z) {
+          return /^\*\s*abgesagt\b/i.test(String(z).trim());
+        })
       });
     });
     return result;

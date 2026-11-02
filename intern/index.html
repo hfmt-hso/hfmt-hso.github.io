@@ -1426,7 +1426,10 @@ var _abwLive=null; async function ladeAbwLive(){ try{ var r=await fetch(WEB_APP_
       // Balkenfarbe je Projekttyp
       var balken=item.projekt==='Unterricht'?'#C2410C':item.projekt.startsWith('WK')?'#0F6E56':item.projekt==='13/14'?'#854F0B':/Blattspiel|Repertoire/i.test(item.projekt)?'#534AB7':'#185FA5';
       var isVorstellung=(ev.marker==='Vorstellung')||(ev.konzertart&&ev.konzertart.length>0);
-      html+='<div style="border-left:3px solid '+balken+';background:#fff;border-bottom:1px solid var(--border);margin-left:0">'+
+      var abg=!!ev.abgesagt;
+      var abgNotiz='';
+      if(abg){(ev.probenplan||[]).forEach(function(z){var m=String(z).trim().match(/^\*\s*(abgesagt.*)$/i);if(m&&!abgNotiz)abgNotiz=m[1];});}
+      html+='<div style="border-left:3px solid '+(abg?'#9b2335':balken)+';background:#fff;border-bottom:1px solid var(--border);margin-left:0">'+
         '<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;cursor:'+(hatProg?'pointer':'default')+'" onclick="toggleStTerm(\''+kid+'\','+hatProg+')">'+
           '<div style="min-width:34px;text-align:center;flex-shrink:0">'+
             '<div style="font-size:17px;font-weight:600;color:var(--ink);line-height:1.1">'+tag+'</div>'+
@@ -1434,8 +1437,9 @@ var _abwLive=null; async function ladeAbwLive(){ try{ var r=await fetch(WEB_APP_
           '</div>'+
           '<div style="width:1px;height:28px;background:var(--border);flex-shrink:0"></div>'+
           '<div style="flex:1;min-width:0">'+
-            '<div style="font-size:13px;font-weight:'+(isVorstellung?'700':'500')+';color:var(--ink)">'+esc(ev._titel||item.projekt)+'</div>'+
-            '<div style="font-size:11px;color:var(--ink3);margin-top:2px">'+esc(zeitText(ev))+(ev.ort?' · '+esc(ev.ort):'')+'</div>'+
+            '<div style="font-size:13px;font-weight:'+(isVorstellung?'700':'500')+';color:var(--ink);'+(abg?'text-decoration:line-through;opacity:.5;':'')+'">'+esc(ev._titel||item.projekt)+'</div>'+
+            '<div style="font-size:11px;color:var(--ink3);margin-top:2px;'+(abg?'text-decoration:line-through;opacity:.5;':'')+'">'+esc(zeitText(ev))+(ev.ort?' · '+esc(ev.ort):'')+'</div>'+
+            (abg?'<div style="margin-top:4px"><span style="display:inline-block;background:#9b2335;color:#fff;font-size:10px;font-weight:700;letter-spacing:.06em;padding:2px 8px;border-radius:5px">ABGESAGT</span>'+(abgNotiz?' <span style="font-size:11px;font-weight:600;color:#9b2335">'+esc(abgNotiz.replace(/^abgesagt:?\s*/i,''))+'</span>':'')+'</div>':'')+
             (ev._belegung&&ev._belegung.length?'<div style="font-size:11px;margin-top:3px;line-height:1.5">'+ev._belegung.map(function(b){
               return b.name?'<div><span style="color:var(--ink3)">'+esc(b.zeit)+'</span> <strong style="font-weight:600">'+esc(b.name)+'</strong>'+(b.werk?' <span style="color:var(--ink3)">· '+esc(b.werk)+'</span>':'')+'</div>'
                           :'<div style="color:var(--ink3);opacity:0.6">'+esc(b.zeit)+' frei</div>';
@@ -1444,7 +1448,7 @@ var _abwLive=null; async function ladeAbwLive(){ try{ var r=await fetch(WEB_APP_
           '</div>'+
           (hatProg?'<div id="chev-'+kid+'" style="color:var(--ink3);font-size:11px;flex-shrink:0;transition:transform 0.2s">▾</div>':'')+
         '</div>'+
-        (hatProg?'<div id="'+kid+'" style="display:none;padding:10px 12px 14px 58px;background:var(--paper)">'+
+        (hatProg?'<div id="'+kid+'" style="display:none;padding:10px 12px 14px 58px;background:var(--paper);'+(abg?'opacity:.45;filter:grayscale(1);':'')+'">'+
           (ev.werke||[]).map(function(w){
             if(w.pause)return'<div style="font-size:11px;color:var(--ink3);font-style:italic;text-align:center;padding:4px 0">— Pause —</div>';
             var ld=w.lebensdaten?' ('+w.lebensdaten+')':'';
