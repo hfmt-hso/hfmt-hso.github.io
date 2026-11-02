@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-01T03:07:18.431Z",
+  "generiert": "2026-11-02T03:07:08.229Z",
   "events": [
     {
       "datum": "09.11.2026",
@@ -80,7 +80,8 @@
               "name": "Maria Narodytska",
               "zusatz": "Konzertexamen, Klasse Prof. Stepan Simonyan"
             }
-          ]
+          ],
+          "schlagwerkAnzahl": 0
         },
         {
           "pause": true
@@ -98,7 +99,8 @@
           "dauer": "ca. 41 min",
           "besetzung": "3.2.2.2-4.2.3.1-Pk+4, Hrf.-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 4
         }
       ],
       "solisten": [
@@ -591,7 +593,8 @@
           "dauer": "ca. 36 min",
           "besetzung": "2.2.2.2-2.2.0.0-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 0
         }
       ],
       "solisten": [],
@@ -704,7 +707,8 @@
               "name": "Onyou Kim",
               "zusatz": "als Gast"
             }
-          ]
+          ],
+          "schlagwerkAnzahl": 0
         },
         {
           "pause": true
@@ -722,7 +726,8 @@
           "dauer": "ca. 44 min",
           "besetzung": "3.2.2.2-4.2.3.1-Pk+3-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 3
         }
       ],
       "solisten": [
@@ -1027,7 +1032,9 @@
               "name": "Daekyu Han",
               "zusatz": "Konzertexamen, Klasse Prof. Anna Kreetta Gribajcevic"
             }
-          ]
+          ],
+          "schlagwerkAnzahl": 6,
+          "schlagwerkListe": "Pauken, 2 hängende Becken, Flexaton, kleine Trommel, 2 große Trommeln, 2 Tamtams, Xylophon, Vibraphon, Röhrenglocken"
         },
         {
           "pause": true
@@ -1040,7 +1047,8 @@
           "dauer": "ca. 12 min",
           "besetzung": "3.2.2.2-4.2.3.1-Pk+2, Hrf.-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 2
         },
         {
           "komponist": "Leonard Bernstein",
@@ -1065,7 +1073,7 @@
             "Finale"
           ],
           "dauer": "ca. 23 min",
-          "besetzung": "3.3.4.3-4.3.3.1-Pk+5, Hrf., Klav., Cel.-Str. (10.8.6.5.4)",
+          "besetzung": "3.3.5.3-4.3.3.1-Pk+5, Hrf., Klav., Cel.-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
           "pause": false
         }
@@ -1085,7 +1093,7 @@
           "klasse": ""
         }
       ],
-      "aufbauplan": null,
+      "aufbauplan": "https://hfmt-hso.github.io/aufbauplan.html?plan=eyJldiI6IjZ1bTRpMjZiZDY4bmVoNXAwZDg5amJhZjU5QGdvb2dsZS5jb20iLCJib3hlcyI6W3sibCI6IlZhIiwiZyI6InN0ciIsIngiOjEuNSwieSI6MTEuNCwicCI6MiwiZiI6IkJyYXRzY2hlIn0seyJsIjoiVmEiLCJnIjoic3RyIiwieCI6Mi45LCJ5IjoxMi4xLCJwIjoyLCJmIjoiQnJhdHNjaGUifSx7ImwiOiJWYSIsImciOiJzdHIiLCJ4IjotMC4xLCJ5IjoxMS4zLCJwIjoyLCJmIjoiQnJhdHNjaGUifSx7ImwiOiJWYyIsImciOiJzdHIiLCJ4IjoxLjYsInkiOjEwLjEsInAiOjIsImYiOiJWaW9sb25jZWxsbyJ9LHsibCI6IlZjIiwiZyI6InN0ciIsIngiOjMuMywieSI6MTAuNCwicCI6MiwiZiI6IlZpb2xvbmNlbGxvIn0seyJsIjoiVmMiLCJnIjoic3RyIiwieCI6NC45LCJ5IjoxMC43LCJwIjoxLCJmIjoiVmlvbG9uY2VsbG8ifSx7ImwiOiJLYiIsImciOiJzdHIiLCJ4Ijo4LCJ5IjoxMSwicCI6MSwiZiI6IktvbnRyYWJhc3MifSx7ImwiOiJLYiIsImciOiJzdHIiLCJ4Ijo2LjksInkiOjkuOSwicCI6MSwiZiI6IktvbnRyYWJhc3MifSx7ImwiOiJLYiIsImciOiJzdHIiLCJ4Ijo2LjUsInkiOjExLjIsInAiOjEsImYiOiJLb250cmFiYXNzIn0seyJsIjoiS2IiLCJnIjoic3RyIiwieCI6NS44LCJ5IjoxMi4zLCJwIjoxLCJmIjoiS29udHJhYmFzcyJ9LHsibCI6IkRpci4iLCJnIjoiZGlyIiwieCI6MCwieSI6OS44LCJwIjoxLCJmIjoiRGlyaWdlbnQ6aW4ifSx7ImwiOiJIcmYiLCJnIjoia3kiLCJ4IjotNC42LCJ5IjoxMSwicCI6MSwiZiI6IkhhcmZlIn0seyJsIjoiS2wuL0ZsLiIsImciOiJreSIsIngiOi00LjEsInkiOjkuNCwicCI6MSwiZiI6IktsYXZpZXIgLyBGbMO8Z2VsIn0seyJsIjoiQ2VsLiIsImciOiJreSIsIngiOi0zLjIsInkiOjEwLjUsInAiOjEsImYiOiJDZWxlc3RhIn0seyJsIjoiRmwuIiwiZyI6Ind3IiwieCI6LTEuNCwieSI6MTMuNywicCI6MSwiZiI6IkZsw7Z0ZSJ9LHsibCI6IkZsLiIsImciOiJ3dyIsIngiOi0yLjQsInkiOjEzLjcsInAiOjEsImYiOiJGbMO2dGUifSx7ImwiOiJGbC4iLCJnIjoid3ciLCJ4IjotMy40LCJ5IjoxMy43LCJwIjoxLCJmIjoiRmzDtnRlIn0seyJsIjoiSHIuIiwiZyI6ImJyIiwieCI6LTQuNCwieSI6MTMuNywicCI6MSwiZiI6Ikhvcm4ifSx7ImwiOiJIci4iLCJnIjoiYnIiLCJ4IjotNS40LCJ5IjoxMy43LCJwIjoxLCJmIjoiSG9ybiJ9LHsibCI6Ik9iLiIsImciOiJ3dyIsIngiOi0wLjQsInkiOjEzLjcsInAiOjEsImYiOiJPYm9lIn0seyJsIjoiT2IuIiwiZyI6Ind3IiwieCI6MC42LCJ5IjoxMy43LCJwIjoxLCJmIjoiT2JvZSJ9LHsibCI6Ik9iLiIsImciOiJ3dyIsIngiOjEuNiwieSI6MTMuNywicCI6MSwiZiI6Ik9ib2UifSx7ImwiOiJUci4iLCJnIjoiYnIiLCJ4IjozLjMsInkiOjE0LjgsInAiOjEsImYiOiJUcm9tcGV0ZSJ9LHsibCI6IlRyLiIsImciOiJiciIsIngiOjQuNCwieSI6MTQuOCwicCI6MSwiZiI6IlRyb21wZXRlIn0seyJsIjoiVHIuIiwiZyI6ImJyIiwieCI6My40LCJ5IjoxMy43LCJwIjoxLCJmIjoiVHJvbXBldGUifSx7ImwiOiJLbC4iLCJnIjoid3ciLCJ4IjotMS40LCJ5IjoxNC43LCJwIjoxLCJmIjoiS2xhcmluZXR0ZSJ9LHsibCI6IktsLiIsImciOiJ3dyIsIngiOi0yLjQsInkiOjE0LjcsInAiOjEsImYiOiJLbGFyaW5ldHRlIn0seyJsIjoiS2wuIiwiZyI6Ind3IiwieCI6LTMuNCwieSI6MTQuNywicCI6MSwiZiI6IktsYXJpbmV0dGUifSx7ImwiOiJIci4iLCJnIjoiYnIiLCJ4IjotNC40LCJ5IjoxNC43LCJwIjoxLCJmIjoiSG9ybiJ9LHsibCI6IkhyLiIsImciOiJiciIsIngiOi01LjQsInkiOjE0LjcsInAiOjEsImYiOiJIb3JuIn0seyJsIjoiRmcuIiwiZyI6Ind3IiwieCI6LTAuMywieSI6MTQuNywicCI6MSwiZiI6IkZhZ290dCJ9LHsibCI6IkZnLiIsImciOiJ3dyIsIngiOjAuNywieSI6MTQuNywicCI6MSwiZiI6IkZhZ290dCJ9LHsibCI6IkZnLiIsImciOiJ3dyIsIngiOjEuNywieSI6MTQuNywicCI6MSwiZiI6IkZhZ290dCJ9LHsibCI6IlBvcy4iLCJnIjoiYnIiLCJ4IjoxLjMsInkiOjE1LjksInAiOjEsImYiOiJQb3NhdW5lIn0seyJsIjoiUG9zLiIsImciOiJiciIsIngiOjIuMywieSI6MTUuOSwicCI6MSwiZiI6IlBvc2F1bmUifSx7ImwiOiJQb3MuIiwiZyI6ImJyIiwieCI6My4zLCJ5IjoxNS45LCJwIjoxLCJmIjoiUG9zYXVuZSJ9LHsibCI6IlBrLiIsImciOiJwYyIsIngiOjAsInkiOjE4LjMsInAiOjEsImYiOiJQYXVrZW4ifSx7ImwiOiJUYi4iLCJnIjoiYnIiLCJ4Ijo0LjQsInkiOjE1LjksInAiOjEsImYiOiJUdWJhIn0seyJsIjoiU2NobC4iLCJnIjoicGMiLCJ4IjotNCwieSI6MTcuNywicCI6MSwiZiI6IkhyZi4ifSx7ImwiOiJTY2hsLiIsImciOiJwYyIsIngiOi0yLjQsInkiOjE3LjcsInAiOjEsImYiOiJLbGF2LiJ9LHsibCI6IlNjaGwuIiwiZyI6InBjIiwieCI6MS43LCJ5IjoxOC4zLCJwIjoxLCJmIjoiQ2VsLiJ9LHsibCI6IlNjaGwuIiwiZyI6InBjIiwieCI6LTMuMiwieSI6MTYuNCwicCI6MSwiZiI6IlNjaGxhZ3dlcmsifSx7ImwiOiJTY2hsLiIsImciOiJwYyIsIngiOi0xLjUsInkiOjE2LjQsInAiOjEsImYiOiJTY2hsYWd3ZXJrIn0seyJsIjoiU2NobC4iLCJnIjoicGMiLCJ4IjozLjMsInkiOjE4LjIsInAiOjEsImYiOiJTY2hsYWd3ZXJrIn0seyJsIjoiVmEiLCJnIjoic29sbyIsIngiOi0xLjQsInkiOjkuNCwicCI6MSwiZiI6IlNvbG86IFZpb2xhIOKAkyBEYWVreXUgSGFuIn0seyJsIjoiQ2VtLiIsImciOiJreSIsIngiOi0xLjgsInkiOjExLjEsInAiOjEsImYiOiJDZW1iYWxvIn0seyJsIjoiUG9zLiIsImciOiJiciIsIngiOjAuMywieSI6MTUuOSwicCI6MSwiZiI6IlBvc2F1bmUifSx7ImwiOiJUci4iLCJnIjoiYnIiLCJ4Ijo0LjUsInkiOjEzLjcsInAiOjEsImYiOiJUcm9tcGV0ZSJ9XSwicG9kZXN0cyI6W3siaWQiOiJwb2QwIiwiaCI6MjAsImQiOjEsInkiOjMuMiwieCI6MCwidyI6MTIsInYiOnRydWV9LHsiaWQiOiJwb2QxIiwiaCI6NDAsImQiOjEsInkiOjQuMiwieCI6MCwidyI6MTIsInYiOnRydWV9LHsiaWQiOiJwb2QyIiwiaCI6NjAsImQiOjQsInkiOjUuMiwieCI6MCwidyI6MTAsInYiOnRydWV9XSwiYTIiOnsiYm94ZXMiOlt7ImwiOiJWbC5JIiwiZyI6InN0ciIsIngiOi0xLjMsInkiOjkuOCwicCI6MiwiZiI6IjEuIFZpb2xpbmUifSx7ImwiOiJWbC5JIiwiZyI6InN0ciIsIngiOi0yLjMsInkiOjEwLCJwIjoyLCJmIjoiMS4gVmlvbGluZSJ9LHsibCI6IlZsLkkiLCJnIjoic3RyIiwieCI6LTMuNCwieSI6MTAuMiwicCI6MiwiZiI6IjEuIFZpb2xpbmUifSx7ImwiOiJWbC5JIiwiZyI6InN0ciIsIngiOi00LjUsInkiOjEwLjQsInAiOjIsImYiOiIxLiBWaW9saW5lIn0seyJsIjoiVmwuSSIsImciOiJzdHIiLCJ4IjotNS45LCJ5IjoxMC43LCJwIjoyLCJmIjoiMS4gVmlvbGluZSJ9LHsibCI6IlZsLklJIiwiZyI6InN0ciIsIngiOi0wLjgsInkiOjEwLjksInAiOjIsImYiOiIyLiBWaW9saW5lIn0seyJsIjoiVmwuSUkiLCJnIjoic3RyIiwieCI6LTIsInkiOjExLjMsInAiOjIsImYiOiIyLiBWaW9saW5lIn0seyJsIjoiVmwuSUkiLCJnIjoic3RyIiwieCI6LTMuMywieSI6MTEuNywicCI6MiwiZiI6IjIuIFZpb2xpbmUifSx7ImwiOiJWbC5JSSIsImciOiJzdHIiLCJ4IjotMS41LCJ5IjoxMy43LCJwIjoyLCJmIjoiMi4gVmlvbGluZSJ9LHsibCI6IlZhIiwiZyI6InN0ciIsIngiOjAuNCwieSI6MTAuOCwicCI6MiwiZiI6IkJyYXRzY2hlIn0seyJsIjoiVmEiLCJnIjoic3RyIiwieCI6MS43LCJ5IjoxMS4xLCJwIjoyLCJmIjoiQnJhdHNjaGUifSx7ImwiOiJWYSIsImciOiJzdHIiLCJ4IjoxLCJ5IjoxMi4yLCJwIjoyLCJmIjoiQnJhdHNjaGUifSx7ImwiOiJWYyIsImciOiJzdHIiLCJ4IjoxLjYsInkiOjkuOCwicCI6MiwiZiI6IlZpb2xvbmNlbGxvIn0seyJsIjoiVmMiLCJnIjoic3RyIiwieCI6MywieSI6MTAsInAiOjIsImYiOiJWaW9sb25jZWxsbyJ9LHsibCI6IlZjIiwiZyI6InN0ciIsIngiOjQuNCwieSI6MTAuMiwicCI6MSwiZiI6IlZpb2xvbmNlbGxvIn0seyJsIjoiS2IiLCJnIjoic3RyIiwieCI6Ny42LCJ5IjoxMC4zLCJwIjoxLCJmIjoiS29udHJhYmFzcyJ9LHsibCI6IktiIiwiZyI6InN0ciIsIngiOjcsInkiOjExLjQsInAiOjEsImYiOiJLb250cmFiYXNzIn0seyJsIjoiS2IiLCJnIjoic3RyIiwieCI6NS42LCJ5IjoxMS4xLCJwIjoxLCJmIjoiS29udHJhYmFzcyJ9LHsibCI6IktiIiwiZyI6InN0ciIsIngiOjYuMiwieSI6MTAuMSwicCI6MSwiZiI6IktvbnRyYWJhc3MifSx7ImwiOiJEaXIuIiwiZyI6ImRpciIsIngiOjAsInkiOjkuOCwicCI6MSwiZiI6IkRpcmlnZW50OmluIn0seyJsIjoiSHJmIiwiZyI6Imt5IiwieCI6LTUsInkiOjExLjksInAiOjEsImYiOiJIYXJmZSJ9LHsibCI6IktsLi9GbC4iLCJnIjoia3kiLCJ4Ijo4LjMsInkiOjEyLjcsInAiOjEsImYiOiJLbGF2aWVyIC8gRmzDvGdlbCJ9LHsibCI6IkNlbC4iLCJnIjoia3kiLCJ4Ijo3LjEsInkiOjEyLjYsInAiOjEsImYiOiJDZWxlc3RhIn0seyJsIjoiRmwuIiwiZyI6Ind3IiwieCI6LTEsInkiOjEzLjgsInAiOjEsImYiOiJGbMO2dGUifSx7ImwiOiJGbC4iLCJnIjoid3ciLCJ4IjotMiwieSI6MTMuOCwicCI6MSwiZiI6IkZsw7Z0ZSJ9LHsibCI6IkZsLiIsImciOiJ3dyIsIngiOi0zLCJ5IjoxMy44LCJwIjoxLCJmIjoiRmzDtnRlIn0seyJsIjoiSHIuIiwiZyI6ImJyIiwieCI6LTQuNCwieSI6MTMuOCwicCI6MSwiZiI6Ikhvcm4ifSx7ImwiOiJIci4iLCJnIjoiYnIiLCJ4IjotNS40LCJ5IjoxMy44LCJwIjoxLCJmIjoiSG9ybiJ9LHsibCI6Ik9iLiIsImciOiJ3dyIsIngiOjAsInkiOjEzLjgsInAiOjEsImYiOiJPYm9lIn0seyJsIjoiT2IuIiwiZyI6Ind3IiwieCI6MSwieSI6MTMuOCwicCI6MSwiZiI6Ik9ib2UifSx7ImwiOiJPYi4iLCJnIjoid3ciLCJ4IjoyLCJ5IjoxMy44LCJwIjoxLCJmIjoiT2JvZSJ9LHsibCI6IlRyLiIsImciOiJiciIsIngiOjMuNCwieSI6MTMuOCwicCI6MSwiZiI6IlRyb21wZXRlIn0seyJsIjoiVHIuIiwiZyI6ImJyIiwieCI6NC40LCJ5IjoxMy44LCJwIjoxLCJmIjoiVHJvbXBldGUifSx7ImwiOiJUci4iLCJnIjoiYnIiLCJ4Ijo1LjQsInkiOjEzLjgsInAiOjEsImYiOiJUcm9tcGV0ZSJ9LHsibCI6IktsLiIsImciOiJ3dyIsIngiOjAuNSwieSI6MTQuNywicCI6MSwiZiI6IktsYXJpbmV0dGUifSx7ImwiOiJLbC4iLCJnIjoid3ciLCJ4IjotMC41LCJ5IjoxNC43LCJwIjoxLCJmIjoiS2xhcmluZXR0ZSJ9LHsibCI6IktsLiIsImciOiJ3dyIsIngiOi0xLjUsInkiOjE0LjcsInAiOjEsImYiOiJLbGFyaW5ldHRlIn0seyJsIjoiS2wuIiwiZyI6Ind3IiwieCI6LTIuNSwieSI6MTQuNywicCI6MSwiZiI6IktsYXJpbmV0dGUifSx7ImwiOiJLbC4iLCJnIjoid3ciLCJ4IjotMy41LCJ5IjoxNC43LCJwIjoxLCJmIjoiS2xhcmluZXR0ZSJ9LHsibCI6IkhyLiIsImciOiJiciIsIngiOi00LjUsInkiOjE0LjcsInAiOjEsImYiOiJIb3JuIn0seyJsIjoiSHIuIiwiZyI6ImJyIiwieCI6LTUuNSwieSI6MTQuNywicCI6MSwiZiI6Ikhvcm4ifSx7ImwiOiJGZy4iLCJnIjoid3ciLCJ4IjoxLjUsInkiOjE0LjcsInAiOjEsImYiOiJGYWdvdHQifSx7ImwiOiJGZy4iLCJnIjoid3ciLCJ4IjoyLjUsInkiOjE0LjcsInAiOjEsImYiOiJGYWdvdHQifSx7ImwiOiJGZy4iLCJnIjoid3ciLCJ4IjozLjUsInkiOjE0LjcsInAiOjEsImYiOiJGYWdvdHQifSx7ImwiOiJQb3MuIiwiZyI6ImJyIiwieCI6MS40LCJ5IjoxNS44LCJwIjoxLCJmIjoiUG9zYXVuZSJ9LHsibCI6IlBvcy4iLCJnIjoiYnIiLCJ4IjoyLjQsInkiOjE1LjgsInAiOjEsImYiOiJQb3NhdW5lIn0seyJsIjoiUG9zLiIsImciOiJiciIsIngiOjMuNCwieSI6MTUuOCwicCI6MSwiZiI6IlBvc2F1bmUifSx7ImwiOiJQay4iLCJnIjoicGMiLCJ4IjowLCJ5IjoxOC44LCJwIjoxLCJmIjoiUGF1a2VuIn0seyJsIjoiVGIuIiwiZyI6ImJyIiwieCI6NC41LCJ5IjoxNS44LCJwIjoxLCJmIjoiVHViYSJ9LHsibCI6IlNjaGwuIiwiZyI6InBjIiwieCI6LTQsInkiOjE4LjcsInAiOjEsImYiOiJTY2hsYWd3ZXJrIn0seyJsIjoiU2NobC4iLCJnIjoicGMiLCJ4IjotMi4xLCJ5IjoxOC43LCJwIjoxLCJmIjoiU2NobGFnd2VyayJ9LHsibCI6IlNjaGwuIiwiZyI6InBjIiwieCI6LTIsInkiOjE3LCJwIjoxLCJmIjoiU2NobGFnd2VyayJ9LHsibCI6IlNjaGwuIiwiZyI6InBjIiwieCI6LTMuOSwieSI6MTcuMSwicCI6MSwiZiI6IlNjaGxhZ3dlcmsifSx7ImwiOiJTY2hsLiIsImciOiJwYyIsIngiOjIuOCwieSI6MTcuNywicCI6MSwiZiI6IlNjaGxhZ3dlcmsifV0sInBvZGVzdHMiOlt7ImlkIjoicG9kMCIsImgiOjIwLCJkIjoxLCJ5IjozLjIsIngiOjAsInciOjEyLCJ2Ijp0cnVlfSx7ImlkIjoicG9kMSIsImgiOjQwLCJkIjoxLCJ5Ijo0LjIsIngiOjAsInciOjEyLCJ2Ijp0cnVlfSx7ImlkIjoicG9kMiIsImgiOjYwLCJkIjo0LCJ5Ijo1LjIsIngiOjAsInciOjEwLCJ2Ijp0cnVlfV19LCJ3YSI6WyJQaW90ciBJbGxpY2ggVGNoYWlrb3Zza3kgfCBcIlJvbWVvIHVuZCBKdWxpYVwiIEZhbnRhc2llb3V2ZXJ0w7xyZSBuYWNoIFNoYWtlc3BlYXJlIiwiTGVvbmFyZCBCZXJuc3RlaW4gfCBXZXN0c2lkZSBTdG9yeSwgU3ltcGhvbmljIERhbmNlcyJdLCJjZmciOnsicyI6eyIxIjoxfSwiYm8iOnsiMiI6eyJmbCI6Mywib2IiOjMsImNsIjo1LCJmZyI6MywiaHIiOjQsInRwIjozLCJ0YiI6MywidHUiOjEsInBrIjoxLCJwZXJjRXh0cmEiOjUsInBlcmNOYW1lbiI6W10sImhyZiI6MSwiY2VsIjoxLCJrbCI6MSwib3JnIjowLCJjZW0iOjAsInZsMSI6MTAsInZsMiI6OCwidmEiOjYsInZjIjo1LCJrYiI6NH19fX0=&ansicht=readonly&tf=eyJ0IjoxNzkzNTc0OTQ5OTE2LCJ2Ijp7InRyLWZyZWkiOiJQYXVrZW4sIDIgaMOkbmdlbmRlIEJlY2tlbiwgRmxleGF0b24sIGtsZWluZSBUcm9tbWVsLCAyIGdyb8OfZSBUcm9tbWVsbiwgMiBUYW10YW1zLCBYeWxvcGhvbiwgVmlicmFwaG9uLCBSw7ZocmVuZ2xvY2tlbiIsInRyLXNjaGwtdyI6IlBrKzYifX0%3D",
       "notizen": [],
       "probenplan": [],
       "abwesend": null,
@@ -1160,7 +1168,9 @@
               "name": "Daekyu Han",
               "zusatz": "Konzertexamen, Klasse Prof. Anna Kreetta Gribajcevic"
             }
-          ]
+          ],
+          "schlagwerkAnzahl": 6,
+          "schlagwerkListe": "Pauken, 2 hängende Becken, Flexaton, kleine Trommel, 2 große Trommeln, 2 Tamtams, Xylophon, Vibraphon, Röhrenglocken"
         },
         {
           "pause": true
@@ -1173,7 +1183,8 @@
           "dauer": "ca. 12 min",
           "besetzung": "3.2.2.2-4.2.3.1-Pk+2, Hrf.-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 2
         },
         {
           "komponist": "Leonard Bernstein",
@@ -1198,7 +1209,7 @@
             "Finale"
           ],
           "dauer": "ca. 23 min",
-          "besetzung": "3.3.4.3-4.3.3.1-Pk+5, Hrf., Klav., Cel.-Str. (10.8.6.5.4)",
+          "besetzung": "3.3.5.3-4.3.3.1-Pk+5, Hrf., Klav., Cel.-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
           "pause": false
         }
@@ -1218,7 +1229,7 @@
           "klasse": ""
         }
       ],
-      "aufbauplan": null,
+      "aufbauplan": "https://hfmt-hso.github.io/aufbauplan.html?plan=eyJldiI6IjFyNHNhMGJwY2dsZ2lkNWM1YjJtb2RrcWhxQGdvb2dsZS5jb20iLCJib3hlcyI6W3sibCI6IlZhIiwiZyI6InN0ciIsIngiOjEuNSwieSI6MTEuNCwicCI6MiwiZiI6IkJyYXRzY2hlIn0seyJsIjoiVmEiLCJnIjoic3RyIiwieCI6Mi45LCJ5IjoxMi4xLCJwIjoyLCJmIjoiQnJhdHNjaGUifSx7ImwiOiJWYSIsImciOiJzdHIiLCJ4IjotMC4xLCJ5IjoxMS4zLCJwIjoyLCJmIjoiQnJhdHNjaGUifSx7ImwiOiJWYyIsImciOiJzdHIiLCJ4IjoxLjYsInkiOjEwLjEsInAiOjIsImYiOiJWaW9sb25jZWxsbyJ9LHsibCI6IlZjIiwiZyI6InN0ciIsIngiOjMuMywieSI6MTAuNCwicCI6MiwiZiI6IlZpb2xvbmNlbGxvIn0seyJsIjoiVmMiLCJnIjoic3RyIiwieCI6NC45LCJ5IjoxMC43LCJwIjoxLCJmIjoiVmlvbG9uY2VsbG8ifSx7ImwiOiJLYiIsImciOiJzdHIiLCJ4Ijo4LCJ5IjoxMSwicCI6MSwiZiI6IktvbnRyYWJhc3MifSx7ImwiOiJLYiIsImciOiJzdHIiLCJ4Ijo2LjksInkiOjkuOSwicCI6MSwiZiI6IktvbnRyYWJhc3MifSx7ImwiOiJLYiIsImciOiJzdHIiLCJ4Ijo2LjUsInkiOjExLjIsInAiOjEsImYiOiJLb250cmFiYXNzIn0seyJsIjoiS2IiLCJnIjoic3RyIiwieCI6NS44LCJ5IjoxMi4zLCJwIjoxLCJmIjoiS29udHJhYmFzcyJ9LHsibCI6IkRpci4iLCJnIjoiZGlyIiwieCI6MCwieSI6OS44LCJwIjoxLCJmIjoiRGlyaWdlbnQ6aW4ifSx7ImwiOiJIcmYiLCJnIjoia3kiLCJ4IjotNC42LCJ5IjoxMSwicCI6MSwiZiI6IkhhcmZlIn0seyJsIjoiS2wuL0ZsLiIsImciOiJreSIsIngiOi00LjEsInkiOjkuNCwicCI6MSwiZiI6IktsYXZpZXIgLyBGbMO8Z2VsIn0seyJsIjoiQ2VsLiIsImciOiJreSIsIngiOi0zLjIsInkiOjEwLjUsInAiOjEsImYiOiJDZWxlc3RhIn0seyJsIjoiRmwuIiwiZyI6Ind3IiwieCI6LTEuNCwieSI6MTMuNywicCI6MSwiZiI6IkZsw7Z0ZSJ9LHsibCI6IkZsLiIsImciOiJ3dyIsIngiOi0yLjQsInkiOjEzLjcsInAiOjEsImYiOiJGbMO2dGUifSx7ImwiOiJGbC4iLCJnIjoid3ciLCJ4IjotMy40LCJ5IjoxMy43LCJwIjoxLCJmIjoiRmzDtnRlIn0seyJsIjoiSHIuIiwiZyI6ImJyIiwieCI6LTQuNCwieSI6MTMuNywicCI6MSwiZiI6Ikhvcm4ifSx7ImwiOiJIci4iLCJnIjoiYnIiLCJ4IjotNS40LCJ5IjoxMy43LCJwIjoxLCJmIjoiSG9ybiJ9LHsibCI6Ik9iLiIsImciOiJ3dyIsIngiOi0wLjQsInkiOjEzLjcsInAiOjEsImYiOiJPYm9lIn0seyJsIjoiT2IuIiwiZyI6Ind3IiwieCI6MC42LCJ5IjoxMy43LCJwIjoxLCJmIjoiT2JvZSJ9LHsibCI6Ik9iLiIsImciOiJ3dyIsIngiOjEuNiwieSI6MTMuNywicCI6MSwiZiI6Ik9ib2UifSx7ImwiOiJUci4iLCJnIjoiYnIiLCJ4IjozLjUsInkiOjEzLjgsInAiOjEsImYiOiJUcm9tcGV0ZSJ9LHsibCI6IlRyLiIsImciOiJiciIsIngiOjQuNSwieSI6MTMuOCwicCI6MSwiZiI6IlRyb21wZXRlIn0seyJsIjoiVHIuIiwiZyI6ImJyIiwieCI6NS41LCJ5IjoxMy44LCJwIjoxLCJmIjoiVHJvbXBldGUifSx7ImwiOiJLbC4iLCJnIjoid3ciLCJ4IjotMS40LCJ5IjoxNC43LCJwIjoxLCJmIjoiS2xhcmluZXR0ZSJ9LHsibCI6IktsLiIsImciOiJ3dyIsIngiOi0yLjQsInkiOjE0LjcsInAiOjEsImYiOiJLbGFyaW5ldHRlIn0seyJsIjoiS2wuIiwiZyI6Ind3IiwieCI6LTMuNCwieSI6MTQuNywicCI6MSwiZiI6IktsYXJpbmV0dGUifSx7ImwiOiJIci4iLCJnIjoiYnIiLCJ4IjotNC40LCJ5IjoxNC43LCJwIjoxLCJmIjoiSG9ybiJ9LHsibCI6IkhyLiIsImciOiJiciIsIngiOi01LjQsInkiOjE0LjcsInAiOjEsImYiOiJIb3JuIn0seyJsIjoiRmcuIiwiZyI6Ind3IiwieCI6LTAuMywieSI6MTQuNywicCI6MSwiZiI6IkZhZ290dCJ9LHsibCI6IkZnLiIsImciOiJ3dyIsIngiOjAuNywieSI6MTQuNywicCI6MSwiZiI6IkZhZ290dCJ9LHsibCI6IkZnLiIsImciOiJ3dyIsIngiOjEuNywieSI6MTQuNywicCI6MSwiZiI6IkZhZ290dCJ9LHsibCI6IlBvcy4iLCJnIjoiYnIiLCJ4IjoxLjMsInkiOjE1LjksInAiOjEsImYiOiJQb3NhdW5lIn0seyJsIjoiUG9zLiIsImciOiJiciIsIngiOjIuMywieSI6MTUuOSwicCI6MSwiZiI6IlBvc2F1bmUifSx7ImwiOiJQb3MuIiwiZyI6ImJyIiwieCI6My4zLCJ5IjoxNS45LCJwIjoxLCJmIjoiUG9zYXVuZSJ9LHsibCI6IlBrLiIsImciOiJwYyIsIngiOjAsInkiOjE4LjMsInAiOjEsImYiOiJQYXVrZW4ifSx7ImwiOiJUYi4iLCJnIjoiYnIiLCJ4Ijo0LjQsInkiOjE1LjksInAiOjEsImYiOiJUdWJhIn0seyJsIjoiU2NobC4iLCJnIjoicGMiLCJ4IjotNCwieSI6MTcuNywicCI6MSwiZiI6IkhyZi4ifSx7ImwiOiJTY2hsLiIsImciOiJwYyIsIngiOi0yLjQsInkiOjE3LjcsInAiOjEsImYiOiJLbGF2LiJ9LHsibCI6IlNjaGwuIiwiZyI6InBjIiwieCI6MS43LCJ5IjoxOC4zLCJwIjoxLCJmIjoiQ2VsLiJ9LHsibCI6IlNjaGwuIiwiZyI6InBjIiwieCI6LTMuMiwieSI6MTYuNCwicCI6MSwiZiI6IlNjaGxhZ3dlcmsifSx7ImwiOiJTY2hsLiIsImciOiJwYyIsIngiOi0xLjUsInkiOjE2LjQsInAiOjEsImYiOiJTY2hsYWd3ZXJrIn0seyJsIjoiU2NobC4iLCJnIjoicGMiLCJ4IjozLjMsInkiOjE4LjIsInAiOjEsImYiOiJTY2hsYWd3ZXJrIn0seyJsIjoiVmEiLCJnIjoic29sbyIsIngiOi0xLjQsInkiOjkuNCwicCI6MSwiZiI6IlNvbG86IFZpb2xhIOKAkyBEYWVreXUgSGFuIn0seyJsIjoiQ2VtLiIsImciOiJreSIsIngiOi0xLjgsInkiOjExLjEsInAiOjEsImYiOiJDZW1iYWxvIn1dLCJwb2Rlc3RzIjpbeyJpZCI6InBvZDAiLCJoIjoyMCwiZCI6MSwieSI6My4yLCJ4IjowLCJ3IjoxMiwidiI6dHJ1ZX0seyJpZCI6InBvZDEiLCJoIjo0MCwiZCI6MSwieSI6NC4yLCJ4IjowLCJ3IjoxMiwidiI6dHJ1ZX0seyJpZCI6InBvZDIiLCJoIjo2MCwiZCI6NCwieSI6NS4yLCJ4IjowLCJ3IjoxMCwidiI6dHJ1ZX1dLCJhMiI6eyJib3hlcyI6W3sibCI6IlZsLkkiLCJnIjoic3RyIiwieCI6LTEuMywieSI6OS44LCJwIjoyLCJmIjoiMS4gVmlvbGluZSJ9LHsibCI6IlZsLkkiLCJnIjoic3RyIiwieCI6LTIuMywieSI6MTAsInAiOjIsImYiOiIxLiBWaW9saW5lIn0seyJsIjoiVmwuSSIsImciOiJzdHIiLCJ4IjotMy40LCJ5IjoxMC4yLCJwIjoyLCJmIjoiMS4gVmlvbGluZSJ9LHsibCI6IlZsLkkiLCJnIjoic3RyIiwieCI6LTQuNSwieSI6MTAuNCwicCI6MiwiZiI6IjEuIFZpb2xpbmUifSx7ImwiOiJWbC5JIiwiZyI6InN0ciIsIngiOi01LjksInkiOjEwLjcsInAiOjIsImYiOiIxLiBWaW9saW5lIn0seyJsIjoiVmwuSUkiLCJnIjoic3RyIiwieCI6LTAuOCwieSI6MTAuOSwicCI6MiwiZiI6IjIuIFZpb2xpbmUifSx7ImwiOiJWbC5JSSIsImciOiJzdHIiLCJ4IjotMiwieSI6MTEuMywicCI6MiwiZiI6IjIuIFZpb2xpbmUifSx7ImwiOiJWbC5JSSIsImciOiJzdHIiLCJ4IjotMy4zLCJ5IjoxMS43LCJwIjoyLCJmIjoiMi4gVmlvbGluZSJ9LHsibCI6IlZsLklJIiwiZyI6InN0ciIsIngiOi0xLjUsInkiOjEzLjcsInAiOjIsImYiOiIyLiBWaW9saW5lIn0seyJsIjoiVmEiLCJnIjoic3RyIiwieCI6MC40LCJ5IjoxMC44LCJwIjoyLCJmIjoiQnJhdHNjaGUifSx7ImwiOiJWYSIsImciOiJzdHIiLCJ4IjoxLjcsInkiOjExLjEsInAiOjIsImYiOiJCcmF0c2NoZSJ9LHsibCI6IlZhIiwiZyI6InN0ciIsIngiOjEsInkiOjEyLjIsInAiOjIsImYiOiJCcmF0c2NoZSJ9LHsibCI6IlZjIiwiZyI6InN0ciIsIngiOjEuNiwieSI6OS44LCJwIjoyLCJmIjoiVmlvbG9uY2VsbG8ifSx7ImwiOiJWYyIsImciOiJzdHIiLCJ4IjozLCJ5IjoxMCwicCI6MiwiZiI6IlZpb2xvbmNlbGxvIn0seyJsIjoiVmMiLCJnIjoic3RyIiwieCI6NC40LCJ5IjoxMC4yLCJwIjoxLCJmIjoiVmlvbG9uY2VsbG8ifSx7ImwiOiJLYiIsImciOiJzdHIiLCJ4Ijo3LjYsInkiOjEwLjMsInAiOjEsImYiOiJLb250cmFiYXNzIn0seyJsIjoiS2IiLCJnIjoic3RyIiwieCI6NywieSI6MTEuNCwicCI6MSwiZiI6IktvbnRyYWJhc3MifSx7ImwiOiJLYiIsImciOiJzdHIiLCJ4Ijo1LjYsInkiOjExLjEsInAiOjEsImYiOiJLb250cmFiYXNzIn0seyJsIjoiS2IiLCJnIjoic3RyIiwieCI6Ni4yLCJ5IjoxMC4xLCJwIjoxLCJmIjoiS29udHJhYmFzcyJ9LHsibCI6IkRpci4iLCJnIjoiZGlyIiwieCI6MCwieSI6OS44LCJwIjoxLCJmIjoiRGlyaWdlbnQ6aW4ifSx7ImwiOiJIcmYiLCJnIjoia3kiLCJ4IjotNSwieSI6MTEuOSwicCI6MSwiZiI6IkhhcmZlIn0seyJsIjoiS2wuL0ZsLiIsImciOiJreSIsIngiOjguMywieSI6MTIuNywicCI6MSwiZiI6IktsYXZpZXIgLyBGbMO8Z2VsIn0seyJsIjoiQ2VsLiIsImciOiJreSIsIngiOjcuMSwieSI6MTIuNiwicCI6MSwiZiI6IkNlbGVzdGEifSx7ImwiOiJGbC4iLCJnIjoid3ciLCJ4IjotMSwieSI6MTMuOCwicCI6MSwiZiI6IkZsw7Z0ZSJ9LHsibCI6IkZsLiIsImciOiJ3dyIsIngiOi0yLCJ5IjoxMy44LCJwIjoxLCJmIjoiRmzDtnRlIn0seyJsIjoiRmwuIiwiZyI6Ind3IiwieCI6LTMsInkiOjEzLjgsInAiOjEsImYiOiJGbMO2dGUifSx7ImwiOiJIci4iLCJnIjoiYnIiLCJ4IjotNC40LCJ5IjoxMy44LCJwIjoxLCJmIjoiSG9ybiJ9LHsibCI6IkhyLiIsImciOiJiciIsIngiOi01LjQsInkiOjEzLjgsInAiOjEsImYiOiJIb3JuIn0seyJsIjoiT2IuIiwiZyI6Ind3IiwieCI6MCwieSI6MTMuOCwicCI6MSwiZiI6Ik9ib2UifSx7ImwiOiJPYi4iLCJnIjoid3ciLCJ4IjoxLCJ5IjoxMy44LCJwIjoxLCJmIjoiT2JvZSJ9LHsibCI6Ik9iLiIsImciOiJ3dyIsIngiOjIsInkiOjEzLjgsInAiOjEsImYiOiJPYm9lIn0seyJsIjoiVHIuIiwiZyI6ImJyIiwieCI6My40LCJ5IjoxMy44LCJwIjoxLCJmIjoiVHJvbXBldGUifSx7ImwiOiJUci4iLCJnIjoiYnIiLCJ4Ijo0LjQsInkiOjEzLjgsInAiOjEsImYiOiJUcm9tcGV0ZSJ9LHsibCI6IlRyLiIsImciOiJiciIsIngiOjUuNCwieSI6MTMuOCwicCI6MSwiZiI6IlRyb21wZXRlIn0seyJsIjoiS2wuIiwiZyI6Ind3IiwieCI6MC41LCJ5IjoxNC43LCJwIjoxLCJmIjoiS2xhcmluZXR0ZSJ9LHsibCI6IktsLiIsImciOiJ3dyIsIngiOi0wLjUsInkiOjE0LjcsInAiOjEsImYiOiJLbGFyaW5ldHRlIn0seyJsIjoiS2wuIiwiZyI6Ind3IiwieCI6LTEuNSwieSI6MTQuNywicCI6MSwiZiI6IktsYXJpbmV0dGUifSx7ImwiOiJLbC4iLCJnIjoid3ciLCJ4IjotMi41LCJ5IjoxNC43LCJwIjoxLCJmIjoiS2xhcmluZXR0ZSJ9LHsibCI6IktsLiIsImciOiJ3dyIsIngiOi0zLjUsInkiOjE0LjcsInAiOjEsImYiOiJLbGFyaW5ldHRlIn0seyJsIjoiSHIuIiwiZyI6ImJyIiwieCI6LTQuNSwieSI6MTQuNywicCI6MSwiZiI6Ikhvcm4ifSx7ImwiOiJIci4iLCJnIjoiYnIiLCJ4IjotNS41LCJ5IjoxNC43LCJwIjoxLCJmIjoiSG9ybiJ9LHsibCI6IkZnLiIsImciOiJ3dyIsIngiOjEuNSwieSI6MTQuNywicCI6MSwiZiI6IkZhZ290dCJ9LHsibCI6IkZnLiIsImciOiJ3dyIsIngiOjIuNSwieSI6MTQuNywicCI6MSwiZiI6IkZhZ290dCJ9LHsibCI6IkZnLiIsImciOiJ3dyIsIngiOjMuNSwieSI6MTQuNywicCI6MSwiZiI6IkZhZ290dCJ9LHsibCI6IlBvcy4iLCJnIjoiYnIiLCJ4IjoxLjQsInkiOjE1LjgsInAiOjEsImYiOiJQb3NhdW5lIn0seyJsIjoiUG9zLiIsImciOiJiciIsIngiOjIuNCwieSI6MTUuOCwicCI6MSwiZiI6IlBvc2F1bmUifSx7ImwiOiJQb3MuIiwiZyI6ImJyIiwieCI6My40LCJ5IjoxNS44LCJwIjoxLCJmIjoiUG9zYXVuZSJ9LHsibCI6IlBrLiIsImciOiJwYyIsIngiOjAsInkiOjE4LjgsInAiOjEsImYiOiJQYXVrZW4ifSx7ImwiOiJUYi4iLCJnIjoiYnIiLCJ4Ijo0LjUsInkiOjE1LjgsInAiOjEsImYiOiJUdWJhIn0seyJsIjoiU2NobC4iLCJnIjoicGMiLCJ4IjotNCwieSI6MTguNywicCI6MSwiZiI6IlNjaGxhZ3dlcmsifSx7ImwiOiJTY2hsLiIsImciOiJwYyIsIngiOi0yLjEsInkiOjE4LjcsInAiOjEsImYiOiJTY2hsYWd3ZXJrIn0seyJsIjoiU2NobC4iLCJnIjoicGMiLCJ4IjotMiwieSI6MTcsInAiOjEsImYiOiJTY2hsYWd3ZXJrIn0seyJsIjoiU2NobC4iLCJnIjoicGMiLCJ4IjotMy45LCJ5IjoxNy4xLCJwIjoxLCJmIjoiU2NobGFnd2VyayJ9LHsibCI6IlNjaGwuIiwiZyI6InBjIiwieCI6Mi44LCJ5IjoxNy43LCJwIjoxLCJmIjoiU2NobGFnd2VyayJ9XSwicG9kZXN0cyI6W3siaWQiOiJwb2QwIiwiaCI6MjAsImQiOjEsInkiOjMuMiwieCI6MCwidyI6MTIsInYiOnRydWV9LHsiaWQiOiJwb2QxIiwiaCI6NDAsImQiOjEsInkiOjQuMiwieCI6MCwidyI6MTIsInYiOnRydWV9LHsiaWQiOiJwb2QyIiwiaCI6NjAsImQiOjQsInkiOjUuMiwieCI6MCwidyI6MTAsInYiOnRydWV9XX0sIndhIjpbIlBpb3RyIElsbGljaCBUY2hhaWtvdnNreSB8IFwiUm9tZW8gdW5kIEp1bGlhXCIgRmFudGFzaWVvdXZlcnTDvHJlIG5hY2ggU2hha2VzcGVhcmUiLCJMZW9uYXJkIEJlcm5zdGVpbiB8IFdlc3RzaWRlIFN0b3J5LCBTeW1waG9uaWMgRGFuY2VzIl0sImNmZyI6eyJzIjp7IjEiOjF9LCJibyI6eyIyIjp7ImZsIjozLCJvYiI6MywiY2wiOjUsImZnIjozLCJociI6NCwidHAiOjMsInRiIjozLCJ0dSI6MSwicGsiOjEsInBlcmNFeHRyYSI6NSwicGVyY05hbWVuIjpbXSwiaHJmIjoxLCJjZWwiOjEsImtsIjoxLCJvcmciOjAsImNlbSI6MCwidmwxIjoxMCwidmwyIjo4LCJ2YSI6NiwidmMiOjUsImtiIjo0fX19fQ==&ansicht=readonly&tf=eyJ0IjoxNzkzNTc0MTIwODIwLCJ2Ijp7InRyLWZyZWkiOiJQYXVrZW4sIDIgaMOkbmdlbmRlIEJlY2tlbiwgRmxleGF0b24sIGtsZWluZSBUcm9tbWVsLCAyIGdyb8OfZSBUcm9tbWVsbiwgMiBUYW10YW1zLCBYeWxvcGhvbiwgVmlicmFwaG9uLCBSw7ZocmVuZ2xvY2tlbiIsInRyLXNjaGwtdyI6IlBrKzYifX0%3D",
       "notizen": [],
       "probenplan": [
         "*",
@@ -1324,7 +1335,8 @@
           "dauer": "ca. 6 min",
           "besetzung": "2.2.2.2-2.2.0.0-Pk-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 0
         },
         {
           "komponist": "Wolfgang Amadeus Mozart",
@@ -1363,7 +1375,8 @@
           "dauer": "ca. 18 min",
           "besetzung": "2.2.2.2-2.2.0.0-Pk-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 0
         }
       ],
       "solisten": [
@@ -1486,7 +1499,8 @@
               "name": "N.N",
               "zusatz": ""
             }
-          ]
+          ],
+          "schlagwerkAnzahl": 0
         },
         {
           "pause": true
@@ -1504,7 +1518,8 @@
           "dauer": "ca. 32 min",
           "besetzung": "1.2.2.2-2.2.0.0-Pk-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 0
         }
       ],
       "solisten": [
@@ -1776,7 +1791,8 @@
           "dauer": "ca. 20 min",
           "besetzung": "3.3.3.3-8.3.3.1-Pk+2-Str. (12.10.8.6.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 2
         },
         {
           "pause": true
@@ -1793,7 +1809,8 @@
           "dauer": "ca. 60 min",
           "besetzung": "3.3.3.3-8.3.3.1-Pk-Str. (12.10.8.6.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 0
         }
       ],
       "solisten": [],
@@ -1855,7 +1872,8 @@
           "dauer": "ca. 20 min",
           "besetzung": "3.3.3.3-8.3.3.1-Pk+2-Str. (12.10.8.6.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 2
         },
         {
           "pause": true
@@ -1872,7 +1890,8 @@
           "dauer": "ca. 60 min",
           "besetzung": "3.3.3.3-8.3.3.1-Pk-Str. (12.10.8.6.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 0
         }
       ],
       "solisten": [],
@@ -1956,7 +1975,8 @@
           "dauer": "ca. 15 min",
           "besetzung": "2.2.0.2-2.2.0.0-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 0
         }
       ],
       "solisten": [
@@ -2032,7 +2052,8 @@
           "dauer": "ca. 20 min",
           "besetzung": "3.3.3.3-8.3.3.1-Pk+2-Str. (12.10.8.6.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 2
         },
         {
           "komponist": "Anton Bruckner",
@@ -2046,7 +2067,8 @@
           "dauer": "ca. 60 min",
           "besetzung": "3.3.3.3-8.3.3.1-Pk-Str. (12.10.8.6.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 0
         }
       ],
       "solisten": [],
@@ -2293,7 +2315,8 @@
           "dauer": "ca. 33 min",
           "besetzung": "2.2.2.2-2.0.0.0-Pauken-Str. (6.4.4.3.2)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 0
         }
       ],
       "solisten": [
@@ -2380,7 +2403,8 @@
           "dauer": "ca. 33 min",
           "besetzung": "2.2.2.2-2.0.0.0-Pauken-Str. (6.4.4.3.2)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 0
         }
       ],
       "solisten": [
@@ -4053,7 +4077,9 @@
           "dauer": "ca. 33 min",
           "besetzung": "3.3.4.4-6.4.3.2-Pauken, große Trommel, kleine Trommel, Becken, Triangel, Glockenspiel, Glocke, Hrf., Orgel-Str. (16.16.12.12.8)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 0,
+          "schlagwerkListe": "Pauken, große Trommel, kleine Trommel, Becken, Triangel, Glockenspiel, Glocke"
         }
       ],
       "solisten": [],
@@ -4092,7 +4118,8 @@
           "dauer": "ca. 10 min",
           "besetzung": "2.2.2.2-4.3.3.1-Pk+3, Hrf., Cel., Klav.-Str. (10.8.6.4.3)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 3
         },
         {
           "komponist": "John Williams",
@@ -4102,7 +4129,8 @@
           "dauer": "ca. 10 min",
           "besetzung": "2.2.2.2-4.3.3.1-Pk+3, Hrf., Cel., Klav.-Str. (10.8.6.4.3)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 3
         },
         {
           "komponist": "John Williams",
@@ -4153,7 +4181,8 @@
           "dauer": "ca. 29 min",
           "besetzung": "2.2.2.2-4.2.3.0-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 0
         }
       ],
       "solisten": [],
@@ -4343,7 +4372,8 @@
           "dauer": "ca. 27 min",
           "besetzung": "2.2.2.3-2.2.3.1-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 0
         }
       ],
       "solisten": [],
@@ -4419,7 +4449,8 @@
           "dauer": "ca. 150 min",
           "besetzung": "2.2.2.2-2.2.3.0-Pk-Str. (10.8.6.5.4)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "schlagwerkAnzahl": 0
         }
       ],
       "solisten": [],
