@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-02T03:07:08.229Z",
+  "generiert": "2026-11-03T03:07:37.217Z",
   "events": [
     {
       "datum": "09.11.2026",
@@ -1792,7 +1792,8 @@
           "besetzung": "3.3.3.3-8.3.3.1-Pk+2-Str. (12.10.8.6.4)",
           "urauffuehrung": false,
           "pause": false,
-          "schlagwerkAnzahl": 2
+          "schlagwerkAnzahl": 2,
+          "schlagwerkListe": "4 Pauken, große Trommel, Vibraphon, Marimbaphon, Röhrenglocken"
         },
         {
           "pause": true
@@ -1873,7 +1874,8 @@
           "besetzung": "3.3.3.3-8.3.3.1-Pk+2-Str. (12.10.8.6.4)",
           "urauffuehrung": false,
           "pause": false,
-          "schlagwerkAnzahl": 2
+          "schlagwerkAnzahl": 2,
+          "schlagwerkListe": "4 Pauken, große Trommel, Vibraphon, Marimbaphon, Röhrenglocken"
         },
         {
           "pause": true
@@ -2053,7 +2055,8 @@
           "besetzung": "3.3.3.3-8.3.3.1-Pk+2-Str. (12.10.8.6.4)",
           "urauffuehrung": false,
           "pause": false,
-          "schlagwerkAnzahl": 2
+          "schlagwerkAnzahl": 2,
+          "schlagwerkListe": "4 Pauken, große Trommel, Vibraphon, Marimbaphon, Röhrenglocken"
         },
         {
           "komponist": "Anton Bruckner",
