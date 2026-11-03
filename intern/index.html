@@ -2469,11 +2469,14 @@ function renderUntIcom(){
     var zeilen=(t.slots||[]).map(function(s){
       var zeit='<strong style="min-width:92px;font-size:12px">'+esc(s.uhrzeit)+'–'+esc(s.ende)+'</strong>';
       if(s.typ==='gruppe')return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px">'+zeit+'<span style="flex:1;font-size:12px;color:var(--ink3);font-style:italic">Gruppenunterricht</span></div>';
-      if(s.buchungId)return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px">'+zeit+
-        '<span style="flex:1;font-size:12px">'+esc(s.name)+(s.werk?' <span style="color:var(--ink3)">· '+esc(s.werk)+'</span>':'')+'</span>'+
+      if(s.buchungId)return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap">'+zeit+
+        '<span style="font-size:12px;min-width:110px">'+esc(s.name)+'</span>'+
+        '<input type="text" id="icwk-'+esc(s.buchungId)+'" value="'+esc(s.werk||'')+'" data-orig="'+esc(s.werk||'')+'" placeholder="Werk…" onkeydown="if(event.key===\'Enter\')untIcomWerk(\''+esc(s.buchungId)+'\')" style="flex:1;min-width:140px;padding:6px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff;min-width:0">'+
+        '<button onclick="untIcomWerk(\''+esc(s.buchungId)+'\')" style="padding:5px 10px;background:var(--green-bg);color:var(--green);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">Werk speichern</button>'+
         '<button onclick="untIcomEntfernen(\''+esc(s.buchungId)+'\')" style="padding:5px 10px;background:var(--red-bg);color:var(--red);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">✕ Entfernen</button></div>';
-      return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px">'+zeit+
-        '<select id="iczw-'+tid+'-'+esc(s.uhrzeit).replace(':','')+'" style="flex:1;padding:6px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff"><option value="">Studierende:n wählen…</option>'+opts+'</select>'+
+      return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap">'+zeit+
+        '<select id="iczw-'+tid+'-'+esc(s.uhrzeit).replace(':','')+'" style="flex:1;min-width:150px;padding:6px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff"><option value="">Studierende:n wählen…</option>'+opts+'</select>'+
+        '<input type="text" id="icwz-'+tid+'-'+esc(s.uhrzeit).replace(':','')+'" placeholder="Werk (optional)" style="flex:1;min-width:140px;padding:6px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff;min-width:0">'+
         '<button onclick="untIcomZuweisen(\''+tid+'\',\''+esc(s.uhrzeit)+'\')" style="padding:5px 10px;background:var(--green-bg);color:var(--green);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">Zuweisen</button></div>';
     }).join('');
     var verw=(t.verwaist||[]).map(function(b){
@@ -2499,12 +2502,26 @@ async function untIcomZuweisen(terminId,slotStart){
   var sel=document.getElementById('iczw-'+terminId+'-'+slotStart.replace(':',''));
   var name=sel?sel.value:'';
   if(!name){zeigToast('Bitte zuerst eine:n Studierende:n wählen.');return;}
+  var wi=document.getElementById('icwz-'+terminId+'-'+slotStart.replace(':',''));
+  var werk=wi?wi.value.trim():'';
   try{
-    var d=await untPost({action:'icomBuchen',terminId:terminId,slotStart:slotStart,name:name,werk:''});
+    var d=await untPost({action:'icomBuchen',terminId:terminId,slotStart:slotStart,name:name,werk:werk});
     if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
     zeigToast('✓ '+name+' um '+slotStart+' eingetragen');
     ladeUntIcom(true);
   }catch(e){zeigToast('Verbindungsfehler');}
+}
+async function untIcomWerk(buchungId){
+  var inp=document.getElementById('icwk-'+buchungId);
+  if(!inp)return;
+  var werk=inp.value.trim();
+  try{
+    var d=await untPost({action:'icomWerk',buchungId:buchungId,werk:werk});
+    if(!d.ok){zeigToast('Werk NICHT gespeichert: '+(d.error||'?'));return;}
+    (_untIcom||[]).forEach(function(t){(t.slots||[]).forEach(function(s){if(s.buchungId===buchungId)s.werk=werk;});});
+    inp.dataset.orig=werk;
+    zeigToast('✓ Werk gespeichert');
+  }catch(e){zeigToast('Werk NICHT gespeichert: Verbindungsfehler');}
 }
 async function untIcomEntfernen(buchungId){
   if(!confirm('Diese Buchung wirklich entfernen?'))return;
