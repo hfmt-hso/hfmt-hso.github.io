@@ -2380,15 +2380,16 @@ function untSlotZuweisungHtml(t,opts){
     if(b){
       return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px">'+
         '<strong style="min-width:48px;font-size:12px">'+su+'</strong>'+
-        '<span style="flex:1;font-size:12px">'+esc(b.name||b.mtknr)+'</span>'+
+        '<span style="flex:1;font-size:12px">'+esc(b.name||b.mtknr)+(b.werk?' <span style="color:var(--ink3)">· '+esc(b.werk)+'</span>':'')+'</span>'+
         '<button onclick="untSlotEntfernen(\''+esc(b.buchungId)+'\')" style="padding:5px 10px;background:var(--red-bg);color:var(--red);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">✕ Entfernen</button>'+
       '</div>';
     }
-    return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px">'+
+    return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap">'+
       '<strong style="min-width:48px;font-size:12px">'+su+'</strong>'+
       '<select id="zw-'+tid+'-'+su.replace(':','')+'" style="flex:1;padding:6px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff" onfocus="if(!_untStudierende)untLadeStudierende()">'+
         '<option value="">'+(_untStudierende?'Studierende:n wählen…':'Studierendenliste wird geladen …')+'</option>'+opts+'</select>'+
       '<input type="text" id="zf-'+tid+'-'+su.replace(':','')+'" placeholder="oder Freitext (z. B. Gruppenunterricht)" onkeydown="if(event.key===\'Enter\')untSlotZuweisen(\''+tid+'\',\''+su+'\')" style="flex:1;min-width:0;padding:6px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff">'+
+      '<input type="text" id="zwk-'+tid+'-'+su.replace(':','')+'" placeholder="Werk (optional)" onkeydown="if(event.key===\'Enter\')untSlotZuweisen(\''+tid+'\',\''+su+'\')" style="flex:1;min-width:0;padding:6px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff">'+
       '<button onclick="untSlotZuweisen(\''+tid+'\',\''+su+'\')" style="padding:5px 10px;background:var(--green-bg);color:var(--green);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">Zuweisen</button>'+
     '</div>';
   }).join('');
@@ -2412,21 +2413,101 @@ async function untSlotZuweisen(terminId,slotStart){
     name=st?st.name:mtknr;
   }
   try{
-    var d=await untPost({action:'buchungErstellen',mtknr:mtknr,name:name,terminId:terminId,slotStart:slotStart,werk:''});
+    var wi=document.getElementById('zwk-'+terminId+'-'+slotStart.replace(':',''));
+    var werk=wi?wi.value.trim():'';
+    var d=await untPost({action:'buchungErstellen',mtknr:mtknr,name:name,terminId:terminId,slotStart:slotStart,werk:werk});
     if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
     zeigToast('✓ '+name+' um '+slotStart+' eingetragen');
     untBuchNeu();
+    untMailDialog(frei?(/gruppe/i.test(frei)?'gruppe':''):'zugewiesen',{terminId:terminId,slotStart:slotStart,name:name,mtknr:frei?'':mtknr,werk:werk});
   }catch(e){zeigToast('Verbindungsfehler');}
 }
 
 async function untSlotEntfernen(buchungId){
   if(!confirm('Diese Zuweisung wirklich entfernen?'))return;
+  var alt=(_untBuchDaten||[]).find(function(x){return x.buchungId===buchungId;});
   try{
     var d=await untPost({action:'buchungStornieren',buchungId:buchungId});
     if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
     zeigToast('✓ Zuweisung entfernt');
     untBuchNeu();
+    if(alt){
+      var istGr=/gruppe/i.test(alt.name||'');
+      var st=untStudentPerName(alt.name);
+      untMailDialog(istGr?'gruppe-entfaellt':(st?'entfernt':''),{terminId:alt.terminId,slotStart:alt.slotStart,name:alt.name,mtknr:st?st.mtknr:'',werk:alt.werk||''});
+    }
   }catch(e){zeigToast('Verbindungsfehler');}
+}
+
+// ── Mitteilung an Studierende nach Änderung eines Slots ───────────────────
+function untNorm(x){return String(x||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/\s+/g,' ').trim();}
+function untStudentPerName(name){
+  var n=untNorm(name);
+  return (_untStudierende||[]).find(function(st){return untNorm(st.name)===n;})||null;
+}
+function untMailTexte(art,info){
+  var t=(_untTermine||[]).find(function(x){return x.id===info.terminId;})||{};
+  var d=parseDatum(t.datum),wt=d?WT[d.getDay()]:'';
+  var slots=(t.slots||[]).map(function(sl){return sl.uhrzeit;});
+  var i=slots.indexOf(info.slotStart);
+  var zeit=info.slotStart+(i>=0&&i<slots.length-1?'–'+slots[i+1]:'')+' Uhr';
+  var wann=wt+', '+t.datum+', '+zeit;
+  var ort=t.ort?' ('+t.ort+')':'';
+  var werk=info.werk?'\nWerk: '+info.werk:'';
+  var gruss='\n\nViele Grüße\nThomas Dorsch';
+  if(art==='zugewiesen')return {betreff:'Dein Einzelunterricht am '+t.datum+' um '+info.slotStart+' Uhr',text:'dein Einzelunterricht ist für '+wann+ort+' eingetragen.'+werk+gruss};
+  if(art==='entfernt')return {betreff:'Einzelunterricht am '+t.datum+' entfällt',text:'dein Einzelunterricht am '+wann+ort+' entfällt.'+gruss};
+  if(art==='gruppe')return {betreff:'Gruppenunterricht am '+t.datum+' um '+info.slotStart+' Uhr',text:'der Einzelunterricht am '+wann+ort+' wird in Gruppenunterricht umgewandelt. Bitte kommt alle zu dieser Zeit.'+werk+gruss};
+  if(art==='gruppe-entfaellt')return {betreff:'Gruppenunterricht am '+t.datum+' um '+info.slotStart+' Uhr entfällt',text:'der Gruppenunterricht am '+wann+ort+' entfällt.'+gruss};
+  return null;
+}
+async function untMailDialog(art,info){
+  if(!art)return;
+  if(!_untStudierende)await untLadeStudierende();
+  var tx=untMailTexte(art,info);
+  if(!tx)return;
+  var alle=(_untStudierende||[]);
+  if(!alle.length){zeigToast('Studierendenliste nicht geladen – keine Mitteilung möglich.');return;}
+  var gruppe=art==='gruppe'||art==='gruppe-entfaellt';
+  var vor={};
+  if(gruppe)alle.forEach(function(st){vor[st.mtknr]=true;});
+  else if(info.mtknr)vor[info.mtknr]=true;
+  var alt=document.getElementById('unt-mail-dlg');if(alt)alt.remove();
+  var box=document.createElement('div');
+  box.id='unt-mail-dlg';
+  box.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center;padding:12px';
+  var checks=alle.map(function(st){
+    return '<label style="display:flex;align-items:center;gap:6px;font-size:12px;padding:2px 0"><input type="checkbox" class="unt-mail-cb" value="'+esc(st.mtknr)+'"'+(vor[st.mtknr]?' checked':'')+'> '+esc(st.name)+'</label>';
+  }).join('');
+  var inp='width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff';
+  box.innerHTML='<div style="background:#fff;border-radius:12px;max-width:520px;width:100%;max-height:90vh;overflow:auto;padding:16px;font-family:var(--sans)">'+
+    '<div style="font-size:14px;font-weight:700;color:var(--blue);margin-bottom:8px">Mitteilung an Studierende senden?</div>'+
+    '<div style="font-size:12px;font-weight:700;margin-bottom:2px">Empfänger</div>'+
+    '<div style="max-height:150px;overflow:auto;border:1px solid var(--border);border-radius:7px;padding:6px 8px;margin-bottom:8px">'+checks+'</div>'+
+    '<div style="font-size:12px;font-weight:700;margin-bottom:2px">Betreff</div>'+
+    '<input type="text" id="unt-mail-betreff" value="'+esc(tx.betreff)+'" style="'+inp+';margin-bottom:8px">'+
+    '<div style="font-size:12px;font-weight:700;margin-bottom:2px">Text <span style="font-weight:400;color:var(--ink3)">(Anrede „Hallo Vorname,“ wird automatisch ergänzt)</span></div>'+
+    '<textarea id="unt-mail-text" style="'+inp+';min-height:130px;resize:vertical">'+esc(tx.text)+'</textarea>'+
+    '<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px">'+
+      '<button onclick="document.getElementById(\'unt-mail-dlg\').remove()" style="padding:7px 12px;background:var(--red-bg);color:var(--red);border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans)">Ohne Mitteilung schließen</button>'+
+      '<button id="unt-mail-send" onclick="untMailSenden()" style="padding:7px 12px;background:var(--green-bg);color:var(--green);border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans)">✉ Senden</button>'+
+    '</div></div>';
+  document.body.appendChild(box);
+}
+async function untMailSenden(){
+  var mtknrs=[].slice.call(document.querySelectorAll('.unt-mail-cb:checked')).map(function(c){return c.value;});
+  var betreff=(document.getElementById('unt-mail-betreff')||{}).value||'';
+  var text=(document.getElementById('unt-mail-text')||{}).value||'';
+  if(!mtknrs.length){zeigToast('Bitte mindestens eine:n Empfänger:in wählen.');return;}
+  if(!betreff.trim()||!text.trim()){zeigToast('Betreff und Text dürfen nicht leer sein.');return;}
+  var btn=document.getElementById('unt-mail-send');if(btn){btn.disabled=true;btn.textContent='Sende …';}
+  try{
+    var d=await untPost({action:'unterrichtMailSenden',mtknrs:mtknrs,betreff:betreff.trim(),text:text.trim()});
+    if(!d.ok){zeigToast('Mail NICHT gesendet: '+(d.error||'?'));if(btn){btn.disabled=false;btn.textContent='✉ Senden';}return;}
+    var dlg=document.getElementById('unt-mail-dlg');if(dlg)dlg.remove();
+    var ohne=(d.ohneAdresse||[]);
+    zeigToast('✓ '+d.gesendet+' Mail(s) gesendet'+(ohne.length?' – keine Adresse für: '+ohne.join(', '):''));
+  }catch(e){zeigToast('Mail NICHT gesendet: Verbindungsfehler');if(btn){btn.disabled=false;btn.textContent='✉ Senden';}}
 }
 
 async function untNotizSpeichern(terminId){
