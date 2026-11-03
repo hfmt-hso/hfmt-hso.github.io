@@ -981,6 +981,17 @@ function showEvTabIn(e,containerId,idx){
 }
 
 // ── BEDARF ───────────────────────────────────────────────────
+/* Gespeicherte Aufbauplan-Links enthalten den kompletten Plan in der URL (?plan=…&tf=…) und werden bei zwei
+   Aufbauten zu lang ("Bad Request – URL too long"). Im Portal wird daher nur ein Kurzlink mit der Termin-ID
+   verwendet; das Werkzeug lädt den Plan dann aus dem Übersetzer-Sheet. Fallback: Originallink. */
+function aufbauKurzLink(u){
+  try{
+    const m=/[?&]plan=([^&#]*)/.exec(u); if(!m) return u;
+    const st=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]).replace(/ /g,'+')))));
+    if(!st||!st.ev) return u;
+    return u.split('?')[0]+'?ev='+encodeURIComponent(st.ev)+'&ansicht=readonly';
+  }catch(e){ return u; }
+}
 async function ladeBedarf(){
   const sj = getSjTarget();
   const url=`https://docs.google.com/spreadsheets/d/${BEDARF_SHEET}/gviz/tq?tqx=out:csv&gid=${BEDARF_GID}`;
@@ -1025,7 +1036,7 @@ async function ladeBedarf(){
   if(t.erstProbe)h+=`<div class="bedarf-row"><div class="bedarf-label">Erste Probe</div><div class="bedarf-value">${esc(t.erstProbe)}</div></div>`;
       if(t.tasten)h+=`<div class="bedarf-row"><div class="bedarf-label">Tasten/Harfe</div><div class="bedarf-value">${esc(t.tasten)}</div></div>`;
       if(t.gesamt)h+=`<div class="bedarf-row"><div class="bedarf-label">Gesamt</div><div class="bedarf-value">${esc(t.gesamt)}</div></div>`;
-      if(t.aufbauplan)h+=`<div class="bedarf-aufbau"><a href="${t.aufbauplan}" target="_blank"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Aufbauplan</a></div>`;
+      if(t.aufbauplan)h+=`<div class="bedarf-aufbau"><a href="${aufbauKurzLink(t.aufbauplan)}" target="_blank"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Aufbauplan</a></div>`;
       h+='</div></div>';
       return h;
     }).join('');

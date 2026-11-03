@@ -417,6 +417,13 @@ function ladeEvents(){
         const linkIdx = EVENTS.findIndex(e=>e.eventId===linkState.ev);
         if(linkIdx>=0){ startIdx=linkIdx; vorabState=linkState; }
       }
+      /* Kurzlink (?ev=<eventId>): kommt aus dem Portal, damit die URL kurz bleibt. Der Plan selbst wird dann
+         aus dem Übersetzer-Sheet (ev.aufbauplan) geladen, nicht aus der URL. */
+      if(!vorabState){
+        const evParam = new URLSearchParams(location.search).get('ev');
+        const evIdx = evParam ? EVENTS.findIndex(e=>e.eventId===evParam) : -1;
+        if(evIdx>=0) startIdx=evIdx;
+      }
       sel.value=startIdx;
       document.getElementById('status').textContent='Zuletzt geladen: '+new Date().toLocaleString('de-DE');
       ladeAusgewaehltesEvent(vorabState);
@@ -1712,7 +1719,7 @@ function parseStateFromUrl(input){
     const u = new URL(input, location.href);
     const encoded = u.searchParams.get('plan');
     if(!encoded) return null;
-    return JSON.parse(decodeURIComponent(escape(atob(encoded))));
+    return JSON.parse(decodeURIComponent(escape(atob(encoded.replace(/ /g,'+')))));
   }catch(e){ return null; }
 }
 
