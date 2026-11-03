@@ -1,34 +1,6 @@
 {
-  "generiert": "2026-11-02T03:07:12.288Z",
+  "generiert": "2026-11-03T03:07:42.785Z",
   "data": [
-    {
-      "id": "UT_20261026_15",
-      "datum": "26.10.2026",
-      "projekt": "Gruppenunterricht Baumann",
-      "marker": "Gruppenunterricht",
-      "dozent": "Baumann",
-      "uhrzeit": "14:00",
-      "ort": "Rot 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "14:00"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "15:00"
-        },
-        {
-          "slotId": "s_2",
-          "uhrzeit": "16:00"
-        },
-        {
-          "slotId": "s_3",
-          "uhrzeit": "17:00"
-        }
-      ],
-      "notizen": ""
-    },
     {
       "id": "UT_20261027_17",
       "datum": "27.10.2026",
