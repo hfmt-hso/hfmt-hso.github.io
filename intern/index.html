@@ -493,8 +493,8 @@ html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:
         <button class="proj-sj-btn" id="awf-gesehen" onclick="untAwFilter('gesehen',this)">Gesehen</button>
         <button class="proj-sj-btn" id="awf-ruecksprache" onclick="untAwFilter('ruecksprache',this)">Rücksprache</button>
         <span style="width:1px;align-self:stretch;background:var(--border);margin:0 4px"></span>
-        <button class="proj-sj-btn aw-sort-btn active" id="aws-person" onclick="untAwSort('person',this)">Nach Person</button>
-        <button class="proj-sj-btn aw-sort-btn" id="aws-datum" onclick="untAwSort('datum',this)">Nach Datum</button>
+        <button class="proj-sj-btn aw-sort-btn" id="aws-person" onclick="untAwSort('person',this)">Nach Person</button>
+        <button class="proj-sj-btn aw-sort-btn active" id="aws-datum" onclick="untAwSort('datum',this)">Nach Datum</button>
         <button class="proj-sj-btn unt-verg-btn" style="margin-left:auto" onclick="untVergToggle()">Vergangene anzeigen</button>
         <button style="margin-left:0;padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:#fff;font-size:11px;cursor:pointer;font-family:var(--sans)" onclick="ladeUntAw(true)">↻</button>
       </div>
@@ -2072,7 +2072,7 @@ function untAwFilter(filter,btn){
   renderUntAw();
 }
 
-var _untAwSort='person';
+var _untAwSort='datum';
 function untAwSortKey(a){var d=(a.datumVon||'').split('.'),h=(a.uhrzeitVon||'00:00').split(':');var x=new Date(+d[2],(+d[1])-1,+d[0],+h[0]||0,+h[1]||0).getTime();return isNaN(x)?0:x;}
 function untAwSort(modus,btn){
   _untAwSort=modus;
