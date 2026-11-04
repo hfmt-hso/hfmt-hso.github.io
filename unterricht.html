@@ -201,6 +201,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .aw-seen-btn{padding:7px 12px;background:var(--green-light);color:var(--green);border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
 .aw-rueck-btn{padding:7px 12px;background:var(--amber-light);color:var(--amber-dark);border:1.5px solid rgba(184,150,46,0.35);border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
 .aw-unseen-btn{padding:7px 10px;background:var(--bg);color:var(--text-muted);border:1px solid var(--border-solid);border-radius:8px;font-size:11px;cursor:pointer;font-family:inherit}
+.aw-krank-btn{margin-top:5px;width:100%;padding:3px 6px;font-size:10px;line-height:1.25;white-space:normal}
 .aw-filter-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
 .aw-filter-btn{padding:5px 12px;border-radius:16px;border:0.5px solid var(--border-solid);background:var(--card);color:var(--text-muted);font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s}
 .aw-filter-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
@@ -1678,9 +1679,20 @@ function renderAbwesenheitenAdmin() {
     el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Keine Abwesenheiten vorhanden.</div>';
     return;
   }
+  // Standardsortierung: primär nach Datum (laufende/kommende zuerst aufsteigend, vergangene danach absteigend), sekundär nach Name
+  const _ts = (d, u) => { const dt = parseDate(d); if (!dt) return null; const m = String(u || '').match(/(\d{1,2}):(\d{2})/); if (m) dt.setHours(+m[1], +m[2]); return dt.getTime(); };
+  const heuteAw = new Date(); heuteAw.setHours(0, 0, 0, 0);
+  const awStart = aw => { const t = _ts(aw.datumVon, aw.uhrzeitVon); return t === null ? Infinity : t; };
+  const awEnde  = aw => { const t = _ts(aw.datumBis || aw.datumVon, aw.uhrzeitBis); return t === null ? Infinity : t; };
+  const awName  = aw => String(aw.name || aw.mtknr || '');
+  const kommend = liste.filter(aw => awEnde(aw) >= heuteAw.getTime())
+    .sort((a, b) => (awStart(a) - awStart(b)) || awName(a).localeCompare(awName(b), 'de'));
+  const vergangen = liste.filter(aw => awEnde(aw) < heuteAw.getTime())
+    .sort((a, b) => (awStart(b) - awStart(a)) || awName(a).localeCompare(awName(b), 'de'));
   const gruppen = {};
-  liste.forEach(aw => { const k = aw.name || aw.mtknr; if (!gruppen[k]) gruppen[k] = []; gruppen[k].push(aw); });
-  setHtml(el, Object.entries(gruppen).map(([name, eintraege]) => {
+  if (kommend.length)   gruppen['Laufend & kommend'] = kommend;
+  if (vergangen.length) gruppen['Vergangen'] = vergangen;
+  setHtml(el, Object.entries(gruppen).map(([titel, eintraege]) => {
     const rows = eintraege.map(aw => {
       const status = aw.status || 'offen';
       let badgeHtml, kommBlock, aktBtn;
@@ -1708,14 +1720,15 @@ function renderAbwesenheitenAdmin() {
             <div class="aw-adm-zeit">${esc(aw.datumVon)} ${esc(aw.uhrzeitVon)} – ${esc(aw.datumBis)} ${esc(aw.uhrzeitBis)} Uhr</div>
             ${badgeHtml}
           </div>
+          <div style="font-size:13px;font-weight:700;margin-bottom:2px">${esc(aw.name || aw.mtknr)}</div>
           <div class="aw-adm-grund">${esc(aw.grund)}</div>
           ${kommBlock}
         </div>
-        <div style="flex-shrink:0;margin-left:6px">${aktBtn}${awArt(aw) === 'beurlaubt' ? `<button class="aw-unseen-btn" style="margin-top:5px;width:100%" title="Als Krankmeldung führen (kein zweiter Eintrag)" onclick="awZuKrankmeldung('${esc(aw.id)}')">🤒 Krankmeldung</button>` : ''}</div>
+        <div style="flex-shrink:0;margin-left:6px">${aktBtn}${awArt(aw) === 'beurlaubt' ? `<button class="aw-unseen-btn aw-krank-btn" title="Als Krankmeldung führen (kein zweiter Eintrag)" onclick="awZuKrankmeldung('${esc(aw.id)}')">🤒 In Krankmeldung umwandeln</button>` : ''}</div>
       </div>`;
     }).join('');
     return `<div class="aw-adm-block">
-      <div class="aw-adm-name-head">${esc(name)}<span>${eintraege.length} Eintrag${eintraege.length!==1?'einträge':''}</span></div>
+      <div class="aw-adm-name-head">${esc(titel)}<span>${eintraege.length} Eintrag${eintraege.length!==1?'einträge':''}</span></div>
       ${rows}
     </div>`;
   }).join(''));
