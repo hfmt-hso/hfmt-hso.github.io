@@ -730,12 +730,12 @@ async function buchen(slotStart) {
 }
 async function stornieren(buchungId) {
   if (sperre) return;
-  if (!confirm('Buchung wirklich stornieren?')) return;
+  if (!confirm('Buchung wirklich stornieren?\n\nDie Lehrenden werden per E-Mail über die Stornierung informiert.')) return;
   sperre = true; speicherAn();
   try {
     const json = await webAppPost({ action:'icomStornieren', buchungId });
     if (!json.ok) throw new Error(json.error || 'Fehler');
-    toast('✅ Storniert.');
+    toast('✅ Storniert – Lehrende werden per E-Mail informiert.');
   } catch(e) { toast('❌ ' + fehlerText(e), 4500); }
   finally { sperre = false; speicherAus(); }
   await ladeTermine();
