@@ -84,6 +84,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .termin-tag{font-size:18px;font-weight:800;color:var(--blue);line-height:1}
 .termin-mon{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-top:2px}
 .termin-info{flex:1;min-width:0}
+.termin-datum-box.verschoben{background:var(--red-light)}
+.termin-datum-box.verschoben .termin-tag,.termin-datum-box.verschoben .termin-mon{color:var(--red)}
+.termin-verschoben{display:inline-block;margin-top:5px;padding:3px 8px;border-radius:8px;background:var(--red-light);color:var(--red);font-size:11px;font-weight:700;line-height:1.35}
+.termin-datum-box.neu{background:var(--green-light)}
+.termin-datum-box.neu .termin-tag,.termin-datum-box.neu .termin-mon{color:var(--green)}
+.termin-neu{display:inline-block;margin-top:5px;padding:3px 8px;border-radius:8px;background:var(--green-light);color:var(--green);font-size:11px;font-weight:700;line-height:1.35}
 .termin-titel{font-size:14px;font-weight:600;color:var(--text)}
 .termin-meta{font-size:12px;color:var(--text-muted);margin-top:2px;line-height:1.4}
 .termin-status{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
@@ -450,9 +456,9 @@ function parseDatum(s) {
   const m = String(s || '').match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
   return m ? new Date(+m[3], +m[2]-1, +m[1]) : null;
 }
-function datumBox(s, klasse) {
+function datumBox(s, klasse, extra) {
   const d = parseDatum(s);
-  return d ? `<div class="${klasse}-datum-box"><div class="${klasse}-tag">${d.getDate()}</div><div class="${klasse}-mon">${MONATE[d.getMonth()]}</div></div>` : '';
+  return d ? `<div class="${klasse}-datum-box${extra || ''}"><div class="${klasse}-tag">${d.getDate()}</div><div class="${klasse}-mon">${MONATE[d.getMonth()]}</div></div>` : '';
 }
 function wochentag(s) {
   const d = parseDatum(s);
@@ -625,6 +631,29 @@ async function ladeTermine() {
   }
 }
 
+// Termin in den letzten 7 Tagen verschoben (Datum/Uhrzeit), in einen anderen Raum gelegt (rot) oder neu angelegt (grün)?
+function verschiebung(t) {
+  if (!t) return null;
+  const heute = new Date(); heute.setHours(0, 0, 0, 0);
+  const jung = (s) => {
+    const m = String(s || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return null;
+    const d = new Date(+m[1], +m[2] - 1, +m[3]);
+    const tage = Math.round((heute - d) / 86400000);
+    return (tage < 0 || tage > 7) ? null : d;
+  };
+  const kurz = (d) => String(d.getDate()).padStart(2, '0') + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.';
+  const dv = jung(t.verschobenAm);
+  if (dv) {
+    const art = t.verschobenArt === 'raum' ? 'Raum geändert' : 'Verschoben';
+    const alt = t.verschobenAlt ? ' (vorher: ' + esc(t.verschobenAlt) + ')' : '';
+    return { klasse: ' verschoben', html: `<div class="termin-verschoben">⚠️ ${art} am ${kurz(dv)}${alt}</div>` };
+  }
+  const dn = jung(t.angelegtAm);
+  if (dn) return { klasse: ' neu', html: `<div class="termin-neu">🆕 Neu seit ${kurz(dn)}</div>` };
+  return null;
+}
+
 function zeitFenster(t) { return t.uhrzeit && t.ende ? t.uhrzeit + '–' + t.ende + ' Uhr' : ''; }
 
 function renderTermine() {
@@ -643,10 +672,11 @@ function renderTermine() {
     else badge = '<span class="badge-gruppe">' + frei + ' frei</span>';
     return `<div class="termin-card" onclick="oeffneSlots('${esc(t.id)}')">
       <div class="termin-header">
-        ${datumBox(t.datum, 'termin')}
+        ${datumBox(t.datum, 'termin', (verschiebung(t) || {}).klasse)}
         <div class="termin-info">
           <div class="termin-titel">${esc(t.titel || 'Unterricht')}</div>
           <div class="termin-meta">${wochentag(t.datum)}, ${esc(t.datum)}${t.uhrzeit ? ' · ' + esc(zeitFenster(t)) : ''}${t.ort ? '<br>' + esc(t.ort) : ''}</div>
+          ${(verschiebung(t) || {}).html || ''}
         </div>
         <div class="termin-status">${badge}
           <span class="termin-chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
@@ -693,7 +723,7 @@ function renderSlots() {
   const t = termine.find(x => x.id === offenTerminId);
   if (!t) { zeige('screen-main'); return; }
   $('slot-termin-name').textContent = t.titel || 'Unterricht';
-  $('slot-termin-meta').innerHTML = esc(wochentag(t.datum) + ', ' + t.datum) + (t.uhrzeit ? ' · ' + esc(zeitFenster(t)) : '') + (t.ort ? '<br>' + esc(t.ort) : '');
+  $('slot-termin-meta').innerHTML = esc(wochentag(t.datum) + ', ' + t.datum) + (t.uhrzeit ? ' · ' + esc(zeitFenster(t)) : '') + (t.ort ? '<br>' + esc(t.ort) : '') + ((verschiebung(t) || {}).html || '');
   const hatMeinen = t.slots.some(s => s.mein);
   $('slots-grid').innerHTML = t.slots.map(s => {
     const zeit = `<div class="slot-zeit" style="min-width:96px;font-size:15px">${esc(s.uhrzeit)}–${esc(s.ende)}</div>`;

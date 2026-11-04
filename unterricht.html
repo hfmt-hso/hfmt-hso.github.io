@@ -571,6 +571,7 @@ let _awAdminDaten    = null;
 let _awAdminFilter   = 'alle';
 let _awAdminSort     = 'datum'; // 'datum' (Standard) | 'person'
 let _adminTermine    = null;
+let _icomTermine     = null;   // ICoM-Termine, nur für den Login thomas.dorsch (Backend lässt sonst niemanden durch)
 let _meineBuchungen  = [];
 let _slotsAnsicht    = null;   // { terminId, termin, slots } der gerade geöffneten Slot-Ansicht
 
@@ -1574,6 +1575,7 @@ function oeffneAdminBereich() {
   if (aktuellerAdmin.rolle === 'Hauptdozent') ladeStudierendenListe();
   // Abwesenheiten für die Hinweise im Tab "Termine" mitladen (Gastdozenten haben darauf keinen Zugriff).
   if (!istGastdozent) ladeAbwesenheitenAdmin(30000).catch(() => {});
+  ladeIcomTermine();
   // Termine gleich mit anfordern (parallel), damit der Tab "Termine" beim Öffnen schon gefüllt ist.
   swrLaden('alleTermine', holeAlleTermine, daten => {
     _adminTermine = daten;
@@ -1845,6 +1847,7 @@ function awGesehenZurueck(id) {
 async function ladeAdminTermine(frischMs) {
   const el = document.getElementById('adm-termine-liste');
   if (!el) return;
+  ladeIcomTermine();
   if (!swrLesen('alleTermine') && !_adminTermine) el.innerHTML = '<div class="spinner">Lade Termine…</div>';
   try {
     // Termine und Buchungen gleichzeitig statt nacheinander; ein bereits laufender Abruf wird mitgenutzt.
@@ -1858,20 +1861,76 @@ async function ladeAdminTermine(frischMs) {
   }
 }
 
+
+// ── ICoM-TERMINE (nur Thomas) ─────────────────────────────────
+function istIcomAdmin() { return !!(aktuellerAdmin && aktuellerAdmin.nutzer === 'thomas.dorsch' && _adminPwHash); }
+async function ladeIcomTermine() {
+  if (!istIcomAdmin()) return;
+  try {
+    const j = await webAppGet({ action:'icomTermine' });
+    if (!j || !j.ok) return;
+    _icomTermine = j.data || [];
+    if (hauptTabAktiv === 'termine') renderAdminTermine();
+  } catch(e) { /* ICoM ist optional: Hochschul-Termine bleiben sichtbar */ }
+}
+async function icomNotizSpeichern(terminId) {
+  const el = document.getElementById('notiz-' + terminId); if (!el) return;
+  const t = (_icomTermine || []).find(x => x.id === terminId); if (!t) return;
+  const notizen = el.value.trim();
+  try {
+    const j = await webAppPost({ action:'icomNotiz', terminId, notizen });
+    if (!j.ok) { toast('❌ ' + (j.error || 'Fehler')); return; }
+    t.notizen = notizen; el.dataset.orig = notizen; toast('✅ Gespeichert');
+  } catch(e) { toast('❌ Verbindungsfehler'); }
+}
+function renderIcomKarte(t) {
+  const d = parseDate(t.datum), wt = d ? WT[d.getDay()] : '';
+  const v = verschiebung(t) || {};
+  const zeit = t.uhrzeit ? ' · ' + esc(t.uhrzeit + (t.ende ? '–' + t.ende : '')) + ' Uhr' : '';
+  const slots = (t.slots || []).map(s => {
+    const z = esc(s.uhrzeit + '–' + s.ende);
+    if (s.typ === 'gruppe') return `<div style="display:flex;gap:8px;margin-top:6px"><strong style="min-width:96px">${z}</strong><span style="flex:1;color:var(--text-muted)">Gruppenunterricht</span></div>`;
+    const wer = s.name ? esc(s.name) + (s.werk ? ' · ' + esc(s.werk) : '') : '<span style="color:var(--text-muted)">frei</span>';
+    return `<div style="display:flex;gap:8px;margin-top:6px"><strong style="min-width:96px">${z}</strong><span style="flex:1">${wer}</span></div>`;
+  }).join('');
+  return `<div class="aw-adm-row">
+    <div class="aw-adm-info" style="width:100%">
+      <div class="adm-termin-kopf">
+        <div class="termin-datum-box${v.klasse || ''}">
+          <div class="termin-tag">${d ? d.getDate() : '?'}</div>
+          <div class="termin-mon">${d ? MONATE[d.getMonth()] : ''}</div>
+        </div>
+        <div style="min-width:0">
+          <div class="termin-zeit-gross">${wt}${zeit}</div>
+          <div class="termin-meta">${esc(t.datum)}</div>
+          ${v.html || ''}
+        </div>
+      </div>
+      <div class="aw-adm-grund"><strong>ICoM</strong> · ${esc(t.titel || 'Unterricht')}${t.ort ? ' · ' + esc(t.ort) : ''}</div>
+      <textarea class="aw-komm-input" style="width:100%;min-height:60px;margin-top:6px;resize:vertical" placeholder="Unterrichtsinhalte / Notizen…" data-orig="${esc(t.notizen || '')}" id="notiz-${esc(t.id)}">${esc(t.notizen || '')}</textarea>
+      <button class="aw-seen-btn" style="margin-top:6px" onclick="icomNotizSpeichern('${esc(t.id)}')">💾 Speichern</button>
+      ${slots ? `<div style="margin-top:12px;padding-top:8px;border-top:1px dashed #ddd"><div class="aw-adm-zeit" style="font-size:13px">Slots (ICoM)</div>${slots}</div>` : ''}
+    </div>
+  </div>`;
+}
+
 function renderAdminTermine() {
   const el = document.getElementById('adm-termine-liste');
   if (!el || !_adminTermine) return;
-  if (!_adminTermine.length) {
+  const icom = istIcomAdmin() ? (_icomTermine || []).map(t => Object.assign({}, t, { _icom: true })) : [];
+  if (!_adminTermine.length && !icom.length) {
     el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Keine Termine vorhanden.</div>';
     return;
   }
   const heute = new Date(); heute.setHours(0, 0, 0, 0);
-  const liste = _adminTermine.filter(t => { const d = parseDate(t.datum); return !d || d >= heute; }).sort((a, b) => {
+  const minuten = t => { const m = String(t.uhrzeit || '').match(/^(\d{1,2}):(\d{2})/); return m ? +m[1] * 60 + +m[2] : 0; };
+  const liste = _adminTermine.concat(icom).filter(t => { const d = parseDate(t.datum); return !d || d >= heute; }).sort((a, b) => {
     const da = parseDate(a.datum), db = parseDate(b.datum);
-    return (da ? da.getTime() : 0) - (db ? db.getTime() : 0);
+    return ((da ? da.getTime() : 0) - (db ? db.getTime() : 0)) || (minuten(a) - minuten(b));
   });
   if (!liste.length) { el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Keine kommenden Termine.</div>'; return; }
   setHtml(el, liste.map(t => {
+    if (t._icom) return renderIcomKarte(t);
     const d = parseDate(t.datum), wt = d ? WT[d.getDay()] : '';
     return `<div class="aw-adm-row">
       <div class="aw-adm-info" style="width:100%">
@@ -2072,7 +2131,7 @@ function adminLogout() {
   aktuellerAdmin = null;
   adminBuchungen = null;
   _awAdminDaten  = null;
-  _adminTermine  = null;
+  _adminTermine  = null; _icomTermine = null;
   _adminPwHash = null; _studierendenListe = null;
   try { sessionStorage.removeItem('hso_admin_hash'); } catch(e) {}
   swrLeeren();
