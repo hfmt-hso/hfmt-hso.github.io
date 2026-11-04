@@ -517,6 +517,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <button class="aw-filter-btn" onclick="awAdminFilter('gesehen',this)">Gesehen</button>
       <button class="aw-filter-btn" onclick="awAdminFilter('ruecksprache',this)">Rücksprache</button>
     </div>
+    <div class="aw-filter-row">
+      <span style="font-size:11px;color:var(--text-muted);align-self:center">Sortierung:</span>
+      <button class="aw-filter-btn aw-sort-btn active" data-sort="datum" onclick="awAdminSort('datum',this)">Nach Datum</button>
+      <button class="aw-filter-btn aw-sort-btn" data-sort="person" onclick="awAdminSort('person',this)">Nach Person</button>
+    </div>
     <div id="aw-adm-liste"><div class="spinner">Lade…</div></div>
   </div>
 
@@ -552,6 +557,7 @@ let _awDaten         = [];
 let _awUebersicht    = [];
 let _awAdminDaten    = null;
 let _awAdminFilter   = 'alle';
+let _awAdminSort     = 'datum'; // 'datum' (Standard) | 'person'
 let _adminTermine    = null;
 let _meineBuchungen  = [];
 let _slotsAnsicht    = null;   // { terminId, termin, slots } der gerade geöffneten Slot-Ansicht
@@ -1660,9 +1666,14 @@ async function ladeAbwesenheitenAdmin(frischMs) {
   }
 }
 
+function awAdminSort(modus, btn) {
+  _awAdminSort = modus;
+  document.querySelectorAll('.aw-sort-btn').forEach(b => b.classList.toggle('active', b === btn));
+  renderAbwesenheitenAdmin();
+}
 function awAdminFilter(filter, btn) {
   _awAdminFilter = filter;
-  document.querySelectorAll('.aw-filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#adm-abwesenheiten .aw-filter-btn:not(.aw-sort-btn)').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderAbwesenheitenAdmin();
 }
@@ -1690,8 +1701,14 @@ function renderAbwesenheitenAdmin() {
   const vergangen = liste.filter(aw => awEnde(aw) < heuteAw.getTime())
     .sort((a, b) => (awStart(b) - awStart(a)) || awName(a).localeCompare(awName(b), 'de'));
   const gruppen = {};
-  if (kommend.length)   gruppen['Laufend & kommend'] = kommend;
-  if (vergangen.length) gruppen['Vergangen'] = vergangen;
+  if (_awAdminSort === 'person') {
+    // Nach Person: Gruppen alphabetisch, Einträge je Person nach Datum (kommende zuerst, dann vergangene)
+    [...kommend, ...vergangen].forEach(aw => { const k = awName(aw); (gruppen[k] = gruppen[k] || []).push(aw); });
+    Object.keys(gruppen).sort((a, b) => a.localeCompare(b, 'de')).forEach(k => { const v = gruppen[k]; delete gruppen[k]; gruppen[k] = v; });
+  } else {
+    if (kommend.length)   gruppen['Laufend & kommend'] = kommend;
+    if (vergangen.length) gruppen['Vergangen'] = vergangen;
+  }
   setHtml(el, Object.entries(gruppen).map(([titel, eintraege]) => {
     const rows = eintraege.map(aw => {
       const status = aw.status || 'offen';
