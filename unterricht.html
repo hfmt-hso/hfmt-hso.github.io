@@ -548,6 +548,7 @@ let adminTabAktiv    = 'alle';
 let hauptTabAktiv    = 'buchungen';
 let _awEditId        = null;
 let _awDaten         = [];
+let _awUebersicht    = [];
 let _awAdminDaten    = null;
 let _awAdminFilter   = 'alle';
 let _adminTermine    = null;
@@ -862,7 +863,7 @@ function logout() {
   sessionStorage.removeItem('hso_student');
   aktuellerStudent = null;
   studentHashMerken(null);
-  _meineBuchungen = []; _awDaten = []; _slotsAnsicht = null;
+  _meineBuchungen = []; _awDaten = []; _awUebersicht = []; _slotsAnsicht = null;
   swrLeeren();
   zeige('screen-start');
 }
@@ -873,7 +874,7 @@ async function oeffneStudentBereich() {
   document.getElementById('welcome-sub').textContent  = 'Mtknr: ' + aktuellerStudent.mtknr + (aktuellerStudent.instrument ? ' · ' + aktuellerStudent.instrument : '');
   zeige('screen-student');
   // Parallel statt nacheinander: die Wartezeiten addieren sich nicht mehr.
-  await Promise.all([ladeTermine(), ladeMeineBuchungen(), ladeAbwesenheiten()]);
+  await Promise.all([ladeTermine(), ladeMeineBuchungen(), ladeAbwesenheiten(), ladeAbwesenheitenUebersicht()]);
   pendingPruefen();
 }
 
@@ -936,21 +937,39 @@ function awStatusText(aw) {
   return status === 'gesehen' ? 'bestätigt' : (status === 'ruecksprache' ? 'bitte Rücksprache' : 'noch offen');
 }
 
-// Eigene Abwesenheit(en), die einen Termin überschneiden → Hinweiszeile
-function abwesenheitsHinweis(t) {
-  if (!_awDaten || !_awDaten.length) return '';
-  const aw = _awDaten.find(a => awUeberschneidet(a, t));
-  if (!aw) return '';
-  return `<div class="termin-abw">🚫 Du bist für diesen Termin abwesend gemeldet <span>(${awStatusText(aw)})</span></div>`;
+// Art einer Abwesenheit: Krankmeldung (Grund beginnt mit 🤒) = "abwesend", alles andere = "beurlaubt"
+function awArt(aw) {
+  if (aw && aw.art) return aw.art;
+  return String(aw && aw.grund || '').indexOf('\uD83E\uDD12') === 0 ? 'abwesend' : 'beurlaubt';
+}
+function artZeilen(liste, mitStatus) {
+  const gruppen = { abwesend: [], beurlaubt: [] };
+  liste.forEach(a => gruppen[awArt(a)].push(esc(a.name || a.mtknr || 'Unbekannt') + (mitStatus ? ' <span>(' + awStatusText(a) + ')</span>' : '')));
+  let h = '';
+  if (gruppen.abwesend.length)  h += `<div>🤒 Abwesend: ${gruppen.abwesend.join(', ')}</div>`;
+  if (gruppen.beurlaubt.length) h += `<div>🚫 Beurlaubt: ${gruppen.beurlaubt.join(', ')}</div>`;
+  return h;
 }
 
-// Lehrenden-Ansicht: alle Studierenden, die zu diesem Termin abwesend gemeldet sind
+// Studierendenansicht: eigene Abwesenheit + alle anderen (nur Name und Art, ohne Grund) zu diesem Termin
+function abwesenheitsHinweis(t) {
+  let h = '';
+  const eigene = (_awDaten || []).find(a => awUeberschneidet(a, t));
+  if (eigene) {
+    const art = awArt(eigene) === 'abwesend' ? 'abwesend' : 'beurlaubt';
+    h += `<div class="termin-abw">${art === 'abwesend' ? '🤒' : '🚫'} Du bist für diesen Termin ${art} <span>(${awStatusText(eigene)})</span></div>`;
+  }
+  const andere = (_awUebersicht || []).filter(a => awUeberschneidet(a, t));
+  if (andere.length) h += `<div class="termin-abw">${artZeilen(andere, false)}</div>`;
+  return h;
+}
+
+// Lehrenden-Ansicht: alle abwesend gemeldeten Studierenden zu diesem Termin (ohne Grund-Text)
 function adminAbwHinweis(t) {
   if (!_awAdminDaten || !_awAdminDaten.length) return '';
   const treffer = _awAdminDaten.filter(a => awUeberschneidet(a, t));
   if (!treffer.length) return '';
-  const namen = treffer.map(a => `${esc(a.name || a.mtknr)} <span>(${awStatusText(a)}${a.grund ? ': ' + esc(a.grund) : ''})</span>`).join('<br>');
-  return `<div class="termin-abw" style="margin:6px 0 0 0">🚫 Abwesend gemeldet:<br>${namen}</div>`;
+  return `<div class="termin-abw" style="margin:6px 0 0 0">${artZeilen(treffer, true)}</div>`;
 }
 // Nur die Hinweis-Platzhalter neu füllen (Notiz-Felder bleiben unangetastet)
 function aktualisiereTerminAbwesenheiten() {
@@ -1370,6 +1389,19 @@ async function awSpeichern() {
 function holeMeineAbwesenheiten() {
   return webAppGet({ action:'meineAbwesenheiten', mtknr: aktuellerStudent.mtknr })
     .then(j => { if (!j.ok) throw new Error(j.error || 'Fehler'); return j.data; });
+}
+// Abwesenheiten der anderen Studierenden (nur Name, Zeitraum, Art) – Backend-Action abwesenheitenUebersicht.
+// Fehlt die Action im Backend oder schlägt sie fehl, bleibt die Anzeige einfach leer.
+function holeAbwesenheitenUebersicht() {
+  return webAppGet({ action:'abwesenheitenUebersicht' })
+    .then(j => { if (!j.ok) throw new Error(j.error || 'Fehler'); return j.data; });
+}
+async function ladeAbwesenheitenUebersicht() {
+  if (!aktuellerStudent) return;
+  try {
+    await swrLaden('abwUebersicht:' + aktuellerStudent.mtknr, holeAbwesenheitenUebersicht,
+      daten => { _awUebersicht = daten || []; renderTermineListe(); });
+  } catch(e) { /* optional */ }
 }
 async function ladeAbwesenheiten() {
   const el = document.getElementById('aw-student-liste');
