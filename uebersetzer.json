@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-03T07:18:20.976Z",
+  "generiert": "2026-11-04T03:06:46.589Z",
   "events": [
     {
       "datum": "09.11.2026",
@@ -4294,10 +4294,33 @@
           "dauer": "ca. 25 min",
           "besetzung": "0.2.0.2-2.0.0.0-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Flöte",
+              "name": "Yu Xuan Hsieh",
+              "zusatz": ""
+            },
+            {
+              "instrument": "Flöte",
+              "name": "Efstathia Gisdaki",
+              "zusatz": ""
+            }
+          ]
         }
       ],
-      "solisten": [],
+      "solisten": [
+        {
+          "instrument": "Flöte",
+          "name": "Yu Xuan Hsieh",
+          "zusatz": ""
+        },
+        {
+          "instrument": "Flöte",
+          "name": "Efstathia Gisdaki",
+          "zusatz": ""
+        }
+      ],
       "ensemble": null,
       "leitung": [
         {
