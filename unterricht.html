@@ -917,27 +917,47 @@ function terminFenster(t) {
   return [start, ende];
 }
 
+// Überschneidet sich diese Abwesenheit mit dem Termin?
+function awUeberschneidet(aw, t) {
+  const f = terminFenster(t);
+  const d = parseDate(t.datum);
+  if (!f && !d) return false;
+  const dv = parseDate(aw.datumVon), db = parseDate(aw.datumBis);
+  if (!dv || !db) return false;
+  const [vh, vm] = String(aw.uhrzeitVon || '00:00').split(':').map(Number);
+  const [bh, bm] = String(aw.uhrzeitBis || '23:59').split(':').map(Number);
+  const von = new Date(dv.getFullYear(), dv.getMonth(), dv.getDate(), vh || 0, vm || 0);
+  const bis = new Date(db.getFullYear(), db.getMonth(), db.getDate(), bh || 0, bm || 0);
+  if (f) return von < f[1] && bis > f[0];
+  return dv <= d && db >= d;
+}
+function awStatusText(aw) {
+  const status = aw.status || (aw.gesehenVon ? 'gesehen' : 'offen');
+  return status === 'gesehen' ? 'bestätigt' : (status === 'ruecksprache' ? 'bitte Rücksprache' : 'noch offen');
+}
+
 // Eigene Abwesenheit(en), die einen Termin überschneiden → Hinweiszeile
 function abwesenheitsHinweis(t) {
   if (!_awDaten || !_awDaten.length) return '';
-  const f = terminFenster(t);
-  const d = parseDate(t.datum);
-  if (!f && !d) return '';
-  const treffer = _awDaten.filter(aw => {
-    const dv = parseDate(aw.datumVon), db = parseDate(aw.datumBis);
-    if (!dv || !db) return false;
-    const [vh, vm] = String(aw.uhrzeitVon || '00:00').split(':').map(Number);
-    const [bh, bm] = String(aw.uhrzeitBis || '23:59').split(':').map(Number);
-    const von = new Date(dv.getFullYear(), dv.getMonth(), dv.getDate(), vh || 0, vm || 0);
-    const bis = new Date(db.getFullYear(), db.getMonth(), db.getDate(), bh || 0, bm || 0);
-    if (f) return von < f[1] && bis > f[0];
-    return dv <= d && db >= d;
-  });
+  const aw = _awDaten.find(a => awUeberschneidet(a, t));
+  if (!aw) return '';
+  return `<div class="termin-abw">🚫 Du bist für diesen Termin abwesend gemeldet <span>(${awStatusText(aw)})</span></div>`;
+}
+
+// Lehrenden-Ansicht: alle Studierenden, die zu diesem Termin abwesend gemeldet sind
+function adminAbwHinweis(t) {
+  if (!_awAdminDaten || !_awAdminDaten.length) return '';
+  const treffer = _awAdminDaten.filter(a => awUeberschneidet(a, t));
   if (!treffer.length) return '';
-  const aw = treffer[0];
-  const status = aw.status || (aw.gesehenVon ? 'gesehen' : 'offen');
-  const text = status === 'gesehen' ? 'bestätigt' : (status === 'ruecksprache' ? 'bitte Rücksprache' : 'noch offen');
-  return `<div class="termin-abw">🚫 Du bist für diesen Termin abwesend gemeldet <span>(${text})</span></div>`;
+  const namen = treffer.map(a => `${esc(a.name || a.mtknr)} <span>(${awStatusText(a)}${a.grund ? ': ' + esc(a.grund) : ''})</span>`).join('<br>');
+  return `<div class="termin-abw" style="margin:6px 0 0 0">🚫 Abwesend gemeldet:<br>${namen}</div>`;
+}
+// Nur die Hinweis-Platzhalter neu füllen (Notiz-Felder bleiben unangetastet)
+function aktualisiereTerminAbwesenheiten() {
+  (_adminTermine || []).forEach(t => {
+    const el = document.getElementById('abw-' + t.id);
+    if (el) el.innerHTML = adminAbwHinweis(t);
+  });
 }
 
 function renderTerminKarte(t) {
@@ -1478,6 +1498,8 @@ function oeffneAdminBereich() {
   ladeAdminBuchungen();
   // Studierendenliste für die Slot-Zuweisung sofort im Hintergrund holen (statt erst beim Anklicken des Dropdowns).
   if (aktuellerAdmin.rolle === 'Hauptdozent') ladeStudierendenListe();
+  // Abwesenheiten für die Hinweise im Tab "Termine" mitladen (Gastdozenten haben darauf keinen Zugriff).
+  if (!istGastdozent) ladeAbwesenheitenAdmin(30000).catch(() => {});
   // Termine gleich mit anfordern (parallel), damit der Tab "Termine" beim Öffnen schon gefüllt ist.
   swrLaden('alleTermine', holeAlleTermine, daten => {
     _adminTermine = daten;
@@ -1493,7 +1515,7 @@ function adminTab(tab) {
     document.getElementById('ftab-' + t).classList.toggle('active', t === tab);
   });
   if (tab === 'abwesenheiten') ladeAbwesenheitenAdmin(30000);
-  if (tab === 'termine') ladeAdminTermine(30000);
+  if (tab === 'termine') { ladeAdminTermine(30000); if (!(aktuellerAdmin && aktuellerAdmin.rolle === 'Gastdozent')) ladeAbwesenheitenAdmin(30000); }
 }
 
 function buchungenTab(tab) {
@@ -1613,6 +1635,7 @@ function awAdminFilter(filter, btn) {
 }
 
 function renderAbwesenheitenAdmin() {
+  try { aktualisiereTerminAbwesenheiten(); } catch(e) {}
   const el = document.getElementById('aw-adm-liste');
   if (!el || !_awAdminDaten) return;
   let liste = _awAdminDaten;
@@ -1753,6 +1776,7 @@ function renderAdminTermine() {
         <div class="aw-adm-grund">${esc(t.projekt || t.marker)}${t.marker && t.projekt ? ' · ' + esc(t.marker) : ''}${t.dozent ? ' · ' + esc(t.dozent) : ''}${t.ort ? ' · ' + esc(t.ort) : ''}</div>
         <textarea class="aw-komm-input" style="width:100%;min-height:60px;margin-top:6px;resize:vertical" placeholder="Unterrichtsinhalte / Notizen…" data-orig="${esc(t.notizen || '')}" id="notiz-${esc(t.id)}">${esc(t.notizen || '')}</textarea>
         <button class="aw-seen-btn" style="margin-top:6px" onclick="terminNotizSpeichern('${esc(t.id)}')">💾 Speichern</button>
+        <div id="abw-${esc(t.id)}">${adminAbwHinweis(t)}</div>
         ${renderSlotZuweisung(t)}
       </div>
     </div>`;
