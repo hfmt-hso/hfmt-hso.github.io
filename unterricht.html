@@ -1711,7 +1711,7 @@ function renderAbwesenheitenAdmin() {
           <div class="aw-adm-grund">${esc(aw.grund)}</div>
           ${kommBlock}
         </div>
-        <div style="flex-shrink:0;margin-left:6px">${aktBtn}</div>
+        <div style="flex-shrink:0;margin-left:6px">${aktBtn}${awArt(aw) === 'beurlaubt' ? `<button class="aw-unseen-btn" style="margin-top:5px;width:100%" title="Als Krankmeldung führen (kein zweiter Eintrag)" onclick="awZuKrankmeldung('${esc(aw.id)}')">🤒 Krankmeldung</button>` : ''}</div>
       </div>`;
     }).join('');
     return `<div class="aw-adm-block">
@@ -1742,6 +1742,14 @@ async function awAdminStatusAendern(id, action, neu, okText, extra) {
     toast('❌ Nicht gespeichert, zurückgenommen: ' + fehlerText(e));
   }
   planeSync('alleAbwesenheiten', () => ladeAbwesenheitenAdmin(), 2000);
+}
+// Urlaubsantrag -> Krankmeldung: derselbe Eintrag wird umgewidmet (Grund bekommt 🤒), es entsteht kein zweiter
+function awZuKrankmeldung(id) {
+  if (!confirm('Diesen Eintrag als Krankmeldung führen?')) return;
+  const eintrag = (_awAdminDaten || []).find(a => String(a.id) === String(id));
+  const neuGrund = eintrag ? '\uD83E\uDD12 ' + String(eintrag.grund || '').trim() : '';
+  return awAdminStatusAendern(id, 'abwesenheitZuKrankmeldung',
+    { grund: neuGrund, art: 'abwesend', status: 'gesehen', gesehenVon: awAdminName() }, '🤒 Als Krankmeldung geführt.', { gesehenVon: awAdminName() });
 }
 function awAdminName() { return aktuellerAdmin.name || aktuellerAdmin.nutzer; }
 function awAdminKommentar(id) {
