@@ -86,6 +86,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .termin-datum-box.verschoben{background:var(--red-light)}
 .termin-datum-box.verschoben .termin-tag,.termin-datum-box.verschoben .termin-mon{color:var(--red)}
 .termin-verschoben{display:inline-block;margin-top:5px;padding:3px 8px;border-radius:8px;background:var(--red-light);color:var(--red);font-size:11px;font-weight:700;line-height:1.35}
+.termin-datum-box.neu{background:var(--green-light)}
+.termin-datum-box.neu .termin-tag,.termin-datum-box.neu .termin-mon{color:var(--green)}
+.termin-neu{display:inline-block;margin-top:5px;padding:3px 8px;border-radius:8px;background:var(--green-light);color:var(--green);font-size:11px;font-weight:700;line-height:1.35}
 .termin-zeit-gross{font-size:18px;font-weight:800;color:var(--text);line-height:1.1}
 .adm-termin-kopf{display:flex;align-items:flex-start;gap:12px;margin-bottom:6px}
 .adm-termin-kopf .termin-datum-box{min-width:54px;padding:8px 12px}
@@ -717,18 +720,26 @@ function addStunde(zeit) {
   var hh = h < 10 ? '0'+h : ''+h;
   return hh + ':' + teile[1];
 }
-// Termin wurde in den letzten 7 Tagen verschoben (Datum/Uhrzeit) oder in einen anderen Raum gelegt?
+// Termin in den letzten 7 Tagen verschoben (Datum/Uhrzeit), in einen anderen Raum gelegt (rot) oder neu angelegt (grün)?
 function verschiebung(t) {
-  if (!t || !t.verschobenAm) return null;
-  const d = parseDate(t.verschobenAm);
-  if (!d) return null;
+  if (!t) return null;
   const heute = new Date(); heute.setHours(0, 0, 0, 0);
-  const tage = Math.round((heute - d) / 86400000);
-  if (tage < 0 || tage > 7) return null;
-  const tt = String(d.getDate()).padStart(2, '0'), mm = String(d.getMonth() + 1).padStart(2, '0');
-  const art = t.verschobenArt === 'raum' ? 'Raum geändert' : 'Verschoben';
-  const alt = t.verschobenAlt ? ' (vorher: ' + esc(t.verschobenAlt) + ')' : '';
-  return { klasse: ' verschoben', html: `<div class="termin-verschoben">⚠️ ${art} am ${tt}.${mm}.${alt}</div>` };
+  const jung = (s) => {
+    const d = s ? parseDate(s) : null;
+    if (!d) return null;
+    const tage = Math.round((heute - d) / 86400000);
+    return (tage < 0 || tage > 7) ? null : d;
+  };
+  const kurz = (d) => String(d.getDate()).padStart(2, '0') + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.';
+  const dv = jung(t.verschobenAm);
+  if (dv) {
+    const art = t.verschobenArt === 'raum' ? 'Raum geändert' : 'Verschoben';
+    const alt = t.verschobenAlt ? ' (vorher: ' + esc(t.verschobenAlt) + ')' : '';
+    return { klasse: ' verschoben', html: `<div class="termin-verschoben">⚠️ ${art} am ${kurz(dv)}${alt}</div>` };
+  }
+  const dn = jung(t.angelegtAm);
+  if (dn) return { klasse: ' neu', html: `<div class="termin-neu">🆕 Neu seit ${kurz(dn)}</div>` };
+  return null;
 }
 function zeitspanne(t) {
   if (!t.uhrzeit) return '';

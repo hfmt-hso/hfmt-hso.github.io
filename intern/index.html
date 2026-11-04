@@ -2340,6 +2340,18 @@ function ladenTermineNeu(){_untTabGeladen['ut-termine']=true;ladeUntTermine(true
 function filterTermine(){renderUntTermine();}
 function untTermineAltToggle(cb){_untTermineAlt=cb.checked;renderUntTermine();}
 
+// Markierung für kürzlich verschobene (rot) oder neu angelegte (grün) Termine – 7 Tage lang (Daten kommen aus dem Backend-Sync)
+function untTerminMarke(t){
+  var heute=new Date();heute.setHours(0,0,0,0);
+  function jung(s){var d=s?parseDatum(s):null;if(!d)return null;var tage=Math.round((heute-d)/86400000);return(tage<0||tage>7)?null:d;}
+  function kurz(d){return ('0'+d.getDate()).slice(-2)+'.'+('0'+(d.getMonth()+1)).slice(-2)+'.';}
+  var st='display:inline-block;margin-top:5px;padding:3px 8px;border-radius:8px;font-size:11px;font-weight:700;line-height:1.35;';
+  var dv=jung(t.verschobenAm);
+  if(dv)return{bg:'var(--red-bg)',fg:'var(--red)',html:'<div style="'+st+'background:var(--red-bg);color:var(--red)">⚠️ '+(t.verschobenArt==='raum'?'Raum geändert':'Verschoben')+' am '+kurz(dv)+(t.verschobenAlt?' (vorher: '+esc(t.verschobenAlt)+')':'')+'</div>'};
+  var dn=jung(t.angelegtAm);
+  if(dn)return{bg:'var(--green-bg)',fg:'var(--green)',html:'<div style="'+st+'background:var(--green-bg);color:var(--green)">🆕 Neu seit '+kurz(dn)+'</div>'};
+  return null;
+}
 function renderUntTermine(){
   var el=document.getElementById('term-liste');
   if(!_untTermine)return;
@@ -2364,11 +2376,12 @@ function renderUntTermine(){
     var day=p[0]||'?',mon=_MONATE[parseInt(p[1]||'0',10)-1]||'';
     var vergangen=d&&d<heute;
     var notiz=entw.hasOwnProperty('notiz-'+t.id)?entw['notiz-'+t.id]:(t.notizen||'');
+    var mk=untTerminMarke(t);
     return '<div class="tcard" style="flex-wrap:wrap;'+(vergangen?'opacity:0.55;':'')+'">'+
-      '<div class="tcard-date"><div class="tcard-day">'+esc(day)+'</div><div class="tcard-mon">'+esc(mon)+'</div></div>'+
+      '<div class="tcard-date"'+(mk?' style="background:'+mk.bg+'"':'')+'><div class="tcard-day"'+(mk?' style="color:'+mk.fg+'"':'')+'>'+esc(day)+'</div><div class="tcard-mon"'+(mk?' style="color:'+mk.fg+'"':'')+'>'+esc(mon)+'</div></div>'+
       '<div class="tcard-body">'+
         '<div class="tcard-title">'+esc(t.projekt||t.marker)+(t.marker&&t.projekt?'<span class="tcard-badge kal">'+esc(t.marker)+'</span>':'')+'</div>'+
-        '<div class="tcard-meta">'+wt+', '+esc(t.datum)+(t.uhrzeit?' · '+esc(t.uhrzeit):'')+(t.dozent?' · '+esc(t.dozent):'')+(t.ort?' · '+esc(t.ort):'')+'</div>'+
+        '<div class="tcard-meta">'+wt+', '+esc(t.datum)+(t.uhrzeit?' · '+esc(t.uhrzeit):'')+(t.dozent?' · '+esc(t.dozent):'')+(t.ort?' · '+esc(t.ort):'')+'</div>'+(mk?mk.html:'')+
       '</div>'+
       '<div style="width:100%">'+
         '<textarea id="notiz-'+esc(t.id)+'" data-orig="'+esc(t.notizen||'')+'" placeholder="Unterrichtsinhalte / Notizen…" style="width:100%;min-height:56px;margin-top:4px;padding:7px 10px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);resize:vertical;background:#fff">'+esc(notiz)+'</textarea>'+
