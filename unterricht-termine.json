@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-04T15:54:20.509Z",
+  "generiert": "2026-11-04T17:54:03.031Z",
   "data": [
     {
       "id": "UT_20261028_18",
@@ -1483,7 +1483,10 @@
           "uhrzeit": "17:30"
         }
       ],
-      "notizen": ""
+      "notizen": "",
+      "verschobenAm": "2026-11-04",
+      "verschobenArt": "zeit",
+      "verschobenAlt": "Di 02.02., 15:30"
     },
     {
       "id": "UT_20270203_64",
@@ -1603,7 +1606,10 @@
           "uhrzeit": "18:30"
         }
       ],
-      "notizen": ""
+      "notizen": "",
+      "verschobenAm": "2026-11-04",
+      "verschobenArt": "zeit",
+      "verschobenAlt": "Fr 05.02., 14:30"
     },
     {
       "id": "UT_20270205_67",
