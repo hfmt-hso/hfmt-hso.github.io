@@ -1950,6 +1950,42 @@ async function terminNotizSpeichern(terminId) {
   }
 }
 
+// ── AUTOMATISCHES NACHLADEN DER ABWESENHEITEN ────────────────
+// Alle 2 Minuten (und beim Zurückkehren in den Tab) im Hintergrund neu holen; nur bei Änderung neu zeichnen.
+// Laufende lokale Änderungen (_swrVersion/tmp-Einträge) und Eingaben in der Abwesenheitsliste werden nicht überschrieben.
+const ABW_POLL_MS = 120000;
+let _abwPollLaeuft = false;
+async function abwesenheitenPoll() {
+  if (document.hidden || _abwPollLaeuft) return;
+  _abwPollLaeuft = true;
+  try {
+    if (aktuellerAdmin) {
+      if (aktuellerAdmin.rolle === 'Gastdozent' || !_awAdminDaten) return;
+      const v = _swrVersion['alleAbwesenheiten'] || 0;
+      const neu = await holeAlleAbwesenheiten();
+      if ((_swrVersion['alleAbwesenheiten'] || 0) !== v) return;
+      if (JSON.stringify(neu) === JSON.stringify(_awAdminDaten)) return;
+      _awAdminDaten = neu; swrSchreiben('alleAbwesenheiten', neu);
+      aktualisiereTerminAbwesenheiten();
+      const ae = document.activeElement;
+      if (!(ae && ae.closest && ae.closest('#aw-adm-liste'))) renderAbwesenheitenAdmin();
+    } else if (aktuellerStudent) {
+      if (_awDaten.some(a => istTmp(a.id))) return;
+      const key = 'meineAbwesenheiten:' + aktuellerStudent.mtknr;
+      const v = _swrVersion[key] || 0;
+      const [eig, uebers] = await Promise.all([holeMeineAbwesenheiten(), holeAbwesenheitenUebersicht().catch(() => null)]);
+      if ((_swrVersion[key] || 0) !== v || !aktuellerStudent) return;
+      let geaendert = false;
+      if (JSON.stringify(eig) !== JSON.stringify(_awDaten)) { _awDaten = eig; swrSchreiben(key, eig); geaendert = true; }
+      if (uebers && JSON.stringify(uebers) !== JSON.stringify(_awUebersicht)) { _awUebersicht = uebers; geaendert = true; }
+      if (geaendert) renderAbwesenheiten();   // zeichnet auch die Terminliste neu
+    }
+  } catch(e) { /* beim nächsten Durchlauf erneut */ }
+  finally { _abwPollLaeuft = false; }
+}
+setInterval(abwesenheitenPoll, ABW_POLL_MS);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) abwesenheitenPoll(); });
+
 function adminLogout() {
   sessionStorage.removeItem('hso_admin_unterricht');
   aktuellerAdmin = null;
