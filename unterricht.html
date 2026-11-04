@@ -83,6 +83,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .termin-datum-box{background:var(--blue-light);border-radius:8px;padding:6px 10px;text-align:center;flex-shrink:0;min-width:44px}
 .termin-tag{font-size:18px;font-weight:800;color:var(--blue);line-height:1}
 .termin-mon{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-top:2px}
+.termin-datum-box.verschoben{background:var(--red-light)}
+.termin-datum-box.verschoben .termin-tag,.termin-datum-box.verschoben .termin-mon{color:var(--red)}
+.termin-verschoben{display:inline-block;margin-top:5px;padding:3px 8px;border-radius:8px;background:var(--red-light);color:var(--red);font-size:11px;font-weight:700;line-height:1.35}
+.termin-zeit-gross{font-size:18px;font-weight:800;color:var(--text);line-height:1.1}
+.adm-termin-kopf{display:flex;align-items:flex-start;gap:12px;margin-bottom:6px}
+.adm-termin-kopf .termin-datum-box{min-width:54px;padding:8px 12px}
+.adm-termin-kopf .termin-tag{font-size:24px}
+.aw-hinweis-mail{font-size:12px;color:var(--text-muted);margin:6px 0 10px;line-height:1.4}
 .termin-info{flex:1;min-width:0}
 .termin-titel{font-size:14px;font-weight:600;color:var(--text)}
 .termin-meta{font-size:12px;color:var(--text-muted);margin-top:2px;line-height:1.4}
@@ -433,6 +441,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
     <div class="field-label">Grund</div>
     <textarea class="field-input" id="aw-grund" rows="3" placeholder="Kurze Beschreibung…" style="resize:none;margin-bottom:0"></textarea>
+    <div class="aw-hinweis-mail">✉️ Die Lehrenden werden über neue Abwesenheiten automatisch per E-Mail informiert.</div>
     <div class="field-gap"></div>
     <div class="error-msg" id="aw-err"></div>
     <button class="btn btn-blue" id="aw-save-btn" onclick="awSpeichern()">Speichern</button>
@@ -707,6 +716,19 @@ function addStunde(zeit) {
   var h = (parseInt(teile[0],10) + 1) % 24;
   var hh = h < 10 ? '0'+h : ''+h;
   return hh + ':' + teile[1];
+}
+// Termin wurde in den letzten 7 Tagen verschoben (Datum/Uhrzeit) oder in einen anderen Raum gelegt?
+function verschiebung(t) {
+  if (!t || !t.verschobenAm) return null;
+  const d = parseDate(t.verschobenAm);
+  if (!d) return null;
+  const heute = new Date(); heute.setHours(0, 0, 0, 0);
+  const tage = Math.round((heute - d) / 86400000);
+  if (tage < 0 || tage > 7) return null;
+  const tt = String(d.getDate()).padStart(2, '0'), mm = String(d.getMonth() + 1).padStart(2, '0');
+  const art = t.verschobenArt === 'raum' ? 'Raum geändert' : 'Verschoben';
+  const alt = t.verschobenAlt ? ' (vorher: ' + esc(t.verschobenAlt) + ')' : '';
+  return { klasse: ' verschoben', html: `<div class="termin-verschoben">⚠️ ${art} am ${tt}.${mm}.${alt}</div>` };
 }
 function zeitspanne(t) {
   if (!t.uhrzeit) return '';
@@ -1000,13 +1022,14 @@ function renderTerminKarte(t) {
   return `
   <div class="termin-card" ${onclick}>
     <div class="termin-header">
-      <div class="termin-datum-box">
+      <div class="termin-datum-box${(verschiebung(t)||{}).klasse||''}">
         <div class="termin-tag">${tag}</div>
         <div class="termin-mon">${mon}</div>
       </div>
       <div class="termin-info">
         <div class="termin-titel">${esc(t.projekt || t.marker)}</div>
         <div class="termin-meta">${wt}${zeitspanne(t) ? ' · ' + esc(zeitspanne(t)) : ''}${t.dozent ? ' · ' + esc(t.dozent) : ''}${t.ort ? ' · ' + esc(t.ort) : ''}</div>
+        ${(verschiebung(t)||{}).html||''}
       </div>
       <div class="termin-status">${badge}</div>
     </div>
@@ -1026,13 +1049,14 @@ function renderTerminKartePublic(t) {
   return `
   <div class="termin-card">
     <div class="termin-header">
-      <div class="termin-datum-box">
+      <div class="termin-datum-box${(verschiebung(t)||{}).klasse||''}">
         <div class="termin-tag">${tag}</div>
         <div class="termin-mon">${mon}</div>
       </div>
       <div class="termin-info">
         <div class="termin-titel">${esc(t.projekt || t.marker)}</div>
         <div class="termin-meta">${wt}${zeitspanne(t) ? ' · ' + esc(zeitspanne(t)) : ''}${t.dozent ? ' · ' + esc(t.dozent) : ''}${t.ort ? ' · ' + esc(t.ort) : ''}</div>
+        ${(verschiebung(t)||{}).html||''}
       </div>
       <div class="termin-status">${badge}</div>
     </div>
@@ -1370,7 +1394,7 @@ async function awSpeichern() {
   swrAenderung(key); swrSchreiben(key, _awDaten);
   renderAbwesenheiten();
   zeige('screen-student');
-  toast('✅ Abwesenheit gespeichert!');
+  toast(editId ? '✅ Abwesenheit gespeichert!' : '✅ Abwesenheit gespeichert – Lehrende werden per E-Mail informiert.');
   try {
     const json = await webAppPost(Object.assign({
       action: 'abwesenheitSpeichern',
@@ -1840,8 +1864,16 @@ function renderAdminTermine() {
     const d = parseDate(t.datum), wt = d ? WT[d.getDay()] : '';
     return `<div class="aw-adm-row">
       <div class="aw-adm-info" style="width:100%">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px">
-          <div class="aw-adm-zeit">${wt}, ${esc(t.datum)}${t.uhrzeit ? ' · ' + esc(t.uhrzeit) : ''}</div>
+        <div class="adm-termin-kopf">
+          <div class="termin-datum-box${(verschiebung(t)||{}).klasse||''}">
+            <div class="termin-tag">${d ? d.getDate() : '?'}</div>
+            <div class="termin-mon">${d ? MONATE[d.getMonth()] : ''}</div>
+          </div>
+          <div style="min-width:0">
+            <div class="termin-zeit-gross">${wt}${t.uhrzeit ? ' · ' + esc(zeitspanne(t) || t.uhrzeit) + ' Uhr' : ''}</div>
+            <div class="termin-meta">${esc(t.datum)}</div>
+            ${(verschiebung(t)||{}).html||''}
+          </div>
         </div>
         <div class="aw-adm-grund">${esc(t.projekt || t.marker)}${t.marker && t.projekt ? ' · ' + esc(t.marker) : ''}${t.dozent ? ' · ' + esc(t.dozent) : ''}${t.ort ? ' · ' + esc(t.ort) : ''}</div>
         <textarea class="aw-komm-input" style="width:100%;min-height:60px;margin-top:6px;resize:vertical" placeholder="Unterrichtsinhalte / Notizen…" data-orig="${esc(t.notizen || '')}" id="notiz-${esc(t.id)}">${esc(t.notizen || '')}</textarea>
