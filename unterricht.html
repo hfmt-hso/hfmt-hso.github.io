@@ -410,7 +410,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <!-- SCREEN 7: ABWESENHEIT MELDEN / BEARBEITEN -->
 <div class="screen" id="screen-abwesenheit">
-  <button class="slot-back-btn" onclick="zeige('screen-student')">
+  <button class="slot-back-btn" onclick="awFormularZurueck()">
     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
     Zurück zur Übersicht
   </button>
@@ -444,11 +444,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
     <div class="field-label">Grund</div>
     <textarea class="field-input" id="aw-grund" rows="3" placeholder="Kurze Beschreibung…" style="resize:none;margin-bottom:0"></textarea>
-    <div class="aw-hinweis-mail">✉️ Die Lehrenden werden über neue Abwesenheiten automatisch per E-Mail informiert.</div>
+    <div class="aw-hinweis-mail" id="aw-hinweis-mail">✉️ Die Lehrenden werden über neue Abwesenheiten automatisch per E-Mail informiert.</div>
     <div class="field-gap"></div>
     <div class="error-msg" id="aw-err"></div>
     <button class="btn btn-blue" id="aw-save-btn" onclick="awSpeichern()">Speichern</button>
-    <button class="btn btn-outline" onclick="zeige('screen-student')">Abbrechen</button>
+    <button class="btn btn-outline" onclick="awFormularZurueck()">Abbrechen</button>
   </div>
 </div>
 
@@ -523,6 +523,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
   <!-- Abwesenheiten -->
   <div id="adm-abwesenheiten" style="display:none">
+    <button class="btn btn-outline" id="aw-eigene-btn" style="margin:0 0 10px;display:none" onclick="awFormularOeffnen(null, true)">+ Eigene Abwesenheit eintragen</button>
     <div class="aw-filter-row">
       <button class="aw-filter-btn active" onclick="awAdminFilter('alle',this)">Alle</button>
       <button class="aw-filter-btn" onclick="awAdminFilter('offen',this)">Offen</button>
@@ -565,6 +566,7 @@ let _studierendenListe = null;
 let adminTabAktiv    = 'alle';
 let hauptTabAktiv    = 'buchungen';
 let _awEditId        = null;
+let _awAdminModus    = false; // Formular wird von Lehrenden für die eigene Abwesenheit genutzt
 let _awDaten         = [];
 let _awUebersicht    = [];
 let _awAdminDaten    = null;
@@ -1350,11 +1352,15 @@ function awDatumAnzeige(s) {
   return s;
 }
 
-function awFormularOeffnen(eintrag) {
+function awFormularZurueck() { zeige(_awAdminModus ? 'screen-admin' : 'screen-student'); }
+
+function awFormularOeffnen(eintrag, adminModus) {
   if (eintrag && istTmp(eintrag.id)) { toast('Wird noch gespeichert – bitte kurz warten.'); return; }
+  _awAdminModus = !!adminModus;
+  document.getElementById('aw-hinweis-mail').style.display = _awAdminModus ? 'none' : '';
   awFuelleUhrzeitDropdowns();
   _awEditId = eintrag ? eintrag.id : null;
-  document.getElementById('aw-form-titel').textContent = eintrag ? 'Abwesenheit bearbeiten' : 'Abwesenheit melden';
+  document.getElementById('aw-form-titel').textContent = _awAdminModus ? 'Eigene Abwesenheit eintragen' : (eintrag ? 'Abwesenheit bearbeiten' : 'Abwesenheit melden');
   document.getElementById('aw-err').textContent = '';
   if (eintrag) {
     document.getElementById('aw-von-datum').value = awDatumFuerInput(eintrag.datumVon);
@@ -1388,6 +1394,9 @@ async function awSpeichern() {
   if (datumVon > datumBis || (datumVon === datumBis && uhrzeitVon >= uhrzeitBis)) {
     err.textContent = 'Enddatum/-zeit muss nach dem Beginn liegen.'; return;
   }
+  if (_awAdminModus) return awAdminEigeneSpeichern({
+    datumVon: awDatumAnzeige(datumVon), uhrzeitVon, datumBis: awDatumAnzeige(datumBis), uhrzeitBis, grund
+  });
   const editId = _awEditId;
   const key    = 'meineAbwesenheiten:' + aktuellerStudent.mtknr;
   const felder = {
@@ -1566,6 +1575,7 @@ function oeffneAdminBereich() {
   const istGastdozent = aktuellerAdmin.rolle === 'Gastdozent';
   document.getElementById('ftab-abwesenheiten').style.display = istGastdozent ? 'none' : '';
   document.getElementById('ftab-alle').style.display = istGastdozent ? 'none' : '';
+  document.getElementById('aw-eigene-btn').style.display = aktuellerAdmin.rolle === 'Hauptdozent' ? '' : 'none';
   // Gastdozenten sehen ohnehin nur ihre eigenen Buchungen: die Umschaltzeile "Alle | Meine" entfällt
   document.getElementById('ftabs-buchungen').style.display = istGastdozent ? 'none' : '';
   if (istGastdozent) { adminTab('buchungen'); buchungenTab('meine'); }
@@ -1778,7 +1788,7 @@ function renderAbwesenheitenAdmin() {
           <div class="aw-adm-grund">${esc(aw.grund)}</div>
           ${kommBlock}
         </div>
-        <div style="flex-shrink:0;margin-left:6px">${aktBtn}${awArt(aw) === 'beurlaubt' ? `<button class="aw-unseen-btn aw-krank-btn" title="Als Krankmeldung führen (kein zweiter Eintrag)" onclick="awZuKrankmeldung('${esc(aw.id)}')">🤒 In Krankmeldung umwandeln</button>` : ''}</div>
+        <div style="flex-shrink:0;margin-left:6px">${aktBtn}${aktuellerAdmin && String(aw.mtknr) === aktuellerAdmin.nutzer ? `<button class="aw-unseen-btn" style="color:var(--red)" onclick="awAdminEigeneLoeschen('${esc(aw.id)}')">🗑 Löschen</button>` : ''}${awArt(aw) === 'beurlaubt' ? `<button class="aw-unseen-btn aw-krank-btn" title="Als Krankmeldung führen (kein zweiter Eintrag)" onclick="awZuKrankmeldung('${esc(aw.id)}')">🤒 In Krankmeldung umwandeln</button>` : ''}</div>
       </div>`;
     }).join('');
     return `<div class="aw-adm-block">
@@ -1819,6 +1829,49 @@ function awZuKrankmeldung(id) {
     { grund: neuGrund, art: 'abwesend', status: 'gesehen', gesehenVon: awAdminName() }, '🤒 Als Krankmeldung geführt.', { gesehenVon: awAdminName() });
 }
 function awAdminName() { return aktuellerAdmin.name || aktuellerAdmin.nutzer; }
+
+// Lehrende tragen ihre eigene Abwesenheit ein: wird wie ein Studierenden-Eintrag gespeichert (Mtknr = Benutzername)
+// und sofort als gesehen/bestätigt geführt (dabei entsteht auch der Kalendereintrag).
+async function awAdminEigeneSpeichern(felder) {
+  const btn = document.getElementById('aw-save-btn');
+  const err = document.getElementById('aw-err');
+  btn.disabled = true; btn.textContent = 'Speichert…';
+  try {
+    const j1 = await webAppPost(Object.assign({
+      action: 'abwesenheitSpeichern', id: '', mtknr: aktuellerAdmin.nutzer, name: awAdminName()
+    }, felder));
+    if (!j1.ok) throw new Error(j1.error || 'Fehler');
+    const neueId = j1.id || (j1.data && j1.data.id);
+    if (neueId) {
+      const j2 = await webAppPost({ action:'abwesenheitGesehen', id: neueId, gesehenVon: awAdminName(), kommentar: '' });
+      if (!j2.ok) throw new Error(j2.error || 'Fehler');
+    }
+    zeige('screen-admin');
+    adminTab('abwesenheiten');
+    toast('✅ Deine Abwesenheit ist eingetragen.');
+    swrAenderung('alleAbwesenheiten');
+    await ladeAbwesenheitenAdmin();
+  } catch(e) {
+    err.textContent = 'Nicht gespeichert: ' + fehlerText(e);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Speichern';
+  }
+}
+async function awAdminEigeneLoeschen(id) {
+  if (!confirm('Deine Abwesenheit wirklich löschen?')) return;
+  const idx = (_awAdminDaten || []).findIndex(a => String(a.id) === String(id));
+  const alt = idx >= 0 ? _awAdminDaten[idx] : null;
+  if (alt) { _awAdminDaten.splice(idx, 1); swrAenderung('alleAbwesenheiten'); swrSchreiben('alleAbwesenheiten', _awAdminDaten); renderAbwesenheitenAdmin(); }
+  toast('✅ Gelöscht.');
+  try {
+    const json = await webAppPost({ action:'abwesenheitLoeschen', id, mtknr: aktuellerAdmin.nutzer });
+    if (!json.ok) throw new Error(json.error || 'Fehler');
+  } catch(e) {
+    if (alt) { _awAdminDaten.splice(Math.min(idx, _awAdminDaten.length), 0, alt); swrAenderung('alleAbwesenheiten'); swrSchreiben('alleAbwesenheiten', _awAdminDaten); renderAbwesenheitenAdmin(); }
+    toast('❌ Nicht gelöscht: ' + fehlerText(e));
+  }
+  planeSync('alleAbwesenheiten', () => ladeAbwesenheitenAdmin(), 2000);
+}
 function awAdminKommentar(id) {
   const inp = document.getElementById('aw-komm-' + id);
   return inp ? inp.value.trim() : '';
