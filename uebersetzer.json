@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-04T17:53:58.129Z",
+  "generiert": "2026-11-05T03:07:25.689Z",
   "events": [
     {
       "datum": "09.11.2026",
@@ -4063,47 +4063,6 @@
       "eintritt": [],
       "_eventId": "9abj4n89vkv9p2qsdoe0ls5nmc@google.com",
       "_titel": "HSO 4"
-    },
-    {
-      "datum": "04.11.2026",
-      "uhrzeit": "14:15 Uhr",
-      "endzeit": "17:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": "Repertoire",
-      "werke": [
-        {
-          "komponist": "Richard Strauss",
-          "lebensdaten": "1864–1949",
-          "titel": "Also sprach Zarathustra",
-          "saetze": [],
-          "dauer": "ca. 33 min",
-          "besetzung": "3.3.4.4-6.4.3.2-Pauken, große Trommel, kleine Trommel, Becken, Triangel, Glockenspiel, Glocke, Hrf., Orgel-Str. (16.16.12.12.8)",
-          "urauffuehrung": false,
-          "pause": false,
-          "schlagwerkAnzahl": 0,
-          "schlagwerkListe": "Pauken, große Trommel, kleine Trommel, Becken, Triangel, Glockenspiel, Glocke"
-        }
-      ],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [
-        {
-          "name": "An Hoon Song | Jacob Gröper, Rémi Geniet (Beginn bis Wissenschaft), Sukjong Kim, Uschik Choi (Genesender bis Ende)",
-          "werk": "",
-          "klasse": ""
-        }
-      ],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [
-        "* Abgesagt: Zarathustra wird im Sommersemester nachgeholt"
-      ],
-      "abwesend": null,
-      "eintritt": [],
-      "abgesagt": true,
-      "_eventId": "5ulndvlfgv1ite0pspau9a84rg@google.com",
-      "_titel": "HSO Repertoire"
     },
     {
       "datum": "11.11.2026",
