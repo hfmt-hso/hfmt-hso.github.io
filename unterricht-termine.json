@@ -1,38 +1,6 @@
 {
-  "generiert": "2026-11-05T22:35:40.347Z",
+  "generiert": "2026-11-06T03:06:55.862Z",
   "data": [
-    {
-      "id": "UT_20261030_20",
-      "datum": "29.10.2026",
-      "projekt": "Einzelunterricht Song",
-      "marker": "Einzelunterricht",
-      "dozent": "Song",
-      "uhrzeit": "14:30",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "14:30"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "15:30"
-        },
-        {
-          "slotId": "s_2",
-          "uhrzeit": "16:30"
-        },
-        {
-          "slotId": "s_3",
-          "uhrzeit": "17:30"
-        },
-        {
-          "slotId": "s_4",
-          "uhrzeit": "18:30"
-        }
-      ],
-      "notizen": "Bitte ab 16.30 bis 18.30 nicht eintragen. Ich habe andermeeting"
-    },
     {
       "id": "UT_20261102_22",
       "datum": "02.11.2026",
@@ -1444,7 +1412,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-05",
+      "verschobenAm": "2026-11-06",
       "verschobenArt": "zeit",
       "verschobenAlt": "Di 02.02., 15:30"
     },
@@ -1567,7 +1535,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-05",
+      "verschobenAm": "2026-11-06",
       "verschobenArt": "zeit",
       "verschobenAlt": "Fr 05.02., 14:30"
     },
