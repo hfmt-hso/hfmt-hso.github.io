@@ -49,6 +49,15 @@ h2{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;co
 #gate input{width:100%;font-size:16px;font-family:inherit;padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--paper2);color:var(--ink);margin-bottom:10px}
 #gate .btn{width:100%}
 #gate .e{color:var(--red);font-size:13px;min-height:20px;margin-top:8px}
+.sel{width:100%;font-size:16px;font-family:inherit;padding:9px 10px;border:1px solid var(--border);border-radius:9px;background:var(--paper2);color:var(--ink)}
+.chkl{display:flex!important;gap:8px;align-items:center;font-size:13px!important;color:var(--ink)!important;margin-top:10px!important}
+.plist{max-height:260px;overflow:auto;border:1px solid var(--border);border-radius:9px;background:var(--paper2)}
+.plist button{display:block;width:100%;text-align:left;font-family:inherit;font-size:15px;padding:11px 12px;border:none;border-bottom:1px solid var(--border);background:none;color:var(--ink);cursor:pointer}
+.plist button.on{background:var(--blue-bg);font-weight:700}
+.plist small{color:var(--ink3)}
+.semg{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px;margin-top:6px}
+.semg label{display:flex;gap:6px;align-items:center;margin:0;font-size:13px;color:var(--ink)}
+.hw input[type=checkbox]{width:auto}
 #toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:#222;color:#fff;padding:11px 16px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;max-width:90%;text-align:center;z-index:9}
 #toast.show{opacity:1;transform:translateX(-50%)}
 .foot{font-size:11px;color:var(--ink3);text-align:center;margin-top:22px}
@@ -73,6 +82,60 @@ h2{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;co
     <button class="lo" onclick="logout()">Abmelden</button>
   </header>
   <div id="liste"></div>
+
+  <div id="bswrap" style="display:none">
+    <h2>Besetzung eintragen</h2>
+    <div class="hw">
+      <label>Projekt</label><select id="bsp" class="sel"></select>
+      <label class="chkl"><input type="checkbox" id="bsalt"> auch ältere Projekte</label>
+      <label>Instrument</label><select id="bsi" class="sel"></select>
+      <label>Name suchen</label><input type="text" id="bsq" placeholder="Name tippen …">
+      <label>Personen <span id="bsz"></span></label>
+      <div id="bsl" class="plist"></div>
+    </div>
+    <div class="hw" id="bskarte" style="display:none">
+      <div id="bskn" style="font-weight:800;font-size:16px"></div>
+      <div id="bski" style="font-size:12px;color:var(--ink3)"></div>
+      <label>Status im Projekt</label><select id="bsst" class="sel"></select>
+      <div id="bspw"><label>Position</label><input type="text" id="bspos" list="bsposl" autocomplete="off" placeholder="z. B. Vl. 1"><datalist id="bsposl"></datalist></div>
+      <label class="chkl"><input type="checkbox" id="bsmail"> Bestätigung per E-Mail senden</label>
+      <div id="bsmo" style="display:none"><label>Anrede</label><select id="bsan" class="sel"><option>Liebe</option><option>Lieber</option><option selected>Hallo</option></select></div>
+      <div class="row"><button class="btn" onclick="bsPortal()">Im Portal anzeigen</button><button class="btn pri" id="bssave" onclick="bsSpeichern()">Speichern</button></div>
+    </div>
+  </div>
+
+  <div id="tbwrap" style="display:none">
+    <h2>Teilnahmebestätigung</h2>
+    <div class="hw">
+      <label>Name suchen</label>
+      <div style="display:flex;gap:6px"><input type="text" id="tbq" placeholder="Vor- oder Nachname"><button class="btn" onclick="tbSuchen()">Suchen</button></div>
+      <div id="tbl" class="plist" style="margin-top:8px;display:none"></div>
+      <div id="tbsel" style="margin-top:8px;font-weight:700"></div>
+      <label class="chkl"><input type="checkbox" id="tbman"> Person nicht gefunden: manuell eingeben</label>
+      <div id="tbmp" style="display:none">
+        <label>Vorname</label><input type="text" id="tbvn"><label>Nachname</label><input type="text" id="tbnn"><label>E-Mail</label><input type="text" id="tbem">
+      </div>
+      <label class="chkl"><input type="checkbox" id="tbsm"> Semester manuell wählen (statt Anwesenheitsliste)</label>
+      <div id="tbsemw" style="display:none"></div>
+      <label>Weitere Projekte (eine Zeile pro Projekt)</label><textarea id="tbwp" placeholder="z. B. WiSe 20 Projekt XYZ"></textarea>
+      <div class="row"><button class="btn" id="tbvab" onclick="tbVoranfrage()">1. Voranfrage</button><button class="btn pri" id="tbeb" onclick="tbErstellen()">2. Bescheinigung erstellen</button></div>
+    </div>
+    <div class="hw" id="tbva" style="display:none">
+      <b>Voranfrage per Mail</b>
+      <label>An</label><input type="text" id="vaem"><label>Betreff</label><input type="text" id="vabt">
+      <label>Anrede</label><select id="vaan" class="sel" onchange="tbVaText()"><option>Liebe</option><option>Lieber</option><option selected>Hallo</option></select>
+      <label>Text</label><textarea id="vatx" style="min-height:200px"></textarea>
+      <div class="row"><span></span><button class="btn pri" id="vasend" onclick="tbVaSenden()">Voranfrage senden</button></div>
+    </div>
+    <div class="hw" id="tbbs" style="display:none">
+      <b>Bescheinigung ist erstellt</b>
+      <div id="tbub" style="white-space:pre-line;font-size:13px;margin:6px 0"></div>
+      <a class="linkres" id="tbdoc" target="_blank" rel="noopener" href="#">📄 Vorschau öffnen (Google Doc)</a>
+      <label>An</label><input type="text" id="bsem"><label>Betreff</label><input type="text" id="bsbt">
+      <label>Mailtext</label><textarea id="bstx" style="min-height:200px"></textarea>
+      <div class="row"><span></span><button class="btn pri" id="bssend" onclick="tbSenden()">Als PDF per Mail senden</button></div>
+    </div>
+  </div>
 
   <div id="krwrap" style="display:none">
     <h2>Krankmeldung eintragen</h2>
@@ -157,8 +220,8 @@ var BEFEHLE=[
     {icon:'📢',titel:'Hinweis auf dem Studierendenportal',sub:'Banner anlegen, ändern, löschen',run:async function(){hwOeffnen();return {ok:true,text:'unten bearbeiten'};}}
   ]},
   {gruppe:'HfMT_HSO-Tabelle',items:[
-    {icon:'🧾',titel:'Teilnahmebestätigung',sub:'aus Teilnahmebestaetigung.gs',off:'Backend folgt'},
-    {icon:'🎻',titel:'Besetzung eintragen (Maske)',sub:'Einteilung in HfMT_HSO',off:'Backend folgt'}
+    {icon:'🧾',titel:'Teilnahmebestätigung',sub:'Voranfrage, Bescheinigung, Mailversand',run:async function(){tbOeffnen();return {ok:true,text:'unten ausfüllen'};}},
+    {icon:'🎻',titel:'Besetzung eintragen (Maske)',sub:'Status und Position in der Einteilung',run:async function(){await bsOeffnen();return {ok:true,text:'unten ausfüllen'};}}
   ]}
 ];
 
@@ -198,6 +261,198 @@ async function fuehreAus(gi,ii){
     b.className='cmd err';s.textContent='✗ '+m.slice(0,60);toast('Fehler: '+m);
   }
   clearInterval(iv);
+}
+
+// ── Schnittstelle zum Skript "Verwaltung" (Besetzung, Teilnahmebestätigung) ──
+var API_URL='https://script.google.com/macros/s/AKfycbymA96R24z5bPQLX85_5e7gk8eaOD2FjDOjT04Uy3_aaBtZRDG7ic4KwXpA3GNQZzLFBA/exec';
+function api(action,payload){
+  var c=cred();
+  return fetch(API_URL,{method:'POST',body:JSON.stringify(Object.assign({action:action,nutzer:c.nutzer,pwHash:c.pwHash},payload||{}))})
+    .then(function(r){return r.json();})
+    .then(function(d){if(d&&d.auth){toast('Bitte neu anmelden.');setTimeout(logout,900);}return d;});
+}
+function fehlerText(d){return (d&&(d.error||d.fehler))||'Unbekannter Fehler';}
+function zeigePanel(id){$(id).style.display='block';$(id).scrollIntoView({behavior:'smooth'});}
+
+// ── Besetzung eintragen ──
+var BS=null,BSP={eintraege:{},hatPos:false,posListe:[]},BSSEL=null;
+async function bsOeffnen(){
+  zeigePanel('bswrap');
+  if(BS)return;
+  $('bsl').innerHTML='<div class="foot">Lade Personen …</div>';
+  try{
+    var d=await api('besetzungInit');
+    if(!d.ok){toast(fehlerText(d));return;}
+    BS=d.data;
+    $('bsst').innerHTML='<option value="">– kein Eintrag / leeren –</option>'+BS.statusListe.map(function(x){return '<option>'+esc(x)+'</option>';}).join('');
+    bsProjekte();
+    var ins={};BS.personen.forEach(function(p){if(p.i)ins[p.i]=1;});
+    $('bsi').innerHTML='<option value="">alle Instrumente</option>'+Object.keys(ins).sort(function(a,b){return a.localeCompare(b,'de');}).map(function(x){return '<option>'+esc(x)+'</option>';}).join('');
+    bsListe();
+  }catch(e){toast('Fehler: '+e.message);}
+}
+function bsProjekte(){
+  var alle=$('bsalt').checked,alt=$('bsp').value;
+  $('bsp').innerHTML='<option value="">– Projekt wählen –</option>'+BS.projekte.filter(function(p){return alle||!p.alt;}).map(function(p){return '<option>'+esc(p.name)+'</option>';}).join('');
+  if(alt)$('bsp').value=alt;
+}
+async function bsLadeProjekt(){
+  var pr=$('bsp').value;
+  if(!pr){BSP={eintraege:{},hatPos:false,posListe:[]};bsListe();bsKarte();return;}
+  try{
+    var d=await api('besetzungProjekt',{projekt:pr});
+    if(!d.ok){toast(fehlerText(d));return;}
+    BSP=d.data;
+    $('bsposl').innerHTML=(BSP.posListe||[]).map(function(x){return '<option value="'+esc(x)+'">';}).join('');
+    bsListe();bsKarte();
+  }catch(e){toast('Fehler: '+e.message);}
+}
+function bsMark(p){var e=BSP.eintraege[p.z];if(!e)return '';var t=e[0]||'';if(e[1])t+=(t?', ':'')+e[1];return t?' → '+t:'';}
+function bsListe(){
+  if(!BS)return;
+  var ins=$('bsi').value,q=$('bsq').value.trim().toLowerCase();
+  var l=BS.personen.filter(function(p){return (!ins||p.i===ins)&&(!q||p.n.toLowerCase().indexOf(q)>=0);}).sort(function(a,b){return a.n.localeCompare(b.n,'de');});
+  $('bsz').textContent='('+l.length+' von '+BS.personen.length+')';
+  $('bsl').innerHTML=l.slice(0,80).map(function(p){
+    return '<button class="'+(BSSEL&&BSSEL.z===p.z?'on':'')+'" onclick="bsWaehle('+p.z+')">'+esc(p.n)+' <small>'+esc(p.i)+esc(bsMark(p))+'</small></button>';
+  }).join('')+(l.length>80?'<div class="foot">Weitere mit Suche eingrenzen …</div>':'');
+}
+function bsWaehle(z){BSSEL=BS.personen.filter(function(p){return p.z===z;})[0]||null;bsListe();bsKarte();}
+function bsKarte(){
+  var p=BSSEL;
+  if(!p){$('bskarte').style.display='none';return;}
+  $('bskarte').style.display='block';
+  $('bskn').textContent=p.n+(p.m?' ('+p.m+')':'');
+  $('bski').textContent=[p.i,p.a,p.f?('FS '+p.f):'',p.t?('Projekte gesamt: '+p.t):''].filter(Boolean).join(' · ');
+  var e=BSP.eintraege[p.z]||['',''];
+  $('bsst').value=e[0]||'';if($('bsst').value!==(e[0]||''))$('bsst').value='';
+  $('bspos').value=e[1]||'';
+  $('bspw').style.display=BSP.hatPos?'':'none';
+  $('bssave').disabled=!$('bsp').value;
+}
+async function bsSpeichern(){
+  var pr=$('bsp').value,p=BSSEL;
+  if(!pr){toast('Bitte oben ein Projekt wählen.');return;}
+  if(!p)return;
+  var st=$('bsst').value,pos=BSP.hatPos?$('bspos').value.trim():'';
+  var mail=$('bsmail').checked?{anrede:$('bsan').value}:null;
+  if(mail&&!st){toast('Für die Bestätigungsmail bitte einen Status wählen.');return;}
+  var b=$('bssave');b.disabled=true;
+  try{
+    var d=await api('besetzungSpeichern',{projekt:pr,zeile:p.z,name:p.n,status:st,pos:pos,mail:mail});
+    if(!d.ok){toast(fehlerText(d));}
+    else{
+      if(st||pos)BSP.eintraege[p.z]=[st,pos];else delete BSP.eintraege[p.z];
+      if(d.gesamt!==undefined&&d.gesamt!==''){p.t=d.gesamt;}
+      var m='Gespeichert: '+p.n+' → '+(st||'(leer)')+(pos?', '+pos:'');
+      if(d.mail){m+=d.mail.gesendet?' – Mail gesendet':' – Mail NICHT gesendet: '+d.mail.fehler;if(d.mail.gesendet)$('bsmail').checked=false;}
+      toast(m);bsListe();bsKarte();
+    }
+  }catch(e){toast('Fehler: '+e.message);}
+  b.disabled=false;
+}
+async function bsPortal(){
+  var pr=$('bsp').value;
+  if(!pr){toast('Bitte oben zuerst ein Projekt wählen.');return;}
+  toast('Aktualisiere die Teilnehmerliste im Portal …');
+  try{
+    var d=await getJson(WEB_APP_URL+'?action=teilnehmerSync&spalte='+encodeURIComponent(pr));
+    toast(d&&d.ok?'Im Portal aktualisiert: '+d.projekt:fehlerText(d));
+  }catch(e){toast('Fehler: '+e.message);}
+}
+
+// ── Teilnahmebestätigung ──
+var TBP=null,TBDOC=null,TBVA={vorname:'',text:''},TBSEM=null;
+function tbOeffnen(){zeigePanel('tbwrap');}
+async function tbSuchen(){
+  var q=$('tbq').value.trim();
+  if(!q){toast('Bitte einen Namen eingeben.');return;}
+  try{
+    var d=await api('tbSuche',{query:q});
+    if(!d.ok){toast(fehlerText(d));return;}
+    var l=d.data||[];$('tbl').style.display='block';
+    $('tbl').innerHTML=l.length?l.map(function(p,i){return '<button onclick="tbWaehle('+i+')">'+esc(p.vorname+' '+p.nachname)+' <small>'+esc(p.mtknr)+'</small></button>';}).join(''):'<div class="foot">Keine Treffer. Unten manuell eingeben.</div>';
+    window._tbTreffer=l;
+  }catch(e){toast('Fehler: '+e.message);}
+}
+function tbWaehle(i){TBP=window._tbTreffer[i];$('tbsel').textContent='Gewählt: '+TBP.vorname+' '+TBP.nachname;$('tbman').checked=false;$('tbmp').style.display='none';$('tbl').style.display='none';}
+function tbPayload(){
+  var sem=[];
+  if($('tbsm').checked)document.querySelectorAll('#tbsemw input:checked').forEach(function(cb){sem.push(cb.value);});
+  var man=$('tbman').checked;
+  return {zeile:man?null:(TBP&&TBP.zeile),vorname:$('tbvn').value.trim(),nachname:$('tbnn').value.trim(),email:$('tbem').value.trim(),
+    modusManuell:$('tbsm').checked,manuelleSemester:sem,manuelleWeitere:$('tbwp').value};
+}
+function tbPruefePerson(){
+  if($('tbman').checked){if(!$('tbvn').value.trim()&&!$('tbnn').value.trim()){toast('Bitte Vor- und Nachname angeben.');return false;}return true;}
+  if(!TBP){toast('Bitte zuerst eine Person suchen und wählen.');return false;}
+  return true;
+}
+async function tbVoranfrage(){
+  if(!tbPruefePerson())return;
+  var b=$('tbvab');b.disabled=true;b.textContent='Lade …';
+  try{
+    var d=await api('tbVoranfrageDaten',tbPayload());
+    if(!d.ok){toast(fehlerText(d));}
+    else{TBVA={vorname:d.vorname,text:d.uebersicht};$('vaem').value=d.email||'';$('vabt').value='Teilnahmebestätigung HfMT – bitte Projekte prüfen';$('tbva').style.display='block';tbVaText();$('tbva').scrollIntoView({behavior:'smooth'});}
+  }catch(e){toast('Fehler: '+e.message);}
+  b.disabled=false;b.textContent='1. Voranfrage';
+}
+function tbVaText(){
+  var NL='\n';
+  $('vatx').value=$('vaan').value+' '+TBVA.vorname+','+NL+NL
+   +'vielen Dank für Ihre Anfrage. Damit die Teilnahmebestätigung vollständig ist, habe ich zuerst die Projekte sowie die Blattspiel- und Repertoireproben zusammengestellt, die bei mir für Sie erfasst sind:'+NL+NL
+   +TBVA.text+NL+NL
+   +'Sind damit alle Projekte und Proben erfasst, für die Sie eine Bestätigung brauchen? Falls etwas fehlt, schreiben Sie mir bitte kurz, was (mit Semester) noch fehlt.'+NL+NL
+   +'Diese Bestätigung von mir reicht aus. Die gelben Zettel müssen nicht alle einzeln von mir handschriftlich unterschrieben werden.'+NL+NL
+   +'Viele Grüße'+NL+'Thomas Dorsch';
+}
+async function tbVaSenden(){
+  var em=$('vaem').value.trim();
+  if(!em){toast('Keine E-Mail-Adresse angegeben.');return;}
+  if(!confirm('Voranfrage an '+em+' senden?'))return;
+  var b=$('vasend');b.disabled=true;
+  try{var d=await api('tbVoranfrageSenden',{email:em,betreff:$('vabt').value.trim(),mailtext:$('vatx').value});toast(d.ok?'Voranfrage gesendet ✓':fehlerText(d));}
+  catch(e){toast('Fehler: '+e.message);}
+  b.disabled=false;
+}
+async function tbErstellen(){
+  if(!tbPruefePerson())return;
+  var b=$('tbeb');b.disabled=true;b.textContent='Erstelle …';
+  try{
+    var d=await api('tbErstellen',tbPayload());
+    if(!d.ok){toast(fehlerText(d));}
+    else{
+      TBDOC=d.docId;
+      $('tbub').textContent=d.uebersicht||'';$('tbdoc').href=d.docUrl;
+      $('bsem').value=d.email||'';$('bsbt').value='Bescheinigung über eine Teilnahme – HfMT Hamburg';
+      $('bstx').value='Liebe/r Studierende/r,\n\nanbei erhalten Sie Ihre Bescheinigung über die Teilnahme an den Projekten und an den Blattspiel- und Repertoireproben des Hochschulorchesters. Sie enthält folgende Angaben:\n\n'+(d.uebersicht||'')+'\n\nMit freundlichen Grüßen\nThomas Dorsch';
+      $('tbbs').style.display='block';$('tbbs').scrollIntoView({behavior:'smooth'});
+    }
+  }catch(e){toast('Fehler: '+e.message);}
+  b.disabled=false;b.textContent='2. Bescheinigung erstellen';
+}
+async function tbSenden(){
+  var em=$('bsem').value.trim();
+  if(!TBDOC){toast('Zuerst die Bescheinigung erstellen.');return;}
+  if(!em){toast('Keine E-Mail-Adresse angegeben.');return;}
+  if(!confirm('Bescheinigung als PDF an '+em+' senden?'))return;
+  var b=$('bssend');b.disabled=true;
+  try{var d=await api('tbSenden',{docId:TBDOC,email:em,betreff:$('bsbt').value.trim(),mailtext:$('bstx').value});toast(d.ok?'Bescheinigung gesendet ✓':fehlerText(d));}
+  catch(e){toast('Fehler: '+e.message);}
+  b.disabled=false;
+}
+async function tbSemesterLaden(){
+  if(TBSEM)return;
+  var d=await api('tbSemester');
+  if(d.ok){TBSEM=d.data;$('tbsemw').innerHTML='<div class="semg">'+TBSEM.map(function(x){return '<label><input type="checkbox" value="'+esc(x)+'"> '+esc(x)+'</label>';}).join('')+'</div>';}
+}
+function verdrahte(){
+  $('bsp').onchange=bsLadeProjekt;$('bsalt').onchange=bsProjekte;$('bsi').onchange=bsListe;$('bsq').oninput=bsListe;
+  $('bsmail').onchange=function(){$('bsmo').style.display=this.checked?'':'none';};
+  $('tbman').onchange=function(){$('tbmp').style.display=this.checked?'':'none';};
+  $('tbsm').onchange=function(){$('tbsemw').style.display=this.checked?'':'none';if(this.checked)tbSemesterLaden();};
+  $('tbq').onkeydown=function(e){if(e.key==='Enter')tbSuchen();};
 }
 
 // ── Krankmeldung (gleiche Backend-Aktion wie Voll-Portal: krankmeldungSpeichern) ──
@@ -278,7 +533,7 @@ async function hwSpeichern(){
 }
 
 // ── Start ─────────────────────────────────────────────────────────
-function start(){$('gate').style.display='none';$('app').style.display='block';zeichneBefehle();}
+function start(){$('gate').style.display='none';$('app').style.display='block';zeichneBefehle();verdrahte();}
 if(localStorage.getItem('hsoIntern_authed')==='1'&&cred().pwHash){start();}else{$('gate').style.display='block';}
 </script>
 </body>
