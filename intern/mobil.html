@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1a4b8c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="HSO mobil">
+<link rel="icon" href="https://hfmt-hso.github.io/icon-192.png">
+<link rel="apple-touch-icon" href="https://hfmt-hso.github.io/icon-192.png">
+<title>HSO mobil</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0f0f14;--ink3:#4a4a5e;--paper:#f7f6f2;--paper2:#eeece6;--blue:#1a4b8c;--blue-bg:#eef3fb;--green:#1e6b3a;--green-bg:#e8f4ed;--red:#9b2335;--red-bg:#fbeaed;--gold2:#8a6e1f;--gold-bg:#fdf8ee;--border:#dddad0;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+@media(prefers-color-scheme:dark){:root{--ink:#f1f0ec;--ink3:#b4b2aa;--paper:#15151a;--paper2:#1f1f26;--blue:#6ea3e8;--blue-bg:#1d2a40;--green:#6fcf97;--green-bg:#17301f;--red:#ff8a9a;--red-bg:#3a1a20;--gold2:#e0c068;--gold-bg:#2d2815;--border:#34343e}}
+html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:16px;-webkit-text-size-adjust:100%}
+body{padding:env(safe-area-inset-top) 14px calc(24px + env(safe-area-inset-bottom));max-width:560px;margin:0 auto}
+header{display:flex;align-items:center;gap:10px;padding:16px 2px 10px}
+header img{width:30px;height:30px;border-radius:7px}
+header h1{font-size:18px;font-weight:800;letter-spacing:.2px;flex:1}
+header a,header button.lo{font-size:12px;color:var(--ink3);background:none;border:none;text-decoration:underline;cursor:pointer;font-family:inherit}
+h2{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);margin:20px 2px 8px}
+.cmd{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--paper2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:8px;font-family:inherit;color:var(--ink);font-size:16px;cursor:pointer;min-height:64px;-webkit-tap-highlight-color:transparent}
+.cmd:active{transform:scale(.99)}
+.cmd .ic{font-size:24px;width:34px;text-align:center;flex-shrink:0}
+.cmd .tx{flex:1;min-width:0}
+.cmd .tx b{display:block;font-size:15px;font-weight:700}
+.cmd .tx small{display:block;font-size:12px;color:var(--ink3);margin-top:2px}
+.cmd .st{font-size:12px;font-weight:700;flex-shrink:0;max-width:38%;text-align:right}
+.cmd.run{border-color:var(--blue);background:var(--blue-bg)}
+.cmd.run .st{color:var(--blue)}
+.cmd.ok .st{color:var(--green)}
+.cmd.err .st{color:var(--red)}
+.cmd.off{opacity:.55;cursor:default}
+.cmd.off .st{color:var(--gold2)}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--blue);border-right-color:transparent;border-radius:50%;animation:sp .8s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.linkres{display:block;margin:-2px 0 10px;padding:12px 14px;border-radius:12px;background:var(--green-bg);color:var(--green);font-weight:700;font-size:15px;text-decoration:none;text-align:center}
+.panel{background:var(--paper2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px}
+.hw{border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:10px;background:var(--paper)}
+.hw label{font-size:12px;color:var(--ink3);display:block;margin:6px 0 3px}
+.hw input[type=text],.hw input[type=date],.hw input[type=time],.hw textarea{width:100%;font-size:16px;font-family:inherit;padding:9px 10px;border:1px solid var(--border);border-radius:9px;background:var(--paper2);color:var(--ink)}
+.hw textarea{min-height:84px;resize:vertical}
+.hw .row{display:flex;align-items:center;gap:10px;margin-top:8px;justify-content:space-between}
+.btn{font-family:inherit;font-size:15px;font-weight:700;padding:11px 16px;border-radius:10px;border:1px solid var(--border);background:var(--paper);color:var(--ink);cursor:pointer}
+.btn.pri{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn:disabled{opacity:.5}
+#gate{padding-top:40px}
+#gate input{width:100%;font-size:16px;font-family:inherit;padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--paper2);color:var(--ink);margin-bottom:10px}
+#gate .btn{width:100%}
+#gate .e{color:var(--red);font-size:13px;min-height:20px;margin-top:8px}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:#222;color:#fff;padding:11px 16px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;max-width:90%;text-align:center;z-index:9}
+#toast.show{opacity:1;transform:translateX(-50%)}
+.foot{font-size:11px;color:var(--ink3);text-align:center;margin-top:22px}
+</style>
+</head>
+<body>
+
+<!-- LOGIN (teilt sich die Anmeldung mit intern/index.html: gleiche localStorage-Schlüssel) -->
+<div id="gate" style="display:none">
+  <header style="padding-top:0"><img src="https://hfmt-hso.github.io/icon-192.png" alt=""><h1>HSO mobil</h1></header>
+  <input id="u" type="text" placeholder="Nutzername / Matrikelnr." autocomplete="username" autocapitalize="off">
+  <input id="p" type="password" placeholder="Passwort" autocomplete="current-password">
+  <button class="btn pri" id="gbtn" onclick="login()">Anmelden</button>
+  <div class="e" id="ge"></div>
+</div>
+
+<div id="app" style="display:none">
+  <header>
+    <img src="https://hfmt-hso.github.io/icon-192.png" alt="">
+    <h1>HSO mobil</h1>
+    <a href="index.html">Voll-Portal</a>
+    <button class="lo" onclick="logout()">Abmelden</button>
+  </header>
+  <div id="liste"></div>
+
+  <div id="krwrap" style="display:none">
+    <h2>Krankmeldung eintragen</h2>
+    <div class="hw">
+      <label>Person</label><select id="krp" style="width:100%;font-size:16px;font-family:inherit;padding:9px 10px;border:1px solid var(--border);border-radius:9px;background:var(--paper2);color:var(--ink)"><option value="">Liste wird geladen …</option></select>
+      <label>Von</label><div style="display:flex;gap:6px"><input type="date" id="krv" style="flex:1"><input type="time" id="krvz" value="08:00" style="width:110px"></div>
+      <label>Bis</label><div style="display:flex;gap:6px"><input type="date" id="krb" style="flex:1"><input type="time" id="krbz" value="22:00" style="width:110px"></div>
+      <label>Notiz (optional, keine Diagnose)</label><input type="text" id="krn" placeholder="z. B. per Mail gemeldet">
+      <div class="row"><span></span><button class="btn pri" id="krbtn" onclick="krSpeichern()">Eintragen</button></div>
+    </div>
+  </div>
+
+  <div id="hwwrap" style="display:none">
+    <h2>Hinweise Studierendenportal</h2>
+    <div id="hwliste"></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" onclick="hwNeu()">+ Hinweis</button>
+      <button class="btn pri" id="hwbtn" onclick="hwSpeichern()" style="flex:1">Speichern</button>
+    </div>
+    <div class="foot" id="hwinfo"></div>
+  </div>
+  <div class="foot">Neue Befehle werden in <code>BEFEHLE</code> (unten im Quelltext) eingetragen.</div>
+</div>
+<div id="toast"></div>
+
+<script>
+// ── Backend-URLs (identisch zu intern/index.html) ─────────────────
+var WEB_APP_URL='https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
+var PDF_WEB_APP_URL='https://script.google.com/macros/s/AKfycbzJm7FzVsFlwmC6plNqsX6zYzJhJJnfgmScpV-g16vAgThSXCBe3ietVQHEthLYCP32tg/exec';
+var BACKUP_WEB_APP_URL='https://script.google.com/macros/s/AKfycbx2xyv2s3BMGz12EH8LIcHT_iWuVn4JWnxlw-3NVJ5LjkaCrwQbRckOtJsKov0XepoIWw/exec';
+
+// ── Hilfen ────────────────────────────────────────────────────────
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(function(){t.classList.remove('show');},2800);}
+async function getJson(url){var r=await fetch(url);return r.json();}
+
+// ── Login ─────────────────────────────────────────────────────────
+function cred(){try{return JSON.parse(localStorage.getItem('hsoIntern_cred')||'null')||{};}catch(e){return {};}}
+async function hashStr(s){var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0');}).join('');}
+async function login(){
+  var u=$('u').value.trim(),p=$('p').value,e=$('ge'),b=$('gbtn');e.textContent='';
+  if(!u||!p){e.textContent='Bitte beides ausfüllen.';return;}
+  b.disabled=true;b.textContent='Prüfe …';
+  try{
+    var h=await hashStr(p);
+    var d=await getJson(WEB_APP_URL+'?action=studentLogin&mtknr='+encodeURIComponent(u)+'&pwHash='+encodeURIComponent(h));
+    if(d&&d.ok){
+      if(d.student&&d.student.erstanmeldung){e.textContent='Erstanmeldung bitte einmal im Voll-Portal abschließen.';}
+      else{localStorage.setItem('hsoIntern_cred',JSON.stringify({nutzer:u,pwHash:h}));localStorage.setItem('hsoIntern_authed','1');start();return;}
+    }else e.textContent=(d&&d.error)||'Login fehlgeschlagen.';
+  }catch(x){e.textContent='Verbindungsfehler.';}
+  b.disabled=false;b.textContent='Anmelden';
+}
+function logout(){localStorage.removeItem('hsoIntern_authed');localStorage.removeItem('hsoIntern_cred');location.reload();}
+
+// ── BEFEHLE: hier weitere Einträge ergänzen ───────────────────────
+// run(): async Funktion, gibt {ok:true, text?:'Kurzstatus', url?:'Ergebnis-Link'} zurück oder wirft einen Fehler.
+// off:'Grund' sperrt den Button (Backend noch nicht angebunden).
+function etappe(url){return getJson(url);}
+var BEFEHLE=[
+  {gruppe:'Probe & Plan',items:[
+    {icon:'📄',titel:'PDF für nächste Probe',sub:'erzeugt den Probenplan als PDF',run:async function(){
+      var d=await getJson(PDF_WEB_APP_URL+'?action=pdfNaechste');
+      if(!d.ok)throw new Error(d.error||'?');return {ok:true,text:'PDF fertig',url:d.url,urlText:'📄 PDF öffnen'};}},
+    {icon:'🗓',titel:'Probenplan sync',sub:'alle Projekt-Docs aktualisieren (ca. 2 Min.)',run:async function(){
+      var d=await getJson(WEB_APP_URL+'?action=probenplanSyncJetzt');
+      if(!d.ok)throw new Error(d.error||'?');return {ok:true,text:d.fertig?'fertig':'läuft in Etappen weiter'};}},
+    {icon:'🔃',titel:'Aktualisieren & veröffentlichen',sub:'Kalender → Portal (ca. 1–2 Min.)',run:async function(){
+      var d=await getJson(WEB_APP_URL+'?action=jsonSyncJetzt');
+      if(!d.ok)throw new Error(d.error||'?');return {ok:true,text:'veröffentlicht'};}},
+    {icon:'⚡',titel:'Alles: sync, veröffentlichen, sync',sub:'der Dreifach-Button (ca. 5 Min.)',run:async function(set){
+      set('1/3 Probenplan …');var a=await getJson(WEB_APP_URL+'?action=probenplanSyncJetzt');
+      if(!a.ok)throw new Error('1/3: '+(a.error||'?'));if(!a.fertig)return {ok:true,text:'Etappen – später erneut starten'};
+      set('2/3 Veröffentlichen …');var b=await getJson(WEB_APP_URL+'?action=jsonSyncJetzt');
+      if(!b.ok)throw new Error('2/3: '+(b.error||'?'));
+      set('3/3 Probenplan …');var c=await getJson(WEB_APP_URL+'?action=probenplanSyncJetzt');
+      if(!c.ok)throw new Error('3/3: '+(c.error||'?'));return {ok:true,text:c.fertig?'alles fertig':'Etappen laufen weiter'};}}
+  ]},
+  {gruppe:'Studierende',items:[
+    {icon:'🤒',titel:'Krankmeldung eintragen',sub:'Person, Zeitraum, Notiz',run:async function(){krOeffnen();return {ok:true,text:'unten ausfüllen'};}},
+    {icon:'📢',titel:'Hinweis auf dem Studierendenportal',sub:'Banner anlegen, ändern, löschen',run:async function(){hwOeffnen();return {ok:true,text:'unten bearbeiten'};}}
+  ]},
+  {gruppe:'HfMT_HSO-Tabelle',items:[
+    {icon:'🧾',titel:'Teilnahmebestätigung',sub:'aus Teilnahmebestaetigung.gs',off:'Backend folgt'},
+    {icon:'🎻',titel:'Besetzung eintragen (Maske)',sub:'Einteilung in HfMT_HSO',off:'Backend folgt'}
+  ]}
+];
+
+// ── Rendering & Ausführung ────────────────────────────────────────
+function zeichneBefehle(){
+  var h='';
+  BEFEHLE.forEach(function(g,gi){
+    h+='<h2>'+esc(g.gruppe)+'</h2>';
+    g.items.forEach(function(it,ii){
+      var id='c_'+gi+'_'+ii;
+      h+='<button class="cmd'+(it.off?' off':'')+'" id="'+id+'" onclick="fuehreAus('+gi+','+ii+')">'
+        +'<span class="ic">'+it.icon+'</span><span class="tx"><b>'+esc(it.titel)+'</b><small>'+esc(it.sub||'')+'</small></span>'
+        +'<span class="st" id="'+id+'_s">'+(it.off?esc(it.off):'')+'</span></button><div id="'+id+'_r"></div>';
+    });
+  });
+  $('liste').innerHTML=h;
+}
+async function fuehreAus(gi,ii){
+  var it=BEFEHLE[gi].items[ii],id='c_'+gi+'_'+ii,b=$(id),s=$(id+'_s'),r=$(id+'_r');
+  if(it.off){toast(it.titel+': '+it.off);return;}
+  if(b.classList.contains('run'))return;
+  b.className='cmd run';r.innerHTML='';
+  var t0=Date.now();
+  var set=function(t){s.innerHTML='<span class="spin"></span>'+esc(t);};
+  set('läuft …');
+  var iv=setInterval(function(){if(!b.classList.contains('run')){clearInterval(iv);return;}
+    if(!set.t)s.innerHTML='<span class="spin"></span>'+Math.round((Date.now()-t0)/1000)+' s';},1000);
+  var setX=function(t){set.t=t;set(t);};
+  try{
+    var res=await it.run(setX);
+    b.className='cmd ok';s.textContent='✓ '+(res.text||'fertig');
+    if(res.url)r.innerHTML='<a class="linkres" target="_blank" rel="noopener" href="'+esc(res.url)+'">'+esc(res.urlText||'Öffnen')+'</a>';
+    toast(it.titel+' ✓');
+  }catch(e){
+    var m=String(e&&e.message||e);
+    if(/auth|berechtigt/i.test(m)){m='Bitte neu anmelden';}
+    b.className='cmd err';s.textContent='✗ '+m.slice(0,60);toast('Fehler: '+m);
+  }
+  clearInterval(iv);
+}
+
+// ── Krankmeldung (gleiche Backend-Aktion wie Voll-Portal: krankmeldungSpeichern) ──
+var STUD=null;
+function post(payload){return fetch(WEB_APP_URL,{method:'POST',body:JSON.stringify(Object.assign({},cred(),payload))}).then(function(r){return r.json();}).then(function(d){if(d&&d.auth){logout();}return d;});}
+function isoHeute(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function deDatum(iso){var p=(iso||'').split('-');return p.length===3?p[2]+'.'+p[1]+'.'+p[0]:'';}
+async function krOeffnen(){
+  $('krwrap').style.display='block';$('krwrap').scrollIntoView({behavior:'smooth'});
+  if(!$('krv').value){$('krv').value=isoHeute();$('krb').value=isoHeute();}
+  if(STUD)return;
+  try{
+    var c=cred();var d=await getJson(WEB_APP_URL+'?action=studierendenListe&nutzer='+encodeURIComponent(c.nutzer||'')+'&pwHash='+encodeURIComponent(c.pwHash||''));
+    if(d&&d.auth){logout();return;}
+    if(!d.ok)throw new Error(d.error||'Liste nicht verfügbar');
+    STUD=d.data||[];
+    $('krp').innerHTML='<option value="">Person wählen …</option>'+STUD.map(function(st){return '<option value="'+esc(st.mtknr)+'">'+esc(st.name)+(st.instrument?' · '+esc(st.instrument):'')+'</option>';}).join('');
+  }catch(e){toast('Studierendenliste: '+e.message);}
+}
+async function krSpeichern(){
+  var st=(STUD||[]).find(function(x){return String(x.mtknr)===$('krp').value;});
+  if(!st){toast('Bitte eine Person wählen');return;}
+  if(!$('krv').value||!$('krb').value){toast('Bitte Datum angeben');return;}
+  if($('krb').value<$('krv').value){toast('„Bis“ liegt vor „Von“');return;}
+  var b=$('krbtn');b.disabled=true;
+  try{
+    var d=await post({action:'krankmeldungSpeichern',mtknr:st.mtknr,name:st.name,gesehenVon:'Thomas Dorsch',
+      datumVon:deDatum($('krv').value),uhrzeitVon:$('krvz').value||'08:00',datumBis:deDatum($('krb').value),uhrzeitBis:$('krbz').value||'22:00',notiz:$('krn').value.trim()});
+    if(!d.ok){toast('Fehler: '+(d.error||'?'));}
+    else{toast('✓ Krankmeldung für '+st.name+' eingetragen');$('krn').value='';$('krp').value='';}
+  }catch(e){toast('Fehler: '+e.message);}
+  b.disabled=false;
+}
+
+// ── Hinweise (hinweis.json im Repo; GitHub-Token wie im Voll-Portal) ──
+var HW=[];
+function hwOeffnen(){$('hwwrap').style.display='block';$('hwwrap').scrollIntoView({behavior:'smooth'});if(!HW.length)hwLaden();}
+function hwZeichnen(){
+  $('hwliste').innerHTML=HW.length?HW.map(function(h,i){
+    return '<div class="hw" data-i="'+i+'">'
+     +'<label>Titel</label><input type="text" class="t" value="'+esc(h.titel)+'">'
+     +'<label>Text</label><textarea class="x">'+esc(h.text)+'</textarea>'
+     +'<label>Sichtbar bis (leer = bleibt)</label><input type="date" class="b" value="'+esc(h.bis)+'">'
+     +'<div class="row"><label style="margin:0"><input type="checkbox" class="a"'+(h.aktiv?' checked':'')+'> angezeigt</label>'
+     +'<button class="btn" onclick="hwLoeschen('+i+')">Löschen</button></div></div>';
+  }).join(''):'<div class="foot">Keine Hinweise. Mit „+ Hinweis“ einen anlegen.</div>';
+}
+function hwLesen(){
+  var out=[];document.querySelectorAll('#hwliste .hw').forEach(function(el){
+    out.push({aktiv:el.querySelector('.a').checked,titel:el.querySelector('.t').value.trim()||'Achtung',text:el.querySelector('.x').value.trim(),bis:el.querySelector('.b').value});});
+  return out;
+}
+function hwNeu(){HW=hwLesen();HW.push({aktiv:true,titel:'Achtung',text:'',bis:''});hwZeichnen();}
+function hwLoeschen(i){HW=hwLesen();HW.splice(i,1);hwZeichnen();}
+async function hwLaden(){
+  try{var r=await fetch('../hinweis.json?t='+Date.now(),{cache:'no-store'});var j=await r.json();
+    HW=(Array.isArray(j.hinweise)?j.hinweise:(j&&j.text?[j]:[])).map(function(h){return {aktiv:h.aktiv!==false,titel:h.titel||'Achtung',text:h.text||'',bis:h.bis||''};});
+  }catch(e){HW=[];}
+  hwZeichnen();
+}
+async function hwSpeichern(){
+  var tok=localStorage.getItem('mlGithubToken');
+  if(!tok){toast('GitHub-Token fehlt: einmal im Voll-Portal unter „Meine Links“ hinterlegen.');return;}
+  HW=hwLesen();
+  if(HW.some(function(h){return h.aktiv&&!h.text;})){toast('Bitte bei jedem angezeigten Hinweis einen Text eingeben.');return;}
+  HW.sort(function(a,b){return (a.bis||'9999').localeCompare(b.bis||'9999');});hwZeichnen();
+  var api='https://api.github.com/repos/hfmt-hso/hfmt-hso.github.io/contents/hinweis.json';
+  var hd={'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json'},btn=$('hwbtn');btn.disabled=true;
+  try{
+    var g=await fetch(api+'?ref=main&t='+Date.now(),{headers:hd});var sha=g.ok?(await g.json()).sha:undefined;
+    var body={message:'Hinweise aktualisiert ('+HW.length+') [mobil]',content:btoa(unescape(encodeURIComponent(JSON.stringify({hinweise:HW},null,2)+'\n'))),branch:'main'};
+    if(sha)body.sha=sha;
+    var p=await fetch(api,{method:'PUT',headers:hd,body:JSON.stringify(body)});
+    if(!p.ok)throw new Error('HTTP '+p.status);
+    toast('Hinweise gespeichert ✓ (nach 1–2 Min. im Portal)');$('hwinfo').textContent='Zuletzt gespeichert: '+new Date().toLocaleTimeString('de-DE');
+  }catch(e){toast('Fehler: '+e.message);}
+  btn.disabled=false;
+}
+
+// ── Start ─────────────────────────────────────────────────────────
+function start(){$('gate').style.display='none';$('app').style.display='block';zeichneBefehle();}
+if(localStorage.getItem('hsoIntern_authed')==='1'&&cred().pwHash){start();}else{$('gate').style.display='block';}
+</script>
+</body>
+</html>
