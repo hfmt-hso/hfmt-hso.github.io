@@ -60,6 +60,8 @@ h2{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;co
 .hw input[type=checkbox]{width:auto}
 #toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:#222;color:#fff;padding:11px 16px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;max-width:90%;text-align:center;z-index:9}
 #toast.show{opacity:1;transform:translateX(-50%)}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ph .x{font-family:inherit;font-size:11px;font-weight:700;letter-spacing:.3px;text-transform:none;color:var(--ink3);background:none;border:1px solid var(--border);border-radius:8px;padding:4px 9px;cursor:pointer}
 .foot{font-size:11px;color:var(--ink3);text-align:center;margin-top:22px}
 </style>
 </head>
@@ -84,7 +86,7 @@ h2{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;co
   <div id="liste"></div>
 
   <div id="bswrap" style="display:none">
-    <h2>Besetzung eintragen</h2>
+    <h2 class="ph">Besetzung eintragen<button class="x" onclick="panelZu('bswrap')">▲ zuklappen</button></h2>
     <div class="hw">
       <label>Projekt</label><select id="bsp" class="sel"></select>
       <label class="chkl"><input type="checkbox" id="bsalt"> auch ältere Projekte</label>
@@ -105,7 +107,7 @@ h2{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;co
   </div>
 
   <div id="tbwrap" style="display:none">
-    <h2>Teilnahmebestätigung</h2>
+    <h2 class="ph">Teilnahmebestätigung<button class="x" onclick="panelZu('tbwrap')">▲ zuklappen</button></h2>
     <div class="hw">
       <label>Name suchen</label>
       <div style="display:flex;gap:6px"><input type="text" id="tbq" placeholder="Vor- oder Nachname"><button class="btn" onclick="tbSuchen()">Suchen</button></div>
@@ -138,7 +140,7 @@ h2{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;co
   </div>
 
   <div id="krwrap" style="display:none">
-    <h2>Krankmeldung eintragen</h2>
+    <h2 class="ph">Krankmeldung eintragen<button class="x" onclick="panelZu('krwrap')">▲ zuklappen</button></h2>
     <div class="hw">
       <label>Person</label><select id="krp" style="width:100%;font-size:16px;font-family:inherit;padding:9px 10px;border:1px solid var(--border);border-radius:9px;background:var(--paper2);color:var(--ink)"><option value="">Liste wird geladen …</option></select>
       <label>Von</label><div style="display:flex;gap:6px"><input type="date" id="krv" style="flex:1"><input type="time" id="krvz" value="08:00" style="width:110px"></div>
@@ -149,7 +151,7 @@ h2{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;co
   </div>
 
   <div id="hwwrap" style="display:none">
-    <h2>Hinweise Studierendenportal</h2>
+    <h2 class="ph">Hinweise Studierendenportal<button class="x" onclick="panelZu('hwwrap')">▲ zuklappen</button></h2>
     <div id="hwliste"></div>
     <div style="display:flex;gap:8px">
       <button class="btn" onclick="hwNeu()">+ Hinweis</button>
@@ -216,12 +218,12 @@ var BEFEHLE=[
       if(!c.ok)throw new Error('3/3: '+(c.error||'?'));return {ok:true,text:c.fertig?'alles fertig':'Etappen laufen weiter'};}}
   ]},
   {gruppe:'Studierende',items:[
-    {icon:'🤒',titel:'Krankmeldung eintragen',sub:'Person, Zeitraum, Notiz',run:async function(){krOeffnen();return {ok:true,text:'unten ausfüllen'};}},
-    {icon:'📢',titel:'Hinweis auf dem Studierendenportal',sub:'Banner anlegen, ändern, löschen',run:async function(){hwOeffnen();return {ok:true,text:'unten bearbeiten'};}}
+    {icon:'🤒',titel:'Krankmeldung eintragen',sub:'Person, Zeitraum, Notiz',panel:'krwrap',run:async function(){krOeffnen();return {ok:true,text:'offen · erneut tippen = zu'};}},
+    {icon:'📢',titel:'Hinweis auf dem Studierendenportal',sub:'Banner anlegen, ändern, löschen',panel:'hwwrap',run:async function(){hwOeffnen();return {ok:true,text:'offen · erneut tippen = zu'};}}
   ]},
   {gruppe:'HfMT_HSO-Tabelle',items:[
-    {icon:'🧾',titel:'Teilnahmebestätigung',sub:'Voranfrage, Bescheinigung, Mailversand',run:async function(){tbOeffnen();return {ok:true,text:'unten ausfüllen'};}},
-    {icon:'🎻',titel:'Besetzung eintragen (Maske)',sub:'Status und Position in der Einteilung',run:async function(){await bsOeffnen();return {ok:true,text:'unten ausfüllen'};}}
+    {icon:'🧾',titel:'Teilnahmebestätigung',sub:'Voranfrage, Bescheinigung, Mailversand',panel:'tbwrap',run:async function(){tbOeffnen();return {ok:true,text:'offen · erneut tippen = zu'};}},
+    {icon:'🎻',titel:'Besetzung eintragen (Maske)',sub:'Status und Position in der Einteilung',panel:'bswrap',run:async function(){await bsOeffnen();return {ok:true,text:'offen · erneut tippen = zu'};}}
   ]}
 ];
 
@@ -243,6 +245,7 @@ async function fuehreAus(gi,ii){
   var it=BEFEHLE[gi].items[ii],id='c_'+gi+'_'+ii,b=$(id),s=$(id+'_s'),r=$(id+'_r');
   if(it.off){toast(it.titel+': '+it.off);return;}
   if(b.classList.contains('run'))return;
+  if(it.panel&&$(it.panel).style.display==='block'){panelZu(it.panel);return;}
   b.className='cmd run';r.innerHTML='';
   var t0=Date.now();
   var set=function(t){s.innerHTML='<span class="spin"></span>'+esc(t);};
@@ -272,6 +275,12 @@ function api(action,payload){
     .then(function(d){if(d&&d.auth){toast('Bitte neu anmelden.');setTimeout(logout,900);}return d;});
 }
 function fehlerText(d){return (d&&(d.error||d.fehler))||'Unbekannter Fehler';}
+function panelZu(id){
+  $(id).style.display='none';
+  BEFEHLE.forEach(function(g,gi){g.items.forEach(function(it,ii){
+    if(it.panel===id){var b=$('c_'+gi+'_'+ii);if(b&&!b.classList.contains('run')){b.className='cmd';$('c_'+gi+'_'+ii+'_s').textContent='';}}
+  });});
+}
 function zeigePanel(id){$(id).style.display='block';$(id).scrollIntoView({behavior:'smooth'});}
 
 // ── Besetzung eintragen ──
