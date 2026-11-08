@@ -48,6 +48,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .loading{text-align:center;padding:24px;color:var(--text-muted);font-size:13px}
 .hint-card{background:var(--blue-light);color:var(--blue);border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.5;margin-bottom:14px}
 
+/* ── ÄNDERUNGSMAIL MANUELL AUSLÖSEN ── */
+.aend-card{background:var(--card-bg);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.aend-text{flex:1;min-width:0;font-size:12px;line-height:1.5;color:var(--text-muted)}
+.aend-text strong{display:block;font-size:13px;color:var(--text)}
+.aend-status{display:block;margin-top:4px}
+.aend-status.ok{color:var(--green)}
+.aend-status.fehler{color:var(--amber)}
+.aend-btn{flex-shrink:0;font-family:inherit;font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;border:1px solid var(--blue);background:var(--blue-light);color:var(--blue);cursor:pointer}
+.aend-btn.bestaetigen{background:var(--blue);color:#fff}
+.aend-btn:disabled{opacity:.6;cursor:default}
+
 /* ── PROJEKT-KARTEN (wie öffentliches Portal) ── */
 .proj-card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);overflow:hidden;margin-bottom:8px}
 .proj-header{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer}
@@ -109,6 +120,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <div class="content">
   <div class="hint-card">Diese Übersicht zeigt die Konzertprogramme für die Website, gruppiert nach Projekt. Bei Änderungen an Vorstellungen werden Benachrichtigungen verschickt. Das Programmheft mit Biografien wird automatisch 10 Werktage vor jeder Vorstellung als Mail-Entwurf ans Öffentlichkeitsarbeit-Team vorbereitet. Bildmaterial unter <a href="https://e.pcloud.link/publink/show?code=kZa27wZLxPrckpm81VYe0RRQu9mFSPJvfok" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">diesem Link</a>.</div>
+  <div class="aend-card">
+    <div class="aend-text">
+      <strong>Änderungsmail</strong>
+      Wird sonst einmal täglich verschickt. Prüft den Kalender jetzt auf Änderungen und schickt die Mail sofort – nur, wenn es etwas zu melden gibt.
+      <span class="aend-status" id="aend-status"></span>
+    </div>
+    <button class="aend-btn" id="aend-btn" onclick="aenderungsMailJetzt()">Jetzt senden</button>
+  </div>
   <div class="section-label" id="proj-label">Konzerte</div>
   <div id="projekte-liste"><div class="loading">Programme werden geladen…</div></div>
 </div>
@@ -683,6 +702,49 @@ function wechsleSj(sj){
   const url = new URL(window.location.href);
   url.searchParams.set('sj', sj);
   window.location.href = url.toString();
+}
+
+// ── ÄNDERUNGSMAIL SOFORT AUSLÖSEN (zweistufig: erst Bestätigen, dann Senden) ──
+let _aendBestaetigungTimer = null;
+async function aenderungsMailJetzt(){
+  const btn = document.getElementById('aend-btn');
+  const st  = document.getElementById('aend-status');
+  if(!btn.classList.contains('bestaetigen')){
+    btn.classList.add('bestaetigen');
+    btn.textContent = 'Wirklich senden?';
+    st.className = 'aend-status'; st.textContent = '';
+    _aendBestaetigungTimer = setTimeout(aendZuruecksetzen, 6000);
+    return;
+  }
+  clearTimeout(_aendBestaetigungTimer);
+  btn.disabled = true;
+  btn.classList.remove('bestaetigen');
+  btn.textContent = 'Läuft …';
+  st.className = 'aend-status';
+  st.textContent = 'Kalender wird geprüft – das kann bis zu 1–2 Minuten dauern.';
+  try {
+    const res = await fetch(`${WEBAPP_URL}?action=aenderungsmailJetzt`);
+    const d = await res.json();
+    if(!d.ok){
+      st.className = 'aend-status fehler';
+      st.textContent = 'Fehler: ' + (d.error || 'unbekannt');
+    } else if(d.gesendet){
+      st.className = 'aend-status ok';
+      st.textContent = '✓ Mail gesendet – ' + d.gesendet + (d.gesendet===1 ? ' Termin' : ' Termine') + '.';
+    } else {
+      st.className = 'aend-status';
+      st.textContent = 'Keine Änderungen vorhanden – es wurde keine Mail verschickt.';
+    }
+  } catch(e){
+    st.className = 'aend-status fehler';
+    st.textContent = 'Fehler: ' + e.message;
+  }
+  btn.disabled = false;
+  btn.textContent = 'Jetzt senden';
+}
+function aendZuruecksetzen(){
+  const btn = document.getElementById('aend-btn');
+  if(btn && !btn.disabled){ btn.classList.remove('bestaetigen'); btn.textContent = 'Jetzt senden'; }
 }
 
 ladeProjekteUndProgramm();
