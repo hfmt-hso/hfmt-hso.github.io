@@ -215,7 +215,13 @@ var BEFEHLE=[
       set('2/3 Veröffentlichen …');var b=await getJson(WEB_APP_URL+'?action=jsonSyncJetzt');
       if(!b.ok)throw new Error('2/3: '+(b.error||'?'));
       set('3/3 Probenplan …');var c=await getJson(WEB_APP_URL+'?action=probenplanSyncJetzt');
-      if(!c.ok)throw new Error('3/3: '+(c.error||'?'));return {ok:true,text:c.fertig?'alles fertig':'Etappen laufen weiter'};}}
+      if(!c.ok)throw new Error('3/3: '+(c.error||'?'));return {ok:true,text:c.fertig?'alles fertig':'Etappen laufen weiter'};}},
+    {icon:'✉️',titel:'Änderungsmail Vorstellungen jetzt senden',sub:'erfasst Kalenderänderungen und sendet die Sammel-Mail an die Öffentlichkeitsarbeit sofort (ca. 1 Min.)',run:async function(set){
+      if(!confirm('Änderungsmail jetzt an die Öffentlichkeitsarbeit senden?'))return {ok:true,text:'abgebrochen'};
+      set('Kalender erfassen, Mail senden …');
+      var d=await getJson(WEB_APP_URL+'?action=aenderungsmailJetzt');
+      if(!d.ok)throw new Error(d.error||'?');
+      return {ok:true,text:d.gesendet?d.gesendet+' Termin(e) gesendet':'keine Änderungen vorhanden'};}}
   ]},
   {gruppe:'Studierende',items:[
     {icon:'🤒',titel:'Krankmeldung eintragen',sub:'Person, Zeitraum, Notiz',panel:'krwrap',run:async function(){krOeffnen();return {ok:true,text:'offen · erneut tippen = zu'};}},
