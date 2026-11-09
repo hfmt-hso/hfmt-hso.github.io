@@ -159,6 +159,23 @@ h2{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;co
     </div>
     <div class="foot" id="hwinfo"></div>
   </div>
+  <div id="anwrap" style="display:none">
+    <h2 class="ph">Anwesenheit bestätigen<button class="x" onclick="panelZu('anwrap')">▲ zuklappen</button></h2>
+    <div class="hw">
+      <div id="anwprobe" style="font-weight:600;margin-bottom:4px"></div>
+      <div id="anwzaehl" class="foot" style="margin:0 0 10px"></div>
+      <div id="anwliste"></div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn" onclick="anwLaden()">↻ Aktualisieren</button>
+        <button class="btn pri" id="anwalle" onclick="anwAlle()" style="flex:1">Alle bestätigen</button>
+      </div>
+      <details style="margin-top:14px"><summary style="cursor:pointer;font-weight:600">Nachtragen (ohne Scan)</summary>
+        <label>Person</label><select id="anwnp" style="width:100%;font-size:16px;font-family:inherit;padding:9px 10px;border:1px solid var(--border);border-radius:9px;background:var(--paper2);color:var(--ink)"><option value="">Liste wird geladen …</option></select>
+        <div class="row"><span></span><button class="btn" onclick="anwNachtragen()">Als anwesend eintragen</button></div>
+      </details>
+    </div>
+  </div>
+
   <div class="foot">Neue Befehle werden in <code>BEFEHLE</code> (unten im Quelltext) eingetragen.</div>
 </div>
 <div id="toast"></div>
@@ -200,6 +217,7 @@ function logout(){localStorage.removeItem('hsoIntern_authed');localStorage.remov
 function etappe(url){return getJson(url);}
 var BEFEHLE=[
   {gruppe:'Probe & Plan',items:[
+    {icon:'✅',titel:'Anwesenheit bestätigen',sub:'wartende Einträge der laufenden Probe',panel:'anwrap',run:async function(){await anwOeffnen();return {ok:true,text:'offen · erneut tippen = zu'};}},
     {icon:'📄',titel:'PDF für nächste Probe',sub:'erzeugt den Probenplan als PDF',run:async function(){
       var d=await getJson(PDF_WEB_APP_URL+'?action=pdfNaechste');
       if(!d.ok)throw new Error(d.error||'?');return {ok:true,text:'PDF fertig',url:d.url,urlText:'📄 PDF öffnen'};}},
@@ -462,6 +480,69 @@ async function tbSemesterLaden(){
   var d=await api('tbSemester');
   if(d.ok){TBSEM=d.data;$('tbsemw').innerHTML='<div class="semg">'+TBSEM.map(function(x){return '<label><input type="checkbox" value="'+esc(x)+'"> '+esc(x)+'</label>';}).join('')+'</div>';}
 }
+
+// ── Anwesenheit bestätigen (Anwesenheits-Web-App, nur Hauptdozent-Login) ──
+var ANW={probe:'',liste:[],personen:null,timer:null};
+function anwGet(action,extra){
+  var c=cred(),u=PDF_WEB_APP_URL+'?action='+action+'&nutzer='+encodeURIComponent(c.nutzer||'')+'&pwHash='+encodeURIComponent(c.pwHash||'');
+  for(var k in (extra||{}))u+='&'+k+'='+encodeURIComponent(extra[k]);
+  return getJson(u).then(function(d){if(d&&d.auth){toast('Bitte neu anmelden');logout();}return d;});
+}
+async function anwOeffnen(){
+  zeigePanel('anwrap');
+  await anwLaden();
+  clearInterval(ANW.timer);
+  ANW.timer=setInterval(function(){if($('anwrap').style.display!=='block'){clearInterval(ANW.timer);return;}anwLaden(true);},15000);
+  if(!ANW.personen)anwPersonenLaden();
+}
+async function anwLaden(still){
+  if(!still)$('anwliste').innerHTML='<div class="foot">lädt …</div>';
+  try{
+    var d=await anwGet('anwesenheitListe');
+    if(!d.ok){$('anwliste').innerHTML='<div class="foot" style="color:#c0392b">'+esc(fehlerText(d))+'</div>';return;}
+    ANW.probe=d.probe||'';ANW.liste=d.eintraege||[];
+    $('anwprobe').textContent=d.probe||'Keine laufende Probe gefunden';
+    var wart=ANW.liste.filter(function(e){return e.status==='wartet';}),da=ANW.liste.length-wart.length;
+    var z=Object.keys(d.zaehler||{}).sort().map(function(k){var x=d.zaehler[k];return esc(k)+' '+x.da+(x.wartet?' (+'+x.wartet+')':'');}).join(' · ');
+    $('anwzaehl').innerHTML=da+' bestätigt · '+wart.length+' warten'+(z?'<br>'+z:'');
+    $('anwalle').disabled=!wart.length;$('anwalle').textContent=wart.length?('Alle '+wart.length+' bestätigen'):'Nichts zu bestätigen';
+    var h='';
+    wart.forEach(function(e){
+      h+='<div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">'
+       +'<div style="flex:1"><b>'+esc(e.name)+'</b><br><small>'+esc(e.instrument)+' · '+esc(e.zeit)+' Uhr</small></div>'
+       +'<button class="btn pri" onclick="anwEin(\''+esc(e.id)+'\',\'anwesenheitBestaetigen\')">✓</button>'
+       +'<button class="btn" onclick="anwEin(\''+esc(e.id)+'\',\'anwesenheitAblehnen\')">✗</button></div>';
+    });
+    if(!wart.length)h='<div class="foot">Keine wartenden Einträge.</div>';
+    $('anwliste').innerHTML=h;
+  }catch(err){$('anwliste').innerHTML='<div class="foot" style="color:#c0392b">Fehler: '+esc(err.message)+'</div>';}
+}
+async function anwEin(id,aktion){
+  var d=await anwGet(aktion,{ids:id});
+  if(!d.ok){toast(fehlerText(d));return;}
+  toast(aktion==='anwesenheitBestaetigen'?'bestätigt':'abgelehnt');anwLaden(true);
+}
+async function anwAlle(){
+  var n=ANW.liste.filter(function(e){return e.status==='wartet';}).length;
+  if(!n||!confirm(n+' wartende Einträge bestätigen?'))return;
+  var b=$('anwalle');b.disabled=true;
+  var d=await anwGet('anwesenheitBestaetigen',{alle:'1',probe:ANW.probe});
+  if(!d.ok){toast(fehlerText(d));b.disabled=false;return;}
+  toast(d.geaendert+' bestätigt');anwLaden(true);
+}
+async function anwPersonenLaden(){
+  var d=await anwGet('anwesenheitPersonen');
+  if(!d.ok)return;
+  ANW.personen=d.data.map(function(s){return s.instrument+' – '+s.name;}).sort(function(a,b){return a.localeCompare(b,'de');});
+  $('anwnp').innerHTML='<option value="">– Person wählen –</option>'+ANW.personen.map(function(x){return '<option>'+esc(x)+'</option>';}).join('');
+}
+async function anwNachtragen(){
+  var v=$('anwnp').value;if(!v){toast('Bitte eine Person wählen');return;}
+  var d=await anwGet('anwesenheitNachtragen',{person:v,probe:ANW.probe});
+  if(!d.ok){toast(fehlerText(d));return;}
+  toast('eingetragen');$('anwnp').value='';anwLaden(true);
+}
+
 function verdrahte(){
   $('bsp').onchange=bsLadeProjekt;$('bsalt').onchange=bsProjekte;$('bsi').onchange=bsListe;$('bsq').oninput=bsListe;
   $('bsmail').onchange=function(){$('bsmo').style.display=this.checked?'':'none';};
