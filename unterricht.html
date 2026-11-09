@@ -510,6 +510,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="filter-tab active" id="ftab-buchungen" onclick="adminTab('buchungen')">Buchungen</button>
     <button class="filter-tab" id="ftab-abwesenheiten" onclick="adminTab('abwesenheiten')">Abwesenheiten</button>
     <button class="filter-tab" id="ftab-termine" onclick="adminTab('termine')">Termine</button>
+    <button class="filter-tab" id="ftab-anwesenheit" onclick="adminTab('anwesenheit')" style="display:none">Anwesenheit</button>
   </div>
 
   <!-- Buchungen -->
@@ -539,6 +540,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 
   <!-- Termine / Notizen -->
+  <!-- Anwesenheit (nur Hauptdozent): Scans bei Blattspiel-/Orchesterproben bestätigen -->
+  <div id="adm-anwesenheit" style="display:none">
+    <div id="anw-probe" style="font-weight:700;font-size:14px;margin:4px 0"></div>
+    <div id="anw-zaehl" style="font-size:12px;color:var(--text-muted);margin-bottom:10px"></div>
+    <div id="anw-liste"><div class="spinner">Lade Anwesenheit…</div></div>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button class="btn btn-outline" style="margin-top:0;flex:0 0 auto" onclick="anwLaden()">↻ Aktualisieren</button>
+      <button class="btn btn-blue" id="anw-alle" style="flex:1" onclick="anwAlle()">Alle bestätigen</button>
+    </div>
+  </div>
+
   <div id="adm-termine" style="display:none">
     <div id="adm-termine-liste"><div class="spinner">Lade Termine…</div></div>
   </div>
@@ -1576,6 +1588,7 @@ function oeffneAdminBereich() {
   document.getElementById('ftab-abwesenheiten').style.display = istGastdozent ? 'none' : '';
   document.getElementById('ftab-alle').style.display = istGastdozent ? 'none' : '';
   document.getElementById('aw-eigene-btn').style.display = aktuellerAdmin.rolle === 'Hauptdozent' ? '' : 'none';
+  document.getElementById('ftab-anwesenheit').style.display = aktuellerAdmin.rolle === 'Hauptdozent' ? '' : 'none';
   // Gastdozenten sehen ohnehin nur ihre eigenen Buchungen: die Umschaltzeile "Alle | Meine" entfällt
   document.getElementById('ftabs-buchungen').style.display = istGastdozent ? 'none' : '';
   if (istGastdozent) { adminTab('buchungen'); buchungenTab('meine'); }
@@ -1593,13 +1606,66 @@ function oeffneAdminBereich() {
   }).catch(() => {});
 }
 
+// ── ANWESENHEIT bestätigen (Anwesenheits-Web-App; nur Hauptdozent-Login) ──
+const ANWESENHEIT_URL = 'https://script.google.com/macros/s/AKfycbzJm7FzVsFlwmC6plNqsX6zYzJhJJnfgmScpV-g16vAgThSXCBe3ietVQHEthLYCP32tg/exec';
+let _anw = { probe:'', liste:[], timer:null };
+async function anwGet(action, extra) {
+  const params = Object.assign({ action, nutzer: aktuellerAdmin.nutzer, pwHash: _adminPwHash }, extra || {});
+  const res = await fetch(ANWESENHEIT_URL + '?' + new URLSearchParams(params));
+  return authPruefen(await res.json(), action);
+}
+function anwStart() { anwLaden(); clearInterval(_anw.timer); _anw.timer = setInterval(() => { if (hauptTabAktiv === 'anwesenheit') anwLaden(true); }, 15000); }
+function anwStop() { clearInterval(_anw.timer); }
+async function anwLaden(still) {
+  const box = document.getElementById('anw-liste');
+  if (!still) box.innerHTML = '<div class="spinner">Lade Anwesenheit…</div>';
+  try {
+    const d = await anwGet('anwesenheitListe');
+    if (!d.ok) { box.innerHTML = '<div class="spinner" style="color:#c0392b">' + esc(d.error || 'Fehler') + '</div>'; return; }
+    _anw.probe = d.probe || ''; _anw.liste = d.eintraege || [];
+    document.getElementById('anw-probe').textContent = d.probe || 'Keine laufende Probe gefunden';
+    const wart = _anw.liste.filter(e => e.status === 'wartet');
+    const da = _anw.liste.length - wart.length;
+    const z = Object.keys(d.zaehler || {}).sort().map(k => esc(k) + ' ' + d.zaehler[k].da + (d.zaehler[k].wartet ? ' (+' + d.zaehler[k].wartet + ')' : '')).join(' · ');
+    document.getElementById('anw-zaehl').innerHTML = da + ' bestätigt · ' + wart.length + ' warten' + (z ? '<br>' + z : '');
+    const b = document.getElementById('anw-alle');
+    b.disabled = !wart.length; b.textContent = wart.length ? 'Alle ' + wart.length + ' bestätigen' : 'Nichts zu bestätigen';
+    box.innerHTML = wart.length ? wart.map(e =>
+      '<div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border-solid)">'
+      + '<div style="flex:1"><b>' + esc(e.name) + '</b><br><span style="font-size:12px;color:var(--text-muted)">' + esc(e.instrument) + ' · ' + esc(e.zeit) + ' Uhr</span></div>'
+      + '<button class="btn btn-blue" style="width:auto;padding:8px 14px" onclick="anwEin(\'' + esc(e.id) + '\',\'anwesenheitBestaetigen\')">✓</button>'
+      + '<button class="btn btn-outline" style="width:auto;padding:8px 14px;margin-top:0" onclick="anwEin(\'' + esc(e.id) + '\',\'anwesenheitAblehnen\')">✗</button></div>'
+    ).join('') : '<div class="spinner">Keine wartenden Einträge.</div>';
+  } catch (err) { box.innerHTML = '<div class="spinner" style="color:#c0392b">Fehler: ' + esc(err.message) + '</div>'; }
+}
+async function anwEin(id, aktion) {
+  try {
+    const d = await anwGet(aktion, { ids: id });
+    if (!d.ok) { toast(d.error || 'Fehler'); return; }
+    toast(aktion === 'anwesenheitBestaetigen' ? 'bestätigt' : 'abgelehnt'); anwLaden(true);
+  } catch (err) { toast('Verbindungsfehler'); }
+}
+async function anwAlle() {
+  const n = _anw.liste.filter(e => e.status === 'wartet').length;
+  if (!n || !confirm(n + ' wartende Einträge bestätigen?')) return;
+  const b = document.getElementById('anw-alle'); b.disabled = true;
+  try {
+    const d = await anwGet('anwesenheitBestaetigen', { alle: '1', probe: _anw.probe });
+    if (!d.ok) { toast(d.error || 'Fehler'); b.disabled = false; return; }
+    toast(d.geaendert + ' bestätigt'); anwLaden(true);
+  } catch (err) { toast('Verbindungsfehler'); b.disabled = false; }
+}
+
 function adminTab(tab) {
   if (aktuellerAdmin && aktuellerAdmin.rolle === 'Gastdozent' && tab === 'abwesenheiten') return;
   hauptTabAktiv = tab;
-  ['buchungen','abwesenheiten','termine'].forEach(t => {
+  if (tab === 'anwesenheit' && !(aktuellerAdmin && aktuellerAdmin.rolle === 'Hauptdozent')) return;
+  ['buchungen','abwesenheiten','termine','anwesenheit'].forEach(t => {
     document.getElementById('adm-' + t).style.display = t === tab ? 'block' : 'none';
     document.getElementById('ftab-' + t).classList.toggle('active', t === tab);
   });
+  if (tab !== 'anwesenheit') anwStop();
+  if (tab === 'anwesenheit') anwStart();
   if (tab === 'abwesenheiten') ladeAbwesenheitenAdmin(30000);
   if (tab === 'termine') { ladeAdminTermine(30000); if (!(aktuellerAdmin && aktuellerAdmin.rolle === 'Gastdozent')) ladeAbwesenheitenAdmin(30000); }
 }
