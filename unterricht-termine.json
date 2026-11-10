@@ -1,34 +1,6 @@
 {
-  "generiert": "2026-11-09T03:07:01.407Z",
+  "generiert": "2026-11-10T03:07:44.358Z",
   "data": [
-    {
-      "id": "UT_20261102_22",
-      "datum": "02.11.2026",
-      "projekt": "Gruppenunterricht Song",
-      "marker": "Gruppenunterricht",
-      "dozent": "Song",
-      "uhrzeit": "15:00",
-      "ort": "",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "15:00"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "16:00"
-        },
-        {
-          "slotId": "s_2",
-          "uhrzeit": "17:00"
-        },
-        {
-          "slotId": "s_3",
-          "uhrzeit": "18:00"
-        }
-      ],
-      "notizen": ""
-    },
     {
       "id": "UT_20261103_23",
       "datum": "03.11.2026",
@@ -1412,7 +1384,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-09",
+      "verschobenAm": "2026-11-10",
       "verschobenArt": "zeit",
       "verschobenAlt": "Di 02.02., 15:30"
     },
@@ -1535,7 +1507,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-09",
+      "verschobenAm": "2026-11-10",
       "verschobenArt": "zeit",
       "verschobenAlt": "Fr 05.02., 14:30"
     },
