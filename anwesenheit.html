@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>HSO Anwesenheit</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#f2f5fa;color:#1b2430}
+  .wrap{max-width:460px;margin:0 auto;padding:20px 16px 40px}
+  header{background:#004a99;color:#fff;padding:18px 16px;text-align:center}
+  header h1{margin:0;font-size:20px;letter-spacing:.5px}
+  .card{background:#fff;border-radius:12px;padding:18px;margin-top:16px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+  .probe{font-weight:700;font-size:17px;text-align:center;margin:0 0 4px}
+  .sub{text-align:center;color:#5a6575;font-size:14px;margin:0 0 14px}
+  label{display:block;font-weight:600;font-size:14px;margin:12px 0 6px}
+  input[type=text],select{width:100%;padding:12px;font-size:16px;border:1px solid #b9c3d3;border-radius:8px;background:#fff}
+  select{margin-top:8px}
+  button{width:100%;margin-top:18px;padding:14px;font-size:17px;font-weight:700;color:#fff;background:#004a99;border:0;border-radius:10px;cursor:pointer}
+  button:disabled{background:#8aa4c8}
+  .gast{margin-top:12px;font-size:14px}
+  .gast input[type=checkbox]{transform:scale(1.2);margin-right:8px}
+  .msg{margin-top:14px;padding:12px;border-radius:8px;font-size:15px;text-align:center}
+  .ok{background:#e3f4e8;color:#1e6b3a}
+  .warn{background:#fff3d6;color:#7a5a00}
+  .err{background:#fde6e3;color:#a02a1f}
+  .hint{font-size:13px;color:#5a6575;text-align:center;margin-top:14px}
+</style>
+</head>
+<body>
+<header><h1>HSO Anwesenheit</h1></header>
+<div class="wrap">
+  <div class="card" id="card">
+    <p class="probe" id="probe"></p>
+    <p class="sub">Bitte wähle deinen Namen aus und tippe auf „Ich bin da“.</p>
+    <div id="form">
+      <label for="filter">Name suchen</label>
+      <input type="text" id="filter" placeholder="z. B. Violine oder Nachname" autocomplete="off">
+      <select id="sel" size="1"><option>Lade Liste …</option></select>
+      <div class="gast"><label style="display:flex;align-items:center;font-weight:400;margin:0"><input type="checkbox" id="gastCb">Ich stehe nicht in der Liste (Gast)</label></div>
+      <div id="gastBox" style="display:none">
+        <label for="gast">Name und Instrument</label>
+        <input type="text" id="gast" maxlength="120" placeholder="Vorname Nachname, Instrument">
+      </div>
+      <button id="btn" disabled>Ich bin da</button>
+    </div>
+    <div class="msg" id="msg" style="display:none"></div>
+    <p class="hint">Deine Anwesenheit wird vor Ort von Thomas Dorsch oder Anhoon Song bestätigt. Danach erhältst du eine Bestätigungsmail.</p>
+  </div>
+</div>
+<script>
+(function(){
+  var API = 'https://script.google.com/macros/s/AKfycbzJm7FzVsFlwmC6plNqsX6zYzJhJJnfgmScpV-g16vAgThSXCBe3ietVQHEthLYCP32tg/exec';
+  var params = new URLSearchParams(location.search);
+  var probe = (params.get('p') || '').trim();
+  var el = function(id){ return document.getElementById(id); };
+  var namen = [];
+  el('probe').textContent = probe || 'Keine Probe angegeben';
+  function show(t, cls){ var m = el('msg'); m.textContent = t; m.className = 'msg ' + cls; m.style.display = 'block'; }
+  if (!probe) { show('Dieser Link ist unvollständig. Bitte scanne den QR-Code erneut.', 'err'); el('form').style.display = 'none'; return; }
+  function render(){
+    var f = el('filter').value.trim().toLowerCase();
+    var sel = el('sel'); var last = sel.value;
+    sel.innerHTML = '';
+    var o0 = document.createElement('option'); o0.value = ''; o0.textContent = '– bitte auswählen –'; sel.appendChild(o0);
+    namen.forEach(function(n){
+      if (f && n.toLowerCase().indexOf(f) < 0) return;
+      var o = document.createElement('option'); o.value = n; o.textContent = n; sel.appendChild(o);
+    });
+    if (last) sel.value = last;
+    if (f && sel.options.length === 2) sel.selectedIndex = 1;
+    check();
+  }
+  function check(){
+    var gast = el('gastCb').checked;
+    el('btn').disabled = gast ? !el('gast').value.trim() : !el('sel').value;
+  }
+  el('filter').addEventListener('input', render);
+  el('sel').addEventListener('change', check);
+  el('gast').addEventListener('input', check);
+  el('gastCb').addEventListener('change', function(){
+    var g = this.checked;
+    el('gastBox').style.display = g ? 'block' : 'none';
+    el('filter').disabled = g; el('sel').disabled = g;
+    check();
+  });
+  fetch(API + '?action=anwesenheitNamen').then(function(r){ return r.json(); }).then(function(j){
+    if (!j.ok) throw new Error(j.error || 'Fehler');
+    namen = j.namen || [];
+    try { var s = localStorage.getItem('hsoAnwName'); if (s && namen.indexOf(s) >= 0) el('filter').value = s; } catch(e){}
+    render();
+  }).catch(function(){ show('Die Namensliste konnte nicht geladen werden. Bitte Seite neu laden.', 'err'); });
+  el('btn').addEventListener('click', function(){
+    var gast = el('gastCb').checked;
+    var q = '?action=anwesenheitMelden&probe=' + encodeURIComponent(probe) +
+      (gast ? '&gast=' + encodeURIComponent(el('gast').value.trim()) : '&person=' + encodeURIComponent(el('sel').value));
+    var b = el('btn'); b.disabled = true; b.textContent = 'Wird gesendet …';
+    fetch(API + q).then(function(r){ return r.json(); }).then(function(j){
+      if (!j.ok) { show(j.error || 'Fehler beim Senden.', 'err'); b.textContent = 'Ich bin da'; check(); return; }
+      if (!gast) { try { localStorage.setItem('hsoAnwName', el('sel').value); } catch(e){} }
+      el('form').style.display = 'none';
+      if (j.doppelt) show('Du bist für diese Probe schon eingetragen (' + (j.status === 'anwesend' ? 'bestätigt' : 'wartet auf Bestätigung') + ').', 'warn');
+      else show('Danke, ' + j.name + '! Deine Meldung ist angekommen und wird vor Ort bestätigt.', 'ok');
+    }).catch(function(){ show('Senden nicht möglich. Bitte Verbindung prüfen und erneut versuchen.', 'err'); b.textContent = 'Ich bin da'; check(); });
+  });
+})();
+</script>
+</body>
+</html>
