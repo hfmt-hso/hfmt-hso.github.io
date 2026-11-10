@@ -1762,9 +1762,24 @@ function dozentPasst(dozentFeld, name) {
 function renderAdminBuchungen() {
   const el = document.getElementById('admin-buchungen-container');
   if (!adminBuchungen) return;
-  let liste = adminBuchungen;
+  // Datum ergänzen, falls der Termin nicht mehr existiert (Termin-ID: UT_YYYYMMDD_n)
+  const mitDatum = adminBuchungen.map(b => {
+    if (b.datum) return b;
+    const m = String(b.terminId || '').match(/^UT_(\d{4})(\d{2})(\d{2})_/);
+    return m ? Object.assign({}, b, { datum: m[3] + '.' + m[2] + '.' + m[1] }) : b;
+  });
+  // Bereits abgelaufene Unterrichte (Slot-Ende = Start + 60 Min.) ausblenden – in "Alle" und "Meine"
+  const jetzt = Date.now();
+  const istVorbei = b => {
+    const d = parseDate(b.datum);
+    if (!d) return false;
+    const t = String(b.slotStart || '').match(/^(\d{1,2}):(\d{2})/);
+    if (t) d.setHours(+t[1], +t[2]); else d.setHours(23, 59);
+    return d.getTime() + 60 * 60000 < jetzt;
+  };
+  let liste = mitDatum.filter(b => !istVorbei(b));
   if (adminTabAktiv === 'meine' && aktuellerAdmin) {
-    liste = adminBuchungen.filter(b => dozentPasst(b.dozent, aktuellerAdmin.name));
+    liste = liste.filter(b => dozentPasst(b.dozent, aktuellerAdmin.name));
   }
   if (!liste.length) {
     el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Keine Buchungen vorhanden.</div>';
