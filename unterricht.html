@@ -172,6 +172,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .admin-buchung-dozent{font-size:11px;color:var(--text-muted);margin-top:2px}
 .storno-btn{padding:6px 10px;background:var(--red-light);color:var(--red);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0}
 .storno-btn:active{opacity:0.8}
+.vergangen-zeile{display:flex;justify-content:flex-end;margin:8px 0 8px}
+.vergangen-btn{padding:6px 11px;font-size:11px;font-weight:600;font-family:inherit;cursor:pointer;border-radius:8px;border:0.5px solid var(--border);background:var(--card);color:var(--text-muted)}
+.vergangen-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.buchungen-liste.vergangen{opacity:0.6}
 
 /* ── ABWESENHEITEN ─────────────────────────────────────── */
 .aw-card{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);overflow:hidden}
@@ -539,6 +543,7 @@ html{overflow-x:hidden}
       <button class="filter-tab active" id="ftab-alle" onclick="buchungenTab('alle')">Alle</button>
       <button class="filter-tab" id="ftab-meine" onclick="buchungenTab('meine')">Meine</button>
     </div>
+    <div class="vergangen-zeile" id="buchungen-vergangen-zeile" style="display:none"></div>
     <div id="admin-buchungen-container"><div class="spinner">Lade Buchungen…</div></div>
   </div>
 
@@ -596,6 +601,7 @@ let _adminPwHash     = null;
 let _studentPwHash   = null;   // Passwort-Hash der angemeldeten Studierenden (nur sessionStorage), geht mit jedem Aufruf ans Backend
 let _studierendenListe = null;
 let adminTabAktiv    = 'alle';
+let buchungenVergangene = false;   // abgelaufene Buchungen mit anzeigen
 let hauptTabAktiv    = 'buchungen';
 let _awEditId        = null;
 let _awAdminModus    = false; // Formular wird von Lehrenden für die eigene Abwesenheit genutzt
@@ -1768,19 +1774,28 @@ function renderAdminBuchungen() {
     const m = String(b.terminId || '').match(/^UT_(\d{4})(\d{2})(\d{2})_/);
     return m ? Object.assign({}, b, { datum: m[3] + '.' + m[2] + '.' + m[1] }) : b;
   });
-  // Bereits abgelaufene Unterrichte (Slot-Ende = Start + 60 Min.) ausblenden – in "Alle" und "Meine"
+  // Abgelaufene Unterrichte (Slot-Ende = Start + 60 Min.): standardmäßig ausgeblendet, per Schalter einblendbar
   const jetzt = Date.now();
-  const istVorbei = b => {
+  const startMs = b => {
     const d = parseDate(b.datum);
-    if (!d) return false;
+    if (!d) return 0;
     const t = String(b.slotStart || '').match(/^(\d{1,2}):(\d{2})/);
     if (t) d.setHours(+t[1], +t[2]); else d.setHours(23, 59);
-    return d.getTime() + 60 * 60000 < jetzt;
+    return d.getTime();
   };
-  let liste = mitDatum.filter(b => !istVorbei(b));
+  const istVorbei = b => startMs(b) > 0 && startMs(b) + 60 * 60000 < jetzt;
+  let liste = mitDatum;
   if (adminTabAktiv === 'meine' && aktuellerAdmin) {
     liste = liste.filter(b => dozentPasst(b.dozent, aktuellerAdmin.name));
   }
+  const nVorbei = liste.filter(istVorbei).length;
+  const zeile = document.getElementById('buchungen-vergangen-zeile');
+  if (zeile) {
+    zeile.style.display = nVorbei ? '' : 'none';
+    zeile.innerHTML = `<button class="vergangen-btn${buchungenVergangene?' active':''}" onclick="buchungenVergangeneUmschalten()">${buchungenVergangene?'Vergangene ausblenden':'Vergangene anzeigen'} (${nVorbei})</button>`;
+  }
+  if (!buchungenVergangene) liste = liste.filter(b => !istVorbei(b));
+  else liste = liste.slice().sort((a, b) => startMs(a) - startMs(b));
   if (!liste.length) {
     el.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div>Keine Buchungen vorhanden.</div>';
     return;
@@ -1789,7 +1804,7 @@ function renderAdminBuchungen() {
   liste.forEach(b => { if (!gruppen[b.datum]) gruppen[b.datum] = []; gruppen[b.datum].push(b); });
   el.innerHTML = Object.entries(gruppen).map(([datum, buchungen]) => {
     const d  = parseDate(datum), wt = d ? WT[d.getDay()] : '';
-    return `<div class="buchungen-liste">
+    return `<div class="buchungen-liste${buchungen.every(istVorbei)?' vergangen':''}">
       <div class="buchungen-header">
         <div class="buchungen-title">${wt}, ${esc(datum)}</div>
         <div class="buchungen-count">${buchungen.length} Buchung${buchungen.length!==1?'en':''}</div>
@@ -1805,6 +1820,11 @@ function renderAdminBuchungen() {
       </div>`).join('')}
     </div>`;
   }).join('');
+}
+
+function buchungenVergangeneUmschalten() {
+  buchungenVergangene = !buchungenVergangene;
+  renderAdminBuchungen();
 }
 
 async function buchungStornieren(buchungId, name) {
