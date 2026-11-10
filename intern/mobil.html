@@ -204,6 +204,7 @@ h2{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;co
 var WEB_APP_URL='https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 var PDF_WEB_APP_URL='https://script.google.com/macros/s/AKfycbzJm7FzVsFlwmC6plNqsX6zYzJhJJnfgmScpV-g16vAgThSXCBe3ietVQHEthLYCP32tg/exec';
 var BACKUP_WEB_APP_URL='https://script.google.com/macros/s/AKfycbx2xyv2s3BMGz12EH8LIcHT_iWuVn4JWnxlw-3NVJ5LjkaCrwQbRckOtJsKov0XepoIWw/exec';
+var FREIKARTEN_WEB_APP_URL='https://script.google.com/macros/s/AKfycbyUb84RvuTnEIZ16GzneFR0PvwbuPBnzf5KC6dYI01SOIHF5ksTyhORE3bYGFukki-B/exec';
 
 // ── Hilfen ────────────────────────────────────────────────────────
 function $(id){return document.getElementById(id);}
@@ -259,7 +260,18 @@ var BEFEHLE=[
       set('Kalender erfassen, Mail senden …');
       var d=await getJson(WEB_APP_URL+'?action=aenderungsmailJetzt');
       if(!d.ok)throw new Error(d.error||'?');
-      return {ok:true,text:d.gesendet?d.gesendet+' Termin(e) gesendet':'keine Änderungen vorhanden'};}}
+      return {ok:true,text:d.gesendet?d.gesendet+' Termin(e) gesendet':'keine Änderungen vorhanden'};}},
+    {icon:'🎟️',titel:'Freikarten-Nachmeldung ans Büro',sub:'neue Freikarten-Anfragen seit der letzten Mail sofort melden',run:async function(set){
+      set('Prüfe neue Anfragen …');
+      var v=await fkGet('nachmeldungVorschau');
+      if(!v.ok)throw new Error(fehlerText(v));
+      if(!v.anzahl)return {ok:true,text:'keine neuen Anfragen'};
+      var liste=(v.eintraege||[]).map(function(e){return '• '+e.titel+' – '+(e.name||'(ohne Namen)')+(e.anzahl?' ('+e.anzahl+')':'');}).join('\n');
+      if(!confirm(v.anzahl+' neue Anfrage(n) jetzt ans Büro melden?\n\n'+liste))return {ok:true,text:'abgebrochen'};
+      set('Mail wird gesendet …');
+      var d=await fkGet('nachmeldungJetzt');
+      if(!d.ok)throw new Error(fehlerText(d));
+      return {ok:true,text:d.gesendet?d.gesendet+' Mail(s) gesendet':'nichts gesendet'};}}
   ]},
   {gruppe:'Studierende',items:[
     {icon:'🤒',titel:'Krankmeldung eintragen',sub:'Person, Zeitraum, Notiz',panel:'krwrap',run:async function(){krOeffnen();return {ok:true,text:'offen · erneut tippen = zu'};}},
@@ -502,6 +514,11 @@ async function tbSemesterLaden(){
 }
 
 // ── Anwesenheit bestätigen (Anwesenheits-Web-App, nur Hauptdozent-Login) ──
+function fkGet(action){
+  var c=cred();
+  return getJson(FREIKARTEN_WEB_APP_URL+'?action='+action+'&nutzer='+encodeURIComponent(c.nutzer||'')+'&pwHash='+encodeURIComponent(c.pwHash||''))
+    .then(function(d){if(d&&d.auth){toast('Bitte neu anmelden');setTimeout(logout,900);}return d;});
+}
 var ANW={probe:'',liste:[],personen:null,timer:null};
 function anwGet(action,extra){
   var c=cred(),u=PDF_WEB_APP_URL+'?action='+action+'&nutzer='+encodeURIComponent(c.nutzer||'')+'&pwHash='+encodeURIComponent(c.pwHash||'');
