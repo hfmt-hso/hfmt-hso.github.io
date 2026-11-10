@@ -2594,7 +2594,8 @@ function renderUntIcom(){
     var tid=esc(t.id);
     var zeilen=(t.slots||[]).map(function(s){
       var zeit='<strong style="min-width:92px;font-size:12px">'+esc(s.uhrzeit)+'–'+esc(s.ende)+'</strong>';
-      if(s.typ==='gruppe')return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px">'+zeit+'<span style="flex:1;font-size:12px;color:var(--ink3);font-style:italic">Gruppenunterricht</span></div>';
+      if(s.typ==='gruppe')return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px">'+zeit+'<span style="flex:1;font-size:12px;color:var(--ink3);font-style:italic">Gruppenunterricht</span>'+
+        '<button onclick="untIcomTyp(\''+tid+'\',\''+esc(s.uhrzeit)+'\',\'einzel\')" title="Diesen Slot in Einzelunterricht umwandeln" style="padding:5px 10px;background:#fff;color:var(--ink3);border:1px solid var(--border);border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">→ Einzel</button></div>';
       if(s.buchungId&&icomIstAusfall(s.werk))return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap;background:var(--red-bg);border-radius:8px;padding:5px 8px">'+zeit+
         '<span style="font-size:12px;min-width:110px;font-weight:600">'+esc(s.name)+'</span>'+
         '<span style="flex:1;min-width:140px;font-size:12px;color:var(--red);font-weight:700">⚠ Kurzfristig abgesagt – unentschuldigt, wird honoriert</span>'+
@@ -2610,7 +2611,8 @@ function renderUntIcom(){
         '<select id="iczw-'+tid+'-'+esc(s.uhrzeit).replace(':','')+'" style="flex:1;min-width:150px;padding:6px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff"><option value="">Studierende:n wählen…</option>'+opts+'</select>'+
         '<input type="text" id="icwz-'+tid+'-'+esc(s.uhrzeit).replace(':','')+'" placeholder="Werk (optional)" style="flex:1;min-width:140px;padding:6px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff;min-width:0">'+
         '<button onclick="untIcomZuweisen(\''+tid+'\',\''+esc(s.uhrzeit)+'\')" style="padding:5px 10px;background:var(--green-bg);color:var(--green);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">Zuweisen</button>'+
-        '<button onclick="untIcomAusfallNeu(\''+tid+'\',\''+esc(s.uhrzeit)+'\')" title="Studierende:n wählen: am selben Tag ohne belegten triftigen Grund abgesagt – Stunde wird honoriert" style="padding:5px 10px;background:#fff3e0;color:#b45309;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">Abgesagt</button></div>';
+        '<button onclick="untIcomAusfallNeu(\''+tid+'\',\''+esc(s.uhrzeit)+'\')" title="Studierende:n wählen: am selben Tag ohne belegten triftigen Grund abgesagt – Stunde wird honoriert" style="padding:5px 10px;background:#fff3e0;color:#b45309;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">Abgesagt</button>'+
+        '<button onclick="untIcomTyp(\''+tid+'\',\''+esc(s.uhrzeit)+'\',\'gruppe\')" title="Diesen Slot in Gruppenunterricht umwandeln" style="padding:5px 10px;background:#fff;color:var(--ink3);border:1px solid var(--border);border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">→ Gruppe</button></div>';
     }).join('');
     var verw=(t.verwaist||[]).map(function(b){
       return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px"><strong style="min-width:92px;font-size:12px;color:var(--red)">'+esc(b.slotStart)+' ?</strong>'+
@@ -2630,6 +2632,14 @@ function renderUntIcom(){
       '</div>'+
     '</div>';
   }).join('');
+}
+async function untIcomTyp(terminId,slotStart,typ){
+  try{
+    var d=await untPost({action:'icomTypUmschalten',terminId:terminId,slotStart:slotStart,typ:typ});
+    if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
+    zeigToast(typ==='gruppe'?'✓ '+slotStart+' ist jetzt Gruppenunterricht':'✓ '+slotStart+' ist jetzt Einzelunterricht');
+    ladeUntIcom(true);
+  }catch(e){zeigToast('Verbindungsfehler');}
 }
 async function untIcomZuweisen(terminId,slotStart){
   var sel=document.getElementById('iczw-'+terminId+'-'+slotStart.replace(':',''));
