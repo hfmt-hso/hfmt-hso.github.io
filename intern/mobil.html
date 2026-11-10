@@ -176,6 +176,23 @@ h2{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;co
     </div>
   </div>
 
+  <div id="pewrap" style="display:none">
+    <h2 class="ph">Proben kopieren<button class="x" onclick="panelZu('pewrap')">▲ zuklappen</button></h2>
+    <div class="hw">
+      <label>Studienjahr</label><select id="pesj" class="sel"></select>
+      <label>Projekt</label><select id="pepr" class="sel"></select>
+      <label>Format</label>
+      <select id="pefm" class="sel"><option value="lang">Nachricht (Wochentag, Zeit, Titel, Ort)</option><option value="kurz">SMS kurz (eine Zeile je Termin)</option></select>
+      <label class="chkl"><input type="checkbox" id="pekomm" checked> nur kommende Termine</label>
+      <label class="chkl"><input type="checkbox" id="pevor" checked> Vorstellung / Konzert mit aufführen</label>
+      <label class="chkl"><input type="checkbox" id="peort" checked> Ort angeben</label>
+      <label>Text (vor dem Kopieren noch änderbar) <span id="pezl"></span></label>
+      <textarea id="petx" style="min-height:190px"></textarea>
+      <div class="row"><button class="btn" id="pesh" onclick="peTeilen()" style="display:none">Teilen …</button><button class="btn pri" onclick="peKopieren()" style="flex:1">📋 In Zwischenablage kopieren</button></div>
+      <div class="foot" id="peinfo"></div>
+    </div>
+  </div>
+
   <div class="foot">Neue Befehle werden in <code>BEFEHLE</code> (unten im Quelltext) eingetragen.</div>
 </div>
 <div id="toast"></div>
@@ -218,6 +235,7 @@ function etappe(url){return getJson(url);}
 var BEFEHLE=[
   {gruppe:'Probe & Plan',items:[
     {icon:'✅',titel:'Anwesenheit bestätigen',sub:'wartende Einträge der laufenden Probe',panel:'anwrap',run:async function(){await anwOeffnen();return {ok:true,text:'offen · erneut tippen = zu'};}},
+    {icon:'📋',titel:'Proben kopieren (Programmübersicht)',sub:'Proben je Projekt als Text für Nachricht oder SMS',panel:'pewrap',run:async function(){await peOeffnen();return {ok:true,text:'offen · erneut tippen = zu'};}},
     {icon:'📄',titel:'PDF für nächste Probe',sub:'erzeugt den Probenplan als PDF',run:async function(){
       var d=await getJson(PDF_WEB_APP_URL+'?action=pdfNaechste');
       if(!d.ok)throw new Error(d.error||'?');return {ok:true,text:'PDF fertig',url:d.url,urlText:'📄 PDF öffnen'};}},
@@ -543,7 +561,122 @@ async function anwNachtragen(){
   toast('eingetragen');$('anwnp').value='';anwLaden(true);
 }
 
+// ── Proben kopieren (Programmübersicht aus HfMT Lehre: Probenplan je Projekt) ──
+// Datenquelle: ../uebersetzer.json (nachts und bei „Aktualisieren & veröffentlichen“ aus dem Übersetzer-Sheet erzeugt).
+// Projektzuordnung und Studienjahr wie in Projectsync.gs (projektNameAusTitel, _eventGehoertZuProjekt, studienjahr).
+var PE={events:null,laden:null};
+var PE_WT=['So','Mo','Di','Mi','Do','Fr','Sa'];
+var PE_REIHE=['HSO 1','HSO 2','HSO 3','HSO 4','13/14','WK 1','WK 2','WK 3','WK 4','WK 5','WK 6','WK 7','WK 8','HSO Blattspiel','HSO Repertoire','HSO Repertoireprobe'];
+function peProjekt(t){
+  t=String(t||'').trim();
+  if(/^(Aufbau|Abbau)/i.test(t))return null;
+  var m=t.match(/^\*(.+)/);if(m)return '*'+m[1].trim();
+  m=t.match(/^(WK\s+L[üu]\s+\d+)/);if(m)return m[1];
+  m=t.match(/^((?:HSO|WK)\s+\d+)/);if(m)return m[1];
+  m=t.match(/^(13\/14)/);if(m)return m[1];
+  m=t.match(/^(HSO\s+\S+)/);if(m)return m[1];
+  return null;
+}
+function peGehoert(titel,pName){
+  if(!titel||!pName)return false;
+  var t=String(titel).replace(/^\*/,''),p=String(pName).replace(/^\*/,'');
+  return new RegExp('^'+p.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(\\s|\\(|$)').test(t);
+}
+function peDatum(s){var m=String(s||'').match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);return m?new Date(+m[3],+m[2]-1,+m[1]):null;}
+function peSj(d){var y=d.getFullYear();return d.getMonth()>=8?String(y).slice(2)+'_'+String(y+1).slice(2):String(y-1).slice(2)+'_'+String(y).slice(2);}
+function peSortGew(n){var i=PE_REIHE.indexOf(n);return i>=0?i:1000;}
+function peOpt(){return {sj:$('pesj').value,kommend:$('pekomm').checked,vor:$('pevor').checked,ort:$('peort').checked,kurz:$('pefm').value==='kurz'};}
+function peFilter(e,o){
+  var d=peDatum(e.datum);if(!d)return false;
+  if(o.sj&&peSj(d)!==o.sj)return false;
+  if(o.kommend){var h=new Date();h.setHours(0,0,0,0);if(d<h)return false;}
+  if(!o.vor&&e.marker==='Vorstellung')return false;
+  return true;
+}
+function peEvents(pName,o){
+  return (PE.events||[]).filter(function(e){return peGehoert(e._titel,pName)&&peFilter(e,o);}).sort(function(a,b){
+    var da=peDatum(a.datum),db=peDatum(b.datum);
+    return (da-db)||String(a.uhrzeit||'').localeCompare(String(b.uhrzeit||''));
+  });
+}
+function peZeit(e,kurz){
+  var v=String(e.uhrzeit||'').replace(/\s*Uhr\s*$/i,''),b=String(e.endzeit||'').replace(/\s*Uhr\s*$/i,'');
+  return v+(b?(kurz?'–':' – ')+b:'');
+}
+function peText(evs,pName,o){
+  if(!evs.length)return '';
+  var z=[],last='';
+  var titel=function(e){return e._titel+(e.marker==='Vorstellung'?' (Konzert)':'');};
+  if(o.kurz){
+    z.push(pName+':');
+    evs.forEach(function(e){
+      var d=peDatum(e.datum),zl=PE_WT[d.getDay()]+' '+d.getDate()+'.'+(d.getMonth()+1)+'., '+peZeit(e,true)+' Uhr – '+titel(e);
+      if(o.ort&&e.ort)zl+=', '+e.ort;
+      z.push(zl);
+    });
+    return z.join('\n');
+  }
+  z.push('Proben '+pName);z.push('');
+  evs.forEach(function(e){
+    var d=peDatum(e.datum);
+    if(e.datum!==last){if(last)z.push('');z.push(PE_WT[d.getDay()]+', '+e.datum);last=e.datum;}
+    var zl=peZeit(e,false)+' Uhr '+titel(e);
+    if(o.ort&&e.ort)zl+=' | '+e.ort;
+    z.push(zl);
+  });
+  return z.join('\n');
+}
+async function peOeffnen(){
+  zeigePanel('pewrap');
+  $('pesh').style.display=navigator.share?'':'none';
+  $('peinfo').textContent='lädt …';
+  try{
+    var r=await fetch('../uebersetzer.json?t='+Date.now(),{cache:'no-store'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    var j=await r.json();PE.events=(j&&j.events)||[];
+    $('peinfo').textContent='Stand der Termine: '+(j.generiert?new Date(j.generiert).toLocaleString('de-DE'):'unbekannt')+' – bei Änderungen zuerst „Aktualisieren & veröffentlichen“.';
+  }catch(e){PE.events=PE.events||[];$('peinfo').textContent='';toast('Termine nicht ladbar: '+e.message);}
+  peSjFuellen();
+}
+function peSjFuellen(){
+  var sjs={};PE.events.forEach(function(e){var d=peDatum(e.datum);if(d&&peProjekt(e._titel))sjs[peSj(d)]=1;});
+  var l=Object.keys(sjs).sort(),alt=$('pesj').value,akt=peSj(new Date());
+  $('pesj').innerHTML=l.map(function(x){return '<option value="'+esc(x)+'">'+esc(x.replace('_','/'))+'</option>';}).join('');
+  $('pesj').value=(alt&&sjs[alt])?alt:(sjs[akt]?akt:(l[l.length-1]||''));
+  peProjFuellen();
+}
+function peProjFuellen(){
+  var o=peOpt(),alt=$('pepr').value,n={};
+  PE.events.forEach(function(e){var p=peProjekt(e._titel);if(p&&peFilter(e,o))n[p]=1;});
+  var l=Object.keys(n).sort(function(a,b){return (peSortGew(a)-peSortGew(b))||a.localeCompare(b,'de');});
+  $('pepr').innerHTML=l.length?l.map(function(x){return '<option value="'+esc(x)+'">'+esc(x)+'</option>';}).join(''):'<option value="">– keine Projekte mit Terminen –</option>';
+  if(alt&&n[alt])$('pepr').value=alt;
+  peRender();
+}
+function peRender(){
+  var o=peOpt(),p=$('pepr').value,evs=p?peEvents(p,o):[];
+  $('petx').value=peText(evs,p,o);
+  $('pezl').textContent=evs.length?'('+evs.length+' Termin'+(evs.length===1?'':'e')+')':'(keine Termine)';
+}
+function peKopieren(){
+  var ta=$('petx'),t=ta.value;
+  if(!t.trim()){toast('Nichts zu kopieren.');return;}
+  var fb=function(){
+    ta.focus();ta.select();ta.setSelectionRange(0,t.length);
+    var ok=false;try{ok=document.execCommand('copy');}catch(e){}
+    toast(ok?'✓ Kopiert – jetzt in Nachricht oder SMS einsetzen':'Bitte Text markieren und manuell kopieren');
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(function(){toast('✓ Kopiert – jetzt in Nachricht oder SMS einsetzen');},fb);
+  else fb();
+}
+function peTeilen(){
+  var t=$('petx').value;if(!t.trim()){toast('Nichts zu teilen.');return;}
+  navigator.share({text:t}).catch(function(){});
+}
+
 function verdrahte(){
+  $('pesj').onchange=peProjFuellen;$('pepr').onchange=peRender;$('pefm').onchange=peRender;
+  $('pekomm').onchange=peProjFuellen;$('pevor').onchange=peProjFuellen;$('peort').onchange=peRender;
   $('bsp').onchange=bsLadeProjekt;$('bsalt').onchange=bsProjekte;$('bsi').onchange=bsListe;$('bsq').oninput=bsListe;
   $('bsmail').onchange=function(){$('bsmo').style.display=this.checked?'':'none';};
   $('tbman').onchange=function(){$('tbmp').style.display=this.checked?'':'none';};
