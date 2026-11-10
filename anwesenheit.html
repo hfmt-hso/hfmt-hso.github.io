@@ -40,8 +40,12 @@
       <select id="sel" size="1"><option>Lade Liste …</option></select>
       <div class="gast"><label style="display:flex;align-items:center;font-weight:400;margin:0"><input type="checkbox" id="gastCb">Ich stehe nicht in der Liste (Gast)</label></div>
       <div id="gastBox" style="display:none">
-        <label for="gast">Name und Instrument</label>
-        <input type="text" id="gast" maxlength="120" placeholder="Vorname Nachname, Instrument">
+        <label for="gast">Vor- und Nachname</label>
+        <input type="text" id="gast" maxlength="120" placeholder="Vorname Nachname" autocomplete="name">
+        <label for="gastIns">Instrument</label>
+        <input type="text" id="gastIns" maxlength="60" placeholder="z. B. Violine">
+        <label for="gastMail">Mailadresse (für die Bestätigung)</label>
+        <input type="email" id="gastMail" maxlength="120" placeholder="name@beispiel.de" autocomplete="email">
       </div>
       <button id="btn" disabled>Ich bin da</button>
     </div>
@@ -74,11 +78,13 @@
   }
   function check(){
     var gast = el('gastCb').checked;
-    el('btn').disabled = gast ? !el('gast').value.trim() : !el('sel').value;
+    el('btn').disabled = gast ? !(el('gast').value.trim() && el('gastIns').value.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el('gastMail').value.trim())) : !el('sel').value;
   }
   el('filter').addEventListener('input', render);
   el('sel').addEventListener('change', check);
   el('gast').addEventListener('input', check);
+  el('gastIns').addEventListener('input', check);
+  el('gastMail').addEventListener('input', check);
   el('gastCb').addEventListener('change', function(){
     var g = this.checked;
     el('gastBox').style.display = g ? 'block' : 'none';
@@ -94,7 +100,7 @@
   el('btn').addEventListener('click', function(){
     var gast = el('gastCb').checked;
     var q = '?action=anwesenheitMelden&probe=' + encodeURIComponent(probe) +
-      (gast ? '&gast=' + encodeURIComponent(el('gast').value.trim()) : '&person=' + encodeURIComponent(el('sel').value));
+      (gast ? '&gast=' + encodeURIComponent(el('gast').value.trim()) + '&gastInstrument=' + encodeURIComponent(el('gastIns').value.trim()) + '&gastMail=' + encodeURIComponent(el('gastMail').value.trim()) : '&person=' + encodeURIComponent(el('sel').value));
     var b = el('btn'); b.disabled = true; b.textContent = 'Wird gesendet …';
     fetch(API + q).then(function(r){ return r.json(); }).then(function(j){
       if (!j.ok) { show(j.error || 'Fehler beim Senden.', 'err'); b.textContent = 'Ich bin da'; check(); return; }

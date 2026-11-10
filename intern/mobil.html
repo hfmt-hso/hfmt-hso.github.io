@@ -546,7 +546,7 @@ async function anwLaden(still){
     var h='';
     wart.forEach(function(e){
       h+='<div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">'
-       +'<div style="flex:1"><b>'+esc(e.name)+'</b><br><small>'+esc(e.instrument)+' · '+esc(e.zeit)+' Uhr</small></div>'
+       +'<div style="flex:1"><b>'+esc(e.name)+'</b><br><small>'+esc(e.instrument)+' · '+esc(e.zeit)+' Uhr'+(e.gast?' · <b style="color:#b45309">GAST</b>'+(e.mail?' · '+esc(e.mail):''):'')+'</small></div>'
        +'<button class="btn pri" onclick="anwEin(\''+esc(e.id)+'\',\'anwesenheitBestaetigen\')">✓</button>'
        +'<button class="btn" title="Ablehnen ohne Mail" onclick="anwEin(\''+esc(e.id)+'\',\'anwesenheitAblehnen\')">✗</button>'
        +'<button class="btn" title="Ablehnen und benachrichtigen" onclick="anwEin(\''+esc(e.id)+'\',\'anwesenheitAblehnenMail\')">✗✉</button></div>';

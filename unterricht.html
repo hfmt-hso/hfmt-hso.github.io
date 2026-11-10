@@ -1680,7 +1680,7 @@ async function anwLaden(still) {
     b.disabled = !wart.length; b.textContent = wart.length ? 'Alle ' + wart.length + ' bestätigen' : 'Nichts zu bestätigen';
     box.innerHTML = wart.length ? wart.map(e =>
       '<div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border-solid)">'
-      + '<div style="flex:1;min-width:0;overflow-wrap:anywhere"><b>' + esc(e.name) + '</b><br><span style="font-size:12px;color:var(--text-muted)">' + esc(e.instrument) + ' · ' + esc(e.zeit) + ' Uhr</span></div>'
+      + '<div style="flex:1;min-width:0;overflow-wrap:anywhere"><b>' + esc(e.name) + '</b><br><span style="font-size:12px;color:var(--text-muted)">' + esc(e.instrument) + ' · ' + esc(e.zeit) + ' Uhr' + (e.gast ? ' · <b style="color:#b45309">GAST</b>' + (e.mail ? ' · ' + esc(e.mail) : '') : '') + '</span></div>'
       + '<button class="btn btn-blue" style="width:auto;padding:8px 14px" onclick="anwEin(\'' + esc(e.id) + '\',\'anwesenheitBestaetigen\')">✓</button>'
       + '<button class="btn btn-outline" style="width:auto;padding:8px 14px;margin-top:0" onclick="anwEin(\'' + esc(e.id) + '\',\'anwesenheitAblehnen\')" title="Ablehnen ohne Mail">✗</button>'
       + '<button class="btn btn-outline" style="width:auto;padding:8px 14px;margin-top:0" onclick="anwEin(\'' + esc(e.id) + '\',\'anwesenheitAblehnenMail\')" title="Ablehnen und benachrichtigen">✗✉</button></div>'
