@@ -183,9 +183,11 @@ h2{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;co
       <label>Projekt</label><select id="pepr" class="sel"></select>
       <label>Format</label>
       <select id="pefm" class="sel"><option value="lang">Nachricht (Wochentag, Zeit, Titel, Ort)</option><option value="kurz">SMS kurz (eine Zeile je Termin)</option></select>
-      <label class="chkl"><input type="checkbox" id="pekomm" checked> nur kommende Termine</label>
+      <label class="chkl"><input type="checkbox" id="pekomm" checked> nur kommende Termine <small style="color:var(--ink3)">(ohne Haken auch zurückliegende, bis ca. 3 Wochen)</small></label>
       <label class="chkl"><input type="checkbox" id="pevor" checked> Vorstellung / Konzert mit aufführen</label>
       <label class="chkl"><input type="checkbox" id="peort" checked> Ort angeben</label>
+      <label class="chkl"><input type="checkbox" id="pepg"> Programm (Werke) mit ausgeben</label>
+      <label class="chkl"><input type="checkbox" id="pesl"> dazu Solist:innen und Leitung</label>
       <label>Text (vor dem Kopieren noch änderbar) <span id="pezl"></span></label>
       <textarea id="petx" style="min-height:190px"></textarea>
       <div class="row"><button class="btn" id="pesh" onclick="peTeilen()" style="display:none">Teilen …</button><button class="btn pri" onclick="peKopieren()" style="flex:1">📋 In Zwischenablage kopieren</button></div>
@@ -585,7 +587,7 @@ function peGehoert(titel,pName){
 function peDatum(s){var m=String(s||'').match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);return m?new Date(+m[3],+m[2]-1,+m[1]):null;}
 function peSj(d){var y=d.getFullYear();return d.getMonth()>=8?String(y).slice(2)+'_'+String(y+1).slice(2):String(y-1).slice(2)+'_'+String(y).slice(2);}
 function peSortGew(n){var i=PE_REIHE.indexOf(n);return i>=0?i:1000;}
-function peOpt(){return {sj:$('pesj').value,kommend:$('pekomm').checked,vor:$('pevor').checked,ort:$('peort').checked,kurz:$('pefm').value==='kurz'};}
+function peOpt(){return {sj:$('pesj').value,kommend:$('pekomm').checked,vor:$('pevor').checked,ort:$('peort').checked,kurz:$('pefm').value==='kurz',prog:$('pepg').checked,sl:$('pesl').checked};}
 function peFilter(e,o){
   var d=peDatum(e.datum);if(!d)return false;
   if(o.sj&&peSj(d)!==o.sj)return false;
@@ -603,39 +605,109 @@ function peZeit(e,kurz){
   var v=String(e.uhrzeit||'').replace(/\s*Uhr\s*$/i,''),b=String(e.endzeit||'').replace(/\s*Uhr\s*$/i,'');
   return v+(b?(kurz?'–':' – ')+b:'');
 }
+function peWerkZeilen(e,kurz){
+  var z=[];
+  (e.werke||[]).forEach(function(w){
+    if(w.pause){z.push('— Pause —');return;}
+    var k=w.komponist||'',t=w.titel||'';
+    if(!kurz&&k&&w.lebensdaten)k+=' ('+w.lebensdaten+')';
+    z.push(k&&t?k+': '+t:(k||t));
+  });
+  return z.filter(Boolean);
+}
+function peHatWerke(e){return (e.werke||[]).some(function(w){return !w.pause;});}
+function peSoloLeitung(e){
+  var z=[];
+  (e.solisten||[]).forEach(function(s){if(s&&s.name)z.push((s.instrument?s.instrument+': ':'')+s.name);});
+  var l=(e.leitung||[]).map(function(x){return x&&x.name;}).filter(Boolean).join(' / ');
+  if(l)z.push('Leitung: '+l);
+  return z;
+}
+function peKurzDatum(d){return PE_WT[d.getDay()]+' '+d.getDate()+'.'+(d.getMonth()+1)+'.';}
 function peText(evs,pName,o){
   if(!evs.length)return '';
   var z=[],last='';
   var titel=function(e){return e._titel+(e.marker==='Vorstellung'?' (Konzert)':'');};
+  // Programm: gibt es Vorstellungen mit Werken, steht das Programm einmal am Ende,
+  // sonst (Blattspiel, Repertoire) direkt unter dem jeweiligen Termin.
+  var vorst=[];
+  if(o.prog){
+    var o2=Object.assign({},o,{vor:true});
+    vorst=peEvents(pName,o2).filter(function(e){return e.marker==='Vorstellung'&&peHatWerke(e);});
+  }
+  var amEnde=vorst.length>0;
+  var unterTermin=function(e){
+    if(!o.prog||amEnde||!peHatWerke(e))return [];
+    var l=peWerkZeilen(e,o.kurz);
+    if(o.sl)l=l.concat(peSoloLeitung(e));
+    return o.kurz?['Programm: '+l.join(' | ')]:l.map(function(x){return '   '+x;});
+  };
   if(o.kurz){
     z.push(pName+':');
     evs.forEach(function(e){
-      var d=peDatum(e.datum),zl=PE_WT[d.getDay()]+' '+d.getDate()+'.'+(d.getMonth()+1)+'., '+peZeit(e,true)+' Uhr – '+titel(e);
+      var d=peDatum(e.datum),zl=peKurzDatum(d)+', '+peZeit(e,true)+' Uhr – '+titel(e);
       if(o.ort&&e.ort)zl+=', '+e.ort;
-      z.push(zl);
+      z.push(zl);unterTermin(e).forEach(function(x){z.push(x);});
     });
-    return z.join('\n');
+  }else{
+    z.push('Proben '+pName);z.push('');
+    evs.forEach(function(e){
+      var d=peDatum(e.datum);
+      if(e.datum!==last){if(last)z.push('');z.push(PE_WT[d.getDay()]+', '+e.datum);last=e.datum;}
+      var zl=peZeit(e,false)+' Uhr '+titel(e);
+      if(o.ort&&e.ort)zl+=' | '+e.ort;
+      z.push(zl);unterTermin(e).forEach(function(x){z.push(x);});
+    });
   }
-  z.push('Proben '+pName);z.push('');
-  evs.forEach(function(e){
-    var d=peDatum(e.datum);
-    if(e.datum!==last){if(last)z.push('');z.push(PE_WT[d.getDay()]+', '+e.datum);last=e.datum;}
-    var zl=peZeit(e,false)+' Uhr '+titel(e);
-    if(o.ort&&e.ort)zl+=' | '+e.ort;
-    z.push(zl);
-  });
+  if(amEnde){
+    var gr={},reihe=[];
+    vorst.forEach(function(e){
+      var key=peWerkZeilen(e,false).concat(peSoloLeitung(e)).join('\n');
+      if(!gr[key]){gr[key]={e:e,tage:[]};reihe.push(key);}
+      gr[key].tage.push(peKurzDatum(peDatum(e.datum)));
+    });
+    reihe.forEach(function(key){
+      var g=gr[key],l=peWerkZeilen(g.e,o.kurz);
+      if(o.sl)l=l.concat(peSoloLeitung(g.e));
+      z.push('');z.push('Programm ('+g.tage.join(', ')+'):');
+      l.forEach(function(x){z.push(x);});
+    });
+  }
   return z.join('\n');
+}
+// Der Übersetzer (Sheet und JSON) führt nur Termine ab heute; vergangene Tage löscht er nachts.
+// Zurückliegende Termine kommen deshalb aus einem älteren Stand von uebersetzer.json
+// (jede Aktualisierung ist ein Commit im Portal-Repo).
+var PE_REPO='hfmt-hso/hfmt-hso.github.io',PE_TAGE_ZURUECK=21;
+async function peVerlaufLaden(){
+  var bis=new Date(Date.now()-PE_TAGE_ZURUECK*864e5).toISOString();
+  var r=await fetch('https://api.github.com/repos/'+PE_REPO+'/commits?path=uebersetzer.json&per_page=1&until='+encodeURIComponent(bis));
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  var c=await r.json();if(!c||!c.length)return {events:[],stand:''};
+  var r2=await fetch('https://raw.githubusercontent.com/'+PE_REPO+'/'+c[0].sha+'/uebersetzer.json');
+  if(!r2.ok)throw new Error('HTTP '+r2.status);
+  var j=await r2.json();return {events:(j&&j.events)||[],stand:c[0].commit&&c[0].commit.committer&&c[0].commit.committer.date};
 }
 async function peOeffnen(){
   zeigePanel('pewrap');
   $('pesh').style.display=navigator.share?'':'none';
   $('peinfo').textContent='lädt …';
+  var heute=new Date();heute.setHours(0,0,0,0);
+  var jetzt=[],verl={events:[],stand:''},hinweis='';
   try{
     var r=await fetch('../uebersetzer.json?t='+Date.now(),{cache:'no-store'});
     if(!r.ok)throw new Error('HTTP '+r.status);
-    var j=await r.json();PE.events=(j&&j.events)||[];
-    $('peinfo').textContent='Stand der Termine: '+(j.generiert?new Date(j.generiert).toLocaleString('de-DE'):'unbekannt')+' – bei Änderungen zuerst „Aktualisieren & veröffentlichen“.';
-  }catch(e){PE.events=PE.events||[];$('peinfo').textContent='';toast('Termine nicht ladbar: '+e.message);}
+    var j=await r.json();jetzt=(j&&j.events)||[];
+    hinweis='Stand der Termine: '+(j.generiert?new Date(j.generiert).toLocaleString('de-DE'):'unbekannt')+'.';
+  }catch(e){toast('Termine nicht ladbar: '+e.message);}
+  try{
+    PE.verlauf=PE.verlauf||await peVerlaufLaden();verl=PE.verlauf;
+    if(verl.stand)hinweis+=' Zurückliegende Termine aus dem Stand vom '+new Date(verl.stand).toLocaleDateString('de-DE')+'.';
+  }catch(e){hinweis+=' Zurückliegende Termine nicht ladbar ('+e.message+').';}
+  var ids={};jetzt.forEach(function(e){ids[e._eventId]=1;});
+  var alt=verl.events.filter(function(e){var d=peDatum(e.datum);return d&&d<heute&&!ids[e._eventId];});
+  PE.events=jetzt.concat(alt);
+  $('peinfo').textContent=hinweis+' Änderungen zuerst mit „Aktualisieren & veröffentlichen“.';
   peSjFuellen();
 }
 function peSjFuellen(){
@@ -676,7 +748,7 @@ function peTeilen(){
 
 function verdrahte(){
   $('pesj').onchange=peProjFuellen;$('pepr').onchange=peRender;$('pefm').onchange=peRender;
-  $('pekomm').onchange=peProjFuellen;$('pevor').onchange=peProjFuellen;$('peort').onchange=peRender;
+  $('pekomm').onchange=peProjFuellen;$('pevor').onchange=peProjFuellen;$('peort').onchange=peRender;$('pepg').onchange=peRender;$('pesl').onchange=peRender;
   $('bsp').onchange=bsLadeProjekt;$('bsalt').onchange=bsProjekte;$('bsi').onchange=bsListe;$('bsq').oninput=bsListe;
   $('bsmail').onchange=function(){$('bsmo').style.display=this.checked?'':'none';};
   $('tbman').onchange=function(){$('tbmp').style.display=this.checked?'':'none';};
