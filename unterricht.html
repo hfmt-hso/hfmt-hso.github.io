@@ -228,6 +228,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 @media(prefers-color-scheme:dark){#speicher-overlay{background:rgba(26,26,24,0.85)}}
 #speicher-overlay small{font-weight:400;font-size:12px;color:var(--text-muted)}
 @media(prefers-color-scheme:dark){.toast{background:#fff;color:#1a1a1a}}
+/* SCHMALE HANDYS (iPhone SE & Co.) */
+@media(max-width:400px){
+  .header{padding:8px 10px}
+  .header-row{gap:8px}
+  .header-logo{height:32px}
+  .header-text h1{font-size:13px;line-height:1.25}
+  .header-text p{font-size:10px}
+  .back-btn{padding:5px 9px;font-size:11px}
+  .screen{padding:12px 10px;gap:10px}
+  .login-card{padding:14px}
+  .login-title{font-size:18px}
+  .welcome-bar{padding:9px 10px}
+  .filter-tab{min-width:0;flex:1 1 auto;padding:7px 4px;font-size:10px;white-space:nowrap}
+  .filter-tabs{gap:1px;padding:2px}
+  .btn{padding:12px}
+  .field-input{padding:10px 12px}
+}
 </style>
 </head>
 <body>
@@ -465,6 +482,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="field-gap"></div>
     <div class="field-label">Passwort</div>
     <input class="field-input" type="password" id="a-pw" placeholder="Passwort" onkeydown="if(event.key==='Enter')adminLogin()">
+    <label style="display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:var(--text-muted);cursor:pointer"><input type="checkbox" id="a-merken" style="width:18px;height:18px;margin:0"> Angemeldet bleiben (30 Tage, nur auf deinem eigenen Gerät)</label>
     <div class="field-gap"></div>
     <div class="error-msg" id="a-error"></div>
     <button class="btn btn-blue" onclick="adminLogin()">Anmelden</button>
@@ -1545,6 +1563,26 @@ async function awLoeschen(id) {
 }
 
 // ── LEHRENDEN-LOGIN ───────────────────────────────────────────
+// "Angemeldet bleiben": nur auf Wunsch (Häkchen), nur für Lehrende, 30 Tage. Abmelden löscht alles.
+const ADMIN_MERKEN_KEY = 'hso_admin_merken';
+const ADMIN_MERKEN_TAGE = 30;
+function adminMerken(adminObj, pwHash) {
+  try {
+    const cb = document.getElementById('a-merken');
+    if (cb && cb.checked) localStorage.setItem(ADMIN_MERKEN_KEY, JSON.stringify({ admin: adminObj, hash: pwHash, bis: Date.now() + ADMIN_MERKEN_TAGE * 86400000 }));
+    else localStorage.removeItem(ADMIN_MERKEN_KEY);
+  } catch(e) {}
+}
+function adminMerkenWiederherstellen() {
+  try {
+    const s = localStorage.getItem(ADMIN_MERKEN_KEY);
+    if (!s) return;
+    const d = JSON.parse(s);
+    if (!d || !d.admin || !d.hash || !(d.bis > Date.now())) { localStorage.removeItem(ADMIN_MERKEN_KEY); return; }
+    sessionStorage.setItem('hso_admin_unterricht', JSON.stringify(d.admin));
+    sessionStorage.setItem('hso_admin_hash', d.hash);
+  } catch(e) {}
+}
 async function adminLogin() {
   const nutzer = document.getElementById('a-user').value.trim().toLowerCase();
   const pw     = document.getElementById('a-pw').value;
@@ -1560,6 +1598,7 @@ async function adminLogin() {
     try { sessionStorage.setItem('hso_admin_hash', pwHash); } catch(e) {}
         if (json.student.erstanmeldung) { zeige('screen-admin-pw-setzen'); return; }
     sessionStorage.setItem('hso_admin_unterricht', JSON.stringify(aktuellerAdmin));
+    adminMerken(aktuellerAdmin, pwHash);
     oeffneAdminBereich();
   } catch(e) { errEl.textContent = 'Verbindungsfehler.'; }
 }
@@ -1577,6 +1616,7 @@ async function adminLogin() {
                   const json = await webAppPost({ action:'setPw', mtknr: aktuellerAdmin.nutzer, pwHash: _adminPwHash });
                   if (!json.ok) { err.textContent = json.error || 'Fehler.'; return; }
                   sessionStorage.setItem('hso_admin_unterricht', JSON.stringify(aktuellerAdmin));
+                  adminMerken(aktuellerAdmin, _adminPwHash);
                   toast('✅ Passwort gesetzt!');
                   oeffneAdminBereich();
           } catch(e) { err.textContent = 'Verbindungsfehler.'; }
@@ -2246,6 +2286,7 @@ setInterval(abwesenheitenPoll, ABW_POLL_MS);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) abwesenheitenPoll(); });
 
 function adminLogout() {
+  try { localStorage.removeItem(ADMIN_MERKEN_KEY); } catch(e) {}
   sessionStorage.removeItem('hso_admin_unterricht');
   aktuellerAdmin = null;
   adminBuchungen = null;
@@ -2283,6 +2324,7 @@ ladeStartTermine();
       sessionStorage.removeItem('hso_student');   // ältere Sitzung ohne gespeicherten Hash: einmal neu anmelden
     } catch(e) {}
   }
+  if (!sessionStorage.getItem('hso_admin_unterricht')) adminMerkenWiederherstellen();
   const storedAdmin = sessionStorage.getItem('hso_admin_unterricht');
   if (storedAdmin) {
     try {
