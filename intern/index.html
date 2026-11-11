@@ -2559,6 +2559,7 @@ var _untIcom=null,_untIcomStud=null,_untIcomAlt=false;
 // Markierung steht im Werk-Feld der Buchung (kein Backend-Umbau nötig); Abrechnung zählt die Zeile wie eine gehaltene Stunde.
 var ICOM_AUSFALL='⚠ Ausfall (kurzfristig abgesagt, unentschuldigt)';
 function icomIstAusfall(w){return String(w||'').indexOf('⚠ Ausfall')===0;}
+function icomIstKrankAusfall(w){return icomIstAusfall(w)&&String(w).indexOf('krank gemeldet')>=0;}
 function untIcomPfad(){return _untIcomAlt?'&ab='+UNT_ZEITEN_AB:'';}
 async function ladeUntIcom(force){
   var el=document.getElementById('unt-icom-liste');
@@ -2598,7 +2599,7 @@ function renderUntIcom(){
         '<button onclick="untIcomTyp(\''+tid+'\',\''+esc(s.uhrzeit)+'\',\'einzel\')" title="Diesen Slot in Einzelunterricht umwandeln" style="padding:5px 10px;background:#fff;color:var(--ink3);border:1px solid var(--border);border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">→ Einzel</button></div>';
       if(s.buchungId&&icomIstAusfall(s.werk))return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap;background:var(--red-bg);border-radius:8px;padding:5px 8px">'+zeit+
         '<span style="font-size:12px;min-width:110px;font-weight:600">'+esc(s.name)+'</span>'+
-        '<span style="flex:1;min-width:140px;font-size:12px;color:var(--red);font-weight:700">⚠ Kurzfristig abgesagt – unentschuldigt, wird honoriert</span>'+
+        '<span style="flex:1;min-width:140px;font-size:12px;color:var(--red);font-weight:700">'+(icomIstKrankAusfall(s.werk)?'🤒 Kurzfristig krank gemeldet – wird honoriert':'⚠ Kurzfristig abgesagt – unentschuldigt, wird honoriert')+'</span>'+
         '<button onclick="untIcomAusfallAufheben(\''+esc(s.buchungId)+'\')" style="padding:5px 10px;background:#fff;color:var(--ink3);border:1px solid var(--border);border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">Zurücknehmen</button>'+
         '<button onclick="untIcomEntfernen(\''+esc(s.buchungId)+'\')" style="padding:5px 10px;background:var(--red-bg);color:var(--red);border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans)">✕ Entfernen</button></div>';
       if(s.buchungId)return '<div style="display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap">'+zeit+
@@ -2776,22 +2777,29 @@ function renderIcomAw(){
   if(!_icomAw.length){el.innerHTML='<div class="empty">Keine ICoM-Abwesenheiten gemeldet.</div>';return;}
   var entw={};
   el.querySelectorAll('input[id^="icaw-k-"]').forEach(function(i){if(i.value)entw[i.id]=i.value;});
+  var pill='font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;';
   el.innerHTML=_icomAw.map(function(a){
-    var badge=a.status==='gesehen'?'<span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;background:var(--green-bg);color:var(--green)">✓ Bestätigt</span>':
-      a.status==='ruecksprache'?'<span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;background:var(--gold-bg);color:var(--gold2)">💬 Rücksprache</span>':
-      '<span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;background:var(--gold-bg);color:var(--gold2)">Offen</span>';
+    var krank=a.art==='krank';
+    var badge=krank?'<span style="'+pill+'background:var(--red-bg);color:var(--red)">🤒 Krankmeldung'+(a.status==='offen'?'':' · bestätigt')+'</span>':
+      a.status==='gesehen'?'<span style="'+pill+'background:var(--green-bg);color:var(--green)">✓ Bestätigt</span>':
+      a.status==='ruecksprache'?'<span style="'+pill+'background:var(--gold-bg);color:var(--gold2)">💬 Rücksprache</span>':
+      '<span style="'+pill+'background:var(--gold-bg);color:var(--gold2)">Offen</span>';
     var id=esc(a.id),kv=entw.hasOwnProperty('icaw-k-'+a.id)?entw['icaw-k-'+a.id]:'';
     var knopf='padding:6px 10px;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--sans);';
     var akt=a.status==='offen'?
       '<input id="icaw-k-'+id+'" placeholder="Kommentar (optional)…" value="'+esc(kv)+'" style="width:100%;margin-top:8px;padding:7px 10px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff">'+
-      '<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button style="'+knopf+'background:var(--green-bg);color:var(--green)" onclick="icomAwAktion(\''+id+'\',\'icomAwGesehen\')">✓ Gesehen</button>'+
+      '<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><button style="'+knopf+'background:var(--green-bg);color:var(--green)" onclick="icomAwDialog(\''+id+'\',\'gesehen\')">✓ Gesehen</button>'+
+      '<button style="'+knopf+'background:var(--red-bg);color:var(--red)" onclick="icomAwDialog(\''+id+'\',\'krank\')">🤒 Krankmeldung</button>'+
       '<button style="'+knopf+'background:var(--gold-bg);color:var(--gold2)" onclick="icomAwAktion(\''+id+'\',\'icomAwRuecksprache\')">💬 Rücksprache</button>'+
       '<button style="'+knopf+'background:var(--red-bg);color:var(--red)" onclick="icomAwLoesch(\''+id+'\')">🗑</button></div>':
-      '<div style="display:flex;gap:6px;margin-top:8px"><button style="'+knopf+'background:#fff;border:1px solid var(--border);color:var(--ink3)" onclick="icomAwAktion(\''+id+'\',\'icomAwZurueck\')">↩ Zurücksetzen</button>'+
+      '<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">'+
+      (krank?'':'<button style="'+knopf+'background:var(--red-bg);color:var(--red)" onclick="icomAwDialog(\''+id+'\',\'krank\')">🤒 In Krankmeldung umwandeln</button>')+
+      '<button style="'+knopf+'background:#fff;border:1px solid var(--border);color:var(--ink3)" onclick="icomAwAktion(\''+id+'\',\'icomAwZurueck\')">↩ Zurücksetzen</button>'+
       '<button style="'+knopf+'background:var(--red-bg);color:var(--red)" onclick="icomAwLoesch(\''+id+'\')">🗑</button></div>';
     return '<div class="tcard" style="flex-wrap:wrap"><div style="width:100%"><div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start">'+
       '<div><div style="font-size:13px;font-weight:700">'+esc(a.name)+'</div><div style="font-size:12px;margin-top:2px">'+esc(a.datumVon)+' '+esc(a.uhrzeitVon)+' – '+esc(a.datumBis)+' '+esc(a.uhrzeitBis)+' Uhr</div>'+
-      '<div style="font-size:12px;color:var(--ink3);margin-top:3px">'+esc(a.grund)+'</div>'+(a.gesehenKommentar?'<div style="font-size:11px;color:var(--green);margin-top:3px;font-style:italic">💬 '+esc(a.gesehenKommentar)+'</div>':'')+'</div>'+badge+'</div>'+akt+'</div></div>';
+      '<div style="font-size:12px;color:var(--ink3);margin-top:3px">'+esc(a.grund)+'</div>'+(a.gesehenKommentar?'<div style="font-size:11px;color:var(--green);margin-top:3px;font-style:italic">💬 '+esc(a.gesehenKommentar)+'</div>':'')+
+      (a.mailStatus?'<div style="font-size:10px;color:var(--ink3);margin-top:3px">✉️ '+esc(a.mailStatus)+'</div>':'')+'</div>'+badge+'</div>'+akt+'</div></div>';
   }).join('');
 }
 async function icomAwAktion(id,action){
@@ -2801,6 +2809,84 @@ async function icomAwAktion(id,action){
     if(!d.ok){zeigToast('Fehler: '+(d.error||'?'));return;}
     zeigToast('✓ Gespeichert');ladeIcomAw(true);
   }catch(e){zeigToast('Verbindungsfehler');}
+}
+
+// ── Gesehen / Krankmeldung mit Mailvorschau (Entwurf in Gmail oder direkter Versand) ──
+var ICOM_AW_BUERO='office@icom-hamburg.de';
+function icomAwDatumText(a){
+  var gleich=a.datumVon===a.datumBis;
+  return gleich?(a.datumVon+', '+a.uhrzeitVon+'–'+a.uhrzeitBis+' Uhr'):(a.datumVon+' '+a.uhrzeitVon+' bis '+a.datumBis+' '+a.uhrzeitBis+' Uhr');
+}
+function icomAwMailTexte(a,art,kommentar,nurBuero){
+  var vor=a.name.split(' ')[0],zeit=icomAwDatumText(a);
+  var st=null,bu=null;
+  if(art==='krank'){
+    if(!nurBuero)st={betreff:'ICoM-Unterricht: Krankmeldung erhalten',
+      text:'Hallo '+vor+',\n\ndeine Krankmeldung für '+zeit+' habe ich erhalten. Gute Besserung!'+(kommentar?'\n\n'+kommentar:'')+'\n\nViele Grüße'};
+    bu={betreff:'ICoM: Krankmeldung '+a.name+', '+a.datumVon,
+      text:'Sehr geehrte Damen und Herren,\n\nzur Kenntnis: '+a.name+' hat sich für '+zeit+' krank gemeldet.\n\nGrund laut Meldung: '+a.grund+(kommentar?'\n\n'+kommentar:'')+'\n\nMit freundlichen Grüßen'};
+  }else{
+    st={betreff:'ICoM-Unterricht: Abwesenheit zur Kenntnis genommen',
+      text:'Hallo '+vor+',\n\ndeine Abwesenheit am '+zeit+' habe ich zur Kenntnis genommen.'+(kommentar?'\n\n'+kommentar:'')+'\n\nViele Grüße'};
+  }
+  return {student:st,buero:bu};
+}
+function icomAwDialog(id,art){
+  var a=(_icomAw||[]).filter(function(x){return x.id===id;})[0];
+  if(!a)return;
+  var k=document.getElementById('icaw-k-'+id);
+  var kommentar=k?k.value.trim():'';
+  var nurBuero=a.status!=='offen';          // schon bestätigt → Umwandlung: nur Büro-Mail
+  var t=icomAwMailTexte(a,art,kommentar,nurBuero);
+  var feld='width:100%;box-sizing:border-box;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--sans);background:#fff;margin-top:4px';
+  function block(key,titel,m){
+    if(!m)return '';
+    return '<div style="margin-top:12px"><label style="display:flex;gap:6px;align-items:center;font-size:12px;font-weight:700"><input type="checkbox" id="icawd-'+key+'-an" checked> '+titel+'</label>'+
+      '<input id="icawd-'+key+'-b" value="'+esc(m.betreff)+'" style="'+feld+'">'+
+      '<textarea id="icawd-'+key+'-t" rows="6" style="'+feld+';resize:vertical">'+esc(m.text)+'</textarea></div>';
+  }
+  var ov=document.createElement('div');
+  ov.id='icaw-dialog';
+  ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center;padding:14px';
+  ov.innerHTML='<div style="background:#fff;border-radius:14px;max-width:560px;width:100%;max-height:92vh;overflow:auto;padding:16px 18px;font-family:var(--sans)">'+
+    '<div style="font-size:15px;font-weight:700">'+(art==='krank'?(nurBuero?'🤒 In Krankmeldung umwandeln':'🤒 Krankmeldung bestätigen'):'✓ Abwesenheit bestätigen')+'</div>'+
+    '<div style="font-size:12px;color:var(--ink3);margin-top:3px">'+esc(a.name)+' · '+esc(icomAwDatumText(a))+'</div>'+
+    (art==='krank'?'<div style="font-size:11px;color:var(--ink3);margin-top:6px">Fällt die Stunde auf den Tag der Meldung, wird sie als „kurzfristig krank gemeldet“ markiert und honoriert.</div>':'')+
+    block('s','✉️ Mail an '+esc(a.name.split(' ')[0]),t.student)+
+    block('b','🏢 Mail ans Büro ('+ICOM_AW_BUERO+')',t.buero)+
+    '<div style="margin-top:14px;font-size:12px;font-weight:700">Mails</div>'+
+    '<div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:4px;font-size:12px">'+
+      '<label><input type="radio" name="icawd-modus" value="entwurf" checked> als Entwurf in Gmail</label>'+
+      '<label><input type="radio" name="icawd-modus" value="senden"> direkt senden</label>'+
+      '<label><input type="radio" name="icawd-modus" value="keine"> keine Mail</label></div>'+
+    '<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">'+
+      '<button onclick="document.getElementById(\'icaw-dialog\').remove()" style="padding:9px 14px;border:1px solid var(--border);background:#fff;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--sans)">Abbrechen</button>'+
+      '<button id="icawd-ok" onclick="icomAwBestaetigen(\''+esc(id)+'\',\''+art+'\')" style="padding:9px 16px;border:none;background:var(--blue);color:#fff;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--sans)">Bestätigen</button></div></div>';
+  document.body.appendChild(ov);
+}
+async function icomAwBestaetigen(id,art){
+  var gv=function(i){var e=document.getElementById(i);return e?e:null;};
+  var modus=(document.querySelector('input[name="icawd-modus"]:checked')||{}).value||'entwurf';
+  function mail(key){
+    var an=gv('icawd-'+key+'-an');
+    if(!an||!an.checked)return null;
+    return {betreff:gv('icawd-'+key+'-b').value.trim(),text:gv('icawd-'+key+'-t').value.trim()};
+  }
+  var k=document.getElementById('icaw-k-'+id);
+  var payload={action:art==='krank'?'icomAwKrank':'icomAwGesehen',id:id,gesehenVon:UNT_ME,kommentar:k?k.value.trim():'',
+    mailModus:modus,mailStudent:mail('s'),mailBuero:art==='krank'?mail('b'):null};
+  var ok=gv('icawd-ok');ok.disabled=true;ok.textContent='Speichere…';
+  try{
+    var d=await untPost(payload);
+    if(!d.ok){zeigToast('Fehler: '+(d.error||'?'),5000);ok.disabled=false;ok.textContent='Bestätigen';return;}
+    var dlg=document.getElementById('icaw-dialog');if(dlg)dlg.remove();
+    var msg='✓ Gespeichert';
+    if(d.mail&&d.mail.length)msg+=' · '+(modus==='senden'?'Mail gesendet':'Entwurf in Gmail');
+    var hon=(d.betroffen||[]).filter(function(x){return x.honoriert;});
+    if(hon.length)msg+=' · '+hon.length+' Stunde(n) als honoriert markiert';
+    zeigToast(msg,5000);
+    _untIcom=null;ladeIcomAw(true);
+  }catch(e){zeigToast('Verbindungsfehler',5000);ok.disabled=false;ok.textContent='Bestätigen';}
 }
 async function icomAwLoesch(id){
   if(!confirm('Abwesenheit wirklich löschen?'))return;
@@ -2897,7 +2983,7 @@ async function icomAbrLaden(){
       var dt=parseDatum(t.datum);
       if(!dt||dt.getFullYear()!==y||dt.getMonth()+1!==m)return;
       t.slots.forEach(function(s){
-        if(s.typ==='einzel'&&s.buchungId)z.push({datum:t.datum,text:s.name+(icomIstAusfall(s.werk)?' (kurzfristig abgesagt)':''),einheiten:1,an:true,ts:dt.getTime()+parseInt(s.uhrzeit,10)*60000});
+        if(s.typ==='einzel'&&s.buchungId)z.push({datum:t.datum,text:s.name+(icomIstAusfall(s.werk)?(icomIstKrankAusfall(s.werk)?' (kurzfristig krank gemeldet)':' (kurzfristig abgesagt)'):''),einheiten:1,an:true,ts:dt.getTime()+parseInt(s.uhrzeit,10)*60000});
       });
     });
     // Einmaliger Nachtrag: Unterricht vom 21.10.2026 (vor Start der Buchungen), Studierende von Hand eintragen
