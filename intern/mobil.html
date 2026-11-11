@@ -170,7 +170,7 @@ h2{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;co
         <button class="btn pri" id="anwalle" onclick="anwAlle()" style="flex:1">Alle bestätigen</button>
       </div>
       <details style="margin-top:14px"><summary style="cursor:pointer;font-weight:600">Nachtragen (ohne Scan)</summary>
-        <label>Person</label><select id="anwnp" style="width:100%;font-size:16px;font-family:inherit;padding:9px 10px;border:1px solid var(--border);border-radius:9px;background:var(--paper2);color:var(--ink)"><option value="">Liste wird geladen …</option></select>
+        <label>Person</label><input id="anwnp" list="anwnpl" autocomplete="off" placeholder="Instrument oder Name tippen …" style="width:100%;font-size:16px;font-family:inherit;padding:9px 10px;border:1px solid var(--border);border-radius:9px;background:var(--paper2);color:var(--ink);box-sizing:border-box"><datalist id="anwnpl"></datalist>
         <div class="row"><span></span><button class="btn" onclick="anwNachtragen()">Als anwesend eintragen</button></div>
         <div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--border)"><b>Nicht in der Liste? Manuell eintragen</b>
           <label>Instrument</label><input id="anwmi" list="anwmil" autocomplete="off" style="width:100%;font-size:16px;font-family:inherit;padding:9px 10px;border:1px solid var(--border);border-radius:9px;background:var(--paper2);color:var(--ink);box-sizing:border-box"><datalist id="anwmil"></datalist>
@@ -578,7 +578,7 @@ async function anwPersonenLaden(){
   var d=await anwGet('anwesenheitPersonen');
   if(!d.ok)return;
   ANW.personen=d.data.map(function(s){return s.instrument+' – '+s.name;}).sort(function(a,b){return a.localeCompare(b,'de');});
-  $('anwnp').innerHTML='<option value="">– Person wählen –</option>'+ANW.personen.map(function(x){return '<option>'+esc(x)+'</option>';}).join('');
+  $('anwnpl').innerHTML=ANW.personen.map(function(x){return '<option value="'+esc(x)+'">';}).join('');
   var ins={};d.data.forEach(function(s){if(s.instrument)ins[s.instrument]=1;});
   $('anwmil').innerHTML=Object.keys(ins).sort(function(a,b){return a.localeCompare(b,'de');}).map(function(x){return '<option value="'+esc(x)+'">';}).join('');
 }
@@ -590,7 +590,8 @@ async function anwManuell(){
   toast(v+' '+n+' eingetragen');$('anwmi').value=$('anwmv').value=$('anwmn').value='';anwLaden(true);
 }
 async function anwNachtragen(){
-  var v=$('anwnp').value;if(!v){toast('Bitte eine Person wählen');return;}
+  var v=$('anwnp').value.trim();if(!v){toast('Bitte eine Person wählen');return;}
+  if(!ANW.personen||ANW.personen.indexOf(v)<0){toast('Bitte einen Vorschlag aus der Liste wählen (sonst unten manuell eintragen)');return;}
   var d=await anwGet('anwesenheitNachtragen',{person:v,probe:ANW.probe});
   if(!d.ok){toast(fehlerText(d));return;}
   toast('eingetragen');$('anwnp').value='';anwLaden(true);
