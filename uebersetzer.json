@@ -1,23 +1,6 @@
 {
-  "generiert": "2026-11-10T03:07:39.407Z",
+  "generiert": "2026-11-11T03:10:17.825Z",
   "events": [
-    {
-      "datum": "10.11.2026",
-      "uhrzeit": "10:00 Uhr",
-      "ort": "Forum",
-      "konzertart": null,
-      "marker": null,
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "abwesend": null,
-      "endzeit": "14:30 Uhr",
-      "_eventId": "6hs7q40j47dpcbden61gdf46l6@google.com",
-      "_titel": "WK 3 OA"
-    },
     {
       "datum": "11.11.2026",
       "uhrzeit": "10:00 Uhr",
@@ -1810,7 +1793,7 @@
       "notizen": [],
       "probenplan": [
         "*",
-        "Schlagwerk: 4 Pauken, große Trommel, Vibraphon, Marimbaphon"
+        "Schlagwerk: 4 Pauken, große Trommel, Vibraphon, Marimbaphon, Röhrenglocken"
       ],
       "abwesend": null,
       "eintritt": [
@@ -1892,7 +1875,7 @@
       "notizen": [],
       "probenplan": [
         "*",
-        "Schlagwerk: 4 Pauken, große Trommel, Vibraphon, Marimbaphon"
+        "Schlagwerk: 4 Pauken, große Trommel, Vibraphon, Marimbaphon, Röhrenglocken"
       ],
       "abwesend": null,
       "eintritt": [
