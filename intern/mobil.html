@@ -172,6 +172,12 @@ h2{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;co
       <details style="margin-top:14px"><summary style="cursor:pointer;font-weight:600">Nachtragen (ohne Scan)</summary>
         <label>Person</label><select id="anwnp" style="width:100%;font-size:16px;font-family:inherit;padding:9px 10px;border:1px solid var(--border);border-radius:9px;background:var(--paper2);color:var(--ink)"><option value="">Liste wird geladen …</option></select>
         <div class="row"><span></span><button class="btn" onclick="anwNachtragen()">Als anwesend eintragen</button></div>
+        <div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--border)"><b>Nicht in der Liste? Manuell eintragen</b>
+          <label>Instrument</label><input id="anwmi" list="anwmil" autocomplete="off" style="width:100%;font-size:16px;font-family:inherit;padding:9px 10px;border:1px solid var(--border);border-radius:9px;background:var(--paper2);color:var(--ink);box-sizing:border-box"><datalist id="anwmil"></datalist>
+          <label>Vorname</label><input id="anwmv" autocomplete="off" style="width:100%;font-size:16px;font-family:inherit;padding:9px 10px;border:1px solid var(--border);border-radius:9px;background:var(--paper2);color:var(--ink);box-sizing:border-box">
+          <label>Nachname</label><input id="anwmn" autocomplete="off" style="width:100%;font-size:16px;font-family:inherit;padding:9px 10px;border:1px solid var(--border);border-radius:9px;background:var(--paper2);color:var(--ink);box-sizing:border-box">
+          <div class="row"><span></span><button class="btn pri" onclick="anwManuell()">Manuell als anwesend eintragen</button></div>
+        </div>
       </details>
     </div>
   </div>
@@ -573,6 +579,15 @@ async function anwPersonenLaden(){
   if(!d.ok)return;
   ANW.personen=d.data.map(function(s){return s.instrument+' – '+s.name;}).sort(function(a,b){return a.localeCompare(b,'de');});
   $('anwnp').innerHTML='<option value="">– Person wählen –</option>'+ANW.personen.map(function(x){return '<option>'+esc(x)+'</option>';}).join('');
+  var ins={};d.data.forEach(function(s){if(s.instrument)ins[s.instrument]=1;});
+  $('anwmil').innerHTML=Object.keys(ins).sort(function(a,b){return a.localeCompare(b,'de');}).map(function(x){return '<option value="'+esc(x)+'">';}).join('');
+}
+async function anwManuell(){
+  var i=$('anwmi').value.trim(),v=$('anwmv').value.trim(),n=$('anwmn').value.trim();
+  if(!i||!v||!n){toast('Instrument, Vor- und Nachname angeben');return;}
+  var d=await anwGet('anwesenheitNachtragen',{person:i+' – '+v+' '+n,probe:ANW.probe});
+  if(!d.ok){toast(fehlerText(d));return;}
+  toast(v+' '+n+' eingetragen');$('anwmi').value=$('anwmv').value=$('anwmn').value='';anwLaden(true);
 }
 async function anwNachtragen(){
   var v=$('anwnp').value;if(!v){toast('Bitte eine Person wählen');return;}
