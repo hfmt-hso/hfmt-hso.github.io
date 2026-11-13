@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-12T03:10:21.661Z",
+  "generiert": "2026-11-13T03:07:55.672Z",
   "events": [
     {
       "datum": "03.12.2026",
@@ -2305,7 +2305,7 @@
       "_titel": "HSO 4 (2)"
     },
     {
-      "datum": "21.09.2027",
+      "datum": "19.10.2027",
       "uhrzeit": "10:00 Uhr",
       "endzeit": "12:30 Uhr",
       "ort": "Forum",
@@ -2324,7 +2324,7 @@
       "_titel": "WK 1 OA"
     },
     {
-      "datum": "22.09.2027",
+      "datum": "20.10.2027",
       "uhrzeit": "10:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -2341,7 +2341,7 @@
       "_titel": "WK 1 OA"
     },
     {
-      "datum": "23.09.2027",
+      "datum": "21.10.2027",
       "uhrzeit": "10:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -2358,7 +2358,7 @@
       "_titel": "WK 1 GP"
     },
     {
-      "datum": "23.09.2027",
+      "datum": "21.10.2027",
       "uhrzeit": "19:30 Uhr",
       "endzeit": "21:30 Uhr",
       "ort": "Forum",
@@ -2621,7 +2621,7 @@
       "_titel": "HSO 1 Konzert zur Semestereröffnung (2) (Studierende)"
     },
     {
-      "datum": "19.10.2027",
+      "datum": "30.11.2027",
       "uhrzeit": "10:00 Uhr",
       "endzeit": "12:30 Uhr",
       "ort": "Forum",
@@ -2640,7 +2640,7 @@
       "_titel": "WK 2 OA"
     },
     {
-      "datum": "20.10.2027",
+      "datum": "01.12.2027",
       "uhrzeit": "10:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -2657,7 +2657,7 @@
       "_titel": "WK 2 OA"
     },
     {
-      "datum": "21.10.2027",
+      "datum": "02.12.2027",
       "uhrzeit": "10:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -2674,7 +2674,7 @@
       "_titel": "WK 2 GP"
     },
     {
-      "datum": "21.10.2027",
+      "datum": "02.12.2027",
       "uhrzeit": "19:30 Uhr",
       "endzeit": "21:30 Uhr",
       "ort": "Forum",
@@ -2710,7 +2710,7 @@
       "_titel": "WK 3 OA"
     },
     {
-      "datum": "26.01.2028",
+      "datum": "23.02.2028",
       "uhrzeit": "10:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
@@ -2724,7 +2724,7 @@
       "abwesend": null,
       "endzeit": "14:30 Uhr",
       "_eventId": "chqo1fdochsp557rvln108v0v0@google.com",
-      "_titel": "WK 3 OA"
+      "_titel": "WK 4 OA"
     },
     {
       "datum": "27.01.2028",
@@ -2744,7 +2744,7 @@
       "_titel": "WK 3 GP"
     },
     {
-      "datum": "28.01.2028",
+      "datum": "24.02.2028",
       "uhrzeit": "19:30 Uhr",
       "endzeit": "21:30 Uhr",
       "ort": "Forum",
@@ -2760,12 +2760,12 @@
       "abwesend": null,
       "eintritt": [],
       "_eventId": "faobur7sip0t3aqh57c81jm16c@google.com",
-      "_titel": "WK 3"
+      "_titel": "WK 4"
     },
     {
       "datum": "01.12.2027",
-      "uhrzeit": "10:00 Uhr",
-      "endzeit": "13:00 Uhr",
+      "uhrzeit": "15:30 Uhr",
+      "endzeit": "18:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "1. Probe",
@@ -2783,7 +2783,7 @@
     },
     {
       "datum": "02.12.2027",
-      "uhrzeit": "10:00 Uhr",
+      "uhrzeit": "14:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": null,
@@ -2794,7 +2794,7 @@
       "aufbauplan": null,
       "notizen": [],
       "abwesend": null,
-      "endzeit": "13:00 Uhr",
+      "endzeit": "17:00 Uhr",
       "_eventId": "8fmponjkio9f3vt1cncni6vg28@google.com",
       "_titel": "13/14 OA"
     },
@@ -4696,6 +4696,76 @@
       "endzeit": "19:00 Uhr",
       "_eventId": "38b907db5ek8ke8lg98f2rapjs@google.com",
       "_titel": "HSO 3 OA Bläser"
+    },
+    {
+      "datum": "26.01.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "abwesend": null,
+      "endzeit": "14:30 Uhr",
+      "_eventId": "5v83v2tm6p0a84nsgek28q80u6@google.com",
+      "_titel": "WK 3 OA"
+    },
+    {
+      "datum": "27.01.2028",
+      "uhrzeit": "19:30 Uhr",
+      "endzeit": "21:30 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": "Vorstellung",
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "probenplan": [],
+      "abwesend": null,
+      "eintritt": [],
+      "_eventId": "2jj5cpavid7rn4h46fslng2ehq@google.com",
+      "_titel": "WK 3"
+    },
+    {
+      "datum": "22.02.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "abwesend": null,
+      "endzeit": "12:30 Uhr",
+      "_eventId": "4lt6pbb24mjsrfs81km69cr7pk@google.com",
+      "_titel": "WK 4 OA"
+    },
+    {
+      "datum": "24.02.2028",
+      "uhrzeit": "10:00 Uhr",
+      "ort": "Forum",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "abwesend": null,
+      "endzeit": "13:00 Uhr",
+      "_eventId": "4dq80ka3e7vkifgeu19qgdlb69@google.com",
+      "_titel": "WK 4 GP"
     }
   ]
 }
