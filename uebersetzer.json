@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-13T03:07:55.672Z",
+  "generiert": "2026-11-13T08:57:31.288Z",
   "events": [
     {
       "datum": "03.12.2026",
@@ -4766,6 +4766,40 @@
       "endzeit": "13:00 Uhr",
       "_eventId": "4dq80ka3e7vkifgeu19qgdlb69@google.com",
       "_titel": "WK 4 GP"
+    },
+    {
+      "datum": "18.02.2027",
+      "uhrzeit": "17:00 Uhr",
+      "ort": "",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "abwesend": null,
+      "endzeit": "22:00 Uhr",
+      "_eventId": "3cf3di8f30a3rcmac06movjr5o@google.com",
+      "_titel": "OA Matthiaemahl"
+    },
+    {
+      "datum": "19.02.2027",
+      "uhrzeit": "15:00 Uhr",
+      "ort": "",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "abwesend": null,
+      "endzeit": "23:00 Uhr",
+      "_eventId": "7btdf72c5j8o25v7flcirj6387@google.com",
+      "_titel": "Matthiaemahl"
     }
   ]
 }
