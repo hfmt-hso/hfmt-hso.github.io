@@ -68,7 +68,13 @@
       if (titel.indexOf(KEIN_EIGENES_PROJEKT[i]) === 0) return null;
     }
     var mZusatz = titel.match(/^\*(.+)/);
-    if (mZusatz) return '*' + mZusatz[1].trim();
+    if (mZusatz) {
+      // Orchesterart (OA, GP, HP, OSP) vor/hinter dem Namen gehört nicht zum Projektnamen
+      var zName = mZusatz[1].trim()
+        .replace(/^(?:OA|GP|HP|OSP)\s+/, '')
+        .replace(/\s+(?:OA|GP|HP|OSP)$/, '');
+      return '*' + zName;
+    }
 
     var mLue = titel.match(/^(WK\s+L[üu]\s+\d+)/);
     if (mLue) return mLue[1];
