@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-13T18:19:51.252Z",
+  "generiert": "2026-11-14T03:06:50.625Z",
   "events": [
     {
       "datum": "03.12.2026",
@@ -420,7 +420,7 @@
       "ensemble": "Kammerorchester der HfMT",
       "leitung": [
         {
-          "name": "Philine Lembeck (Hindemith), Jacob Gröper (Yin), Rémi Geniet (Ligeti), Miquel Bosch Roca (Zaczek), Uschik Choi (Bartok) (Kursleitung: Roland Böer)",
+          "name": "Philine Lembeck (Hindemith), Doğa Çetin (Yin), Rémi Geniet (Ligeti), Miquel Bosch Roca (Zaczek), Uschik Choi (Bartok) (Kursleitung: Roland Böer)",
           "werk": "",
           "klasse": ""
         }
@@ -4787,17 +4787,19 @@
     {
       "datum": "19.02.2027",
       "uhrzeit": "15:00 Uhr",
+      "endzeit": "23:00 Uhr",
       "ort": "Rathausmarkt 1, 20095 Hamburg, Deutschland",
       "konzertart": null,
-      "marker": null,
+      "marker": "Vorstellung",
       "werke": [],
       "solisten": [],
       "ensemble": null,
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
+      "probenplan": [],
       "abwesend": null,
-      "endzeit": "23:00 Uhr",
+      "eintritt": [],
       "_eventId": "7btdf72c5j8o25v7flcirj6387@google.com",
       "_titel": "*Matthiaemahl"
     }
