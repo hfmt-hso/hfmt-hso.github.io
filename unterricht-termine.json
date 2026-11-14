@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-13T18:19:55.494Z",
+  "generiert": "2026-11-14T03:06:54.154Z",
   "data": [
     {
       "id": "UT_20261109_0",
@@ -538,7 +538,7 @@
       "notizen": "",
       "verschobenAm": "2026-11-13",
       "verschobenArt": "zeit",
-      "verschobenAlt": "Fri Dec 11 2026 13:00:00 GMT+0100 (Mitteleuropäische Normalzeit)"
+      "verschobenAlt": "Fri Dec 11 2026 13:00:00 GMT+0100 (Central European Standard Time)"
     },
     {
       "id": "UT_20261211_40",
@@ -1251,7 +1251,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-13",
+      "verschobenAm": "2026-11-14",
       "verschobenArt": "zeit",
       "verschobenAlt": "Di 02.02., 15:30"
     },
@@ -1374,7 +1374,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-13",
+      "verschobenAm": "2026-11-14",
       "verschobenArt": "zeit",
       "verschobenAlt": "Fr 05.02., 14:30"
     },
