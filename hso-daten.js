@@ -272,6 +272,27 @@
             probenplan: ev.probenplan || []
           };
         });
+
+        // Proben mit Disposition (Portal-Reiter "Probendisposition")
+        zugehoerig.forEach(function (ev) {
+          if (vorstellungen.indexOf(ev) !== -1) return;
+          if (!(ev.disposition && ev.disposition.length)) return;
+          result[pName].push({
+            _eventId: ev._eventId,
+            _titel: ev._titel,
+            _probe: true,
+            datum: ev.datum,
+            uhrzeit: ev.uhrzeit,
+            endzeit: ev.endzeit,
+            ort: ev.ort,
+            marker: ev.marker,
+            werke: [],
+            solisten: [],
+            leitung: [],
+            probenplan: [],
+            disposition: ev.disposition
+          });
+        });
       }
     }
 
