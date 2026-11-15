@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-15T09:32:43.581Z",
+  "generiert": "2026-11-15T11:37:20.436Z",
   "data": [
     {
       "id": "UT_20261109_0",
@@ -842,63 +842,26 @@
       "projekt": "Gruppenunterricht Berg",
       "marker": "Gruppenunterricht",
       "dozent": "Berg",
-      "uhrzeit": "09:00",
+      "uhrzeit": "14:00",
       "ort": "Blau 206",
       "slots": [
         {
           "slotId": "s_0",
-          "uhrzeit": "09:00"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "10:00"
-        },
-        {
-          "slotId": "s_2",
-          "uhrzeit": "11:00"
-        },
-        {
-          "slotId": "s_3",
-          "uhrzeit": "12:00"
-        },
-        {
-          "slotId": "s_4",
-          "uhrzeit": "13:00"
-        },
-        {
-          "slotId": "s_5",
           "uhrzeit": "14:00"
         },
         {
-          "slotId": "s_6",
+          "slotId": "s_1",
           "uhrzeit": "15:00"
         },
         {
-          "slotId": "s_7",
+          "slotId": "s_2",
           "uhrzeit": "16:00"
-        },
-        {
-          "slotId": "s_8",
-          "uhrzeit": "17:00"
-        },
-        {
-          "slotId": "s_9",
-          "uhrzeit": "18:00"
-        },
-        {
-          "slotId": "s_10",
-          "uhrzeit": "19:00"
-        },
-        {
-          "slotId": "s_11",
-          "uhrzeit": "20:00"
-        },
-        {
-          "slotId": "s_12",
-          "uhrzeit": "21:00"
         }
       ],
-      "notizen": ""
+      "notizen": "",
+      "verschobenAm": "2026-11-15",
+      "verschobenArt": "zeit",
+      "verschobenAlt": "Di 19.01., 09:00"
     },
     {
       "id": "UT_20270119_53",
@@ -925,68 +888,81 @@
       "notizen": ""
     },
     {
+      "id": "UT_20270119_0",
+      "datum": "19.01.2027",
+      "projekt": "Gruppenunterricht Berg",
+      "marker": "Gruppenunterricht",
+      "dozent": "Berg",
+      "uhrzeit": "18:00",
+      "ort": "Blau 206",
+      "slots": [
+        {
+          "slotId": "s_0",
+          "uhrzeit": "18:00"
+        },
+        {
+          "slotId": "s_1",
+          "uhrzeit": "19:00"
+        },
+        {
+          "slotId": "s_2",
+          "uhrzeit": "20:00"
+        }
+      ],
+      "notizen": "",
+      "angelegtAm": "2026-11-15"
+    },
+    {
       "id": "UT_20270120_54",
       "datum": "20.01.2027",
       "projekt": "Gruppenunterricht Berg",
       "marker": "Gruppenunterricht",
       "dozent": "Berg",
-      "uhrzeit": "09:00",
+      "uhrzeit": "10:00",
       "ort": "Blau 206",
       "slots": [
         {
           "slotId": "s_0",
-          "uhrzeit": "09:00"
-        },
-        {
-          "slotId": "s_1",
           "uhrzeit": "10:00"
         },
         {
-          "slotId": "s_2",
+          "slotId": "s_1",
           "uhrzeit": "11:00"
         },
         {
-          "slotId": "s_3",
+          "slotId": "s_2",
           "uhrzeit": "12:00"
-        },
+        }
+      ],
+      "notizen": "",
+      "verschobenAm": "2026-11-15",
+      "verschobenArt": "zeit",
+      "verschobenAlt": "Tue Jan 20 2026 09:00:00 GMT+0100 (Mitteleuropäische Normalzeit)"
+    },
+    {
+      "id": "UT_20270120_1",
+      "datum": "20.01.2027",
+      "projekt": "Gruppenunterricht Berg",
+      "marker": "Gruppenunterricht",
+      "dozent": "Berg",
+      "uhrzeit": "14:00",
+      "ort": "Blau 206",
+      "slots": [
         {
-          "slotId": "s_4",
-          "uhrzeit": "13:00"
-        },
-        {
-          "slotId": "s_5",
+          "slotId": "s_0",
           "uhrzeit": "14:00"
         },
         {
-          "slotId": "s_6",
+          "slotId": "s_1",
           "uhrzeit": "15:00"
         },
         {
-          "slotId": "s_7",
+          "slotId": "s_2",
           "uhrzeit": "16:00"
-        },
-        {
-          "slotId": "s_8",
-          "uhrzeit": "17:00"
-        },
-        {
-          "slotId": "s_9",
-          "uhrzeit": "18:00"
-        },
-        {
-          "slotId": "s_10",
-          "uhrzeit": "19:00"
-        },
-        {
-          "slotId": "s_11",
-          "uhrzeit": "20:00"
-        },
-        {
-          "slotId": "s_12",
-          "uhrzeit": "21:00"
         }
       ],
-      "notizen": ""
+      "notizen": "",
+      "angelegtAm": "2026-11-15"
     },
     {
       "id": "UT_20270120_9",
@@ -1253,7 +1229,7 @@
       "notizen": "",
       "verschobenAm": "2026-11-15",
       "verschobenArt": "zeit",
-      "verschobenAlt": "Di 02.02., 15:30"
+      "verschobenAlt": "Mon Feb 02 2026 15:30:00 GMT+0100 (Mitteleuropäische Normalzeit)"
     },
     {
       "id": "UT_20270203_64",
@@ -1376,7 +1352,7 @@
       "notizen": "",
       "verschobenAm": "2026-11-15",
       "verschobenArt": "zeit",
-      "verschobenAlt": "Fr 05.02., 14:30"
+      "verschobenAlt": "Thu Feb 05 2026 14:30:00 GMT+0100 (Mitteleuropäische Normalzeit)"
     },
     {
       "id": "UT_20270205_67",
