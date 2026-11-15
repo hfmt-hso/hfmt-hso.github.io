@@ -3,96 +3,118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#1a1a2e">
-<link rel="icon" href="https://hfmt-hso.github.io/icon-192.png">
-<title>Persönliche Daten – HfMT Hamburg</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:,">
+<title>Angaben für Ihre Vereinbarung</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ink:#0f0f14;--ink2:#2a2a38;--ink3:#4a4a5e;
-  --paper:#f7f6f2;--paper2:#eeece6;--paper3:#e4e1d8;
-  --gold:#b8962e;--gold2:#8a6e1f;--gold-bg:#fdf8ee;
+  --ink:#16161d;--ink2:#2a2a38;--ink3:#555568;
+  --paper:#f6f6f4;--paper2:#ececE8;
   --blue:#1a4b8c;--blue2:#0d2f5c;--blue-bg:#eef3fb;
   --green:#1e6b3a;--green-bg:#e8f4ed;
   --red:#9b2335;--red-bg:#fbeaed;
-  --border:#dddad0;--border2:#ccc9be;
-  --radius:10px;--mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
+  --border:#dcdad2;
+  --radius:10px;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.06);
-  --shadow-lg:0 4px 16px rgba(0,0,0,0.12),0 16px 40px rgba(0,0,0,0.1);
 }
-html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5}
+html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:15px;line-height:1.55}
 body{min-height:100vh}
 
-.topbar{height:52px;background:var(--ink);display:flex;align-items:center;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,0.06)}
-.topbar-logo{padding:0 16px;display:flex;align-items:center;gap:10px}
-.topbar-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.topbar-name{font-size:12px;font-weight:700;color:rgba(255,255,255,0.85);font-family:var(--sans);white-space:nowrap}
+.wrap{max-width:580px;margin:0 auto;padding:30px 16px 50px}
+.intro h1{font-size:21px;font-weight:700;margin-bottom:6px;letter-spacing:-0.01em}
+.intro .for{font-size:14px;color:var(--ink3);margin-bottom:14px}
+.who{background:var(--blue-bg);border:1px solid #cfdcf0;border-radius:var(--radius);padding:14px 16px;font-size:13.5px;color:var(--ink2);margin-bottom:18px}
+.who b{color:var(--ink)}
+.who .small{display:block;margin-top:8px;font-size:12.5px;color:var(--ink3)}
 
-.wrap{max-width:560px;margin:0 auto;padding:28px 16px 60px}
-.intro{margin-bottom:22px}
-.intro h1{font-size:19px;font-weight:700;margin-bottom:8px;letter-spacing:-0.01em}
-.intro p{font-size:13px;color:var(--ink3);line-height:1.6}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 20px}
 
-.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 18px}
-
-.section-h{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink3);margin:22px 0 12px;display:flex;align-items:center;gap:8px}
+.section-h{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink3);margin:26px 0 8px;display:flex;align-items:center;gap:8px}
 .section-h:first-child{margin-top:0}
 .section-h::after{content:'';flex:1;height:1px;background:var(--border)}
+.section-note{font-size:12.5px;color:var(--ink3);margin-bottom:12px}
 
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+@media(max-width:480px){.grid2{grid-template-columns:1fr}}
 .tfield{margin-bottom:14px}
-.tfield label{display:block;font-size:11px;font-weight:700;color:var(--ink3);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em}
-.tfield input,.tfield select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:var(--sans);background:#fff;color:var(--ink)}
-.tfield input:focus,.tfield select:focus{outline:none;border-color:var(--blue)}
+.tfield label{display:block;font-size:12px;font-weight:700;color:var(--ink3);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em}
+.tfield label .opt{font-weight:400;text-transform:none;letter-spacing:0}
+.tfield input,.tfield select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:var(--sans);background:#fff;color:var(--ink)}
+.tfield input:focus,.tfield select:focus{outline:2px solid var(--blue);outline-offset:0;border-color:var(--blue)}
 .tfield input.err,.tfield select.err{border-color:var(--red)}
-.tfield .hint{font-size:11px;color:var(--ink3);margin-top:4px}
+.tfield .hint{font-size:12px;color:var(--ink3);margin-top:4px}
 
-.submit-btn{width:100%;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans);margin-top:8px;transition:background 0.15s}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink2);margin:22px 0 4px}
+.consent input{margin-top:3px;width:16px;height:16px;flex-shrink:0}
+
+.linkbtn{background:none;border:none;padding:0;font:inherit;color:var(--blue);text-decoration:underline;cursor:pointer}
+.linkbtn:hover{color:var(--blue2)}
+
+.submit-btn{width:100%;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--sans);margin-top:12px;transition:background 0.15s}
 .submit-btn:hover{background:var(--blue2)}
 .submit-btn:disabled{opacity:0.5;cursor:default}
 
-.msg{border-radius:8px;padding:12px 14px;font-size:13px;margin-top:16px;display:none}
+.msg{border-radius:8px;padding:12px 14px;font-size:13.5px;margin-top:16px;display:none}
 .msg.show{display:block}
-.msg.ok{background:var(--green-bg);color:var(--green)}
 .msg.error{background:var(--red-bg);color:var(--red)}
 
-.privacy{font-size:11px;color:var(--ink3);margin-top:18px;line-height:1.6}
+.alt{font-size:13px;color:var(--ink3);margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
 
-.success-view{text-align:center;padding:40px 10px}
+.infobtn{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:16px;padding:14px 18px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);font:inherit;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;text-align:left}
+.infobtn span.sub{display:block;font-size:12.5px;font-weight:400;color:var(--ink3)}
+.infobtn:hover{border-color:var(--blue)}
+.infobtn .arr{font-size:18px;color:var(--blue)}
+
+footer{margin-top:26px;font-size:12.5px;color:var(--ink3);text-align:center;line-height:1.8}
+footer .sep{margin:0 8px;color:var(--border)}
+
+.success-view{padding:30px 6px 18px}
 .success-icon{width:52px;height:52px;border-radius:50%;background:var(--green-bg);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px}
-.success-view h2{font-size:17px;margin-bottom:8px}
-.success-view p{font-size:13px;color:var(--ink3)}
+.success-view h2{font-size:18px;margin-bottom:8px;text-align:center}
+.success-view p{font-size:13.5px;color:var(--ink3);text-align:center}
+.summary{margin:20px 0 4px;border:1px solid var(--border);border-radius:8px;font-size:13.5px}
+.summary div{display:flex;justify-content:space-between;gap:16px;padding:8px 12px;border-bottom:1px solid var(--border)}
+.summary div:last-child{border-bottom:none}
+.summary span:first-child{color:var(--ink3)}
+.summary span:last-child{text-align:right;word-break:break-word}
 
-.invoice-section{margin-top:32px}
-.invoice-intro h1{font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-0.01em}
-.invoice-intro p{font-size:13px;color:var(--ink3);line-height:1.6}
-.invoice-item{margin-bottom:16px}
-.invoice-item:last-child{margin-bottom:0}
-.invoice-item h3{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
-.invoice-item p{font-size:13px;color:var(--ink3);line-height:1.55}
-.invoice-num{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--gold-bg);color:var(--gold2);font-size:10px;font-weight:700;font-family:var(--mono);margin-right:6px;flex-shrink:0}
+dialog{border:none;border-radius:14px;padding:0;max-width:560px;width:calc(100% - 28px);max-height:86vh;box-shadow:0 10px 40px rgba(0,0,0,0.25);color:var(--ink);background:#fff}
+dialog::backdrop{background:rgba(15,15,25,0.45)}
+.dlg-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:1}
+.dlg-head h2{font-size:16px}
+.dlg-close{border:none;background:var(--paper2);width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;color:var(--ink2);flex-shrink:0}
+.dlg-body{padding:18px 20px 24px;overflow-y:auto;max-height:calc(86vh - 66px)}
+.dlg-body p{font-size:13.5px;color:var(--ink3);line-height:1.6;margin-bottom:12px}
+.dlg-body h3{font-size:13.5px;font-weight:700;color:var(--ink);margin:18px 0 4px}
+.dlg-body ul{margin:0 0 12px 18px;font-size:13.5px;color:var(--ink3);line-height:1.6}
+.inv-item{margin-bottom:16px}
+.inv-item h3{margin:0 0 4px;display:flex;gap:8px;align-items:baseline}
+.inv-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--blue-bg);color:var(--blue);font-size:11px;font-weight:700;flex-shrink:0}
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="topbar-logo">
-    <div class="topbar-name">HfMT Hamburg</div>
-  </div>
-</div>
-
 <div class="wrap">
   <div class="intro">
-    <h1>Persönliche Daten für eine schriftliche Vereinbarung mit der Hochschule für Musik und Theater Hamburg</h1>
-    <p>Bitte tragen Sie Ihre persönlichen Daten und Bankverbindung ein.</p>
+    <h1 id="titel">Ihre Angaben für die schriftliche Vereinbarung</h1>
+    <div class="for" id="fuer" hidden></div>
+  </div>
+
+  <div class="who">
+    <b>Wer bittet um diese Angaben?</b><br>
+    Thomas Dorsch, Studiengangskoordination und Lehre Dirigieren an der Hochschule für Musik und Theater Hamburg. Sie haben den Link zu dieser Seite von ihm per E-Mail erhalten. Rückfragen jederzeit an
+    <a href="mailto:thomas.dorsch@thomasdorsch.de">thomas.dorsch@thomasdorsch.de</a>.
+    <span class="small">Dies ist keine Seite der Hochschule und liegt nicht auf deren Webauftritt. Sie dient nur dazu, die Angaben für Ihre Vereinbarung einzusammeln und an die zuständigen Stellen der Hochschule weiterzugeben.</span>
   </div>
 
   <div class="card" id="cardWrap">
     <form id="finForm" autocomplete="on">
 
       <div class="section-h">Persönliche Daten</div>
+      <div class="section-note">Für den Vertragstext und den Schriftverkehr.</div>
 
       <div class="tfield">
         <label for="anrede">Anrede</label>
@@ -138,8 +160,9 @@ body{min-height:100vh}
 
       <div class="grid2">
         <div class="tfield">
-          <label for="telefon">Telefon</label>
+          <label for="telefon">Telefon <span class="opt">(freiwillig)</span></label>
           <input id="telefon" name="telefon" type="tel" autocomplete="tel">
+          <div class="hint">Nur für kurze Rückfragen.</div>
         </div>
         <div class="tfield">
           <label for="email">E-Mail</label>
@@ -148,10 +171,11 @@ body{min-height:100vh}
       </div>
 
       <div class="section-h">Bankverbindung</div>
+      <div class="section-note">Wird ausschließlich für die Überweisung Ihres Honorars gebraucht.</div>
 
       <div class="tfield">
         <label for="iban">IBAN</label>
-        <input id="iban" name="iban" type="text" required autocomplete="off" placeholder="DE89 3704 0044 0532 0130 00">
+        <input id="iban" name="iban" type="text" required autocomplete="off" inputmode="text" spellcheck="false">
         <div class="hint" id="ibanHint"></div>
       </div>
 
@@ -161,6 +185,7 @@ body{min-height:100vh}
       </div>
 
       <div class="section-h">Steuerliche Angaben</div>
+      <div class="section-note">Die Hochschule benötigt sie, um Ihre Rechnung und Ihre steuerliche Erfassung zuordnen zu können.</div>
 
       <div class="tfield">
         <label for="steuernummer">Steuernummer</label>
@@ -170,54 +195,147 @@ body{min-height:100vh}
       <div class="tfield">
         <label for="finanzamt">Finanzamt</label>
         <input id="finanzamt" name="finanzamt" type="text" required autocomplete="off">
+        <div class="hint">Das Finanzamt, bei dem Sie geführt werden.</div>
       </div>
+
+      <label class="consent">
+        <input type="checkbox" id="datenschutz" required>
+        <span>Ich habe die <button type="button" class="linkbtn" data-dlg="dlgDatenschutz">Hinweise zum Datenschutz</button> gelesen.</span>
+      </label>
 
       <button type="submit" class="submit-btn" id="submitBtn">Angaben absenden</button>
 
-      <div class="msg" id="msgBox"></div>
+      <div class="msg" id="msgBox" role="alert"></div>
 
-      <div class="privacy">Ihre Angaben werden verschlüsselt übertragen und ausschließlich für die Erstellung der Vereinbarung mit der Hochschule für Musik und Theater Hamburg verwendet.</div>
+      <div class="alt">
+        Sie möchten Ihre Bankdaten lieber nicht online eingeben? Schreiben Sie mir kurz an
+        <a href="mailto:thomas.dorsch@thomasdorsch.de">thomas.dorsch@thomasdorsch.de</a>,
+        dann finden wir einen anderen Weg.
+      </div>
     </form>
   </div>
 
-  <div class="invoice-section">
-    <div class="intro invoice-intro">
-      <h1>Anforderungen an eine Rechnung</h1>
-      <p>Nach der erbrachten Leistung schicken Sie bitte eine Rechnung an die HfMT (gerne an die E-Mail-Adresse Ihrer Ansprechperson – Rechnungsempfänger ist aber die HfMT). Damit die Rechnung ohne Rückfragen bearbeitet werden kann, sollte sie Folgendes enthalten:</p>
-    </div>
+  <button type="button" class="infobtn" data-dlg="dlgRechnung">
+    <div>Anforderungen an eine Rechnung<span class="sub">Was Ihre Rechnung nach der Leistung enthalten sollte</span></div>
+    <span class="arr">›</span>
+  </button>
 
-    <div class="card">
-      <div class="invoice-item">
-        <h3><span class="invoice-num">1</span>Anschrift der Leistungserbringerin/des Leistungserbringers und der Leistungsempfängerin</h3>
-        <p>Zuerst muss die Adresse des Kunden (Leistungsempfänger, also die HfMT) vollständig angegeben werden. Danach folgt die eigene Adresse.</p>
-      </div>
-      <div class="invoice-item">
-        <h3><span class="invoice-num">2</span>Eindeutige Rechnungsnummer</h3>
-        <p>Es ist zwingend erforderlich, dass jede Rechnung individuell nummeriert wird. Rechnungsnummern dürfen nicht doppelt verwendet werden.</p>
-      </div>
-      <div class="invoice-item">
-        <h3><span class="invoice-num">3</span>Datum der Leistungserbringung</h3>
-        <p>Wie bei dem Aufsetzen eines Geschäftsbriefes ist es auch bei Rechnungen unabdingbar, das Datum der Rechnungstellung mit aufzuführen.</p>
-      </div>
-      <div class="invoice-item">
-        <h3><span class="invoice-num">4</span>Beschreibung der erbrachten Leistung</h3>
-        <p>Bitte kurz beschreiben, welche Leistung im Rahmen der Vereinbarung erbracht wurde.</p>
-      </div>
-      <div class="invoice-item">
-        <h3><span class="invoice-num">5</span>Steuernummer oder Umsatzsteuer-ID</h3>
-        <p>Die Steuernummer oder die Umsatzsteuer-ID dient der Identifikation des Unternehmens bzw. der Person. Die Angabe einer der beiden Kennungen ist zwingend erforderlich.</p>
-      </div>
-      <div class="invoice-item">
-        <h3><span class="invoice-num">6</span>Hinweis auf Steuerbefreiung</h3>
-        <p>Für die korrekte Rechnungsstellung ohne Umsatzsteuer ist die Angabe eines Hinweises zur Umsatzsteuerbefreiung gemäß §19 Abs. 1 Umsatzsteuergesetz notwendig.</p>
-      </div>
+  <footer>
+    <button type="button" class="linkbtn" data-dlg="dlgDatenschutz">Datenschutz</button>
+    <span class="sep">·</span>
+    <button type="button" class="linkbtn" data-dlg="dlgImpressum">Impressum</button>
+  </footer>
+</div>
+
+<!-- Fenster: Rechnungsanforderungen -->
+<dialog id="dlgRechnung" aria-labelledby="dlgRechnungT">
+  <div class="dlg-head"><h2 id="dlgRechnungT">Anforderungen an eine Rechnung</h2><button type="button" class="dlg-close" data-close aria-label="Schließen">×</button></div>
+  <div class="dlg-body">
+    <p>Nach der erbrachten Leistung schicken Sie bitte eine Rechnung an die HfMT (gerne an die E-Mail-Adresse Ihrer Ansprechperson – Rechnungsempfänger ist aber die HfMT). Damit die Rechnung ohne Rückfragen bearbeitet werden kann, sollte sie Folgendes enthalten:</p>
+
+    <div class="inv-item">
+      <h3><span class="inv-num">1</span>Anschrift der Leistungserbringerin/des Leistungserbringers und der Leistungsempfängerin</h3>
+      <p>Zuerst muss die Adresse des Kunden (Leistungsempfänger, also die HfMT) vollständig angegeben werden. Danach folgt die eigene Adresse.</p>
+    </div>
+    <div class="inv-item">
+      <h3><span class="inv-num">2</span>Eindeutige Rechnungsnummer</h3>
+      <p>Es ist zwingend erforderlich, dass jede Rechnung individuell nummeriert wird. Rechnungsnummern dürfen nicht doppelt verwendet werden.</p>
+    </div>
+    <div class="inv-item">
+      <h3><span class="inv-num">3</span>Datum der Leistungserbringung</h3>
+      <p>Wie bei dem Aufsetzen eines Geschäftsbriefes ist es auch bei Rechnungen unabdingbar, das Datum der Rechnungstellung mit aufzuführen.</p>
+    </div>
+    <div class="inv-item">
+      <h3><span class="inv-num">4</span>Beschreibung der erbrachten Leistung</h3>
+      <p>Bitte kurz beschreiben, welche Leistung im Rahmen der Vereinbarung erbracht wurde.</p>
+    </div>
+    <div class="inv-item">
+      <h3><span class="inv-num">5</span>Steuernummer oder Umsatzsteuer-ID</h3>
+      <p>Die Steuernummer oder die Umsatzsteuer-ID dient der Identifikation des Unternehmens bzw. der Person. Die Angabe einer der beiden Kennungen ist zwingend erforderlich.</p>
+    </div>
+    <div class="inv-item">
+      <h3><span class="inv-num">6</span>Hinweis auf Steuerbefreiung</h3>
+      <p>Für die korrekte Rechnungsstellung ohne Umsatzsteuer ist die Angabe eines Hinweises zur Umsatzsteuerbefreiung gemäß §19 Abs. 1 Umsatzsteuergesetz notwendig.</p>
     </div>
   </div>
-</div>
+</dialog>
+
+<!-- Fenster: Datenschutz -->
+<dialog id="dlgDatenschutz" aria-labelledby="dlgDatenschutzT">
+  <div class="dlg-head"><h2 id="dlgDatenschutzT">Hinweise zum Datenschutz</h2><button type="button" class="dlg-close" data-close aria-label="Schließen">×</button></div>
+  <div class="dlg-body">
+    <h3>Wer ist Ansprechpartner?</h3>
+    <p>Thomas Dorsch, Hochschule für Musik und Theater Hamburg, Harvestehuder Weg 12, 20148 Hamburg, E-Mail <a href="mailto:thomas.dorsch@thomasdorsch.de">thomas.dorsch@thomasdorsch.de</a>. Er nimmt Ihre Angaben entgegen und gibt sie an die zuständigen Stellen der Hochschule weiter.</p>
+
+    <h3>Welche Daten werden erhoben?</h3>
+    <p>Anrede, Vor- und Nachname, Anschrift, E-Mail, Telefon (freiwillig), IBAN und Kreditinstitut, Steuernummer und Finanzamt. Dazu wird der Name und das Projekt gespeichert, die im Link zu dieser Seite enthalten waren.</p>
+
+    <h3>Wofür werden die Daten verwendet?</h3>
+    <p>Ausschließlich für die Vorbereitung und Durchführung Ihrer schriftlichen Vereinbarung mit der Hochschule: Erstellen des Vertrags, Auszahlung des Honorars, Zuordnung der Rechnung und steuerliche Erfassung. Eine andere Verwendung, Werbung oder Weitergabe an Dritte außerhalb der Hochschule findet nicht statt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertrag bzw. vorvertragliche Maßnahmen), für steuerliche Pflichten Art. 6 Abs. 1 lit. c DSGVO.</p>
+
+    <h3>Wie werden die Daten übertragen und gespeichert?</h3>
+    <ul>
+      <li>Die Seite wird über GitHub Pages ausgeliefert (GitHub, Inc.). Sie lädt keine externen Schriften und setzt keine Cookies, es gibt keine Statistik und kein Tracking.</li>
+      <li>Beim Absenden werden Ihre Angaben verschlüsselt (HTTPS) an einen Dienst von Google (Google Apps Script) übertragen und dort in einer Tabelle gespeichert, auf die nur Thomas Dorsch zugreifen kann.</li>
+      <li>Für die Vertragserstellung und Zahlung werden die Angaben an die zuständigen Stellen der Hochschule (Personalabteilung, Haushalt) weitergegeben.</li>
+    </ul>
+
+    <h3>Wie lange werden die Daten gespeichert?</h3>
+    <p>So lange, wie es für die Abwicklung der Vereinbarung erforderlich ist, und danach so lange, wie die Hochschule gesetzlich zur Aufbewahrung von Vertrags- und Zahlungsunterlagen verpflichtet ist. Danach werden sie gelöscht.</p>
+
+    <h3>Ihre Rechte</h3>
+    <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Wenden Sie sich dazu einfach per E-Mail an die oben genannte Adresse. Außerdem können Sie sich bei der zuständigen Aufsichtsbehörde beschweren, in Hamburg ist das der Hamburgische Beauftragte für Datenschutz und Informationsfreiheit.</p>
+
+    <h3>Ist die Angabe freiwillig?</h3>
+    <p>Ja. Ohne diese Angaben kann die Vereinbarung aber nicht erstellt und das Honorar nicht überwiesen werden. Wenn Sie Ihre Daten nicht online eingeben möchten, schreiben Sie bitte eine E-Mail an die oben genannte Adresse.</p>
+  </div>
+</dialog>
+
+<!-- Fenster: Impressum -->
+<dialog id="dlgImpressum" aria-labelledby="dlgImpressumT">
+  <div class="dlg-head"><h2 id="dlgImpressumT">Impressum</h2><button type="button" class="dlg-close" data-close aria-label="Schließen">×</button></div>
+  <div class="dlg-body">
+    <h3>Verantwortlich für diese Seite</h3>
+    <p>Thomas Dorsch<br>Hochschule für Musik und Theater Hamburg<br>Harvestehuder Weg 12<br>20148 Hamburg</p>
+    <h3>Kontakt</h3>
+    <p>E-Mail: <a href="mailto:thomas.dorsch@thomasdorsch.de">thomas.dorsch@thomasdorsch.de</a></p>
+    <h3>Hinweis</h3>
+    <p>Diese Seite gehört nicht zum offiziellen Internetauftritt der Hochschule. Sie wird von Thomas Dorsch zur Erfassung von Vertragsdaten betrieben.</p>
+  </div>
+</dialog>
 
 <script>
 var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
 
+/* ---- Fenster im Fenster ---- */
+document.addEventListener('click', function(e){
+  var o = e.target.closest ? e.target.closest('[data-dlg]') : null;
+  if(o){ var d = document.getElementById(o.getAttribute('data-dlg')); if(d && d.showModal){ d.showModal(); d.querySelector('.dlg-body').scrollTop = 0; } return; }
+  if(e.target.closest && e.target.closest('[data-close]')){ e.target.closest('dialog').close(); return; }
+  if(e.target.tagName === 'DIALOG'){ e.target.close(); }
+});
+
+/* ---- persönlicher Link: ?n=Vorname Nachname&p=Projekt ---- */
+function sauber(s){ return String(s || '').replace(/[\u0000-\u001f<>]/g,'').replace(/\s+/g,' ').trim().slice(0,80); }
+var params = new URLSearchParams(location.search);
+var linkName = sauber(params.get('n'));
+var linkProjekt = sauber(params.get('p'));
+if(linkName || linkProjekt){
+  var fuer = document.getElementById('fuer');
+  fuer.textContent = (linkName ? linkName : '') + (linkName && linkProjekt ? ' · ' : '') + (linkProjekt ? 'Projekt: ' + linkProjekt : '');
+  fuer.hidden = false;
+}
+if(linkName){
+  var teile = linkName.split(' ');
+  if(teile.length > 1){
+    document.getElementById('nachname').value = teile.pop();
+    document.getElementById('vorname').value = teile.join(' ');
+  } else {
+    document.getElementById('nachname').value = linkName;
+  }
+}
+
+/* ---- IBAN ---- */
 function ibanIstGueltig(iban){
   iban = iban.replace(/\s+/g,'').toUpperCase();
   if(!/^[A-Z]{2}[0-9]{2}[A-Z0-9]{10,30}$/.test(iban)) return false;
@@ -241,12 +359,13 @@ ibanInput.addEventListener('blur', function(){
     ibanHint.style.color = 'var(--green)';
     ibanInput.classList.remove('err');
   } else {
-    ibanHint.textContent = 'IBAN scheint ungültig (Format oder Prüfsumme).';
+    ibanHint.textContent = 'Die IBAN scheint ungültig zu sein (Format oder Prüfsumme).';
     ibanHint.style.color = 'var(--red)';
     ibanInput.classList.add('err');
   }
 });
 
+/* ---- Absenden ---- */
 var form = document.getElementById('finForm');
 var submitBtn = document.getElementById('submitBtn');
 var msgBox = document.getElementById('msgBox');
@@ -268,7 +387,8 @@ form.addEventListener('submit', function(e){
     iban: document.getElementById('iban').value.trim(),
     kreditinstitut: document.getElementById('kreditinstitut').value.trim(),
     steuernummer: document.getElementById('steuernummer').value.trim(),
-    finanzamt: document.getElementById('finanzamt').value.trim()
+    finanzamt: document.getElementById('finanzamt').value.trim(),
+    projekt: linkProjekt
   };
 
   var fehlt = [];
@@ -276,49 +396,74 @@ form.addEventListener('submit', function(e){
     if(!data[f]) fehlt.push(f);
   });
   if(fehlt.length){
-    zeigMsg('error', 'Bitte fülle alle Pflichtfelder aus.');
+    zeigMsg('Bitte füllen Sie alle Pflichtfelder aus.');
+    return;
+  }
+  if(!document.getElementById('datenschutz').checked){
+    zeigMsg('Bitte bestätigen Sie, dass Sie die Hinweise zum Datenschutz gelesen haben.');
     return;
   }
   if(!ibanIstGueltig(data.iban)){
-    zeigMsg('error', 'Die eingegebene IBAN ist ungültig. Bitte prüfe die Eingabe.');
+    zeigMsg('Die eingegebene IBAN ist ungültig. Bitte prüfen Sie die Eingabe.');
     ibanInput.classList.add('err');
     return;
   }
 
   submitBtn.disabled = true;
   submitBtn.textContent = 'Wird gesendet …';
-  msgBox.classList.remove('show','ok','error');
+  msgBox.className = 'msg';
 
   fetch(WEB_APP_URL, { method:'POST', body: JSON.stringify(data) })
     .then(function(r){ return r.json(); })
     .then(function(res){
       if(res && res.ok){
-        showSuccess();
+        showSuccess(data);
       } else {
-        zeigMsg('error', (res && res.error) ? res.error : 'Unbekannter Fehler beim Speichern.');
+        zeigMsg((res && res.error) ? res.error : 'Beim Speichern ist ein unbekannter Fehler aufgetreten.');
         submitBtn.disabled = false;
         submitBtn.textContent = 'Angaben absenden';
       }
     })
-    .catch(function(err){
-      zeigMsg('error', 'Verbindung fehlgeschlagen. Bitte versuche es erneut.');
+    .catch(function(){
+      zeigMsg('Die Verbindung ist fehlgeschlagen. Bitte versuchen Sie es erneut oder schreiben Sie mir eine E-Mail.');
       submitBtn.disabled = false;
       submitBtn.textContent = 'Angaben absenden';
     });
 });
 
-function zeigMsg(type, text){
+function zeigMsg(text){
   msgBox.textContent = text;
-  msgBox.className = 'msg show ' + type;
+  msgBox.className = 'msg show error';
 }
 
-function showSuccess(){
+function zeile(k, v){
+  var d = document.createElement('div');
+  var a = document.createElement('span'); a.textContent = k;
+  var b = document.createElement('span'); b.textContent = v;
+  d.appendChild(a); d.appendChild(b);
+  return d;
+}
+
+function showSuccess(data){
+  var jetzt = new Date();
+  var zeit = jetzt.toLocaleDateString('de-DE') + ', ' + jetzt.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}) + ' Uhr';
+  var iban = data.iban.replace(/\s+/g,'');
   var card = document.getElementById('cardWrap');
-  card.innerHTML = '<div class="success-view">'
-    + '<div class="success-icon">✓</div>'
-    + '<h2>Danke, Ihre Angaben wurden übermittelt.</h2>'
-    + '<p>Sie können dieses Fenster jetzt schließen. Bei Rückfragen meldet sich die HSO-Verwaltung bei Ihnen.</p>'
-    + '</div>';
+  card.textContent = '';
+
+  var v = document.createElement('div'); v.className = 'success-view';
+  var ic = document.createElement('div'); ic.className = 'success-icon'; ic.textContent = '✓';
+  var h = document.createElement('h2'); h.textContent = 'Vielen Dank, Ihre Angaben sind angekommen.';
+  var p = document.createElement('p'); p.textContent = 'Sobald die Vereinbarung vorbereitet ist, melde ich mich bei Ihnen. Bei Rückfragen erreichen Sie mich unter thomas.dorsch@thomasdorsch.de.';
+  var s = document.createElement('div'); s.className = 'summary';
+  s.appendChild(zeile('Übermittelt', zeit));
+  s.appendChild(zeile('Name', data.vorname + ' ' + data.nachname));
+  if(data.projekt) s.appendChild(zeile('Projekt', data.projekt));
+  s.appendChild(zeile('E-Mail', data.email));
+  s.appendChild(zeile('IBAN', '… ' + iban.slice(-4)));
+  v.appendChild(ic); v.appendChild(h); v.appendChild(p); v.appendChild(s);
+  card.appendChild(v);
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 </script>
 
