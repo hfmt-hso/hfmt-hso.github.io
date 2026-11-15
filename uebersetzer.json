@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-14T21:46:24.687Z",
+  "generiert": "2026-11-15T03:07:09.910Z",
   "events": [
     {
       "datum": "03.12.2026",
@@ -4802,25 +4802,6 @@
       "eintritt": [],
       "_eventId": "7btdf72c5j8o25v7flcirj6387@google.com",
       "_titel": "*Matthiaemahl"
-    },
-    {
-      "datum": "31.01.2027",
-      "uhrzeit": "19:30 Uhr",
-      "endzeit": "21:30 Uhr",
-      "ort": "Laeiszhalle",
-      "konzertart": null,
-      "marker": "Vorstellung",
-      "werke": [],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "abwesend": null,
-      "eintritt": [],
-      "_eventId": "m89cg1am71gd7emt5nr5t0gk2g@google.com",
-      "_titel": "HSO 5 (1)"
     }
   ]
 }
