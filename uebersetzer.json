@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-15T09:32:40.277Z",
+  "generiert": "2026-11-15T11:37:16.868Z",
   "events": [
     {
       "datum": "03.12.2026",
@@ -493,16 +493,6 @@
       "notizen": [],
       "abwesend": null,
       "endzeit": "12:30 Uhr",
-      "disposition": [
-        "10:00 Sukjong Kim – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 1. Satz",
-        "10:29 Jacob Gröper – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 2. Satz",
-        "10:44 Chenyu Wan – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 3. Satz",
-        "10:51 Miquel Bosch Roca – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 4. Satz",
-        "11:07 Rémi Geniet – SĪMURGH (Uraufführung) (Otte)",
-        "11:22 — Pause —",
-        "11:42 Uschik Choi – Doppelkonzert a-Moll für Violine, Violoncello und Orchester op. 102 (Brahms) – 1. Satz",
-        "12:07 Xin Yuan – Doppelkonzert a-Moll für Violine, Violoncello und Orchester op. 102 (Brahms) – 2. und 3. Satz"
-      ],
       "_eventId": "2ha25ibtugq2mvq1hoaall159v@google.com",
       "_titel": "WK 4 OA"
     },
@@ -520,19 +510,6 @@
       "notizen": [],
       "abwesend": null,
       "endzeit": "14:30 Uhr",
-      "disposition": [
-        "10:00 Sukjong Kim – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 1. Satz",
-        "10:49 Jacob Gröper – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 2. Satz",
-        "11:14 Chenyu Wan – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 3. Satz (Teil 1)",
-        "11:20 — Pause —",
-        "11:40 Chenyu Wan – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 3. Satz (Teil 2)",
-        "11:47 Miquel Bosch Roca – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 4. Satz",
-        "12:13 Rémi Geniet – SĪMURGH (Uraufführung) (Otte)",
-        "12:38 Uschik Choi – Doppelkonzert a-Moll für Violine, Violoncello und Orchester op. 102 (Brahms) – 1. Satz (Teil 1)",
-        "12:50 — Pause —",
-        "13:20 Uschik Choi – Doppelkonzert a-Moll für Violine, Violoncello und Orchester op. 102 (Brahms) – 1. Satz (Teil 2)",
-        "13:52 Xin Yuan – Doppelkonzert a-Moll für Violine, Violoncello und Orchester op. 102 (Brahms) – 2. und 3. Satz"
-      ],
       "_eventId": "5nmlv77hdrs0pdjlf6md418cb5@google.com",
       "_titel": "WK 4 OA"
     },
@@ -550,12 +527,6 @@
       "notizen": [],
       "abwesend": null,
       "endzeit": "13:00 Uhr",
-      "disposition": [
-        "GP in der gleichen Probenreihenfolge wie die OA:",
-        "1. Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) (ca. 44 Min.)",
-        "2. SĪMURGH (Uraufführung) (Otte) (ca. 10 Min.)",
-        "3. Doppelkonzert a-Moll für Violine, Violoncello und Orchester op. 102 (Brahms) (ca. 32 Min.)"
-      ],
       "_eventId": "2lmgrml71u11jporomff7t07p1@google.com",
       "_titel": "WK 4 GP"
     },
