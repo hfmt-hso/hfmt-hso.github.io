@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-15T11:37:16.868Z",
+  "generiert": "2026-11-17T10:54:30.933Z",
   "events": [
     {
       "datum": "03.12.2026",
@@ -180,7 +180,7 @@
             {
               "instrument": "Violoncello",
               "name": "Oliwia Meiser",
-              "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
+              "zusatz": "Konzertexamen, Klasse Prof. Alexey Stadler"
             }
           ]
         },
@@ -253,7 +253,7 @@
         {
           "instrument": "Violoncello",
           "name": "Oliwia Meiser",
-          "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
+          "zusatz": "Konzertexamen, Klasse Prof. Alexey Stadler"
         },
         {
           "instrument": "Violoncello",
@@ -331,7 +331,7 @@
             {
               "instrument": "Violoncello",
               "name": "Oliwia Meiser",
-              "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
+              "zusatz": "Konzertexamen, Klasse Prof. Alexey Stadler"
             }
           ]
         },
@@ -381,7 +381,7 @@
         {
           "komponist": "Béla Bartók",
           "lebensdaten": "1881–1945",
-          "titel": "Konzert für Klavier und Orchester Nr.3 (Sz 119, BB 127) (Bearbeitung für Kammerorchester)",
+          "titel": "Konzert für Klavier und Orchester Nr.3 (Sz 119, BB 127) (Bearbeitung für Kammerorchester)",
           "saetze": [
             "Allegretto",
             "Adagio religioso",
@@ -404,7 +404,7 @@
         {
           "instrument": "Violoncello",
           "name": "Oliwia Meiser",
-          "zusatz": "Konzertexamen, Klasse Prof. Aleksei Stadler"
+          "zusatz": "Konzertexamen, Klasse Prof. Alexey Stadler"
         },
         {
           "instrument": "Violoncello",
@@ -551,7 +551,7 @@
         {
           "komponist": "Johannes Brahms",
           "lebensdaten": "1833–1897",
-          "titel": "Doppelkonzert a-Moll für Violine, Violoncello und Orchester op. 102",
+          "titel": "Doppelkonzert a-Moll für Violine, Violoncello und Orchester op. 102",
           "saetze": [
             "Allegro",
             "Andante",
@@ -623,7 +623,7 @@
       ],
       "abwesend": null,
       "eintritt": [
-        "Eintritt: 18 €, ermäßigt: 9 €",
+        "Eintritt: 20 €, ermäßigt: 10 €",
         "Ermäßigungen gelten für Schüler:innen und Studierende sowie Berechtigte nach SGB.",
         "Tickets gibt es bei Eventim (Ticketlink hier einfügen).",
         "Unsere",
@@ -1102,7 +1102,7 @@
       ],
       "abwesend": null,
       "eintritt": [
-        "Eintritt: 14 €, ermäßigt: 8 €",
+        "Eintritt: 20 €, ermäßigt: 10 €",
         "Ermäßigungen gelten für Schüler:innen und Studierende sowie Berechtigte nach SGB.",
         "Tickets gibt es bei Eventim (Ticketlink hier einfügen).",
         "Unsere",
@@ -1952,7 +1952,10 @@
       "notizen": [],
       "probenplan": [],
       "abwesend": null,
-      "eintritt": [],
+      "eintritt": [
+        "Eintritt: 25 €, ermäßigt: 10 €",
+        "Ermäßigungen gelten für Schüler:innen und Studierende sowie Berechtigte nach SGB."
+      ],
       "_eventId": "7dgb980veq3ktguor1t05arvm5@google.com",
       "_titel": "HSO 3"
     },
