@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#185FA5">
+<meta name="robots" content="noindex">
+<title>Öffentlichkeitsarbeit – HSO Programm</title>
+<link rel="icon" href="https://hfmt-hso.github.io/icon-192.png">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#185FA5;--blue-light:#E6F1FB;
+  --green:#3B6D11;--green-light:#EAF3DE;
+  --amber:#854F0B;--amber-light:#FAEEDA;
+  --teal:#0F6E56;--teal-light:#E1F5EE;
+  --purple:#534AB7;--purple-light:#EEEDFE;
+  --gray:#5F5E5A;--gray-light:#F1EFE8;
+  --text:#1a1a1a;--text-muted:#6b6b6b;
+  --border:rgba(0,0,0,0.1);
+  --bg:#f5f5f3;--card-bg:#fff;
+  --header-bg:#fff;
+}
+@media(prefers-color-scheme:dark){:root{
+  --text:#f0f0ee;--text-muted:#999997;
+  --border:rgba(255,255,255,0.1);
+  --bg:#1a1a18;--card-bg:#2a2a28;
+  --header-bg:#222220;
+}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto}
+.header{background:var(--header-bg);padding:12px 16px;border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:10}
+.header-row{display:flex;align-items:center;justify-content:space-between}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-logo{height:44px;width:auto;flex-shrink:0;border-radius:8px}
+.header-text h1{font-size:15px;font-weight:600;color:var(--text)}
+.header-text p{font-size:11px;color:var(--text-muted);margin-top:1px}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;background:var(--blue-light);color:var(--blue);cursor:pointer;user-select:none}
+.badge:hover{opacity:.8}
+.sj-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:999;align-items:flex-end;justify-content:center}
+.sj-modal-overlay.open{display:flex}
+.sj-modal-box{background:var(--card-bg);border-radius:16px 16px 0 0;padding:20px;width:100%;max-width:480px}
+.sj-modal-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;text-align:center}
+.sj-option{display:block;width:100%;padding:12px;margin-bottom:8px;border:2px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--text);font-size:15px;font-weight:600;cursor:pointer;text-align:center}
+.sj-option.aktiv{border-color:var(--green);color:var(--green);background:var(--green-light)}
+.content{padding:14px;padding-bottom:40px}
+.section-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin:14px 0 8px}
+.section-label:first-child{margin-top:0}
+.loading{text-align:center;padding:24px;color:var(--text-muted);font-size:13px}
+.hint-card{background:var(--blue-light);color:var(--blue);border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.5;margin-bottom:14px}
+
+/* ── ÄNDERUNGSMAIL MANUELL AUSLÖSEN ── */
+.aend-card{background:var(--card-bg);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.aend-text{flex:1;min-width:0;font-size:12px;line-height:1.5;color:var(--text-muted)}
+.aend-text strong{display:block;font-size:13px;color:var(--text)}
+.aend-status{display:block;margin-top:4px}
+.aend-status.ok{color:var(--green)}
+.aend-status.fehler{color:var(--amber)}
+.aend-btn{flex-shrink:0;font-family:inherit;font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;border:1px solid var(--blue);background:var(--blue-light);color:var(--blue);cursor:pointer}
+.aend-btn.bestaetigen{background:var(--blue);color:#fff}
+.aend-btn:disabled{opacity:.6;cursor:default}
+
+/* ── PROJEKT-KARTEN (wie öffentliches Portal) ── */
+.proj-card{background:var(--card-bg);border-radius:14px;border:0.5px solid var(--border);overflow:hidden;margin-bottom:8px}
+.proj-header{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer}
+.proj-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.proj-meta{flex:1;min-width:0}
+.proj-name{font-size:15px;font-weight:600;color:var(--text)}
+.proj-sub{font-size:12px;color:var(--text-muted);margin-top:2px}
+.proj-chevron{color:var(--text-muted);flex-shrink:0;transition:transform 0.2s}
+.proj-chevron svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.proj-chevron.open{transform:rotate(180deg)}
+.proj-body{display:none;border-top:0.5px solid var(--border);padding:14px}
+.proj-body.open{display:block}
+
+.event-block{margin-bottom:16px}
+.event-block:last-child{margin-bottom:0}
+.event-kopf{font-size:12px;font-weight:600;color:var(--blue);line-height:1.5;margin-bottom:10px;padding-bottom:8px;border-bottom:0.5px solid var(--border)}
+.werk-block{margin-bottom:10px}
+.werk-komponist{font-size:13px;font-weight:600;color:var(--text)}
+.werk-titel{font-size:13px;color:var(--text);margin-top:1px}
+.werk-pause{font-size:11px;color:var(--text-muted);font-style:italic;text-align:center;padding:6px 0;margin:2px 0;border-top:0.5px dashed var(--border);border-bottom:0.5px dashed var(--border)}
+.werk-solisten{font-size:13px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
+.werk-leitung{font-size:13px;color:var(--text-muted);margin-top:4px}
+.werk-leitung-kurs{font-size:13px;color:var(--text-muted)}
+.werk-eintritt{font-size:13px;color:var(--text-muted);margin-top:10px;padding-top:8px;border-top:0.5px solid var(--border);line-height:1.5}
+
+/* ── WEB-EINTRAG / PROGRAMMHEFT UNTERTABS ── */
+.sub-tabs{display:flex;gap:6px;margin-bottom:10px}
+.sub-tab{font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-family:inherit}
+.sub-tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.heft-para{font-size:13px;color:var(--text);margin-bottom:8px;line-height:1.5}
+.heft-bios{margin-top:14px;padding-top:10px;border-top:0.5px solid var(--border)}
+.bio-name{font-size:13px;font-weight:600;color:var(--text);margin-top:10px}
+.bio-text{font-size:12px;color:var(--text-muted);margin-top:4px;line-height:1.5}
+
+/* ── WEBSITE-ABGLEICH ── */
+.abgleich-banner{font-size:11px;line-height:1.5;border-radius:8px;padding:8px 10px;margin-bottom:10px}
+.abgleich-banner a{color:inherit;text-decoration:underline}
+.abgleich-ok{background:var(--green-light);color:var(--green)}
+.abgleich-diff{background:var(--amber-light);color:var(--amber)}
+.abgleich-warn{background:var(--amber-light);color:var(--amber)}
+.abgleich-neutral{background:var(--gray-light);color:var(--gray)}
+.abgleich-error{background:var(--gray-light);color:var(--gray)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-row">
+    <div class="header-left">
+      <img class="header-logo" src="https://hfmt-hso.github.io/icon-192.png" alt="HfMT">
+      <div class="header-text">
+        <h1>Öffentlichkeitsarbeit</h1>
+        <p>HSO Programm · HfMT Hamburg</p>
+      </div>
+    </div>
+    <span class="badge" id="sj-badge" onclick="oeffneSjModal()"></span>
+  </div>
+</div>
+
+<div class="content">
+  <div class="hint-card">Diese Übersicht zeigt die Konzertprogramme für die Website, gruppiert nach Projekt. Bei Änderungen an Vorstellungen werden Benachrichtigungen verschickt. Das Programmheft mit Biografien wird automatisch 10 Werktage vor jeder Vorstellung als Mail-Entwurf ans Öffentlichkeitsarbeit-Team vorbereitet. Bildmaterial unter <a href="https://e.pcloud.link/publink/show?code=kZa27wZLxPrckpm81VYe0RRQu9mFSPJvfok" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">diesem Link</a>.</div>
+  <div class="aend-card">
+    <div class="aend-text">
+      <strong>Änderungsmail</strong>
+      Wird sonst einmal täglich verschickt. Prüft den Kalender jetzt auf Änderungen und schickt die Mail sofort – nur, wenn es etwas zu melden gibt.
+      <span class="aend-status" id="aend-status"></span>
+    </div>
+    <button class="aend-btn" id="aend-btn" onclick="aenderungsMailJetzt()">Jetzt senden</button>
+  </div>
+  <div class="section-label" id="proj-label">Konzerte</div>
+  <div id="projekte-liste"><div class="loading">Programme werden geladen…</div></div>
+</div>
+
+<script>window.HSO_DATEN_BASE='./';</script>
+<script src="hso-daten.js"></script>
+<script>
+const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyU2DA1drWzq5-K9JNX5EotFNCXUSox_myHjvo6nb4kw9yC3RQ3tZV7_y_hht-kDSJT/exec';
+const WT  = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+const FARBEN = {
+  'HSO'    :{bg:'#E6F1FB',color:'#185FA5'},
+  'WK Lü'  :{bg:'#E1F5EE',color:'#0F6E56'},
+  'WK'     :{bg:'#E1F5EE',color:'#0F6E56'},
+  '13/14'  :{bg:'#FAEEDA',color:'#854F0B'},
+  'default':{bg:'#F1EFE8',color:'#5F5E5A'}
+};
+const ueCache = {};
+
+function getFarbe(n){for(const k in FARBEN){if(n.indexOf(k)!==-1)return FARBEN[k];}return FARBEN['default'];}
+function getKuerzel(n){
+  if(n.startsWith('HSO '))return'H'+n.replace('HSO ','').replace(/\D/g,'');
+  if(n.startsWith('WK Lü '))return'WL'+n.replace('WK Lü ','').trim();
+  if(n.startsWith('WK '))return'W'+n.replace('WK ','').trim();
+  if(n==='13/14')return'13';
+  return n.substring(0,2).toUpperCase();
+}
+// Abgelaufene Studienjahre werden ausgeblendet – das aktuelle Studienjahr ist immer die Untergrenze.
+function aktuellesSj(){
+  const d=new Date(), m=d.getMonth(), y=d.getFullYear()%100;
+  const berechnet = m>=8 ? y+'_'+(y+1) : (y-1)+'_'+y;
+  return berechnet < '26_27' ? '26_27' : berechnet;
+}
+function parseDatum(s){
+  if(!s) return null;
+  const str=String(s).trim();
+  let m=str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if(m) return new Date(parseInt(m[3]),parseInt(m[2])-1,parseInt(m[1]));
+  m=str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(m) return new Date(parseInt(m[1]),parseInt(m[2])-1,parseInt(m[3]));
+  const d=new Date(str); return isNaN(d.getTime())?null:d;
+}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function istBR(n){return /Blattspiel|Repertoire/i.test(n);}
+function ohnestern(s){return String(s||'').replace(/^\*/,'');}
+
+// ── EINTRITT direkt aus dem Übersetzer-Tab lesen (die API-Aktionen liefern dieses Feld nicht) ──
+const UEBERSETZER_SHEET_ID = '1qGO9TEFK95ROxWzUKazImSvnojSUdU9IInRDXS8ZRsU';
+const UEBERSETZER_GID = '1658744252';
+function parseCsvZeile(z){
+  const res=[]; let cur='', inQ=false, i=0;
+  while(i<z.length){
+    const c=z[i];
+    if(inQ){
+      if(c==='"'){ if(i+1<z.length && z[i+1]==='"'){ cur+='"'; i+=2; continue; } else inQ=false; }
+      else cur+=c;
+    } else {
+      if(c==='"') inQ=true;
+      else if(c===','){ res.push(cur); cur=''; }
+      else cur+=c;
+    }
+    i++;
+  }
+  res.push(cur); return res;
+}
+let _eintrittMap = null;
+async function ladeEintrittMap(){
+  if(_eintrittMap) return _eintrittMap;
+  _eintrittMap = {};
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${UEBERSETZER_SHEET_ID}/gviz/tq?tqx=out:csv&gid=${UEBERSETZER_GID}`;
+    const res = await fetch(url);
+    const text = await res.text();
+    text.trim().split('\n').slice(1).forEach(zeile => {
+      const cols = parseCsvZeile(zeile);
+      const eventId = cols[0], jsonStr = cols[4];
+      if(!eventId || !jsonStr) return;
+      try {
+        const obj = JSON.parse(jsonStr);
+        if(obj.eintritt && obj.eintritt.length) _eintrittMap[eventId] = obj.eintritt;
+      } catch(e){}
+    });
+  } catch(e){}
+  return _eintrittMap;
+}
+
+function getSjTarget(){
+  const angefragt = new URLSearchParams(window.location.search).get('sj');
+  // auch ein manuell übergebenes altes Studienjahr wird auf das aktuelle angehoben
+  if(angefragt && angefragt >= '26_27') return angefragt;
+  return aktuellesSj();
+}
+
+async function ladeProgData(sj){
+  if(ueCache['__prog_'+sj]) return ueCache['__prog_'+sj];
+  const json = await HsoDaten.holen('programm', sj);
+  const data = (json.ok && json.data) ? json.data : {};
+  ueCache['__prog_'+sj] = data;
+  return data;
+}
+async function ladeProjekte(sj){
+  const json = await HsoDaten.holen('projekte', sj);
+  return (json.ok && json.data) ? json.data : [];
+}
+
+function renderWebeintragBody(ev, eintritt){
+  const werke = (ev.werke||[]).filter(w => !w.pause || true);
+  let h = '';
+  if(!werke.length){
+    h += '<div class="werk-block" style="color:var(--text-muted);font-style:italic">Noch kein Programm eingetragen.</div>';
+  } else {
+    werke.forEach(w => {
+      // Web-Eintrag zeigt bewusst KEINE Pause – die Website listet Pausen nicht separat (Pause nur im Programmheft).
+      if(w.pause){ return; }
+      // Web-Eintrag zeigt bewusst KEINE Lebensdaten – die Website tut das nie (Lebensdaten nur im Programmheft).
+      h += `<div class="werk-block">
+    <div class="werk-komponist">${esc(w.komponist||'')}</div>
+    ${w.titel?`<div class="werk-titel">${esc(w.titel)}</div>`:''}
+  </div>`;
+    });
+  }
+  // Reihenfolge Mitwirkende (Wunsch Tamara van Buiren, 24.08.2026): Orchester -> Leitung -> Solist:innen.
+  if(ev.ensemble) h += `<div class="werk-leitung">${esc(ev.ensemble)}</div>`;
+  if(ev.leitung && ev.leitung.length){
+    ev.leitung.forEach(l => {
+      const name = typeof l==='object' ? l.name : String(l);
+      const werk = typeof l==='object' && l.werk ? l.werk : '';
+      const klasse = typeof l==='object' && l.klasse ? l.klasse : '';
+      if(!name) return;
+      let row = '<div class="werk-leitung">Leitung: ' + esc(name);
+      if(klasse) row += '<br><span class="werk-leitung-kurs">'+esc(klasse)+'</span>';
+      if(werk) row += '<br><span class="werk-leitung-kurs">('+esc(werk)+')</span>';
+      row += '</div>';
+      h += row;
+    });
+  }
+  if(ev.solisten && ev.solisten.length){
+    h += '<div class="werk-solisten">';
+    ev.solisten.forEach(s => { h += esc(s.instrument+': '+s.name+(s.zusatz?' ('+s.zusatz+')':'')) + '<br>'; });
+    h += '</div>';
+  }
+  if(eintritt && eintritt.length){
+    h += '<div class="werk-eintritt">' + eintritt.map(z => esc(z)).join('<br>') + '</div>';
+  }
+  return h;
+}
+
+function renderEventProgramm(ev, datAnzeige, eintritt, projektName, sj){
+  const wt = ev.dat ? WT[ev.dat.getDay()] : '';
+  let kopf = [wt, datAnzeige, ev.uhrzeit||''].filter(Boolean).join(', ');
+  if(ev.ort) kopf += '    |    ' + ev.ort;
+
+  const eid    = ev._eventId || ('noid_' + Math.random().toString(36).slice(2));
+  const safeId = eid.replace(/[^a-zA-Z0-9]/g, '_');
+  const webBody = renderWebeintragBody(ev, eintritt);
+
+  ev._projName  = projektName;
+  ev._sjTarget  = sj;
+  eventDataMap[safeId] = ev;
+
+  let h = '<div class="event-block">';
+  h += `<div class="event-kopf">${esc(kopf)}</div>`;
+  h += `<div class="abgleich-banner abgleich-neutral" id="abgleich-${safeId}" data-eid="${esc(safeId)}">Website-Abgleich wird geprüft…</div>`;
+  h += `<div class="sub-tabs">
+    <button type="button" class="sub-tab active" data-eid="${esc(eid)}" data-proj="${esc(projektName)}" data-sj="${esc(sj)}" onclick="wechsleSubTab(this,'web')">Web-Eintrag</button>
+    <button type="button" class="sub-tab" data-eid="${esc(eid)}" data-proj="${esc(projektName)}" data-sj="${esc(sj)}" onclick="wechsleSubTab(this,'heft')">Programmheft</button>
+  </div>`;
+  h += `<div class="sub-panel" id="panelweb-${safeId}">${webBody}</div>`;
+  h += `<div class="sub-panel" id="panelheft-${safeId}" style="display:none"><div class="loading">Programmheft wird geladen…</div></div>`;
+  h += '</div>';
+  return h;
+}
+
+// ── WEBSITE-ABGLEICH: hfmt-hamburg.de Terminliste mit internen Daten vergleichen ──
+const eventDataMap = {};
+let wsEventsCache = null;
+const wsDetailCache = {};
+
+async function holeWebsiteEvents(){
+  if(wsEventsCache) return wsEventsCache;
+  try {
+    const zielUrl = 'https://www.hfmt-hamburg.de/hochschule/aktuelles/veranstaltungen';
+    const url = `${WEBAPP_URL}?action=hfmtProxy&url=${encodeURIComponent(zielUrl)}`;
+    const res  = await fetch(url);
+    const json = await res.json();
+    if(!json.ok || !json.html) throw new Error('proxy fehlgeschlagen');
+    const doc  = new DOMParser().parseFromString(json.html, 'text/html');
+    const cols = doc.querySelectorAll('#events .col[data-event]');
+    const list = [...cols].map(c => {
+      const a    = c.querySelector('h5.card-title a');
+      const loc  = c.querySelector('.location');
+      const time = c.querySelector('.time');
+      return {
+        id:       c.getAttribute('data-event'),
+        title:    (c.getAttribute('data-title')||'').trim(),
+        date:     c.getAttribute('data-date') || '',
+        href:     a ? a.getAttribute('href') : null,
+        location: loc ? loc.textContent.trim() : '',
+        time:     time ? time.textContent.trim() : ''
+      };
+    });
+    wsEventsCache = { ok:true, list };
+  } catch(e){
+    wsEventsCache = { ok:false, list:[] };
+  }
+  return wsEventsCache;
+}
+
+async function holeWebsiteDetail(href){
+  if(wsDetailCache.hasOwnProperty(href)) return wsDetailCache[href];
+  try {
+    const zielUrl = 'https://www.hfmt-hamburg.de' + href;
+    const url = `${WEBAPP_URL}?action=hfmtProxy&url=${encodeURIComponent(zielUrl)}`;
+    const res  = await fetch(url);
+    const json = await res.json();
+    if(!json.ok || !json.html) throw new Error('proxy fehlgeschlagen');
+    const doc = new DOMParser().parseFromString(json.html, 'text/html');
+
+    let mitwP = null;
+    doc.querySelectorAll('main p').forEach(p => {
+      const strong = p.querySelector('strong');
+      if(strong && strong.textContent.trim() === 'Mitwirkende') mitwP = p;
+    });
+    if(!mitwP){ wsDetailCache[href] = null; return null; }
+
+    const kinder  = [...mitwP.parentElement.children];
+    const mitwIdx = kinder.indexOf(mitwP);
+    const werke = [];
+    for(let i = 0; i < mitwIdx; i++){
+      const el = kinder[i];
+      if(el.tagName !== 'P') continue;
+      const strong = el.querySelector('strong');
+      if(!strong) continue;
+      const name = strong.textContent.trim();
+      if(name) werke.push({ komponist: name });
+    }
+    const mitwClone = mitwP.cloneNode(true);
+    mitwClone.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
+    const mitwirkendeText = mitwClone.textContent.replace(/^\s*Mitwirkende/, '').trim();
+    wsDetailCache[href] = { werke, mitwirkendeText };
+  } catch(e){
+    wsDetailCache[href] = null;
+  }
+  return wsDetailCache[href];
+}
+
+function extrahiereNamen(text){
+  const re = /\p{Lu}[\p{L}'-]+(?:[ \t]+\p{Lu}[\p{L}'-]+)+/gu;
+  const treffer = String(text||'').match(re) || [];
+  return [...new Set(treffer.map(t => t.trim()))];
+}
+
+// Baut den Vergleichstext getrennt nach Quelle:
+// - "oeffentlich": Ensemble/Leitung/Solisten – das steht auch im Web-Eintrag-Tab.
+// - "probenplan": die interne Korrepetitions-/Klavierbegleitungs-Notiz – die steht NICHT im
+//   Web-Eintrag-Tab und wird nur manchmal (uneinheitlich) auf der Website mitveröffentlicht.
+// Diese Trennung erlaubt es, im Diff zu erklären, WOHER ein "Nur intern"-Name kommt,
+// statt Probenplan-Namen und echte Programm-Namen in einen Topf zu werfen.
+function baueInternTexte(ev){
+  const oeffentlich = [];
+  if(ev.ensemble) oeffentlich.push(ev.ensemble);
+  if(ev.leitung && ev.leitung.length){
+    oeffentlich.push('Leitung: ' + ev.leitung.map(l => {
+      const name   = typeof l === 'object' ? l.name : String(l);
+      const werk   = (typeof l === 'object' && l.werk)   ? ' (' + l.werk + ')' : '';
+      const klasse = (typeof l === 'object' && l.klasse) ? ' ' + l.klasse      : '';
+      return name + werk + klasse;
+    }).join(' / '));
+  }
+  if(ev.solisten && ev.solisten.length){
+    ev.solisten.forEach(s => {
+      oeffentlich.push((s.instrument||'') + ': ' + (s.name||'') + (s.zusatz ? ' (' + s.zusatz + ')' : ''));
+    });
+  }
+  const probenplan = [];
+  if(ev.probenplan && ev.probenplan.length){
+    ev.probenplan.forEach(z => {
+      const zeile = String(z||'').replace(/^\*[\s ]*/, '').trim();
+      if(zeile) probenplan.push(zeile);
+    });
+  }
+  return { oeffentlich: oeffentlich.join('\n'), probenplan: probenplan.join('\n') };
+}
+
+function interneKomponisten(ev){
+  return (ev.werke||[]).filter(w => !w.pause).map(w => (w.komponist||'').trim()).filter(Boolean);
+}
+
+function ortPasst(internOrt, websiteOrt){
+  const norm = s => String(s||'').toLowerCase().replace(/hfmt,?\s*/g, '').trim();
+  const a = norm(internOrt), b = norm(websiteOrt);
+  if(!a || !b) return false;
+  return a === b || a.includes(b) || b.includes(a);
+}
+
+async function vergleicheEvent(ev){
+  const m = String(ev.datum||'').match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if(!m) return { status:'error', msg:'Datum unbekannt' };
+  const isoDatum = m[3] + '-' + m[2].padStart(2,'0') + '-' + m[1].padStart(2,'0');
+
+  const ws = await holeWebsiteEvents();
+  if(!ws.ok) return { status:'error', msg:'Website konnte nicht geladen werden' };
+
+  const treffer = ws.list.filter(e => e.date === isoDatum && ortPasst(ev.ort, e.location));
+
+  if(!treffer.length){
+    const heute  = new Date(); heute.setHours(0,0,0,0);
+    const datObj = parseDatum(ev.datum);
+    const tage   = datObj ? Math.round((datObj - heute) / 86400000) : 9999;
+    if(tage > 95) return { status:'not_published' };
+    return { status:'missing', msg:'Kein passender Website-Eintrag gefunden (Datum/Ort).' };
+  }
+
+  const websiteEvent = treffer[0];
+  const detail = await holeWebsiteDetail(websiteEvent.href);
+  const href = 'https://www.hfmt-hamburg.de' + websiteEvent.href;
+  if(!detail) return { status:'error', msg:'Detailseite konnte nicht gelesen werden', href };
+
+  const internK = new Set(interneKomponisten(ev));
+  const webK    = new Set(detail.werke.map(w => w.komponist));
+  const kNurWeb    = [...webK].filter(k => !internK.has(k));
+  const kNurIntern = [...internK].filter(k => !webK.has(k));
+
+  // Probenplan-Namen (Korrepetition/Klavierbegleitung) fließen bewusst NUR in die interne
+  // Vergleichsmenge ein (damit "Name fehlt bei uns intern" korrekt erkannt wird), tauchen aber
+  // nie als eigener Diff-Punkt auf: das ist reine interne Zusatzinfo, keine Website-Abweichung,
+  // und wird deshalb hier gar nicht kommentiert.
+  const { oeffentlich, probenplan } = baueInternTexte(ev);
+  const namenOeffentlich = new Set(extrahiereNamen(oeffentlich));
+  const namenProbenplan  = new Set(extrahiereNamen(probenplan));
+  const internNamenAlle  = new Set([...namenOeffentlich, ...namenProbenplan]);
+  const webNamen         = new Set(extrahiereNamen(detail.mitwirkendeText));
+
+  const nNurWeb              = [...webNamen].filter(n => !internNamenAlle.has(n));
+  const nNurInternOeffentlich = [...namenOeffentlich].filter(n => !webNamen.has(n));
+
+  // Unsere internen Angaben sind die verbindliche Quelle ("100 % korrekt") – der Abgleich
+  // prüft nur, ob die Website das korrekt übernommen hat. Diffs benennen ausschließlich die
+  // Abweichung auf der Website, kein Kommentar zu internen Daten/Quellen.
+  const diffs = [];
+  if(kNurIntern.length) diffs.push('Komponist fehlt – bitte ergänzen: ' + kNurIntern.join(', '));
+  if(kNurWeb.length)    diffs.push('Komponist steht zusätzlich auf der Website – bitte prüfen: ' + kNurWeb.join(', '));
+  if(nNurInternOeffentlich.length) diffs.push('Name fehlt – bitte ergänzen: ' + nNurInternOeffentlich.join(', '));
+  if(nNurWeb.length)               diffs.push('Name steht zusätzlich auf der Website – bitte prüfen: ' + nNurWeb.join(', '));
+
+  if(diffs.length) return { status:'diff', diffs, href };
+  return { status:'ok', href };
+}
+
+function renderAbgleichErgebnis(banner, res, fehlendeBios){
+  const websiteLink = res.href ? `<br><a href="${esc(res.href)}" target="_blank" rel="noopener">Zur Website</a>` : '';
+  if(res.status === 'ok'){
+    banner.className = 'abgleich-banner abgleich-ok';
+    banner.innerHTML = '✓ Stimmt mit der Website überein' + (res.href ? ` · <a href="${esc(res.href)}" target="_blank" rel="noopener">Website</a>` : '');
+  } else if(res.status === 'diff'){
+    banner.className = 'abgleich-banner abgleich-diff';
+    banner.innerHTML = '⚠ Abweichung der Website, bitte korrigieren:<br>' + res.diffs.map(d => esc(d)).join('<br>') + websiteLink;
+  } else if(res.status === 'not_published'){
+    banner.className = 'abgleich-banner abgleich-neutral';
+    banner.innerHTML = 'ⓘ Noch nicht veröffentlicht';
+  } else if(res.status === 'missing'){
+    banner.className = 'abgleich-banner abgleich-warn';
+    banner.innerHTML = '⚠ ' + esc(res.msg || 'Nicht auf der Website gefunden');
+  } else {
+    banner.className = 'abgleich-banner abgleich-error';
+    banner.innerHTML = '⚠ Abgleich fehlgeschlagen' + (res.msg ? ': ' + esc(res.msg) : '');
+  }
+
+  // Biografien-Vollständigkeit ist unabhängig vom Website-Abgleich – gilt für unser Portal selbst.
+  if(fehlendeBios && fehlendeBios.length){
+    banner.innerHTML += '<br>⚠ Biografie noch nicht geliefert: ' + fehlendeBios.map(esc).join(', ');
+    if(banner.className.includes('abgleich-ok') || banner.className.includes('abgleich-neutral')){
+      banner.className = 'abgleich-banner abgleich-warn';
+    }
+  }
+}
+
+// Biografien-Vollständigkeit: prüft Solist:innen (immer lebende, aktuelle Mitwirkende, die
+// zwingend eine Bio brauchen) UND Komponist:innen, deren Werktitel im Kalender als
+// "(Uraufführung)" markiert ist – nur bei denen ist ein interner Bio-Eintrag zu erwarten.
+// Alle übrigen Komponist:innen (der Normalfall, historisch/verstorben) werden bewusst
+// ausgeklammert, sonst würde der Check bei praktisch jedem Konzert unnötig anschlagen.
+// Leitung wird ebenfalls ausgeklammert, da das Feld oft ein längerer Sammel-Hinweistext ist
+// (mehrere Namen + Satzzuordnung in einem String) und kein zuverlässig einzelner Personenname.
+function istUraufführung(titel){
+  return /uraufführung|\(ua\)/i.test(String(titel||''));
+}
+async function pruefeFehlendeBiografien(ev){
+  const namenNoetig = [];
+  (ev.solisten||[]).forEach(s => { if(s.name) namenNoetig.push(s.name); });
+  (ev.werke||[]).forEach(w => { if(!w.pause && w.komponist && istUraufführung(w.titel)) namenNoetig.push(w.komponist); });
+  if(!namenNoetig.length) return [];
+  const eid = ev._eventId, proj = ev._projName, sj = ev._sjTarget;
+  if(!eid || !proj || !sj) return [];
+  try {
+    const url = `${WEBAPP_URL}?action=programmheft&projekt=${encodeURIComponent(proj)}&sj=${encodeURIComponent(sj)}&eventId=${encodeURIComponent(eid)}`;
+    const res  = await fetch(url);
+    const json = await res.json();
+    if(!json.ok || !json.data) return [];
+    const vorhanden = new Set((json.data.bios || []).map(b => b.name));
+    return [...new Set(namenNoetig)].filter(n => !vorhanden.has(n));
+  } catch(e){
+    return [];
+  }
+}
+
+async function starteAbgleiche(){
+  const banners = [...document.querySelectorAll('.abgleich-banner[data-eid]')];
+  if(!banners.length) return;
+  await holeWebsiteEvents();
+  for(const banner of banners){
+    const ev = eventDataMap[banner.dataset.eid];
+    if(!ev) continue;
+    try {
+      const [res, fehlendeBios] = await Promise.all([
+        vergleicheEvent(ev),
+        pruefeFehlendeBiografien(ev)
+      ]);
+      renderAbgleichErgebnis(banner, res, fehlendeBios);
+    } catch(e){
+      renderAbgleichErgebnis(banner, { status:'error', msg:String(e && e.message || e) });
+    }
+  }
+}
+
+// ── PROGRAMMHEFT-UNTERTAB: lazy laden + umschalten ──
+const heftCache = {};
+
+function wechsleSubTab(btn, which){
+  const block = btn.closest('.event-block');
+  if(!block) return;
+  const eid    = btn.dataset.eid, proj = btn.dataset.proj, sj = btn.dataset.sj;
+  const safeId = eid.replace(/[^a-zA-Z0-9]/g, '_');
+
+  block.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const panelWeb  = block.querySelector('#panelweb-' + safeId);
+  const panelHeft = block.querySelector('#panelheft-' + safeId);
+
+  if(which === 'web'){
+    if(panelWeb)  panelWeb.style.display  = 'block';
+    if(panelHeft) panelHeft.style.display = 'none';
+  } else {
+    if(panelWeb)  panelWeb.style.display  = 'none';
+    if(panelHeft){
+      panelHeft.style.display = 'block';
+      if(!panelHeft.dataset.loaded) ladeProgrammheft(proj, sj, eid, panelHeft);
+    }
+  }
+}
+
+function renderHeftText(text){
+  const bloecke = String(text || '').split(/\n\s*\n/);
+  return bloecke.map(b => {
+    if(b.trim() === '— Pause —') return '<div class="werk-pause">— Pause —</div>';
+    const zeilen = b.split('\n').map(z => esc(z)).join('<br>');
+    return `<div class="heft-para">${zeilen}</div>`;
+  }).join('');
+}
+
+async function ladeProgrammheft(proj, sj, eid, panelEl){
+  const cacheKey = proj + '|' + sj + '|' + eid;
+  if(heftCache[cacheKey]){
+    panelEl.innerHTML = heftCache[cacheKey];
+    panelEl.dataset.loaded = '1';
+    return;
+  }
+  try {
+    const url = `${WEBAPP_URL}?action=programmheft&projekt=${encodeURIComponent(proj)}&sj=${encodeURIComponent(sj)}&eventId=${encodeURIComponent(eid)}`;
+    const res  = await fetch(url);
+    const json = await res.json();
+    if(!json.ok){
+      panelEl.innerHTML = '<div class="loading">Programmheft nicht verfügbar.</div>';
+      return;
+    }
+    let html = renderHeftText(json.data.programmheft);
+    if(json.data.bios && json.data.bios.length){
+      html += '<div class="heft-bios">';
+      json.data.bios.forEach(b => {
+        html += `<div class="bio-name">${esc(b.name)}</div><div class="bio-text">${esc(b.text)}</div>`;
+      });
+      html += '</div>';
+    }
+    heftCache[cacheKey] = html;
+    panelEl.innerHTML = html;
+    panelEl.dataset.loaded = '1';
+  } catch(e){
+    panelEl.innerHTML = '<div class="loading">Laden fehlgeschlagen.</div>';
+  }
+}
+
+async function ladeProjekteUndProgramm(){
+  const sj = getSjTarget();
+  document.getElementById('sj-badge').textContent = sj.replace('_','/');
+  document.getElementById('proj-label').textContent = 'Konzerte · ' + sj.replace('_','/');
+  const el = document.getElementById('projekte-liste');
+  el.innerHTML = '<div class="loading">Programme werden geladen…</div>';
+
+  try {
+    const [projekte, progData, eintrittMap] = await Promise.all([
+      ladeProjekte(sj),
+      ladeProgData(sj),
+      ladeEintrittMap()
+    ]);
+
+    const heute = new Date(); heute.setHours(0,0,0,0);
+    const karten = [];
+
+    (projekte||[]).forEach(p => {
+      const name = ohnestern(p.name||'');
+      if(!name || istBR(name)) return;
+      const rohdaten = progData[p.name] || progData[name] || [];
+      if(!rohdaten.length) return;
+
+      const events = rohdaten.map(ev => {
+        const dat = parseDatum(ev.datum);
+        if(!dat || dat < heute) return null;
+        return {ev, dat, datAnzeige: ev.datum};
+      }).filter(Boolean).sort((a,b)=>a.dat-b.dat);
+
+      if(!events.length) return;
+      karten.push({name, events});
+    });
+
+    if(!karten.length){ el.innerHTML = '<div class="loading">Keine kommenden Konzerte gefunden.</div>'; return; }
+
+    karten.sort((a,b) => a.events[0].dat - b.events[0].dat);
+
+    el.innerHTML = karten.map((k, i) => {
+      const f = getFarbe(k.name);
+      const kuerzel = getKuerzel(k.name);
+      const cId = 'proj-'+i;
+      const body = k.events.map(({ev, dat, datAnzeige}) => renderEventProgramm({...ev, dat}, datAnzeige, eintrittMap[ev._eventId], k.name, sj)).join('');
+      return `<div class="proj-card">
+  <div class="proj-header" onclick="toggleProj('${cId}')">
+    <div class="proj-icon" style="background:${f.bg};color:${f.color}">${kuerzel}</div>
+    <div class="proj-meta"><div class="proj-name">${esc(k.name)}</div><div class="proj-sub">${k.events.length} ${k.events.length===1?'Termin':'Termine'}</div></div>
+    <div class="proj-chevron" id="chev-${cId}"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+  </div>
+  <div class="proj-body" id="${cId}">${body}</div>
+</div>`;
+    }).join('');
+
+    starteAbgleiche();
+  } catch(e){
+    el.innerHTML = '<div class="loading">Laden fehlgeschlagen.</div>';
+  }
+}
+
+function toggleProj(cId){
+  const body = document.getElementById(cId);
+  const chev = document.getElementById('chev-'+cId);
+  if(!body) return;
+  const open = body.classList.contains('open');
+  body.classList.toggle('open', !open);
+  if(chev) chev.classList.toggle('open', !open);
+}
+
+// ── STUDIENJAHR (nur aktuelle & kommende, keine abgelaufenen) ──
+const ALLE_SJ = ['26_27','27_28'];
+function oeffneSjModal(){
+  const aktSj = getSjTarget();
+  document.getElementById('sj-optionen').innerHTML = ALLE_SJ.map(sj =>
+    `<button class="sj-option${sj===aktSj?' aktiv':''}" onclick="wechsleSj('${sj}')">${sj.replace('_','/')}</button>`
+  ).join('');
+  document.getElementById('sj-modal').classList.add('open');
+}
+function schliesseSjModal(){
+  document.getElementById('sj-modal').classList.remove('open');
+}
+function wechsleSj(sj){
+  const url = new URL(window.location.href);
+  url.searchParams.set('sj', sj);
+  window.location.href = url.toString();
+}
+
+// ── ÄNDERUNGSMAIL SOFORT AUSLÖSEN (zweistufig: erst Bestätigen, dann Senden) ──
+let _aendBestaetigungTimer = null;
+async function aenderungsMailJetzt(){
+  const btn = document.getElementById('aend-btn');
+  const st  = document.getElementById('aend-status');
+  if(!btn.classList.contains('bestaetigen')){
+    btn.classList.add('bestaetigen');
+    btn.textContent = 'Wirklich senden?';
+    st.className = 'aend-status'; st.textContent = '';
+    _aendBestaetigungTimer = setTimeout(aendZuruecksetzen, 6000);
+    return;
+  }
+  clearTimeout(_aendBestaetigungTimer);
+  btn.disabled = true;
+  btn.classList.remove('bestaetigen');
+  btn.textContent = 'Läuft …';
+  st.className = 'aend-status';
+  st.textContent = 'Kalender wird geprüft – das kann bis zu 1–2 Minuten dauern.';
+  try {
+    const res = await fetch(`${WEBAPP_URL}?action=aenderungsmailJetzt`);
+    const d = await res.json();
+    if(!d.ok){
+      st.className = 'aend-status fehler';
+      st.textContent = 'Fehler: ' + (d.error || 'unbekannt');
+    } else if(d.gesendet){
+      st.className = 'aend-status ok';
+      st.textContent = '✓ Mail gesendet – ' + d.gesendet + (d.gesendet===1 ? ' Termin' : ' Termine') + '.';
+    } else {
+      st.className = 'aend-status';
+      st.textContent = 'Keine Änderungen vorhanden – es wurde keine Mail verschickt.';
+    }
+  } catch(e){
+    st.className = 'aend-status fehler';
+    st.textContent = 'Fehler: ' + e.message;
+  }
+  btn.disabled = false;
+  btn.textContent = 'Jetzt senden';
+}
+function aendZuruecksetzen(){
+  const btn = document.getElementById('aend-btn');
+  if(btn && !btn.disabled){ btn.classList.remove('bestaetigen'); btn.textContent = 'Jetzt senden'; }
+}
+
+ladeProjekteUndProgramm();
+</script>
+
+<div class="sj-modal-overlay" id="sj-modal" onclick="schliesseSjModal()">
+  <div class="sj-modal-box" onclick="event.stopPropagation()">
+    <div class="sj-modal-title">Studienjahr wählen</div>
+    <div id="sj-optionen"></div>
+  </div>
+</div>
+
+</body>
+</html>
