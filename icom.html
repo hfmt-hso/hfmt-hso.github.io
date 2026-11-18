@@ -735,7 +735,7 @@ function renderSlots() {
         ${s.vorbei ? '' : `<div class="slot-action"><button class="slot-btn-stornieren" onclick="stornieren('${esc(s.buchungId)}')">Stornieren</button></div>`}</div>`;
     }
     if (!s.frei) {
-      return `<div class="slot-kachel belegt">${zeit}<div class="slot-info"><div class="slot-status">Belegt</div></div></div>`;
+      return `<div class="slot-kachel belegt">${zeit}<div class="slot-info"><div class="slot-status">Belegt</div>${s.name && String(s.werk || '').indexOf('⚠ Ausfall') !== 0 ? '<div class="slot-name">' + esc(s.name) + '</div>' : ''}</div></div>`;
     }
     if (s.vorbei) {
       return `<div class="slot-kachel belegt">${zeit}<div class="slot-info"><div class="slot-status">Vorbei</div></div></div>`;
