@@ -238,6 +238,7 @@
             werke: ev.werke || [],
             solisten: ev.solisten || [],
             leitung: ev.leitung || [],
+            gruppe: ev.gruppe || '',
             probenplan: ev.probenplan || []
           };
         });

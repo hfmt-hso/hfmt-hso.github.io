@@ -812,7 +812,7 @@ async function ladeUeEvents(projektName, sj){
     const datObj = parseDatum(ev.datum); if(!datObj) return null;
     const datAnzeige = ev.datum || ddmmyyyy(datObj);
     const wt = WT[datObj.getDay()];
-    let kopf = wt+', '+datAnzeige+(ev.uhrzeit?' '+zeitText(ev):'')+'    '+ohnestern(ev._titel||projektName);
+    let kopf = wt+', '+datAnzeige+(ev.uhrzeit?' '+zeitText(ev):'')+'    '+ohnestern(ev._titel||projektName)+(ev.gruppe?' – '+ev.gruppe:'');
     if(ev.ort) kopf += '    |    '+ev.ort;
     const werke = (ev.werke||[]);
     const leitung = ev.leitung||[];

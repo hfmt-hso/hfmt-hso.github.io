@@ -1,4 +1,4 @@
-const CACHE = 'hso-portal-v4';
+const CACHE = 'hso-portal-v5';
 const ASSETS = ['/', '/index.html', '/unterricht.html', '/manifest.json'];
 
 self.addEventListener('install', e => {
