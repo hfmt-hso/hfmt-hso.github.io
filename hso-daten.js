@@ -34,7 +34,7 @@
   var PROJEKT_REIHENFOLGE = [
     'HSO 1', 'HSO 2', 'HSO 3', 'HSO 4',
     '13/14',
-    'HSO Blattspiel', 'HSO Repertoire', 'HSO Repertoireprobe',
+    'HSO Blattspiel', 'HSO Repertoire', 'HSO Repertoireprobe', 'Lab',
     'WK 1', 'WK 2', 'WK 3', 'WK 4', 'WK 5', 'WK 6', 'WK 7', 'WK 8',
     'WK Lü 1', 'WK Lü 2', 'WK Lü 3', 'WK Lü 4'
   ];
@@ -84,6 +84,7 @@
     if (m1314) return m1314[1];
     var mHso = titel.match(/^(HSO\s+\S+)/);
     if (mHso) return mHso[1];
+    if (/^Lab(\s|\(|$)/.test(titel)) return 'Lab';
     return null;
   }
 
@@ -216,7 +217,7 @@
 
     for (var p = 0; p < projekte.length; p++) {
       var pName = projekte[p].name;
-      var istBR = pName.indexOf('Blattspiel') !== -1 || pName.indexOf('Repertoire') !== -1;
+      var istBR = pName.indexOf('Blattspiel') !== -1 || pName.indexOf('Repertoire') !== -1 || pName === 'Lab';
 
       var zugehoerig = eventsImSj.filter(function (ev) {
         return _eventGehoertZuProjekt(ev._titel, pName);

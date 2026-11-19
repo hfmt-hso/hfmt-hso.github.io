@@ -270,6 +270,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="kal-filter-btn" onclick="setKalFilter('wk',this)">WK</button>
     <button class="kal-filter-btn" onclick="setKalFilter('blatt',this)">Blattspiel</button>
     <button class="kal-filter-btn" onclick="setKalFilter('rep',this)">Repertoire</button>
+    <button class="kal-filter-btn" onclick="setKalFilter('lab',this)">Lab</button>
     <button class="kal-filter-btn" onclick="setKalFilter('sonder',this)">Sonstiges</button>
   </div>
   <div id="kal-liste"><div class="loading">Termine werden geladen…</div></div>
@@ -487,6 +488,7 @@ const FARBEN = {
   '13/14'  :{bg:'#FAEEDA',color:'#854F0B'},
   'Blattspiel':{bg:'#EEEDFE',color:'#534AB7'},
   'Repertoire':{bg:'#EEEDFE',color:'#534AB7'},
+  'Lab'   :{bg:'#EEEDFE',color:'#534AB7'},
   'default':{bg:'#F1EFE8',color:'#5F5E5A'}
 };
 const ueCache  = {};
@@ -497,6 +499,7 @@ function getFarbe(n){for(const k in FARBEN){if(n.indexOf(k)!==-1)return FARBEN[k
 function getKuerzel(n){
   if(n.startsWith('HSO Blattspiel'))return'BS';
   if(n.startsWith('HSO Repertoire'))return'Rep';
+  if(n==='Lab')return'Lab';
   if(n.startsWith('HSO '))return'H'+n.replace('HSO ','').replace(/\D/g,'');
   if(n.startsWith('WK Lü '))return'WL'+n.replace('WK Lü ','').trim();
   if(n.startsWith('WK '))return'W'+n.replace('WK ','').trim();
@@ -531,7 +534,7 @@ function parseCsvZeile(z){
   res.push(cur);return res;
 }
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function istBR(n){return /Blattspiel|Repertoire/i.test(n);}
+function istBR(n){return /Blattspiel|Repertoire/i.test(n)||n==='Lab';}
 function ohnestern(s){return String(s||'').replace(/^\*/,'');}
 
 function getSjTarget(){
@@ -656,6 +659,7 @@ let _kalItems = [];
 function getKalTyp(p) {
   if(/Blattspiel/i.test(p)) return 'blattspiel';
   if(/Repertoire/i.test(p)) return 'repertoire';
+  if(/^Lab(\s|\(|$)/.test(p)) return 'lab';
   if(p==='13/14') return 'hso';
   if(p.startsWith('WK')) return 'wk';
   if(p.startsWith('HSO')) return 'hso';
@@ -668,6 +672,7 @@ function kalFilterMatch(typ, filter) {
   if(filter==='wk')   return typ==='wk';
   if(filter==='blatt') return typ==='blattspiel';
   if(filter==='rep')   return typ==='repertoire';
+  if(filter==='lab')   return typ==='lab';
   if(filter==='sonder') return typ==='sonder';
   return true;
 }
