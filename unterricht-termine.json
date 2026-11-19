@@ -1,58 +1,6 @@
 {
-  "generiert": "2026-11-17T10:58:58.000Z",
+  "generiert": "2026-11-19T09:18:12.690Z",
   "data": [
-    {
-      "id": "UT_20261110_26",
-      "datum": "10.11.2026",
-      "projekt": "Gruppenunterricht Kütson",
-      "marker": "Gruppenunterricht",
-      "dozent": "Kütson",
-      "uhrzeit": "14:30",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "14:30"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "15:30"
-        },
-        {
-          "slotId": "s_2",
-          "uhrzeit": "16:30"
-        },
-        {
-          "slotId": "s_3",
-          "uhrzeit": "17:30"
-        },
-        {
-          "slotId": "s_4",
-          "uhrzeit": "18:30"
-        }
-      ],
-      "notizen": ""
-    },
-    {
-      "id": "UT_20261111_27",
-      "datum": "11.11.2026",
-      "projekt": "Gruppenunterricht Kütson",
-      "marker": "Gruppenunterricht",
-      "dozent": "Kütson",
-      "uhrzeit": "13:00",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "13:00"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "14:00"
-        }
-      ],
-      "notizen": ""
-    },
     {
       "id": "UT_20261116_3",
       "datum": "16.11.2026",
@@ -1175,7 +1123,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-17",
+      "verschobenAm": "2026-11-19",
       "verschobenArt": "zeit",
       "verschobenAlt": "Di 02.02., 15:30"
     },
@@ -1298,7 +1246,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-17",
+      "verschobenAm": "2026-11-19",
       "verschobenArt": "zeit",
       "verschobenAlt": "Fr 05.02., 14:30"
     },
