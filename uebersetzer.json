@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-17T10:58:54.163Z",
+  "generiert": "2026-11-19T09:18:08.616Z",
   "events": [
     {
       "datum": "03.12.2026",
@@ -493,6 +493,16 @@
       "notizen": [],
       "abwesend": null,
       "endzeit": "12:30 Uhr",
+      "disposition": [
+        "10:00 Sukjong Kim – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 1. Satz",
+        "10:29 Jacob Gröper – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 2. Satz",
+        "10:44 Chenyu Wan – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 3. Satz",
+        "10:51 Miquel Bosch Roca – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 4. Satz",
+        "11:07 Rémi Geniet – SĪMURGH (Uraufführung) (Otte)",
+        "11:22 — Pause —",
+        "11:42 Uschik Choi – Doppelkonzert a-Moll für Violine, Violoncello und Orchester op. 102 (Brahms) – 1. Satz",
+        "12:07 Xin Yuan – Doppelkonzert a-Moll für Violine, Violoncello und Orchester op. 102 (Brahms) – 2. und 3. Satz"
+      ],
       "_eventId": "2ha25ibtugq2mvq1hoaall159v@google.com",
       "_titel": "WK 4 OA"
     },
@@ -510,6 +520,19 @@
       "notizen": [],
       "abwesend": null,
       "endzeit": "14:30 Uhr",
+      "disposition": [
+        "10:00 Sukjong Kim – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 1. Satz",
+        "10:49 Jacob Gröper – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 2. Satz",
+        "11:14 Chenyu Wan – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 3. Satz (Teil 1)",
+        "11:20 — Pause —",
+        "11:40 Chenyu Wan – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 3. Satz (Teil 2)",
+        "11:47 Miquel Bosch Roca – Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) – 4. Satz",
+        "12:13 Rémi Geniet – SĪMURGH (Uraufführung) (Otte)",
+        "12:38 Uschik Choi – Doppelkonzert a-Moll für Violine, Violoncello und Orchester op. 102 (Brahms) – 1. Satz (Teil 1)",
+        "12:50 — Pause —",
+        "13:20 Uschik Choi – Doppelkonzert a-Moll für Violine, Violoncello und Orchester op. 102 (Brahms) – 1. Satz (Teil 2)",
+        "13:52 Xin Yuan – Doppelkonzert a-Moll für Violine, Violoncello und Orchester op. 102 (Brahms) – 2. und 3. Satz"
+      ],
       "_eventId": "5nmlv77hdrs0pdjlf6md418cb5@google.com",
       "_titel": "WK 4 OA"
     },
@@ -527,6 +550,12 @@
       "notizen": [],
       "abwesend": null,
       "endzeit": "13:00 Uhr",
+      "disposition": [
+        "GP in der gleichen Probenreihenfolge wie die OA:",
+        "1. Sinfonie Nr. 4 f-Moll op. 36 (Tchaikovsky) (ca. 44 Min.)",
+        "2. SĪMURGH (Uraufführung) (Otte) (ca. 10 Min.)",
+        "3. Doppelkonzert a-Moll für Violine, Violoncello und Orchester op. 102 (Brahms) (ca. 32 Min.)"
+      ],
       "_eventId": "2lmgrml71u11jporomff7t07p1@google.com",
       "_titel": "WK 4 GP"
     },
@@ -569,7 +598,7 @@
             },
             {
               "instrument": "Violine",
-              "name": "Onyou Kim",
+              "name": "Onyu Kim",
               "zusatz": "als Gast"
             }
           ],
@@ -603,7 +632,7 @@
         },
         {
           "instrument": "Violine",
-          "name": "Onyou Kim",
+          "name": "Onyu Kim",
           "zusatz": "als Gast"
         }
       ],
@@ -1957,7 +1986,7 @@
         "Ermäßigungen gelten für Schüler:innen und Studierende sowie Berechtigte nach SGB."
       ],
       "_eventId": "7dgb980veq3ktguor1t05arvm5@google.com",
-      "_titel": "HSO 3"
+      "_titel": "HSO 3 (3)"
     },
     {
       "datum": "06.05.2027",
@@ -2602,7 +2631,7 @@
       "abwesend": null,
       "eintritt": [],
       "_eventId": "486ehlnni32vef3jj375077nfk@google.com",
-      "_titel": "HSO 1 Konzert zur Semestereröffnung (1) Webcast"
+      "_titel": "HSO 1 (1)"
     },
     {
       "datum": "08.10.2027",
@@ -2621,7 +2650,7 @@
       "abwesend": null,
       "eintritt": [],
       "_eventId": "cc6otp6cbcug1v1ja1kk5jgkdg@google.com",
-      "_titel": "HSO 1 Konzert zur Semestereröffnung (2) (Studierende)"
+      "_titel": "HSO 1 (2) (Studierende und Webcast)"
     },
     {
       "datum": "30.11.2027",
@@ -2766,9 +2795,9 @@
       "_titel": "WK 4"
     },
     {
-      "datum": "01.12.2027",
-      "uhrzeit": "15:30 Uhr",
-      "endzeit": "18:30 Uhr",
+      "datum": "03.12.2027",
+      "uhrzeit": "14:00 Uhr",
+      "endzeit": "17:00 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": "1. Probe",
@@ -3933,48 +3962,6 @@
       "_titel": "HSO 4"
     },
     {
-      "datum": "18.11.2026",
-      "uhrzeit": "14:15 Uhr",
-      "endzeit": "17:00 Uhr",
-      "ort": "Orchesterstudio",
-      "konzertart": null,
-      "marker": "Repertoire",
-      "werke": [
-        {
-          "komponist": "Robert Schumann",
-          "lebensdaten": "1810–1856",
-          "titel": "Sinfonie Nr. 4 d-moll, op. 120",
-          "saetze": [
-            "Ziemlich langsam – Lebhaft",
-            "Romanze: Ziemlich langsam",
-            "Scherzo: Lebhaft",
-            "Langsam – Lebhaft"
-          ],
-          "dauer": "ca. 29 min",
-          "besetzung": "2.2.2.2-4.2.3.0-Pk-Str. (10.8.6.5.4)",
-          "urauffuehrung": false,
-          "pause": false,
-          "schlagwerkAnzahl": 0
-        }
-      ],
-      "solisten": [],
-      "ensemble": null,
-      "leitung": [
-        {
-          "name": "Thomas Dorsch | Jacob Gröper, Chenyu Wan (1., 2. Satz ), Uschik Choi, Doğa Çetin (3., 4. Satz )",
-          "werk": "",
-          "klasse": ""
-        }
-      ],
-      "aufbauplan": null,
-      "notizen": [],
-      "probenplan": [],
-      "abwesend": null,
-      "eintritt": [],
-      "_eventId": "4u4dcm6j7sq6884r7s92r5moaf@google.com",
-      "_titel": "HSO Repertoire"
-    },
-    {
       "datum": "02.12.2026",
       "uhrzeit": "14:15 Uhr",
       "endzeit": "17:00 Uhr",
@@ -4805,6 +4792,240 @@
       "eintritt": [],
       "_eventId": "7btdf72c5j8o25v7flcirj6387@google.com",
       "_titel": "*Matthiaemahl"
+    },
+    {
+      "_eventId": "m4806428jhonkqtfrkmo2lacc0@google.com",
+      "_titel": "Lab",
+      "datum": "13.10.2027",
+      "uhrzeit": "14:00 Uhr",
+      "endzeit": "17:00 Uhr",
+      "ort": "Forum",
+      "marker": "Lab",
+      "werke": [],
+      "solisten": [],
+      "leitung": [],
+      "probenplan": [],
+      "ensemble": null,
+      "konzertart": null,
+      "eintritt": [],
+      "inhaltAusgeblendet": true,
+      "hinweis": "Programm folgt"
+    },
+    {
+      "_eventId": "2ovs7e4oreihmqgdehc7uf3sa0@google.com",
+      "_titel": "Lab",
+      "datum": "20.10.2027",
+      "uhrzeit": "15:00 Uhr",
+      "endzeit": "18:00 Uhr",
+      "ort": "Forum",
+      "marker": "Lab",
+      "werke": [],
+      "solisten": [],
+      "leitung": [],
+      "probenplan": [],
+      "ensemble": null,
+      "konzertart": null,
+      "eintritt": [],
+      "inhaltAusgeblendet": true,
+      "hinweis": "Programm folgt"
+    },
+    {
+      "_eventId": "5f1v8rq1q0p3k5egm7nu27efrc@google.com",
+      "_titel": "Lab",
+      "datum": "27.10.2027",
+      "uhrzeit": "14:00 Uhr",
+      "endzeit": "17:00 Uhr",
+      "ort": "Forum",
+      "marker": "Lab",
+      "werke": [],
+      "solisten": [],
+      "leitung": [],
+      "probenplan": [],
+      "ensemble": null,
+      "konzertart": null,
+      "eintritt": [],
+      "inhaltAusgeblendet": true,
+      "hinweis": "Programm folgt"
+    },
+    {
+      "_eventId": "73kft5rr0d3343le2g0nck6724@google.com",
+      "_titel": "Lab",
+      "datum": "03.11.2027",
+      "uhrzeit": "14:00 Uhr",
+      "endzeit": "17:00 Uhr",
+      "ort": "Forum",
+      "marker": "Lab",
+      "werke": [],
+      "solisten": [],
+      "leitung": [],
+      "probenplan": [],
+      "ensemble": null,
+      "konzertart": null,
+      "eintritt": [],
+      "inhaltAusgeblendet": true,
+      "hinweis": "Programm folgt"
+    },
+    {
+      "_eventId": "fn2sera85l50la1q0pcs5c9bhs@google.com",
+      "_titel": "Lab",
+      "datum": "10.11.2027",
+      "uhrzeit": "14:00 Uhr",
+      "endzeit": "17:00 Uhr",
+      "ort": "Forum",
+      "marker": "Lab",
+      "werke": [],
+      "solisten": [],
+      "leitung": [],
+      "probenplan": [],
+      "ensemble": null,
+      "konzertart": null,
+      "eintritt": [],
+      "inhaltAusgeblendet": true,
+      "hinweis": "Programm folgt"
+    },
+    {
+      "_eventId": "0p411pqr5pvc0tgn26notnmrgs@google.com",
+      "_titel": "Lab",
+      "datum": "17.11.2027",
+      "uhrzeit": "14:00 Uhr",
+      "endzeit": "17:00 Uhr",
+      "ort": "Forum",
+      "marker": "Lab",
+      "werke": [],
+      "solisten": [],
+      "leitung": [],
+      "probenplan": [],
+      "ensemble": null,
+      "konzertart": null,
+      "eintritt": [],
+      "inhaltAusgeblendet": true,
+      "hinweis": "Programm folgt"
+    },
+    {
+      "_eventId": "9msf5djtbc7cur8d5hvflteqsk@google.com",
+      "_titel": "Lab",
+      "datum": "24.11.2027",
+      "uhrzeit": "14:00 Uhr",
+      "endzeit": "17:00 Uhr",
+      "ort": "Forum",
+      "marker": "Lab",
+      "werke": [],
+      "solisten": [],
+      "leitung": [],
+      "probenplan": [],
+      "ensemble": null,
+      "konzertart": null,
+      "eintritt": [],
+      "inhaltAusgeblendet": true,
+      "hinweis": "Programm folgt"
+    },
+    {
+      "_eventId": "k6hva5c76856ujm01mqqphl174@google.com",
+      "_titel": "Lab",
+      "datum": "01.12.2027",
+      "uhrzeit": "15:00 Uhr",
+      "endzeit": "18:00 Uhr",
+      "ort": "Forum",
+      "marker": "Lab",
+      "werke": [],
+      "solisten": [],
+      "leitung": [],
+      "probenplan": [],
+      "ensemble": null,
+      "konzertart": null,
+      "eintritt": [],
+      "inhaltAusgeblendet": true,
+      "hinweis": "Programm folgt"
+    },
+    {
+      "_eventId": "dl1mm2nek7ohjp8rcc9hmdtig0@google.com",
+      "_titel": "Lab",
+      "datum": "08.12.2027",
+      "uhrzeit": "14:00 Uhr",
+      "endzeit": "17:00 Uhr",
+      "ort": "Forum",
+      "marker": "Lab",
+      "werke": [],
+      "solisten": [],
+      "leitung": [],
+      "probenplan": [],
+      "ensemble": null,
+      "konzertart": null,
+      "eintritt": [],
+      "inhaltAusgeblendet": true,
+      "hinweis": "Programm folgt"
+    },
+    {
+      "_eventId": "asib2t0ab7mvv5t6t2pchceuu4@google.com",
+      "_titel": "Lab",
+      "datum": "15.12.2027",
+      "uhrzeit": "14:00 Uhr",
+      "endzeit": "17:00 Uhr",
+      "ort": "Forum",
+      "marker": "Lab",
+      "werke": [],
+      "solisten": [],
+      "leitung": [],
+      "probenplan": [],
+      "ensemble": null,
+      "konzertart": null,
+      "eintritt": [],
+      "inhaltAusgeblendet": true,
+      "hinweis": "Programm folgt"
+    },
+    {
+      "_eventId": "cv3cv110e6kovlmb79qmru5urg@google.com",
+      "_titel": "Lab",
+      "datum": "12.01.2028",
+      "uhrzeit": "14:00 Uhr",
+      "endzeit": "17:00 Uhr",
+      "ort": "Forum",
+      "marker": "Lab",
+      "werke": [],
+      "solisten": [],
+      "leitung": [],
+      "probenplan": [],
+      "ensemble": null,
+      "konzertart": null,
+      "eintritt": [],
+      "inhaltAusgeblendet": true,
+      "hinweis": "Programm folgt"
+    },
+    {
+      "_eventId": "gi1jippve1ve7e9r54mhjuvejo@google.com",
+      "_titel": "Lab",
+      "datum": "19.01.2028",
+      "uhrzeit": "14:00 Uhr",
+      "endzeit": "17:00 Uhr",
+      "ort": "Forum",
+      "marker": "Lab",
+      "werke": [],
+      "solisten": [],
+      "leitung": [],
+      "probenplan": [],
+      "ensemble": null,
+      "konzertart": null,
+      "eintritt": [],
+      "inhaltAusgeblendet": true,
+      "hinweis": "Programm folgt"
+    },
+    {
+      "_eventId": "e769h39apqqp4dvj1cbq1urrpk@google.com",
+      "_titel": "Lab",
+      "datum": "26.01.2028",
+      "uhrzeit": "15:00 Uhr",
+      "endzeit": "18:00 Uhr",
+      "ort": "Forum",
+      "marker": "Lab",
+      "werke": [],
+      "solisten": [],
+      "leitung": [],
+      "probenplan": [],
+      "ensemble": null,
+      "konzertart": null,
+      "eintritt": [],
+      "inhaltAusgeblendet": true,
+      "hinweis": "Programm folgt"
     }
   ]
 }
