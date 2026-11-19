@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-19T09:18:10.835Z",
+  "generiert": "2026-11-19T09:38:06.629Z",
   "projekte": [
     {
       "name": "HSO 1",
@@ -24,6 +24,11 @@
     {
       "name": "13/14",
       "docId": "14gn6yUIafRPBj02i-oJSrdrRXYVh6m-tIs7HeM7lo6s",
+      "sj": "27_28"
+    },
+    {
+      "name": "Lab",
+      "docId": "1tV51npJSOBteuXlb_9UX2RGTA2jdwh_WAZpTVApaQPo",
       "sj": "27_28"
     },
     {
