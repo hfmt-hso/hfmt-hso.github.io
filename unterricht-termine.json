@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-19T14:58:32.702Z",
+  "generiert": "2026-11-20T03:07:25.835Z",
   "data": [
     {
       "id": "UT_20261116_3",
@@ -434,7 +434,7 @@
       "notizen": "",
       "verschobenAm": "2026-11-13",
       "verschobenArt": "zeit",
-      "verschobenAlt": "Fri Dec 11 2026 13:00:00 GMT+0100 (Mitteleuropäische Normalzeit)"
+      "verschobenAlt": "Fri Dec 11 2026 13:00:00 GMT+0100 (Central European Standard Time)"
     },
     {
       "id": "UT_20261211_40",
@@ -833,7 +833,7 @@
       "notizen": "",
       "verschobenAm": "2026-11-15",
       "verschobenArt": "zeit",
-      "verschobenAlt": "Tue Jan 20 2026 09:00:00 GMT+0100 (Mitteleuropäische Normalzeit)"
+      "verschobenAlt": "Tue Jan 20 2026 09:00:00 GMT+0100 (Central European Standard Time)"
     },
     {
       "id": "UT_20270120_1",
@@ -1123,7 +1123,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-19",
+      "verschobenAm": "2026-11-20",
       "verschobenArt": "zeit",
       "verschobenAlt": "Di 02.02., 15:30"
     },
@@ -1246,7 +1246,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-19",
+      "verschobenAm": "2026-11-20",
       "verschobenArt": "zeit",
       "verschobenAlt": "Fr 05.02., 14:30"
     },
