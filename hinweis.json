@@ -5,6 +5,12 @@
       "titel": "Achtung",
       "text": "Die Probe am 25. 11. findet aufgrund einer Terminkollision im Orchesterstudio statt und das Programm wird angepasst: Ludwig van Beethoven Sinfonie Nr. 7 A-Dur, op. 92",
       "bis": "2026-11-25"
+    },
+    {
+      "aktiv": true,
+      "titel": "Ensemble Modern",
+      "text": "Ensemble Modern kommt wieder zu Workshops, Seminaren und Unterrichten ( Einzel und Gruppen ). Termin: Montag / Dienstag: 22. / 23.02.2027 \nBesetzung: Klarinette, Posaune, Trompete, Viola, Klavier, Harfe, Gitarre, Schlagzeug",
+      "bis": ""
     }
   ]
 }
