@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:,">
+<title>Studienjahr – Übersicht für Lehrende</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#16161d;--ink3:#555568;--paper:#f6f6f4;--blue:#1a4b8c;--blue2:#0d2f5c;--blue-bg:#eef3fb;--green:#1e6b3a;--red:#9b2335;--red-bg:#fbeaed;--border:#dcdad2;--radius:10px;
+--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.45}
+.wrap{max-width:1300px;margin:0 auto;padding:22px 16px 40px}
+h1{font-size:20px;margin-bottom:4px}
+.sub{color:var(--ink3);font-size:13px;margin-bottom:16px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+#login{max-width:420px;margin:40px auto}
+label{display:block;font-size:12px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em;margin:12px 0 4px}
+input,select{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:8px;font:inherit;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:2px solid var(--blue);border-color:var(--blue)}
+button.btn{margin-top:14px;width:100%;padding:11px;background:var(--blue);color:#fff;border:0;border-radius:8px;font:inherit;font-weight:700;cursor:pointer}
+button.btn:hover{background:var(--blue2)}button.btn:disabled{opacity:.5;cursor:default}
+.linkbtn{background:none;border:0;color:var(--blue);text-decoration:underline;cursor:pointer;font:inherit}
+.msg{margin-top:12px;font-size:13px;color:var(--ink3)}.msg.err{color:var(--red)}
+#app{display:none}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px}
+.bar>div{min-width:150px}.bar label{margin-top:0}
+.count{color:var(--ink3);font-size:13px;margin:4px 0 8px}
+.tw{overflow:auto;max-height:72vh;border:1px solid var(--border);border-radius:var(--radius);background:#fff}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{position:sticky;top:0;background:var(--blue-bg);text-align:left;padding:7px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink3);white-space:nowrap;z-index:1}
+td{padding:4px 8px;border-top:1px solid var(--border);vertical-align:middle}
+td input{padding:5px 7px;font-size:13px;min-width:130px}
+td input.ok{border-color:var(--green);background:#f1faf4}td input.err{border-color:var(--red);background:var(--red-bg)}
+td.p{font-size:12px;white-space:nowrap;color:var(--ink3)}
+td.n{font-weight:600;white-space:nowrap}
+footer{margin-top:22px;font-size:12px;color:var(--ink3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="login" class="card">
+  <h1>Studienjahr – Übersicht</h1>
+  <p class="sub">Für Lehrende. Wählen Sie Ihren Namen; der Anmeldecode kommt per E-Mail.</p>
+  <div id="s1">
+    <label for="nameQ">Ihr Name</label>
+    <input id="nameQ" type="search" autocomplete="off" placeholder="Name eingeben und aus der Liste wählen">
+    <div id="nameListe" style="margin-top:6px;max-height:220px;overflow:auto;border:1px solid var(--border);border-radius:8px;display:none"></div>
+    <p class="msg" id="gewaehlt"></p>
+    <button class="btn" id="codeBtn" type="button" disabled>Code senden</button>
+    <p class="msg">Der Code geht an die bei der Hochschule für Sie hinterlegte E-Mail-Adresse.</p>
+  </div>
+  <div id="s2" style="display:none">
+    <label for="code">Code aus der E-Mail</label>
+    <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6">
+    <button class="btn" id="anmBtn" type="button">Anmelden</button>
+    <p class="msg"><button class="linkbtn" id="zurueck" type="button">Andere Adresse / neuen Code anfordern</button></p>
+  </div>
+  <p class="msg" id="lmsg"></p>
+</div>
+
+<div id="app">
+  <div class="top">
+    <div><h1>Studienjahr <span id="jahrTitel"></span></h1><p class="sub" id="wer"></p></div>
+    <button class="linkbtn" id="abm" type="button">Abmelden</button>
+  </div>
+  <div class="bar">
+    <div><label for="fJahr">Studienjahr</label><select id="fJahr"></select></div>
+    <div><label for="fIns">Instrument</label><select id="fIns"></select></div>
+    <div><label for="fSta">Status</label><select id="fSta"></select></div>
+    <div><label for="fAbs">Abschluss</label><select id="fAbs"></select></div>
+    <div style="flex:1;min-width:200px"><label for="fQ">Suche (Name, LehrerIn)</label><input id="fQ" type="search"></div>
+    <div style="min-width:0"><label style="display:flex;gap:6px;align-items:center;text-transform:none;letter-spacing:0;font-size:13px;color:var(--ink);margin:0 0 8px"><input type="checkbox" id="fMein" style="width:auto"> Nur meine Studierenden</label></div>
+  </div>
+  <div class="bar" style="margin-bottom:6px">
+    <p class="count" id="count" style="margin:0 12px 0 0;align-self:center"></p>
+    <div style="min-width:180px"><label for="kForm">Kopieren als</label><select id="kForm"><option value="tab">Tabelle (Name, Instrument, Abschluss, LehrerIn, E-Mail)</option><option value="namen">Nur Namen (eine pro Zeile)</option><option value="mails">Nur E-Mail-Adressen (Semikolon)</option></select></div>
+    <div style="min-width:0"><button class="btn" id="kopBtn" type="button" style="margin-top:0;width:auto;padding:9px 16px">Auswahl in die Zwischenablage kopieren</button></div>
+  </div>
+  <div class="tw"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+  <p class="msg" id="amsg">Änderungen an E-Mail, Abschluss und LehrerIn werden beim Verlassen des Feldes gespeichert.</p>
+</div>
+
+<footer>Die Daten dienen ausschließlich der Orchesterplanung. Bei Fragen oder Korrekturwünschen: thomas.dorsch@hfmt-hamburg.de</footer>
+</div>
+
+<datalist id="dlAbs"></datalist>
+<datalist id="dlLehr"></datalist>
+
+<script>
+// Adresse der Web-App (Projekt "Verwaltung", Bereitstellung mit Lehre.gs). Vor dem Veröffentlichen eintragen.
+var API = 'https://script.google.com/macros/s/AKfycbymA96R24z5bPQLX85_5e7gk8eaOD2FjDOjT04Uy3_aaBtZRDG7ic4KwXpA3GNQZzLFBA/exec';
+var $ = function(id){ return document.getElementById(id); };
+var S = { token:null, d:null, z:null, namen:[] };
+
+async function api(data){
+  if(API.indexOf('http') !== 0) throw new Error('Seite noch nicht eingerichtet.');
+  var res = await fetch(API, { method:'POST', body: JSON.stringify(data) });
+  var j = await res.json();
+  if(j && j.auth){ abmelden(); }
+  return j;
+}
+function zeigeLogin(t, err){ var m=$('lmsg'); m.textContent=t||''; m.className='msg'+(err?' err':''); }
+
+function normN(s){ return String(s||'').toLowerCase().replace(/[,\s]+/g,' ').trim(); }
+function nameListe(){
+  var q=normN($('nameQ').value), box=$('nameListe');
+  var l = S.namen.filter(function(x){ return !q || normN(x.n).indexOf(q)>=0; }).slice(0,40);
+  box.innerHTML = l.map(function(x){ return '<div data-z="'+x.z+'" style="padding:8px 10px;cursor:pointer;border-bottom:1px solid var(--border)">'+esc(x.n)+'</div>'; }).join('');
+  box.style.display = (q && l.length) ? 'block' : 'none';
+}
+$('nameQ').oninput = function(){ S.z=null; $('codeBtn').disabled=true; $('gewaehlt').textContent=''; nameListe(); };
+$('nameListe').onclick = function(ev){
+  var el=ev.target; if(!el.dataset || !el.dataset.z) return;
+  S.z=el.dataset.z; $('nameQ').value=el.textContent; $('nameListe').style.display='none';
+  $('gewaehlt').textContent='Ausgewählt: '+el.textContent; $('codeBtn').disabled=false;
+};
+async function namenLaden(){
+  try{ var j=await api({action:'lehreNamen'}); if(j&&j.ok) S.namen=j.namen||[]; }catch(e){ zeigeLogin(e.message||'Fehler', true); }
+}
+$('codeBtn').onclick = async function(){
+  var b=this; b.disabled=true; zeigeLogin('');
+  try{
+    var j = await api({ action:'lehreCodeAnfordern', z:S.z });
+    $('s1').style.display='none'; $('s2').style.display='block'; zeigeLogin(j.hinweis||''); $('code').focus();
+  }catch(e){ zeigeLogin(e.message||'Fehler', true); }
+  b.disabled=false;
+};
+$('zurueck').onclick = function(){ $('s2').style.display='none'; $('s1').style.display='block'; $('codeBtn').disabled=!S.z; zeigeLogin(''); };
+$('anmBtn').onclick = async function(){
+  var b=this; b.disabled=true; zeigeLogin('');
+  try{
+    var j = await api({ action:'lehreAnmelden', z:S.z, code:$('code').value });
+    if(!j.ok){ zeigeLogin(j.fehler||'Anmeldung fehlgeschlagen.', true); }
+    else{ S.token=j.token; try{ sessionStorage.setItem('lehre_token', j.token); }catch(e){} await laden(null, true); }
+  }catch(e){ zeigeLogin(e.message||'Fehler', true); }
+  b.disabled=false;
+};
+namenLaden();
+async function inZwischenablage(text){
+  try{ await navigator.clipboard.writeText(text); return true; }catch(e){}
+  var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+  var ok=false; try{ ok=document.execCommand('copy'); }catch(e){} document.body.removeChild(ta); return ok;
+}
+$('kopBtn').onclick = async function(){
+  var l=S.liste||[]; if(!l.length){ $('amsg').className='msg err'; $('amsg').textContent='Keine Personen in der Auswahl.'; return; }
+  var f=$('kForm').value, text;
+  if(f==='namen') text=l.map(function(p){ return p.n; }).join('\n');
+  else if(f==='mails') text=l.map(function(p){ return p.e; }).filter(Boolean).join('; ');
+  else text=['Name\tInstrument\tAbschluss\tLehrerIn\tE-Mail'].concat(l.map(function(p){ return [p.n,p.i,p.a,p.l,p.e].join('\t'); })).join('\n');
+  var ok=await inZwischenablage(text);
+  $('amsg').className='msg'+(ok?'':' err');
+  $('amsg').textContent = ok ? (f==='mails' ? l.filter(function(p){return p.e;}).length+' Adressen' : l.length+' Personen')+' kopiert.' : 'Kopieren nicht möglich.';
+};
+$('abm').onclick = function(){ if(S.token) api({action:'lehreAbmelden', token:S.token}).catch(function(){}); abmelden(); };
+function abmelden(){
+  S.token=null; S.d=null; try{ sessionStorage.removeItem('lehre_token'); }catch(e){}
+  $('app').style.display='none'; $('login').style.display='block'; $('s2').style.display='none'; $('s1').style.display='block'; $('code').value='';
+}
+
+async function laden(jahr, erst){
+  var j = await api({ action:'lehreDaten', token:S.token, jahr:jahr||'' });
+  if(!j.ok){ if(!j.auth) zeigeLogin(j.fehler||'Fehler', true); return; }
+  S.d = j;
+  $('login').style.display='none'; $('app').style.display='block';
+  $('wer').textContent = 'Angemeldet: ' + j.name;
+  $('jahrTitel').textContent = j.jahr.replace('_','/');
+  füllen(erst);
+}
+
+function optionen(sel, werte, aktuell, leer){
+  sel.innerHTML=''; var o=document.createElement('option'); o.value=''; o.textContent=leer; sel.appendChild(o);
+  werte.forEach(function(w){ var x=document.createElement('option'); x.value=w; x.textContent=w||'–'; sel.appendChild(x); });
+  sel.value = werte.indexOf(aktuell)>=0 ? aktuell : '';
+}
+function uniq(f){ var m={}; S.d.personen.forEach(function(p){ m[p[f]||'']=1; }); return Object.keys(m).sort(function(a,b){ return a.localeCompare(b,'de'); }); }
+
+function füllen(erst){
+  var d=S.d, pj=$('fJahr').value;
+  optionen($('fJahr'), d.jahre, d.jahr, '');
+  $('fJahr').remove(0); $('fJahr').value=d.jahr;
+  var insListe = uniq('i'), mein = '';
+  if(erst){ // Instrument der Lehrkraft voreinstellen (nur bei eindeutigem Treffer)
+    var li=(d.instrument||'').toLowerCase();
+    var tr = insListe.filter(function(x){ return x && li.indexOf(x.toLowerCase())>=0; });
+    if(tr.length===1) mein = tr[0];
+  }
+  optionen($('fIns'), insListe, erst?mein:$('fIns').value, 'Alle Instrumente');
+  optionen($('fSta'), uniq('s'), $('fSta').value, 'Alle Status');
+  optionen($('fAbs'), uniq('a'), $('fAbs').value, 'Alle Abschlüsse');
+  $('dlAbs').innerHTML = uniq('a').filter(Boolean).map(function(x){ return '<option value="'+esc(x)+'">'; }).join('');
+  $('dlLehr').innerHTML = uniq('l').filter(Boolean).map(function(x){ return '<option value="'+esc(x)+'">'; }).join('');
+  $('thead').innerHTML = '<tr><th>Name</th><th>Instrument</th><th>Abschluss</th><th>LehrerIn</th><th>E-Mail</th><th>FS</th><th>Status</th>' +
+    d.projekte.map(function(p){ return '<th>'+esc(p)+'</th>'; }).join('') + '</tr>';
+  zeichnen();
+}
+function norm(s){ return String(s||'').toLowerCase().replace(/\s+/g,' ').replace(/\s*,\s*/g,', ').trim(); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+function zeichnen(){
+  var d=S.d, mein=$('fMein').checked ? norm(d.lk) : '', ins=$('fIns').value, sta=$('fSta').value, abs=$('fAbs').value, q=$('fQ').value.trim().toLowerCase();
+  var l = d.personen.filter(function(p){
+    if(mein && norm(p.l)!==mein) return false;
+    if(ins && p.i!==ins) return false;
+    if(sta && p.s!==sta) return false;
+    if(abs && p.a!==abs) return false;
+    if(q && (p.n+' '+p.l).toLowerCase().indexOf(q)<0) return false;
+    return true;
+  }).sort(function(a,b){ return (a.i||'').localeCompare(b.i||'','de') || a.n.localeCompare(b.n,'de'); });
+  S.liste = l;
+  $('count').textContent = l.length + ' von ' + d.personen.length + ' Personen';
+  $('tbody').innerHTML = l.map(function(p){
+    return '<tr><td class="n">'+esc(p.n)+'</td><td>'+esc(p.i)+'</td>'+
+      '<td><input data-z="'+p.z+'" data-n="'+esc(p.n)+'" data-f="Abschluss" list="dlAbs" value="'+esc(p.a)+'"></td>'+
+      '<td><input data-z="'+p.z+'" data-n="'+esc(p.n)+'" data-f="LehrerIn" list="dlLehr" value="'+esc(p.l)+'"></td>'+
+      '<td><input data-z="'+p.z+'" data-n="'+esc(p.n)+'" data-f="E-Mail" type="email" value="'+esc(p.e)+'"></td>'+
+      '<td>'+esc(p.f)+'</td><td>'+esc(p.s)+'</td>'+
+      p.p.map(function(x){ return '<td class="p">'+esc(x)+'</td>'; }).join('')+'</tr>';
+  }).join('');
+}
+['fIns','fSta','fAbs'].forEach(function(id){ $(id).onchange = zeichnen; });
+$('fQ').oninput = zeichnen;
+$('fMein').onchange = function(){ if(this.checked) $('fIns').value=''; zeichnen(); };
+$('fJahr').onchange = function(){ laden(this.value, false); };
+
+$('tbody').addEventListener('change', async function(ev){
+  var el=ev.target; if(!el.dataset || !el.dataset.f) return;
+  el.className=''; el.disabled=true;
+  try{
+    var j = await api({ action:'lehreSpeichern', token:S.token, z:el.dataset.z, name:el.dataset.n, feld:el.dataset.f, wert:el.value });
+    if(j.ok){
+      el.className='ok'; el.value=j.wert;
+      var p = S.d.personen.filter(function(x){ return String(x.z)===el.dataset.z; })[0];
+      if(p){ p[el.dataset.f==='Abschluss'?'a':el.dataset.f==='LehrerIn'?'l':'e'] = j.wert; }
+      $('amsg').className='msg'; $('amsg').textContent='Gespeichert.';
+    }else{ el.className='err'; $('amsg').className='msg err'; $('amsg').textContent=j.fehler||'Speichern fehlgeschlagen.'; }
+  }catch(e){ el.className='err'; $('amsg').className='msg err'; $('amsg').textContent='Speichern fehlgeschlagen: '+(e.message||''); }
+  el.disabled=false;
+});
+
+(function(){ try{ var t=sessionStorage.getItem('lehre_token'); if(t){ S.token=t; laden(null,true).catch(function(){}); } }catch(e){} })();
+</script>
+</body>
+</html>
