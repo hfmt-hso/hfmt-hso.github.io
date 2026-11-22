@@ -300,7 +300,13 @@ function füllen(erst){
   var d=S.d;
   optionen($('fJahr'), d.jahre, d.jahr, '');
   $('fJahr').remove(0); $('fJahr').value=d.jahr;
-  filterWerte(erst); chipsBauen();
+  filterWerte(erst);
+  if(erst){ // Start: eigene Studierende zuerst (nur wenn die Lehrkraft welche eingetragen hat)
+    var lk=norm(d.lk), hat=lk && d.personen.some(function(p){ return norm(p.l)===lk; });
+    $('fMein').checked=!!hat;
+    if(hat) S.fk.i.forEach(function(k){ S.f.i[k]=true; });
+  }
+  chipsBauen();
   $('dlAbs').innerHTML = uniq('a').filter(Boolean).map(function(x){ return '<option value="'+esc(x)+'">'; }).join('');
   $('dlLehr').innerHTML = uniq('l').filter(Boolean).map(function(x){ return '<option value="'+esc(x)+'">'; }).join('');
   $('thead').innerHTML = '<tr><th class="n">Name</th><th>Instr.</th><th>Abschluss</th><th>LehrerIn</th><th>E-Mail</th><th>FS</th><th>Status</th><th title="Projekte gesamt">Gesamt</th>' +
