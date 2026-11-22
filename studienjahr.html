@@ -158,10 +158,11 @@ $('codeBtn').onclick = async function(){
   try{
     var j = await api({ action:'lehreCodeAnfordern', z:S.z });
     $('s1').style.display='none'; $('s2').style.display='block'; zeigeLogin(j.hinweis||''); $('code').focus();
+    try{ localStorage.setItem('lehre_angefordert', JSON.stringify({ z:S.z, n:$('nameQ').value, t:Date.now() })); }catch(e){}
   }catch(e){ zeigeLogin(e.message||'Fehler', true); }
   b.disabled=false;
 };
-$('zurueck').onclick = function(){ $('s2').style.display='none'; $('s1').style.display='block'; $('codeBtn').disabled=!S.z; zeigeLogin(''); };
+$('zurueck').onclick = function(){ try{ localStorage.removeItem('lehre_angefordert'); }catch(e){} $('s2').style.display='none'; $('s1').style.display='block'; $('codeBtn').disabled=!S.z; zeigeLogin(''); };
 $('anmBtn').onclick = async function(){
   var b=this; b.disabled=true; zeigeLogin('');
   try{
@@ -174,7 +175,7 @@ $('anmBtn').onclick = async function(){
 // Anmeldelink aus der Mail: #a=<Token>. Das Token wird sofort aus der Adresszeile entfernt; angemeldet wird erst per Klick
 // (Mail-Scanner rufen Links vorab auf und würden ein einmaliges Token sonst verbrauchen).
 var LINKT = null;
-(function(){ var m=/[#&]a=([0-9a-f-]{20,100})/i.exec(location.hash||''); if(m){ LINKT=m[1]; try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} } })();
+(function(){ var m=/[?&#]a=([0-9a-f-]{20,100})/i.exec((location.search||'')+(location.hash||'')); if(m){ LINKT=m[1]; try{ history.replaceState(null,'',location.pathname); }catch(e){} } })();
 var SUB_TXT = $('loginSub').textContent;
 if(LINKT){ $('s1').style.display='none'; $('s3').style.display='block'; $('loginSub').textContent='Für Lehrende.'; }
 $('linkBtn').onclick = async function(){
@@ -183,10 +184,14 @@ $('linkBtn').onclick = async function(){
     var j = await api({ action:'lehreLinkAnmelden', t:LINKT });
     LINKT=null;
     if(!j.ok){ $('s3').style.display='none'; $('s1').style.display='block'; $('loginSub').textContent=SUB_TXT; zeigeLogin((j.fehler||'Anmeldung fehlgeschlagen.')+' Bitte fordern Sie einen neuen Link an.', true); }
-    else{ S.token=j.token; try{ sessionStorage.setItem('lehre_token', j.token); }catch(e){} await laden(null, true); leerNeu(); }
+    else{ S.token=j.token; try{ sessionStorage.setItem('lehre_token', j.token); localStorage.removeItem('lehre_angefordert'); }catch(e){} await laden(null, true); leerNeu(); }
   }catch(e){ zeigeLogin(e.message||'Fehler', true); }
   b.disabled=false;
 };
+// Nach dem Wechsel zur Mail-App (Handy) lädt der Browser die Seite oft neu: Code-Eingabe für 15 Minuten wiederherstellen
+(function(){ if(LINKT) return; try{ var a=JSON.parse(localStorage.getItem('lehre_angefordert')||'null');
+  if(a && a.z && Date.now()-a.t < 15*60*1000){ S.z=a.z; $('nameQ').value=a.n||''; $('s1').style.display='none'; $('s2').style.display='block'; zeigeLogin('Der Anmeldelink wurde gesendet. Öffnen Sie die E-Mail und klicken Sie auf den Link, oder geben Sie hier den Code ein.'); }
+  else if(a) localStorage.removeItem('lehre_angefordert'); }catch(e){} })();
 namenLaden();
 async function inZwischenablage(text){
   try{ await navigator.clipboard.writeText(text); return true; }catch(e){}
