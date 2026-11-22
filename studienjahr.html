@@ -84,7 +84,7 @@ footer{margin:22px auto 0;font-size:12px;color:var(--ink3);text-align:center;max
 .pm{font-size:12px;color:var(--ink3);margin-top:2px}
 .pc label{margin:8px 0 3px;font-size:11px}
 .pc input.ok{border-color:var(--green);background:#f1faf4}.pc input.err{border-color:var(--red);background:var(--red-bg)}
-.pp{margin-top:8px;display:flex;flex-direction:column;gap:5px}.pd{margin-top:10px;padding-top:6px;border-top:1px solid var(--border)}#ansicht{gap:8px;margin:0 0 8px}#ansicht .btn{flex:1;width:auto;margin:0;padding:6px 10px}#ansicht .btn.on{outline:2px solid var(--ink3)}@media(max-width:700px){#ansicht{display:flex!important}#projWahl{display:flex!important;flex-wrap:wrap;gap:4px 10px}}
+.pp{margin-top:8px;display:flex;flex-direction:column;gap:5px}.pd{margin-top:10px;padding-top:6px;border-top:1px solid var(--border)}#ansicht{gap:8px;margin:0 0 8px}#ansicht .btn{flex:1;width:auto;margin:0;padding:6px 10px}#ansicht .btn.on{outline:2px solid var(--ink3)}@media(max-width:700px){#ansicht{display:flex!important}#projWahl{gap:4px 10px}}
 .pz{background:#fff;border-bottom:1px solid var(--border);padding:6px 4px}.pz summary{list-style:none;cursor:pointer}.pz summary::-webkit-details-marker{display:none}.pz .pk{flex-direction:row;gap:6px;align-items:baseline;flex-wrap:wrap}.pz .pk b{font-size:15px}.pz .pq{display:flex;flex-wrap:wrap;gap:3px 6px;margin-top:3px}.pz .pq .pill{font-size:11px}.pz .pq i{font-style:normal;font-size:11px;color:var(--ink3)}.pz .pd{border-top:0;margin-top:4px}
 .pd summary{font-size:13px;color:var(--ink3);padding:6px 0;cursor:pointer}
 .pr{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.pn{font-size:12px;font-weight:700;color:var(--ink3);min-width:64px}
@@ -136,9 +136,9 @@ footer{margin:22px auto 0;font-size:12px;color:var(--ink3);text-align:center;max
     <div style="min-width:180px"><label for="kForm">Kopieren als</label><select id="kForm"><option value="tab">Tabelle (Name, Instrument, Abschluss, LehrerIn, E-Mail)</option><option value="namen">Nur Namen (eine pro Zeile)</option><option value="mails">Nur E-Mail-Adressen (Semikolon)</option></select></div>
     <div style="min-width:0"><button class="btn" id="kopBtn" type="button" style="margin-top:0;width:auto;padding:9px 16px">Auswahl in die Zwischenablage kopieren</button></div>
   </div>
+  <div id="projWahl" class="chips" style="margin:0 0 8px"></div>
   <div class="tw"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
   <div id="ansicht" style="display:none"><button type="button" class="btn" id="ansL">Liste</button><button type="button" class="btn" id="ansK">Karten</button></div>
-  <div id="projWahl" class="chips" style="display:none;margin:0 0 8px"></div>
   <div id="cards"></div>
   <p class="msg" id="amsg">Änderungen an E-Mail, Abschluss und LehrerIn werden beim Verlassen des Feldes gespeichert.</p>
 </div>
@@ -425,6 +425,10 @@ $('projWahl').addEventListener('change', function(){
   try{ localStorage.setItem('lehre_proj', JSON.stringify(a)); }catch(e){}
   zeichnen();
 });
+function kopfBauen(){
+  $('thead').innerHTML = '<tr><th class="n">Name</th><th>Instr.</th><th>Abschluss</th><th>LehrerIn</th><th>E-Mail</th><th>FS</th><th>Status</th><th title="Projekte gesamt">Gesamt</th><th title="Befreiung bis">Befreit bis</th>' +
+    projIdxM().map(function(i){ var p=S.d.projekte[i]; return '<th class="pj" title="'+esc(p)+'">'+esc(projKurz(p))+((S.bes||{})[i]||'')+'</th>'; }).join('') + '</tr>';
+}
 function projKurz(n){ return String(n).replace(/^\d\d_\d\d_/,'').replace(/_/g,' '); }
 function füllen(erst){
   var d=S.d;
@@ -433,8 +437,6 @@ function füllen(erst){
   filterWerte(erst); chipsBauen();
   $('dlAbs').innerHTML = uniq('a').filter(Boolean).map(function(x){ return '<option value="'+esc(x)+'">'; }).join('');
   $('dlLehr').innerHTML = uniq('l').filter(Boolean).map(function(x){ return '<option value="'+esc(x)+'">'; }).join('');
-  $('thead').innerHTML = '<tr><th class="n">Name</th><th>Instr.</th><th>Abschluss</th><th>LehrerIn</th><th>E-Mail</th><th>FS</th><th>Status</th><th title="Projekte gesamt">Gesamt</th><th title="Befreiung bis">Befreit bis</th>' +
-    projIdx().map(function(i){ var p=d.projekte[i]; return '<th class="pj" title="'+esc(p)+'">'+esc(projKurz(p))+((S.bes||{})[i]||'')+'</th>'; }).join('') + '</tr>';
   zeichnen();
 }
 function norm(s){ return String(s||'').toLowerCase().replace(/\s+/g,' ').replace(/\s*,\s*/g,', ').trim(); }
@@ -477,9 +479,9 @@ function zeichnen(){
     if(q && (p.n+' '+p.l).toLowerCase().indexOf(q)<0) return false;
     return true;
   }).sort(function(a,b){ return insVgl(a.i,b.i) || a.n.localeCompare(b.n,'de'); });
-  S.liste = l; var PI = projIdx();
+  S.liste = l; var PI = projIdxM(); kopfBauen(); projWahlBauen();
   $('count').textContent = l.length + ' von ' + d.personen.length + ' Personen';
-  if(MOBIL.matches){ var an=ansicht(); projWahlBauen(); $('ansL').className='btn'+(an==='liste'?' on':''); $('ansK').className='btn'+(an==='karten'?' on':''); $('tbody').innerHTML=''; $('cards').innerHTML = l.map(an==='liste' ? zeile : karte).join(''); return; }
+  if(MOBIL.matches){ var an=ansicht(); $('ansL').className='btn'+(an==='liste'?' on':''); $('ansK').className='btn'+(an==='karten'?' on':''); $('tbody').innerHTML=''; $('cards').innerHTML = l.map(an==='liste' ? zeile : karte).join(''); return; }
   $('cards').innerHTML='';
   $('tbody').innerHTML = l.map(function(p){
     return '<tr><td class="n" title="'+esc(p.n)+'">'+esc(p.n)+'</td><td class="i" title="'+esc(p.i)+'">'+esc(p.i)+'</td>'+
