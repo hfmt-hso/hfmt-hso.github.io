@@ -106,11 +106,13 @@ footer{margin:22px auto 0;font-size:12px;color:var(--ink3);text-align:center;max
     <p class="msg" style="margin-top:0">Bitte öffnen Sie die E-Mail und klicken Sie auf den Link darin. Alternativ können Sie stattdessen den Code aus der E-Mail eingeben.</p>
     <label for="code">Stattdessen Code eingeben</label>
     <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6">
+    <label style="display:flex;gap:8px;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:13px;color:var(--ink);margin:12px 0 0"><input type="checkbox" id="bleibenC" style="width:auto;margin:3px 0 0"><span>Angemeldet bleiben (30 Tage). Nur auf Ihrem eigenen Gerät wählen.</span></label>
     <button class="btn" id="anmBtn" type="button">Mit Code anmelden</button>
     <p class="msg"><button class="linkbtn" id="zurueck" type="button">Andere Adresse / neuen Link anfordern</button></p>
   </div>
   <div id="s3" style="display:none">
     <p class="msg" style="margin-top:0">Bitte bestätigen Sie die Anmeldung mit einem Klick.</p>
+    <label style="display:flex;gap:8px;align-items:flex-start;text-transform:none;letter-spacing:0;font-weight:400;font-size:13px;color:var(--ink);margin:12px 0 0"><input type="checkbox" id="bleibenL" style="width:auto;margin:3px 0 0"><span>Angemeldet bleiben (30 Tage). Nur auf Ihrem eigenen Gerät wählen.</span></label>
     <button class="btn" id="linkBtn" type="button">Jetzt anmelden</button>
   </div>
   <p class="msg" id="lmsg"></p>
@@ -187,9 +189,9 @@ $('zurueck').onclick = function(){ try{ localStorage.removeItem('lehre_angeforde
 $('anmBtn').onclick = async function(){
   var b=this; b.disabled=true; zeigeLogin('');
   try{
-    var j = await api({ action:'lehreAnmelden', z:S.z, code:$('code').value });
+    var j = await api({ action:'lehreAnmelden', z:S.z, code:$('code').value, bleiben:$('bleibenC').checked });
     if(!j.ok){ zeigeLogin(j.fehler||'Anmeldung fehlgeschlagen.', true); }
-    else{ S.token=j.token; try{ sessionStorage.setItem('lehre_token', j.token); }catch(e){} await laden(null, true); leerNeu(); }
+    else{ tokenMerken(j.token, $('bleibenC').checked); await laden(null, true); leerNeu(); }
   }catch(e){ zeigeLogin(e.message||'Fehler', true); }
   b.disabled=false;
 };
@@ -202,10 +204,10 @@ if(LINKT){ $('s1').style.display='none'; $('s3').style.display='block'; $('login
 $('linkBtn').onclick = async function(){
   var b=this; b.disabled=true; zeigeLogin('');
   try{
-    var j = await api({ action:'lehreLinkAnmelden', t:LINKT });
+    var j = await api({ action:'lehreLinkAnmelden', t:LINKT, bleiben:$('bleibenL').checked });
     LINKT=null;
     if(!j.ok){ $('s3').style.display='none'; $('s1').style.display='block'; $('loginSub').textContent=SUB_TXT; zeigeLogin((j.fehler||'Anmeldung fehlgeschlagen.')+' Bitte fordern Sie einen neuen Link an.', true); }
-    else{ S.token=j.token; try{ sessionStorage.setItem('lehre_token', j.token); localStorage.removeItem('lehre_angefordert'); }catch(e){} await laden(null, true); leerNeu(); }
+    else{ tokenMerken(j.token, $('bleibenL').checked); try{ localStorage.removeItem('lehre_angefordert'); }catch(e){} await laden(null, true); leerNeu(); }
   }catch(e){ zeigeLogin(e.message||'Fehler', true); }
   b.disabled=false;
 };
@@ -231,11 +233,16 @@ $('kopBtn').onclick = async function(){
 };
 $('abm').onclick = function(){ if(S.token) api({action:'lehreAbmelden', token:S.token}).catch(function(){}); abmelden(); };
 var LEER_MS = 20*60*1000, leerT = null;
-function leerNeu(){ clearTimeout(leerT); if(S.token) leerT = setTimeout(function(){ if(!S.token) return; api({action:'lehreAbmelden', token:S.token}).catch(function(){}); abmelden(); zeigeLogin('Aus Sicherheitsgründen wurden Sie nach 20 Minuten ohne Aktivität abgemeldet.'); }, LEER_MS); }
+// "Angemeldet bleiben": Token in localStorage (Server hält die Sitzung 30 Tage), sonst nur sessionStorage; dann keine 20-Minuten-Abmeldung
+function tokenMerken(t, bleiben){
+  S.token=t; S.bleibt=!!bleiben;
+  try{ sessionStorage.removeItem('lehre_token'); localStorage.removeItem('lehre_token_l'); if(bleiben) localStorage.setItem('lehre_token_l', t); else sessionStorage.setItem('lehre_token', t); }catch(e){}
+}
+function leerNeu(){ clearTimeout(leerT); if(S.token && !S.bleibt) leerT = setTimeout(function(){ if(!S.token) return; api({action:'lehreAbmelden', token:S.token}).catch(function(){}); abmelden(); zeigeLogin('Aus Sicherheitsgründen wurden Sie nach 20 Minuten ohne Aktivität abgemeldet.'); }, LEER_MS); }
 ['click','keydown','mousemove','scroll','touchstart'].forEach(function(ev){ document.addEventListener(ev, leerNeu, {passive:true}); });
 function abmelden(){
   clearTimeout(leerT);
-  S.token=null; S.d=null; S.f=null; try{ sessionStorage.removeItem('lehre_token'); }catch(e){}
+  S.token=null; S.bleibt=false; S.d=null; S.f=null; try{ sessionStorage.removeItem('lehre_token'); localStorage.removeItem('lehre_token_l'); }catch(e){}
   $('app').style.display='none'; $('login').style.display='block'; $('s2').style.display='none'; $('s3').style.display='none'; $('s1').style.display='block'; $('code').value='';
 }
 
@@ -475,7 +482,7 @@ async function speichern(ev){
 $('tbody').addEventListener('change', speichern);
 $('cards').addEventListener('change', speichern);
 
-(function(){ try{ var t=sessionStorage.getItem('lehre_token'); if(t){ S.token=t; laden(null,true).catch(function(){}); } }catch(e){} })();
+(function(){ try{ var t=sessionStorage.getItem('lehre_token'), l=localStorage.getItem('lehre_token_l'); if(!t && l){ t=l; S.bleibt=true; } if(t){ S.token=t; laden(null,true).then(leerNeu).catch(function(){}); } }catch(e){} })();
 </script>
 </body>
 </html>
