@@ -194,6 +194,7 @@ function abmelden(){
 async function laden(jahr, erst){
   var j = await api({ action:'lehreDaten', token:S.token, jahr:jahr||'' });
   if(!j.ok){ if(!j.auth) zeigeLogin(j.fehler||'Fehler', true); return; }
+  if(S.ueb===undefined){ try{ var ur=await fetch('uebersetzer.json'); var uj=await ur.json(); S.ueb=uj.events||[]; }catch(e){ S.ueb=[]; } }
   S.bes = besetzung(j);
   j.personen = (j.personen||[]).filter(function(p){ return !ausgeschlossen(p); });
   S.d = j; leerNeu();
@@ -203,6 +204,32 @@ async function laden(jahr, erst){
   füllen(erst);
 }
 
+function besDatum(x){
+  x=String(x||'').trim(); if(!x) return null;
+  var m=/^WiSe\s*(\d{2})\s*\/\s*(\d{2})$/i.exec(x); if(m) return new Date(2000+(+m[2]),2,31);
+  m=/^SoSe\s*(\d{2})$/i.exec(x); if(m) return new Date(2000+(+m[1]),8,30);
+  m=/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})$/.exec(x); if(m){ var y=+m[3]; if(y<100) y+=2000; return new Date(y,+m[2]-1,+m[1]); }
+  m=/^(\d{4})-(\d{2})-(\d{2})/.exec(x); if(m) return new Date(+m[1],+m[2]-1,+m[3]);
+  return null;
+}
+// Soll automatisch aus der Programmuebersicht (Besetzung "(10.8.6.5.4)" im groessten Werk des Projekts), wie in Eigenes
+function besAutoSoll(pr){
+  var m=/^(\d{2})_(\d{2})_(.+)$/.exec(pr||''); if(!m||!S.ueb) return '';
+  var lab=m[3].replace(/_/g,' ').toLowerCase(), y1=2000+(+m[1]), best=null, bs=-1;
+  S.ueb.forEach(function(e){
+    var t=String(e._titel||'').trim().toLowerCase();
+    if(t!==lab && t.indexOf(lab+' ')!==0 && t.indexOf(lab+'(')!==0) return;
+    var d=besDatum(e.datum); if(d && (d<new Date(y1,7,1) || d>=new Date(y1+1,7,1))) return;
+    (e.werke||[]).forEach(function(w){
+      var a=String(w.besetzung||''), re=/\((\d+)\.(\d+)\.(\d+)\.(\d+)\.(\d+)\)/g, x, last=null;
+      while((x=re.exec(a))) last=x;
+      if(!last) return;
+      var n=[1,2,3,4,5].map(function(i){ return +last[i]; }), sm=n.reduce(function(p,q){ return p+q; },0);
+      if(sm>bs){ bs=sm; best=n; }
+    });
+  });
+  return best?best.join('.'):'';
+}
 var BES_G=['Vl. 1','Vl. 2','Vla.','Vc.','Kb.'], BES_PL=['geplant','angefragt','bestätigt'];
 function besGr(pos, ins){
   pos=String(pos||'').trim();
@@ -222,7 +249,7 @@ function besetzung(j){
       var st=x.split(' · ')[0].trim().toLowerCase(); if(BES_PL.indexOf(st)<0) return;
       var g=besGr(x.indexOf(' · ')>=0 ? x.slice(x.indexOf(' · ')+3) : '', p.i); if(g in c) c[g]++;
     });
-    var key=j.jahr+'_'+String(n).replace(/ /g,'_'), sv=String((j.soll||{})[key]||'').split('.');
+    var key=j.jahr+'_'+String(n).replace(/ /g,'_'), sv=String((j.soll||{})[key]||besAutoSoll(key)||'').split('.');
     var teile=BES_G.map(function(g,k){
       var ist=c[g], so=sv.length===5?sv[k]:'', col='';
       if(so!==''){ col= ist>+so ? 'color:#b3261e;font-weight:650' : (ist===+so ? 'color:#1b7a3a;font-weight:650' : ''); }
