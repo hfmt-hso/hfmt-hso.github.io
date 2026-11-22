@@ -228,7 +228,7 @@ function insVgl(a,b){ return (insRang(a)-insRang(b)) || String(a).localeCompare(
 // Abschluss-Gruppen wie in der Orchesterverwaltung
 var AB_ORD=['Bachelor','Bachelor IP','B.Ed.','Master','Master IP','M.Ed.','Konzertexamen','Konzertexamen IP','Promotion','ICoM','Vorbereitungsphase','Sonstige','–'];
 var AB_VOR={'Bachelor':1,'Master':1,'Konzertexamen':1};
-var ST_VOR=['erasmus','ersteinschreibung','neueinschreibung','regulär','rückmeldung'];
+var ST_VOR=['erasmus','ersteinschreibung','neueinschreibung','regulär','rückmeldung',''];
 function abGr(a){
   a=String(a||'').trim(); if(!a) return '–';
   var ip=/\(IP\)/i.test(a)?' IP':''; if(/Konzertexamen/i.test(a)) return 'Konzertexamen'+ip;
