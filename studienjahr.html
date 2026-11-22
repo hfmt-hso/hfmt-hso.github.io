@@ -71,6 +71,21 @@ footer{margin:22px auto 0;font-size:12px;color:var(--ink3);text-align:center;max
   input,select,textarea,td input{font-size:16px}
   td input[data-f="Abschluss"]{width:130px}td input[data-f="LehrerIn"]{width:170px}td input[data-f="E-Mail"]{width:230px}
 }
+/* Handy-Ansicht: jede Person als Karte statt Tabelle (Umschaltung bei schmalem Bildschirm) */
+#cards{display:none}
+@media (max-width:700px){
+  .tw{display:none}
+  #cards{display:block}
+  .wrap{padding:10px 8px 24px}
+  .bar>div{min-width:0;flex:1 1 140px}
+}
+.pc{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;margin-bottom:8px}
+.pk{display:flex;flex-direction:column;gap:1px}.pk b{font-size:16px}.pk span{font-size:13px;color:var(--ink3)}
+.pm{font-size:12px;color:var(--ink3);margin-top:2px}
+.pc label{margin:8px 0 3px;font-size:11px}
+.pc input.ok{border-color:var(--green);background:#f1faf4}.pc input.err{border-color:var(--red);background:var(--red-bg)}
+.pp{margin-top:10px;padding-top:8px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:5px}
+.pr{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.pn{font-size:12px;font-weight:700;color:var(--ink3);min-width:64px}
 </style>
 </head>
 <body>
@@ -118,6 +133,7 @@ footer{margin:22px auto 0;font-size:12px;color:var(--ink3);text-align:center;max
     <div style="min-width:0"><button class="btn" id="kopBtn" type="button" style="margin-top:0;width:auto;padding:9px 16px">Auswahl in die Zwischenablage kopieren</button></div>
   </div>
   <div class="tw"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+  <div id="cards"></div>
   <p class="msg" id="amsg">Änderungen an E-Mail, Abschluss und LehrerIn werden beim Verlassen des Feldes gespeichert.</p>
 </div>
 
@@ -400,6 +416,19 @@ function füllen(erst){
 function norm(s){ return String(s||'').toLowerCase().replace(/\s+/g,' ').replace(/\s*,\s*/g,', ').trim(); }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 
+var MOBIL = window.matchMedia('(max-width:700px)');
+if(MOBIL.addEventListener) MOBIL.addEventListener('change', function(){ if(S.d) zeichnen(); });
+// Karte einer Person (Handy-Ansicht); gleiche Felder und derselbe Speicherweg wie in der Tabelle
+function karte(p){
+  var at=' data-z="'+p.z+'" data-n="'+esc(p.n)+'"';
+  var pr=projIdx().map(function(i){ var x=p.p[i]; return x ? '<div class="pr"><span class="pn">'+esc(projKurz(S.d.projekte[i]))+'</span>'+pill(x)+'</div>' : ''; }).join('');
+  var m=[p.f?'FS '+esc(p.f):'', p.t?'Gesamt '+esc(p.t):'', p.b?'befreit bis '+esc(p.b):''].filter(Boolean).join(' · ');
+  return '<div class="pc"><div class="pk"><b>'+esc(p.n)+'</b><span>'+esc([p.i,p.s].filter(Boolean).join(' · '))+'</span></div>'+(m?'<div class="pm">'+m+'</div>':'')+
+    '<label>Abschluss</label><input'+at+' data-f="Abschluss" list="dlAbs" value="'+esc(p.a)+'">'+
+    '<label>LehrerIn</label><input'+at+' data-f="LehrerIn" list="dlLehr" value="'+esc(p.l)+'">'+
+    '<label>E-Mail</label><input'+at+' data-f="E-Mail" type="email" value="'+esc(p.e)+'">'+
+    (pr?'<div class="pp">'+pr+'</div>':'')+'</div>';
+}
 function zeichnen(){
   var d=S.d, mein=$('fMein').checked ? norm(d.lk) : '', q=$('fQ').value.trim().toLowerCase();
   var l = d.personen.filter(function(p){
@@ -412,6 +441,8 @@ function zeichnen(){
   }).sort(function(a,b){ return insVgl(a.i,b.i) || a.n.localeCompare(b.n,'de'); });
   S.liste = l; var PI = projIdx();
   $('count').textContent = l.length + ' von ' + d.personen.length + ' Personen';
+  if(MOBIL.matches){ $('tbody').innerHTML=''; $('cards').innerHTML = l.map(karte).join(''); return; }
+  $('cards').innerHTML='';
   $('tbody').innerHTML = l.map(function(p){
     return '<tr><td class="n" title="'+esc(p.n)+'">'+esc(p.n)+'</td><td class="i" title="'+esc(p.i)+'">'+esc(p.i)+'</td>'+
       '<td><input data-z="'+p.z+'" data-n="'+esc(p.n)+'" data-f="Abschluss" list="dlAbs" value="'+esc(p.a)+'"></td>'+
@@ -425,7 +456,7 @@ $('fQ').oninput = zeichnen;
 $('fMein').onchange = function(){ if(this.checked){ S.fk.i.forEach(function(k){ S.f.i[k]=true; }); chipsBauen(); } zeichnen(); };
 $('fJahr').onchange = function(){ laden(this.value, false); };
 
-$('tbody').addEventListener('change', async function(ev){
+async function speichern(ev){
   var el=ev.target; if(!el.dataset || !el.dataset.f) return;
   el.className=''; el.disabled=true;
   try{
@@ -439,7 +470,9 @@ $('tbody').addEventListener('change', async function(ev){
     }else{ el.className='err'; $('amsg').className='msg err'; $('amsg').textContent=j.fehler||'Speichern fehlgeschlagen.'; }
   }catch(e){ el.className='err'; $('amsg').className='msg err'; $('amsg').textContent='Speichern fehlgeschlagen: '+(e.message||''); }
   el.disabled=false;
-});
+}
+$('tbody').addEventListener('change', speichern);
+$('cards').addEventListener('change', speichern);
 
 (function(){ try{ var t=sessionStorage.getItem('lehre_token'); if(t){ S.token=t; laden(null,true).catch(function(){}); } }catch(e){} })();
 </script>
