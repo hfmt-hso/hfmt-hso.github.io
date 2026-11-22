@@ -84,7 +84,9 @@ footer{margin:22px auto 0;font-size:12px;color:var(--ink3);text-align:center;max
 .pm{font-size:12px;color:var(--ink3);margin-top:2px}
 .pc label{margin:8px 0 3px;font-size:11px}
 .pc input.ok{border-color:var(--green);background:#f1faf4}.pc input.err{border-color:var(--red);background:var(--red-bg)}
-.pp{margin-top:8px;display:flex;flex-direction:column;gap:5px}.pd{margin-top:10px;padding-top:6px;border-top:1px solid var(--border)}.pd summary{font-size:13px;color:var(--ink3);padding:6px 0;cursor:pointer}
+.pp{margin-top:8px;display:flex;flex-direction:column;gap:5px}.pd{margin-top:10px;padding-top:6px;border-top:1px solid var(--border)}#ansicht{gap:8px;margin:0 0 8px}#ansicht .btn{flex:1;width:auto;margin:0;padding:6px 10px}#ansicht .btn.on{outline:2px solid var(--ink3)}@media(max-width:700px){#ansicht{display:flex!important}}
+.pz{background:#fff;border-bottom:1px solid var(--border);padding:6px 4px}.pz summary{list-style:none;cursor:pointer}.pz summary::-webkit-details-marker{display:none}.pz .pk{flex-direction:row;gap:6px;align-items:baseline;flex-wrap:wrap}.pz .pk b{font-size:15px}.pz .pq{display:flex;flex-wrap:wrap;gap:3px 6px;margin-top:3px}.pz .pq .pill{font-size:11px}.pz .pq i{font-style:normal;font-size:11px;color:var(--ink3)}.pz .pd{border-top:0;margin-top:4px}
+.pd summary{font-size:13px;color:var(--ink3);padding:6px 0;cursor:pointer}
 .pr{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.pn{font-size:12px;font-weight:700;color:var(--ink3);min-width:64px}
 </style>
 </head>
@@ -135,6 +137,7 @@ footer{margin:22px auto 0;font-size:12px;color:var(--ink3);text-align:center;max
     <div style="min-width:0"><button class="btn" id="kopBtn" type="button" style="margin-top:0;width:auto;padding:9px 16px">Auswahl in die Zwischenablage kopieren</button></div>
   </div>
   <div class="tw"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+  <div id="ansicht" style="display:none"><button type="button" class="btn" id="ansL">Liste</button><button type="button" class="btn" id="ansK">Karten</button></div>
   <div id="cards"></div>
   <p class="msg" id="amsg">Änderungen an E-Mail, Abschluss und LehrerIn werden beim Verlassen des Feldes gespeichert.</p>
 </div>
@@ -437,6 +440,19 @@ function karte(p){
     '<label>LehrerIn</label><input'+at+' data-f="LehrerIn" list="dlLehr" value="'+esc(p.l)+'">'+
     '<label>E-Mail</label><input'+at+' data-f="E-Mail" type="email" value="'+esc(p.e)+'"></details></div>';
 }
+function zeile(p){
+  var at=' data-z="'+p.z+'" data-n="'+esc(p.n)+'"';
+  var pq=projIdx().map(function(i){ var x=p.p[i]; return x ? '<span><i>'+esc(projKurz(S.d.projekte[i]))+'</i> '+pill(x)+'</span>' : ''; }).join('');
+  return '<details class="pz"><summary><div class="pk"><b>'+esc(p.n)+'</b><span>'+esc([p.i,p.s].filter(Boolean).join(' · '))+'</span></div>'+(pq?'<div class="pq">'+pq+'</div>':'')+'</summary>'+
+    '<div class="pd">'+
+    '<label>Abschluss</label><input'+at+' data-f="Abschluss" list="dlAbs" value="'+esc(p.a)+'">'+
+    '<label>LehrerIn</label><input'+at+' data-f="LehrerIn" list="dlLehr" value="'+esc(p.l)+'">'+
+    '<label>E-Mail</label><input'+at+' data-f="E-Mail" type="email" value="'+esc(p.e)+'"></div></details>';
+}
+function ansichtSetzen(a){ try{ localStorage.setItem('lehre_ansicht', a); }catch(e){} zeichnen(); }
+function ansicht(){ try{ return localStorage.getItem('lehre_ansicht')==='karten' ? 'karten' : 'liste'; }catch(e){ return 'liste'; } }
+$('ansL').onclick=function(){ ansichtSetzen('liste'); };
+$('ansK').onclick=function(){ ansichtSetzen('karten'); };
 function zeichnen(){
   var d=S.d, mein=$('fMein').checked ? norm(d.lk) : '', q=$('fQ').value.trim().toLowerCase();
   var l = d.personen.filter(function(p){
@@ -449,7 +465,7 @@ function zeichnen(){
   }).sort(function(a,b){ return insVgl(a.i,b.i) || a.n.localeCompare(b.n,'de'); });
   S.liste = l; var PI = projIdx();
   $('count').textContent = l.length + ' von ' + d.personen.length + ' Personen';
-  if(MOBIL.matches){ $('tbody').innerHTML=''; $('cards').innerHTML = l.map(karte).join(''); return; }
+  if(MOBIL.matches){ var an=ansicht(); $('ansL').className='btn'+(an==='liste'?' on':''); $('ansK').className='btn'+(an==='karten'?' on':''); $('tbody').innerHTML=''; $('cards').innerHTML = l.map(an==='liste' ? zeile : karte).join(''); return; }
   $('cards').innerHTML='';
   $('tbody').innerHTML = l.map(function(p){
     return '<tr><td class="n" title="'+esc(p.n)+'">'+esc(p.n)+'</td><td class="i" title="'+esc(p.i)+'">'+esc(p.i)+'</td>'+
