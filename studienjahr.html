@@ -41,12 +41,24 @@ td input.ok{border-color:var(--green);background:#f1faf4}td input.err{border-col
 td.p{white-space:nowrap;padding:2px 4px}
 .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11.5px;border:1px solid rgba(0,0,0,.12);color:#1d2430;line-height:1.3}
 tbody tr:hover td{background:#f7f9fd}tbody tr:hover td.n{background:#f7f9fd}
-#fChips{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:8px 12px}
+#fChips{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:flex-start}
+#fChips details{border:1px solid var(--border);border-radius:6px;padding:2px 9px;background:#fff;font-size:12.5px;order:0}
+#fChips details[open]{order:2;flex-basis:100%}
+#fChips summary{cursor:pointer;list-style:none}#fChips summary::-webkit-details-marker{display:none}
+#fChips>.mini{order:-1}
+.mini{padding:2px 9px;font-size:12px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--ink);cursor:pointer;font-family:inherit}.mini:hover{background:var(--blue-bg)}
+.fbody{padding:4px 0 6px}.fbulk{margin-bottom:3px}
 td.n{font-weight:600;white-space:nowrap;max-width:165px;overflow:hidden;text-overflow:ellipsis}
 td.i,td.s{white-space:nowrap;max-width:96px;overflow:hidden;text-overflow:ellipsis}
 td.n,th.n{position:sticky;left:0;background:#fff;z-index:1}th.n{background:var(--blue-bg);z-index:3}
 .chips{display:flex;flex-wrap:wrap;gap:1px 9px;align-items:center;margin:1px 0}
 .chips b{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink3);min-width:74px}
+.fgrid{display:grid;grid-template-columns:minmax(0,2.4fr) minmax(0,1fr) minmax(0,1fr);gap:6px 28px;align-items:start}
+.fk{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--border);margin-bottom:4px;padding-bottom:2px}
+.fk b{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink3)}
+.chips .fn{font-size:11px;color:var(--ink3);min-width:92px;font-weight:600}
+.chips.col{flex-direction:column;align-items:flex-start;gap:2px}
+@media(max-width:900px){.fgrid{grid-template-columns:1fr}}
 .chips label{display:inline-flex;gap:3px;align-items:center;font-size:12px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink);margin:0;white-space:nowrap}
 .chips input{width:auto;padding:0}
 .chips .linkbtn{font-size:11px}
@@ -180,6 +192,7 @@ function abmelden(){
 async function laden(jahr, erst){
   var j = await api({ action:'lehreDaten', token:S.token, jahr:jahr||'' });
   if(!j.ok){ if(!j.auth) zeigeLogin(j.fehler||'Fehler', true); return; }
+  j.personen = (j.personen||[]).filter(function(p){ return !ausgeschlossen(p); });
   S.d = j; leerNeu();
   $('login').style.display='none'; $('app').style.display='block';
   $('wer').textContent = 'Angemeldet: ' + j.name;
@@ -194,6 +207,24 @@ function optionen(sel, werte, aktuell, leer){
 }
 function uniq(f){ var m={}; S.d.personen.forEach(function(p){ m[p[f]||'']=1; }); return Object.keys(m).sort(function(a,b){ return a.localeCompare(b,'de'); }); }
 
+// Diese Personen erscheinen auf der Seite gar nicht: Komposition, Akkordeon, ICoM, Gast (extern), Ausgeschieden, Vorbereitungsphase
+function ausgeschlossen(p){
+  var i=String(p.i||''), st=String(p.s||'');
+  if(/akkordeon|komposition|composition|copeco/i.test(i)) return true;
+  if(/^\s*gast \(extern\)|^\s*ausgeschieden/i.test(st)) return true;
+  var g=abGr(p.a); return g==='ICoM' || g==='Vorbereitungsphase';
+}
+// Orchesterreihenfolge: Streicher zuerst, dann Holz, Blech, Schlagwerk, Harfe/Tasten, Gesang, Rest
+var INS_ORD=['Violine','Viola','Violoncello','Cello','Kontrabass','Flöte','Piccolo','Oboe','Englischhorn','Klarinette','Bassklarinette','Fagott','Kontrafagott','Saxophon','Horn','Trompete','Posaune','Tenorposaune','Bassposaune','Tuba','Pauke','Schlagzeug','Schlagwerk','Harfe','Klavier','Cembalo','Orgel','Gitarre','Laute','Sopran','Mezzosopran','Alt','Countertenor','Tenor','Bariton','Bass','Gesang','Dirigieren','Chorleitung'];
+var FAM=[['Streicher',/^(violin|viola|violoncello|cello|kontrabass|bratsche)/i],['Holzbläser',/^(flöte|piccolo|oboe|englischhorn|klarinette|bassklarinette|fagott|kontrafagott|saxophon|blockflöte)/i],['Blechbläser',/^(horn|trompete|posaune|tenorposaune|bassposaune|tuba)/i],['Schlagwerk',/^(pauke|schlag)/i],['Harfe, Tasten, Zupf',/^(harfe|klavier|cembalo|orgel|gitarre|laute)/i],['Gesang',/^(sopran|mezzo|alt\b|countertenor|tenor|bariton|bass\b|gesang)/i]];
+function famVon(i){ i=String(i||'').trim(); for(var k=0;k<FAM.length;k++){ if(FAM[k][1].test(i)) return FAM[k][0]; } return 'Weitere'; }
+function insRang(i){
+  i=String(i||'').trim().toLowerCase(); if(!i) return 900;
+  for(var k=0;k<INS_ORD.length;k++){ if(i.indexOf(INS_ORD[k].toLowerCase())===0) return k; }
+  for(var k2=0;k2<INS_ORD.length;k2++){ if(i.indexOf(INS_ORD[k2].toLowerCase())>=0) return k2+0.5; }
+  return 500;
+}
+function insVgl(a,b){ return (insRang(a)-insRang(b)) || String(a).localeCompare(String(b),'de'); }
 // Abschluss-Gruppen wie in der Orchesterverwaltung
 var AB_ORD=['Bachelor','Bachelor IP','B.Ed.','Master','Master IP','M.Ed.','Konzertexamen','Konzertexamen IP','Promotion','ICoM','Vorbereitungsphase','Sonstige','–'];
 var AB_VOR={'Bachelor':1,'Bachelor IP':1,'B.Ed.':1,'Master':1,'Master IP':1,'M.Ed.':1,'Konzertexamen':1,'Konzertexamen IP':1};
@@ -212,8 +243,9 @@ S.f = null; // Filterzustand: { i:{}, s:{}, a:{} }
 function filterWerte(erst){
   var d=S.d, ins={}, sta={}, ab={};
   d.personen.forEach(function(p){ ins[p.i||'']=1; sta[p.s||'']=1; ab[abGr(p.a)]=1; });
-  var insK=Object.keys(ins).sort(function(a,b){ return a.localeCompare(b,'de'); });
-  var staK=Object.keys(sta).sort(function(a,b){ return a.localeCompare(b,'de'); });
+  var insK=Object.keys(ins).sort(insVgl);
+  var STA_ORD=['Regulär','Rückmeldung','Neueinschreibung','Ersteinschreibung','Erasmus'];
+  var staK=Object.keys(sta).sort(function(a,b){ var x=STA_ORD.indexOf(a), y=STA_ORD.indexOf(b); return ((x<0?99:x)-(y<0?99:y)) || a.localeCompare(b,'de'); });
   var abK=Object.keys(ab).sort(function(a,b){ var x=AB_ORD.indexOf(a), y=AB_ORD.indexOf(b); return (x<0?99:x)-(y<0?99:y); });
   var neu=!S.f; if(neu) S.f={i:{},s:{},a:{}};
   var mein='';
@@ -227,19 +259,30 @@ function filterWerte(erst){
   abK.forEach(function(k){ if(!(k in S.f.a)) S.f.a[k]= !!AB_VOR[k]; });
   S.fk={i:insK,s:staK,a:abK};
 }
+function chipBox(w,k){
+  return '<label><input type="checkbox" data-w="'+w+'" data-k="'+esc(k)+'"'+(S.f[w][k]?' checked':'')+'> '+esc(k===''?'(leer)':(k==='–'?'ohne Angabe':k))+'</label>';
+}
+function filtDet(w,t,keys,inner,offen){
+  var an=keys.filter(function(k){ return S.f[w][k]; }), sm=an.length===keys.length?'alle':(!an.length?'keine':(an.length<=3?an.map(function(k){ return k===''?'(leer)':(k==='–'?'ohne Angabe':k); }).join(', '):an.length+' von '+keys.length));
+  return '<details data-fd="'+w+'"'+(offen?' open':'')+'><summary>'+t+' <span class="muted">· '+esc(sm)+'</span></summary>'
+    +'<div class="fbody"><div class="fbulk"><button type="button" class="mini" data-w="'+w+'" data-v="1">Alle</button> <button type="button" class="mini" data-w="'+w+'" data-v="0">Keine</button></div>'+inner+'</div></details>';
+}
 function chipsBauen(){
-  var T={i:'Instrument',s:'Status',a:'Abschluss'};
-  $('fChips').innerHTML=['i','s','a'].map(function(w){
-    return '<div class="chips"><b>'+T[w]+'</b>'+S.fk[w].map(function(k){
-      return '<label><input type="checkbox" data-w="'+w+'" data-k="'+esc(k)+'"'+(S.f[w][k]?' checked':'')+'> '+esc(k===''?'(leer)':(k==='–'?'ohne Angabe':k))+'</label>';
-    }).join('')+'<button type="button" class="linkbtn" data-w="'+w+'" data-v="1">alle</button><button type="button" class="linkbtn" data-w="'+w+'" data-v="0">keine</button></div>';
-  }).join('');
+  var op={}; document.querySelectorAll('#fChips details[data-fd]').forEach(function(d){ op[d.getAttribute('data-fd')]=d.open; });
+  var fam={}, famK=[];
+  S.fk.i.forEach(function(k){ var f=famVon(k); if(!fam[f]){ fam[f]=[]; famK.push(f); } fam[f].push(k); });
+  var insH=famK.map(function(f){ return '<div class="chips"><span class="fn">'+esc(f)+'</span>'+fam[f].map(function(k){ return chipBox('i',k); }).join('')+'</div>'; }).join('');
+  var staH='<div class="chips">'+S.fk.s.map(function(k){ return chipBox('s',k); }).join('')+'</div>';
+  var abH='<div class="chips">'+S.fk.a.map(function(k){ return chipBox('a',k); }).join('')+'</div>';
+  $('fChips').innerHTML='<button type="button" class="mini" data-fa="auf" id="fAuf">alle aufklappen</button>'+filtDet('i','Instrument',S.fk.i,insH,op.i)+filtDet('s','Status',S.fk.s,staH,op.s)+filtDet('a','Abschluss',S.fk.a,abH,op.a);
 }
 $('fChips').addEventListener('change',function(ev){
   var el=ev.target; if(!el.getAttribute||!el.getAttribute('data-k')&&el.getAttribute('data-k')!=='') return;
-  var w=el.getAttribute('data-w'); if(!w) return; S.f[w][el.getAttribute('data-k')]=el.checked; zeichnen();
+  var w=el.getAttribute('data-w'); if(!w) return; S.f[w][el.getAttribute('data-k')]=el.checked; chipsBauen(); zeichnen();
 });
 $('fChips').addEventListener('click',function(ev){
+  var fa=ev.target.closest('[data-fa]');
+  if(fa){ var ds=[].slice.call(document.querySelectorAll('#fChips details')), an=ds.some(function(d){ return !d.open; }); ds.forEach(function(d){ d.open=an; }); fa.textContent=an?'alle zuklappen':'alle aufklappen'; return; }
   var b=ev.target.closest('[data-v]'); if(!b) return; var w=b.getAttribute('data-w'), v=b.getAttribute('data-v')==='1';
   S.fk[w].forEach(function(k){ S.f[w][k]=v; }); chipsBauen(); zeichnen();
 });
@@ -275,7 +318,7 @@ function zeichnen(){
     if(!S.f.a[abGr(p.a)]) return false;
     if(q && (p.n+' '+p.l).toLowerCase().indexOf(q)<0) return false;
     return true;
-  }).sort(function(a,b){ return (a.i||'').localeCompare(b.i||'','de') || a.n.localeCompare(b.n,'de'); });
+  }).sort(function(a,b){ return insVgl(a.i,b.i) || a.n.localeCompare(b.n,'de'); });
   S.liste = l; var PI = projIdx();
   $('count').textContent = l.length + ' von ' + d.personen.length + ' Personen';
   $('tbody').innerHTML = l.map(function(p){
