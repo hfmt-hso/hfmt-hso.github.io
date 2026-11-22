@@ -41,6 +41,7 @@ td input[data-f="Abschluss"]{width:112px}td input[data-f="LehrerIn"]{width:136px
 td input.ok{border-color:var(--green);background:#f1faf4}td input.err{border-color:var(--red);background:var(--red-bg)}
 td.p{white-space:nowrap;padding:0 4px}
 td.g{text-align:center}
+td.b{white-space:nowrap;font-size:12px}
 .pill{display:inline-block;padding:0 8px;border-radius:999px;font-size:12px;border:1px solid rgba(0,0,0,.12);color:#1d2430;line-height:1.4}
 tbody tr:hover td{background:#f7f9fd}tbody tr:hover td.n{background:#f7f9fd}
 #fChips{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:flex-start}
@@ -361,7 +362,7 @@ function füllen(erst){
   filterWerte(erst); chipsBauen();
   $('dlAbs').innerHTML = uniq('a').filter(Boolean).map(function(x){ return '<option value="'+esc(x)+'">'; }).join('');
   $('dlLehr').innerHTML = uniq('l').filter(Boolean).map(function(x){ return '<option value="'+esc(x)+'">'; }).join('');
-  $('thead').innerHTML = '<tr><th class="n">Name</th><th>Instr.</th><th>Abschluss</th><th>LehrerIn</th><th>E-Mail</th><th>FS</th><th>Status</th><th title="Projekte gesamt">Gesamt</th>' +
+  $('thead').innerHTML = '<tr><th class="n">Name</th><th>Instr.</th><th>Abschluss</th><th>LehrerIn</th><th>E-Mail</th><th>FS</th><th>Status</th><th title="Projekte gesamt">Gesamt</th><th title="Befreiung bis">Befreit bis</th>' +
     projIdx().map(function(i){ var p=d.projekte[i]; return '<th class="pj" title="'+esc(p)+'">'+esc(projKurz(p))+((S.bes||{})[i]||'')+'</th>'; }).join('') + '</tr>';
   zeichnen();
 }
@@ -385,7 +386,7 @@ function zeichnen(){
       '<td><input data-z="'+p.z+'" data-n="'+esc(p.n)+'" data-f="Abschluss" list="dlAbs" value="'+esc(p.a)+'"></td>'+
       '<td><input data-z="'+p.z+'" data-n="'+esc(p.n)+'" data-f="LehrerIn" list="dlLehr" value="'+esc(p.l)+'"></td>'+
       '<td><input data-z="'+p.z+'" data-n="'+esc(p.n)+'" data-f="E-Mail" type="email" value="'+esc(p.e)+'"></td>'+
-      '<td>'+esc(p.f)+'</td><td class="s" title="'+esc(p.s)+'">'+esc(p.s)+'</td><td class="g">'+esc(p.t||'')+'</td>'+
+      '<td>'+esc(p.f)+'</td><td class="s" title="'+esc(p.s)+'">'+esc(p.s)+'</td><td class="g">'+esc(p.t||'')+'</td><td class="b">'+esc(p.b||'')+'</td>'+
       PI.map(function(i){ return '<td class="p">'+pill(p.p[i])+'</td>'; }).join('')+'</tr>';
   }).join('');
 }
