@@ -73,20 +73,25 @@ footer{margin:22px auto 0;font-size:12px;color:var(--ink3);text-align:center;max
 
 <div id="login" class="card">
   <h1>Studienjahr – Übersicht</h1>
-  <p class="sub">Für Lehrende. Wählen Sie Ihren Namen; der Anmeldecode kommt per E-Mail.</p>
+  <p class="sub">Für Lehrende. Wählen Sie Ihren Namen; der Anmeldelink kommt per E-Mail.</p>
   <div id="s1">
     <label for="nameQ">Ihr Name</label>
     <input id="nameQ" type="search" autocomplete="off" placeholder="Name eingeben und aus der Liste wählen">
     <div id="nameListe" style="margin-top:6px;max-height:220px;overflow:auto;border:1px solid var(--border);border-radius:8px;display:none"></div>
     <p class="msg" id="gewaehlt"></p>
-    <button class="btn" id="codeBtn" type="button" disabled>Code senden</button>
-    <p class="msg">Der Code geht an die bei der Hochschule für Sie hinterlegte E-Mail-Adresse.</p>
+    <button class="btn" id="codeBtn" type="button" disabled>Anmeldelink senden</button>
+    <p class="msg">Der Link geht an die bei der Hochschule für Sie hinterlegte E-Mail-Adresse.</p>
   </div>
   <div id="s2" style="display:none">
-    <label for="code">Code aus der E-Mail</label>
+    <p class="msg" style="margin-top:0">Bitte öffnen Sie die E-Mail und klicken Sie auf den Link darin. Alternativ können Sie stattdessen den Code aus der E-Mail eingeben.</p>
+    <label for="code">Stattdessen Code eingeben</label>
     <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6">
-    <button class="btn" id="anmBtn" type="button">Anmelden</button>
-    <p class="msg"><button class="linkbtn" id="zurueck" type="button">Andere Adresse / neuen Code anfordern</button></p>
+    <button class="btn" id="anmBtn" type="button">Mit Code anmelden</button>
+    <p class="msg"><button class="linkbtn" id="zurueck" type="button">Andere Adresse / neuen Link anfordern</button></p>
+  </div>
+  <div id="s3" style="display:none">
+    <p class="msg" style="margin-top:0">Bitte bestätigen Sie die Anmeldung mit einem Klick.</p>
+    <button class="btn" id="linkBtn" type="button">Jetzt anmelden</button>
   </div>
   <p class="msg" id="lmsg"></p>
 </div>
@@ -166,6 +171,21 @@ $('anmBtn').onclick = async function(){
   }catch(e){ zeigeLogin(e.message||'Fehler', true); }
   b.disabled=false;
 };
+// Anmeldelink aus der Mail: #a=<Token>. Das Token wird sofort aus der Adresszeile entfernt; angemeldet wird erst per Klick
+// (Mail-Scanner rufen Links vorab auf und würden ein einmaliges Token sonst verbrauchen).
+var LINKT = null;
+(function(){ var m=/[#&]a=([0-9a-f-]{20,100})/i.exec(location.hash||''); if(m){ LINKT=m[1]; try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} } })();
+if(LINKT){ $('s1').style.display='none'; $('s3').style.display='block'; }
+$('linkBtn').onclick = async function(){
+  var b=this; b.disabled=true; zeigeLogin('');
+  try{
+    var j = await api({ action:'lehreLinkAnmelden', t:LINKT });
+    LINKT=null;
+    if(!j.ok){ $('s3').style.display='none'; $('s1').style.display='block'; zeigeLogin((j.fehler||'Anmeldung fehlgeschlagen.')+' Bitte fordern Sie einen neuen Link an.', true); }
+    else{ S.token=j.token; try{ sessionStorage.setItem('lehre_token', j.token); }catch(e){} await laden(null, true); leerNeu(); }
+  }catch(e){ zeigeLogin(e.message||'Fehler', true); }
+  b.disabled=false;
+};
 namenLaden();
 async function inZwischenablage(text){
   try{ await navigator.clipboard.writeText(text); return true; }catch(e){}
@@ -189,7 +209,7 @@ function leerNeu(){ clearTimeout(leerT); if(S.token) leerT = setTimeout(function
 function abmelden(){
   clearTimeout(leerT);
   S.token=null; S.d=null; S.f=null; try{ sessionStorage.removeItem('lehre_token'); }catch(e){}
-  $('app').style.display='none'; $('login').style.display='block'; $('s2').style.display='none'; $('s1').style.display='block'; $('code').value='';
+  $('app').style.display='none'; $('login').style.display='block'; $('s2').style.display='none'; $('s3').style.display='none'; $('s1').style.display='block'; $('code').value='';
 }
 
 async function laden(jahr, erst){
