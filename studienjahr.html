@@ -30,7 +30,7 @@ button.btn:hover{background:var(--blue2)}button.btn:disabled{opacity:.5;cursor:d
 .bar>div{min-width:150px}.bar label{margin-top:0}
 .count{color:var(--ink3);font-size:13px;margin:4px 0 8px}
 .tw{overflow:auto;max-height:72vh;border:1px solid var(--border);border-radius:var(--radius);background:#fff}
-table{border-collapse:collapse;width:max-content;min-width:100%;font-size:12px}
+table{border-collapse:collapse;width:max-content;font-size:12px}
 th{position:sticky;top:0;background:var(--blue-bg);text-align:left;padding:5px 5px;font-size:10px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink3);line-height:1.2;vertical-align:bottom;z-index:2}
 th.pj{max-width:64px;min-width:46px;word-break:break-all}
 td{padding:2px 5px;border-top:1px solid var(--border);vertical-align:middle}
@@ -38,7 +38,8 @@ td input{padding:3px 5px;font-size:12px;min-width:0;width:100%}
 td input[data-f="Abschluss"]{width:92px}td input[data-f="LehrerIn"]{width:128px}td input[data-f="E-Mail"]{width:176px}
 td input.ok{border-color:var(--green);background:#f1faf4}td input.err{border-color:var(--red);background:var(--red-bg)}
 td.p{font-size:11px;white-space:nowrap;color:var(--ink3);max-width:64px;overflow:hidden;text-overflow:ellipsis}
-td.n{font-weight:600;white-space:nowrap}
+td.n{font-weight:600;white-space:nowrap;max-width:165px;overflow:hidden;text-overflow:ellipsis}
+td.i,td.s{white-space:nowrap;max-width:96px;overflow:hidden;text-overflow:ellipsis}
 td.n,th.n{position:sticky;left:0;background:#fff;z-index:1}th.n{background:var(--blue-bg);z-index:3}
 .chips{display:flex;flex-wrap:wrap;gap:1px 9px;align-items:center;margin:1px 0}
 .chips b{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink3);min-width:74px}
@@ -142,7 +143,7 @@ $('anmBtn').onclick = async function(){
   try{
     var j = await api({ action:'lehreAnmelden', z:S.z, code:$('code').value });
     if(!j.ok){ zeigeLogin(j.fehler||'Anmeldung fehlgeschlagen.', true); }
-    else{ S.token=j.token; try{ sessionStorage.setItem('lehre_token', j.token); }catch(e){} await laden(null, true); }
+    else{ S.token=j.token; try{ sessionStorage.setItem('lehre_token', j.token); }catch(e){} await laden(null, true); leerNeu(); }
   }catch(e){ zeigeLogin(e.message||'Fehler', true); }
   b.disabled=false;
 };
@@ -163,7 +164,11 @@ $('kopBtn').onclick = async function(){
   $('amsg').textContent = ok ? (f==='mails' ? l.filter(function(p){return p.e;}).length+' Adressen' : l.length+' Personen')+' kopiert.' : 'Kopieren nicht möglich.';
 };
 $('abm').onclick = function(){ if(S.token) api({action:'lehreAbmelden', token:S.token}).catch(function(){}); abmelden(); };
+var LEER_MS = 20*60*1000, leerT = null;
+function leerNeu(){ clearTimeout(leerT); if(S.token) leerT = setTimeout(function(){ if(!S.token) return; api({action:'lehreAbmelden', token:S.token}).catch(function(){}); abmelden(); zeigeLogin('Aus Sicherheitsgründen wurden Sie nach 20 Minuten ohne Aktivität abgemeldet.'); }, LEER_MS); }
+['click','keydown','mousemove','scroll','touchstart'].forEach(function(ev){ document.addEventListener(ev, leerNeu, {passive:true}); });
 function abmelden(){
+  clearTimeout(leerT);
   S.token=null; S.d=null; S.f=null; try{ sessionStorage.removeItem('lehre_token'); }catch(e){}
   $('app').style.display='none'; $('login').style.display='block'; $('s2').style.display='none'; $('s1').style.display='block'; $('code').value='';
 }
@@ -171,7 +176,7 @@ function abmelden(){
 async function laden(jahr, erst){
   var j = await api({ action:'lehreDaten', token:S.token, jahr:jahr||'' });
   if(!j.ok){ if(!j.auth) zeigeLogin(j.fehler||'Fehler', true); return; }
-  S.d = j;
+  S.d = j; leerNeu();
   $('login').style.display='none'; $('app').style.display='block';
   $('wer').textContent = 'Angemeldet: ' + j.name;
   $('jahrTitel').textContent = j.jahr.replace('_','/');
@@ -262,11 +267,11 @@ function zeichnen(){
   S.liste = l;
   $('count').textContent = l.length + ' von ' + d.personen.length + ' Personen';
   $('tbody').innerHTML = l.map(function(p){
-    return '<tr><td class="n">'+esc(p.n)+'</td><td style="white-space:nowrap">'+esc(p.i)+'</td>'+
+    return '<tr><td class="n" title="'+esc(p.n)+'">'+esc(p.n)+'</td><td class="i" title="'+esc(p.i)+'">'+esc(p.i)+'</td>'+
       '<td><input data-z="'+p.z+'" data-n="'+esc(p.n)+'" data-f="Abschluss" list="dlAbs" value="'+esc(p.a)+'"></td>'+
       '<td><input data-z="'+p.z+'" data-n="'+esc(p.n)+'" data-f="LehrerIn" list="dlLehr" value="'+esc(p.l)+'"></td>'+
       '<td><input data-z="'+p.z+'" data-n="'+esc(p.n)+'" data-f="E-Mail" type="email" value="'+esc(p.e)+'"></td>'+
-      '<td>'+esc(p.f)+'</td><td>'+esc(p.s)+'</td>'+
+      '<td>'+esc(p.f)+'</td><td class="s" title="'+esc(p.s)+'">'+esc(p.s)+'</td>'+
       p.p.map(function(x){ return '<td class="p">'+esc(x)+'</td>'; }).join('')+'</tr>';
   }).join('');
 }
