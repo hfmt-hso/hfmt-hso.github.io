@@ -84,7 +84,7 @@ footer{margin:22px auto 0;font-size:12px;color:var(--ink3);text-align:center;max
 .pm{font-size:12px;color:var(--ink3);margin-top:2px}
 .pc label{margin:8px 0 3px;font-size:11px}
 .pc input.ok{border-color:var(--green);background:#f1faf4}.pc input.err{border-color:var(--red);background:var(--red-bg)}
-.pp{margin-top:8px;display:flex;flex-direction:column;gap:5px}.pd{margin-top:10px;padding-top:6px;border-top:1px solid var(--border)}#ansicht{gap:8px;margin:0 0 8px}#ansicht .btn{flex:1;width:auto;margin:0;padding:6px 10px}#ansicht .btn.on{outline:2px solid var(--ink3)}@media(max-width:700px){#ansicht{display:flex!important}}
+.pp{margin-top:8px;display:flex;flex-direction:column;gap:5px}.pd{margin-top:10px;padding-top:6px;border-top:1px solid var(--border)}#ansicht{gap:8px;margin:0 0 8px}#ansicht .btn{flex:1;width:auto;margin:0;padding:6px 10px}#ansicht .btn.on{outline:2px solid var(--ink3)}@media(max-width:700px){#ansicht{display:flex!important}#projWahl{display:flex!important;flex-wrap:wrap;gap:4px 10px}}
 .pz{background:#fff;border-bottom:1px solid var(--border);padding:6px 4px}.pz summary{list-style:none;cursor:pointer}.pz summary::-webkit-details-marker{display:none}.pz .pk{flex-direction:row;gap:6px;align-items:baseline;flex-wrap:wrap}.pz .pk b{font-size:15px}.pz .pq{display:flex;flex-wrap:wrap;gap:3px 6px;margin-top:3px}.pz .pq .pill{font-size:11px}.pz .pq i{font-style:normal;font-size:11px;color:var(--ink3)}.pz .pd{border-top:0;margin-top:4px}
 .pd summary{font-size:13px;color:var(--ink3);padding:6px 0;cursor:pointer}
 .pr{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.pn{font-size:12px;font-weight:700;color:var(--ink3);min-width:64px}
@@ -138,6 +138,7 @@ footer{margin:22px auto 0;font-size:12px;color:var(--ink3);text-align:center;max
   </div>
   <div class="tw"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
   <div id="ansicht" style="display:none"><button type="button" class="btn" id="ansL">Liste</button><button type="button" class="btn" id="ansK">Karten</button></div>
+  <div id="projWahl" class="chips" style="display:none;margin:0 0 8px"></div>
   <div id="cards"></div>
   <p class="msg" id="amsg">Änderungen an E-Mail, Abschluss und LehrerIn werden beim Verlassen des Feldes gespeichert.</p>
 </div>
@@ -411,6 +412,19 @@ function pill(x){
   return '<span class="pill" style="background:'+(PILL_FARBE[st]||'#eee')+'">'+esc(x)+'</span>';
 }
 function projIdx(){ var l=[]; S.d.projekte.forEach(function(n,i){ if(/HSO|13\/14/i.test(String(n))) l.push(i); }); return l; }
+// Handy: Auswahl der angezeigten Projekte (gemerkt in localStorage lehre_proj; ohne Eintrag alle)
+function projAbw(){ try{ var a=JSON.parse(localStorage.getItem('lehre_proj')||'null'); return Array.isArray(a)?a:null; }catch(e){ return null; } }
+function projIdxM(){ var a=projAbw(); return projIdx().filter(function(i){ return !a || a.indexOf(S.d.projekte[i])>=0; }); }
+function projWahlBauen(){
+  var a=projAbw(), h='<span style="font-size:12px;font-weight:700;color:var(--ink3);width:100%">Projekte anzeigen</span>';
+  projIdx().forEach(function(i){ var n=S.d.projekte[i]; h+='<label><input type="checkbox" data-pw="'+esc(n)+'"'+(!a||a.indexOf(n)>=0?' checked':'')+'> '+esc(projKurz(n))+'</label>'; });
+  $('projWahl').innerHTML=h;
+}
+$('projWahl').addEventListener('change', function(){
+  var a=[]; this.querySelectorAll('input[data-pw]').forEach(function(c){ if(c.checked) a.push(c.getAttribute('data-pw')); });
+  try{ localStorage.setItem('lehre_proj', JSON.stringify(a)); }catch(e){}
+  zeichnen();
+});
 function projKurz(n){ return String(n).replace(/^\d\d_\d\d_/,'').replace(/_/g,' '); }
 function füllen(erst){
   var d=S.d;
@@ -431,7 +445,7 @@ if(MOBIL.addEventListener) MOBIL.addEventListener('change', function(){ if(S.d) 
 // Karte einer Person (Handy-Ansicht); gleiche Felder und derselbe Speicherweg wie in der Tabelle
 function karte(p){
   var at=' data-z="'+p.z+'" data-n="'+esc(p.n)+'"';
-  var pr=projIdx().map(function(i){ var x=p.p[i]; return x ? '<div class="pr"><span class="pn">'+esc(projKurz(S.d.projekte[i]))+'</span>'+pill(x)+'</div>' : ''; }).join('');
+  var pr=projIdxM().map(function(i){ var x=p.p[i]; return x ? '<div class="pr"><span class="pn">'+esc(projKurz(S.d.projekte[i]))+'</span>'+pill(x)+'</div>' : ''; }).join('');
   var m=[p.f?'FS '+esc(p.f):'', p.t?'Gesamt '+esc(p.t):'', p.b?'befreit bis '+esc(p.b):''].filter(Boolean).join(' · ');
   return '<div class="pc"><div class="pk"><b>'+esc(p.n)+'</b><span>'+esc([p.i,p.s].filter(Boolean).join(' · '))+'</span></div>'+(m?'<div class="pm">'+m+'</div>':'')+
     (pr?'<div class="pp">'+pr+'</div>':'')+
@@ -442,7 +456,7 @@ function karte(p){
 }
 function zeile(p){
   var at=' data-z="'+p.z+'" data-n="'+esc(p.n)+'"';
-  var pq=projIdx().map(function(i){ var x=p.p[i]; return x ? '<span><i>'+esc(projKurz(S.d.projekte[i]))+'</i> '+pill(x)+'</span>' : ''; }).join('');
+  var pq=projIdxM().map(function(i){ var x=p.p[i]; return x ? '<span><i>'+esc(projKurz(S.d.projekte[i]))+'</i> '+pill(x)+'</span>' : ''; }).join('');
   return '<details class="pz"><summary><div class="pk"><b>'+esc(p.n)+'</b><span>'+esc([p.i,p.s].filter(Boolean).join(' · '))+'</span></div>'+(pq?'<div class="pq">'+pq+'</div>':'')+'</summary>'+
     '<div class="pd">'+
     '<label>Abschluss</label><input'+at+' data-f="Abschluss" list="dlAbs" value="'+esc(p.a)+'">'+
@@ -465,7 +479,7 @@ function zeichnen(){
   }).sort(function(a,b){ return insVgl(a.i,b.i) || a.n.localeCompare(b.n,'de'); });
   S.liste = l; var PI = projIdx();
   $('count').textContent = l.length + ' von ' + d.personen.length + ' Personen';
-  if(MOBIL.matches){ var an=ansicht(); $('ansL').className='btn'+(an==='liste'?' on':''); $('ansK').className='btn'+(an==='karten'?' on':''); $('tbody').innerHTML=''; $('cards').innerHTML = l.map(an==='liste' ? zeile : karte).join(''); return; }
+  if(MOBIL.matches){ var an=ansicht(); projWahlBauen(); $('ansL').className='btn'+(an==='liste'?' on':''); $('ansK').className='btn'+(an==='karten'?' on':''); $('tbody').innerHTML=''; $('cards').innerHTML = l.map(an==='liste' ? zeile : karte).join(''); return; }
   $('cards').innerHTML='';
   $('tbody').innerHTML = l.map(function(p){
     return '<tr><td class="n" title="'+esc(p.n)+'">'+esc(p.n)+'</td><td class="i" title="'+esc(p.i)+'">'+esc(p.i)+'</td>'+
