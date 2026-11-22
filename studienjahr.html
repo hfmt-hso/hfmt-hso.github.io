@@ -73,7 +73,7 @@ footer{margin:22px auto 0;font-size:12px;color:var(--ink3);text-align:center;max
 
 <div id="login" class="card">
   <h1>Studienjahr – Übersicht</h1>
-  <p class="sub">Für Lehrende. Wählen Sie Ihren Namen; der Anmeldelink kommt per E-Mail.</p>
+  <p class="sub" id="loginSub">Für Lehrende. Wählen Sie Ihren Namen; der Anmeldelink kommt per E-Mail.</p>
   <div id="s1">
     <label for="nameQ">Ihr Name</label>
     <input id="nameQ" type="search" autocomplete="off" placeholder="Name eingeben und aus der Liste wählen">
@@ -175,13 +175,14 @@ $('anmBtn').onclick = async function(){
 // (Mail-Scanner rufen Links vorab auf und würden ein einmaliges Token sonst verbrauchen).
 var LINKT = null;
 (function(){ var m=/[#&]a=([0-9a-f-]{20,100})/i.exec(location.hash||''); if(m){ LINKT=m[1]; try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} } })();
-if(LINKT){ $('s1').style.display='none'; $('s3').style.display='block'; }
+var SUB_TXT = $('loginSub').textContent;
+if(LINKT){ $('s1').style.display='none'; $('s3').style.display='block'; $('loginSub').textContent='Für Lehrende.'; }
 $('linkBtn').onclick = async function(){
   var b=this; b.disabled=true; zeigeLogin('');
   try{
     var j = await api({ action:'lehreLinkAnmelden', t:LINKT });
     LINKT=null;
-    if(!j.ok){ $('s3').style.display='none'; $('s1').style.display='block'; zeigeLogin((j.fehler||'Anmeldung fehlgeschlagen.')+' Bitte fordern Sie einen neuen Link an.', true); }
+    if(!j.ok){ $('s3').style.display='none'; $('s1').style.display='block'; $('loginSub').textContent=SUB_TXT; zeigeLogin((j.fehler||'Anmeldung fehlgeschlagen.')+' Bitte fordern Sie einen neuen Link an.', true); }
     else{ S.token=j.token; try{ sessionStorage.setItem('lehre_token', j.token); }catch(e){} await laden(null, true); leerNeu(); }
   }catch(e){ zeigeLogin(e.message||'Fehler', true); }
   b.disabled=false;
