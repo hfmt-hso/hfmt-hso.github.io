@@ -12,7 +12,7 @@
 :root{--ink:#16161d;--ink3:#555568;--paper:#f6f6f4;--blue:#1a4b8c;--blue2:#0d2f5c;--blue-bg:#eef3fb;--green:#1e6b3a;--red:#9b2335;--red-bg:#fbeaed;--border:#dcdad2;--radius:10px;
 --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
 html{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:14px;line-height:1.45}
-.wrap{max-width:1300px;margin:0 auto;padding:22px 16px 40px}
+.wrap{max-width:none;margin:0 auto;padding:14px 10px 30px}
 h1{font-size:20px;margin-bottom:4px}
 .sub{color:var(--ink3);font-size:13px;margin-bottom:16px}
 .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px}
@@ -30,13 +30,21 @@ button.btn:hover{background:var(--blue2)}button.btn:disabled{opacity:.5;cursor:d
 .bar>div{min-width:150px}.bar label{margin-top:0}
 .count{color:var(--ink3);font-size:13px;margin:4px 0 8px}
 .tw{overflow:auto;max-height:72vh;border:1px solid var(--border);border-radius:var(--radius);background:#fff}
-table{border-collapse:collapse;width:100%;font-size:13px}
-th{position:sticky;top:0;background:var(--blue-bg);text-align:left;padding:7px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink3);white-space:nowrap;z-index:1}
-td{padding:4px 8px;border-top:1px solid var(--border);vertical-align:middle}
-td input{padding:5px 7px;font-size:13px;min-width:130px}
+table{border-collapse:collapse;width:max-content;min-width:100%;font-size:12px}
+th{position:sticky;top:0;background:var(--blue-bg);text-align:left;padding:5px 5px;font-size:10px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink3);line-height:1.2;vertical-align:bottom;z-index:2}
+th.pj{max-width:64px;min-width:46px;word-break:break-all}
+td{padding:2px 5px;border-top:1px solid var(--border);vertical-align:middle}
+td input{padding:3px 5px;font-size:12px;min-width:0;width:100%}
+td input[data-f="Abschluss"]{width:92px}td input[data-f="LehrerIn"]{width:128px}td input[data-f="E-Mail"]{width:176px}
 td input.ok{border-color:var(--green);background:#f1faf4}td input.err{border-color:var(--red);background:var(--red-bg)}
-td.p{font-size:12px;white-space:nowrap;color:var(--ink3)}
+td.p{font-size:11px;white-space:nowrap;color:var(--ink3);max-width:64px;overflow:hidden;text-overflow:ellipsis}
 td.n{font-weight:600;white-space:nowrap}
+td.n,th.n{position:sticky;left:0;background:#fff;z-index:1}th.n{background:var(--blue-bg);z-index:3}
+.chips{display:flex;flex-wrap:wrap;gap:1px 9px;align-items:center;margin:1px 0}
+.chips b{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink3);min-width:74px}
+.chips label{display:inline-flex;gap:3px;align-items:center;font-size:12px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink);margin:0;white-space:nowrap}
+.chips input{width:auto;padding:0}
+.chips .linkbtn{font-size:11px}
 footer{margin-top:22px;font-size:12px;color:var(--ink3)}
 </style>
 </head>
@@ -70,12 +78,10 @@ footer{margin-top:22px;font-size:12px;color:var(--ink3)}
   </div>
   <div class="bar">
     <div><label for="fJahr">Studienjahr</label><select id="fJahr"></select></div>
-    <div><label for="fIns">Instrument</label><select id="fIns"></select></div>
-    <div><label for="fSta">Status</label><select id="fSta"></select></div>
-    <div><label for="fAbs">Abschluss</label><select id="fAbs"></select></div>
     <div style="flex:1;min-width:200px"><label for="fQ">Suche (Name, LehrerIn)</label><input id="fQ" type="search"></div>
     <div style="min-width:0"><label style="display:flex;gap:6px;align-items:center;text-transform:none;letter-spacing:0;font-size:13px;color:var(--ink);margin:0 0 8px"><input type="checkbox" id="fMein" style="width:auto"> Nur meine Studierenden</label></div>
   </div>
+  <div id="fChips" style="margin-bottom:8px"></div>
   <div class="bar" style="margin-bottom:6px">
     <p class="count" id="count" style="margin:0 12px 0 0;align-self:center"></p>
     <div style="min-width:180px"><label for="kForm">Kopieren als</label><select id="kForm"><option value="tab">Tabelle (Name, Instrument, Abschluss, LehrerIn, E-Mail)</option><option value="namen">Nur Namen (eine pro Zeile)</option><option value="mails">Nur E-Mail-Adressen (Semikolon)</option></select></div>
@@ -158,7 +164,7 @@ $('kopBtn').onclick = async function(){
 };
 $('abm').onclick = function(){ if(S.token) api({action:'lehreAbmelden', token:S.token}).catch(function(){}); abmelden(); };
 function abmelden(){
-  S.token=null; S.d=null; try{ sessionStorage.removeItem('lehre_token'); }catch(e){}
+  S.token=null; S.d=null; S.f=null; try{ sessionStorage.removeItem('lehre_token'); }catch(e){}
   $('app').style.display='none'; $('login').style.display='block'; $('s2').style.display='none'; $('s1').style.display='block'; $('code').value='';
 }
 
@@ -179,42 +185,84 @@ function optionen(sel, werte, aktuell, leer){
 }
 function uniq(f){ var m={}; S.d.personen.forEach(function(p){ m[p[f]||'']=1; }); return Object.keys(m).sort(function(a,b){ return a.localeCompare(b,'de'); }); }
 
+// Abschluss-Gruppen wie in der Orchesterverwaltung
+var AB_ORD=['Bachelor','Bachelor IP','B.Ed.','Master','Master IP','M.Ed.','Konzertexamen','Konzertexamen IP','Promotion','ICoM','Vorbereitungsphase','Sonstige','–'];
+var AB_VOR={'Bachelor':1,'Bachelor IP':1,'B.Ed.':1,'Master':1,'Master IP':1,'M.Ed.':1,'Konzertexamen':1,'Konzertexamen IP':1};
+var ST_VOR=['erasmus','ersteinschreibung','neueinschreibung','regulär','rückmeldung'];
+function abGr(a){
+  a=String(a||'').trim(); if(!a) return '–';
+  var ip=/\(IP\)/i.test(a)?' IP':''; if(/Konzertexamen/i.test(a)) return 'Konzertexamen'+ip;
+  if(/Promotion|Dr[.]/i.test(a)) return 'Promotion';
+  if(/ICoM/i.test(a)) return 'ICoM';
+  if(/Vorbereitung/i.test(a)) return 'Vorbereitungsphase';
+  if(/M[.] ?ED|Master of Education/i.test(a)) return 'M.Ed.'; if(/Master|^Ms/i.test(a)) return 'Master'+ip;
+  if(/B[.] ?ED|Bachelor of Education/i.test(a)) return 'B.Ed.'; if(/Bachelor|B[.] ?A[.]|^Bach/i.test(a)) return 'Bachelor'+ip;
+  return 'Sonstige';
+}
+S.f = null; // Filterzustand: { i:{}, s:{}, a:{} }
+function filterWerte(erst){
+  var d=S.d, ins={}, sta={}, ab={};
+  d.personen.forEach(function(p){ ins[p.i||'']=1; sta[p.s||'']=1; ab[abGr(p.a)]=1; });
+  var insK=Object.keys(ins).sort(function(a,b){ return a.localeCompare(b,'de'); });
+  var staK=Object.keys(sta).sort(function(a,b){ return a.localeCompare(b,'de'); });
+  var abK=Object.keys(ab).sort(function(a,b){ var x=AB_ORD.indexOf(a), y=AB_ORD.indexOf(b); return (x<0?99:x)-(y<0?99:y); });
+  var neu=!S.f; if(neu) S.f={i:{},s:{},a:{}};
+  var mein='';
+  if(neu){ // Instrument der Lehrkraft voreinstellen (nur bei eindeutigem Treffer)
+    var li=(d.instrument||'').toLowerCase();
+    var tr=insK.filter(function(x){ return x && li.indexOf(x.toLowerCase())>=0; });
+    if(tr.length===1) mein=tr[0];
+  }
+  insK.forEach(function(k){ if(!(k in S.f.i)) S.f.i[k]= mein ? k===mein : true; });
+  staK.forEach(function(k){ if(!(k in S.f.s)) S.f.s[k]= ST_VOR.indexOf(k.toLowerCase())>=0; });
+  abK.forEach(function(k){ if(!(k in S.f.a)) S.f.a[k]= !!AB_VOR[k]; });
+  S.fk={i:insK,s:staK,a:abK};
+}
+function chipsBauen(){
+  var T={i:'Instrument',s:'Status',a:'Abschluss'};
+  $('fChips').innerHTML=['i','s','a'].map(function(w){
+    return '<div class="chips"><b>'+T[w]+'</b>'+S.fk[w].map(function(k){
+      return '<label><input type="checkbox" data-w="'+w+'" data-k="'+esc(k)+'"'+(S.f[w][k]?' checked':'')+'> '+esc(k===''?'(leer)':(k==='–'?'ohne Angabe':k))+'</label>';
+    }).join('')+'<button type="button" class="linkbtn" data-w="'+w+'" data-v="1">alle</button><button type="button" class="linkbtn" data-w="'+w+'" data-v="0">keine</button></div>';
+  }).join('');
+}
+$('fChips').addEventListener('change',function(ev){
+  var el=ev.target; if(!el.getAttribute||!el.getAttribute('data-k')&&el.getAttribute('data-k')!=='') return;
+  var w=el.getAttribute('data-w'); if(!w) return; S.f[w][el.getAttribute('data-k')]=el.checked; zeichnen();
+});
+$('fChips').addEventListener('click',function(ev){
+  var b=ev.target.closest('[data-v]'); if(!b) return; var w=b.getAttribute('data-w'), v=b.getAttribute('data-v')==='1';
+  S.fk[w].forEach(function(k){ S.f[w][k]=v; }); chipsBauen(); zeichnen();
+});
+
 function füllen(erst){
-  var d=S.d, pj=$('fJahr').value;
+  var d=S.d;
   optionen($('fJahr'), d.jahre, d.jahr, '');
   $('fJahr').remove(0); $('fJahr').value=d.jahr;
-  var insListe = uniq('i'), mein = '';
-  if(erst){ // Instrument der Lehrkraft voreinstellen (nur bei eindeutigem Treffer)
-    var li=(d.instrument||'').toLowerCase();
-    var tr = insListe.filter(function(x){ return x && li.indexOf(x.toLowerCase())>=0; });
-    if(tr.length===1) mein = tr[0];
-  }
-  optionen($('fIns'), insListe, erst?mein:$('fIns').value, 'Alle Instrumente');
-  optionen($('fSta'), uniq('s'), $('fSta').value, 'Alle Status');
-  optionen($('fAbs'), uniq('a'), $('fAbs').value, 'Alle Abschlüsse');
+  filterWerte(erst); chipsBauen();
   $('dlAbs').innerHTML = uniq('a').filter(Boolean).map(function(x){ return '<option value="'+esc(x)+'">'; }).join('');
   $('dlLehr').innerHTML = uniq('l').filter(Boolean).map(function(x){ return '<option value="'+esc(x)+'">'; }).join('');
-  $('thead').innerHTML = '<tr><th>Name</th><th>Instrument</th><th>Abschluss</th><th>LehrerIn</th><th>E-Mail</th><th>FS</th><th>Status</th>' +
-    d.projekte.map(function(p){ return '<th>'+esc(p)+'</th>'; }).join('') + '</tr>';
+  $('thead').innerHTML = '<tr><th class="n">Name</th><th>Instr.</th><th>Abschluss</th><th>LehrerIn</th><th>E-Mail</th><th>FS</th><th>Status</th>' +
+    d.projekte.map(function(p){ return '<th class="pj" title="'+esc(p)+'">'+esc(String(p).replace(/^\d\d_\d\d_/,''))+'</th>'; }).join('') + '</tr>';
   zeichnen();
 }
 function norm(s){ return String(s||'').toLowerCase().replace(/\s+/g,' ').replace(/\s*,\s*/g,', ').trim(); }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 
 function zeichnen(){
-  var d=S.d, mein=$('fMein').checked ? norm(d.lk) : '', ins=$('fIns').value, sta=$('fSta').value, abs=$('fAbs').value, q=$('fQ').value.trim().toLowerCase();
+  var d=S.d, mein=$('fMein').checked ? norm(d.lk) : '', q=$('fQ').value.trim().toLowerCase();
   var l = d.personen.filter(function(p){
     if(mein && norm(p.l)!==mein) return false;
-    if(ins && p.i!==ins) return false;
-    if(sta && p.s!==sta) return false;
-    if(abs && p.a!==abs) return false;
+    if(!S.f.i[p.i||'']) return false;
+    if(!S.f.s[p.s||'']) return false;
+    if(!S.f.a[abGr(p.a)]) return false;
     if(q && (p.n+' '+p.l).toLowerCase().indexOf(q)<0) return false;
     return true;
   }).sort(function(a,b){ return (a.i||'').localeCompare(b.i||'','de') || a.n.localeCompare(b.n,'de'); });
   S.liste = l;
   $('count').textContent = l.length + ' von ' + d.personen.length + ' Personen';
   $('tbody').innerHTML = l.map(function(p){
-    return '<tr><td class="n">'+esc(p.n)+'</td><td>'+esc(p.i)+'</td>'+
+    return '<tr><td class="n">'+esc(p.n)+'</td><td style="white-space:nowrap">'+esc(p.i)+'</td>'+
       '<td><input data-z="'+p.z+'" data-n="'+esc(p.n)+'" data-f="Abschluss" list="dlAbs" value="'+esc(p.a)+'"></td>'+
       '<td><input data-z="'+p.z+'" data-n="'+esc(p.n)+'" data-f="LehrerIn" list="dlLehr" value="'+esc(p.l)+'"></td>'+
       '<td><input data-z="'+p.z+'" data-n="'+esc(p.n)+'" data-f="E-Mail" type="email" value="'+esc(p.e)+'"></td>'+
@@ -222,9 +270,8 @@ function zeichnen(){
       p.p.map(function(x){ return '<td class="p">'+esc(x)+'</td>'; }).join('')+'</tr>';
   }).join('');
 }
-['fIns','fSta','fAbs'].forEach(function(id){ $(id).onchange = zeichnen; });
 $('fQ').oninput = zeichnen;
-$('fMein').onchange = function(){ if(this.checked) $('fIns').value=''; zeichnen(); };
+$('fMein').onchange = function(){ if(this.checked){ S.fk.i.forEach(function(k){ S.f.i[k]=true; }); chipsBauen(); } zeichnen(); };
 $('fJahr').onchange = function(){ laden(this.value, false); };
 
 $('tbody').addEventListener('change', async function(ev){
@@ -236,6 +283,7 @@ $('tbody').addEventListener('change', async function(ev){
       el.className='ok'; el.value=j.wert;
       var p = S.d.personen.filter(function(x){ return String(x.z)===el.dataset.z; })[0];
       if(p){ p[el.dataset.f==='Abschluss'?'a':el.dataset.f==='LehrerIn'?'l':'e'] = j.wert; }
+      if(el.dataset.f==='Abschluss'){ var g=abGr(j.wert); if(!(g in S.f.a)){ S.f.a[g]=!!AB_VOR[g]; if(S.fk.a.indexOf(g)<0) S.fk.a.push(g); chipsBauen(); } }
       $('amsg').className='msg'; $('amsg').textContent='Gespeichert.';
     }else{ el.className='err'; $('amsg').className='msg err'; $('amsg').textContent=j.fehler||'Speichern fehlgeschlagen.'; }
   }catch(e){ el.className='err'; $('amsg').className='msg err'; $('amsg').textContent='Speichern fehlgeschlagen: '+(e.message||''); }
