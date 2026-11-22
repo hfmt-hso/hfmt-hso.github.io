@@ -34,6 +34,7 @@ button.btn:hover{background:var(--blue2)}button.btn:disabled{opacity:.5;cursor:d
 table{border-collapse:collapse;width:max-content;font-size:12px}
 th{position:sticky;top:0;background:var(--blue-bg);text-align:left;padding:5px 5px;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink3);line-height:1.2;vertical-align:bottom;z-index:2}
 th.pj{white-space:nowrap}
+.bes{font-size:11px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink3);white-space:nowrap}.bt{color:#888;padding:0 1px}
 td{padding:0 5px;line-height:1.2;border-top:1px solid var(--border);vertical-align:middle}
 td input{padding:1px 5px;font-size:12px;line-height:1.2;border-radius:4px;min-width:0;width:100%}
 td input[data-f="Abschluss"]{width:112px}td input[data-f="LehrerIn"]{width:136px}td input[data-f="E-Mail"]{width:184px}
@@ -193,6 +194,7 @@ function abmelden(){
 async function laden(jahr, erst){
   var j = await api({ action:'lehreDaten', token:S.token, jahr:jahr||'' });
   if(!j.ok){ if(!j.auth) zeigeLogin(j.fehler||'Fehler', true); return; }
+  S.bes = besetzung(j);
   j.personen = (j.personen||[]).filter(function(p){ return !ausgeschlossen(p); });
   S.d = j; leerNeu();
   $('login').style.display='none'; $('app').style.display='block';
@@ -201,6 +203,35 @@ async function laden(jahr, erst){
   füllen(erst);
 }
 
+var BES_G=['Vl. 1','Vl. 2','Vla.','Vc.','Kb.'], BES_PL=['geplant','angefragt','bestätigt'];
+function besGr(pos, ins){
+  pos=String(pos||'').trim();
+  if(/^Vl\.?\s*1/i.test(pos)) return 'Vl. 1'; if(/^Vl\.?\s*2/i.test(pos)) return 'Vl. 2';
+  if(/^Vla/i.test(pos)) return 'Vla.'; if(/^Vc/i.test(pos)) return 'Vc.'; if(/^Kb/i.test(pos)) return 'Kb.';
+  if(ins==='Viola') return 'Vla.'; if(ins==='Cello') return 'Vc.'; if(ins==='Kontrabass') return 'Kb.';
+  return ins==='Violine' ? '?' : '';
+}
+// Streicher-Besetzung je Projekt (Geplant+Angefragt+Bestätigt), unabhängig von Filtern und Ausblendungen
+function besetzung(j){
+  var out={}, PN=j.projekte||[];
+  PN.forEach(function(n,i){
+    var c={'Vl. 1':0,'Vl. 2':0,'Vla.':0,'Vc.':0,'Kb.':0,'?':0};
+    (j.personen||[]).forEach(function(p){
+      if(p.g!=='Streicher') return;
+      var x=String((p.p||[])[i]||''); if(!x) return;
+      var st=x.split(' · ')[0].trim().toLowerCase(); if(BES_PL.indexOf(st)<0) return;
+      var g=besGr(x.indexOf(' · ')>=0 ? x.slice(x.indexOf(' · ')+3) : '', p.i); if(g in c) c[g]++;
+    });
+    var key=j.jahr+'_'+String(n).replace(/ /g,'_'), sv=String((j.soll||{})[key]||'').split('.');
+    var teile=BES_G.map(function(g,k){
+      var ist=c[g], so=sv.length===5?sv[k]:'', col='';
+      if(so!==''){ col= ist>+so ? 'color:#b3261e;font-weight:650' : (ist===+so ? 'color:#1b7a3a;font-weight:650' : ''); }
+      return '<span style="'+col+'">'+ist+(so!==''?' / '+esc(so):'')+'</span>';
+    });
+    out[i]='<div class="bes">('+teile.join(' <span class="bt">‖</span> ')+(c['?']?' <span class="bt">‖</span> <span style="color:#b3261e">'+c['?']+' ohne Pos.</span>':'')+')</div>';
+  });
+  return out;
+}
 function optionen(sel, werte, aktuell, leer){
   sel.innerHTML=''; var o=document.createElement('option'); o.value=''; o.textContent=leer; sel.appendChild(o);
   werte.forEach(function(w){ var x=document.createElement('option'); x.value=w; x.textContent=w||'–'; sel.appendChild(x); });
@@ -304,7 +335,7 @@ function füllen(erst){
   $('dlAbs').innerHTML = uniq('a').filter(Boolean).map(function(x){ return '<option value="'+esc(x)+'">'; }).join('');
   $('dlLehr').innerHTML = uniq('l').filter(Boolean).map(function(x){ return '<option value="'+esc(x)+'">'; }).join('');
   $('thead').innerHTML = '<tr><th class="n">Name</th><th>Instr.</th><th>Abschluss</th><th>LehrerIn</th><th>E-Mail</th><th>FS</th><th>Status</th><th title="Projekte gesamt">Gesamt</th>' +
-    projIdx().map(function(i){ var p=d.projekte[i]; return '<th class="pj" title="'+esc(p)+'">'+esc(projKurz(p))+'</th>'; }).join('') + '</tr>';
+    projIdx().map(function(i){ var p=d.projekte[i]; return '<th class="pj" title="'+esc(p)+'">'+esc(projKurz(p))+((S.bes||{})[i]||'')+'</th>'; }).join('') + '</tr>';
   zeichnen();
 }
 function norm(s){ return String(s||'').toLowerCase().replace(/\s+/g,' ').replace(/\s*,\s*/g,', ').trim(); }
