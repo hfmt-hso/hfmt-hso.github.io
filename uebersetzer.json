@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-23T09:59:29.793Z",
+  "generiert": "2026-11-23T19:44:31.916Z",
   "events": [
     {
       "datum": "03.12.2026",
@@ -5219,6 +5219,40 @@
       "eintritt": [],
       "inhaltAusgeblendet": true,
       "hinweis": "Programm folgt"
+    },
+    {
+      "datum": "10.12.2026",
+      "uhrzeit": "16:00 Uhr",
+      "ort": "blau 103",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "abwesend": null,
+      "endzeit": "22:00 Uhr",
+      "_eventId": "1ppf3a2o18jq5mne1c47krq6pj@google.com",
+      "_titel": "13/14 Garderobe"
+    },
+    {
+      "datum": "10.12.2026",
+      "uhrzeit": "16:00 Uhr",
+      "ort": "blau 102",
+      "konzertart": null,
+      "marker": null,
+      "werke": [],
+      "solisten": [],
+      "ensemble": null,
+      "leitung": [],
+      "aufbauplan": null,
+      "notizen": [],
+      "abwesend": null,
+      "endzeit": "22:00 Uhr",
+      "_eventId": "3i56vj075g2ta00onlsfgknte8@google.com",
+      "_titel": "13/14 Garderobe"
     }
   ]
 }
