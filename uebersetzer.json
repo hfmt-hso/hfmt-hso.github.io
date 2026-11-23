@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-23T03:06:38.284Z",
+  "generiert": "2026-11-23T09:59:29.793Z",
   "events": [
     {
       "datum": "03.12.2026",
@@ -15,6 +15,13 @@
       "notizen": [],
       "abwesend": null,
       "endzeit": "12:30 Uhr",
+      "disposition": [
+        "10:00 Rémi – Ligeti",
+        "10:50 Uschik – Bartok",
+        "11:07 — Pause —",
+        "11:22 Uschik – Bartok",
+        "11:55 Philine – Hindemith"
+      ],
       "_eventId": "0to28hmpc2773gvjcaua1tu2us@google.com",
       "_titel": "13/14 OA"
     },
@@ -4599,6 +4606,12 @@
       "notizen": [],
       "abwesend": null,
       "endzeit": "16:30 Uhr",
+      "disposition": [
+        "14:00 Philine – Hindemith",
+        "14:15 Miquel – Zaczek",
+        "15:07 — Pause —",
+        "15:22 Doga – Yin"
+      ],
       "_eventId": "2ne9b56hevg3vgorjccvpkq7sk@google.com",
       "_titel": "13/14 OA"
     },
