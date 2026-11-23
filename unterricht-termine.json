@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-22T03:06:48.366Z",
+  "generiert": "2026-11-23T03:06:41.689Z",
   "data": [
     {
       "id": "UT_20261116_3",
@@ -43,31 +43,30 @@
     },
     {
       "id": "UT_20261117_0",
-      "datum": "17.11.2026",
+      "datum": "24.11.2026",
       "projekt": "Gruppenunterricht Wellber",
       "marker": "Gruppenunterricht",
       "dozent": "Wellber",
-      "uhrzeit": "15:00",
+      "uhrzeit": "10:00",
       "ort": "Blau 206",
       "slots": [
         {
           "slotId": "s_0",
-          "uhrzeit": "15:00"
+          "uhrzeit": "10:00"
         },
         {
           "slotId": "s_1",
-          "uhrzeit": "16:00"
+          "uhrzeit": "11:00"
         },
         {
           "slotId": "s_2",
-          "uhrzeit": "17:00"
-        },
-        {
-          "slotId": "s_3",
-          "uhrzeit": "18:00"
+          "uhrzeit": "12:00"
         }
       ],
-      "notizen": "Schumann 4"
+      "notizen": "Schumann 4",
+      "verschobenAm": "2026-11-23",
+      "verschobenArt": "zeit",
+      "verschobenAlt": "Di 17.11., 15:00"
     },
     {
       "id": "UT_20261125_30",
@@ -1123,7 +1122,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-22",
+      "verschobenAm": "2026-11-23",
       "verschobenArt": "zeit",
       "verschobenAlt": "Di 02.02., 15:30"
     },
@@ -1246,7 +1245,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-22",
+      "verschobenAm": "2026-11-23",
       "verschobenArt": "zeit",
       "verschobenAlt": "Fr 05.02., 14:30"
     },
