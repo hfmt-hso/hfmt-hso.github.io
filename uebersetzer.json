@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-23T20:31:59.178Z",
+  "generiert": "2026-11-23T21:14:07.897Z",
   "events": [
     {
       "datum": "03.12.2026",
@@ -646,7 +646,7 @@
       "ensemble": "Symphoniker Hamburg",
       "leitung": [
         {
-          "name": "Rémi Geniet (UA), Uschik Choi (Brahms 1. Satz), Xin Yuan (Brahms 2.& 3. Satz), Sukjong Kim (Tchaikovsky 1. Satz), Jacob Gröper (Tchaikovsky 2. Satz), Chenyu Wan (Tchaikovsky 3. Satz), Miquel Bosch Roca (Tchaikovsky 4. Satz) (Kursleitung: Golo Berg)",
+          "name": "Rémi Geniet (UA), Uschik Choi (Brahms 1. Satz), Xin Yuan (Brahms 2. und 3. Satz), Sukjong Kim (Tchaikovsky 1. Satz), Jacob Gröper (Tchaikovsky 2. Satz), Chenyu Wan (Tchaikovsky 3. Satz), Miquel Bosch Roca (Tchaikovsky 4. Satz) (Kursleitung: Golo Berg)",
           "werk": "",
           "klasse": ""
         }
@@ -655,7 +655,7 @@
       "notizen": [],
       "probenplan": [
         "*",
-        "Klavier: Jacob Gröper, Chenyu Wan (Brahms)"
+        "Klavier: Jacob Gröper, Chenyu Wan (Brahms); Uschik Choi, Jonas Otte (Otte); Rémi Geniet, Xin Yuan, Philine Lembeck, Chenyu Wan, Sukjong Kim (Tchaikovsky)"
       ],
       "abwesend": null,
       "eintritt": [
