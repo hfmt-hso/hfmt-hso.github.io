@@ -1,46 +1,6 @@
 {
-  "generiert": "2026-11-23T21:14:11.697Z",
+  "generiert": "2026-11-24T03:09:06.194Z",
   "data": [
-    {
-      "id": "UT_20261116_3",
-      "datum": "16.11.2026",
-      "projekt": "Einzelunterricht Dorsch",
-      "marker": "Einzelunterricht",
-      "dozent": "Dorsch",
-      "uhrzeit": "11:00",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "11:00"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "12:00"
-        }
-      ],
-      "notizen": ""
-    },
-    {
-      "id": "UT_20261116_28",
-      "datum": "16.11.2026",
-      "projekt": "Gruppenunterricht Dorsch",
-      "marker": "Gruppenunterricht",
-      "dozent": "Dorsch",
-      "uhrzeit": "13:00",
-      "ort": "Blau 206",
-      "slots": [
-        {
-          "slotId": "s_0",
-          "uhrzeit": "13:00"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "14:00"
-        }
-      ],
-      "notizen": "Schumann 4 Vorbereitung Dirigent mit 2 Klavieren für Wellber"
-    },
     {
       "id": "UT_20261117_0",
       "datum": "24.11.2026",
@@ -433,7 +393,7 @@
       "notizen": "",
       "verschobenAm": "2026-11-13",
       "verschobenArt": "zeit",
-      "verschobenAlt": "Fri Dec 11 2026 13:00:00 GMT+0100 (Mitteleuropäische Normalzeit)"
+      "verschobenAlt": "Fri Dec 11 2026 13:00:00 GMT+0100 (Central European Standard Time)"
     },
     {
       "id": "UT_20261211_40",
@@ -832,7 +792,7 @@
       "notizen": "",
       "verschobenAm": "2026-11-15",
       "verschobenArt": "zeit",
-      "verschobenAlt": "Tue Jan 20 2026 09:00:00 GMT+0100 (Mitteleuropäische Normalzeit)"
+      "verschobenAlt": "Tue Jan 20 2026 09:00:00 GMT+0100 (Central European Standard Time)"
     },
     {
       "id": "UT_20270120_1",
@@ -1122,7 +1082,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-23",
+      "verschobenAm": "2026-11-24",
       "verschobenArt": "zeit",
       "verschobenAlt": "Di 02.02., 15:30"
     },
@@ -1245,7 +1205,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-23",
+      "verschobenAm": "2026-11-24",
       "verschobenArt": "zeit",
       "verschobenAlt": "Fr 05.02., 14:30"
     },
