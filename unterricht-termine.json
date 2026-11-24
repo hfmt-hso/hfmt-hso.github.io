@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-24T03:09:06.194Z",
+  "generiert": "2026-11-24T06:51:39.235Z",
   "data": [
     {
       "id": "UT_20261117_0",
@@ -64,17 +64,12 @@
         {
           "slotId": "s_0",
           "uhrzeit": "15:00"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "16:00"
-        },
-        {
-          "slotId": "s_2",
-          "uhrzeit": "17:00"
         }
       ],
-      "notizen": ""
+      "notizen": "",
+      "verschobenAm": "2026-11-24",
+      "verschobenArt": "zeit",
+      "verschobenAlt": "Mi 25.11., 15:00"
     },
     {
       "id": "UT_20261127_31",
@@ -393,7 +388,7 @@
       "notizen": "",
       "verschobenAm": "2026-11-13",
       "verschobenArt": "zeit",
-      "verschobenAlt": "Fri Dec 11 2026 13:00:00 GMT+0100 (Central European Standard Time)"
+      "verschobenAlt": "Fri Dec 11 2026 13:00:00 GMT+0100 (Mitteleuropäische Normalzeit)"
     },
     {
       "id": "UT_20261211_40",
@@ -792,7 +787,7 @@
       "notizen": "",
       "verschobenAm": "2026-11-15",
       "verschobenArt": "zeit",
-      "verschobenAlt": "Tue Jan 20 2026 09:00:00 GMT+0100 (Central European Standard Time)"
+      "verschobenAlt": "Tue Jan 20 2026 09:00:00 GMT+0100 (Mitteleuropäische Normalzeit)"
     },
     {
       "id": "UT_20270120_1",
