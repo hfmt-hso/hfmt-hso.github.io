@@ -847,7 +847,7 @@ async function ladeUeEvents(projektName, sj){
       if(notizTeile.length>0) _notiz = notizTeile.join(' ');
     }
     var abgesagt=!!ev.abgesagt||ppRoh.some(function(z){return /^\*\s*abgesagt\b/i.test(String(z).trim());});
-    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:pp,dispo:dispo,istProbe:!!ev._probe,_notiz:_notiz,abgesagt:abgesagt};
+    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:pp,dispo:dispo,abw:String(ev.abwesend||'').trim(),istProbe:!!ev._probe,_notiz:_notiz,abgesagt:abgesagt};
   }).filter(Boolean).sort((a,b)=>a.datObj-b.datObj);
   ueCache[key] = events;
   return events;
@@ -856,6 +856,10 @@ async function ladeUeEvents(projektName, sj){
 function dispoHtml(ev){
   if(!ev.dispo||!ev.dispo.length) return '';
   return '<div class="proj-text" style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border)"><b>Probendisposition</b><br>'+ev.dispo.map(function(z){return esc(z);}).join('<br>')+'</div>';
+}
+function abwHtml(ev){
+  if(!ev.abw) return '';
+  return '<div class="proj-text" style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border)"><b>Abwesend</b><br>'+esc(ev.abw)+'</div>';
 }
 function renderEventProgramm(ev){
   let h = '<div class="event-kopf">'+esc(ev.kopf)+'</div>';
@@ -941,13 +945,13 @@ async function toggleStd(cId,docId,projektName,sj){
           elProg.innerHTML=`<div class="event-tabs-wrap"><div class="event-tabs">${tabs}</div></div><div class="event-sections">${secs}</div>`;
         }
       }
-      const dEv=alleEv.filter(function(e){return e.dispo&&e.dispo.length;});
+      const dEv=alleEv.filter(function(e){return (e.dispo&&e.dispo.length)||e.abw;});
       const dEl=document.getElementById(cId+'-dispo'), dTab=document.getElementById(cId+'-dtab');
       if(dEl&&dEv.length){
         if(dTab) dTab.style.display='';
         const dLab=function(ev){return ev.tabLabel+(ev.uhrzeit?' '+String(ev.uhrzeit).replace(/\s*Uhr\s*$/,''):'');};
         const dt=dEv.map(function(ev,i){return `<button class="event-tab ${i===0?'active':''}" onclick="showEvTabIn(event,'${cId}-dispo',${i})">${esc(dLab(ev))}</button>`;}).join('');
-        const ds=dEv.map(function(ev,i){return `<div class="event-section ${i===0?'active':''}" id="${cId}-dispo-ev-${i}"><div class="event-kopf">${esc(ev.kopf)}</div><div class="proj-text" style="margin-top:8px">${ev.dispo.map(function(z){return esc(z);}).join('<br>')}</div></div>`;}).join('');
+        const ds=dEv.map(function(ev,i){return `<div class="event-section ${i===0?'active':''}" id="${cId}-dispo-ev-${i}"><div class="event-kopf">${esc(ev.kopf)}</div><div class="proj-text" style="margin-top:8px">${ev.abw?'<b>Abwesend:</b> '+esc(ev.abw)+((ev.dispo&&ev.dispo.length)?'<br><br>':''):''}${(ev.dispo||[]).map(function(z){return esc(z);}).join('<br>')}</div></div>`;}).join('');
         dEl.innerHTML=`<div class="event-tabs-wrap"><div class="event-tabs">${dt}</div></div><div class="event-sections">${ds}</div>`;
       }
       const data=await ladeProjektDoc(docId);
@@ -975,7 +979,7 @@ async function toggleBR(cId,docId,projektName,sj){
       const secs=events.map((ev,i)=>{
         const ppAll=ev.probenplan||[];const ppStern=ppAll.findIndex(function(z){return /^\*/.test(String(z).trim());});const ppL=(ev.abgesagt&&ppStern>=0)?ppAll.slice(0,ppStern):ppAll;
         const pp=ppL.length?'<div class="proj-text" style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border)">'+ppL.map(z=>esc(z)).join('<br>')+'</div>':'';
-        return`<div class="event-section ${i===0?'active':''}" id="${cId}-ev-${i}">${renderEventProgramm(ev)}${pp}${dispoHtml(ev)}</div>`;
+        return`<div class="event-section ${i===0?'active':''}" id="${cId}-ev-${i}">${renderEventProgramm(ev)}${pp}${abwHtml(ev)}${dispoHtml(ev)}</div>`;
       }).join('');
       body.innerHTML=`<div class="event-tabs-wrap"><div class="event-tabs">${tabs}</div></div><div class="event-sections">${secs}</div>`;
     }
