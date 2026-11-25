@@ -64,16 +64,18 @@
   function show(t, cls){ var m = el('msg'); m.textContent = t; m.className = 'msg ' + cls; m.style.display = 'block'; }
   if (!probe) { show('Dieser Link ist unvollständig. Bitte scanne den QR-Code erneut.', 'err'); el('form').style.display = 'none'; return; }
   function render(){
-    var f = el('filter').value.trim().toLowerCase();
+    var fold = function(x){ return String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[-_.,]+/g,' ').replace(/\s+/g,' ').trim(); };
+    var words = fold(el('filter').value).split(' ').filter(Boolean);
     var sel = el('sel'); var last = sel.value;
     sel.innerHTML = '';
     var o0 = document.createElement('option'); o0.value = ''; o0.textContent = '– bitte auswählen –'; sel.appendChild(o0);
     namen.forEach(function(n){
-      if (f && n.toLowerCase().indexOf(f) < 0) return;
+      var fn = fold(n);
+      if (words.some(function(w){ return fn.indexOf(w) < 0; })) return;
       var o = document.createElement('option'); o.value = n; o.textContent = n; sel.appendChild(o);
     });
     if (last) sel.value = last;
-    if (f && sel.options.length === 2) sel.selectedIndex = 1;
+    if (words.length && sel.options.length === 2) sel.selectedIndex = 1;
     check();
   }
   function check(){
