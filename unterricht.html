@@ -574,6 +574,21 @@ html{overflow-x:hidden}
       <button class="btn btn-outline" style="margin-top:0;width:auto;flex:1 1 120px;min-width:0;padding:12px 8px" onclick="anwLaden()">↻ Aktualisieren</button>
       <button class="btn btn-blue" id="anw-alle" style="width:auto;flex:1 1 120px;min-width:0;padding:12px 8px" onclick="anwAlle()">Alle bestätigen</button>
     </div>
+    <details style="margin-top:16px"><summary style="cursor:pointer;font-weight:700">Nachtragen (ohne Scan)</summary>
+      <div class="field-label" style="margin-top:10px">Person</div>
+      <input class="field-input" type="text" id="anw-np" autocomplete="off" autocapitalize="off" oninput="anwSuche()" onfocus="anwSuche()" placeholder="Instrument oder Name tippen …">
+      <div id="anw-npr" style="margin-top:6px"></div>
+      <button class="btn btn-blue" style="margin-top:8px" onclick="anwNachtragen()">Als anwesend eintragen</button>
+      <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border-solid)"><b>Nicht in der Liste? Manuell eintragen</b>
+        <div class="field-label" style="margin-top:10px">Instrument</div>
+        <input class="field-input" type="text" id="anw-mi" list="anw-mil" autocomplete="off"><datalist id="anw-mil"></datalist>
+        <div class="field-label" style="margin-top:10px">Vorname</div>
+        <input class="field-input" type="text" id="anw-mv" autocomplete="off">
+        <div class="field-label" style="margin-top:10px">Nachname</div>
+        <input class="field-input" type="text" id="anw-mn" autocomplete="off">
+        <button class="btn btn-blue" style="margin-top:12px" onclick="anwManuell()">Manuell als anwesend eintragen</button>
+      </div>
+    </details>
   </div>
 
   <div id="adm-termine" style="display:none">
@@ -1656,13 +1671,13 @@ function oeffneAdminBereich() {
 
 // ── ANWESENHEIT bestätigen (Anwesenheits-Web-App; nur Hauptdozent-Login) ──
 const ANWESENHEIT_URL = 'https://script.google.com/macros/s/AKfycbzJm7FzVsFlwmC6plNqsX6zYzJhJJnfgmScpV-g16vAgThSXCBe3ietVQHEthLYCP32tg/exec';
-let _anw = { probe:'', liste:[], timer:null };
+let _anw = { probe:'', liste:[], timer:null, personen:null };
 async function anwGet(action, extra) {
   const params = Object.assign({ action, nutzer: aktuellerAdmin.nutzer, pwHash: _adminPwHash }, extra || {});
   const res = await fetch(ANWESENHEIT_URL + '?' + new URLSearchParams(params));
   return authPruefen(await res.json(), action);
 }
-function anwStart() { anwLaden(); clearInterval(_anw.timer); _anw.timer = setInterval(() => { if (hauptTabAktiv === 'anwesenheit') anwLaden(true); }, 15000); }
+function anwStart() { anwLaden(); if (!_anw.personen) anwPersonenLaden(); clearInterval(_anw.timer); _anw.timer = setInterval(() => { if (hauptTabAktiv === 'anwesenheit') anwLaden(true); }, 15000); }
 function anwStop() { clearInterval(_anw.timer); }
 async function anwLaden(still) {
   const box = document.getElementById('anw-liste');
@@ -1703,6 +1718,46 @@ async function anwAlle() {
     if (!d.ok) { toast(d.error || 'Fehler'); b.disabled = false; return; }
     toast(d.geaendert + ' bestätigt'); anwLaden(true);
   } catch (err) { toast('Verbindungsfehler'); b.disabled = false; }
+}
+
+// Nachtragen ohne Scan (Person aus der Einteilung per Suche oder manuell); Aktion anwesenheitNachtragen im Anwesenheits-Skript
+async function anwPersonenLaden() {
+  try {
+    const d = await anwGet('anwesenheitPersonen');
+    if (!d.ok) return;
+    _anw.personen = d.data.map(s => s.instrument + ' – ' + s.name).sort((a, b) => a.localeCompare(b, 'de'));
+    const ins = {}; d.data.forEach(s => { if (s.instrument) ins[s.instrument] = 1; });
+    document.getElementById('anw-mil').innerHTML = Object.keys(ins).sort((a, b) => a.localeCompare(b, 'de')).map(x => '<option value="' + esc(x) + '">').join('');
+  } catch (err) { /* Liste bleibt leer, Suche zeigt Hinweis */ }
+}
+function anwSuche() {
+  const q = document.getElementById('anw-np').value.trim().toLowerCase(), r = document.getElementById('anw-npr');
+  if (!q || !_anw.personen) { r.innerHTML = (q && !_anw.personen) ? '<div style="font-size:12px;color:var(--text-muted)">Liste wird geladen …</div>' : ''; return; }
+  const teile = q.split(/\s+/);
+  const tr = _anw.personen.map((x, i) => ({ x, i })).filter(o => { const l = o.x.toLowerCase(); return teile.every(t => l.indexOf(t) >= 0); }).slice(0, 8);
+  r.innerHTML = tr.length ? tr.map(o => '<button type="button" class="btn btn-outline" style="display:block;width:100%;text-align:left;margin-top:4px" onclick="anwWaehle(' + o.i + ')">' + esc(o.x) + '</button>').join('')
+    : '<div style="font-size:12px;color:var(--text-muted)">Kein Treffer – unten manuell eintragen.</div>';
+}
+function anwWaehle(i) { document.getElementById('anw-np').value = _anw.personen[i]; document.getElementById('anw-npr').innerHTML = ''; }
+async function anwNachtragen() {
+  const v = document.getElementById('anw-np').value.trim();
+  if (!v) { toast('Bitte eine Person wählen'); return; }
+  if (!_anw.personen || _anw.personen.indexOf(v) < 0) { toast('Bitte einen Vorschlag aus der Liste wählen (sonst unten manuell eintragen)'); return; }
+  try {
+    const d = await anwGet('anwesenheitNachtragen', { person: v, probe: _anw.probe });
+    if (!d.ok) { toast(d.error || 'Fehler'); return; }
+    toast('eingetragen'); document.getElementById('anw-np').value = ''; document.getElementById('anw-npr').innerHTML = ''; anwLaden(true);
+  } catch (err) { toast('Verbindungsfehler'); }
+}
+async function anwManuell() {
+  const i = document.getElementById('anw-mi').value.trim(), v = document.getElementById('anw-mv').value.trim(), n = document.getElementById('anw-mn').value.trim();
+  if (!i || !v || !n) { toast('Instrument, Vor- und Nachname angeben'); return; }
+  try {
+    const d = await anwGet('anwesenheitNachtragen', { person: i + ' – ' + v + ' ' + n, probe: _anw.probe });
+    if (!d.ok) { toast(d.error || 'Fehler'); return; }
+    toast(v + ' ' + n + ' eingetragen');
+    ['anw-mi', 'anw-mv', 'anw-mn'].forEach(id => document.getElementById(id).value = ''); anwLaden(true);
+  } catch (err) { toast('Verbindungsfehler'); }
 }
 
 function adminTab(tab) {
