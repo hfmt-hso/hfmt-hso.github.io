@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-25T03:07:45.115Z",
+  "generiert": "2026-11-26T09:44:21.883Z",
   "data": [
     {
       "id": "UT_20261117_0",
@@ -346,17 +346,12 @@
         {
           "slotId": "s_0",
           "uhrzeit": "15:00"
-        },
-        {
-          "slotId": "s_1",
-          "uhrzeit": "16:00"
-        },
-        {
-          "slotId": "s_2",
-          "uhrzeit": "17:00"
         }
       ],
-      "notizen": ""
+      "notizen": "",
+      "verschobenAm": "2026-11-26",
+      "verschobenArt": "zeit",
+      "verschobenAlt": "Mi 09.12., 15:00"
     },
     {
       "id": "UT_20261211_41",
@@ -387,7 +382,7 @@
       "notizen": "",
       "verschobenAm": "2026-11-13",
       "verschobenArt": "zeit",
-      "verschobenAlt": "Fri Dec 11 2026 13:00:00 GMT+0100 (Central European Standard Time)"
+      "verschobenAlt": "Fri Dec 11 2026 13:00:00 GMT+0100 (Mitteleuropäische Normalzeit)"
     },
     {
       "id": "UT_20261211_40",
@@ -786,7 +781,7 @@
       "notizen": "",
       "verschobenAm": "2026-11-15",
       "verschobenArt": "zeit",
-      "verschobenAlt": "Tue Jan 20 2026 09:00:00 GMT+0100 (Central European Standard Time)"
+      "verschobenAlt": "Tue Jan 20 2026 09:00:00 GMT+0100 (Mitteleuropäische Normalzeit)"
     },
     {
       "id": "UT_20270120_1",
@@ -1076,7 +1071,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-25",
+      "verschobenAm": "2026-11-26",
       "verschobenArt": "zeit",
       "verschobenAlt": "Di 02.02., 15:30"
     },
@@ -1199,7 +1194,7 @@
         }
       ],
       "notizen": "",
-      "verschobenAm": "2026-11-25",
+      "verschobenAm": "2026-11-26",
       "verschobenArt": "zeit",
       "verschobenAlt": "Fr 05.02., 14:30"
     },
