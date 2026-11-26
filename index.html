@@ -847,7 +847,7 @@ async function ladeUeEvents(projektName, sj){
       if(notizTeile.length>0) _notiz = notizTeile.join(' ');
     }
     var abgesagt=!!ev.abgesagt||ppRoh.some(function(z){return /^\*\s*abgesagt\b/i.test(String(z).trim());});
-    return{datObj,datAnzeige,kopf,tabLabel,werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:pp,dispo:dispo,abw:String(ev.abwesend||'').trim(),istProbe:!!ev._probe,_notiz:_notiz,abgesagt:abgesagt};
+    return{datObj,datAnzeige,kopf,tabLabel,uhrzeit:ev.uhrzeit||'',endzeit:ev.endzeit||'',werke,leitung,solisten:ev.solisten||[],ensemble:ev.ensemble||null,probenplan:pp,dispo:dispo,abw:String(ev.abwesend||'').trim(),istProbe:!!ev._probe,_notiz:_notiz,abgesagt:abgesagt};
   }).filter(Boolean).sort((a,b)=>a.datObj-b.datObj);
   ueCache[key] = events;
   return events;

@@ -278,7 +278,7 @@
         // Proben mit Disposition (Portal-Reiter "Probendisposition")
         zugehoerig.forEach(function (ev) {
           if (vorstellungen.indexOf(ev) !== -1) return;
-          if (!(ev.disposition && ev.disposition.length)) return;
+          if (!(ev.disposition && ev.disposition.length) && !ev.abwesend) return;
           result[pName].push({
             _eventId: ev._eventId,
             _titel: ev._titel,
@@ -292,7 +292,8 @@
             solisten: [],
             leitung: [],
             probenplan: [],
-            disposition: ev.disposition
+            abwesend: ev.abwesend || null,
+            disposition: ev.disposition || []
           });
         });
       }
