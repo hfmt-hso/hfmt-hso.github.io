@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-27T03:08:46.987Z",
+  "generiert": "2026-11-27T17:20:44.231Z",
   "events": [
     {
       "datum": "03.12.2026",
@@ -79,7 +79,6 @@
     {
       "datum": "08.12.2026",
       "uhrzeit": "10:00 Uhr",
-      "endzeit": "12:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": null,
@@ -89,16 +88,14 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
-      "abwesend": "Harfe (Delphine Palumbo)",
-      "eintritt": [],
+      "abwesend": null,
+      "endzeit": "12:30 Uhr",
       "_eventId": "1hbk7oud337uhb71lr6ke44bro@google.com",
       "_titel": "13/14 OA"
     },
     {
       "datum": "08.12.2026",
       "uhrzeit": "17:00 Uhr",
-      "endzeit": "19:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": null,
@@ -108,9 +105,8 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
-      "abwesend": "Harfe (Delphine Palumbo)",
-      "eintritt": [],
+      "abwesend": null,
+      "endzeit": "19:30 Uhr",
       "_eventId": "6o8uajhsg1sbtpn8dkjemo5sdk@google.com",
       "_titel": "13/14 OA"
     },
@@ -1425,7 +1421,7 @@
     {
       "datum": "01.04.2027",
       "uhrzeit": "10:00 Uhr",
-      "ort": "Forum",
+      "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -1442,7 +1438,7 @@
     {
       "datum": "01.04.2027",
       "uhrzeit": "13:00 Uhr",
-      "ort": "Forum",
+      "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -1493,7 +1489,7 @@
     {
       "datum": "01.04.2027",
       "uhrzeit": "16:00 Uhr",
-      "ort": "Forum",
+      "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -4503,7 +4499,7 @@
     {
       "datum": "16.06.2027",
       "uhrzeit": "14:15 Uhr",
-      "ort": "Forum",
+      "ort": "Orchesterstudio",
       "konzertart": null,
       "marker": null,
       "werke": [],
@@ -4562,6 +4558,7 @@
     {
       "datum": "03.12.2026",
       "uhrzeit": "14:00 Uhr",
+      "endzeit": "16:30 Uhr",
       "ort": "Forum",
       "konzertart": null,
       "marker": null,
@@ -4571,8 +4568,15 @@
       "leitung": [],
       "aufbauplan": null,
       "notizen": [],
-      "abwesend": null,
-      "endzeit": "16:30 Uhr",
+      "probenplan": [
+        "Probendisposition:",
+        "14:00 Philine – Hindemith",
+        "14:15 Miquel – Zaczek",
+        "15:07 — Pause —",
+        "15:22 Doga – Yin"
+      ],
+      "abwesend": "Cello (Robert Schlotter)",
+      "eintritt": [],
       "disposition": [
         "14:00 Philine – Hindemith",
         "14:15 Miquel – Zaczek",
