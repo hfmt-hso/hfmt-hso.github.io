@@ -1,5 +1,5 @@
 {
-  "generiert": "2026-11-28T03:07:32.620Z",
+  "generiert": "2026-11-28T11:04:07.131Z",
   "events": [
     {
       "datum": "03.12.2026",
@@ -3992,7 +3992,14 @@
           "dauer": "ca. 18 min",
           "besetzung": "0.2.0.0-2.0.0.0-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Fagott",
+              "name": "N.N",
+              "zusatz": ""
+            }
+          ]
         },
         {
           "komponist": "Wolfgang Amadeus Mozart",
@@ -4006,7 +4013,14 @@
           "dauer": "ca. 22 min",
           "besetzung": "0.2.0.2-2.0.0.0-Str. (8.6.5.4.3)",
           "urauffuehrung": false,
-          "pause": false
+          "pause": false,
+          "solisten": [
+            {
+              "instrument": "Horn",
+              "name": "Jie Pei",
+              "zusatz": ""
+            }
+          ]
         },
         {
           "komponist": "Wolfgang Amadeus Mozart",
@@ -4037,6 +4051,16 @@
       ],
       "solisten": [
         {
+          "instrument": "Fagott",
+          "name": "N.N",
+          "zusatz": ""
+        },
+        {
+          "instrument": "Horn",
+          "name": "Jie Pei",
+          "zusatz": ""
+        },
+        {
           "instrument": "Flöte",
           "name": "Yu Xuan Hsieh",
           "zusatz": ""
@@ -4057,9 +4081,24 @@
       ],
       "aufbauplan": null,
       "notizen": [],
-      "probenplan": [],
+      "probenplan": [
+        "Probenplan:",
+        "Probendisposition:",
+        "14:15 Uschik Choi – Konzert für Fagott und Orchester B-Dur, KV 191 (1774) (Mozart)",
+        "14:55 Philine Lembeck – Konzert für Horn und Orchester Nr. 4 Es-Dur KV 495 (Mozart) (Teil 1)",
+        "15:35 — Pause —",
+        "15:55 Philine Lembeck – Konzert für Horn und Orchester Nr. 4 Es-Dur KV 495 (Mozart) (Teil 2)",
+        "16:04 Rémi Geniet – Konzert für Flöte und Orchester G-Dur KV 313 (285c) (Mozart)"
+      ],
       "abwesend": null,
       "eintritt": [],
+      "disposition": [
+        "14:15 Uschik Choi – Konzert für Fagott und Orchester B-Dur, KV 191 (1774) (Mozart)",
+        "14:55 Philine Lembeck – Konzert für Horn und Orchester Nr. 4 Es-Dur KV 495 (Mozart) (Teil 1)",
+        "15:35 — Pause —",
+        "15:55 Philine Lembeck – Konzert für Horn und Orchester Nr. 4 Es-Dur KV 495 (Mozart) (Teil 2)",
+        "16:04 Rémi Geniet – Konzert für Flöte und Orchester G-Dur KV 313 (285c) (Mozart)"
+      ],
       "_eventId": "15apmiqmrd1n7rli0123e8kfk5@google.com",
       "_titel": "HSO Blattspiel"
     },
