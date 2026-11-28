@@ -86,6 +86,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .ev-block .werk-komponist{margin-bottom:3px}
 .ev-block .werk-titel{line-height:1.5;margin-top:2px}
 .ev-block .ev-gap{height:10px}
+.ev-block .dz{padding-left:3.6em;text-indent:-3.6em}
+.ev-block .dz-t{display:inline-block;min-width:3.6em;text-indent:0;font-weight:600;font-variant-numeric:tabular-nums}
 .proj-loading{font-size:12px;color:var(--text-muted);text-align:center;padding:16px}
 .event-tabs-wrap{border-bottom:0.5px solid var(--border);background:var(--bg);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .event-tabs-wrap::-webkit-scrollbar{display:none}
@@ -100,9 +102,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .werk-komponist{font-size:13px;font-weight:600;color:var(--text)}
 .werk-titel{font-size:13px;color:var(--text);margin-top:1px}
 .werk-details{font-size:11px;color:var(--text-muted);margin-top:3px;line-height:1.5}
-.werk-solisten{font-size:11px;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
-.werk-leitung{font-size:11px;color:var(--text-muted);margin-top:4px}
-.werk-leitung-kurs{font-size:11px;color:var(--text-muted)}
+.werk-solisten{font-size:13px;line-height:1.5;color:var(--text-muted);margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border)}
+.werk-leitung{font-size:13px;line-height:1.5;color:var(--text-muted);margin-top:4px}
+.werk-leitung-kurs{font-size:12px;color:var(--text-muted)}
 .event-kein{font-size:13px;color:var(--text-muted)}
 .werk-pause{font-size:11px;color:var(--text-muted);font-style:italic;text-align:center;padding:6px 0;margin:2px 0;border-top:0.5px dashed var(--border);border-bottom:0.5px dashed var(--border)}
 
@@ -858,12 +860,17 @@ async function ladeUeEvents(projektName, sj){
   return events;
 }
 
-function textBlock(kopf,zeilen,lose){
-  return '<div class="ev-block'+(lose?' ev-block-lose':'')+'">'+(kopf?'<div class="werk-komponist">'+esc(kopf)+'</div>':'')+zeilen.map(function(z){return '<div class="werk-titel">'+esc(z)+'</div>';}).join('')+'</div>';
+function textBlock(kopf,zeilen,lose,zf){
+  zf=zf||function(z){return '<div class="werk-titel">'+esc(z)+'</div>';};
+  return '<div class="ev-block'+(lose?' ev-block-lose':'')+'">'+(kopf?'<div class="werk-komponist">'+esc(kopf)+'</div>':'')+zeilen.map(zf).join('')+'</div>';
+}
+function dispoZeile(z){
+  var m=/^(\d{1,2}[:.]\d{2})\s+(.+)$/.exec(String(z));
+  return m ? '<div class="werk-titel dz"><span class="dz-t">'+esc(m[1])+'</span>'+esc(m[2])+'</div>' : '<div class="werk-titel">'+esc(z)+'</div>';
 }
 function dispoHtml(ev){
   if(!ev.dispo||!ev.dispo.length) return '';
-  return textBlock('Probendisposition',ev.dispo);
+  return textBlock('Probendisposition',ev.dispo,false,dispoZeile);
 }
 function abwHtml(ev){
   if(!ev.abw) return '';
@@ -959,7 +966,7 @@ async function toggleStd(cId,docId,projektName,sj){
         if(dTab) dTab.style.display='';
         const dLab=function(ev){return ev.tabLabel+(ev.uhrzeit?' '+String(ev.uhrzeit).replace(/\s*Uhr\s*$/,''):'');};
         const dt=dEv.map(function(ev,i){return `<button class="event-tab ${i===0?'active':''}" onclick="showEvTabIn(event,'${cId}-dispo',${i})">${esc(dLab(ev))}</button>`;}).join('');
-        const ds=dEv.map(function(ev,i){return `<div class="event-section ${i===0?'active':''}" id="${cId}-dispo-ev-${i}"><div class="event-kopf">${esc(ev.kopf)}</div>${ev.abw?textBlock('Abwesend',[ev.abw],true):''}${(ev.dispo&&ev.dispo.length)?textBlock(ev.abw?'Probendisposition':'',ev.dispo,true):''}</div>`;}).join('');
+        const ds=dEv.map(function(ev,i){return `<div class="event-section ${i===0?'active':''}" id="${cId}-dispo-ev-${i}"><div class="event-kopf">${esc(ev.kopf)}</div>${ev.abw?textBlock('Abwesend',[ev.abw],true):''}${(ev.dispo&&ev.dispo.length)?textBlock(ev.abw?'Probendisposition':'',ev.dispo,true,dispoZeile):''}</div>`;}).join('');
         dEl.innerHTML=`<div class="event-tabs-wrap"><div class="event-tabs">${dt}</div></div><div class="event-sections">${ds}</div>`;
       }
       const data=await ladeProjektDoc(docId);
