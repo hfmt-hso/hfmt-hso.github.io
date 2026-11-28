@@ -609,7 +609,7 @@ async function ladeProjekte(){
       const pA = p.name.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 
       if(istBR(p.name)){
-        return `<div class="proj-card">
+        return `<div class="proj-card" data-pname="${esc(ohnestern(p.name))}" data-cid="${cId}" data-doc="${p.docId}" data-br="1" data-pa="${pA}" data-sj="${sj}">
   <div class="proj-header" onclick="toggleBR('${cId}','${p.docId}','${pA}','${sj}')">
     <div class="proj-icon" style="background:${f.bg};color:${f.color}">${k}</div>
     <div class="proj-meta"><div class="proj-name">${esc(ohnestern(p.name))}</div><div class="proj-sub">${sj.replace('_','/')}</div></div>
@@ -618,7 +618,7 @@ async function ladeProjekte(){
   <div class="proj-body" id="${cId}"><div class="proj-loading" id="${cId}-loading">Wird geladen…</div></div>
 </div>`;
       } else {
-        return `<div class="proj-card">
+        return `<div class="proj-card" data-pname="${esc(ohnestern(p.name))}" data-cid="${cId}" data-doc="${p.docId}" data-pa="${pA}" data-sj="${sj}">
   <div class="proj-header" onclick="toggleStd('${cId}','${p.docId}','${pA}','${sj}')">
     <div class="proj-icon" style="background:${f.bg};color:${f.color}">${k}</div>
     <div class="proj-meta"><div class="proj-name">${esc(ohnestern(p.name))}</div><div class="proj-sub">${sj.replace('_','/')}</div></div>
@@ -1211,9 +1211,42 @@ async function ladeHinweis(){
   }catch(e){}
 }
 ladeHinweis();
-ladeProjekte();
+ladeProjekte().then(springeZuTermin);
 ladenKalender().then(populateFreikartenEvents);
 ladeBedarf();
+
+// ── Direktlink zu einem Termin: ?sj=26_27&p=Projektname&t=2026-12-09[&z=14:15] ──
+// Öffnet das Projekt, springt im Reiter Programm zum Termin (bei mehreren Terminen am Tag über die Uhrzeit z).
+async function springeZuTermin(){
+  try{
+    const q=new URLSearchParams(window.location.search);
+    const pn=(q.get('p')||'').trim().toLowerCase(), t=(q.get('t')||'').trim(), z=(q.get('z')||'').trim();
+    if(!pn||!/^\d{4}-\d{2}-\d{2}$/.test(t)) return;
+    const card=[...document.querySelectorAll('.proj-card[data-pname]')].find(c=>(c.dataset.pname||'').toLowerCase()===pn);
+    if(!card) return;
+    const cId=card.dataset.cid, sj=card.dataset.sj, br=!!card.dataset.br;
+    const pName=card.dataset.pa.replace(/&#39;/g,"'").replace(/&quot;/g,'"');
+    const body=document.getElementById(cId);
+    if(!body.classList.contains('open')){
+      if(br) await toggleBR(cId,card.dataset.doc,pName,sj); else await toggleStd(cId,card.dataset.doc,pName,sj);
+    }
+    const alle=await ladeUeEvents(pName,sj);
+    const events=br?alle.filter(ev=>istInSpieljahr(ev.datObj,sj)):alle.filter(e=>!e.istProbe);
+    const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    const zn=s=>{const m=String(s||'').match(/(\d{1,2})[:.](\d{2})/);return m?m[1].padStart(2,'0')+':'+m[2]:'';};
+    const wunsch=zn(z);
+    let idx=-1;
+    events.forEach((ev,i)=>{
+      if(iso(ev.datObj)!==t) return;
+      if(idx<0 || (wunsch && zn(ev.uhrzeit)===wunsch && zn(events[idx].uhrzeit)!==wunsch)) idx=i;
+    });
+    if(idx<0){ card.scrollIntoView({block:'start'}); return; }
+    const cont=document.getElementById(br?cId:cId+'-programm');
+    const btn=cont&&cont.querySelectorAll('.event-tab')[idx];
+    if(btn) btn.click();
+    card.scrollIntoView({block:'start'});
+  }catch(e){}
+}
 
 // ── Direktsprung zu einem Tab über ?tab=… in der URL (z.B. Rücksprung aus dem Aufbauplan-Tool zum Bedarf-Tab) ──
 (function(){
