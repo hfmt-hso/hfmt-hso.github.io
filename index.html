@@ -81,6 +81,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .proj-section.active{display:block}
 .proj-text{font-size:13px;color:var(--text);line-height:1.6;white-space:pre-wrap}
 .proj-text-muted{font-size:13px;color:var(--text-muted)}
+.ev-block{margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border)}
+.ev-block.ev-block-lose{margin-top:8px;padding-top:0;border-top:none}
+.ev-block .werk-komponist{margin-bottom:3px}
+.ev-block .werk-titel{line-height:1.5;margin-top:2px}
+.ev-block .ev-gap{height:10px}
 .proj-loading{font-size:12px;color:var(--text-muted);text-align:center;padding:16px}
 .event-tabs-wrap{border-bottom:0.5px solid var(--border);background:var(--bg);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .event-tabs-wrap::-webkit-scrollbar{display:none}
@@ -853,13 +858,16 @@ async function ladeUeEvents(projektName, sj){
   return events;
 }
 
+function textBlock(kopf,zeilen,lose){
+  return '<div class="ev-block'+(lose?' ev-block-lose':'')+'">'+(kopf?'<div class="werk-komponist">'+esc(kopf)+'</div>':'')+zeilen.map(function(z){return '<div class="werk-titel">'+esc(z)+'</div>';}).join('')+'</div>';
+}
 function dispoHtml(ev){
   if(!ev.dispo||!ev.dispo.length) return '';
-  return '<div class="proj-text" style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border)"><b>Probendisposition</b><br>'+ev.dispo.map(function(z){return esc(z);}).join('<br>')+'</div>';
+  return textBlock('Probendisposition',ev.dispo);
 }
 function abwHtml(ev){
   if(!ev.abw) return '';
-  return '<div class="proj-text" style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border)"><b>Abwesend</b><br>'+esc(ev.abw)+'</div>';
+  return textBlock('Abwesend',[ev.abw]);
 }
 function renderEventProgramm(ev){
   let h = '<div class="event-kopf">'+esc(ev.kopf)+'</div>';
@@ -951,7 +959,7 @@ async function toggleStd(cId,docId,projektName,sj){
         if(dTab) dTab.style.display='';
         const dLab=function(ev){return ev.tabLabel+(ev.uhrzeit?' '+String(ev.uhrzeit).replace(/\s*Uhr\s*$/,''):'');};
         const dt=dEv.map(function(ev,i){return `<button class="event-tab ${i===0?'active':''}" onclick="showEvTabIn(event,'${cId}-dispo',${i})">${esc(dLab(ev))}</button>`;}).join('');
-        const ds=dEv.map(function(ev,i){return `<div class="event-section ${i===0?'active':''}" id="${cId}-dispo-ev-${i}"><div class="event-kopf">${esc(ev.kopf)}</div><div class="proj-text" style="margin-top:8px">${ev.abw?'<b>Abwesend:</b> '+esc(ev.abw)+((ev.dispo&&ev.dispo.length)?'<br><br>':''):''}${(ev.dispo||[]).map(function(z){return esc(z);}).join('<br>')}</div></div>`;}).join('');
+        const ds=dEv.map(function(ev,i){return `<div class="event-section ${i===0?'active':''}" id="${cId}-dispo-ev-${i}"><div class="event-kopf">${esc(ev.kopf)}</div>${ev.abw?textBlock('Abwesend',[ev.abw],true):''}${(ev.dispo&&ev.dispo.length)?textBlock(ev.abw?'Probendisposition':'',ev.dispo,true):''}</div>`;}).join('');
         dEl.innerHTML=`<div class="event-tabs-wrap"><div class="event-tabs">${dt}</div></div><div class="event-sections">${ds}</div>`;
       }
       const data=await ladeProjektDoc(docId);
@@ -978,7 +986,7 @@ async function toggleBR(cId,docId,projektName,sj){
       const tabs=events.map((ev,i)=>`<button class="event-tab ${i===0?'active':''}${ev.abgesagt?' abgesagt':''}" onclick="showEvTab(event,'${cId}',${i})">${esc(ev.tabLabel)}</button>`).join('');
       const secs=events.map((ev,i)=>{
         const ppAll=ev.probenplan||[];const ppStern=ppAll.findIndex(function(z){return /^\*/.test(String(z).trim());});const ppL=(ev.abgesagt&&ppStern>=0)?ppAll.slice(0,ppStern):ppAll;
-        const pp=ppL.length?'<div class="proj-text" style="margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border)">'+ppL.map(z=>esc(z)).join('<br>')+'</div>':'';
+        const ppN=(ppL.length===1&&/^Probenplan:\s*$/i.test(String(ppL[0]).trim()))?[]:ppL;const pp=ppN.length?textBlock('',ppN):'';
         return`<div class="event-section ${i===0?'active':''}" id="${cId}-ev-${i}">${renderEventProgramm(ev)}${pp}${abwHtml(ev)}${dispoHtml(ev)}</div>`;
       }).join('');
       body.innerHTML=`<div class="event-tabs-wrap"><div class="event-tabs">${tabs}</div></div><div class="event-sections">${secs}</div>`;
